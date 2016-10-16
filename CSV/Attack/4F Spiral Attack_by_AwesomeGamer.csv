@@ -1,0 +1,76 @@
+NOTE  |New Four Finger Spiral Attack
+NOTE  |
+NOTE  |By AwesomeGamer
+NOTE  |Version 2.0 (Feb. 5th 2016)
+NOTE  |
+NOTE  |Select Deploy Speed To Fast Or Normal
+
+      |Update: Drops archers and barbs evenly on each edge
+      |drops all other troops near the middle of each edge
+
+      |Troop order: Giant,Barb,Wall,Arch,Gobl,Castle,Hogs,Wiza,Mini,Gobl,King,Queen,Warden
+      |Also drops remaining troops: Ball, Heal, Drag, Pekk, Valk, Gole, Witc, Lava 
+      |(if they are not deployed, then they won't be dropped, and take up space for other troops)
+
+      |Note: AwesomeGamer base code mods are required for this csv attack to work.
+
+      |EXTR. GOLD |EXTR.ELIXIR|EXTR. DARK |DEPO. GOLD |DEPO.ELIXIR|DEPO. DARK |TOWNHALL   |FORCED SIDE |USE RED LINE|DEPL.TYPE
+SIDE  |           |           |           |           |           |           |           |BOTTOM-RIGHT|NO          |BOTSPEED
+
+      |VECTOR_____|SIDE_______|DROP_POINTS|ADDTILES___|VERSUS_____|RANDOMX_PX_|RANDOMY_PX_|____________|MAKE VECTORS Barb and Arch
+MAKE  |A          |RIGHT-BACK |ALL        |0          |EXT-INT    |0          |0          |            |
+MAKE  |B          |FRONT-RIGHT|ALL        |0          |EXT-INT    |0          |0          |            |
+MAKE  |C          |LEFT-FRONT |ALL        |0          |EXT-INT    |0          |0          |            |
+MAKE  |D          |BACK-LEFT  |ALL        |0          |EXT-INT    |0          |0          |            |
+MAKE  |E          |RIGHT-FRONT|ALL        |0          |INT-EXT    |0          |0          |            |
+MAKE  |F          |FRONT-LEFT |ALL        |0          |INT-EXT    |0          |0          |            |
+MAKE  |G          |LEFT-BACK  |ALL        |0          |INT-EXT    |0          |0          |            |
+MAKE  |H          |BACK-RIGHT |ALL        |0          |INT-EXT    |0          |0          |            |
+
+MAKE  |I          |FRONT-RIGHT|4          |0          |EXT-INT    |0          |0          |            |MAKE VECTORS remaining troops
+MAKE  |J          |RIGHT-FRONT|4          |0          |EXT-INT    |0          |0          |            |
+MAKE  |K          |LEFT-BACK  |4          |0          |EXT-INT    |0          |0          |            |
+MAKE  |L          |BACK-LEFT  |4          |0          |EXT-INT    |0          |0          |            |
+MAKE  |M          |FRONT-LEFT |4          |0          |EXT-INT    |0          |0          |            |
+MAKE  |N          |RIGHT-BACK |4          |0          |EXT-INT    |0          |0          |            |
+MAKE  |O          |LEFT-FRONT |4          |0          |EXT-INT    |0          |0          |            |
+MAKE  |P          |BACK-RIGHT |4          |0          |EXT-INT    |0          |0          |            |
+
+      |VECTOR_____|SIDE_______|DROP_POINTS|ADDTILES___|VERSUS_____|RANDOMX_PX_|RANDOMY_PX_|____________|MAKE VECTORS FOR HEROES AND CASTLE
+MAKE  |W          |BACK-RIGHT |1          |0          |INT-EXT    |0          |0          |            |
+MAKE  |X          |RIGHT-BACK |1          |0          |INT-EXT    |0          |0          |            |
+MAKE  |Y          |FRONT-RIGHT|1          |0          |INT-EXT    |0          |0          |            |
+MAKE  |Z          |LEFT-BACK  |1          |0          |INT-EXT    |0          |0          |            |
+
+      |Drop original FF attack troops
+      |VECTOR__________|INDEX_____|QTY_X_VECT_|TROOPNAME__|DELAY_DROP_|DELAYCHANGE|SLEEPAFTER_|____________|
+DROP  |I-J-K-L-M-N-O-P |3-4       |12.5%      |Giant      |0          |100        |1200       |            |Drop Giant
+DROP  |I-J-K-L-M-N-O-P |3-4       |12.5%      |Giant      |0          |100        |1200       |            |Drop Giant
+DROP  |A-B-C-D         |0%-100%   |12.5%      |Barb       |0          |0          |0          |            |Drop Barb
+DROP  |E-F-G-H         |0%-100%   | 5.0%      |Barb       |0          |0          |0          |            |Drop Barb
+DROP  |A-B-C-D         |0%-100%   |12.5%      |Arch       |0          |0          |0          |            |Drop Arch
+DROP  |E-F-G-H         |0%-100%   | 5.0%      |Arch       |0          |0          |0          |            |Drop Arch
+DROP  |I-J-K-L-M-N-O-P |3-4       |12.5%      |Wall       |0          |100        |0          |            |Drop Wall
+DROP  |I-J-K-L-M-N-O-P |3-4       |12.5%      |Gobl       |0          |100        |0          |            |Drop Gobl
+
+DROP  |W               |1         |1          |Castle     |0          |100        |0          |            |Drop Castle
+
+DROP  |I-J-K-L-M-N-O-P |3-4       |12.5%      |Hogs       |0          |100        |0          |            |Drop Hogs
+DROP  |I-J-K-L-M-N-O-P |3-4       |12.5%      |Wiza       |0          |100        |0          |            |Drop Wiza
+DROP  |A-B-C-D         |0%-100%   |12.5%      |Mini       |0          |0          |0          |            |Drop Mini
+DROP  |E-F-G-H         |0%-100%   |12.5%      |Mini       |0          |0          |0          |            |
+DROP  |I-J-K-L-M-N-O-P |3-4       |12.5%      |Gobl       |0          |100        |0          |            |Drop Gobl
+
+      |Drop additional remaining attack troops
+DROP  |I-J-K-L-M-N-O-P |3-4       |12.5%      |Ball       |0          |100        |0          |            |Drop Ball
+DROP  |I-J-K-L-M-N-O-P |3-4       |12.5%      |Heal       |0          |100        |0          |            |Drop Heal
+DROP  |I-J-K-L-M-N-O-P |3-4       |12.5%      |Pekk       |0          |100        |0          |            |Drop Pekk
+DROP  |I-J-K-L-M-N-O-P |3-4       |12.5%      |Valk       |0          |100        |0          |            |Drop Valk
+DROP  |I-J-K-L-M-N-O-P |3-4       |12.5%      |Gole       |0          |100        |0          |            |Drop Gole
+DROP  |I-J-K-L-M-N-O-P |3-4       |12.5%      |Witc       |0          |100        |0          |            |Drop Witc
+DROP  |I-J-K-L-M-N-O-P |3-4       |12.5%      |Lava       |0          |100        |0          |            |Drop Lava
+
+      |Drop heroes
+DROP  |X               |1         |1          |King       |0          |100        |0          |            |Drop King
+DROP  |Y               |1         |1          |Queen      |0          |100        |0          |            |Drop Queen
+DROP  |Z               |1         |1          |Warden     |0          |100        |0          |            |Drop Warden

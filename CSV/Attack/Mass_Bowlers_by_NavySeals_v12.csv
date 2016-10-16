@@ -1,0 +1,53 @@
+NOTE  |Author: NavySeals - Ver. 1.2,Column 2
+NOTE  |Attack: Immortal Bowlers
+NOTE  |Make Troops: 24-28Bowlers," 5-6healers 6-10WB"
+NOTE  |Make Spells: 3 Rage, 1 Poison & 4 EQ
+
+      |----------------------------------- Script: Mass Bowller Start --------------------------------|
+
+      |EXTR. GOLD |EXTR.ELIXIR|EXTR. DARK |DEPO. GOLD |DEPO.ELIXIR|DEPO. DARK |TOWNHALL   |FORCED SIDE|
+SIDE  |0          |0          |0          |0          |0          |0          |10         |           |TH Side
+
+      |VECTOR_____|SIDE_______|DROP_POINTS|ADDTILES___|VERSUS_____|RANDOMX_PX_|RANDOMY_PX_|___________|MAKE SIDE VECTORS
+MAKE  |N          |FRONT-LEFT |10         |3          |INT-EXT    |0          |2          |           |FRONT-LEFT 
+MAKE  |A          |FRONT-RIGHT|10         |2          |INT-EXT    |0          |2          |           |FRONT-RIGHT
+MAKE  |V          |FRONT-LEFT |10         |6          |INT-EXT    |2          |1          |           |FRONT-LEFT 
+MAKE  |Y          |FRONT-RIGHT|10         |6          |INT-EXT    |1          |2          |           |FRONT-RIGHT
+MAKE  |F          |FRONT-LEFT |10         |1          |INT-EXT    |0          |1          |           |FRONT-LEFT 
+MAKE  |G          |FRONT-RIGHT|10         |1          |INT-EXT    |0          |1          |           |FRONT-RIGHT
+MAKE  |I          |FRONT-LEFT |10         |-7         |INT-EXT    |0          |0          |           |FRONT-LEFT 
+MAKE  |J          |FRONT-RIGHT|10         |-8         |INT-EXT    |0          |0          |           |FRONT-RIGHT
+MAKE  |K          |FRONT-LEFT |10         |-12        |INT-EXT    |0          |0          |           |FRONT-LEFT 
+MAKE  |L          |FRONT-LEFT |10         |-15        |INT-EXT    |0          |0          |           |FRONT-LEFT 
+
+      |VECTOR_____|INDEX______|QTY_X_VECT_|TROOPNAME__|DELAY_DROP_|DELAYCHANGE|SLEEPAFTER_|           |DROP TROOPS
+DROP  |K          |1          |5          |Espell     |0          |0          |500-600    |           |Launch EQ: EarthQuake
+DROP  |N          |1          |1          |castle     |0          |0          |100-300    |           |Launch CC: Castle Clan
+DROP  |N          |7-9        |3          |Bowl       |0          |0          |500-1000   |           |Launch Bowllers
+DROP  |V          |7-9        |2          |Heal       |40         |0          |50-100     |           |Launch Healers
+DROP  |A          |7-9        |3          |Bowl       |0          |0          |500-1000   |           |Launch Bowllers
+DROP  |Y          |7-9        |2          |Heal       |40         |0          |50-100     |           |Launch Heallers
+DROP  |N-A        |1-5        |30         |Bowl       |0          |0          |10-20      |           |Launch Bowllers
+DROP  |N-A        |1-5        |16         |Bowl       |0          |0          |10-20      |           |Launch Bowllers
+DROP  |N-A        |1-5        |10         |Bowl       |0          |0          |10-20      |           |Launch Bowllers
+DROP  |V-Y        |1-6        |4          |Heal       |40         |0          |50-100     |           |Launch Heallers
+DROP  |N          |1          |1          |King       |0          |0          |0          |           |Launch King
+DROP  |F-G        |1-2        |10         |Wall       |0          |0          |0          |           |Launch WallBreakers
+DROP  |N          |1          |1          |Queen      |0          |0          |0          |           |Launch Queen 
+DROP  |N          |1          |1          |Warden     |0          |0          |200-400    |           |Launch Warden
+WAIT  |2000-3000  |           |           |           |           |           |           |           |Launch WAIT
+DROP  |I          |2-3        |1          |RSpell     |0          |0          |100-200    |           |Launch Rage Spell
+DROP  |J          |2-3        |1          |RSpell     |0          |0          |2000-3000  |           |Launch Rage Spell
+DROP  |N          |1          |1          |Warden     |0          |0          |100-200    |           |Launch Warden
+DROP  |L          |1          |2          |PSpell     |0          |0          |0          |           |Launch Poison Spell
+WAIT  |4000-5000  |           |           |           |           |           |           |           |Launch WAIT
+DROP  |L          |1          |1          |RSpell     |0          |0          |0          |           |Launch Rage Spell
+WAIT  |4000-5000  |           |           |           |           |           |           |           |Launch WAIT
+DROP  |V-Y        |1-6        |20         |Arch       |40         |0          |50-100     |           |Launch Archers
+
+      |----------------------------------- Script: Mass Bowller End ----------------------------------|
+      |Change log
+      |2016-08-05 ver. 1.0 Initial Script
+      |2016-08-07 ver. 1.2 Try fix Heroes Deployment
+      |2016-08-09 ver. 1.2 Add Poison Spell
+      |2016-0 -   ver. 

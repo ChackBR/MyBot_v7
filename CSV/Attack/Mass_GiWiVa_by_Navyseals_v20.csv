@@ -1,0 +1,74 @@
+NOTE  |Author: NavySeals  Attack: TH-11 GiWiVa_Ver2.0,Column 2,Column 3,Column 4,Column 5,Column 6
+NOTE  |Mass GiWiVa Attack
+NOTE  |Make these Troops and spells : 8 Giants, 4 wall breaker, 8 Wizards,20 Valk, 3 Rage, 4 quake
+
+      |----------------------------------- Script: Mass GiWiVa Start ---------------------------------|
+
+      |EXTR. GOLD |EXTR.ELIXIR|EXTR. DARK |DEPO. GOLD |DEPO.ELIXIR|DEPO. DARK |TOWNHALL   |FORCED SIDE|
+SIDE  |0          |0          |0          |0          |0          |0          |10         |           |TH Side
+
+      |VECTOR_____|SIDE_______|DROP_POINTS|ADDTILES___|VERSUS_____|RANDOMX_PX_|RANDOMY_PX_|___________|MAKE SIDE VECTORS
+MAKE  |A          |RIGHT-BACK |10         |1          |INT-EXT    |0          |0          |           |vector for Giants and wall breaker right back ,,,,,
+      |VECTOR_____|SIDE_______|DROP_POINTS|ADDTILES___|VERSUS_____|RANDOMX_PX_|RANDOMY_PX_|___________|,,,,,
+MAKE  |B          |RIGHT-FRONT|10         |1          |INT-EXT    |0          |0          |           |vector for Giants and wall breaker left back ,,,,,
+      |VECTOR_____|SIDE_______|DROP_POINTS|ADDTILES___|VERSUS_____|RANDOMX_PX_|RANDOMY_PX_|___________|,,,,,
+MAKE  |L          |RIGHT-FRONT|10         |1          |INT-EXT    |0          |0          |           |vector for Valkyrie,,,,,
+      |VECTOR_____|SIDE_______|DROP_POINTS|ADDTILES___|VERSUS_____|RANDOMX_PX_|RANDOMY_PX_|___________|,,,,,
+MAKE  |C          |RIGHT-BACK |10         |2          |EXT-INT    |2          |3          |           |vector for Wizard Right  Back ,,,,,
+      |VECTOR_____|SIDE_______|DROP_POINTS|ADDTILES___|VERSUS_____|RANDOMX_PX_|RANDOMY_PX_|___________|,,,,,
+MAKE  |D          |RIGHT-FRONT|10         |2          |EXT-INT    |2          |1          |           |vector for Wizard right  front,,,,,
+      |VECTOR_____|SIDE_______|DROP_POINTS|ADDTILES___|VERSUS_____|RANDOMX_PX_|RANDOMY_PX_|___________|,,,,,
+MAKE  |E          |RIGHT-FRONT|10         |2          |INT-EXT    |1          |2          |           |vector for heroes right back ,,,,,
+      |VECTOR_____|SIDE_______|DROP_POINTS|ADDTILES___|VERSUS_____|RANDOMX_PX_|RANDOMY_PX_|___________|,,,,,
+MAKE  |F          |RIGHT-FRONT|10         |1          |INT-EXT    |2          |3          |           |vector for pekka,,,,,
+      |VECTOR_____|SIDE_______|DROP_POINTS|ADDTILES___|VERSUS_____|RANDOMX_PX_|RANDOMY_PX_|___________|,,,,,
+MAKE  |G          |RIGHT-BACK |10         |-7         |INT-EXT    |0          |0          |           |vector for 1st rage,,,,,
+      |VECTOR_____|SIDE_______|DROP_POINTS|ADDTILES___|VERSUS_____|RANDOMX_PX_|RANDOMY_PX_|___________|,,,,,
+MAKE  |H          |RIGHT-FRONT|10         |-11        |INT-EXT    |0          |0          |           |vector for 2nd rage,,,,,
+      |VECTOR_____|SIDE_______|DROP_POINTS|ADDTILES___|VERSUS_____|RANDOMX_PX_|RANDOMY_PX_|___________|,,,,,
+MAKE  |I          |RIGHT-BACK |10         |-16        |INT-EXT    |0          |0          |           |vector for 3rd Rage,,,,,
+      |VECTOR_____|SIDE_______|DROP_POINTS|ADDTILES___|VERSUS_____|RANDOMX_PX_|RANDOMY_PX_|___________|,,,,,
+MAKE  |Q          |RIGHT-BACK |10         |-12        |INT-EXT    |0          |0          |           |vector for quakes     ,,,,,
+
+      |VECTOR_____|INDEX______|QTY_X_VECT_|TROOPNAME__|DELAY_DROP_|DELAYCHANGE|SLEEPAFTER_|___________|DROP TROOPS
+DROP  |Q          |1          |5          |Espell     |20-50      |0          |200-400    |           | Droping quakes ,,,,,
+      |VECTOR_____|INDEX______|QTY_X_VECT_|TROOPNAME__|DELAY_DROP_|DELAYCHANGE|SLEEPAFTER_|___________|,,,,,
+DROP  |A-B        |5-9        |3          |Giant      |10-50      |0          |5-10       |           | Droping giants ,,,,,
+      |VECTOR_____|INDEX______|QTY_X_VECT_|TROOPNAME__|DELAY_DROP_|DELAYCHANGE|SLEEPAFTER_|___________|,,,,,
+DROP  |C-D        |3-6        |3          |Wiza       |10-50      |0          |5-10       |           | Droping Wizards,,,,,
+      |VECTOR_____|INDEX______|QTY_X_VECT_|TROOPNAME__|DELAY_DROP_|DELAYCHANGE|SLEEPAFTER_|___________| ,,,,,
+DROP  |A          |1          |1          |Castle     |1          |0          |5-10       |           | Droping Castle Troops,,,,,
+      |VECTOR_____|INDEX______|QTY_X_VECT_|TROOPNAME__|DELAY_DROP_|DELAYCHANGE|SLEEPAFTER_|___________|,,,,,
+DROP  |A-B        |1-2        |2          |Giant      |5-20       |0          |5-10       |           | Droping giants ,,,,,
+      |VECTOR_____|INDEX______|QTY_X_VECT_|TROOPNAME__|DELAY_DROP_|DELAYCHANGE|SLEEPAFTER_|___________|,,,,,
+DROP  |A          |1          |6          |wall       |1          |0          |5-10       |           | Dropping wall breakers,,,,,
+      |VECTOR_____|INDEX______|QTY_X_VECT_|TROOPNAME__|DELAY_DROP_|DELAYCHANGE|SLEEPAFTER_|___________|,,,,,
+DROP  |E          |1          |1          |King       |1          |0          |5-10       |           | Droping King,,,,,
+      |VECTOR_____|INDEX______|QTY_X_VECT_|TROOPNAME__|DELAY_DROP_|DELAYCHANGE|SLEEPAFTER_|___________|,,,,,
+DROP  |C-D        |8-10       |2          |Wiza       |5-20       |0          |5-10       |           | Droping Wizards,,,,,
+      |VECTOR_____|INDEX______|QTY_X_VECT_|TROOPNAME__|DELAY_DROP_|DELAYCHANGE|SLEEPAFTER_|___________|,,,,,
+DROP  |E          |1          |1          |Queen      |1          |100        |5-10       |           | Droping Queen,,,,,
+      |VECTOR_____|INDEX______|QTY_X_VECT_|TROOPNAME__|DELAY_DROP_|DELAYCHANGE|SLEEPAFTER_|___________| ,,,,,
+DROP  |E          |1          |1          |Warden     |1          |100        |5-10       |           | Droping warden,,,,,
+      |VECTOR_____|INDEX______|QTY_X_VECT_|TROOPNAME__|DELAY_DROP_|DELAYCHANGE|SLEEPAFTER_|___________|,,,,,
+DROP  |G          |2-3        |1          |RSpell     |1          |0          |5-10       |           | Droping Rage Spell,,,,,
+      |VECTOR_____|INDEX______|QTY_X_VECT_|TROOPNAME__|DELAY_DROP_|DELAYCHANGE|SLEEPAFTER_|___________|   ,,,,,
+DROP  |H          |1          |1          |RSpell     |1          |0          |5-10       |           | Droping Rage Spell,,,,,
+      |VECTOR_____|INDEX______|QTY_X_VECT_|TROOPNAME__|DELAY_DROP_|DELAYCHANGE|SLEEPAFTER_|___________|,,,,,
+DROP  |L          |1          |24         |Valk       |10-50      |0          |1000-2000  |           | Droping Valk,,,,,
+      |VECTOR_____|INDEX______|QTY_X_VECT_|TROOPNAME__|DELAY_DROP_|DELAYCHANGE|SLEEPAFTER_|___________| ,,,,,
+DROP  |E          |1          |1          |Warden     |1          |100        |1000-2000  |           | Activating warden,,,,,
+      |VECTOR_____|INDEX______|QTY_X_VECT_|TROOPNAME__|DELAY_DROP_|DELAYCHANGE|SLEEPAFTER_|___________| ,,,,,
+DROP  |E          |1          |1          |King       |1          |100        |20-40      |           | Activating King,,,,,
+      |VECTOR_____|INDEX______|QTY_X_VECT_|TROOPNAME__|DELAY_DROP_|DELAYCHANGE|SLEEPAFTER_|___________|,,,,,
+DROP  |I          |1          |1          |Rspell     |1          |0          |5000-8000  |           | Droping Rage Spell,,,,,
+      |VECTOR_____|INDEX______|QTY_X_VECT_|TROOPNAME__|DELAY_DROP_|DELAYCHANGE|SLEEPAFTER_|___________| ,,,,,
+DROP  |E          |2          |1          |Queen      |1          |100        |9000-16000 |           | Activating Queen,,,,,
+      |VECTOR_____|INDEX______|QTY_X_VECT_|TROOPNAME__|DELAY_DROP_|DELAYCHANGE|SLEEPAFTER_|___________| ,,,,,
+DROP  |A          |1          |6          |Arch       |1          |100        |300        |           | ,,,,,
+WAIT  |200-250    |           |           |           |           |           |           |           |,,,,,
+
+      |----------------------------------- Script: Mass GiWiVa End -----------------------------------|
+      |Change log
+      |2016-08-05 ver. 2.0 Initial Script with CSV Fast Deploy
+      |2016-  -   ver. ...

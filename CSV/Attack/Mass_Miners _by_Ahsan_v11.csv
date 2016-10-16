@@ -1,0 +1,53 @@
+NOTE  |Author: Ahsan - ver. 1.1
+NOTE  |Attack: Mass Miner
+NOTE  |Make Troops: all miner
+NOTE  |Make Spells: 2-3 rage (optional), 1 freeze (optional)
+
+      |----------------------------------- Script: Mass Miners Start ---------------------------------|
+
+      |EXTR. GOLD |EXTR.ELIXIR|EXTR. DARK |DEPO. GOLD |DEPO.ELIXIR|DEPO. DARK |TOWNHALL   |FORCED SIDE|
+SIDE  |0          |0          |0          |0          |0          |0          |10         |           |TH SIDE
+
+
+      |VECTOR_____|SIDE_______|DROP_POINTS|ADDTILES___|VERSUS_____|RANDOMX_PX_|RANDOMY_PX_|___________|MAKE SIDE VECTORS
+MAKE  |A          |FRONT-LEFT |10         |1          |INT-EXT    |0          |2          |           |vector for miner left
+MAKE  |B          |FRONT-RIGHT|10         |1          |INT-EXT    |0          |2          |           |vector for miner right
+MAKE  |C          |FRONT-LEFT |10         |-8         |INT-EXT    |0          |1          |           |vector for rage and heal
+MAKE  |D          |FRONT-RIGHT|10         |-8         |INT-EXT    |0          |1          |           |vector for rage
+MAKE  |E          |FRONT-LEFT |10         |-17        |INT-EXT    |0          |1          |           |vector for freeze
+MAKE  |F          |FRONT-LEFT |10         |-14        |INT-EXT    |0          |1          |           |vector for heal
+MAKE  |G          |FRONT-LEFT |10         |3          |INT-EXT    |0          |2          |           |vector for remaining troops
+MAKE  |H          |FRONT-RIGHT|10         |3          |INT-EXT    |0          |2          |           |vector for remaining troops
+
+
+      |VECTOR_____|INDEX______|QTY_X_VECT_|TROOPNAME__|DELAY_DROP_|DELAYCHANGE|SLEEPAFTER_|           |DROP TROOPS
+DROP  |A-B        |1-8        |10         |mine       |0          |0          |1500       |           |drop miner
+DROP  |A          |1          |1          |king       |0          |0          |100-300    |           |launch king  
+DROP  |A          |1          |1          |queen      |0          |0          |100-300    |           |launch queen
+DROP  |A          |1          |1          |castle     |0          |0          |100-300    |           |launch castle  
+DROP  |A          |1          |1          |warden     |0          |0          |500        |           |launch warden
+DROP  |A-B        |1-8        |10         |mine       |0          |0          |1500       |           |drop miner
+DROP  |D          |5          |1          |RSpell     |0          |0          |0          |           |drop rage
+DROP  |C          |5          |1          |RSpell     |0          |0          |0          |           |drop rage
+DROP  |C          |1          |1          |HSpell     |0          |0          |0          |           |drop heal
+WAIT  |2000-4000  |           |           |           |           |           |           |           |
+DROP  |E          |1          |1          |RSpell     |0          |0          |0          |           |drop rage
+DROP  |F          |1          |1          |HSpell     |0          |0          |0          |           |drop heal
+DROP  |E          |1          |1          |FSpell     |0          |0          |0          |           |drop freeze spell
+WAIT  |6000-9000  |           |           |           |           |           |           |           |
+DROP  |A          |1          |1          |warden     |0          |0          |500        |           |launch warden
+
+RECALC|           |           |           |           |           |           |           |           |RECALCULATE REMAINING TROOPS
+DROP  |G-H        |1-8        |20         |mine       |0          |0          |100-300    |           |
+DROP  |G-H        |1-8        |20         |giant      |0          |0          |100-300    |           |
+DROP  |G-H        |1-8        |20         |heal       |0          |0          |100-300    |           |
+DROP  |G-H        |1-8        |20         |wall       |0          |0          |100-300    |           |
+DROP  |G-H        |1-8        |20         |arch       |0          |0          |100-300    |           |
+DROP  |G-H        |1-8        |20         |barb       |0          |0          |100-300    |           |
+DROP  |G-H        |1-8        |20         |mini       |0          |0          |100-300    |           |
+DROP  |G-H        |1-8        |20         |wiza       |10-30      |50-100     |100-300    |           |
+
+      |----------------------------------- Script: Mass Miners End -----------------------------------|
+      |Change log
+      |2016-31-07 ver. 1.0 Initial Script
+      |2016-08-01 ver. 1.1 ...
