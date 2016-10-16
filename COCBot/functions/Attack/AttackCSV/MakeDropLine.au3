@@ -17,6 +17,24 @@
 Func MakeDropLine($searchvect, $startpoint, $endpoint)
 	Local $point1 = $startpoint
 	Local $ReturnVect
+	
+	;AwesomeGamer CSV mod
+	If $attackcsv_use_red_line = 0 Then
+		Local $edgeVector[Abs($endpoint[0] - $startpoint[0]) + 1]
+		Local $m = ($endpoint[1] - $startpoint[1]) / ($endpoint[0] - $startpoint[0])
+		Local $b = $startpoint[1] - ($m * $startpoint[0])
+		
+		Local $count = 0
+		Local $point[2]
+		For $x = $startpoint[0] to $endpoint[0]
+			$point[0] = $x
+			$point[1] = Round($m * $x + $b)
+			$edgeVector[$count] = $point
+			$count += 1
+		Next
+		Return $edgeVector
+	EndIf
+	
 	$ReturnVect = $startpoint[0] & "-" & $startpoint[1]
 	Local $t, $f
 	$t = 0

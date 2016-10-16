@@ -699,7 +699,7 @@ $hGUI_ARMY_TAB_ITEM4 = GUICtrlCreateTabItem(GetTranslated(641,1,"Options"))
 		$lblTrainLogoutMaxTime= GUICtrlCreateLabel("min", $x + 110, $y + 3, -1, -1)
 		GUICtrlCreateGroup("", -99, -99, 1, 1)
 
-	$y += 53
+	$y += 48
 	$grpTiming = GUICtrlCreateGroup(GetTranslated(636,30, "Train Click Timing"), $x - 20, $y - 20, 151, 60)
 		$lbltxtTrainITDelay = GUICtrlCreateLabel(GetTranslated(636,32, "delay"), $x-10, $y, 37, 30)
 			$txtTip = GetTranslated(636,33, "Increase the delay if your PC is slow or to create human like training click speed")

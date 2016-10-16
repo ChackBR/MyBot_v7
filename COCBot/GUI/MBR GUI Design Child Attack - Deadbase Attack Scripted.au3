@@ -55,6 +55,7 @@ Local $x = 25, $y = 20
 			GUICtrlSetOnEvent(-1, "DuplicateScriptDB")
 
 		; CSV Deployment Speed Mod
+		$y +=128
 		$grpScriptSpeedDB = GUICtrlCreateGroup("CSV Deployment Speed", $x, $y, 230, 50)
 			$lbltxtSelectedSpeedDB = GUICtrlCreateLabel("Normal speed", $x + 15, $y + 20, 75, 25)
 				_GUICtrlSetTip(-1, "Increase or decrease the speed at which the CSV attack script deploys troops and waves.")
