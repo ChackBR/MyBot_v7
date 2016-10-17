@@ -42,7 +42,8 @@ Local $sModversion
 ; "2101" ; MyBot v6.2.1
 ; "2201" ; MyBot v6.2.2
 ; "2301" ; MyBot v6.3.0
-$sModversion = "2302" ; Enable CSV Speed Mode ( AwesomeGamer + MikeMikeCoc )
+; "2302" ; Enable CSV Speed Mode ( AwesomeGamer + MikeMikeCoc )
+$sModversion = "2303" ; Fix for CSV Attack Files
 $sBotVersion = "v6.3.u" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it it also use on Checkversion()
 $sBotTitle = "My Bot " & $sBotVersion & ".r" & $sModversion & " " ;~ Don't use any non file name supported characters like \ / : * ? " < > |
 

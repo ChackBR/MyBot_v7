@@ -19,6 +19,9 @@ Func ParseAttackCSV($debug = False)
 	Global $ATTACKVECTOR_S, $ATTACKVECTOR_T, $ATTACKVECTOR_U, $ATTACKVECTOR_V, $ATTACKVECTOR_W, $ATTACKVECTOR_X
 	Global $ATTACKVECTOR_Y, $ATTACKVECTOR_Z
 	
+	Local $heightTopLeft = 0, $heightTopRight = 0, $heightBottomLeft = 0, $heightBottomRight = 0
+	Local $i
+
 	;AwesomeGamer CSV Mod
 	For $i = 0 to Ubound($atkTroops) - 1
 		$remainingTroops[$i][0] = $atkTroops[$i][0]
@@ -398,6 +401,10 @@ Func ParseAttackCSV($debug = False)
 						ReleaseClicks()
 						PrepareAttack($iMatchMode, True)
 					Case "SIDE"
+                  $heightTopLeft = 0
+                  $heightTopRight = 0
+                  $heightBottomLeft = 0
+                  $heightBottomRight = 0
 						ReleaseClicks()
 						Setlog("Calculate main side... ")
 						If StringUpper($value8) = "TOP-LEFT" Or StringUpper($value8) = "TOP-RIGHT" Or StringUpper($value8) = "BOTTOM-LEFT" Or StringUpper($value8) = "BOTTOM-RIGHT" Then
@@ -405,8 +412,6 @@ Func ParseAttackCSV($debug = False)
 							Setlog("Forced side: " & StringUpper($value8), $COLOR_INFO)
 							$bForceSideExist = True
 						Else
-							Local $heightTopLeft = 0, $heightTopRight = 0, $heightBottomLeft = 0, $heightBottomRight = 0
-
 							For $i = 0 To UBound($PixelMine) - 1
 								Local $str = ""
 								Local $pixel = $PixelMine[$i]
