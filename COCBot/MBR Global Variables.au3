@@ -1562,7 +1562,6 @@ Global $iAddIdleTimeMax = 60			; maximum time to wait in seconds
 Global $ichkFixClanCastle = 0
 
 $iDeadBaseDisableCollectorsFilter = 0 ; 0 default, set 1 to transform deadbase search like a livebase search
-
 ;
 ; Global Variables - AwesomeGamer, LunaEclipse, ...
 ;

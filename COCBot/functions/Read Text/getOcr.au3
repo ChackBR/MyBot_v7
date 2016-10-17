@@ -223,7 +223,7 @@ Func getRemainTLaboratory($x_start, $y_start) ; read actual time remaining in La
 EndFunc   ;==>getRemainTLaboratory
 
 Func getRemainTHero($x_start, $y_start) ; Get time remaining for hero to be ready for attack from train window, BK:443,504 AQ:504,504 GW:565:504
-	Return getOcrAndCapture("coc-remainhero", $x_start, $y_start, 28, 12, True)
+	Return getOcrAndCapture("coc-remainhero", $x_start, $y_start, 50, 12, True)
 EndFunc   ;==>getRemainTHero
 
 Func getHeroStatus($x_start, $y_start) ; Get status/type_of_Hero from Hero Slots in training overview window, Slot1:464,446 Slot2:526,446 Slot3:588:446

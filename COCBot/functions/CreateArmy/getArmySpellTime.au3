@@ -33,7 +33,7 @@ Func getArmySpellTime($bOpenArmyWindow = False, $bCloseArmyWindow = False)
 
 	Local $iRemainTrainSpellsTimer = 0, $sResultSpellsMinutes = "", $aResult
 
-	Local $sResultSpells = getRemainTrainTimer(360, 422)  ;Get spell training time via OCR.
+	Local $sResultSpells = getRemainTrainTimer(751, 161)  ;Get spell training time via OCR.
 
 	If $sResultSpells <> "" Then
 		If StringInStr($sResultSpells, "h") > 1 Then

@@ -2628,7 +2628,6 @@ chkskipDonateNearFulLTroopsEnable()
 	EndIf
 	chkTSActivateCamps2()
 	GUICtrlSetData($txtTSArmyCamps2, $iEnableAfterArmyCamps2)
-
 ;
 ; MOD
 ;

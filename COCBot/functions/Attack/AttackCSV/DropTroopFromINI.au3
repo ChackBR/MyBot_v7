@@ -90,7 +90,6 @@ Func DropTroopFromINI($vectors, $indexStart, $indexEnd, $indexArray, $qtaMin, $q
 	Local $extraunit = Mod($qty, ($indexEnd - $indexStart + 1))
 	debugAttackCSV(">> qty x point: " & $qtyxpoint)
 	debugAttackCSV(">> qty extra: " & $extraunit)
-
 	;search slot where is the troop...
 	Local $troopPosition = -1
 	For $i = 0 To UBound($atkTroops) - 1
@@ -199,7 +198,6 @@ Func DropTroopFromINI($vectors, $indexStart, $indexEnd, $indexArray, $qtaMin, $q
 		Global $lastTroopPositionDropTroopFromINI
 		If $lastTroopPositionDropTroopFromINI <> $troopPosition Then ReleaseClicks()
 		$lastTroopPositionDropTroopFromINI = $troopPosition
-
 		;drop
 		$TroopDropNumber += 1
 

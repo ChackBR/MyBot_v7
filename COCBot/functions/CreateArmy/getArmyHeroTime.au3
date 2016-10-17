@@ -43,10 +43,10 @@ Func getArmyHeroTime($HeroType, $bOpenArmyWindow = False, $bCloseArmyWindow = Fa
 	Local $iRemainTrainHeroTimer = 0
 	Local $sResult
 	Local $iResultHeroes[3] = ["", "", ""] ; array to hold all remaining regen time read via OCR
-	Local Const $HeroSlots[3][2] = [[464, 446], [526, 446], [588, 446]] ; Location of hero status check tile
+	Local Const $HeroSlots[3][2] = [[655, 344], [729, 344], [803, 344]] ; Location of hero status check tile
 
 	; Constant Array with OCR find location: [X pos, Y Pos, Text Name, Global enum value]
-	Local Const $aHeroRemainData[3][4] = [[443, 504, "King", $eKing], [504, 504, "Queen", $eQueen], [565, 504, "Warden", $eWarden]]
+	Local Const $aHeroRemainData[3][4] = [[621, 414, "King", $eKing], [695, 414, "Queen", $eQueen], [769, 414, "Warden", $eWarden]]
 
 	For $index = 0 To UBound($aHeroRemainData) - 1 ;cycle through all 3 slots and hero types
 

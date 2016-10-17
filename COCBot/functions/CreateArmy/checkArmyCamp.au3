@@ -35,18 +35,20 @@ Func checkArmyCamp()
 	getArmySpellCount()
 	If _Sleep($iDelaycheckArmyCamp6) Then Return ; 10ms improve pause button response
 
+	#cs disabled for 6.3.u as not available on Army page, only on Brew Spells page
 	getArmySpellTime()
 	If _Sleep($iDelaycheckArmyCamp6) Then Return ; 10ms improve pause button response
+	#ce
 
 	getArmyCCStatus()
 	If _Sleep($iDelaycheckArmyCamp6) Then Return ; 10ms improve pause button response
 
 	;call BarracksStatus() to read barracks num
-	If $FirstStart Then
-		BarracksStatus(True)
-	Else
-		BarracksStatus(False)
-	EndIf
+;~ 	If $FirstStart Then
+;~ 		BarracksStatus(True)
+;~ 	Else
+;~ 		BarracksStatus(False)
+;~ 	EndIf
 
 	If Not $fullArmy Then DeleteExcessTroops()
 

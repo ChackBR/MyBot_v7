@@ -211,6 +211,7 @@ Func Train()
 	If $iChkUseQuickTrain = 1 Then
 		QuickTrain($iCmbCurrentArmy, False)
 		ClickP($aAway, 2, $iDelayTrain5, "#0504"); Click away twice with 250ms delay
+		_Sleep(1000)
 		Return
 	EndIf
 

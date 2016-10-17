@@ -163,7 +163,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 						[$eWitc,  $nbSides, 1, 1, 2], _
 						[$eMini,  $nbSides, 1, 1, 0], _
 						["CC",           1, 1, 1, 1], _
-						["HEROES",       1, 2, 1, 1]]
+						["HEROES",       1, 1, 1, 1]]
 
 	Else
 		If $debugSetlog = 1 Then SetLog("listdeploy standard for attack", $COLOR_DEBUG)

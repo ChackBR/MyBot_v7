@@ -33,7 +33,7 @@ Func getArmyTroopTime($bOpenArmyWindow = False, $bCloseArmyWindow = False)
 
 	Local $iRemainTrainTroopTimer = 0, $sResultTroopMinutes = "", $aResult
 
-	Local $sResultTroops = getRemainTrainTimer(680, 176) ;Get Troop training time via OCR.
+	Local $sResultTroops = getRemainTrainTimer(751, 169) ;Get Troop training time via OCR.
 
 	If $sResultTroops <> "" Then
 		If StringInStr($sResultTroops, "h") > 1 Then

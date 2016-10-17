@@ -38,7 +38,7 @@ Func getArmyHeroCount($bOpenArmyWindow = False, $bCloseArmyWindow = False)
 
 	; Detection by OCR
 	Local $sResult
-	Local Const $HeroSlots[3][2] = [[464, 446], [526, 446], [588, 446]] ; Location of hero status check tile
+	Local Const $HeroSlots[3][2] = [[655, 344], [729, 344], [803, 344]] ; Location of hero status check tile
 	Local $sMessage = ""
 
 	For $i = 0 To UBound($HeroSlots) - 1

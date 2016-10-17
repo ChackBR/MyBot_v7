@@ -1,4 +1,14 @@
-﻿* **V6.3.u** (CoC October Update BETA Version)
+﻿* **V6.3.u3** (CoC October Update BETA Version)
+ * Fix restart CoC after Train
+ * Fix OCR remaining train time for troops (smartwait working again)
+ * Fix OCR remaining heal time for heroes
+ * Fix waiting for heroes
+ * Fix yellow circle coordinates marking upgrades during selection
+
+* **V6.3.u2** (CoC October Update BETA Version)
+ * Fix Request Troops
+
+* **V6.3.u** (CoC October Update BETA Version)
  * Fix Donate and Request Troops
  * Fix Train. Use preconfigured Quick Train Previous Army or Army 1 - 3 (default is Army 1)
  * Fix support for located structurs and upgrades (re-locate for TH, structures and upgrades is required)

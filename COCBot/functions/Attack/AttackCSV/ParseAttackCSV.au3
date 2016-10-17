@@ -279,7 +279,6 @@ Func ParseAttackCSV($debug = False)
 								$sleepdrop1 = Int($sleepdroppvect[0])
 								$sleepdrop2 = Int($sleepdroppvect[1])
 							Else
-								$index1 = 1
 								$sleepdrop1 = 1
 								$sleepdrop2 = 1
 							EndIf
@@ -401,10 +400,10 @@ Func ParseAttackCSV($debug = False)
 						ReleaseClicks()
 						PrepareAttack($iMatchMode, True)
 					Case "SIDE"
-                  $heightTopLeft = 0
-                  $heightTopRight = 0
-                  $heightBottomLeft = 0
-                  $heightBottomRight = 0
+                  		$heightTopLeft = 0
+                  		$heightTopRight = 0
+                  		$heightBottomLeft = 0
+                  		$heightBottomRight = 0
 						ReleaseClicks()
 						Setlog("Calculate main side... ")
 						If StringUpper($value8) = "TOP-LEFT" Or StringUpper($value8) = "TOP-RIGHT" Or StringUpper($value8) = "BOTTOM-LEFT" Or StringUpper($value8) = "BOTTOM-RIGHT" Then
@@ -412,6 +411,7 @@ Func ParseAttackCSV($debug = False)
 							Setlog("Forced side: " & StringUpper($value8), $COLOR_INFO)
 							$bForceSideExist = True
 						Else
+
 							For $i = 0 To UBound($PixelMine) - 1
 								Local $str = ""
 								Local $pixel = $PixelMine[$i]

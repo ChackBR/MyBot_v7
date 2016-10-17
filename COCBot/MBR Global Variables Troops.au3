@@ -71,3 +71,5 @@ Global Const $aLabTroops[30][5] = [ _
 		[536, 320 + $midOffsetY, 2, $sTxtWitches, $eIcnWitch], _
 		[536, 427 + $midOffsetY, 2, $sTxtLavaHounds, $eIcnLavaHound], _
 		[642, 320 + $midOffsetY, 2, $sTxtBowlers, $eIcnBowler]]
+
+    Local $tDelayBtn = 1250

@@ -273,7 +273,6 @@
 #include "functions\Village\StarBonus.au3"
 #include "functions\Village\AddIdleTime.au3"
 #include "functions\Other\ClickZoneR.au3"
-
 ;
 ; MOD files - AwesomeGamer, LunaEclipse, MikeCoC, ...
 ;
