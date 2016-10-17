@@ -285,7 +285,7 @@ Func DropTroopFromINI($vectors, $indexStart, $indexEnd, $indexArray, $qtaMin, $q
 								Else
 									If $AndroidAdbClicksEnabled Then 
 										;AttackClick($pixel[0], $pixel[1], $qty2, SetSleep(0), 0, "#0667")
-										AttackClick($pixel[0], $pixel[1], $qty2, Int($delayPoint/4), 0, "#0666")
+										AttackClick($pixel[0], $pixel[1], $qty2, Int($delayPoint/2), 0, "#0666")
 									Else
 										;AttackClick($pixel[0], $pixel[1], $qty2, $delayPoint, $delayDropLast, "#0667")
 										AttackClick($pixel[0], $pixel[1], $qty2, $delayPoint, 0, "#0666")
