@@ -58,14 +58,14 @@ Global Const $midOffsetY = Int(($DEFAULT_HEIGHT - 720) / 2)
 Global Const $bottomOffsetY = $DEFAULT_HEIGHT - 720
 
 ; Since October 12th 2016 Update, Village cannot be entirely zoomed out, offset updated in func SearchZoomOut
-Global $VILLAGE_OFFSET_X = 0
-Global $VILLAGE_OFFSET_Y = 0
-Global $CenterVillage[3] = [True, 0, 0] ; Center Village array: 0=Boolean enable/disable ClickDrag to center village, 1=x coord., 2=y coord.
+Global $VILLAGE_OFFSET[3] = [0, 0, 1]
 
 Global $bMonitorHeight800orBelow = False
 Global $ichkDisableSplash = 0 ; Splash screen disabled = 1
 
 ;debugging
+Global $debugDisableZoomout = 0
+Global $debugDisableVillageCentering = 0
 Global $debugSearchArea = 0, $debugOcr = 0, $debugRedArea = 0, $debugSetlog = 0, $debugDeadBaseImage = 0, $debugImageSave = 0, $debugWalls = 0, $debugBuildingPos = 0, $debugVillageSearchImages = 0
 Global $debugAttackCSV = 0, $makeIMGCSV = 0 ;attackcsv debug
 Global $debugMultilanguage = 0
@@ -110,9 +110,8 @@ Global Const $HKLM = "HKLM" & ($64Bit ? "64" : "")
 Global Const $Wow6432Node = ($64Bit ? "\Wow6432Node" : "")
 
 GLobal $AndroidAutoAdjustConfig = True ; If enabled, best Android options are configured (e.g. new BS2 version enable ADB Mouse Click)
-Global $AndroidGamePackage = "com.supercell.clashofclans"
-;Global $AndroidGamePackage = "com.xgroup.magics3"
-Global $AndroidGameClass = ".GameApp"
+Global $AndroidGamePackage = "com.supercell.clashofclans" ; Default CoC Game Package, loaded from config.ini
+Global $AndroidGameClass = ".GameApp" ; Default CoC Game Class, loaded from config.ini
 Global $AndroidEmbedEnabled = True
 Global $AndroidEmbedded = False
 Global $AndroidEmbeddedCtrlTarget[10] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -1541,7 +1540,7 @@ Global $cmbLvl10Fill
 Global $cmbLvl11Fill
 Global $cmbLvl12Fill
 Global $toleranceOffset
-
+Global $iMinCollectorMatches
 
 ;Apply to switch Attack Standard after THSnipe End ==>
 Global $ichkTSActivateCamps2, $iEnableAfterArmyCamps2
@@ -1562,6 +1561,16 @@ Global $iAddIdleTimeMax = 60			; maximum time to wait in seconds
 Global $ichkFixClanCastle = 0
 
 $iDeadBaseDisableCollectorsFilter = 0 ; 0 default, set 1 to transform deadbase search like a livebase search
+
+
+;imgloc globals for THSearch and also deadbase
+Global $IMGLOCREDLINE ; hold redline data obtained from multisearch
+Global $IMGLOCTHLEVEL
+Global $IMGLOCTHLOCATION
+Global $IMGLOCTHNEAR
+Global $IMGLOCTHFAR
+Global $IMGLOCTHRDISTANCE
+
 ;
 ; Global Variables - AwesomeGamer, LunaEclipse, ...
 ;

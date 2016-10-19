@@ -27,7 +27,7 @@ Func UpgradeWall()
 				Case 0
 					If $MinWallGold Then
 						SetLog("Upgrading Wall using Gold", $COLOR_SUCCESS)
-						If imglocCheckWall Then UpgradeWallGold()
+						If imglocCheckWall() Then UpgradeWallGold()
 					Else
 						SetLog("Gold is below minimum, Skipping Upgrade", $COLOR_ERROR)
 					EndIf

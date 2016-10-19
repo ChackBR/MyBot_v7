@@ -19,45 +19,9 @@
 
 Func imglocTestQuickTrain($quickTrainOption=0)
 	Local $currentRunState = $RunState
-	$RunState = True
-	SetLog(" TEST QUICK TRAIN IMGLOC START" )
-
-	imglocOpenTrainWindow()
-	If _Sleep($tDelayBtn) Then Return
-	Local $optBtn
-	Local $QuickTrainTabArea =  "645,115,760,140"
-	Local $QuickTrainTabBtn  =  isButtonVisible("QuickTrainTabBtn",@ScriptDir & "\imgxml\newtrainwindow\QuickTrain_0_0_93.xml",$QuickTrainTabArea)
-	if $QuickTrainTabBtn <> "" then ClickP(decodeSingleCoord($QuickTrainTabBtn),1,300,"QuickTrainTabBtn") ; should switch to Quick Train Tab
-			;now check tab area to see if tab color is white now (tab opened)
-	If _Sleep($tDelayBtn) Then Return
-	Local $CheckTabBtn  =  isButtonVisible("CheckTabBtn",@ScriptDir & "\imgxml\newtrainwindow\CheckTab_0_0_98.xml",$QuickTrainTabArea) ;check same region for White Area when tab selected
-	If $CheckTabBtn = "" Then ; not found, tab is not selected
-		SetLog("COULD NOT QUICK TRAIN TAB" , $COLOR_INFO)
-		ClickP($aAway, 1, 0, "#0000") ;Click Away
-		Return
-	EndIf
-	If _Sleep($tDelayBtn) Then Return
-	Switch $quickTrainOption
-		Case 0 ; Previous Army
-			$region = "715,195,835,255"
-			$optBtn  = isButtonVisible("Previous Army",@ScriptDir & "\imgxml\newtrainwindow\TrainPrevious_0_0_92.xml",$region)
-			if $optBtn <> "" then ClickP(decodeSingleCoord($optBtn),1,300,"Previous Army") ; should switch to Quick Train Tab
-		Case 1 ; Army 1
-			$region = "725,335,840,375"
-			$optBtn  = isButtonVisible("Army1",@ScriptDir & "\imgxml\newtrainwindow\TrainArmy_0_0_92.xml",$region)
-			if $optBtn <> "" then ClickP(decodeSingleCoord($optBtn),1,300,"Army1") ; should switch to Quick Train Tab
-		Case 2 ; Army 2
-			$region = "725,455,840,495"
-			$optBtn  = isButtonVisible("Army1",@ScriptDir & "\imgxml\newtrainwindow\TrainArmy_0_0_92.xml",$region)
-			if $optBtn <> "" then ClickP(decodeSingleCoord($optBtn),1,300,"Army1") ; should switch to Quick Train Tab
-		Case 3 ; Army 3
-			$region = "725,570,840,615"
-			$optBtn  = isButtonVisible("Army1",@ScriptDir & "\imgxml\newtrainwindow\TrainArmy_0_0_92.xml",$region)
-			if $optBtn <> "" then ClickP(decodeSingleCoord($optBtn),1,300,"Army1") ; should switch to Quick Train Tab
-	EndSwitch
-	SetLog(" TEST QUICK TRAIN IMGLOC FINISH" )
-	ClickP($aAway, 1, 0, "#0000") ;Click Away
-		$RunState = $currentRunState
+	$RunState = true
+	QuickTrain(1,True)
+	$RunState = $currentRunState
 EndFunc
 
 Func imglocTestTrain()
@@ -122,23 +86,35 @@ EndFunc
 
 Func QuickTrain($quickTrainOption, $bOpenAndClose = True)
 	SetLog("Starting Quick Train", $COLOR_INFO )
+	Local $retry = 5 ;#times it retries to find buttons
 	If $bOpenAndClose = True Then 
 		imglocOpenTrainWindow()
 		If _Sleep($tDelayBtn) Then Return
 	EndIf
 	Local $optBtn
 	Local $QuickTrainTabArea =  "645,115,760,140"
-	Local $QuickTrainTabBtn  =  isButtonVisible("QuickTrainTabBtn",@ScriptDir & "\imgxml\newtrainwindow\QuickTrain_0_0_93.xml",$QuickTrainTabArea)
-	if $QuickTrainTabBtn <> "" then ClickP(decodeSingleCoord($QuickTrainTabBtn),1,300,"QuickTrainTabBtn") ; should switch to Quick Train Tab
-	If _Sleep($tDelayBtn) Then Return
-	;now check tab area to see if tab color is white now (tab opened)
-	Local $CheckTabBtn  =  isButtonVisible("CheckTabBtn",@ScriptDir & "\imgxml\newtrainwindow\CheckTab_0_0_98.xml",$QuickTrainTabArea) ;check same region for White Area when tab selected
+	Local $QuickTrainTabBtn
+	Local $CheckTabBtn
+	
+	For $rt=0 to $retry
+		 $QuickTrainTabBtn  =  isButtonVisible("QuickTrainTabBtn",@ScriptDir & "\imgxml\newtrainwindow\QuickTrain_0_0_93.xml",$QuickTrainTabArea)
+		If $QuickTrainTabBtn <> "" then ClickP(decodeSingleCoord($QuickTrainTabBtn),1,300,"QuickTrainTabBtn") ; should switch to Quick Train Tab
+		If _Sleep($tDelayBtn) Then Return
+		If  $QuickTrainTabBtn <> "" then ExitLoop
+	Next
+	
+	For $rt=0 to $retry
+		;now check tab area to see if tab color is white now (tab opened)
+		$CheckTabBtn  =  isButtonVisible("CheckTabBtn",@ScriptDir & "\imgxml\newtrainwindow\CheckTab_0_0_98.xml",$QuickTrainTabArea) ;check same region for White Area when tab selected
+		If _Sleep($tDelayBtn) Then Return
+		If $CheckTabBtn <> "" then ExitLoop		
+	Next
 	If $CheckTabBtn = "" Then ; not found, tab is not selected
-		SetLog("COULD NOT FIND QUICK TRAIN TAB" , $COLOR_RED)
+		SetLog("COULD NOT FIND QUICK TRAIN TAB " , $COLOR_RED)
 		If $bOpenAndClose = True Then ClickP($aAway, 1, 0, "#0000") ;Click Away
 		Return
 	EndIf
-	If _Sleep($tDelayBtn) Then Return
+	
 	Switch $quickTrainOption
 		Case 0 ; Previous Army
 			$region = "715,195,835,255"

@@ -1,4 +1,11 @@
-﻿* **V6.3.u3** (CoC October Update BETA Version)
+﻿* **V6.3.u4** (CoC October Update BETA Version)
+ * Replace deadbase check using imgloc for collector levels 7-12 with 50% and 100% fill levels
+ * Add centering of attacking village
+ * Fix entire village coordination calculation to compensate different zoom-out levels and village location
+ * Fix wall upgrade using gold
+ * Fix Train Tab not found when tab takes >1s to open
+
+* **V6.3.u3** (CoC October Update BETA Version)
  * Fix restart CoC after Train
  * Fix OCR remaining train time for troops (smartwait working again)
  * Fix OCR remaining heal time for heroes

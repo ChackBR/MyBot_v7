@@ -44,8 +44,9 @@ Local $sModversion
 ; "2301" ; MyBot v6.3.0
 ; "2302" ; Enable CSV Speed Mode ( AwesomeGamer + MikeMikeCoc )
 ; "2303" ; Fix for CSV Attack Files
-$sModversion = "2304" ; MyBot v6.3.0 Beta 3
-$sBotVersion = "v6.3.v" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it it also use on Checkversion()
+; "2304" ; MyBot v6.3.0 Beta 3
+$sModversion = "2305" ; MyBot v6.3.0 Beta 4
+$sBotVersion = "v6.3.x" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it it also use on Checkversion()
 $sBotTitle = "My Bot " & $sBotVersion & ".r" & $sModversion & " " ;~ Don't use any non file name supported characters like \ / : * ? " < > |
 
 #include "COCBot\functions\Config\DelayTimes.au3"

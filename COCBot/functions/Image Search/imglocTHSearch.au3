@@ -15,13 +15,6 @@
 
 Global $aTownHall[4] = [-1, -1, -1, -1] ; [LocX, LocY, BldgLvl, Quantity]
 
-Global $IMGLOCREDLINE ; hold redline data obtained from multisearch
-Global $IMGLOCTHLEVEL
-Global $IMGLOCTHLOCATION
-Global $IMGLOCTHNEAR
-Global $IMGLOCTHFAR
-Global $IMGLOCTHRDISTANCE
-
 
 
 Func imglocTHSearch($bReTest = False,$myVillage=False)
@@ -86,8 +79,7 @@ Func imglocTHSearch($bReTest = False,$myVillage=False)
 								$THLocation = 1  ; backwards compatibility
 							Else
 								$TownHallPos = decodeSingleCoord($propsValues[$pv])
-								$TownHallPos[0] -= $VILLAGE_OFFSET_X
-								$TownHallPos[1] -= $VILLAGE_OFFSET_Y
+								ConvertFromVillagePos($TownHallPos[0], $TownHallPos[1])
 							EndIf
 						case "nearpoints"
 							If $myVillage=False Then

@@ -191,6 +191,24 @@ Func chkDebugSetlog()
 	SetDebugLog("DebugSetlog " & ($DebugSetlog = 1 ? "enabled" : "disabled"))
 EndFunc   ;==>chkDebugSetlog
 
+Func chkDebugDisableZoomout()
+	If GUICtrlRead($chkDebugDisableZoomout) = $GUI_CHECKED Then
+		$debugDisableZoomout = 1
+	Else
+		$debugDisableZoomout = 0
+	EndIf
+	SetDebugLog("DebugDisableZoomout " & ($debugDisableZoomout = 1 ? "enabled" : "disabled"))
+EndFunc   ;==>chkDebugDisableZoomout
+
+Func chkDebugDisableVillageCentering()
+	If GUICtrlRead($chkDebugDisableVillageCentering) = $GUI_CHECKED Then
+		$debugDisableVillageCentering = 1
+	Else
+		$debugDisableVillageCentering = 0
+	EndIf
+	SetDebugLog("DebugDisableVillageCentering " & ($debugDisableVillageCentering = 1 ? "enabled" : "disabled"))
+EndFunc   ;==>chkDebugDisableVillageCentering
+
 Func chkDebugOcr()
 	If GUICtrlRead($chkDebugOcr) = $GUI_CHECKED Then
 		$debugOcr = 1
@@ -390,28 +408,32 @@ EndFunc   ;==>btnTestClickDrag
 
 Func btnTestImage()
 
-	Local $sImageFile = FileOpenDialog("Select CoC screenshot to test", $dirTemp, "Image (*.png)", $FD_FILEMUSTEXIST, "", $frmBot)
+	Local $hBMP = 0, $hHBMP = 0
+	Local $sImageFile = FileOpenDialog("Select CoC screenshot to test, cancel to use live screenshot", $dirTemp, "Image (*.png)", $FD_FILEMUSTEXIST, "", $frmBot)
 	If @error <> 0 Then
-		SetLog("Testing image cancelled", $COLOR_INFO)
-		Return
+		SetLog("Testing image cancelled, taking screenshot from " & $Android, $COLOR_INFO)
+		_CaptureRegion()
+		$hHBMP = $hHBitmap
+		TestCapture($hHBMP)
+	Else
+		SetLog("Testing image " & $sImageFile, $COLOR_INFO)
+		; load test image
+		$hBMP = _GDIPlus_BitmapCreateFromFile($sImageFile)
+		$hHBMP = _GDIPlus_BitmapCreateDIBFromBitmap($hBMP)
+		_GDIPlus_BitmapDispose($hBMP)
+		TestCapture($hHBMP)
+		SetLog("Testing image hHBitmap = " & $hHBMP)
 	EndIf
 
 	Local $i
 	Local $result
 	Local $currentRunState = $RunState
 	$RunState = True
-	Local $hBMP, $hHBMP, $Message
+	Local $Message
 
 	For $i = 0 To 0
 
 		SetLog("Testing image #" & $i & " " & $sImageFile, $COLOR_INFO)
-
-		; load test image
-		$hBMP = _GDIPlus_BitmapCreateFromFile($sImageFile)
-		$hHBMP = _GDIPlus_BitmapCreateDIBFromBitmap($hBMP)
-
-		TestCapture($hHBMP)
-		SetLog("Testing image hHBitmap = " & $hHBMP)
 
 		_CaptureRegion()
 		_CaptureRegion()
@@ -432,18 +454,116 @@ Func btnTestImage()
 		SetLog("$aNoCloudsAttack pixel check: " & _CheckPixel($aNoCloudsAttack, $bCapturePixel))
 		SetLog("Testing WaitForClouds DONE", $COLOR_SUCCESS)
 
-		_GDIPlus_BitmapDispose($hBMP)
-		_WinAPI_DeleteObject($hHBMP)
-
-		TestCapture(0)
-
 	Next
 
 	SetLog("Testing finished", $COLOR_INFO)
 
+	_WinAPI_DeleteObject($hHBMP)
+	TestCapture(0)
+
 	$RunState = $currentRunState
 
 EndFunc   ;==>btnTestImage
+
+Func btnTestVillageSize()
+	Local $hBMP = 0, $hHBMP = 0
+	Local $sImageFile = FileOpenDialog("Select CoC screenshot to test, cancel to use live screenshot", $dirTemp, "Image (*.png)", $FD_FILEMUSTEXIST, "", $frmBot)
+	If @error <> 0 Then
+		SetLog("Testing image cancelled, taking screenshot from " & $Android, $COLOR_INFO)
+		_CaptureRegion()
+		$hHBMP = $hHBitmap
+		TestCapture($hHBMP)
+	Else
+		SetLog("Testing image " & $sImageFile, $COLOR_INFO)
+		; load test image
+		$hBMP = _GDIPlus_BitmapCreateFromFile($sImageFile)
+		$hHBMP = _GDIPlus_BitmapCreateDIBFromBitmap($hBMP)
+		_GDIPlus_BitmapDispose($hBMP)
+		TestCapture($hHBMP)
+		SetLog("Testing image hHBitmap = " & $hHBMP)
+	EndIf
+
+	Local $currentRunState = $RunState
+	$RunState = True
+
+	_CaptureRegion()
+
+	SetLog("Testing GetVillageSize()", $COLOR_INFO)
+	Local $hTimer = TimerInit()
+	Local $village = GetVillageSize()
+	Local $ms = TimerDiff($hTimer)
+	If $village = 0 Then
+		SetLog("Village not found (" & Round($ms, 0) & " ms.)", $COLOR_WARNING)
+	Else
+		SetLog("Village found (" & Round($ms, 0) & " ms.)", $COLOR_WARNING)
+		SetLog("Village size: " & $village[0])
+		SetLog("Village zoom level: " & $village[1])
+		SetLog("Village offset x: " & $village[2])
+		SetLog("Village offset y: " & $village[3])
+		SetLog("Village stone " & $village[6] & ": " & $village[4] & ", " & $village[5])
+		SetLog("Village tree " & $village[9] & ": " & $village[7] & ", " & $village[8])
+	EndIf
+
+	If $hHBMP <> 0 Then
+		_WinAPI_DeleteObject($hHBMP)
+		TestCapture(0)
+	EndIf
+
+	$RunState = $currentRunState
+EndFunc   ;==>btnTestVillageSize
+
+#cs
+Func btnTestDeadBase()
+	Local $test = 0
+	LoadTHImage()
+	LoadElixirImage()
+	LoadElixirImage75Percent()
+	LoadElixirImage50Percent()
+	Zoomout()
+	If $debugBuildingPos = 0 Then
+		$test = 1
+		$debugBuildingPos = 1
+	EndIf
+	SETLOG("DEADBASE CHECK..................")
+	$dbBase = checkDeadBase()
+	SETLOG("TOWNHALL CHECK. imgloc.................")
+	$searchTH = imgloccheckTownhallADV2()
+	If $test = 1 Then $debugBuildingPos = 0
+EndFunc   ;==>btnTestDeadBase
+#ce
+
+Func btnTestDeadBase()
+	Local $hBMP = 0, $hHBMP = 0
+	Local $sImageFile = FileOpenDialog("Select CoC screenshot to test, cancel to use live screenshot", $dirTemp, "Image (*.png)", $FD_FILEMUSTEXIST, "", $frmBot)
+	If @error <> 0 Then
+		SetLog("Testing image cancelled, taking screenshot from " & $Android, $COLOR_INFO)
+		_CaptureRegion()
+		$hHBMP = $hHBitmap
+		TestCapture($hHBMP)
+	Else
+		SetLog("Testing image " & $sImageFile, $COLOR_INFO)
+		; load test image
+		$hBMP = _GDIPlus_BitmapCreateFromFile($sImageFile)
+		$hHBMP = _GDIPlus_BitmapCreateDIBFromBitmap($hBMP)
+		_GDIPlus_BitmapDispose($hBMP)
+		TestCapture($hHBMP)
+		SetLog("Testing image hHBitmap = " & $hHBMP)
+	EndIf
+
+	Local $currentRunState = $RunState
+	$RunState = True
+
+	SetLog("Testing checkDeadBase()", $COLOR_INFO)
+	SetLog("Result checkDeadBase() = " & checkDeadBase(), $COLOR_INFO)
+	SetLog("Testing checkDeadBase() DONE", $COLOR_INFO)
+
+	If $hHBMP <> 0 Then
+		_WinAPI_DeleteObject($hHBMP)
+		TestCapture(0)
+	EndIf
+
+	$RunState = $currentRunState
+EndFunc   ;==>btnTestDeadbase
 
 Func FixClanCastle($inputString)
 	; if found  a space in results of attack bar slot detection, force insert of clan castle

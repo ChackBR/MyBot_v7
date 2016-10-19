@@ -397,24 +397,6 @@ Func btnVillageStat()
 
 EndFunc   ;==>btnVillageStat
 
-Func btnTestDeadBase()
-	Local $test = 0
-	LoadTHImage()
-	LoadElixirImage()
-	LoadElixirImage75Percent()
-	LoadElixirImage50Percent()
-	Zoomout()
-	If $debugBuildingPos = 0 Then
-		$test = 1
-		$debugBuildingPos = 1
-	EndIf
-	SETLOG("DEADBASE CHECK..................")
-	$dbBase = checkDeadBase()
-	SETLOG("TOWNHALL CHECK. imgloc.................")
-	$searchTH = imgloccheckTownhallADV2()
-	If $test = 1 Then $debugBuildingPos = 0
-EndFunc   ;==>btnTestDeadBase
-
 Func btnTestDonate()
 	Local $wasRunState = $RunState
 	$RunState = True

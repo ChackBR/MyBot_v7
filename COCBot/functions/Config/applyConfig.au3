@@ -2013,6 +2013,16 @@ chkskipDonateNearFulLTroopsEnable()
 	Else
 		GUICtrlSetState($chkDebugSetlog, $GUI_UNCHECKED)
 	EndIf
+	If $debugDisableZoomout = 1 Then
+		GUICtrlSetState($chkDebugDisableZoomout, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkDebugDisableZoomout, $GUI_UNCHECKED)
+	EndIf
+	If $debugDisableVillageCentering = 1 Then
+		GUICtrlSetState($chkDebugDisableVillageCentering, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkDebugDisableVillageCentering, $GUI_UNCHECKED)
+	EndIf
 	If $debugOcr = 1 Then
 		GUICtrlSetState($chkDebugOcr, $GUI_CHECKED)
 	Else
@@ -2561,7 +2571,6 @@ chkskipDonateNearFulLTroopsEnable()
 		GUICtrlSetState($cmbLvl12, $GUI_DISABLE)
 	EndIf
 
-
 	_GUICtrlComboBox_SetCurSel($cmbLvl6, $cmbLvl6Fill)
 	_GUICtrlComboBox_SetCurSel($cmbLvl7, $cmbLvl7Fill)
 	_GUICtrlComboBox_SetCurSel($cmbLvl8, $cmbLvl8Fill)
@@ -2569,6 +2578,8 @@ chkskipDonateNearFulLTroopsEnable()
 	_GUICtrlComboBox_SetCurSel($cmbLvl10, $cmbLvl10Fill)
 	_GUICtrlComboBox_SetCurSel($cmbLvl11, $cmbLvl11Fill)
 	_GUICtrlComboBox_SetCurSel($cmbLvl12, $cmbLvl12Fill)
+	_GUICtrlComboBox_SetCurSel($cmbMinCollectorMatches, $iMinCollectorMatches - 1)
+
 	GUICtrlSetData($sldCollectorTolerance, $toleranceOffset)
 	checkCollectors()
 

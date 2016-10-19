@@ -38,7 +38,6 @@ Func DonateCC($Check = False)
 	Global $iDonTroopsQuantityAv = 0, $iDonTroopsQuantity = 0, $iDonSpellsQuantityAv = 0, $iDonSpellsQuantity = 0
 
 	Global $bSkipDonTroops = False, $bSkipDonSpells = False
-	If SkipDonateNearFullTroops() = True Then Return
 	If $bDonate = False Or $bDonationEnabled = False Then
 		If $debugsetlog = 1 Then Setlog("Donate Clan Castle troops skip", $COLOR_DEBUG)
 		Return ; exit func if no donate checkmarks
@@ -49,6 +48,9 @@ Func DonateCC($Check = False)
 		If $debugsetlog = 1 Then SetLog("Donate Clan Castle troops not planned, Skipped..", $COLOR_DEBUG)
 		Return ; exit func if no planned donate checkmarks
 	EndIf
+
+	If SkipDonateNearFullTroops() = True Then Return
+
 	Local $y = 90
 
 	;check for new chats first

@@ -105,6 +105,9 @@ Func WaitForClouds()
 		applyConfig()
 	EndIf
 
+	; add delay as few clouds might be still on screen (better to check for remaining clouds at top right?)
+	If _Sleep($iDelayGetResources2) Then Return
+
 EndFunc   ;==>WaitForClouds
 
 Func EnableLongSearch()

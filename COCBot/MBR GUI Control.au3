@@ -59,7 +59,7 @@ Global $aTabControlsStrategies[3] = [$hGUI_STRATEGIES_TAB, $hGUI_STRATEGIES_TAB_
 Global $aTabControlsBot[5] = [$hGUI_BOT_TAB, $hGUI_BOT_TAB_ITEM1, $hGUI_BOT_TAB_ITEM2, $hGUI_BOT_TAB_ITEM3, $hGUI_BOT_TAB_ITEM4]
 Global $aTabControlsStats[4] = [$hGUI_STATS_TAB, $hGUI_STATS_TAB_ITEM1, $hGUI_STATS_TAB_ITEM2, $hGUI_STATS_TAB_ITEM3]
 
-Global $aAlwaysEnabledControls[20] = [$chkUpdatingWhenMinimized, $chkHideWhenMinimized, $chkDebugClick, $chkDebugSetlog, $chkDebugOcr, $chkDebugImageSave, $chkdebugBuildingPos, $chkdebugTrain, $chkdebugOCRDonate,$btnTestTrain, $btnTestDonateCC, $btnTestRequestCC, $btnTestAttackBar, $btnTestClickDrag, $btnTestImage, $btnTestTHimgloc, $btnTestTrainsimgloc,$btnTestQuickTrainsimgloc, $chkdebugAttackCSV, $chkmakeIMGCSV]
+Global $aAlwaysEnabledControls[24] = [$chkUpdatingWhenMinimized, $chkHideWhenMinimized, $chkDebugClick, $chkDebugSetlog, $chkDebugDisableZoomout, $chkDebugDisableVillageCentering, $chkDebugOcr, $chkDebugImageSave, $chkdebugBuildingPos, $chkdebugTrain, $chkdebugOCRDonate,$btnTestTrain, $btnTestDonateCC, $btnTestRequestCC, $btnTestAttackBar, $btnTestClickDrag, $btnTestImage, $btnTestVillageSize, $btnTestDeadBase, $btnTestTHimgloc, $btnTestTrainsimgloc,$btnTestQuickTrainsimgloc, $chkdebugAttackCSV, $chkmakeIMGCSV]
 
 Global $frmBot_WNDPROC = 0
 
@@ -399,6 +399,10 @@ Func GUIControl_WM_COMMAND($hWind, $iMsg, $wParam, $lParam)
 			chkDebugClick()
 		Case $chkDebugSetlog
 			chkDebugSetlog()
+		Case $chkDebugDisableZoomout
+			chkDebugDisableZoomout()
+		Case $chkDebugDisableVillageCentering
+			chkDebugDisableVillageCentering()
 		Case $chkDebugOcr
 			chkDebugOcr()
 		Case $chkDebugImageSave
@@ -425,6 +429,10 @@ Func GUIControl_WM_COMMAND($hWind, $iMsg, $wParam, $lParam)
 			btnTestClickDrag()
 		Case $btnTestImage
 			btnTestImage()
+		Case $btnTestVillageSize
+			btnTestVillageSize()
+		Case $btnTestDeadBase
+			btnTestDeadBase()
 		Case $btnTestTHimgloc
 			imglocTHSearch()
 		Case $btnTestTrainsimgloc
@@ -1511,6 +1519,8 @@ If FileExists($config) Or FileExists($building) Then
 EndIf
 If $devmode = 1 Then
 	GUICtrlSetState($chkDebugSetlog, $GUI_SHOW + $GUI_ENABLE)
+	GUICtrlSetState($chkDebugDisableZoomout, $GUI_SHOW + $GUI_ENABLE)
+	GUICtrlSetState($chkDebugDisableVillageCentering, $GUI_SHOW + $GUI_ENABLE)
 	GUICtrlSetState($chkDebugOcr, $GUI_SHOW + $GUI_ENABLE)
 	GUICtrlSetState($chkDebugImageSave, $GUI_SHOW + $GUI_ENABLE)
 	GUICtrlSetState($chkdebugBuildingPos, $GUI_SHOW + $GUI_ENABLE)

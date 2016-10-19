@@ -149,10 +149,86 @@ Func LoadElixirImage50Percent()
 EndFunc   ;==>LoadElixirImage50Percent
 
 Func checkDeadBase()
+
     If $iDeadBaseDisableCollectorsFilter = 1 Then
 		Return True
 	Else
-		Return ZombieSearch2() ; just so it compiles
+		Local $minCollectorLevel = 0
+		Local $maxCollectorLevel = 0
+		Local $anyFillLevel[2] = [False, False] ; 50% and 100%
+		If $debugsetlog = 1 Then SetLog("Checking Deadbase With IMGLOC START", $COLOR_WARNING)
+
+		For $i = 6 To 12
+			Local $e = Eval("chkLvl" & $i & "Enabled")
+			If $e = 1 Then
+				If $minCollectorLevel = 0 Then $minCollectorLevel = $i
+				If $i > $maxCollectorLevel Then $maxCollectorLevel = $i
+				$anyFillLevel[Eval("cmbLvl" & $i & "Fill")] = True
+			EndIf
+		Next
+
+		If $maxCollectorLevel = 0 Then
+			Return True
+		EndIf
+
+		If $debugsetlog = 1 Then SetLog("Checking Deadbase With IMGLOC START", $COLOR_WARNING)
+
+		Local $TotalMatched = 0
+		Local $Matched[2] = [0, 0]
+		Local $aPoints[0]
+
+		$Matched[0] = imglocIsDeadBase($aPoints, 100, $minCollectorLevel, $maxCollectorLevel, True) ; try full collectors fisrt
+		If $Matched[0] > 0 Then $TotalMatched += $Matched[0]
+
+		If $TotalMatched < $iMinCollectorMatches And $anyFillLevel[0] = True then ;retry with imgloc 50% Fill collectors
+			$Matched[1] = imglocIsDeadBase($aPoints, 50, $minCollectorLevel, $maxCollectorLevel, True) ; try >half full collectors seccond
+			If $Matched[1] > 0 Then $TotalMatched += $Matched[1]
+		EndIf
+
+		If $TotalMatched > $iMinCollectorMatches Then
+			If $debugsetlog = 1 Then SetLog("IMGLOC : FOUND DEADBASE !!! Matched: " & $TotalMatched & "/" & $iMinCollectorMatches & ": " & UBound($aPoints), $COLOR_GREEN)
+			Return True
+		EndIf
+
+		If $debugsetlog = 1 Then
+			If $Matched[0] = -1 And $Matched[1] = -1 Then
+				SetLog("IMGLOC : NOT A DEADBASE!!! ", $COLOR_INFO)
+			Else
+				SetLog("IMGLOC : DEADBASE NOT MATCHED Matched: " & $TotalMatched & "/" & $iMinCollectorMatches , $COLOR_WARNING)
+			EndIf
+		EndIF
+		Return False
+#cs
+		Local $isZombie = ZombieSearch2() ; just so it compiles
+		$tempdead = $isZombie
+		If $tempdead  = False then ;try with imgloc if regular deadbase fails
+			If $debugsetlog = 1 Then SetLog("ZombieSearch returned FALSE, Checking Deadbase With IMGLOC START", $COLOR_WARNING)
+			$tempdead = imglocIsDeadBase(100) ; try full collectors fisrt
+			If $tempdead = False then ;retry with imgloc 50% Fill collectors
+				$tempdead = imglocIsDeadBase(50) ; try >half full collectors seccond
+			EndIf
+			If $debugsetlog = 1 and $tempdead = True Then DebugImageSave("IMGLOCDEADBASE_regNonMatched", False)
+			If $debugsetlog = 1 Then SetLog("DebugDeadEnable, Regular / IMGLOC  DeadBase Check Mismatch Return : " & $isZombie & "/" & $tempdead , $COLOR_WARNING)
+			$isZombie = $tempdead
+		Else
+		 ;CheckZombie already marked as deadbase, but want to recheck with imgloc also when debugdead is enabled
+			If $debugsetlog = 1 Then
+				If $debugsetlog = 1 Then SetLog("ZombieSearch returned TRUE, ReChecking Deadbase With IMGLOC START", $COLOR_WARNING)
+				$tempdead = imglocIsDeadBase(100) ; try full collectors fisrt
+				If $tempdead = False then ;retry with imgloc 50% Fill collectors
+					If $tempdead = False Then SetLog("DebugDeadEnable, Rechecking IMGLOC 100 : NOTFOUND", $COLOR_WARNING)
+					$tempdead = imglocIsDeadBase(50) ; try >half full collectors seccond
+					If $tempdead = False Then SetLog("DebugDeadEnable, Rechecking IMGLOC 50 : NOTFOUND", $COLOR_WARNING)
+				EndIf
+				if $isZombie <>  $tempdead then
+					SetLog("DebugDeadEnable, Regular / IMGLOC Deadbase MisMatch Check Return : " & $isZombie & "/" & $tempdead , $COLOR_WARNING)
+					If $debugsetlog = 1 Then DebugImageSave("IMGLOCDEADBASE_NOTDEADBASE", False)
+				EndIf
+				If $debugsetlog = 1 Then SetLog(">>> DebugDeadEnable, Rechecking also with IMGLOC END ", $COLOR_WARNING)
+			EndIf
+		EndIf
+		return $isZombie
+#ce
 	EndIf
 EndFunc   ;==>checkDeadBase
 
@@ -510,3 +586,82 @@ Func SaveStatChkDeadBase()
 	EndIf
 	FileClose($hFile)
 EndFunc   ;==>SaveStatChkDeadBase
+
+Func GetCollectorIndexByFillLevel($level)
+	If Number($level) >= 85 Then Return 1
+	Return 0
+EndFunc   ;==>GetCollectorIndexByFillLevel
+
+Func imglocIsDeadBase(ByRef $aPos, $FillLevel = 100, $minCollectorLevel = 0, $maxCollectorLevel = 1000, $CheckConfig = False)
+	;only supports 50 and 100
+    ;accepts "regular,dark,spells"
+	;returns array with all found objects
+	Local $sCocDiamond = "ECD" ;
+	Local $redLines = $IMGLOCREDLINE; if TH was Search then redline is set!
+	Local $minLevel = $minCollectorLevel  ; We only support TH6+
+	Local $maxLevel = $maxCollectorLevel
+	Local $maxReturnPoints = 0 ; all positions
+	Local $returnProps="objectname,objectpoints,objectlevel"
+	Local $sDirectory = @ScriptDir & "\imgxml\deadbase\elix\" & $FillLevel & "\"
+	Local $bForceCapture = True ; force CaptureScreen
+	;aux data
+	Local $matchedValues
+	Local $TotalMatched = 0
+	Local $fillIndex = GetCollectorIndexByFillLevel($FillLevel)
+
+	If $debugsetlog = 1 Then SetLog("IMGLOC : Searching Deadbase for FillLevel/MinLevel/MaxLevel: " & $FillLevel & "/" & $minLevel & "/" & $maxLevel & " using "&  $sDirectory, $COLOR_INFO)
+
+	Local $result = findMultiple($sDirectory ,$sCocDiamond ,$redLines, $minLevel, $maxLevel, $maxReturnPoints , $returnProps, $bForceCapture)
+	If IsArray($result) then
+		For $matchedValues In $result
+			Local $aPoints = StringSplit($matchedValues[1], "|", $STR_NOCOUNT); multiple points splited by | char
+			Local $found = Ubound($aPoints)
+
+			If $CheckConfig = True Then
+				Local $level = Number($matchedValues[2])
+				Local $e = Eval("chkLvl" & $level & "Enabled")
+				If $e = 1 Then
+					If $fillIndex < Eval("cmbLvl" & $level & "Fill") Then
+						; collector fill level not reached
+						$found = 0
+					EndIf
+				Else
+					; collector is not enabled
+					$found = 0
+				EndIf
+			EndIf
+
+			If $found > 0 Then
+				For $sPoint in $aPoints
+					Local $aP = StringSplit($sPoint, ",", $STR_NOCOUNT)
+					Local $bSkipPoint = False
+					For $bP in $aPos
+						Local $a = $aP[1] - $bP[1]
+						Local $b = $aP[0] - $bP[0]
+						Local $c = Sqrt($a * $a + $b * $b)
+						If $c < 25 Then
+							; duplicate point: skip
+							If $debugsetlog = 1 Then SetLog("IMGLOC : Searching Deadbase ignore duplicate collector " & $matchedValues[0] & " at " & $aP[0] & ", " & $aP[1], $COLOR_INFO)
+							$bSkipPoint = True
+							$found -= 1
+							ExitLoop
+						EndIf
+					Next
+					If $bSkipPoint = False Then
+						Local $i = UBound($aPos)
+						ReDim $aPos[$i + 1]
+						$aPos[$i] = $aP
+					EndIf
+				Next
+
+			EndIf
+
+			$TotalMatched += $found
+		Next
+	Else
+		$TotalMatched = -1
+	EndIf
+
+	Return $TotalMatched
+
+EndFunc

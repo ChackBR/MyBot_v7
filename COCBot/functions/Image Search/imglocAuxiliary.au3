@@ -13,7 +13,6 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
-
 Func decodeMultipleCoords($coords)
 	;returns array of N coordinates [0=x, 1=y][0=x1, 1=y1]
 	Local $retCoords[1] =[""]
@@ -28,13 +27,11 @@ Func decodeMultipleCoords($coords)
 		$p=0
 	endif
 
-
 	For $p=0 to Ubound($retCoords)-1
 		$retCoords[$p] = decodeSingleCoord($aCoordsSplit[$p+1])
 	Next
 	Return $retCoords
-EndFunc
-
+EndFunc   ;==>decodeMultipleCoords
 
 Func decodeSingleCoord($coords)
 	;returns array with 2 coordinates 0=x, 1=y
@@ -49,8 +46,7 @@ Func returnImglocProperty($key, $property)
 		return ""
 	EndIf
 	Return $aValue[0]
-EndFunc   ;==>getProperty
-
+EndFunc   ;==>returnImglocProperty
 
 Func checkImglocError( $imglocvalue , $funcName)
 	;Return true if there is an error in imgloc return string
@@ -69,9 +65,7 @@ Func checkImglocError( $imglocvalue , $funcName)
 		If $DebugSetlog = 1 Then SetLog($funcName & " - Imgloc  Error: Not an Array Result" , $COLOR_RED)
 		Return True
 	EndIF
-EndFunc
-
-
+EndFunc   ;==>checkImglocError
 
 Func findButton($sButtonName,$buttonTile, $maxReturnPoints = 1, $bForceCapture = True )
 
@@ -123,7 +117,6 @@ Func findButton($sButtonName,$buttonTile, $maxReturnPoints = 1, $bForceCapture =
 
 EndFunc   ;==>findButton
 
-
 Func GetButtonDiamond($sButtonName )
 	Local $btnDiamond = "FV"
 
@@ -169,10 +162,7 @@ Func GetButtonDiamond($sButtonName )
 			$btnDiamond = "FV" ; use full image to locate button
 	EndSwitch
 	Return $btnDiamond
-EndFunc
-
-
-
+EndFunc   ;==>GetButtonDiamond
 
 Func findImage($sImageName, $sImageTile ,$sImageArea , $maxReturnPoints = 1, $bForceCapture = True )
 	; same has findButton, but allow custom area instead of button area decoding
@@ -203,7 +193,6 @@ Func findImage($sImageName, $sImageTile ,$sImageArea , $maxReturnPoints = 1, $bF
 		SetError(2, $extError , $aCoords)  ; Set external error code = 2 for DLL error
 		Return
 	EndIF
-
 
 	If checkImglocError( $result, "findImage" ) = True Then
 		If $DebugSetlog = 1 Then SetLog("findImage Returned Error or No values : ", $COLOR_DEBUG)
@@ -275,7 +264,7 @@ Func findMultiple($directory ,$sCocDiamond ,$redLines, $minLevel=0, $maxLevel=10
 
 	If $result[0] <> "" Then  ;despite being a string, AutoIt receives a array[0]
 			Local $resultArr = StringSplit($result[0],"|",$STR_NOCOUNT)
-			Redim $returnValues[ Ubound($resultArr)]
+			Redim $returnValues[Ubound($resultArr)]
 			For $rs=0 to ubound($resultArr)-1
 				For $rD=0 to Ubound($returnData)-1 ; cycle props
 					$returnLine[$rD] = returnImglocProperty($resultArr[$rs],$returnData[$rD])
@@ -298,10 +287,7 @@ Func findMultiple($directory ,$sCocDiamond ,$redLines, $minLevel=0, $maxLevel=10
 		Return ""
 	EndIF
 
-EndFunc   ;==>findImage
-
-
-
+EndFunc   ;==>findMultiple
 
 Func GetDiamondFromRect($rect)
 	;receives "StartX,StartY,EndX,EndY"
@@ -321,8 +307,7 @@ Func GetDiamondFromRect($rect)
 	$returnvalue = $DiamdValues[0] & "|" & $DiamdValues[1] & "|" & $DiamdValues[2] & "|" & $DiamdValues[3]
 	If $DebugSetlog = 1 Then SetLog("GetDiamondFromRect : < " & $returnvalue, $COLOR_INFO)
 	Return $returnvalue
-EndFunc
-
+EndFunc   ;==>GetDiamondFromRect
 
 Func FindImageInPlace($sImageName, $sImageTile,$place)
 	;creates a reduced capture of the place area a finds the image in that area
@@ -341,8 +326,7 @@ Func FindImageInPlace($sImageName, $sImageTile,$place)
 	$returnvalue = Number($aCoords[0]) + Number($aPlaces[0]) & "," & Number($aCoords[1]) + Number($aPlaces[1])
 	If $DebugSetlog = 1 Then SetLog("FindImageInPlace : < " & $sImageName & " Found in " & $returnvalue , $COLOR_INFO)
 	Return  $returnvalue
-EndFunc
-
+EndFunc   ;==>FindImageInPlace
 
 Func decodeTroopEnum($tEnum)
 Switch $tEnum
@@ -414,11 +398,10 @@ Switch $tEnum
  		Return "Castle"
  	EndSwitch
 
-EndFunc
-
+EndFunc   ;==>decodeTroopEnum
 
 Func GetDummyRectangle($sCoords,$ndistance)
 	;creates a dummy rectangle to be used by Reduced Image Capture
 	Local $aCoords = StringSplit($sCoords,",",$STR_NOCOUNT)
 	return Number($aCoords[0])-$nDistance & "," & Number($aCoords[1])-$nDistance & "," & Number($aCoords[0])+$nDistance & "," & Number($aCoords[1])+$nDistance
-EndFunc
+EndFunc   ;==>GetDummyRectangle

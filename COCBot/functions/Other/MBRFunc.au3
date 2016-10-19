@@ -66,3 +66,34 @@ Func setAndroidPID($pid)
 		SetDebugLog("MBRfunctions.dll not found.", $COLOR_ERROR)
 	EndIf
 EndFunc   ;==>setAndroidPID
+
+Func setVillageOffset($x, $y, $z)
+	DllCall($hFuncLib, "str", "setVillageOffset", "int", $x, "int", $y, "float", $z)
+	$VILLAGE_OFFSET[0] = $x
+	$VILLAGE_OFFSET[1] = $y
+	$VILLAGE_OFFSET[2] = $z
+EndFunc   ;==>setVillageOffset
+
+Func ConvertVillagePos(ByRef $x, ByRef $y, $zoomfactor = 0)
+	Local $result = DllCall($hFuncLib, "str", "ConvertVillagePos", "int", $x, "int", $y, "float", $zoomfactor)
+	Local $a = StringSplit($result[0], "|")
+	If UBound($a) < 3 Then Return
+	$x = Int($a[1])
+	$y = Int($a[2])
+EndFunc   ;==>ConvertVillagePos
+
+Func ConvertToVillagePos(ByRef $x, ByRef $y, $zoomfactor = 0)
+	Local $result = DllCall($hFuncLib, "str", "ConvertToVillagePos", "int", $x, "int", $y, "float", $zoomfactor)
+	Local $a = StringSplit($result[0], "|")
+	If UBound($a) < 3 Then Return
+	$x = Int($a[1])
+	$y = Int($a[2])
+EndFunc   ;==>ConvertToVillagePos
+
+Func ConvertFromVillagePos(ByRef $x, ByRef $y)
+	Local $result = DllCall($hFuncLib, "str", "ConvertFromVillagePos", "int", $x, "int", $y)
+	Local $a = StringSplit($result[0], "|")
+	If UBound($a) < 3 Then Return
+	$x = Int($a[1])
+	$y = Int($a[2])
+EndFunc   ;==>ConvertFromVillagePos

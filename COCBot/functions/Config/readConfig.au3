@@ -25,8 +25,12 @@ Func readConfig($inputfile = $config, $partial = False) ;Reads config and sets i
 		Local $locationsInvalid = False
 		Local $buildingVersion = "0.0.0"
 		IniReadS($buildingVersion, $building, "general", "version", $buildingVersion)
-		If $buildingVersion < GetVersionNormalized($sBotVersion) Then
-			SetLog("New MyBot.run version! Re-select all building!", $COLOR_WARNING)
+		Local $_ver630 = GetVersionNormalized("6.3.0")
+		Local $_ver63u = GetVersionNormalized("6.3.u")
+		Local $_ver63u3 = GetVersionNormalized("6.3.u3")
+		If $buildingVersion < $_ver630 _
+		Or ($buildingVersion >= $_ver63u And $buildingVersion <= $_ver63u3) Then
+			SetLog("New MyBot.run version! Re-locate all buildings!", $COLOR_WARNING)
 			$locationsInvalid = True
 		EndIf
 
@@ -699,6 +703,8 @@ Func readConfig($inputfile = $config, $partial = False) ;Reads config and sets i
 		$DebugClick = BitOR($DebugClick, Int(IniRead($config, "debug", "debugsetclick", "0")))
 		If $DevMode = 1 Then
 			$DebugSetlog = BitOR($DebugSetlog, Int(IniRead($config, "debug", "debugsetlog", "0")))
+			$DebugDisableZoomout = BitOR($DebugDisableZoomout, Int(IniRead($config, "debug", "disablezoomout", "0")))
+			$DebugDisableVillageCentering = BitOR($DebugDisableVillageCentering, Int(IniRead($config, "debug", "disablevillagecentering", "0")))
 			$DebugOcr = BitOR($DebugOcr, Int(IniRead($config, "debug", "debugocr", "0")))
 			$DebugImageSave = BitOR($DebugImageSave, Int(IniRead($config, "debug", "debugimagesave", "0")))
 			$debugBuildingPos = BitOR($debugBuildingPos, Int(IniRead($config, "debug", "debugbuildingpos", "0")))
@@ -987,21 +993,30 @@ Func readConfig($inputfile = $config, $partial = False) ;Reads config and sets i
 		; Extra Alphabets , Cyrillic.
 		$ichkExtraAlphabets = IniRead($config, "donate", "chkExtraAlphabets", "0")
 
-		InireadS($chkLvl6Enabled, $config, "collectors", "lvl6Enabled", "1", "Int")
+		;InireadS($chkLvl6Enabled, $config, "collectors", "lvl6Enabled", "0", "Int")
+		$chkLvl6Enabled = 0
 		InireadS($chkLvl7Enabled, $config, "collectors", "lvl7Enabled", "1", "Int")
 		InireadS($chkLvl8Enabled, $config, "collectors", "lvl8Enabled", "1", "Int")
 		InireadS($chkLvl9Enabled, $config, "collectors", "lvl9Enabled", "1", "Int")
 		InireadS($chkLvl10Enabled, $config, "collectors", "lvl10Enabled", "1", "Int")
 		InireadS($chkLvl11Enabled, $config, "collectors", "lvl11Enabled", "1", "Int")
 		InireadS($chkLvl12Enabled, $config, "collectors", "lvl12Enabled", "1", "Int")
-		InireadS($cmbLvl6Fill, $config, "collectors", "lvl6fill", "2")
-		InireadS($cmbLvl7Fill, $config, "collectors", "lvl7fill", "2")
-		InireadS($cmbLvl8Fill, $config, "collectors", "lvl8fill", "2")
-		InireadS($cmbLvl9Fill, $config, "collectors", "lvl9fill", "1")
+		InireadS($cmbLvl6Fill, $config, "collectors", "lvl6fill", "0")
+		If $cmbLvl6Fill > 1 Then $cmbLvl6Fill = 1
+		InireadS($cmbLvl7Fill, $config, "collectors", "lvl7fill", "0")
+		If $cmbLvl7Fill > 1 Then $cmbLvl7Fill = 1
+		InireadS($cmbLvl8Fill, $config, "collectors", "lvl8fill", "0")
+		If $cmbLvl8Fill > 1 Then $cmbLvl8Fill = 1
+		InireadS($cmbLvl9Fill, $config, "collectors", "lvl9fill", "0")
+		If $cmbLvl9Fill > 1 Then $cmbLvl9Fill = 1
 		InireadS($cmbLvl10Fill, $config, "collectors", "lvl10fill", "0")
+		If $cmbLvl10Fill > 1 Then $cmbLvl10Fill = 1
 		InireadS($cmbLvl11Fill, $config, "collectors", "lvl11fill", "0")
+		If $cmbLvl11Fill > 1 Then $cmbLvl11Fill = 1
 		InireadS($cmbLvl12Fill, $config, "collectors", "lvl12fill", "0")
+		If $cmbLvl12Fill > 1 Then $cmbLvl12Fill = 1
 		InireadS($toleranceOffset, $config, "collectors", "tolerance", "0")
+		InireadS($iMinCollectorMatches, $config, "collectors", "minmatches", "3") ; 1-6 collectors
 
 		; Android Configuration
 		$AndroidAutoAdjustConfig = IniRead($config, "android", "auto.adjust.config", ($AndroidAutoAdjustConfig ? "1" : "0")) = "1" ; if enabled, best android options are configured

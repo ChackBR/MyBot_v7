@@ -74,7 +74,10 @@ Func LocateUpgrades()
 					If isInsideDiamondXY($aUpgrades[$icount][0], $aUpgrades[$icount][1]) Then ; Check value to make sure its valid.
 						Local $bMarkerDrawn = False
 						If $hGraphic <> 0 Then
-							$bMarkerDrawn = _GDIPlus_GraphicsDrawEllipse($hGraphic, $aUpgrades[$icount][0] - 10 + $VILLAGE_OFFSET_X, $aUpgrades[$icount][1] - 10 + $VILLAGE_OFFSET_Y, 20, 20, $hPen)
+							Local $xUpgrade = $aUpgrades[$icount][0]
+							Local $yUpgrade = $aUpgrades[$icount][1]
+							ConvertToVillagePos($xUpgrade, $yUpgrade)
+							$bMarkerDrawn = _GDIPlus_GraphicsDrawEllipse($hGraphic, $xUpgrade - 10, $yUpgrade - 10, 20, 20, $hPen)
 							AndroidGraphicsGdiUpdate()
 						EndIf
 						SetDebugLog("Updgrade #" & $icount & " added at " & $aUpgrades[$icount][0] & "/" & $aUpgrades[$icount][1] & ", marker drawn: " & $bMarkerDrawn)

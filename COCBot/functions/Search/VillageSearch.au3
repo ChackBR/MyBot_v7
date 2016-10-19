@@ -24,6 +24,9 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 		If DirGetSize(@ScriptDir & "\Zombies\") = -1 Then DirCreate(@ScriptDir & "\Zombies\")
 	EndIf
 
+	; cleanup some vars used by imgloc just in case. usend in TH and DeadBase ( imgloc functions)
+	ResetTHsearch()
+
 	If $Is_ClientSyncError = False Then
 		For $i = 0 To $iModeCount - 1
 			$iAimGold[$i] = $iMinGold[$i]
@@ -371,6 +374,8 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 
 	WEnd ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;### Main Search Loop End ###;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+	; center village
+	SearchZoomOut(Default, False)
 
 	;--- show buttons attacknow ----
 	If $bBtnAttackNowPressed = True Then

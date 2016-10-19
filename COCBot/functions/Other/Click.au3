@@ -79,11 +79,19 @@ Func ClickP($point, $howMuch = 1, $speed = 0, $debugtxt = "")
 EndFunc   ;==>ClickP
 
 Func BuildingClick($x, $y, $debugtxt = "")
-	Return Click($x + $VILLAGE_OFFSET_X, $y + $VILLAGE_OFFSET_Y, 1, 0, $debugtxt)
+	Local $point[2] = [$x, $y]
+	ConvertToVillagePos($x, $y)
+	If $debugClick = 1 Then
+		Local $txt = _DecodeDebug($debugtxt)
+		SetLog("BuildingClick " & $point[0] & "," & $point[1] & " converted to " & $x & "," & $y & " " & $debugtxt & $txt, $COLOR_ACTION)
+	EndIf
+	Return Click($x, $y, 1, 0, $debugtxt)
 EndFunc   ;==>BuildingClick
 
 Func BuildingClickP($point, $debugtxt = "")
-	Return Click($point[0] + $VILLAGE_OFFSET_X, $point[1] + $VILLAGE_OFFSET_Y, 1, 0, $debugtxt)
+	Local $x = $point[0]
+	Local $y = $point[1]
+	Return BuildingClick($x, $y, $debugtxt)
 EndFunc   ;==>BuildingClickP
 
 Func PureClick($x, $y, $times = 1, $speed = 0, $debugtxt = "")

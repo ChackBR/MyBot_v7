@@ -637,6 +637,16 @@ Func saveConfig() ;Saves the controls settings to the config
 		Else
 			$DebugSetlog = 0
 		EndIf
+		If GUICtrlRead($chkDebugDisableZoomout) = $GUI_CHECKED Then
+			$debugDisableZoomout = 1
+		Else
+			$debugDisableZoomout = 0
+		EndIf
+		If GUICtrlRead($chkDebugDisableVillageCentering) = $GUI_CHECKED Then
+			$debugDisableVillageCentering = 1
+		Else
+			$debugDisableVillageCentering = 0
+		EndIf
 		If GUICtrlRead($chkDebugOcr) = $GUI_CHECKED Then
 			$debugOcr = 1
 		Else
@@ -2326,6 +2336,8 @@ Func saveConfig() ;Saves the controls settings to the config
 	IniWriteS($config, "debug", "debugsetclick", $debugClick)
 	If $devmode = 1 Then
 		IniWriteS($config, "debug", "debugsetlog", $DebugSetlog)
+		IniWriteS($config, "debug", "disablezoomout", $debugDisableZoomout)
+		IniWriteS($config, "debug", "disablevillagecentering", $debugDisableVillageCentering)
 		IniWriteS($config, "debug", "debugocr", $debugOcr)
 		IniWriteS($config, "debug", "debugimagesave", $DebugImageSave)
 		IniWriteS($config, "debug", "debugbuildingpos", $debugBuildingPos)
@@ -2454,6 +2466,7 @@ Func saveConfig() ;Saves the controls settings to the config
 	IniWriteS($config, "collectors", "lvl10fill", $cmbLvl10Fill)
 	IniWriteS($config, "collectors", "lvl11fill", $cmbLvl11Fill)
 	IniWriteS($config, "collectors", "lvl12fill", $cmbLvl12Fill)
+	IniWriteS($config, "collectors", "minmatches", $iMinCollectorMatches)
 	IniWriteS($config, "collectors", "tolerance", $toleranceOffset)
 
 	; Android Configuration
