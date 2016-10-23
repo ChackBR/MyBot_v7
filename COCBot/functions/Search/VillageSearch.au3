@@ -205,6 +205,7 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 			SetLog("      " & "Dead Base Found!", $COLOR_SUCCESS, "Lucida Console", 7.5)
 			$logwrited = True
 			$iMatchMode = $DB
+
 			; No League Search
 			If $iChkMeetOne[$DB] = 0 Then
 				If $iChkNoLeague[$DB] = 1 Then
@@ -221,6 +222,7 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 			SetLog($GetResourcesTXT, $COLOR_SUCCESS, "Lucida Console", 7.5)
 			SetLog("      " & "Live Base Found!", $COLOR_SUCCESS, "Lucida Console", 7.5)
 			$logwrited = True
+
 			; No League Search
 			If $iChkMeetOne[$LB] = 0 Then
 				If $iChkNoLeague[$LB] = 1 Then
