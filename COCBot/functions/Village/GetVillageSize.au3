@@ -48,12 +48,12 @@ Func GetVillageSize()
 
 	For $i = 1 To $aStoneFiles[0]
 		$findImage = $aStoneFiles[$i]
-		$a = StringRegExp($findImage, ".*-(\d+)-(\d+)-(\d+)_.*[.](xml|png|bmp)$", $STR_REGEXPARRAYMATCH)
+		$a = StringRegExp($findImage, ".*-(\d+)-(\d+)-(\d*,*\d+)_.*[.](xml|png|bmp)$", $STR_REGEXPARRAYMATCH)
 		If UBound($a) = 4 Then
 
 			$x0 = $a[0]
 			$y0 = $a[1]
-			$d0 = $a[2]
+			$d0 = StringReplace($a[2], ",", ".")
 
 			$x1 = $x0 - $iAdditional
 			$y1 = $y0 - $iAdditional
@@ -86,12 +86,12 @@ Func GetVillageSize()
 
 	For $i = 1 To $aTreeFiles[0]
 		$findImage = $aTreeFiles[$i]
-		$a = StringRegExp($findImage, ".*-(\d+)-(\d+)-(\d+)_.*[.](xml|png|bmp)$", $STR_REGEXPARRAYMATCH)
+		$a = StringRegExp($findImage, ".*-(\d+)-(\d+)-(\d*,*\d+)_.*[.](xml|png|bmp)$", $STR_REGEXPARRAYMATCH)
 		If UBound($a) = 4 Then
 
 			$x0 = $a[0]
 			$y0 = $a[1]
-			$d0 = $a[2]
+			$d0 = StringReplace($a[2], ",", ".")
 
 			$x1 = $x0 - $iAdditional
 			$y1 = $y0 - $iAdditional

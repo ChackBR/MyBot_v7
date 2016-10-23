@@ -66,13 +66,24 @@ Global $ichkDisableSplash = 0 ; Splash screen disabled = 1
 ;debugging
 Global $debugDisableZoomout = 0
 Global $debugDisableVillageCentering = 0
-Global $debugSearchArea = 0, $debugOcr = 0, $debugRedArea = 0, $debugSetlog = 0, $debugDeadBaseImage = 0, $debugImageSave = 0, $debugWalls = 0, $debugBuildingPos = 0, $debugVillageSearchImages = 0
+Global $debugDeadBaseImage = 1 ; Enable collection of zombies (capture screenshot of detect DeadBase routine)
+; Enabled saving of enemy villages when deadbase is active
+Global $aZombie = ["" _ ; 0=Filename
+	, 0 _  ; 1=Raided Elixir
+	, 0 _  ; 2=Available Elixir
+	, 0 _  ; 3=# of matched collectod
+	, 0 _  ; 4=Search #
+	, "" _ ; 5=timestamp
+	, 30 _ ; 6=Delete screenshot when Elixir capture percentage was >= value (-1 for disable)
+	, 300 _; 7=Save screenshot when skipped DeadBase and available Exlixir in k is >= value and no filled Elixir Storage found (-1 for disable)
+]
+Global $debugSearchArea = 0, $debugOcr = 0, $debugRedArea = 0, $debugSetlog = 0, $debugImageSave = 0, $debugWalls = 0, $debugBuildingPos = 0, $debugVillageSearchImages = 0
 Global $debugAttackCSV = 0, $makeIMGCSV = 0 ;attackcsv debug
 Global $debugMultilanguage = 0
 Global $debugsetlogTrain = 0
 Global $debugGetLocation = 0 ;make a image of each structure detected with getlocation
 Global $debugOCRdonate = 0 ; when 1 make OCR and simulate but do not donate
-Global $debugAndroidEmbedded = 1
+Global $debugAndroidEmbedded = 0
 Global $debugWindowMessages = 0 ; 0=off, 1=most Window Messages, 2=all Window Messages
 
 Global Const $COLOR_ORANGE = 0xFF7700  ; Used for donate GUI buttons

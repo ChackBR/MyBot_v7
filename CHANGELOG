@@ -1,4 +1,17 @@
-﻿* **V6.3.u4** (CoC October Update BETA Version)
+﻿* **V6.3.u5** (CoC October Update BETA Version)
+ * Add Android support for BlueStacks 1.x
+ * Update imgloc debug fixes and village centering fixes
+ * Improve deadbase images using new images and logic
+ * Improved "zombie" option to save screenshot of attacking village for better post DB detection analysis
+ * Fix centering of attacking village that happened to deploy troops sometimes
+ * Fix centering of home village that happened to click clan wars button sometimes
+ * Fix centering/zoomout of village when obstacles block fix points
+ * Fix Android startup when unusable instance found and bot not closing correctly
+ * Fix returning to home village during attack at search count 99
+ * Fix Ctrl-MouseWheel zoom for BlueStacks/BlueStacks2 when docked
+ * Fix bot smartwait that still check for Android existence when closed
+
+* **V6.3.u4** (CoC October Update BETA Version)
  * Replace deadbase check using imgloc for collector levels 7-12 with 50% and 100% fill levels
  * Add centering of attacking village
  * Fix entire village coordination calculation to compensate different zoom-out levels and village location

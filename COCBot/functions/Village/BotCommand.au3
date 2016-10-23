@@ -118,7 +118,7 @@ Func BotCommand()
 				Case 3
 					SetLog("Close Android and Bot as requested!!", $COLOR_INFO)
 					If _Sleep($iDelayBotCommand1) Then Return
-					CloseAndroid()
+					CloseAndroid("BotCommand")
 					BotClose()
 					Return True ; HaHa - No Return possible!
 				Case 4

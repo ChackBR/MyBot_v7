@@ -69,7 +69,7 @@ Func waitMainScreen() ;Waits for main screen to popup
 		If Not $RunState Then Return
 		SetLog("Unable to load CoC, attempt to fix it...", $COLOR_ERROR)
 		If $debugsetlog = 1 Then Setlog("Restart Loop = " & $iCount, $COLOR_DEBUG) ; Debug stuck loop data
-		CloseAndroid() ; BS must die!
+		CloseAndroid("waitMainScreen") ; Android must die!
 		If _Sleep(1000) Then Return
 		OpenAndroid(True) ; Open BS and restart CoC
 		If @extended Then

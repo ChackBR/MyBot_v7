@@ -371,8 +371,16 @@ Func AndroidOnlyZoomOut() ;Zooms out
 	Return False
 EndFunc   ;==>AndroidOnlyZoomOut
 
-Func SearchZoomOut($bCenterVillage = Default, $UpdateMyVillage = True)
+Func SearchZoomOut($CenterVillageBoolOrScrollPos = $aCenterHomeVillageClickDrag, $UpdateMyVillage = True, $sSource = "")
+	If $sSource <> "" Then $sSource = " (" & $sSource & ")"
+	Local $bCenterVillage = $CenterVillageBoolOrScrollPos
 	If $bCenterVillage = Default Or $debugDisableVillageCentering = 1 Then $bCenterVillage = ($debugDisableVillageCentering = 0)
+	Local $aScrollPos[2] = [0, 0]
+	If UBound($CenterVillageBoolOrScrollPos) >= 2 Then
+		$aScrollPos[0] = $CenterVillageBoolOrScrollPos[0]
+		$aScrollPos[1] = $CenterVillageBoolOrScrollPos[1]
+		$bCenterVillage = ($debugDisableVillageCentering = 0)
+	EndIf
 	; Setup arrays, including default return values for $return
 	Local $x, $y, $z, $stone[2]
 	Local $villageSize = 0
@@ -400,17 +408,21 @@ Func SearchZoomOut($bCenterVillage = Default, $UpdateMyVillage = True)
 			$aResult[2] = $y
 
 			If $bCenterVillage = True And ($x <> 0 Or $y <> 0) And ($UpdateMyVillage = False Or $x <> $VILLAGE_OFFSET[0] Or $y <> $VILLAGE_OFFSET[1]) Then
-				SetDebugLog("Center Village by: " & $x & ", " & $y)
-				ClickDrag($stone[0], $stone[1], $stone[0] - $x, $stone[1] - $y)
+				SetDebugLog("Center Village" & $sSource & " by: " & $x & ", " & $y)
+				If $aScrollPos[0] = 0 And $aScrollPos[1] = 0 Then
+					$aScrollPos[0] = $stone[0]
+					$aScrollPos[1] = $stone[1]
+				EndIf
+				ClickDrag($aScrollPos[0], $aScrollPos[1], $aScrollPos[0] - $x, $aScrollPos[1] - $y)
 				If _Sleep(250) Then Return $aResult
 				$aResult = SearchZoomOut(False, $UpdateMyVillage)
-				SetDebugLog("Centered Village Offset: " & $aResult[1] & ", " & $aResult[2])
+				SetDebugLog("Centered Village Offset" & $sSource & ": " & $aResult[1] & ", " & $aResult[2])
 				Return $aResult
 			EndIf
 
 			If $UpdateMyVillage = True Then
 				If $x <> $VILLAGE_OFFSET[0] Or $y <> $VILLAGE_OFFSET[1] Or $z <> $VILLAGE_OFFSET[2] Then
-					SetDebugLog("Village Offset updated to " & $x & ", " & $y & ", " & $z)
+					SetDebugLog("Village Offset" & $sSource & " updated to " & $x & ", " & $y & ", " & $z)
 				EndIf
 				setVillageOffset($x, $y, $z)
 			EndIf
@@ -422,8 +434,8 @@ Func SearchZoomOut($bCenterVillage = Default, $UpdateMyVillage = True)
 			If $SearchZoomOutCounter[0] > 20 Then
 				$SearchZoomOutCounter[0] = 0
 				;CloseCoC(True)
-				SetLog("Restart CoC to reset zoom...", $COLOR_INFO)
-				PoliteCloseCoC("Zoomout")
+				SetLog("Restart CoC to reset zoom" & $sSource & "...", $COLOR_INFO)
+				PoliteCloseCoC("Zoomout" & $sSource)
 				If _Sleep(1000) Then Return
 				CloseCoC() ; ensure CoC is gone
 				OpenCoC()

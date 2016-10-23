@@ -69,6 +69,7 @@ EndFunc   ;==>setAndroidPID
 
 Func setVillageOffset($x, $y, $z)
 	DllCall($hFuncLib, "str", "setVillageOffset", "int", $x, "int", $y, "float", $z)
+	DllCall($pImgLib , "str", "setVillageOffset", "int", $x, "int", $y, "float", $z) ;set values in imgloc also
 	$VILLAGE_OFFSET[0] = $x
 	$VILLAGE_OFFSET[1] = $y
 	$VILLAGE_OFFSET[2] = $z

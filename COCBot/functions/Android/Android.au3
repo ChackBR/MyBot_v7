@@ -637,7 +637,8 @@ Func _OpenAndroid($bRestart = False)
 
 	; Close crashed android when $AndroidBackgroundLaunch = False
 	If $AndroidBackgroundLaunch = False And WinGetAndroidHandle(Default, True) <> 0 Then
-		CloseAndroid()
+		CloseAndroid("_OpenAndroid")
+		If _Sleep(1000) Then Return False
 	EndIf
 
 	If Not Execute("Open" & $Android & "(" & $bRestart & ")") Then Return False
@@ -723,10 +724,11 @@ Func RestartAndroidCoC($bInitAndroid = True, $bRestart = True)
 	Return True
 EndFunc   ;==>RestartAndroidCoC
 
-Func CloseAndroid()
+Func CloseAndroid($sSource)
 	ResumeAndroid()
 
 	SetLog("Stopping " & $Android & "....", $COLOR_INFO)
+	SetDebugLog("CloseAndroid, caller: " & $sSource)
 
 	AndroidAdbTerminateShellInstance()
 
@@ -979,7 +981,7 @@ Func RebootAndroid($bRestart = True)
 		; Unsupport Emulator now closed, screen config is now adjusted
 	Else
 		; Close Emulator
-		CloseAndroid()
+		CloseAndroid("RebootAndroid")
 	EndIf
 	If _Sleep(1000) Then Return False
 
@@ -996,7 +998,7 @@ Func RebootAndroidSetScreenDefault()
 	If Not $RunState Then Return False
 
 	; Close Android
-	CloseAndroid()
+	CloseAndroid("RebootAndroidSetScreenDefault")
 	If _Sleep(1000) Then Return False
 
 	SetScreenAndroid()

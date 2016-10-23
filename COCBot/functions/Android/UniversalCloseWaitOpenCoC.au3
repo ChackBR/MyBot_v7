@@ -97,7 +97,7 @@ Func UniversalCloseWaitOpenCoC($iWaitTime = 0, $sSource = "RudeUnknownProgrammer
 		Case 2 ; Close emulator
 			PoliteCloseCoC($sSource)
 			If _Sleep(3000) Then Return False ; Wait 3 sec.
-			CloseAndroid()
+			CloseAndroid("UniversalCloseWaitOpenCoC")
 			If $iWaitTime > 0 Then
 				SetLog("Waiting " & $sWaitTime & "before starting CoC", $COLOR_SUCCESS)
 				If $iWaitTime > 30000 Then

@@ -20,8 +20,9 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 	$iSkipped = 0
 
 	If $debugDeadBaseImage = 1 Then
-		If DirGetSize(@ScriptDir & "\SkippedZombies\") = -1 Then DirCreate(@ScriptDir & "\SkippedZombies\")
-		If DirGetSize(@ScriptDir & "\Zombies\") = -1 Then DirCreate(@ScriptDir & "\Zombies\")
+		setZombie()
+		DirCreate(@ScriptDir & "\SkippedZombies\")
+		DirCreate(@ScriptDir & "\Zombies\")
 	EndIf
 
 	; cleanup some vars used by imgloc just in case. usend in TH and DeadBase ( imgloc functions)
@@ -204,12 +205,6 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 			SetLog("      " & "Dead Base Found!", $COLOR_SUCCESS, "Lucida Console", 7.5)
 			$logwrited = True
 			$iMatchMode = $DB
-			If $debugDeadBaseImage = 1 Then
-				_CaptureRegion()
-				_GDIPlus_ImageSaveToFile($hBitmap, @ScriptDir & "\Zombies\" & $Date & " at " & $Time & ".png")
-				_WinAPI_DeleteObject($hBitmap)
-			EndIf
-
 			; No League Search
 			If $iChkMeetOne[$DB] = 0 Then
 				If $iChkNoLeague[$DB] = 1 Then
@@ -226,7 +221,6 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 			SetLog($GetResourcesTXT, $COLOR_SUCCESS, "Lucida Console", 7.5)
 			SetLog("      " & "Live Base Found!", $COLOR_SUCCESS, "Lucida Console", 7.5)
 			$logwrited = True
-
 			; No League Search
 			If $iChkMeetOne[$LB] = 0 Then
 				If $iChkNoLeague[$LB] = 1 Then
@@ -273,11 +267,6 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 
 		If $match[$DB] And Not $dbBase Then
 			$noMatchTxt &= ", Not a " & $sModeText[$DB]
-			If $debugDeadBaseImage = 1 Then
-				_CaptureRegion()
-				_GDIPlus_ImageSaveToFile($hBitmap, @ScriptDir & "\SkippedZombies\" & $Date & " at " & $Time & ".png")
-				_WinAPI_DeleteObject($hBitmap)
-			EndIf
 		ElseIf $match[$LB] And $dbBase Then
 			$noMatchTxt &= ", Not a " & $sModeText[$LB]
 		EndIf
@@ -319,6 +308,7 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 		If $bBtnAttackNowPressed = True Then ExitLoop
 
 		; ----------------- PRESS BUTTON NEXT  -------------------------------------------------
+		If $debugDeadBaseImage = 1 Then	setZombie()
 		Local $i = 0
 		While $i < 100
 			If _Sleep($iDelayVillageSearch2) Then Return
@@ -366,7 +356,7 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 
 		$iSkipped = $iSkipped + 1
 		$iSkippedVillageCount += 1
-		If $iTownHallLevel <> "" Then
+		If $iTownHallLevel <> "" And $iTownHallLevel > 0 Then
 			$iSearchCost += $aSearchCost[$iTownHallLevel - 1]
 			$iGoldTotal -= $aSearchCost[$iTownHallLevel - 1]
 		EndIf
@@ -375,7 +365,7 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 	WEnd ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;### Main Search Loop End ###;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 	; center village
-	SearchZoomOut(Default, False)
+	SearchZoomOut($aCenterEnemyVillageClickDrag, False, "VillageSearch")
 
 	;--- show buttons attacknow ----
 	If $bBtnAttackNowPressed = True Then

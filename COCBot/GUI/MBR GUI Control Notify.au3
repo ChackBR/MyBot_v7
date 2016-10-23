@@ -96,7 +96,7 @@ Func _Restart_()
 	FileWrite(@TempDir & "restart.bat", $sCmdFile)
 	IniWrite($config, "general", "Restarted", 1)
 	Run(@TempDir & "restart.bat", @TempDir, @SW_HIDE)
-	CloseAndroid()
+	CloseAndroid("_Restart_")
 	BotClose()
 EndFunc   ;==>_Restart_
 
@@ -118,7 +118,7 @@ Func _Restart()
 	; Restart My Bot
 	Local $pid = Run("cmd.exe /c start """" " & $sCmdLine, $WorkingDir, @SW_HIDE) ; cmd.exe only used to support launched like "..\AutoIt3\autoit3.exe" from console
 	If @error = 0 Then
-		CloseAndroid()
+		CloseAndroid("_Restart")
 		SetLog("Restarting " & $sBotTitle)
 		; Wait 1 Minute to get closed
 		_SleepStatus(60 * 1000)

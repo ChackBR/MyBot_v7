@@ -196,6 +196,11 @@ Func AttackReport()
 		SetAtkLog($AtkLogTxt, $AtkLogTxtExtend, $COLOR_ERROR)
 	EndIf
 
+	; rename or delete zombie
+	If $debugDeadBaseImage = 1 Then
+		setZombie($iElixirLast)
+	EndIf
+
 	; Share Replay
 	If $iShareAttack = 1 Then
 		If (Number($iGoldLast) >= Number($iShareminGold)) And (Number($iElixirLast) >= Number($iShareminElixir)) And (Number($iDarkLast) >= Number($iSharemindark)) Then

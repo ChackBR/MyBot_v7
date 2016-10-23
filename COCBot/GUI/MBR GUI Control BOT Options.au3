@@ -565,6 +565,18 @@ Func btnTestDeadBase()
 	$RunState = $currentRunState
 EndFunc   ;==>btnTestDeadbase
 
+Func btnTestDeadBaseFolder()
+
+	;Local $directory = FileOpenDialog("Select folder of CoC village screenshot to test for dead base", $dirTemp, "Image (*.png)", $FD_PATHMUSTEXIST, "", $frmBot)
+	Local $directory = FileSelectFolder("Select folder of CoC village screenshot to test for dead base", "", $FSF_NEWDIALOG, @ScriptDir, $frmBot)
+	If @error <> 0 Then
+		SetLog("btnTestDeadBaseFolder cancelled", $COLOR_INFO)
+	EndIf
+
+	checkDeadBaseFolder($directory)
+
+EndFunc   ;==>btnTestDeadBase
+
 Func FixClanCastle($inputString)
 	; if found  a space in results of attack bar slot detection, force insert of clan castle
 	; work if the clan castle it is not placed in the last slot

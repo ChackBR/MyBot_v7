@@ -53,7 +53,11 @@ Func BrewSpells()
 						Return
 					Else
 						If $iLightningSpell > 0 Then
-							GemClick(220 + 107 * 0, 354 + $midOffsetY, $iLightningSpell, $iDelayTrain7, "#0290")
+							If $iUseRandomClick = 0 then
+								GemClick(75, 391 + $midOffsetY, $iLightningSpell, $iDelayTrain7, "#0290")
+							Else
+								GemClickR($LightningSpellRND, 75, 391 + $midOffsetY, $iLightningSpell, $iDelayTrain7, "#0290")
+							EndIf
 							SetLog("Created " & $iLightningSpell & " Lightning Spell(s)", $COLOR_INFO)
 						EndIf
 					EndIf
@@ -83,7 +87,11 @@ Func BrewSpells()
 						Return
 					Else
 						If $iHealSpell > 0 Then
-							GemClick(220 + 107 * 1, 354 + $midOffsetY, $iHealSpell, $iDelayTrain7, "#0290")
+							If $iUseRandomClick = 0 then
+								GemClick(75, 491 + $midOffsetY, $iHealSpell, $iDelayTrain7, "#0290")
+							Else
+								GemClickR($HealSpellRND, 75, 491 + $midOffsetY, $iHealSpell, $iDelayTrain7, "#0290")
+							EndIf
 							SetLog("Created " & $iHealSpell & " Heal Spell(s)", $COLOR_INFO)
 						EndIf
 					EndIf
@@ -113,7 +121,11 @@ Func BrewSpells()
 						Return
 					Else
 						If $iRageSpell > 0 Then
-							GemClick(220 + 107 * 2, 354 + $midOffsetY, $iRageSpell, $iDelayTrain7, "#0290")
+							If $iUseRandomClick = 0 then
+								GemClick(171, 391 + $midOffsetY, $iRageSpell, $iDelayTrain7, "#0290")
+							Else
+								GemClickR($RageSpellRND, 171, 391 + $midOffsetY, $iRageSpell, $iDelayTrain7, "#0290")
+							EndIf
 							SetLog("Created " & $iRageSpell & " Rage Spell(s)", $COLOR_INFO)
 						EndIf
 					EndIf
@@ -143,7 +155,11 @@ Func BrewSpells()
 						Return
 					Else
 						If $iJumpSpell > 0 Then
-							GemClick(220 + 107 * 3, 354 + $midOffsetY, $iJumpSpell, $iDelayTrain7, "#0290")
+							If $iUseRandomClick = 0 then
+								GemClick(171, 491 + $midOffsetY, $iJumpSpell, $iDelayTrain7, "#0290")
+							Else
+								GemClickR($JumpSpellRND, 171, 491 + $midOffsetY, $iJumpSpell, $iDelayTrain7, "#0290")
+							EndIf
 							SetLog("Created " & $iJumpSpell & " Jump Spell(s)", $COLOR_INFO)
 						EndIf
 					EndIf
@@ -173,7 +189,11 @@ Func BrewSpells()
 						Return
 					Else
 						If $iFreezeSpell > 0 Then
-							GemClick(220 + 107 * 4, 354 + $midOffsetY, $iFreezeSpell, $iDelayTrain7, "#0290")
+							If $iUseRandomClick = 0 then
+								GemClick(270, 391 + $midOffsetY, $iFreezeSpell, $iDelayTrain7, "#0290")
+							Else
+								GemClickR($FreezeSpellRND, 270, 391 + $midOffsetY, $iFreezeSpell, $iDelayTrain7, "#0290")
+							EndIf
 							SetLog("Created " & $iFreezeSpell & " Freeze Spell(s)", $COLOR_INFO)
 						EndIf
 					EndIf
@@ -203,7 +223,11 @@ Func BrewSpells()
 						Return
 					Else
 						If $iCloneSpell > 0 Then
-							GemClick(220 + 107 * 1, 450 + $midOffsetY, $iCloneSpell, $iDelayTrain7, "#0290")
+							If $iUseRandomClick = 0 then
+								GemClick(270, 491 + $midOffsetY, $iCloneSpell, $iDelayTrain7, "#0290")
+							Else
+								GemClickR($CloneSpellRND, 270, 491 + $midOffsetY, $iCloneSpell, $iDelayTrain7, "#0290")
+							EndIf
 							SetLog("Created " & $iCloneSpell & " Clone Spell(s)", $COLOR_INFO)
 						EndIf
 					EndIf
@@ -251,7 +275,11 @@ Func BrewSpells()
 						Return
 					Else
 						If $iPoisonSpell > 0 Then
-							GemClick(222, 354 + $midOffsetY, $iPoisonSpell, $iDelayTrain7, "#0290")
+							If $iUseRandomClick = 0 then
+								GemClick(379, 391 + $midOffsetY, $iPoisonSpell, $iDelayTrain7, "#0290")
+							Else
+								GemClickR($PoisonSpellRND, 379, 391 + $midOffsetY, $iPoisonSpell, $iDelayTrain7, "#0290")
+							EndIf
 							SetLog("Created " & $iPoisonSpell & " Poison Spell(s)", $COLOR_INFO)
 						EndIf
 					EndIf
@@ -284,7 +312,11 @@ Func BrewSpells()
 						Return
 					Else
 						If $iEarthSpell > 0 Then
-							GemClick(329, 354 + $midOffsetY, $iEarthSpell, $iDelayTrain7, "#0290")
+							If $iUseRandomClick = 0 then
+								GemClick(379, 491 + $midOffsetY, $iEarthSpell, $iDelayTrain7, "#0290")
+							Else
+								GemClickR($EarthSpellRND, 379, 491 + $midOffsetY, $iEarthSpell, $iDelayTrain7, "#0290")
+							EndIf
 							SetLog("Created " & $iEarthSpell & " EarthQuake Spell(s)", $COLOR_INFO)
 						EndIf
 					EndIf
@@ -317,7 +349,11 @@ Func BrewSpells()
 						Return
 					Else
 						If $iHasteSpell > 0 Then
-							GemClick(430, 354 + $midOffsetY, $iHasteSpell, $iDelayTrain7, "#0290")
+							If $iUseRandomClick = 0 then
+								GemClick(475, 391 + $midOffsetY, $iHasteSpell, $iDelayTrain7, "#0290")
+							Else
+								GemClickR($HasteSpellRND, 475, 391 + $midOffsetY, $iHasteSpell, $iDelayTrain7, "#0290")
+							EndIf
 							SetLog("Created " & $iHasteSpell & " Haste Spell(s)", $COLOR_INFO)
 						EndIf
 					EndIf
@@ -348,7 +384,11 @@ Func BrewSpells()
 						Return
 					Else
 						If $iSkeletonSpell > 0 Then
-							GemClick(540, 354 + $midOffsetY, $iSkeletonSpell, $iDelayTrain7, "#0290")
+							If $iUseRandomClick = 0 then
+								GemClick(475, 491 + $midOffsetY, $iSkeletonSpell, $iDelayTrain7, "#0290")
+							Else
+								GemClickR($SkeletonSpellRND, 475, 491 + $midOffsetY, $iSkeletonSpell, $iDelayTrain7, "#0290")
+							EndIf
 							SetLog("Created " & $iSkeletonSpell & " Skeleton Spell(s)", $COLOR_INFO)
 						EndIf
 					EndIf

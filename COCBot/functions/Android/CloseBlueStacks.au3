@@ -14,10 +14,6 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
-Func CloseBS() ; @deprecated, use CloseAndroid()
-	CloseAndroid()
-EndFunc   ;==>CloseBS
-
 Func CloseBlueStacks()
 	Local $iIndex, $bOops = False
 	Local $aServiceList[4] = ["BstHdAndroidSv", "BstHdLogRotatorSvc", "BstHdUpdaterSvc", "bthserv"]

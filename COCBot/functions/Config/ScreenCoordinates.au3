@@ -11,6 +11,8 @@
 ; Example .......: No
 ; ===============================================================================================================================
 ;                                 x    y     color  tolerance
+Global $aCenterEnemyVillageClickDrag = [65, 545] ; Scroll village using this location in the water
+Global $aCenterHomeVillageClickDrag = [160, 665] ; Scroll village using this location in the water
 Global $aIsReloadError[4] = [457, 301 + $midOffsetY, 0x33B5E5, 10] ; Pixel Search Check point For All Reload Button errors, except break ending
 ;Global $aIsMain[4] = [284, 28, 0x41B1CD, 20] ; Main Screen, Builder Left Eye
 Global $aIsMain[4] = [283, 29, 0x4693BD, 20] ; Main Screen, Builder Left Eye :SC_okt
@@ -229,38 +231,59 @@ Global Const $aImageTypeS2[4] = [205, 180, 0xFEFEFE, 30]; Snow on Forest Edge 'L
 
 Global Const $ProfileRep01[4] = [600, 260, 0x71769F, 20]; If colorcheck then village have 0 attacks and 0 defenses
 
-Global $xBtnTrain = 94
-Global $yBtnTrain = 30
-Global $xTrainOffset = 103
-Global $yTrainOffset = 103
-Global $xTrain = 126
-Global $yTrain = 355
+Global $xBtnTrain = 89
+Global $yBtnTrain = 50
+Global $xTrainOffset = 97
+Global $yTrainOffset = 101
+Global $xTrain = 28
+Global $yTrain = 371
 Global $TrainBarbRND[4] = [$xTrain + ($xTrainOffset * 0), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 0), $yTrain + $yBtnTrain + $midOffsetY]
-Global $TrainArchRND[4] = [$xTrain + ($xTrainOffset * 1), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 1), $yTrain + $yBtnTrain + $midOffsetY]
-Global $TrainGiantRND[4]= [$xTrain + ($xTrainOffset * 2), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 2), $yTrain + $yBtnTrain + $midOffsetY]
-Global $TrainGoblRND[4] = [$xTrain + ($xTrainOffset * 3), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 3), $yTrain + $yBtnTrain + $midOffsetY]
-Global $TrainWallRND[4] = [$xTrain + ($xTrainOffset * 4), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 4), $yTrain + $yBtnTrain + $midOffsetY]
-Global $TrainBallRND[4] = [$xTrain + ($xTrainOffset * 5), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 5), $yTrain + $yBtnTrain + $midOffsetY]
+Global $TrainGiantRND[4]= [$xTrain + ($xTrainOffset * 1), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 1), $yTrain + $yBtnTrain + $midOffsetY]
+Global $TrainWallRND[4] = [$xTrain + ($xTrainOffset * 2), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 2), $yTrain + $yBtnTrain + $midOffsetY]
+Global $TrainWizaRND[4] = [$xTrain + ($xTrainOffset * 3), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 3), $yTrain + $yBtnTrain + $midOffsetY]
+Global $TrainDragRND[4] = [$xTrain + ($xTrainOffset * 4), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 4), $yTrain + $yBtnTrain + $midOffsetY]
+Global $TrainBabyDRND[4] = [$xTrain + ($xTrainOffset * 5), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 5), $yTrain + $yBtnTrain + $midOffsetY]
 $yTrain = $yTrain + $yTrainOffset
-Global $TrainWizaRND[4] = [$xTrain + ($xTrainOffset * 0), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 0), $yTrain + $yBtnTrain + $midOffsetY]
-Global $TrainHealRND[4] = [$xTrain + ($xTrainOffset * 1), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 1), $yTrain + $yBtnTrain + $midOffsetY]
-Global $TrainDragRND[4] = [$xTrain + ($xTrainOffset * 2), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 2), $yTrain + $yBtnTrain + $midOffsetY]
-Global $TrainPekkRND[4] = [$xTrain + ($xTrainOffset * 3), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 3), $yTrain + $yBtnTrain + $midOffsetY]
-Global $TrainBabyDRND[4] = [$xTrain + ($xTrainOffset * 4), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 4), $yTrain + $yBtnTrain + $midOffsetY]
+Global $TrainArchRND[4] = [$xTrain + ($xTrainOffset * 0), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 0), $yTrain + $yBtnTrain + $midOffsetY]
+Global $TrainGoblRND[4] = [$xTrain + ($xTrainOffset * 1), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 1), $yTrain + $yBtnTrain + $midOffsetY]
+Global $TrainBallRND[4] = [$xTrain + ($xTrainOffset * 2), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 2), $yTrain + $yBtnTrain + $midOffsetY]
+Global $TrainHealRND[4] = [$xTrain + ($xTrainOffset * 3), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 3), $yTrain + $yBtnTrain + $midOffsetY]
+Global $TrainPekkRND[4] = [$xTrain + ($xTrainOffset * 4), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 4), $yTrain + $yBtnTrain + $midOffsetY]
 Global $TrainMineRND[4] = [$xTrain + ($xTrainOffset * 5), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 5), $yTrain + $yBtnTrain + $midOffsetY]
 
-Global $xTrain = 180
-Global $yTrain = 355
-Global $xTrainOffset = 105
-Global $yTrainOffset = 105
+Global $xTrain = 445
+Global $yTrain = 371
 Global $TrainMiniRND[4] = [$xTrain + ($xTrainOffset * 0), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 0), $yTrain + $yBtnTrain + $midOffsetY]
-Global $TrainHogsRND[4] = [$xTrain + ($xTrainOffset * 1), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 1), $yTrain + $yBtnTrain + $midOffsetY]
-Global $TrainValkRND[4] = [$xTrain + ($xTrainOffset * 2), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 2), $yTrain + $yBtnTrain + $midOffsetY]
-Global $TrainGoleRND[4] = [$xTrain + ($xTrainOffset * 3), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 3), $yTrain + $yBtnTrain + $midOffsetY]
-Global $TrainWitcRND[4] = [$xTrain + ($xTrainOffset * 4), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 4), $yTrain + $yBtnTrain + $midOffsetY]
+Global $TrainValkRND[4] = [$xTrain + ($xTrainOffset * 1), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 1), $yTrain + $yBtnTrain + $midOffsetY]
+Global $TrainWitcRND[4] = [$xTrain + ($xTrainOffset * 2), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 2), $yTrain + $yBtnTrain + $midOffsetY]
+Global $TrainBowlRND[4] = [$xTrain + ($xTrainOffset * 3), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 3), $yTrain + $yBtnTrain + $midOffsetY]
 $yTrain = $yTrain + $yTrainOffset
-Global $TrainLavaRND[4] = [$xTrain + ($xTrainOffset * 0), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 0), $yTrain + $yBtnTrain + $midOffsetY]
-Global $TrainBowlRND[4] = [$xTrain + ($xTrainOffset * 1), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 1), $yTrain + $yBtnTrain + $midOffsetY]
+Global $TrainHogsRND[4] = [$xTrain + ($xTrainOffset * 0), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 0), $yTrain + $yBtnTrain + $midOffsetY]
+Global $TrainGoleRND[4] = [$xTrain + ($xTrainOffset * 1), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 1), $yTrain + $yBtnTrain + $midOffsetY]
+Global $TrainLavaRND[4] = [$xTrain + ($xTrainOffset * 2), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 2), $yTrain + $yBtnTrain + $midOffsetY]
+
+Global $xBtnTrain = 89
+Global $yBtnTrain = 50
+Global $xTrainOffset = 97
+Global $yTrainOffset = 101
+Global $xTrain = 28
+Global $yTrain = 371
+Global $LightningSpellRND[4] = [$xTrain + ($xTrainOffset * 0), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 0), $yTrain + $yBtnTrain + $midOffsetY]
+Global $RageSpellRND[4]= [$xTrain + ($xTrainOffset * 1), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 1), $yTrain + $yBtnTrain + $midOffsetY]
+Global $FreezeSpellRND[4] = [$xTrain + ($xTrainOffset * 2), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 2), $yTrain + $yBtnTrain + $midOffsetY]
+$yTrain = $yTrain + $yTrainOffset
+Global $HealSpellRND[4] = [$xTrain + ($xTrainOffset * 0), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 0), $yTrain + $yBtnTrain + $midOffsetY]
+Global $JumpSpellRND[4] = [$xTrain + ($xTrainOffset * 1), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 1), $yTrain + $yBtnTrain + $midOffsetY]
+Global $CloneSpellRND[4] = [$xTrain + ($xTrainOffset * 2), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 2), $yTrain + $yBtnTrain + $midOffsetY]
+
+Global $xTrain = 331
+Global $yTrain = 371
+Global $PoisonSpellRND[4] = [$xTrain + ($xTrainOffset * 0), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 0), $yTrain + $yBtnTrain + $midOffsetY]
+Global $HasteSpellRND[4] = [$xTrain + ($xTrainOffset * 1), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 1), $yTrain + $yBtnTrain + $midOffsetY]
+$yTrain = $yTrain + $yTrainOffset
+Global $EarthSpellRND[4] = [$xTrain + ($xTrainOffset * 0), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 0), $yTrain + $yBtnTrain + $midOffsetY]
+Global $SkeletonSpellRND[4] = [$xTrain + ($xTrainOffset * 1), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 1), $yTrain + $yBtnTrain + $midOffsetY]
+
 
 Global $aArmyTrainButtonRND[4] = [20, 540 + $midOffsetY, 55, 570 + $midOffsetY] ; Main Screen, Army Train Button, RND  Screen 860x732
 Global $aAttackButtonRND[4] = [20, 610 + $midOffsetY, 100, 670 + $midOffsetY] ; Attack Button, Main Screen, RND  Screen 860x732

@@ -45,8 +45,9 @@ Local $sModversion
 ; "2302" ; Enable CSV Speed Mode ( AwesomeGamer + MikeMikeCoc )
 ; "2303" ; Fix for CSV Attack Files
 ; "2304" ; MyBot v6.3.0 Beta 3
-$sModversion = "2305" ; MyBot v6.3.0 Beta 4
-$sBotVersion = "v6.3.x" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it it also use on Checkversion()
+; "2305" ; MyBot v6.3.0 Beta 4
+$sModversion = "2306" ; MyBot v6.3.0 Beta 5
+$sBotVersion = "v6.3.u5" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it it also use on Checkversion()
 $sBotTitle = "My Bot " & $sBotVersion & ".r" & $sModversion & " " ;~ Don't use any non file name supported characters like \ / : * ? " < > |
 
 #include "COCBot\functions\Config\DelayTimes.au3"
@@ -657,6 +658,7 @@ Func _RunFunction($action)
 			If _Sleep($iDelayRunBot1) = False Then checkMainScreen(False)
 		Case "DonateCC,Train"
 			If $iSkipDonateNearFulLTroopsEnable = 1 Then getArmyCapacity(true,true)
+			DonateCC()
 			If _Sleep($iDelayRunBot1) = False Then checkMainScreen(False)
 			if 	$troops_maked_after_fullarmy = False and $actual_train_skip < $max_train_skip Then
 				$troops_maked_after_fullarmy = False
