@@ -19,7 +19,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 
 	If _Sleep($iDelayalgorithm_AllTroops1) Then Return
 
-	If $iChkDeploySettings[$iMatchMode] < 4 Then ; !( FourFinger )
+	If $iChkDeploySettings[$iMatchMode] <> 4 Then ; !( FourFinger )
 		SmartAttackStrategy($iMatchMode) ; detect redarea first to drop any troops
 	EndIf
 
@@ -142,7 +142,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 						]
 		EndSwitch
 
-	; Classic Four Finger
+	; Classic Four Fingers
 	ElseIf $nbSides = 5 Then
 		Local $listInfoDeploy[21][5] = [[$eGiant, $nbSides, 1, 1, 2], _
 						[$eGole,  $nbSides, 1, 1, 2], _
