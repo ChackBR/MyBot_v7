@@ -99,6 +99,10 @@ Func DropTroopFromINI($vectors, $indexStart, $indexEnd, $indexArray, $qtaMin, $q
 ;			If $ichkSkeletonSpell[$iMatchMode] = 0 Then $usespell = False
 	EndSwitch
 
+	; CVSDeploy Speed Mod
+   If $delayPointmin = 0 Then $delayPointmin = 100
+   If $delayPointmax = 0 Then $delayPointmax = 500
+
 	If $troopPosition = -1 Or $usespell = False Then
 		If $usespell = True Then
 			Setlog("No troop found in your attack troops list")
@@ -151,6 +155,11 @@ Func DropTroopFromINI($vectors, $indexStart, $indexEnd, $indexArray, $qtaMin, $q
 						Local $delayPoint = $delayPointmin
 					EndIf
 
+					; CSV Deployment Speed Mod
+
+					$delayPoint = $delayPoint / $iCSVSpeeds[$isldSelectedCSVSpeed[$iMatchMode]]
+					$delayDropLast = $delayDropLast / $iCSVSpeeds[$isldSelectedCSVSpeed[$iMatchMode]]
+
 					Switch Eval("e" & $troopName)
 						Case $eBarb To $eBowl ; drop normal troops
 							If $debug = True Then
@@ -158,6 +167,9 @@ Func DropTroopFromINI($vectors, $indexStart, $indexEnd, $indexArray, $qtaMin, $q
 							Else
 								AttackClick($pixel[0], $pixel[1], $qty2, $delayPoint, $delayDropLast, "#0666")
 							EndIf
+							If $DebugSetLog = 1 Then SetLog("Deploy " & $qty2 & " " & NameOfTroop($atkTroops[$troopPosition][0]) & " At x,y:" & $pixel[0] & "," & $pixel[1], $COLOR_PURPLE)
+							$atkTroops[$troopPosition][1] -= $qty2
+							If $DebugSetLog = 1 Then SetLog("Troop:" & NameOfTroop($atkTroops[$troopPosition][0]) & ", RemainQTY:" & $atkTroops[$troopPosition][1], $COLOR_PURPLE)
 						Case $eKing
 							If $debug = True Then
 								Setlog("dropHeroes(" & $pixel[0] & ", " & $pixel[1] & ", " & $King & ", -1, -1) ")

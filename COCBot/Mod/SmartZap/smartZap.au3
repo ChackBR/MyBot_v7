@@ -120,8 +120,14 @@ Func smartZap($minDE = -1)
 		Return $performedZap
 	EndIf
 
+	; Force it
 	; Get the number of lightning spells
-	$numSpells = $CurLightningSpell
+	If $CurLightningSpell < 1 Then
+		$numSpells = 2
+	Else
+		$numSpells = $CurLightningSpell
+	EndIf
+
 	If $numSpells = 0 Then
 		SetLog("No lightning spells trained, time to go home!", $COLOR_FUCHSIA)
 		Return $performedZap

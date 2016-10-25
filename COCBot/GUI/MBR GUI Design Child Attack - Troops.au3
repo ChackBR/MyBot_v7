@@ -152,7 +152,7 @@ Local $x = $xStart + 20, $y = $yStart + 300
 			_GUICtrlSetTip(-1, GetTranslated(621,35, "Use the Quick Train function to train the Previous Army or the predefined Army 1, 2 or 3"))
 			GUICtrlSetState(-1, $GUI_CHECKED)
 		$cmbCurrentArmy = GUICtrlCreateCombo("", $x + 10, $y + 21, 100, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-			GUICtrlSetData(-1, GetTranslated(621,36, "Previous") & "|" & GetTranslated(621,37, "Army 1") & "|" &  GetTranslated(621,38, "Army 2") & "|" & GetTranslated(621,39, "Army 3"), GetTranslated(621,36, -1))
+			GUICtrlSetData(-1, GetTranslated(621,36, "Previous") & "|" & GetTranslated(621,37, "Army 1") & "|" &  GetTranslated(621,38, "Army 2") & "|" & GetTranslated(621,39, "Army 3") & "|" & "Army 1,2" & "|" & "Army 1,2,3", GetTranslated(621,36, -1))
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 Local $x = $xStart +  160 + 5, $y = $yStart +  45
