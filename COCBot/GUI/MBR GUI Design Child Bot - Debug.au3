@@ -115,7 +115,12 @@ $y = 40
 
 	; now go up again
 	$x -= 200
+
 	$btnTestDeadBaseFolder = GUICtrlCreateButton(GetTranslated(636,116, "Test Dead Base Folder"), $x  , $y , 140, 25)
 	$y -= 32
+
+	$btnTestAttackCSV = GUICtrlCreateButton(GetTranslated(636,117, "Test Attack CSV"), $x  , $y , 140, 25)
+	$y -= 32
+
 GUICtrlCreateGroup("", -99, -99, 1, 1)
 

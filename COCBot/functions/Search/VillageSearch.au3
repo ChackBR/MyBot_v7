@@ -25,9 +25,6 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 		DirCreate(@ScriptDir & "\Zombies\")
 	EndIf
 
-	; cleanup some vars used by imgloc just in case. usend in TH and DeadBase ( imgloc functions)
-	ResetTHsearch()
-
 	If $Is_ClientSyncError = False Then
 		For $i = 0 To $iModeCount - 1
 			$iAimGold[$i] = $iMinGold[$i]
@@ -70,6 +67,10 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 	If $Is_SearchLimit = True Then $Is_SearchLimit = False
 
 	While 1 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;### Main Search Loop ###;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+		; cleanup some vars used by imgloc just in case. usend in TH and DeadBase ( imgloc functions)
+		ResetTHsearch()
+
 		If $debugVillageSearchImages = 1 Then DebugImageSave("villagesearch")
 		$logwrited = False
 		$bBtnAttackNowPressed = False
@@ -120,10 +121,6 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 		; $searchTH name of level of townhall (return "-" if no th found)
 		; $THx and $THy coordinates of townhall
 		Local $THString = ""
-		$searchTH = "-"
-		$THx = 0
-		$THy = 0
-
 		If $match[$DB] Or $match[$LB] Or $match[$TS] Then; make sure resource conditions are met
 			$THString = FindTownhall(False);find TH, but only if TH condition is checked
 		ElseIf ($iChkMeetOne[$DB] = 1 Or $iChkMeetOne[$LB] = 1) Then;meet one then attack, do not need correct resources
@@ -358,16 +355,20 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 
 		$iSkipped = $iSkipped + 1
 		$iSkippedVillageCount += 1
+		If $ichkSwitchAcc = 1 Then $aSkippedVillageCountAcc[$nCurProfile - 1] += 1 ; SwitchAcc Mod - DEMEN
+
 		If $iTownHallLevel <> "" And $iTownHallLevel > 0 Then
 			$iSearchCost += $aSearchCost[$iTownHallLevel - 1]
 			$iGoldTotal -= $aSearchCost[$iTownHallLevel - 1]
+			If $ichkSwitchAcc = 1 Then $aGoldTotalAcc[$nCurProfile -1] -= $aSearchCost[$iTownHallLevel - 1] ; Separate Stats per Each Account - SwitchAcc Mode - DEMEN
 		EndIf
 		UpdateStats()
 
 	WEnd ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;### Main Search Loop End ###;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-	; center village
-	SearchZoomOut($aCenterEnemyVillageClickDrag, False, "VillageSearch")
+	; center village, also update global village coordinates (that overwrites home base data, but will reset when returning anyway)
+	Local $aCenterVillage = SearchZoomOut($aCenterEnemyVillageClickDrag, True, "VillageSearch")
+	updateGlobalVillageOffset($aCenterVillage[3], $aCenterVillage[4]) ; update red line and TH location
 
 	;--- show buttons attacknow ----
 	If $bBtnAttackNowPressed = True Then

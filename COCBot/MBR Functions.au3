@@ -277,4 +277,4 @@
 ;
 ; MOD files - AwesomeGamer, LunaEclipse, MikeCoC, ...
 ;
-#include "functions\MOD\Include_Files.au3"
+#include "MOD\Include_Files.au3"

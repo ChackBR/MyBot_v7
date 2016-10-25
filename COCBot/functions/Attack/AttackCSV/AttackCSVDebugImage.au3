@@ -15,8 +15,8 @@
 Func AttackCSVDEBUGIMAGE()
 	;MAKE SCREENSHOT WITH INFO
 	DebugImageSave("clean")
-	_CaptureRegion()
-	Local $EditedImage = $hBitmap
+	;_CaptureRegion()
+	Local $EditedImage = _GDIPlus_BitmapCreateFromHBITMAP($hHBitmap2)
 	Local $testx
 	Local $hGraphic = _GDIPlus_ImageGetGraphicsContext($EditedImage)
 	Local $hBrush = _GDIPlus_BrushCreateSolid(0xFFFFFFFF)
@@ -271,8 +271,9 @@ Func AttackCSVDEBUGIMAGE()
 
 	Local $Date = @YEAR & "-" & @MON & "-" & @MDAY
 	Local $Time = @HOUR & "." & @MIN & "." & @SEC
-	Local $filename = String("AttackDebug_" & $Date & "_" & $Time)
-	_GDIPlus_ImageSaveToFile($EditedImage, $dirTempDebug & $filename & ".jpg")
+	Local $filename = $dirTempDebug & String("AttackDebug_" & $Date & "_" & $Time)  & ".jpg"
+	_GDIPlus_ImageSaveToFile($EditedImage, $filename)
+	SetDebugLog("Attack CSV image saved: " & $filename)
 
 	; Clean up resources
 	_GDIPlus_PenDispose($hPenLtGreen)
@@ -286,5 +287,11 @@ Func AttackCSVDEBUGIMAGE()
 	_GDIPlus_PenDispose($hPenLtGrey)
 	_GDIPlus_BrushDispose($hBrush)
 	_GDIPlus_GraphicsDispose($hGraphic)
+	_GDIPlus_BitmapDispose($EditedImage)
+
+	; open image
+	If TestCapture() = True Then
+		ShellExecute($filename)
+	EndIf
 
 EndFunc   ;==>AttackCSVDEBUGIMAGE

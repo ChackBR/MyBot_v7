@@ -47,15 +47,25 @@ Func checkAttackDisable($iSource, $Result = "")
 				If StringInStr($Result, "disable") <> 0 Or StringInStr($Result, "for") <> 0 Or StringInStr($Result, "after") <> 0 Or StringInStr($Result, "have") <> 0 Then ; verify we have right text strings, 'after' added for Personal Break
 					Setlog("Attacking disabled, Personal Break detected...", $COLOR_ERROR)
 					If _CheckPixel($aSurrenderButton, $bCapturePixel) Then ; village search requires end battle 1s, so check for surrender/endbattle button
-						ReturnHome(False, False) ;If End battle is available
+						If TestCapture() Then
+							SetLog("checkAttackDisable: ReturnHome")
+						Else
+							ReturnHome(False, False) ;If End battle is available
+						EndIF
 					Else
-						CloseCoC()
+						If TestCapture() Then
+							SetLog("checkAttackDisable: CloseCoC")
+						Else
+							CloseCoC()
+						EndIf
 					EndIf
 				Else
 					If $debugSetlog = 1 Then Setlog("wrong text string", $COLOR_DEBUG)
+					If TestCapture() Then Return "wrong text string"
 					Return ; exit function, wrong string found
 				EndIf
 			Else
+				If TestCapture() Then Return "take a break text not found"
 				Return ; exit function, take a break text not found
 			EndIf
 		Case $iTaBChkIdle ; look at location 180, 167 for the have "been" online too long message, and the "after" Personal Break message
@@ -69,9 +79,11 @@ Func checkAttackDisable($iSource, $Result = "")
 					checkMainScreen()
 				Else
 					If $debugSetlog = 1 Then Setlog("wrong text string", $COLOR_DEBUG)
+					If TestCapture() Then Return "wrong text string #2"
 					Return ; exit function, wrong string found
 				EndIf
 			Else
+				If TestCapture() Then Return "take a break text not found #2"
 				Return ; exit function, take a break text not found
 			EndIf
 		Case $iTaBChkTime
@@ -85,7 +97,13 @@ Func checkAttackDisable($iSource, $Result = "")
 						ExitLoop
 					EndIf
 				WEnd
-				If _CheckPixel($aIsAttackPage, $bCapturePixel) Then ReturnHome(False, False) ;If End battle is available
+				If _CheckPixel($aIsAttackPage, $bCapturePixel) Then
+					If TestCapture() Then
+						SetLog("checkAttackDisable: ReturnHome #2")
+					Else
+						ReturnHome(False, False) ;If End battle is available
+					EndIF
+				EndIf
 			EndIf
 			If $iSource = $iTaBChkIdle Then
 				While _CheckPixel($aIsMain, $bCapturePixel) = False
@@ -119,7 +137,11 @@ Func checkAttackDisable($iSource, $Result = "")
 
 	Setlog("Time for break, exit now..", $COLOR_INFO)
 
-	PoliteCloseCoC("AttackDisable_")
+	If TestCapture() Then
+		SetLog("checkAttackDisable: PoliteCloseCoC")
+	Else
+		PoliteCloseCoC("AttackDisable_")
+	EndIf
 
 	If _Sleep(1000) Then Return ; short wait for CoC to exit
 	PushMsg("TakeBreak")
@@ -127,9 +149,17 @@ Func checkAttackDisable($iSource, $Result = "")
 	; CoC is closed >>
 	If $iModSource = $iTaBChkTime And $aShieldStatus[0] <> "guard" Then
 		Setlog("Personal Break Reset log off: " & $iValueSinglePBTimeForced & " Minutes", $COLOR_INFO)
-		WaitnOpenCoC($iValueSinglePBTimeForced * 60 * 1000, True) ; Log off CoC for user set time in expert tab
+		If TestCapture() Then
+			SetLog("checkAttackDisable: WaitnOpenCoC")
+		Else
+			WaitnOpenCoC($iValueSinglePBTimeForced * 60 * 1000, True) ; Log off CoC for user set time in expert tab
+		EndIf
 	Else
-		WaitnOpenCoC(20000, True) ; close CoC for 20 seconds to ensure server logoff, True=call checkmainscreen to clean up if needed
+		If TestCapture() Then
+			SetLog("checkAttackDisable: WaitnOpenCoC")
+		Else
+			WaitnOpenCoC(20000, True) ; close CoC for 20 seconds to ensure server logoff, True=call checkmainscreen to clean up if needed
+		EndIf
 	EndIf
 	$sPBStartTime = "" ; reset Personal Break global time value to get update
 	For $i = 0 To UBound($aShieldStatus) - 1

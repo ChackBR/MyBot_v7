@@ -1551,7 +1551,7 @@ Global $cmbLvl10Fill
 Global $cmbLvl11Fill
 Global $cmbLvl12Fill
 Global $toleranceOffset
-Global $iMinCollectorMatches
+Global $iMinCollectorMatches = 3
 
 ;Apply to switch Attack Standard after THSnipe End ==>
 Global $ichkTSActivateCamps2, $iEnableAfterArmyCamps2
@@ -1585,7 +1585,7 @@ Global $IMGLOCTHRDISTANCE
 ;
 ; Global Variables - AwesomeGamer, LunaEclipse, ...
 ;
-#include "functions\MOD\Global_Variables.au3"
+#include "MOD\Global_Variables.au3"
 
 ;=== No variables below ! ================================================
 

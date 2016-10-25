@@ -75,10 +75,6 @@ Func ParseAttackCSV_Read_SIDE_variables()
 						If Int($value7) > 0 Then $attackcsv_locate_townhall = 1
 						; $value8 = Forced Side value
 					EndIf
-					
-					;AwesomeGamer CSV mod
-					If StringUpper($value9) = "NO" Then $attackcsv_use_red_line = 0
-
 				EndIf
 
 				If $command = "SIDEB" And $bForceSideExist = False Then

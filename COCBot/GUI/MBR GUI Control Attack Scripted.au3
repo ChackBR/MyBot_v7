@@ -280,4 +280,3 @@ Func DuplicateScriptAB()
 		EndIf
 	EndIf
 EndFunc   ;==>DuplicateScriptAB
-

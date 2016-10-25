@@ -18,21 +18,21 @@ Func imglocCheckWall()
 	_CaptureRegion2()
 	SetLog("Searching for Wall(s) level: " & $levelWall & ". Using imgloc: " , $COLOR_SUCCESS)
 	;name , level , coords
-	Local $FoundWalls[1] 
+	Local $FoundWalls[1]
 	$FoundWalls[0]="" ; empty value to make sure return value filled
 	$FoundWalls = imglocFindWalls($levelWall,"DCD","DCD",10) ; lets get 10 points just to make sure we discard false positives
-	
+
 	ClickP($aAway, 1, 0, "#0505") ; to prevent bot 'Anyone there ?'
-	
+
 	If ($FoundWalls[0] = "") Then ; nothing found
 		SetLog("No wall(s) level: " & $levelWall & " found.", $COLOR_ERROR)
 	Else
-		For $i=0 to ubound($FoundWalls)-1
+		For $i=0 to UBound($FoundWalls)-1
 			Local $WallCoordsArray = decodeMultipleCoords($FoundWalls[$i])
-			for $fc = 0 to ubound( $WallCoordsArray)-1
+			for $fc = 0 to UBound( $WallCoordsArray)-1
 				Local $aCoord = StringSplit($FoundWalls[$i],",",$STR_NOCOUNT )
 				SetLog("Found: " & $FoundWalls[0] & " possible Wall position: " & $FoundWalls[$i], $COLOR_SUCCESS)
-				SetLog("Checking if found position is a Wall and of desired level.", $COLOR_SUCCESS)		
+				SetLog("Checking if found position is a Wall and of desired level.", $COLOR_SUCCESS)
 				;try click
 				GemClick($aCoord[0],$aCoord[1])
 				If _Sleep(500) Then Return
@@ -44,10 +44,10 @@ Func imglocCheckWall()
 					Else
 						If $debugSetlog Then
 							ClickP($aAway, 1, 0, "#0931") ;Click Away
-							Setlog("Position : " &  $FoundWalls[2] & " is not a Wall Level: " & $icmbWalls + 4 & ". It was: " & $aResult[1] & ", " & $aResult[2] & " !", $COLOR_DEBUG) ;debug
+							Setlog("Position : " &  $FoundWalls[$i] & " is not a Wall Level: " & $icmbWalls + 4 & ". It was: " & $aResult[1] & ", " & $aResult[2] & " !", $COLOR_DEBUG) ;debug
 						Else
 							ClickP($aAway, 1, 0, "#0932") ;Click Away
-							Setlog("Position : " &  $FoundWalls[2] & " is not a Wall Level: " & $icmbWalls + 4 & ".", $COLOR_ERROR)
+							Setlog("Position : " &  $FoundWalls[$i] & " is not a Wall Level: " & $icmbWalls + 4 & ".", $COLOR_ERROR)
 						EndIf
 					EndIf
 				Else
@@ -65,10 +65,10 @@ EndFunc   ;==>imglocCheckWall
 
 Func imglocFindWalls( $walllevel,$searcharea="DCD",$redline="",$maxreturn=0 )
 	; Will find maxreturn Wall in specified diamond
-	
+
 	;name , level , coords
 	Local $FoundWalls[1] = [""];
-	
+
 	Local $directory = @ScriptDir & "\imgxml\walls\"
 	Local $redLines = $redline
 	Local $minLevel = $walllevel
@@ -89,26 +89,26 @@ Func imglocFindWalls( $walllevel,$searcharea="DCD",$redline="",$maxreturn=0 )
 		SetError(2, $extError , $error)  ; Set external error code = 2 for DLL error
 		Return
 	EndIF
-	
-	If checkImglocError( $result, "imglocFindWalls" ) = True Then 
-		Return $FoundWalls 
+
+	If checkImglocError( $result, "imglocFindWalls" ) = True Then
+		Return $FoundWalls
 	EndIf
-	
-		
+
+
 	; Process results
 	If $result[0] <> "" Then
 		; Get the keys for the dictionary item.
 		If $DebugSetlog Then SetLog(" imglocFindMyWall search returned : " & $result[0])
 		Local $aKeys = StringSplit($result[0], "|", $STR_NOCOUNT)
 		; Loop through the array
-		redim $FoundWalls[UBound($aKeys)]
+		ReDim $FoundWalls[UBound($aKeys)]
 		For $i = 0 To UBound($aKeys) - 1
 			; Get the property values
 			; Loop through the found object names
 			Local $aCoords = returnImglocProperty($aKeys[$i], "objectpoints")
 			$FoundWalls[$i] = $aCoords
 		Next
-	EndIf	
+	EndIf
 	return $FoundWalls
 EndFunc   ;==>
 

@@ -1,4 +1,12 @@
-﻿* **V6.3.u5** (CoC October Update BETA Version)
+﻿* **V6.3.u6** (CoC October Update BETA Version)
+ * Fix BlueStacks 0.9.x/0.10.x not supported bug (introduced in Beta 5)
+ * Fix a reline issue that village offset and zoom factor is not applied to redline data and calculations
+ * Fix number of required collectors for deadbase is not 3 but blank for new profile
+ * Fix wall upgrade when a wall not found
+ * Fix CSV Attack using village offset and zoom factor for fixed coordinates
+ * Improve dead base elixir collector level 12 image detection
+
+* **V6.3.u5** (CoC October Update BETA Version)
  * Add Android support for BlueStacks 1.x
  * Update imgloc debug fixes and village centering fixes
  * Improve deadbase images using new images and logic

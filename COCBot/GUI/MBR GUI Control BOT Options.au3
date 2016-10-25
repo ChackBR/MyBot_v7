@@ -454,6 +454,14 @@ Func btnTestImage()
 		SetLog("$aNoCloudsAttack pixel check: " & _CheckPixel($aNoCloudsAttack, $bCapturePixel))
 		SetLog("Testing WaitForClouds DONE", $COLOR_SUCCESS)
 
+		SetLog("Testing checkAttackDisable...", $COLOR_SUCCESS)
+		SetLog("Testing checkAttackDisable($iTaBChkAttack)...", $COLOR_SUCCESS)
+		SetLog("checkAttackDisable($iTaBChkAttack) = " & checkAttackDisable($iTaBChkAttack))
+		SetLog("Testing checkAttackDisable($iTaBChkIdle)...", $COLOR_SUCCESS)
+		SetLog("checkAttackDisable($iTaBChkIdle) = " & checkAttackDisable($iTaBChkIdle))
+		SetLog("Testing checkAttackDisable($iTaBChkTime)...", $COLOR_SUCCESS)
+		SetLog("checkAttackDisable($iTaBChkTime) = " & checkAttackDisable($iTaBChkTime))
+		SetLog("Testing checkAttackDisable DONE", $COLOR_SUCCESS)
 	Next
 
 	SetLog("Testing finished", $COLOR_INFO)
@@ -576,6 +584,51 @@ Func btnTestDeadBaseFolder()
 	checkDeadBaseFolder($directory)
 
 EndFunc   ;==>btnTestDeadBase
+
+Func btnTestAttackCSV()
+
+	Local $hBMP = 0, $hHBMP = 0
+	Local $sImageFile = FileOpenDialog("Select CoC screenshot to test, cancel to use live screenshot", @ScriptDir & "\Zombies", "Image (*.png)", $FD_FILEMUSTEXIST, "", $frmBot)
+	If @error <> 0 Then
+		SetLog("Testing image cancelled, taking screenshot from " & $Android, $COLOR_INFO)
+		_CaptureRegion()
+		$hHBMP = $hHBitmap
+		TestCapture($hHBMP)
+	Else
+		SetLog("Testing image " & $sImageFile, $COLOR_INFO)
+		; load test image
+		$hBMP = _GDIPlus_BitmapCreateFromFile($sImageFile)
+		$hHBMP = _GDIPlus_BitmapCreateDIBFromBitmap($hBMP)
+		_GDIPlus_BitmapDispose($hBMP)
+		TestCapture($hHBMP)
+		SetLog("Testing image hHBitmap = " & $hHBMP)
+	EndIf
+
+	Local $currentRunState = $RunState
+	Local $currentDebugAttackCSV = $debugAttackCSV
+	Local $currentMakeIMGCSV = $makeIMGCSV
+	$RunState = True
+	$debugAttackCSV = 1
+	$makeIMGCSV = 1
+
+	SetLog("Testing Algorithm_AttackCSV()", $COLOR_INFO)
+	ResetTHsearch()
+	FindTownhall(True)
+	Local $aCenterVillage = SearchZoomOut($aCenterEnemyVillageClickDrag, True, "btnTestAttackCSV")
+	updateGlobalVillageOffset($aCenterVillage[3], $aCenterVillage[4]) ; update red line and TH location
+	Algorithm_AttackCSV()
+	SetLog("Testing Algorithm_AttackCSV() DONE", $COLOR_INFO)
+
+	If $hHBMP <> 0 Then
+		_WinAPI_DeleteObject($hHBMP)
+		TestCapture(0)
+	EndIf
+
+	$RunState = $currentRunState
+	$debugAttackCSV = $currentDebugAttackCSV
+	$makeIMGCSV = $currentMakeIMGCSV
+
+EndFunc
 
 Func FixClanCastle($inputString)
 	; if found  a space in results of attack bar slot detection, force insert of clan castle

@@ -14,6 +14,7 @@
 ; ===============================================================================================================================
 Func debugAttackCSV($string)
 	If $debugAttackCSV = 1 Then
+		ConsoleWrite("A " & TimeDebug() & $string & @CRLF)
 		Local $hfile = FileOpen($dirLogs & "debugAttackCSV.log", $FO_APPEND)
 		_FileWriteLog($hfile, $string)
 		FileClose($hfile)

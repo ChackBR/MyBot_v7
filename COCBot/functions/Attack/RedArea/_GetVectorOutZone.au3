@@ -18,35 +18,37 @@ Func _GetVectorOutZone($eVectorType)
 	Local $vectorOutZone[0]
 
 	If ($eVectorType = $eVectorLeftTop) Then
-		$xMin = 430
-		$yMin = 29
-		$xMax = 33
-		$yMax = 325
+		$xMin = $ExternalArea[2][0] ; 430
+		$yMin = $ExternalArea[2][1] ; 29
+		$xMax = $ExternalArea[0][0] ; 33
+		$yMax = $ExternalArea[0][1] ; 325
 		$xStep = -4
 		$yStep = 3
 	ElseIf ($eVectorType = $eVectorRightTop) Then
-		$xMin = 430
-		$yMin = 29
-		$xMax = 834
-		$yMax = 325
+		$xMin = $ExternalArea[2][0] ; 430
+		$yMin = $ExternalArea[2][1] ; 29
+		$xMax = $ExternalArea[1][0] ; 834
+		$yMax = $ExternalArea[0][1] ; 325
 		$xStep = 4
 		$yStep = 3
 	ElseIf ($eVectorType = $eVectorLeftBottom) Then
-		$xMin = 39
-		$yMin = 338
-		$xMax = 430
-		$yMax = 630
+		$xMin = $ExternalArea[0][0] ; 39
+		$yMin = $ExternalArea[0][1] ; 338
+		$xMax = $ExternalArea[2][0] ; 430
+		$yMax = $ExternalArea[3][1] ; 630
 		$xStep = 4
 		$yStep = 3
-	Else
-		$xMin = 834
-		$yMin = 325
-		$xMax = 430
-		$yMax = 630
+	Else ; bottom right
+		$xMin = $ExternalArea[1][0] ; 834
+		$yMin = $ExternalArea[0][1] ; 325
+		$xMax = $ExternalArea[2][0] ; 430
+		$yMax = $ExternalArea[3][1] ; 630
 		$xStep = -4
 		$yStep = 3
 	EndIf
 
+	CheckAttackLocation($xMin, $yMin)
+	CheckAttackLocation($xMax, $yMax)
 
 	Local $pixel[2]
 	Local $x = $xMin
@@ -56,7 +58,6 @@ Func _GetVectorOutZone($eVectorType)
 		$pixel[1] = $y
 		ReDim $vectorOutZone[UBound($vectorOutZone) + 1]
 		$vectorOutZone[UBound($vectorOutZone) - 1] = $pixel
-
 	Next
 
 	Return $vectorOutZone

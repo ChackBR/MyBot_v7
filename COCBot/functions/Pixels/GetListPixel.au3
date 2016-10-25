@@ -10,21 +10,22 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
-Func GetListPixel($listPixel)
+Func GetListPixel($listPixel, $sDelim = "-", $sName = "")
+	If $sName <> "" Then debugAttackCSV("GetListPixel for " & $sName & ": " & $listPixel)
 	Local $listPixelSideStr = StringSplit($listPixel, "|")
 	If ($listPixelSideStr[0] > 1) Then
 		Local $listPixelSide[UBound($listPixelSideStr) - 1]
 		For $i = 0 To UBound($listPixelSide) - 1
-			Local $pixelStr = StringSplit($listPixelSideStr[$i + 1], "-")
-			If ($pixelStr[0] > 1) Then
+			Local $pixelStr = StringSplit($listPixelSideStr[$i + 1], $sDelim)
+			;If ($pixelStr[0] > 1) Then
 				Local $pixel[2] = [$pixelStr[1], $pixelStr[2]]
 				$listPixelSide[$i] = $pixel
-			EndIf
+			;EndIf
 		Next
 		Return $listPixelSide
 	Else
-		If StringInStr($listPixel, "-") > 0 Then
-			Local $pixelStrHere = StringSplit($listPixel, "-")
+		If StringInStr($listPixel, $sDelim) > 0 Then
+			Local $pixelStrHere = StringSplit($listPixel, $sDelim)
 			Local $pixelHere[2] = [$pixelStrHere[1], $pixelStrHere[2]]
 			Local $listPixelHere[1]
 			$listPixelHere[0] = $pixelHere

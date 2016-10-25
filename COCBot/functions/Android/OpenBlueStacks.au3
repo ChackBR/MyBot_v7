@@ -91,7 +91,7 @@ Func OpenBlueStacks2($bRestart = False)
 	  EndIf
 	  If $pid > 0 Then $pid = ProcessExists2($AndroidProgramPath)
 	  If $pid <= 0 Then
-		 CloseAndroid()
+		 CloseAndroid("OpenBlueStacks2")
 		 If _Sleep(1000) Then Return False
 	  EndIf
 
@@ -250,13 +250,9 @@ EndFunc
 
 Func InitBlueStacks($bCheckOnly = False)
    Local $bInstalled = InitBlueStacksX($bCheckOnly)
-   If $bInstalled And StringInStr($__BlueStacks_Version, "0.8.") <> 1 _
-				  And StringInStr($__BlueStacks_Version, "0.9.") <> 1 _
-				  And StringInStr($__BlueStacks_Version, "0.10.") <> 1 _
-				  And StringInStr($__BlueStacks_Version, "0.11.") <> 1 _ ; user reported that version exists - ha ;)
-   Then
+   If $bInstalled And (GetVersionNormalized($__BlueStacks_Version) < GetVersionNormalized("0.8") Or GetVersionNormalized($__BlueStacks_Version) > GetVersionNormalized("1.x") > 0) Then
 	  If Not $bCheckOnly Then
-		 SetLog("BlueStacks supported version 0.8.x - 0.11.x not found", $COLOR_ERROR)
+		 SetLog("BlueStacks version is " & $__BlueStacks_Version & " but support version 0.8.x - 1.x not found", $COLOR_ERROR)
 		 SetError(1, @extended, False)
 	  EndIf
 	  Return False
@@ -425,7 +421,7 @@ Func RebootBlueStacks2SetScreen($bOpenAndroid = True)
    ConfigBlueStacks2WindowManager()
 
    ; Close Android
-   CloseAndroid()
+   CloseAndroid("RebootBlueStacks2SetScreen")
    If _Sleep(1000) Then Return False
 
    SetScreenAndroid()

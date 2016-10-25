@@ -298,16 +298,16 @@ Func readConfig($inputfile = $config, $partial = False) ;Reads config and sets i
 		IniReadS($iMinTrophy[$DB], $config, "search", "DBsearchTrophy", "0", "Int")
 		IniReadS($iCmbTH[$DB], $config, "search", "DBTHLevel", "0")
 
-		IniReadS($iCmbWeakMortar[$DB], $config, "search", "DBWeakMortar", "5")
-		IniReadS($iCmbWeakWizTower[$DB], $config, "search", "DBWeakWizTower", "4")
-		IniReadS($iCmbWeakXBow[$DB], $config, "search", "DBWeakXBow", "4")
-		IniReadS($iCmbWeakInferno[$DB], $config, "search", "DBWeakInferno", "1")
-		IniReadS($iCmbWeakEagle[$DB], $config, "search", "DBWeakEagle", "2")
-		IniReadS($iChkMaxMortar[$DB], $config, "search", "DBCheckMortar", "0")
-		IniReadS($iChkMaxWizTower[$DB], $config, "search", "DBCheckWizTower", "0")
-		IniReadS($iChkMaxXBow[$DB], $config, "search", "DBCheckXBow", "0")
-		IniReadS($iChkMaxInferno[$DB], $config, "search", "DBCheckInferno", "0")
-		IniReadS($iChkMaxEagle[$DB], $config, "search", "DBCheckEagle", "0")
+		IniReadS($iCmbWeakMortar[$DB], $config, "search", "DBWeakMortar", "5", "Int")
+		IniReadS($iCmbWeakWizTower[$DB], $config, "search", "DBWeakWizTower", "4", "Int")
+		IniReadS($iCmbWeakXBow[$DB], $config, "search", "DBWeakXBow", "4", "Int")
+		IniReadS($iCmbWeakInferno[$DB], $config, "search", "DBWeakInferno", "1", "Int")
+		IniReadS($iCmbWeakEagle[$DB], $config, "search", "DBWeakEagle", "2", "Int")
+		IniReadS($iChkMaxMortar[$DB], $config, "search", "DBCheckMortar", "0", "Int")
+		IniReadS($iChkMaxWizTower[$DB], $config, "search", "DBCheckWizTower", "0", "Int")
+		IniReadS($iChkMaxXBow[$DB], $config, "search", "DBCheckXBow", "0", "Int")
+		IniReadS($iChkMaxInferno[$DB], $config, "search", "DBCheckInferno", "0", "Int")
+		IniReadS($iChkMaxEagle[$DB], $config, "search", "DBCheckEagle", "0", "Int")
 
 		IniReadS($iChkEnableAfter[$LB], $config, "search", "ABEnableAfter", "0")
 		IniReadS($iCmbMeetGE[$LB], $config, "search", "ABMeetGE", "2")
@@ -330,16 +330,16 @@ Func readConfig($inputfile = $config, $partial = False) ;Reads config and sets i
 		IniReadS($iMinTrophy[$LB], $config, "search", "ABsearchTrophy", "0", "Int")
 		IniReadS($iCmbTH[$LB], $config, "search", "ABTHLevel", "0")
 
-		IniReadS($iCmbWeakMortar[$LB], $config, "search", "ABWeakMortar", "5")
-		IniReadS($iCmbWeakWizTower[$LB], $config, "search", "ABWeakWizTower", "4")
-		IniReadS($iCmbWeakXBow[$LB], $config, "search", "ABWeakXBow", "4")
-		IniReadS($iCmbWeakInferno[$LB], $config, "search", "ABWeakInferno", "1")
-		IniReadS($iCmbWeakEagle[$LB], $config, "search", "ABWeakEagle", "2")
-		IniReadS($iChkMaxMortar[$LB], $config, "search", "ABCheckMortar", "0")
-		IniReadS($iChkMaxWizTower[$LB], $config, "search", "ABCheckWizTower", "0")
-		IniReadS($iChkMaxXBow[$LB], $config, "search", "ABCheckXBow", "0")
-		IniReadS($iChkMaxInferno[$LB], $config, "search", "ABCheckInferno", "0")
-		IniReadS($iChkMaxEagle[$LB], $config, "search", "ABCheckEagle", "0")
+		IniReadS($iCmbWeakMortar[$LB], $config, "search", "ABWeakMortar", "5", "Int")
+		IniReadS($iCmbWeakWizTower[$LB], $config, "search", "ABWeakWizTower", "4", "Int")
+		IniReadS($iCmbWeakXBow[$LB], $config, "search", "ABWeakXBow", "4", "Int")
+		IniReadS($iCmbWeakInferno[$LB], $config, "search", "ABWeakInferno", "1", "Int")
+		IniReadS($iCmbWeakEagle[$LB], $config, "search", "ABWeakEagle", "2", "Int")
+		IniReadS($iChkMaxMortar[$LB], $config, "search", "ABCheckMortar", "0", "Int")
+		IniReadS($iChkMaxWizTower[$LB], $config, "search", "ABCheckWizTower", "0", "Int")
+		IniReadS($iChkMaxXBow[$LB], $config, "search", "ABCheckXBow", "0", "Int")
+		IniReadS($iChkMaxInferno[$LB], $config, "search", "ABCheckInferno", "0", "Int")
+		IniReadS($iChkMaxEagle[$LB], $config, "search", "ABCheckEagle", "0", "Int")
 
 		IniReadS($iChkSearchReduction, $config, "search", "reduction", "0")
 		IniReadS($ReduceCount, $config, "search", "reduceCount", "20")
@@ -1001,22 +1001,23 @@ Func readConfig($inputfile = $config, $partial = False) ;Reads config and sets i
 		InireadS($chkLvl10Enabled, $config, "collectors", "lvl10Enabled", "1", "Int")
 		InireadS($chkLvl11Enabled, $config, "collectors", "lvl11Enabled", "1", "Int")
 		InireadS($chkLvl12Enabled, $config, "collectors", "lvl12Enabled", "1", "Int")
-		InireadS($cmbLvl6Fill, $config, "collectors", "lvl6fill", "0")
+		InireadS($cmbLvl6Fill, $config, "collectors", "lvl6fill", "0", "Int")
 		If $cmbLvl6Fill > 1 Then $cmbLvl6Fill = 1
-		InireadS($cmbLvl7Fill, $config, "collectors", "lvl7fill", "0")
+		InireadS($cmbLvl7Fill, $config, "collectors", "lvl7fill", "0", "Int")
 		If $cmbLvl7Fill > 1 Then $cmbLvl7Fill = 1
-		InireadS($cmbLvl8Fill, $config, "collectors", "lvl8fill", "0")
+		InireadS($cmbLvl8Fill, $config, "collectors", "lvl8fill", "0", "Int")
 		If $cmbLvl8Fill > 1 Then $cmbLvl8Fill = 1
-		InireadS($cmbLvl9Fill, $config, "collectors", "lvl9fill", "0")
+		InireadS($cmbLvl9Fill, $config, "collectors", "lvl9fill", "0", "Int")
 		If $cmbLvl9Fill > 1 Then $cmbLvl9Fill = 1
-		InireadS($cmbLvl10Fill, $config, "collectors", "lvl10fill", "0")
+		InireadS($cmbLvl10Fill, $config, "collectors", "lvl10fill", "0", "Int")
 		If $cmbLvl10Fill > 1 Then $cmbLvl10Fill = 1
-		InireadS($cmbLvl11Fill, $config, "collectors", "lvl11fill", "0")
+		InireadS($cmbLvl11Fill, $config, "collectors", "lvl11fill", "0", "Int")
 		If $cmbLvl11Fill > 1 Then $cmbLvl11Fill = 1
-		InireadS($cmbLvl12Fill, $config, "collectors", "lvl12fill", "0")
+		InireadS($cmbLvl12Fill, $config, "collectors", "lvl12fill", "0", "Int")
 		If $cmbLvl12Fill > 1 Then $cmbLvl12Fill = 1
-		InireadS($toleranceOffset, $config, "collectors", "tolerance", "0")
-		InireadS($iMinCollectorMatches, $config, "collectors", "minmatches", "3") ; 1-6 collectors
+		InireadS($toleranceOffset, $config, "collectors", "tolerance", "0", "Int")
+		InireadS($iMinCollectorMatches, $config, "collectors", "minmatches", $iMinCollectorMatches) ; 1-6 collectors
+		If $iMinCollectorMatches < 1 Or $iMinCollectorMatches > 6 Then $iMinCollectorMatches = 3
 
 		; Android Configuration
 		$AndroidAutoAdjustConfig = IniRead($config, "android", "auto.adjust.config", ($AndroidAutoAdjustConfig ? "1" : "0")) = "1" ; if enabled, best android options are configured
@@ -1051,7 +1052,7 @@ Func readConfig($inputfile = $config, $partial = False) ;Reads config and sets i
 ;
 ; MOD
 ;
-#include "..\MOD\Config_Read.au3"
+#include "..\..\MOD\Config_Read.au3"
 
 	Else
 		Return False

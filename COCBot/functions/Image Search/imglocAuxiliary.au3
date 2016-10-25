@@ -218,6 +218,38 @@ Func findImage($sImageName, $sImageTile ,$sImageArea , $maxReturnPoints = 1, $bF
 
 EndFunc   ;==>findImage
 
+Func GetDeployableNextTo($sPoints, $distance = 3)
+	Local $result = DllCall($pImgLib, "str", "GetDeployableNextTo", "str", $sPoints, "int", $distance)
+	$error = @error  ; Store error values as they reset at next function call
+	$extError = @extended
+	If $error Then
+		_logErrorDLLCall($pImgLib, $error)
+		If $DebugSetlog Then SetLog(" imgloc DLL Error imgloc " & $error & " --- "  & $extError)
+		SetError(2, $extError , "")  ; Set external error code = 2 for DLL error
+		Return ""
+	EndIF
+
+	If UBound($result) = 0 Then Return ""
+	If $DebugSetlog = 1 Then SetLog("GetDeployableNextTo : " & $sPoints & ", dist. = " & $distance & " : " & $result[0], $COLOR_ORANGE)
+	Return $result[0]
+EndFunc   ;==>GetDeployableNextTo
+
+Func GetOffsetRedline($sArea = "TL", $distance = 3)
+	Local $result = DllCall($pImgLib, "str", "GetOffSetRedline", "str", $sArea, "int", $distance)
+	$error = @error  ; Store error values as they reset at next function call
+	$extError = @extended
+	If $error Then
+		_logErrorDLLCall($pImgLib, $error)
+		If $DebugSetlog Then SetLog(" imgloc DLL Error imgloc " & $error & " --- "  & $extError)
+		SetError(2, $extError , "")  ; Set external error code = 2 for DLL error
+		Return ""
+	EndIF
+
+	If UBound($result) = 0 Then Return ""
+	If $DebugSetlog = 1 Then SetLog("GetOffSetRedline : " & $sArea & ", dist. = " & $distance & " : " & $result[0], $COLOR_ORANGE)
+	Return $result[0]
+EndFunc   ;==>GetOffSetRedline
+
 Func findMultiple($directory ,$sCocDiamond ,$redLines, $minLevel=0, $maxLevel=1000, $maxReturnPoints = 0, $returnProps="objectname,objectlevel,objectpoints", $bForceCapture = True )
 	; same has findButton, but allow custom area instead of button area decoding
 	; nice for dinamic locations

@@ -2523,7 +2523,7 @@ Func saveConfig() ;Saves the controls settings to the config
 ;
 ; MOD
 ;
-#include "..\MOD\Config_Save.au3"
+#include "..\..\MOD\Config_Save.au3"
 
 	If $hFile <> -1 Then FileClose($hFile)
 

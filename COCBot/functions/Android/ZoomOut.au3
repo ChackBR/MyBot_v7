@@ -371,6 +371,14 @@ Func AndroidOnlyZoomOut() ;Zooms out
 	Return False
 EndFunc   ;==>AndroidOnlyZoomOut
 
+; SearchZoomOut returns always an Array.
+; If village can be measured and villages size < 500 pixel then it returns in idx 0 a String starting with "zoomout:" and tries to center base
+; Return Array:
+; 0 = Empty string if village cannot be measured (e.g. window blocks village or not zoomed out)
+; 1 = Current Village X Offset (after centering village)
+; 2 = Current Village Y Offset (after centering village)
+; 3 = Difference of previous Village X Offset and current (after centering village)
+; 4 = Difference of previous Village Y Offset and current (after centering village)
 Func SearchZoomOut($CenterVillageBoolOrScrollPos = $aCenterHomeVillageClickDrag, $UpdateMyVillage = True, $sSource = "")
 	If $sSource <> "" Then $sSource = " (" & $sSource & ")"
 	Local $bCenterVillage = $CenterVillageBoolOrScrollPos
@@ -387,7 +395,7 @@ Func SearchZoomOut($CenterVillageBoolOrScrollPos = $aCenterHomeVillageClickDrag,
 
 	_CaptureRegion()
 
-	Local $aResult[3] = ["", 0, 0] ; expected dummy value
+	Local $aResult = ["", 0, 0, 0, 0] ; expected dummy value
 
 	Local $village = GetVillageSize()
 
@@ -415,9 +423,12 @@ Func SearchZoomOut($CenterVillageBoolOrScrollPos = $aCenterHomeVillageClickDrag,
 				EndIf
 				ClickDrag($aScrollPos[0], $aScrollPos[1], $aScrollPos[0] - $x, $aScrollPos[1] - $y)
 				If _Sleep(250) Then Return $aResult
-				$aResult = SearchZoomOut(False, $UpdateMyVillage)
-				SetDebugLog("Centered Village Offset" & $sSource & ": " & $aResult[1] & ", " & $aResult[2])
-				Return $aResult
+				Local $aResult2 = SearchZoomOut(False, $UpdateMyVillage)
+				; update difference in offset
+				$aResult2[3] = $aResult2[1] - $aResult[1]
+				$aResult2[4] = $aResult2[2] - $aResult[2]
+				SetDebugLog("Centered Village Offset" & $sSource & ": " & $aResult2[1] & ", " & $aResult2[2] & ", change: " & $aResult2[3] & ", " & $aResult2[4])
+				Return $aResult2
 			EndIf
 
 			If $UpdateMyVillage = True Then
@@ -436,7 +447,7 @@ Func SearchZoomOut($CenterVillageBoolOrScrollPos = $aCenterHomeVillageClickDrag,
 				;CloseCoC(True)
 				SetLog("Restart CoC to reset zoom" & $sSource & "...", $COLOR_INFO)
 				PoliteCloseCoC("Zoomout" & $sSource)
-				If _Sleep(1000) Then Return
+				If _Sleep(1000) Then Return $aResult
 				CloseCoC() ; ensure CoC is gone
 				OpenCoC()
 				Return SearchZoomOut()

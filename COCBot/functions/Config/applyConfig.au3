@@ -2642,7 +2642,7 @@ chkskipDonateNearFulLTroopsEnable()
 ;
 ; MOD
 ;
-#include "..\MOD\Config_Apply.au3"
+#include "..\..\MOD\Config_Apply.au3"
 
 	; Reenabling window redraw - Keep this last....
 	If $bRedrawAtExit Then SetRedrawBotWindow(True)

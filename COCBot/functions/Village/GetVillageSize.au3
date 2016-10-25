@@ -152,3 +152,46 @@ Func GetVillageSize()
 	$aResult[9] = $tree[5]
 	Return $aResult
 EndFunc   ;==>GetVillageSize
+
+Func updateGlobalVillageOffset($x, $y)
+
+	Local $updated = False
+
+	If $IMGLOCREDLINE <> "" Then
+
+		Local $newReadLine = ""
+		Local $aPoints = StringSplit($IMGLOCREDLINE, "|", $STR_NOCOUNT)
+
+		For $sPoint In $aPoints
+
+			Local $aPoint = StringSplit($IMGLOCREDLINE, ",", $STR_NOCOUNT)
+			$aPoint[0] += $x
+			$aPoint[1] += $y
+
+			If StringLen($newReadLine) > 0 Then $newReadLine &= "|"
+			$newReadLine &= ($aPoint[0] & "," & $aPoint[1])
+
+		Next
+
+		; set updated red line
+		$IMGLOCREDLINE = $newReadLine
+
+		$updated = True
+	EndIf
+
+	If $aTownHall[0] <> 0 And $aTownHall[1] <> 0 Then
+		$aTownHall[0] += $x
+		$aTownHall[1] += $y
+		$updated = True
+	EndIf
+	If $THx <> 0 And $THy <> 0 Then
+		$THx += $x
+		$THy += $y
+		$updated = True
+	EndIf
+
+	ConvertInternalExternArea()
+
+	Return $updated
+
+EndFunc   ;==>updateGlobalVillageOffset

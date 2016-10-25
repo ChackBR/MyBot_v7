@@ -48,8 +48,9 @@ Local $sModversion
 ; "2305" ; MyBot v6.3.0 Beta 4
 ; "2306" ; MyBot v6.3.0 Beta 5
 ; "2307" ; MyBot v6.3.0 Beta 5 + Fix for BlueStacks
-$sModversion = "2308" ; Minor Fixes + Multi Farming ( SwitchAcc )
-$sBotVersion = "v6.3.u5" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it it also use on Checkversion()
+; "2308" ; Minor Fixes + Multi Farming ( SwitchAcc )
+$sModversion = "2309" ; MyBot v6.3.0 Beta 6
+$sBotVersion = "v6.3.u6" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it it also use on Checkversion()
 $sBotTitle = "My Bot " & $sBotVersion & ".r" & $sModversion & " " ;~ Don't use any non file name supported characters like \ / : * ? " < > |
 
 #include "COCBot\functions\Config\DelayTimes.au3"
