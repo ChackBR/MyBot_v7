@@ -16,9 +16,7 @@ Func cmbProfile()
 	saveConfig()
 
 	FileClose($hLogFileHandle)
-	$hLogFileHandle = ""		;- Writing log for each profile in SwitchAcc Mode - DEMEN (Special thanks to ezeck0001)
 	FileClose($hAttackLogFileHandle)
-	$hAttackLogFileHandle = ""	;- Writing log for each profile in SwitchAcc Mode - DEMEN (Special thanks to ezeck0001)
 
 	; Setup the profile in case it doesn't exist.
 	setupProfile()
@@ -28,8 +26,6 @@ Func cmbProfile()
 	saveConfig()
 
 	SetLog("Profile " & $sCurrProfile & " loaded from " & $config, $COLOR_SUCCESS)
-	btnUpdateProfile()			;- Refreshing setting of all profiles in SwitchAcc Mode - DEMEN
-
 EndFunc   ;==>cmbProfile
 
 Func btnAddConfirm()
