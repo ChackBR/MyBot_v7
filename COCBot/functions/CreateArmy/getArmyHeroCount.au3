@@ -114,7 +114,7 @@ Func getArmyHeroCount($bOpenArmyWindow = False, $bCloseArmyWindow = False)
 					SetLog("Hero slot#" & $i + 1 & " bad OCR string returned!", $COLOR_ERROR)
 			EndSelect
 		Else
-			SetLog("Hero slot#" & $i + 1 & " status read problem!", $COLOR_ERROR)
+			SetDebugLog("Hero slot#" & $i + 1 & " status read problem!", $COLOR_ERROR)
 		EndIf
 	Next
 

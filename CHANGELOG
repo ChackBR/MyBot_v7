@@ -1,4 +1,9 @@
-﻿* **V6.3.u6** (CoC October Update BETA Version)
+﻿* **V6.3.u7** (CoC October Update BETA Version)
+ * Fix locate Barracks
+ * Fix boost Barracks, Spell Factory, Dark Spell Factory and Heroes
+ * Fix bot crash for TH6 or SmartWait error
+
+* **V6.3.u6** (CoC October Update BETA Version)
  * Fix BlueStacks 0.9.x/0.10.x not supported bug (introduced in Beta 5)
  * Fix a reline issue that village offset and zoom factor is not applied to redline data and calculations
  * Fix number of required collectors for deadbase is not 3 but blank for new profile
@@ -10,7 +15,7 @@
  * Add Android support for BlueStacks 1.x
  * Update imgloc debug fixes and village centering fixes
  * Improve deadbase images using new images and logic
- * Improved "zombie" option to save screenshot of attacking village for better post DB detection analysis
+ * Improve "zombie" option to save screenshot of attacking village for better post DB detection analysis
  * Fix centering of attacking village that happened to deploy troops sometimes
  * Fix centering of home village that happened to click clan wars button sometimes
  * Fix centering/zoomout of village when obstacles block fix points

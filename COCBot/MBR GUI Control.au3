@@ -59,7 +59,7 @@ Global $aTabControlsStrategies[3] = [$hGUI_STRATEGIES_TAB, $hGUI_STRATEGIES_TAB_
 Global $aTabControlsBot[5] = [$hGUI_BOT_TAB, $hGUI_BOT_TAB_ITEM1, $hGUI_BOT_TAB_ITEM2, $hGUI_BOT_TAB_ITEM3, $hGUI_BOT_TAB_ITEM4]
 Global $aTabControlsStats[4] = [$hGUI_STATS_TAB, $hGUI_STATS_TAB_ITEM1, $hGUI_STATS_TAB_ITEM2, $hGUI_STATS_TAB_ITEM3]
 
-Global $aAlwaysEnabledControls = [$chkUpdatingWhenMinimized, $chkHideWhenMinimized, $chkDebugClick, $chkDebugSetlog, $chkDebugDisableZoomout, $chkDebugDisableVillageCentering, $chkDebugOcr, $chkDebugImageSave, $chkdebugBuildingPos, $chkdebugTrain, $chkdebugOCRDonate,$btnTestTrain, $btnTestDonateCC, $btnTestRequestCC, $btnTestAttackBar, $btnTestClickDrag, $btnTestImage, $btnTestVillageSize, $btnTestDeadBase, $btnTestDeadBaseFolder, $btnTestTHimgloc, $btnTestTrainsimgloc,$btnTestQuickTrainsimgloc, $chkdebugAttackCSV, $chkmakeIMGCSV, $btnTestAttackCSV]
+Global $aAlwaysEnabledControls = [$chkUpdatingWhenMinimized, $chkHideWhenMinimized, $chkDebugClick, $chkDebugSetlog, $chkDebugDisableZoomout, $chkDebugDisableVillageCentering, $chkDebugOcr, $chkDebugImageSave, $chkdebugBuildingPos, $chkdebugTrain, $chkdebugOCRDonate,$btnTestTrain, $btnTestDonateCC, $btnTestRequestCC, $btnTestAttackBar, $btnTestClickDrag, $btnTestImage, $btnTestVillageSize, $btnTestDeadBase, $btnTestDeadBaseFolder, $btnTestTHimgloc, $btnTestTrainsimgloc,$btnTestimglocTroopBar,$btnTestQuickTrainsimgloc, $chkdebugAttackCSV, $chkmakeIMGCSV, $btnTestAttackCSV, $btnTestFindButton, $txtTestFindButton]
 
 Global $frmBot_WNDPROC = 0
 
@@ -446,8 +446,12 @@ Func GUIControl_WM_COMMAND($hWind, $iMsg, $wParam, $lParam)
 			imglocTestTrain()
 		Case $btnTestQuickTrainsimgloc
 			imglocTestQuickTrain(1)
+		Case $btnTestimglocTroopBar
+			TestImglocTroopBar()
 		Case $btnTestAttackCSV
 			btnTestAttackCSV()
+		Case $btnTestFindButton
+			btnTestFindButton()
 	EndSwitch
 
 	$TogglePauseAllowed = $wasAllowed

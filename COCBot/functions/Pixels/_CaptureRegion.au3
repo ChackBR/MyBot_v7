@@ -112,11 +112,7 @@ Func _CaptureRegion2($iLeft = 0, $iTop = 0, $iRight = $GAME_WIDTH, $iBottom = $G
 	If $hHBitmap2 <> $hHBitmapTest Then
 		_WinAPI_DeleteObject($hHBitmap2) ; delete previous DC object using global handle
 	EndIf
-	If $hHBitmapTest = 0 Then
-		$hHBitmap2 = _CaptureRegion($iLeft, $iTop, $iRight, $iBottom, False, True)
-	Else
-		$hHBitmap2 = $hHBitmapTest
-	EndIf
+	$hHBitmap2 = _CaptureRegion($iLeft, $iTop, $iRight, $iBottom, False, True)
 
 EndFunc   ;==>_CaptureRegion2
 

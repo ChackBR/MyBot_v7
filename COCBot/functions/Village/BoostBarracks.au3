@@ -198,81 +198,46 @@ Func BoostBarracks()
 	checkMainScreen(False) ; Check for errors during function
 EndFunc   ;==>BoostBarracks
 
+Func BoostBarracks2()
+
+	Local $aPos[2] = [$barrackPos[0][0], $barrackPos[0][1]]
+
+	; Verifying existent Variables to run this routine
+	If AllowBoosting("Barracks", $icmbBoostBarracks) = False Then Return
+
+	; Confirm the Barrack 1 position.
+	SetLog("Boost Barracks...", $COLOR_INFO)
+	If $aPos[0] = "" Or $aPos[0] = -1 Then
+		LocateOneBarrack()
+		SaveConfig()
+		If _Sleep($iDelayBoostBarracks2) Then Return
+		Local $aPos[2] = [$barrackPos[0][0], $barrackPos[0][1]]
+	EndIf
+
+	BoostStructure("Barracks", "Barracks", $aPos, $icmbBoostBarracks, $cmbBoostBarracks)
+
+	If _Sleep($iDelayBoostBarracks5) Then Return
+	checkMainScreen(False) ; Check for errors during function
+
+EndFunc   ;==>BoostBarracks2
 
 Func BoostSpellFactory()
 
-	If $bTrainEnabled = False Then Return
+	Local $aPos = $SFPos
 
-	;Local Variables to use with this routine
-	Local $ButtonX, $ButtonY
-	Local $hTimer = TimerInit()
-	Local $res
-	Local $ImagesToUse1[2] ; Boost one
-	$ImagesToUse1[0] = @ScriptDir & "\imgxml\boostbarracks\BoostBarrack_0_92.xml" ; This image is use to Barracks and Spells Factories
-	$ImagesToUse1[1] = @ScriptDir & "\imgxml\boostbarracks\BarrackBoosted_0_92.xml"
-	$ToleranceImgLoc = 0.90 ; similarity 0.00 to 1
+	; Verifying existent Variables to run this routine
+	If AllowBoosting("Spell Factory", $icmbBoostSpellFactory) = False Then Return
 
-	If $icmbBoostSpellFactory > 0 And ($boostsEnabled = 1) Then
-		SetLog("Boost Spell Factory...", $COLOR_INFO)
-
-		; Confirm the Spell Factory Position
-		If $SFPos[0] = -1 Then
-			LocateSpellFactory()
-			SaveConfig()
-			If _Sleep($iDelayBoostSpellFactory2) Then Return
-		EndIf
-
-		BuildingClickP($SFPos, "#0162")
-		If _Sleep($iDelayBoostSpellFactory4) Then Return
-
-		_CaptureRegion2(125, 610, 740, 715)
-		For $i = 0 To 1
-			If FileExists($ImagesToUse1[$i]) Then
-				$res = DllCall($hImgLib, "str", "FindTile", "handle", $hHBitmap2, "str", $ImagesToUse1[$i],  "str", "FV", "int", 1)
-				If @error Then _logErrorDLLCall($pImgLib, @error)
-				If IsArray($res) Then
-					If $DebugSetlog Then SetLog("DLL Call succeeded " & $res[0], $COLOR_ERROR)
-					If $res[0] = "0" Then
-						If $i = 1 Then SetLog("No Button found")
-					ElseIf $res[0] = "-1" Then
-						SetLog("DLL Error", $COLOR_ERROR)
-					ElseIf $res[0] = "-2" Then
-						SetLog("Invalid Resolution", $COLOR_ERROR)
-					Else
-						If _Sleep($iDelayBoostBarracks5) Then Return
-						If $i = 0 Then
-							If $DebugSetlog = 1 Then SetLog("Found the Button to Boost Spell Factory")
-							$expRet = StringSplit(StringSplit($res[0], "|", 2)[1], ",", 2)
-							$ButtonX = 125 + Int($expRet[0])
-							$ButtonY = 610 + Int($expRet[1])
-							If $DebugSetlog Then SetLog("found (" & $ButtonX & "," & $ButtonY & ")", $COLOR_SUCCESS)
-							If IsMainPage() Then Click($ButtonX, $ButtonY, 1, 0, "#0330")
-							If _Sleep($iDelayBoostSpellFactory1) Then Return
-							If _ColorCheck(_GetPixelColor(420, 375 + $midOffsetY, True), Hex(0xD0E978, 6), 20) Then
-								Click(420, 375 + $midOffsetY, 1, 0, "#0160")
-								If _Sleep($iDelayBoostSpellFactory2) Then Return
-								If _ColorCheck(_GetPixelColor(586, 267 + $midOffsetY, True), Hex(0xd80405, 6), 20) Then
-									$icmbBoostSpellFactory = 0
-									SetLog("Not enough gems", $COLOR_ERROR)
-									ClickP($aAway, 1, 0, "#0161")
-									ExitLoop
-								Else
-									$cmbBoostSpellFactory -= 1
-									SetLog('Boost completed. Remaining :' & $icmbBoostSpellFactory, $COLOR_SUCCESS)
-								EndIf
-							EndIf
-							If _Sleep($iDelayBoostSpellFactory3) Then Return
-							ClickP($aAway, 1, 0, "#0161")
-							ExitLoop
-						Else
-							SetLog("Spell Factory is already Boosted!")
-							ClickP($aAway, 1, 0, "#0161")
-						EndIf
-					EndIf
-				EndIf
-			EndIf
-		Next
+	; Confirm the position.
+	SetLog("Boost Spell Factory...", $COLOR_INFO)
+	If $aPos[0] = "" Or $aPos[0] = -1 Then
+		LocateSpellFactory()
+		SaveConfig()
+		If _Sleep($iDelayBoostHeroes4) Then Return
+		$aPos = $SFPos
 	EndIf
+
+	BoostStructure("Spell Factory", "Spell", $aPos, $icmbBoostSpellFactory, $cmbBoostSpellFactory)
 
 	If _Sleep($iDelayBoostBarracks5) Then Return
 	checkMainScreen(False) ; Check for errors during function
@@ -282,79 +247,21 @@ EndFunc   ;==>BoostSpellFactory
 
 Func BoostDarkSpellFactory()
 
-	If $bTrainEnabled = False Then Return
+	Local $aPos = $DSFPos
 
-	;Local Variables to use with this routine
-	Local $ButtonX, $ButtonY
-	Local $hTimer = TimerInit()
-	Local $res
-	Local $ImagesToUse1[2] ; Boost one
-	$ImagesToUse1[0] = @ScriptDir & "\imgxml\boostbarracks\BoostBarrack_0_92.xml" ; This image is use to Barracks and Spells Factories
-	$ImagesToUse1[1] = @ScriptDir & "\imgxml\boostbarracks\BarrackBoosted_0_92.xml"
-	$ToleranceImgLoc = 0.90 ; similarity 0.00 to 1
+	; Verifying existent Variables to run this routine
+	If AllowBoosting("Dark Spell Factory", $icmbBoostDarkSpellFactory) = False Then Return
 
-
-	If $icmbBoostDarkSpellFactory > 0 And ($boostsEnabled = 1) Then
-		SetLog("Boost Dark Spell Factory...", $COLOR_INFO)
-
-		If $DSFPos[0] = -1 Then
-			LocateDarkSpellFactory()
-			SaveConfig()
-			If _Sleep($iDelayBoostSpellFactory2) Then Return
-		EndIf
-
-		BuildingClickP($DSFPos, "#0162")
-		If _Sleep($iDelayBoostSpellFactory4) Then Return
-
-
-		_CaptureRegion2(125, 610, 740, 715)
-		For $i = 0 To 1
-			If FileExists($ImagesToUse1[$i]) Then
-				$res = DllCall($hImgLib, "str", "FindTile", "handle", $hHBitmap2, "str", $ImagesToUse1[$i], "str", "FV", "int", 1)
-				If @error Then _logErrorDLLCall($pImgLib, @error)
-				If IsArray($res) Then
-					If $DebugSetlog = 1 Then SetLog("DLL Call succeeded " & $res[0], $COLOR_ERROR)
-					If $res[0] = "0" Then
-						If $i = 1 Then SetLog("No Button found")
-					ElseIf $res[0] = "-1" Then
-						SetLog("DLL Error", $COLOR_ERROR)
-					ElseIf $res[0] = "-2" Then
-						SetLog("Invalid Resolution", $COLOR_ERROR)
-					Else
-						If _Sleep($iDelayBoostBarracks5) Then Return
-						If $i = 0 Then
-							If $DebugSetlog Then SetLog("Found the Button to Boost Dark Spell Factory")
-							$expRet = StringSplit(StringSplit($res[0], "|", 2)[1], ",", 2)
-							$ButtonX = 125 + Int($expRet[0])
-							$ButtonY = 610 + Int($expRet[1])
-							If $DebugSetlog Then SetLog("found (" & $ButtonX & "," & $ButtonY & ")", $COLOR_SUCCESS)
-							If IsMainPage() Then Click($ButtonX, $ButtonY, 1, 0, "#0330")
-							If _Sleep($iDelayBoostSpellFactory1) Then Return
-							If _ColorCheck(_GetPixelColor(420, 375 + $midOffsetY, True), Hex(0xD0E978, 6), 20) Then
-								Click(420, 375 + $midOffsetY, 1, 0, "#0160")
-								If _Sleep($iDelayBoostSpellFactory2) Then Return
-								If _ColorCheck(_GetPixelColor(586, 267 + $midOffsetY, True), Hex(0xd80405, 6), 20) Then
-									$icmbBoostSpellFactory = 0
-									SetLog("Not enough gems", $COLOR_ERROR)
-									ClickP($aAway, 1, 0, "#0161")
-									ExitLoop
-								Else
-									$icmbBoostSpellFactory -= 1
-									SetLog('Boost completed. Remaining :' & $icmbBoostSpellFactory, $COLOR_SUCCESS)
-								EndIf
-							EndIf
-							If _Sleep($iDelayBoostSpellFactory3) Then Return
-							ClickP($aAway, 1, 0, "#0161")
-							ExitLoop
-						Else
-							SetLog("Dark Spell Factory is already Boosted!")
-							ClickP($aAway, 1, 0, "#0161")
-						EndIf
-					EndIf
-				EndIf
-			EndIf
-		Next
+	; Confirm the position.
+	SetLog("Boost Dark Spell Factory...", $COLOR_INFO)
+	If $aPos[0] = "" Or $aPos[0] = -1 Then
+		LocateDarkSpellFactory()
+		SaveConfig()
+		If _Sleep($iDelayBoostHeroes4) Then Return
+		$aPos = $DSFPos
 	EndIf
+
+	BoostStructure("Dark Spell Factory", "Spell", $aPos, $icmbBoostDarkSpellFactory, $cmbBoostDarkSpellFactory)
 
 	If _Sleep($iDelayBoostBarracks5) Then Return
 	checkMainScreen(False) ; Check for errors during function

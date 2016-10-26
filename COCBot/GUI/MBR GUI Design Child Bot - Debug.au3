@@ -72,55 +72,54 @@ $grpDebug = GUICtrlCreateGroup(GetTranslated(636,34, "Debug"), $x - 20, $y - 20,
 
 Local $x = 295
 $y = 40
+Local $yNext = 30
 	$btnTestTrain = GUICtrlCreateButton(GetTranslated(636,88, "Test Train"), $x  , $y , 140, 25)
-
-	$y += 32
+	$y += $yNext
 
 	$btnTestDonateCC = GUICtrlCreateButton(GetTranslated(636,89, "Test Donate"), $x  , $y , 140, 25)
-
-	$y += 32
+	$y += $yNext
 
 	$btnTestRequestCC = GUICtrlCreateButton(GetTranslated(636,110, "Test Request"), $x  , $y , 140, 25)
-
-	$y += 32
+	$y += $yNext
 
 	$btnTestAttackBar = GUICtrlCreateButton(GetTranslated(636,90, "Test Attack Bar"), $x  , $y , 140, 25)
-
-	$y += 32
+	$y += $yNext
 
 	$btnTestClickDrag = GUICtrlCreateButton(GetTranslated(636,102, "Test Click Drag (scrolling)"), $x  , $y , 140, 25)
-
-	$y += 32
+	$y += $yNext
 
 	$btnTestImage = GUICtrlCreateButton(GetTranslated(636,103, "Test Image"), $x  , $y , 140, 25)
-
-	$y += 32
+	$y += $yNext
 
 	$btnTestVillageSize = GUICtrlCreateButton(GetTranslated(636,111, "Test Village Size"), $x  , $y , 140, 25)
-
-	$y += 32
+	$y += $yNext
 
 	$btnTestDeadBase = GUICtrlCreateButton(GetTranslated(636,115, "Test Dead Base"), $x  , $y , 140, 25)
-
-	$y += 32
+	$y += $yNext
 
 	$btnTestTHimgloc = GUICtrlCreateButton("imgloc TH", $x  , $y , 140, 25)
-
-	$y += 32
+	$y += $yNext
 
 	$btnTestTrainsimgloc = GUICtrlCreateButton("New Train Test", $x  , $y , 140, 25)
-	$y += 32
+	$y += $yNext
 
 	$btnTestQuickTrainsimgloc = GUICtrlCreateButton("Quick Train Test", $x  , $y , 140, 25)
 
 	; now go up again
-	$x -= 200
+	$x -= 150
+
+	$txtTestFindButton = GUICtrlCreateInput("BoostOne", $x - 90, $y + 3, 85, 20)
+	$btnTestFindButton = GUICtrlCreateButton(GetTranslated(636,118, "Test Find Button"), $x  , $y , 140, 25)
+	$y -= $yNext
 
 	$btnTestDeadBaseFolder = GUICtrlCreateButton(GetTranslated(636,116, "Test Dead Base Folder"), $x  , $y , 140, 25)
-	$y -= 32
+	$y -= $yNext
 
 	$btnTestAttackCSV = GUICtrlCreateButton(GetTranslated(636,117, "Test Attack CSV"), $x  , $y , 140, 25)
-	$y -= 32
+	$y -= $yNext
+
+	$btnTestimglocTroopBar = GUICtrlCreateButton("IMGLOC ATTACKBAR", $x  , $y , 140, 25)
+	$y -= $yNext
 
 GUICtrlCreateGroup("", -99, -99, 1, 1)
 

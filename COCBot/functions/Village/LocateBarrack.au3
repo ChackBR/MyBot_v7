@@ -353,4 +353,119 @@ Func LocateBarrack2()
 
 EndFunc   ;==>LocateBarrack2
 
+Func LocateOneBarrack()
 
+	WinGetAndroidHandle()
+
+	If $HWnD <> 0 And $AndroidBackgroundLaunched = True Then ; Android is running in background mode, so restart Android
+		Setlog("Reboot " & $Android & " for Window access", $COLOR_ERROR)
+		RebootAndroid(True)
+	EndIf
+
+	If $HWnD = 0 Then ; If not found, Android is not open so exit politely
+		Setlog($Android & " is not open", $COLOR_ERROR)
+		SetError(1)
+		Return
+	EndIf
+
+	AndroidToFront()
+	AndroidShield("LocateUpgrades") ; Update shield status due to manual $RunState
+	Local $wasDown = AndroidShieldForcedDown()
+
+	Local $choice = GetTranslated(640,23,"Barrack")
+	Local $MsgBox, $stext, $iStupid = 0, $iSilly = 0, $sErrorText = "", $sLocMsg = ""
+
+	While 1
+		ZoomOut()
+		AndroidShieldForceDown(True, True)
+		ClickP($aAway, 1, 0, "#0361")
+		_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x004080, 0xFFFF00, 12, "Comic Sans MS", 500)
+		$stext = $sErrorText & @CRLF & GetTranslated(640,25,"Click OK then click on one of your") & " " & $choice & "'s." & @CRLF & @CRLF & _
+				GetTranslated(640,26,"Do not move mouse quickly after clicking location") & @CRLF & @CRLF & GetTranslated(640,27,"Make sure the building name is visible for me!") & @CRLF
+		$MsgBox = _ExtMsgBox(0, GetTranslated(640,1,"Ok|Cancel"), GetTranslated(640,28,"Locate") & " " & $choice, $stext, 15, $frmBot)
+		$sLocMsg = ""
+		If $MsgBox = 1 Then
+			Setlog("Select a Barrack and wait please...")
+			Local $aPos = FindPos()
+			If isInsideDiamondXY($aPos[0], $aPos[1]) Then
+				If _Sleep($iDelayLocateBarrack2) Then Return
+				_Sleep($iDelayLocateBarrack1)
+				If isInsideDiamond($aPos) = False Then
+					$iStupid += 1
+					Select
+						Case $iStupid = 1
+							$sErrorText = $choice & " Location Not Valid!" & @CRLF
+							SetLog("Location not valid, try again", $COLOR_ERROR)
+							ContinueLoop
+						Case $iStupid = 2
+							$sErrorText = "Please try to click inside the grass field!" & @CRLF
+							ContinueLoop
+						Case $iStupid = 3
+							$sErrorText = "This is not funny, why did you click @ (" & $aPos[0] & "," & $aPos[1] & ")?" & @CRLF & "  Please stop!" & @CRLF
+							ContinueLoop
+						Case $iStupid = 4
+							$sErrorText = "Last Chance, DO NOT MAKE ME ANGRY, or" & @CRLF & "I will give ALL of your gold to Barbarian King," & @CRLF & "And ALL of your Gems to the Archer Queen!" & @CRLF
+							ContinueLoop
+						Case $iStupid > 4
+							SetLog(" Operator Error - Bad " & $choice & " Location: " & "(" & $aPos[0] & "," & $aPos[1] & ")", $COLOR_ERROR)
+							ClickP($aAway, 1, 0, "#0362")
+							ExitLoop
+						Case Else
+							SetLog(" Operator Error - Bad " & $choice & " Location: " & "(" & $aPos[0] & "," & $aPos[1] & ")", $COLOR_ERROR)
+							$aPos[0] = -1
+							$aPos[1] = -1
+							ClickP($aAway, 1, 0, "#0363")
+							ExitLoop
+					EndSelect
+				EndIf
+
+				Local $aResult = BuildingInfo(242, 520 + $bottomOffsetY)
+				If $aResult[0] > 1 Or $aResult[0] = "" Then
+					If StringInStr($aResult[1], "Barracks") = 0 Then
+						If $aResult[0] = "" Then
+							$sLocMsg = "Nothing"
+						Else
+							$sLocMsg = $aResult[1]
+						EndIf
+						$iSilly += 1
+						Select
+							Case $iSilly = 1
+								$sErrorText = "Wait, That is not a Barrack?, It was a " & $sLocMsg & @CRLF
+								ContinueLoop
+							Case $iSilly = 2
+								$sErrorText = "Quit joking, That was " & $sLocMsg & @CRLF
+								ContinueLoop
+							Case $iSilly = 3
+								$sErrorText = "This is not funny, why did you click " & $sLocMsg & "? Please stop!" & @CRLF
+								ContinueLoop
+							Case $iSilly = 4
+								$sErrorText = $sLocMsg & " ?!?!?!" & @CRLF & @CRLF & "Last Chance, DO NOT MAKE ME ANGRY, or" & @CRLF & "I will give ALL of your gold to Barbarian King," & @CRLF & "And ALL of your Gems to the Archer Queen!" & @CRLF
+								ContinueLoop
+							Case $iSilly > 4
+								SetLog("Quit joking, Click the Army Camp, or restart bot and try again", $COLOR_ERROR)
+								ClickP($aAway, 1, 0, "#0364")
+								ExitLoop
+						EndSelect
+					EndIf
+				Else
+					SetLog(" Operator Error - Bad " & $choice & " Location: " & "(" & $aPos[0] & "," & $aPos[1] & ")", $COLOR_ERROR)
+					ClickP($aAway, 1, 0, "#0365")
+					ExitLoop
+				EndIf
+				SetLog($choice & ": " & "(" & $aPos[0] & "," & $aPos[1] & ")", $COLOR_SUCCESS)
+				; Barrack located
+				$barrackPos[0][0] = $aPos[0]
+				$barrackPos[0][1] = $aPos[1]
+				ExitLoop
+			Else
+				Setlog("Bad location for Barrack, try again...", $COLOR_ERROR)
+			EndIf
+		Else
+			SetLog("Locate Barrack cancelled")
+			ExitLoop
+		EndIf
+	WEnd
+
+	AndroidShieldForceDown($wasDown)
+
+EndFunc   ;==>LocateOneBarrack

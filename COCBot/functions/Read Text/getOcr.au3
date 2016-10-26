@@ -257,6 +257,8 @@ Func getOcrAndCapture($language, $x_start, $y_start, $width, $height, $removeSpa
 	Local $result = getOcr($hHBitmap2, $language)
 	If ($removeSpace) Then
 		$result = StringReplace($result, " ", "")
+	Else
+		$result = StringStripWS($result, BitOR($STR_STRIPLEADING, $STR_STRIPTRAILING, $STR_STRIPSPACES))
 	EndIf
 	Return $result
 EndFunc   ;==>getOcrAndCapture

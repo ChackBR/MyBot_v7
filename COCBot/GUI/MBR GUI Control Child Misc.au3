@@ -164,7 +164,7 @@ Func btnLocateBarracks()
 	Local $wasRunState = $RunState
 	$RunState = True
 	ZoomOut()
-	LocateBarrack()
+	LocateOneBarrack()
 	$RunState = $wasRunState
 	AndroidShield("btnLocateBarracks") ; Update shield status due to manual $RunState
 EndFunc   ;==>btnLocateBarracks

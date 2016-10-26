@@ -198,7 +198,7 @@ Func setZombie($RaidedElixir = -1, $AvailableElixir = -1, $Matched = -1, $Search
 		Local $availK = Round($aZombie[2] / 1000)
 		; $ZombieFilename = "DebugDB_xxx%_" & $sCurrProfile & @YEAR & "-" & @MON & "-" & @MDAY & "_" & StringReplace(_NowTime(5), ":", "-") & "_search_" & StringFormat("%03i", $SearchCount) & "_" & StringFormat("%04i", Round($searchElixir / 1000)) & "k_matched_" & $TotalMatched
 		If $aZombie[0] = "" Then
-			Local $create = $aZombie[0] = "" And ($dbFound = True Or $aZombie[7] = -1 Or ($availK >= $aZombie[7] And hasElixirStorage() = False))
+			Local $create = $aZombie[0] = "" And ($dbFound = True Or ($aZombie[7] = -1 And $aZombie[8] = -1) Or ($availK >= $aZombie[7] And hasElixirStorage() = False) Or $availK >= $aZombie[8])
 			If $create = True Then
 				Local $ZombieFilename = "DebugDB_" & StringFormat("%04i", $availK) & "k_" & $sCurrProfile & "_search_" & StringFormat("%03i", $aZombie[4]) & "_matched_" & $aZombie[3] & "_" & $aZombie[5] & ".png"
 				SetDebugLog("Saving enemy village screenshot for deadbase validation: " & $ZombieFilename)

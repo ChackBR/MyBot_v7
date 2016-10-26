@@ -67,54 +67,90 @@ Func checkImglocError( $imglocvalue , $funcName)
 	EndIF
 EndFunc   ;==>checkImglocError
 
-Func findButton($sButtonName,$buttonTile, $maxReturnPoints = 1, $bForceCapture = True )
+Func findButton($sButtonName, $buttonTileArrayOrPatternOrFullPath = Default, $maxReturnPoints = 1, $bForceCapture = True)
+
+	If $buttonTileArrayOrPatternOrFullPath = Default Then $buttonTileArrayOrPatternOrFullPath = $sButtonName & "*"
 
 	Local $error, $extError
 	Local $searchArea = GetButtonDiamond($sButtonName)
 	Local $aCoords = "" ; use AutoIt mixed varaible type and initialize array of coordinates to null
+	Local $aButtons
+	Local $sButtons = ""
+
+	; check if file tile is a pattern
+	If IsString($buttonTileArrayOrPatternOrFullPath) Then
+		$sButtons = $buttonTileArrayOrPatternOrFullPath
+		If StringInStr($buttonTileArrayOrPatternOrFullPath, "*") > 0 Then
+			Local $aFiles = _FileListToArray(@ScriptDir & "\imgxml\imglocbuttons", $sButtons, $FLTA_FILES, True)
+			If UBound($aFiles) < 2 Or $aFiles[0] < 1 Then
+				Return SetError(1, 1, "No files in " & @ScriptDir & "\imgxml\imglocbuttons")  ; Set external error code = 1 for bad input values
+			EndIf
+			Local $a[0], $j
+			$j = 0
+			For $i = 1 To $aFiles[0]
+				If StringRegExp($aFiles[$i], ".+[.](xml|png|bmp)$") Then
+					$j += 1
+					ReDim $a[$j]
+					$a[$i - 1] = $aFiles[$i]
+				EndIf
+			Next
+			$aButtons = $a
+		Else
+			Local $a[1] = [$sButtons]
+			$aButtons = $a
+		EndIf
+	ElseIf IsArray($buttonTileArrayOrPatternOrFullPath) Then
+		$aButtons = $buttonTileArrayOrPatternOrFullPath
+		$sButtons = _ArrayToString($aButtons)
+	Else
+		Return SetError(1, 2, "Bad Input Values : " & $buttonTileArrayOrPatternOrFullPath)  ; Set external error code = 1 for bad input values
+	EndIf
 
 	; Check function parameters
-	If Not IsString($sButtonName) Or Not FileExists($buttonTile) Then
-		SetError(1, "Bad Input Values", $aCoords)  ; Set external error code = 1 for bad input values
-		Return
+	If Not IsString($sButtonName) Or UBound($aButtons) < 1 Then
+		Return SetError(1, 3, "Bad Input Values : " & $sButtons)  ; Set external error code = 1 for bad input values
 	EndIF
 
-	; Capture the screen for comparison
-	; _CaptureRegion2() or similar must be used before
-	; Perform the search
-	If $bForceCapture THEN _CaptureRegion2() ;to have FULL screen image to work with
+	For $buttonTile In $aButtons
 
-	If $DebugSetlog Then SetLog(" imgloc searching for: " & $sButtonName  & " : " & $buttonTile)
+		; Check function parameters
+		If FileExists($buttonTile) = 0 Then
+			Return SetError(1, 4, "Bad Input Values : Button Image NOT FOUND : " & $buttonTile)  ; Set external error code = 1 for bad input values
+		EndIF
 
-	Local $result = DllCall($pImgLib, "str", "FindTile", "handle", $hHBitmap2, "str", $buttonTile, "str", $searchArea, "Int", $maxReturnPoints)
-	$error = @error  ; Store error values as they reset at next function call
-	$extError = @extended
-	If $error Then
-		_logErrorDLLCall($pImgLib, $error)
-		If $DebugSetlog Then SetLog(" imgloc DLL Error imgloc " & $error & " --- "  & $extError)
-		SetError(2, $extError , $aCoords)  ; Set external error code = 2 for DLL error
-		Return
-	EndIF
+		; Capture the screen for comparison
+		; _CaptureRegion2() or similar must be used before
+		; Perform the search
+		If $bForceCapture THEN _CaptureRegion2() ;to have FULL screen image to work with
 
-	If checkImglocError( $result, "imglocFindButton" ) = True Then
-		Return $aCoords
-	EndIF
+		If $DebugSetlog Then SetLog(" imgloc searching for: " & $sButtonName  & " : " & $buttonTile)
 
-	If $result[0]<>"" Then
-		If $DebugSetlog Then SetLog($sButtonName & " Button Image Found in: " & $result[0])
-		$aCoords = StringSplit($result[0], "|", $STR_NOCOUNT)
-		;[0] - total points found
-		;[1] -  coordinates
-		If $maxReturnPoints = 1 then
-			Return $aCoords[1]; return just X,Y coord
-		Else
-			Return $result[0] ; return full string with count and points
-		EndIf
-	Else
-		If $DebugSetlog Then SetLog($sButtonName & " Button Image NOT FOUND " & $buttonTile)
-		Return $aCoords
-	EndIF
+		Local $result = DllCall($pImgLib, "str", "FindTile", "handle", $hHBitmap2, "str", $buttonTile, "str", $searchArea, "Int", $maxReturnPoints)
+		$error = @error  ; Store error values as they reset at next function call
+		$extError = @extended
+		If $error Then
+			_logErrorDLLCall($pImgLib, $error)
+			SetDebugLog(" imgloc DLL Error imgloc " & $error & " --- "  & $extError)
+			Return SetError(2, 1, $extError)  ; Set external error code = 2 for DLL error
+		EndIF
 
+		If $result[0] <> "" And checkImglocError($result, "imglocFindButton") = False Then
+			If $DebugSetlog Then SetLog($sButtonName & " Button Image Found in: " & $result[0])
+			$aCoords = StringSplit($result[0], "|", $STR_NOCOUNT)
+			;[0] - total points found
+			;[1] -  coordinates
+			If $maxReturnPoints = 1 then
+				Return StringSplit($aCoords[1], ",", $STR_NOCOUNT); return just X,Y coord
+			Else
+				; @TODO return 2 dimensional array
+				Return $result[0] ; return full string with count and points
+			EndIf
+		EndIF
+
+	Next
+
+	SetDebugLog($sButtonName & " Button Image(s) NOT FOUND : " & $sButtons, $COLOR_ERROR)
+	Return $aCoords
 EndFunc   ;==>findButton
 
 Func GetButtonDiamond($sButtonName )
@@ -139,6 +175,12 @@ Func GetButtonDiamond($sButtonName )
 			$btnDiamond =  "357,545|502,545|502,607|357,607"
 		Case "Next" ; attackpage attackwindow
 			$btnDiamond =  "697,542|850,542|850,610|697,610"
+		Case "ObjectButtons", "BoostOne" ; Full size of object buttons at the bottom
+			$btnDiamond =  GetDiamondFromRect("200,617(460,83)")
+		Case "GEM" ; Boost window button (full button size)
+			$btnDiamond =  GetDiamondFromRect("359,412(148,66)")
+		Case "EnterShop"
+			$btnDiamond =  GetDiamondFromRect("359,392(148,66)")
 		Case "EndBattleSurrender" ;surrender - attackwindow
 			$btnDiamond =  "12,577|125,577|125,615|12,615"
 		Case "ExpandChat" ;mainwindow
@@ -322,11 +364,32 @@ Func findMultiple($directory ,$sCocDiamond ,$redLines, $minLevel=0, $maxLevel=10
 EndFunc   ;==>findMultiple
 
 Func GetDiamondFromRect($rect)
-	;receives "StartX,StartY,EndX,EndY"
+	;receives "StartX,StartY,EndX,EndY" or "StartX,StartY(Width,Height)"
 	;returns "StartX,StartY|EndX,StartY|EndX,EndY|StartX,EndY"
-	Local $returnvalue = ""
+	Local $returnvalue = "", $i
 	If $DebugSetlog = 1 Then SetLog("GetDiamondFromRect : > " & $rect, $COLOR_INFO)
 	Local $RectValues = StringSplit($rect,",",$STR_NOCOUNT)
+	If UBound($RectValues) = 3 Then
+		ReDim $RectValues[4]
+		; check for width and height
+		$i = StringInStr($RectValues[2], ")")
+		If $i = 0 Then
+			SetDebugLog("GetDiamondFromRect : Bad Input Values : " & $rect, $COLOR_ERROR)
+			Return SetError(1, 1, $returnvalue)
+		EndIf
+		$RectValues[3] = $RectValues[1] + StringLeft($RectValues[2], $i - 1) - 1
+		$i = StringInStr($RectValues[1], "(")
+		If $i = 0 Then
+			SetDebugLog("GetDiamondFromRect : Bad Input Values : " & $rect, $COLOR_ERROR)
+			Return SetError(1, 2, $returnvalue)
+		EndIf
+		$RectValues[2] = $RectValues[0] + StringMid($RectValues[1], $i + 1) - 1
+		$RectValues[1] = StringLeft($RectValues[1], $i - 1)
+	EndIf
+	If UBound($RectValues) < 4 Then
+		SetDebugLog("GetDiamondFromRect : Bad Input Values : " & $rect, $COLOR_ERROR)
+		Return SetError(1, 3, $returnvalue)
+	EndIf
 	Local $DiamdValues[4]
 	Local $X=Number($RectValues[0])
 	Local $Y=Number($RectValues[1])
@@ -431,6 +494,82 @@ Switch $tEnum
  	EndSwitch
 
 EndFunc   ;==>decodeTroopEnum
+
+
+Func decodeTroopName($sName)
+
+	Switch $sName
+		Case "Barbarian"
+			Return $eBarb
+	 	Case "Archer"
+			Return $eArch
+	 	Case "Balloon"
+			Return $eBall
+	 	Case "Dragon"
+			Return $eDrag
+	 	Case "Giant"
+			Return $eGiant
+	 	Case "Goblin"
+			Return $eGobl
+	 	Case "Golem"
+			Return $eGole
+	 	Case "Healer"
+			Return $eHeal
+	 	Case "HogRider"
+			Return $eHogs
+	 	Case "King"
+			Return $eKing
+	 	Case "LavaHound"
+			Return $eLava
+	 	Case "Minion"
+			Return $eMini
+	 	Case "Pekka"
+			Return $ePekk
+	 	Case "Queen"
+			Return $eQueen
+	 	Case "Valkyrie"
+			Return $eValk
+	 	Case "WallBreaker"
+			Return $eWall
+	 	Case "Warden"
+			Return $eWarden
+	 	Case "Witch"
+			Return $eWitc
+	 	Case "Wizard"
+			Return $eWiza
+	 	Case "BabyDragon"
+			Return $eBabyD
+	 	Case "Miner"
+			Return $eMine
+	 	Case "Bowler"
+			Return $eBowl
+	 	Case "EarthquakeSpell"
+			Return $eESpell
+	 	Case "FreezeSpell"
+			Return $eFSpell
+	 	Case "HasteSpell"
+			Return $eHaSpell
+	 	Case "HealSpell"
+			Return $eHSpell
+	 	Case "JumpSpell"
+			Return $eJSpell
+	 	Case "LightningSpell"
+			Return $eLSpell
+	 	Case "PoisonSpell"
+			Return $ePSpell
+	 	Case "RageSpell"
+			Return $eRSpell
+	 	Case "SkeletonSpell" ;Missing
+			Return $eSkSpell
+	 	Case "CloneSpell" ;Missing
+			Return $eCSpell
+	 	Case "Castle"
+			Return $eCastle
+
+ 	EndSwitch
+
+EndFunc   ;==>decodeTroopName
+
 
 Func GetDummyRectangle($sCoords,$ndistance)
 	;creates a dummy rectangle to be used by Reduced Image Capture

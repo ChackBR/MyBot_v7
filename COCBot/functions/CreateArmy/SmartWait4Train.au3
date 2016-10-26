@@ -126,7 +126,7 @@ Func SmartWait4Train()
 			Next
 			If _Sleep($iDelayRespond) Then Return
 			$aHeroResult = getArmyHeroTime("all")
-			If @error Then
+			If @error Or UBound($aHeroResult) < 3 Then
 				Setlog("getArmyHeroTime return error, exit SmartWait!", $COLOR_ERROR)
 				Return ; if error, then quit smartwait
 			EndIf

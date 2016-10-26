@@ -76,6 +76,7 @@ Global $aZombie = ["" _ ; 0=Filename
 	, "" _ ; 5=timestamp
 	, 30 _ ; 6=Delete screenshot when Elixir capture percentage was >= value (-1 for disable)
 	, 300 _; 7=Save screenshot when skipped DeadBase and available Exlixir in k is >= value and no filled Elixir Storage found (-1 for disable)
+	, 600 _; 8=Save screenshot when skipped DeadBase and available Exlixir in k is >= value (-1 for disable)
 ]
 Global $debugSearchArea = 0, $debugOcr = 0, $debugRedArea = 0, $debugSetlog = 0, $debugImageSave = 0, $debugWalls = 0, $debugBuildingPos = 0, $debugVillageSearchImages = 0
 Global $debugAttackCSV = 0, $makeIMGCSV = 0 ;attackcsv debug

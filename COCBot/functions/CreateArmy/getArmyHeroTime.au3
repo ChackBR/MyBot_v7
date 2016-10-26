@@ -16,7 +16,7 @@
 ; Example .......: No
 ; ===============================================================================================================================
 ;
-Func getArmyHeroTime($HeroType, $bOpenArmyWindow = False, $bCloseArmyWindow = False)
+Func getArmyHeroTime($HeroType = "all", $bOpenArmyWindow = False, $bCloseArmyWindow = False)
 
 	If $debugsetlogTrain = 1 Or $debugSetlog = 1 Then Setlog("Begin getArmyHeroTime:", $COLOR_DEBUG1)
 
@@ -38,7 +38,7 @@ Func getArmyHeroTime($HeroType, $bOpenArmyWindow = False, $bCloseArmyWindow = Fa
 		If _Sleep($iDelaycheckArmyCamp5) Then Return
 	EndIf
 
-	If $iTownHallLevel < 7 then return
+	If $iTownHallLevel < 7 then Return
 
 	Local $iRemainTrainHeroTimer = 0
 	Local $sResult

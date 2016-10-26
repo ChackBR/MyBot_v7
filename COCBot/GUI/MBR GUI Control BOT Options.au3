@@ -275,6 +275,7 @@ EndFunc   ;==>chkmakeIMGCSV
 Func btnTestTrain()
 	Local $currentOCR = $debugOcr
 	Local $currentRunState = $RunState
+	#cs
 	_GUICtrlTab_ClickTab($tabMain, 0)
 	$debugOcr = 1
 	$RunState = True
@@ -287,7 +288,24 @@ Func btnTestTrain()
 	SetLog(_PadStringCenter(" Test Train end ", 54, "="), $COLOR_INFO)
 	Run("Explorer.exe " & $LibDir & "\debug\ocr\")
 	Run("Explorer.exe " & $dirTempDebug & "train_")
+	#ce
 
+	$RunState = True
+	BeginImageTest()
+
+	Local $result
+	SetLog("Testing checkArmyCamp()", $COLOR_INFO)
+	$result = checkArmyCamp()
+	If @error Then $result = "Error " & @error & ", " & @extended & ", " & ((IsArray($result)) ? (_ArrayToString($result, ",")) : ($result))
+	SetLog("Result checkArmyCamp() = " & $result, $COLOR_INFO)
+
+	SetLog("Testing getArmyHeroTime()", $COLOR_INFO)
+	$result = getArmyHeroTime()
+	If @error Then $result = "Error " & @error & ", " & @extended & ", " & ((IsArray($result)) ? (_ArrayToString($result, ",")) : ($result))
+	SetLog("Result getArmyHeroTime() = " & $result, $COLOR_INFO)
+	SetLog("Testing Train DONE" , $COLOR_INFO)
+
+	EndImageTest()
 
 	$debugOcr = $currentOCR
 	$RunState = $currentRunState
@@ -628,6 +646,41 @@ Func btnTestAttackCSV()
 	$debugAttackCSV = $currentDebugAttackCSV
 	$makeIMGCSV = $currentMakeIMGCSV
 
+EndFunc
+
+Func btnTestFindButton()
+	BeginImageTest()
+	Local $result
+	Local $sButton = GUICtrlRead($txtTestFindButton)
+	SetLog("Testing findButton(""" & $sButton & """)", $COLOR_INFO)
+	$result = findButton($sButton)
+	If @error Then $result = "Error " & @error & ", " & @extended & ", " & ((IsArray($result)) ? (_ArrayToString($result, ",")) : ($result))
+	SetLog("Result findButton(""" & $sButton & """) = " & $result, $COLOR_INFO)
+	SetLog("Testing findButton(""" & $sButton & """) DONE" , $COLOR_INFO)
+	EndImageTest()
+EndFunc
+
+Func BeginImageTest($directory = $dirTemp)
+	Local $hBMP = 0, $hHBMP = 0
+	Local $sImageFile = FileOpenDialog("Select CoC screenshot to test, cancel to use live screenshot", $directory, "Image (*.png)", $FD_FILEMUSTEXIST, "", $frmBot)
+	If @error <> 0 Then
+		SetLog("Testing image cancelled, taking screenshot from " & $Android, $COLOR_INFO)
+		_CaptureRegion()
+		$hHBMP = $hHBitmap
+		TestCapture($hHBMP)
+	Else
+		SetLog("Testing image " & $sImageFile, $COLOR_INFO)
+		; load test image
+		$hBMP = _GDIPlus_BitmapCreateFromFile($sImageFile)
+		$hHBMP = _GDIPlus_BitmapCreateDIBFromBitmap($hBMP)
+		_GDIPlus_BitmapDispose($hBMP)
+		TestCapture($hHBMP)
+		SetLog("Testing image hHBitmap = " & $hHBMP)
+	EndIf
+EndFunc
+
+Func EndImageTest()
+	TestCapture(0)
 EndFunc
 
 Func FixClanCastle($inputString)

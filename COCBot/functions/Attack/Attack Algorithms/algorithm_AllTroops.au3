@@ -149,11 +149,11 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 						[$eLava,  $nbSides, 1, 1, 2], _
 						[$eBarb,  $nbSides, 1, 1, 0], _
 						[$eWall,  $nbSides, 1, 1, 2], _
-						[$eArch,  $nbSides, 1, 1, 0], _
 						[$eHogs,  $nbSides, 1, 1, 2], _
-						[$eGobl,  $nbSides, 1, 1, 0], _
 						[$eValk,  $nbSides, 1, 1, 2], _
 						[$eBowl,  $nbSides, 1, 1, 0], _
+						[$eArch,  $nbSides, 1, 1, 0], _
+						[$eGobl,  $nbSides, 1, 1, 0], _
 						[$eMine,  $nbSides, 1, 1, 0], _
 						[$ePekk,  $nbSides, 1, 1, 2], _
 						[$eDrag,  $nbSides, 1, 1, 2], _

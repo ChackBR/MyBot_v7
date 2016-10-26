@@ -50,8 +50,9 @@ Local $sModversion
 ; "2307" ; MyBot v6.3.0 Beta 5 + Fix for BlueStacks
 ; "2308" ; Minor Fixes + Multi Farming ( SwitchAcc )
 ; "2309" ; MyBot v6.3.0 Beta 6
-$sModversion = "2310" ; MyBot v6.3.0 Beta 6 + SmartZap
-$sBotVersion = "v6.3.u6" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it it also use on Checkversion()
+; "2310" ; MyBot v6.3.0 Beta 6 + SmartZap
+$sModversion = "2311" ; MyBot v6.3.0 Beta 7
+$sBotVersion = "v6.3.u7" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it it also use on Checkversion()
 $sBotTitle = "My Bot " & $sBotVersion & ".r" & $sModversion & " " ;~ Don't use any non file name supported characters like \ / : * ? " < > |
 
 #include "COCBot\functions\Config\DelayTimes.au3"
@@ -680,7 +681,7 @@ Func _RunFunction($action)
 				getArmySpellCount(False, True) ; use true parameter to close train overview window
 			EndIf
 		Case "BoostBarracks"
-			BoostBarracks()
+			BoostBarracks2()
 		Case "BoostSpellFactory"
 			BoostSpellFactory()
 		Case "BoostDarkSpellFactory"

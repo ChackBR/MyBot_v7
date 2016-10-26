@@ -133,6 +133,8 @@
 #include "functions\Image Search\imglocTrainHelper.au3"
 #include "functions\Image Search\imglocCheckWall.au3"
 #include "functions\Image Search\imglocTHSearch.au3"
+#include "functions\Image Search\imglocAttackBar.au3"
+
 
 #include "functions\Main Screen\checkMainScreen.au3"
 #include "functions\Main Screen\checkObstacles.au3"
@@ -235,6 +237,7 @@
 #include "functions\Search\IsSearchAttackEnabled.au3"
 #include "functions\Search\WaitForClouds.au3"
 
+#include "functions\Village\BoostStructure.au3"
 #include "functions\Village\BoostBarracks.au3"
 #include "functions\Village\BotDetectFirstTime.au3"
 #include "functions\Village\BotCommand.au3"

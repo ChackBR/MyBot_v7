@@ -123,7 +123,7 @@ Func smartZap($minDE = -1)
 	; Force it
 	; Get the number of lightning spells
 	If $CurLightningSpell < 1 Then
-		$numSpells = 2
+		$numSpells = 3
 	Else
 		$numSpells = $CurLightningSpell
 	EndIf

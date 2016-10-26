@@ -194,6 +194,11 @@ Func __OAER_OnErrorCallback($nCode, $wParam, $lParam)
 			BotClose(Default, False)
 
 			_WinAPI_FatalAppExit($sError_Msg)
+			#cs
+			MsgBox(BitOR($MB_ICONERROR, $MB_SERVICE_NOTIFICATION), $sBotTitle & " CRASHED", $sError_Msg)
+			ProcessClose(@AutoItPID)
+			Exit(1)
+			#ce
 	EndSwitch
 
 	Return _WinAPI_CallNextHookEx($aOAER_DATA[$iOAER_hErr_WinHook], $nCode, $wParam, $lParam)

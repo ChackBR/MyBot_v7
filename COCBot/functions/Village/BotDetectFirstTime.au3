@@ -68,7 +68,7 @@ Func BotDetectFirstTime()
 					$barrackPos[$x][0] = -1
 					$barrackPos[$x][1] = -1
 				Next
-				LocateBarrack2()
+				LocateOneBarrack()
 				SaveConfig()
 				ExitLoop
 			EndIf
