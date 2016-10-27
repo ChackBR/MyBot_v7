@@ -51,7 +51,7 @@ Local $sModversion
 ; "2308" ; Minor Fixes + Multi Farming ( SwitchAcc )
 ; "2309" ; MyBot v6.3.0 Beta 6
 ; "2310" ; MyBot v6.3.0 Beta 6 + SmartZap
-$sModversion = "2311" ; MyBot v6.3.0 Beta 7
+$sModversion = "2311" ; MyBot v6.3.0 Beta 7 + Telegram
 $sBotVersion = "v6.3.u7" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it it also use on Checkversion()
 $sBotTitle = "My Bot " & $sBotVersion & ".r" & $sModversion & " " ;~ Don't use any non file name supported characters like \ / : * ? " < > |
 
@@ -657,7 +657,7 @@ Func _RunFunction($action)
 		Case "ReportNotify"
 			ReportNotify()
 			_Sleep($iDelayRunBot3)
-		 Case "DonateCC"
+		Case "DonateCC"
 			If $iSkipDonateNearFulLTroopsEnable = 1 Then getArmyCapacity(true,true)
 			DonateCC()
 			If _Sleep($iDelayRunBot1) = False Then checkMainScreen(False)
