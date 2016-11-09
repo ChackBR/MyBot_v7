@@ -51,7 +51,8 @@ Local $sModversion
 ; "2308" ; Minor Fixes + Multi Farming ( SwitchAcc )
 ; "2309" ; MyBot v6.3.0 Beta 6
 ; "2310" ; MyBot v6.3.0 Beta 6 + SmartZap
-$sModversion = "2311" ; MyBot v6.3.0 Beta 7 + Telegram
+; "2311" ; MyBot v6.3.0 Beta 7 + Telegram + SwitchAcc
+$sModversion = "2312" ; MyBot v6.3.0 Beta 7 With Some Fixes
 $sBotVersion = "v6.3.u7" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it it also use on Checkversion()
 $sBotTitle = "My Bot " & $sBotVersion & ".r" & $sModversion & " " ;~ Don't use any non file name supported characters like \ / : * ? " < > |
 
@@ -309,7 +310,9 @@ Func runBot() ;Bot that runs everything in order
 				EndIf
 			    If $Restart = True Then ContinueLoop 2 ; must be level 2 due to loop-in-loop
 			WEnd
-			AddIdleTime()
+			If Not $FirstStart Then
+				AddIdleTime()
+			EndIf
 				If $RunState = False Then Return
 				If $Restart = True Then ContinueLoop
 			If IsSearchAttackEnabled() Then  ; if attack is disabled skip reporting, requesting, donating, training, and boosting

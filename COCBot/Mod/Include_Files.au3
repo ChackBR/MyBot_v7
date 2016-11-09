@@ -10,5 +10,5 @@
 ; Misc
 ;
 
-; GUI
-#include "GUI_Functions.au3"
+; GUI ( While in \MyBot\MBR GUI Control.au3 )
+; #include "MBR GUI Control.au3"

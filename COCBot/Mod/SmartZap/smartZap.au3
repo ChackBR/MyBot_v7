@@ -86,6 +86,26 @@ Func getSpellOffset()
 	Return $result
 EndFunc   ;==>getSpellOffset
 
+; Force Speels use - While in Beta stage
+Func setSpellbyTH()
+	Local $result = 0
+
+	; Checking our global variable holding the town hall level
+	Switch $iTownHallLevel
+		Case 0 To 6
+			; Town hall 5 and 6 have lightning spells, but why would you want to zap?
+			$result = 0
+		Case 7, 8
+			$result = 3
+		Case 9
+			$result = 4
+		Case Else
+			$result = 5
+	EndSwitch
+
+	Return $result
+EndFunc   ;==>getSpellbyTH
+
 Func smartZap($minDE = -1)
 	Local $searchDark, $oldSearchDark = 0, $numSpells, $skippedZap = True, $performedZap = False, $dropPoint
 
@@ -110,7 +130,7 @@ Func smartZap($minDE = -1)
 		Return $performedZap
 	; Check to ensure there is at least the minimum amount of DE available.
 	ElseIf (Number($searchDark) < Number($minDE)) Then
-		SetLog("Dark Elixir is below minimum value, exiting now!", $COLOR_FUCHSIA)
+		SetLog("Dark Elixir is below minimum value [" & $itxtMinDE & "], Exiting Now!", $COLOR_FUCHSIA)
 		Return $performedZap
 	EndIf
 
@@ -120,10 +140,10 @@ Func smartZap($minDE = -1)
 		Return $performedZap
 	EndIf
 
-	; Force it
 	; Get the number of lightning spells
 	If $CurLightningSpell < 1 Then
-		$numSpells = 3
+		; Force Speels use - While in Beta stage
+		$numSpells = setSpellbyTH()
 	Else
 		$numSpells = $CurLightningSpell
 	EndIf
@@ -224,7 +244,7 @@ Func smartZap($minDE = -1)
 			$numSpells -= 1
 
 			If $aDarkDrills[0][2] <> -1 Then
-				$expectedDE = $drillLevelSteal[($aDarkDrills[0][2] - 1)] * 0.75
+				$expectedDE = $drillLevelSteal[($aDarkDrills[0][2] - 1)] * 0.50 ; was 0.75
 			Else
 				$expectedDE = -1
 			EndIf

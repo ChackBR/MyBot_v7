@@ -30,7 +30,7 @@ Func DropOnEdge($troop, $edge, $number, $slotsPerEdge = 0, $edge2 = -1, $x = -1,
 	If $number = 1 Or $slotsPerEdge = 1 Then ; Drop on a single point per edge => on the middle
 		If $edge2 = -1 Then
 			AttackClick($edge[2][0], $edge[2][1], $number, $iDelayDropOnEdge1, $iDelayDropOnEdge3, "#0102")
-	    Else
+		Else
 			AttackClick($edge[2][0], $edge[2][1], $number, $iDelayDropOnEdge1, 0, "#0102")
 			AttackClick($edge2[2][0], $edge2[2][1], $number, $iDelayDropOnEdge1, $iDelayDropOnEdge3, "#0103")
 		EndIf
