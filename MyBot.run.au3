@@ -183,6 +183,7 @@ DirRemove(@ScriptDir & "\Temp", 1)
 ;Setup profile if doesn't exist yet
 If FileExists($config) = 0 Then
 	createProfile(True)
+	applyConfig()
 EndIf
 
 If $ichkDeleteLogs = 1 Then DeleteFiles($dirLogs, "*.*", $iDeleteLogsDays, 0)

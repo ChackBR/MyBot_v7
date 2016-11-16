@@ -71,7 +71,7 @@ $grpDebug = GUICtrlCreateGroup(GetTranslated(636,34, "Debug"), $x - 20, $y - 20,
 		GUICtrlSetState(-1, $GUI_HIDE)
 
 Local $x = 295
-$y = 40
+$y = 52
 Local $yNext = 30
 	$btnTestTrain = GUICtrlCreateButton(GetTranslated(636,88, "Test Train"), $x  , $y , 140, 25)
 	$y += $yNext
