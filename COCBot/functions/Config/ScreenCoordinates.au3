@@ -121,57 +121,91 @@ Global $aWonThreeStarAtkRprt[4] = [534, 180 + $midOffsetY, 0xC8CAC7, 30] ; Cente
 	;Global $DropTrophiesStartPoint = [34, 310]
 #ce
 ;	pixel color: location information								BS 850MB (Reg GFX), BS 500MB (Med GFX) : location
-Global $TrainBarb[4] = [166, 310 + $midOffsetY, 0xFFB620, 40] ; FFB620, FFB620
-Global $TrainArch[4] = [245, 315 + $midOffsetY, 0x882852, 40] ; 882857, 882852
-Global $TrainGiant[4]= [370, 310 + $midOffsetY, 0xFFCE94, 40] ; FFCE94, FFCE94
-Global $TrainGobl[4] = [482, 310 + $midOffsetY, 0xA9F36B, 40] ; A9F36A, A9F36B
-Global $TrainWall[4] = [557, 310 + $midOffsetY, 0x786C8A, 40] ; 7B6E8F, 786C8A
-Global $TrainBall[4] = [682, 310 + $midOffsetY, 0x7C1C10, 40] ; 781C10, 7C1C10
+Global Const $TrainBarb[4]  = [87, 372 + $midOffsetY, 0xFFD028, 40]  ; FFB620, FFB620
+Global Const $TrainArch[4]  = [72, 474 + $midOffsetY, 0xE03E68, 40]  ; 882857, 882852
+Global Const $TrainGiant[4] = [155, 372 + $midOffsetY, 0xF07908, 40] ; FFCE94, FFCE94
+Global Const $TrainGobl[4]  = [166, 476 + $midOffsetY, 0x407428, 40] ; A9F36A, A9F36B
+Global Const $TrainWall[4]  = [264, 377 + $midOffsetY, 0x564B58, 40] ; 7B6E8F, 786C8A
+Global Const $TrainBall[4]  = [284, 491 + $midOffsetY, 0x564952, 40] ; 781C10, 7C1C10
 
-Global $TrainWiza[4] = [183, 446 + $midOffsetY, 0xE3937C, 40] ; E19179, E3937C
-Global $TrainHeal[4] = [263, 459 + $midOffsetY, 0xD67244, 40] ; D67244, D67244
-Global $TrainDrag[4] = [383, 459 + $midOffsetY, 0x493153, 40] ; 473254, 493153
-Global $TrainPekk[4] = [474, 459 + $midOffsetY, 0x395671, 40] ; 385470, 395671
-Global $TrainBabyD[4] = [557, 436 + $midOffsetY, 0x88D464, 40] ; 88D464, 88D461, middle of snout
-Global $TrainMine[4] = [663, 425 + $midOffsetY, 0x1A1815, 40] ; 1A1815, 1B1814, right eye brow under hat
+Global Const $TrainWiza[4]  = [366, 364 + $midOffsetY, 0xFFECD0, 40] ; E19179, E3937C
+Global Const $TrainHeal[4]  = [374, 482 + $midOffsetY, 0xB8FCFE, 40] ; D67244, D67244
+Global Const $TrainDrag[4]  = [470, 373 + $midOffsetY, 0x483D68, 40] ; 473254, 493153
+Global Const $TrainPekk[4]  = [470, 473 + $midOffsetY, 0xD8E7E8, 40] ; 385470, 395671
+Global Const $TrainBabyD[4] = [552, 375 + $midOffsetY, 0x88BC40, 40] ; 88D464, 88D461, middle of snout
+Global Const $TrainMine[4]  = [562, 518 + $midOffsetY, 0x403430, 40] ; 1A1815, 1B1814, right eye brow under hat
 
-Global $TrainMini[4] = [220, 310 + $midOffsetY, 0x182340, 40] ; 15203A, 172039, Dark blue botton of horn
-Global $TrainHogs[4] = [305, 318 + $midOffsetY, 0x3A2620, 40] ; 3A2620, 3B2720, brown above right ear
-Global $TrainValk[4] = [415, 315 + $midOffsetY, 0xFF6E18, 40] ; FF6E18, FF6D18, orange right hair curl above eye
-Global $TrainGole[4] = [546, 310 + $midOffsetY, 0xDEC3A8, 40] ; E1C8AD, E3C8AC, top of head
-Global $TrainWitc[4] = [646, 324 + $midOffsetY, 0x3D3C65, 40] ; 403C68, 403D68, middle of purple hood
+;Global $TrainMini[4] = [220, 310 + $midOffsetY, 0x182340, 40] ; 15203A, 172039, Dark blue botton of horn
+Global Const $TrainMini[4] = [477, 384 + $midOffsetY, 0x30689F, 40] ; Dark blue botton of horn
+Global Const $TrainHogs[4] = [491, 467 + $midOffsetY, 0x603C30, 40] ; 3A2620, 3B2720, brown above right ear
+Global Const $TrainValk[4] = [578, 352 + $midOffsetY, 0xFF5E14, 40] ; FF6E18, FF6D18, orange right hair curl above eye
+Global Const $TrainGole[4] = [579, 518 + $midOffsetY, 0x706458, 40] ; E1C8AD, E3C8AC, top of head
+Global Const $TrainWitc[4] = [674, 354 + $midOffsetY, 0x6864B3, 40] ; 403C68, 403D68, middle of purple hood
+Global Const $TrainLava[4] = [702, 497 + $midOffsetY, 0x5F5849, 40] ; 4C4C3C, 4B4C3C, center of brown nose
+Global Const $TrainBowl[4] = [784, 365 + $midOffsetY, 0x9084F4, 40] ; 6060E7, 6060E5 ,purple on cheek
 
-Global $TrainLava[4] = [220, 459 + $midOffsetY, 0x4F4F40, 40] ; 4C4C3C, 4B4C3C, center of brown nose
-Global $TrainBowl[4] = [311, 448 + $midOffsetY, 0x6060E8, 40] ; 6060E7, 6060E5 ,purple on cheek
+;Spells Section
+Global $TrainLSpell[4] = [ 70, 405 + $midOffsetY, 0x0A47EE, 40]
+Global $TrainRSpell[4] = [170, 405 + $midOffsetY, 0x501886, 40]
+Global $TrainFSpell[4] = [270, 405 + $midOffsetY, 0x29ADD0, 40]
+Global $TrainHSpell[4] = [ 70, 505 + $midOffsetY, 0xDAAF48, 40]
+Global $TrainJSpell[4] = [170, 505 + $midOffsetY, 0x4CCC08, 40]
+Global $TrainCSpell[4] = [270, 505 + $midOffsetY, 0x20DDD8, 40]
+Global $TrainPSpell[4] = [375, 405 + $midOffsetY, 0xF88010, 40]
+Global $TrainESpell[4] = [375, 505 + $midOffsetY, 0xBF8B58, 40]
 
+Global $TrainHaSpell[4] = [469, 409 + $midOffsetY, 0xf267a7, 40]
+Global $TrainSkSpell[4] = [475, 505 + $midOffsetY, 0xE01800, 40]
+
+Global $FullLSpell[4] = [74, 392 + $midOffsetY, 0x515151, 40]
+Global $FullRSpell[4] = [186, 405 + $midOffsetY, 0x696969, 40]
+Global $FullFSpell[4] = [266, 395 + $midOffsetY, 0x929292, 40]
+Global $FullHSpell[4] = [70, 505 + $midOffsetY, 0xB1B1B1, 40]
+Global $FullJSpell[4] = [170, 495 + $midOffsetY, 0xABABAB, 40]
+Global $FullCSpell[4] = [269, 502 + $midOffsetY, 0xA4A4A4, 40]
+Global $FullPSpell[4] = [375, 410 + $midOffsetY, 0x929292, 40]
+Global $FullESpell[4] = [370, 510 + $midOffsetY, 0x858585, 40]
+Global $FullHaSpell[4] = [470, 410 + $midOffsetY, 0x929292, 40]
+Global $FullSkSpell[4] = [475, 510 + $midOffsetY, 0x4A4A4A, 40]
+
+Global $GemLSpell[4] = [25, 340 + $midOffsetY, 0x030300, 1]		; These will never be True! I put wrong Coords/Color, Because i have Gem lol
+Global $GemRSpell[4] = [25, 340 + $midOffsetY, 0x030300, 1]		; These will never be True! I put wrong Coords/Color, Because i have Gem lol
+Global $GemFSpell[4] = [25, 340 + $midOffsetY, 0x030300, 1]		; These will never be True! I put wrong Coords/Color, Because i have Gem lol
+Global $GemHSpell[4] = [25, 340 + $midOffsetY, 0x030300, 1]		; These will never be True! I put wrong Coords/Color, Because i have Gem lol
+Global $GemJSpell[4] = [25, 340 + $midOffsetY, 0x030300, 1]		; These will never be True! I put wrong Coords/Color, Because i have Gem lol
+Global $GemCSpell[4] = [25, 340 + $midOffsetY, 0x030300, 1]		; These will never be True! I put wrong Coords/Color, Because i have Gem lol
+Global $GemPSpell[4] = [25, 340 + $midOffsetY, 0x030300, 1]		; These will never be True! I put wrong Coords/Color, Because i have Gem lol
+Global $GemESpell[4] = [25, 340 + $midOffsetY, 0x030300, 1]		; These will never be True! I put wrong Coords/Color, Because i have Gem lol
+Global $GemHaSpell[4] = [25, 340 + $midOffsetY, 0x030300, 1]		; These will never be True! I put wrong Coords/Color, Because i have Gem lol
+Global $GemSkSpell[4] = [25, 340 + $midOffsetY, 0x030300, 1]		; These will never be True! I put wrong Coords/Color, Because i have Gem lol
 
 Global $NextBtn[4] = [780, 546 + $bottomOffsetY, 0xD34300, 20] ;  Next Button
 ; Someone asking troops : Color 0xD0E978 in x = 121
 
 Global $aRequestTroopsAO[6] = [758, 572, 0x76C01E, 0xD8EE80, 0x989898, 20] ; Button Request Troops in Army Overview  (x,y,can request, request allready made, army full/no clan, toll)
 
-Global Const $FullBarb[4] = [198, 375 + $midOffsetY, 0x6D6D6D, 45] ; Location of Elixir check pixel with normal color and Barrack Full color
-Global Const $FullArch[4] = [308, 375 + $midOffsetY, 0x7F7F7F, 45]
-Global Const $FullGiant[4] = [405, 375 + $midOffsetY, 0x7F7F7F, 45]
-Global Const $FullGobl[4] = [507, 375 + $midOffsetY, 0x7D7D7D, 45]
-Global Const $FullWall[4] = [609, 375 + $midOffsetY, 0x797979, 45]
-Global Const $FullBall[4] = [712, 375 + $midOffsetY, 0x7D7D7D, 45]
+Global Const $FullBarb[4] = [100, 423 + $midOffsetY, 0x7A7A7A, 45] ; Location of Elixir check pixel with normal color and Barrack Full color
+Global Const $FullArch[4] = [100, 529 + $midOffsetY, 0x8E8E8E, 45]
+Global Const $FullGiant[4] = [199, 422 + $midOffsetY, 0x6E6E6E, 45]
+Global Const $FullGobl[4] = [199, 523 + $midOffsetY, 0x6B6B6B, 45]
+Global Const $FullWall[4] = [297, 429 + $midOffsetY, 0x8B8B8B, 45]
+Global Const $FullBall[4] = [296, 531 + $midOffsetY, 0x878787, 45]
 
-Global Const $FullWiza[4] = [200, 482 + $midOffsetY, 0x9C9C9C, 45]
-Global Const $FullHeal[4] = [302, 482 + $midOffsetY, 0x9F9F9F, 45]
-Global Const $FullDrag[4] = [404, 482 + $midOffsetY, 0x9C9C9C, 45]
-Global Const $FullPekk[4] = [507, 482 + $midOffsetY, 0x949494, 45]
-Global Const $FullBabyD[4] = [557, 436 + $midOffsetY, 0xB1B1B1, 40] ; B1B1B1, B1B1B1, reg color: 88D464
-Global Const $FullMine[4] = [700, 444 + $midOffsetY, 0xAEAEAE, 40] ; AEAEAE, ADADAD, reg color: 84BF5E
+Global Const $FullWiza[4] = [397, 421 + $midOffsetY, 0x676767, 45]
+Global Const $FullHeal[4] = [397, 522 + $midOffsetY, 0x676767, 45]
+Global Const $FullDrag[4] = [496, 421 + $midOffsetY, 0x676767, 45]
+Global Const $FullPekk[4] = [493, 526 + $midOffsetY, 0x818181, 45]
+Global Const $FullBabyD[4] = [589, 423 + $midOffsetY, 0x747474, 40] ; B1B1B1, B1B1B1, reg color: 88D464
+Global Const $FullMine[4] = [592, 523 + $midOffsetY, 0x6B6B6B, 40] ; AEAEAE, ADADAD, reg color: 84BF5E
 
-Global Const $FullMini[4] = [255, 348 + $midOffsetY, 0xFFFFFF, 15] ; 0xC7F8F8 Most locations are only 30 decimal change in blue to gray (Dk blue chest)
-Global Const $FullHogs[4] = [364, 355 + $midOffsetY, 0xB2B2B2, 30] ; 0xD07C58 normal (lt brown shoulder)
-Global Const $FullValk[4] = [417, 317 + $midOffsetY, 0xB1B1B1, 30] ; 0xFF6E18 normal (lt orange hari curl)
-Global Const $FullGole[4] = [562, 339 + $midOffsetY, 0xC9C9C9, 30] ; 0xF07CD0 normal (pink eye)
-Global Const $FullWitc[4] = [638, 339 + $midOffsetY, 0xACACAC, 15] ; 0xF83DA4 normal (left pink eye) Need to fix
+Global Const $FullMini[4] = [497, 352 + $midOffsetY, 0x787878, 15] ; 0xC7F8F8 Most locations are only 30 decimal change in blue to gray (Dk blue chest)
+Global Const $FullHogs[4] = [500, 477 + $midOffsetY, 0x919191, 30] ; 0xD07C58 normal (lt brown shoulder)
+Global Const $FullValk[4] = [573, 367 + $midOffsetY, 0x8E8E8E, 30] ; 0xFF6E18 normal (lt orange hari curl)
+Global Const $FullGole[4] = [574, 462 + $midOffsetY, 0xA9A9A9, 30] ; 0xF07CD0 normal (pink eye)
+Global Const $FullWitc[4] = [677, 392 + $midOffsetY, 0x888888, 30] ; 0xF83DA4 normal (left pink eye) Need to fix
 
-Global Const $FullLava[4] = [256, 458 + $midOffsetY, 0xB3B3B3, 30] ; 0xFF7000 normal (Orange line above DE drop)
-Global Const $FullBowl[4] = [311, 448 + $midOffsetY, 0x6F6F6F, 20] ; 0x6060E8 normal (purple in cheek)
+Global Const $FullLava[4] = [724, 505 + $midOffsetY, 0x969696, 30] ; 0xFF7000 normal (Orange line above DE drop)
+Global Const $FullBowl[4] = [800, 379 + $midOffsetY, 0x585858, 20] ; 0x6060E8 normal (purple in cheek)
 
 Global Const $GemBarb[4] = [187, 372 + $midOffsetY, 0xE70A12, 30] ; Pixel location of middle of right side of zero text for troop training, and color when out of Elixir
 Global Const $GemArch[4] = [290, 372 + $midOffsetY, 0xE70A12, 30]
@@ -267,21 +301,21 @@ Global $xTrainOffset = 97
 Global $yTrainOffset = 101
 Global $xTrain = 28
 Global $yTrain = 371
-Global $LightningSpellRND[4] = [$xTrain + ($xTrainOffset * 0), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 0), $yTrain + $yBtnTrain + $midOffsetY]
-Global $RageSpellRND[4]= [$xTrain + ($xTrainOffset * 1), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 1), $yTrain + $yBtnTrain + $midOffsetY]
-Global $FreezeSpellRND[4] = [$xTrain + ($xTrainOffset * 2), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 2), $yTrain + $yBtnTrain + $midOffsetY]
+Global $TrainLSpellRND[4] = [$xTrain + ($xTrainOffset * 0), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 0), $yTrain + $yBtnTrain + $midOffsetY]
+Global $TrainRSpellRND[4]= [$xTrain + ($xTrainOffset * 1), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 1), $yTrain + $yBtnTrain + $midOffsetY]
+Global $TrainFSpellRND[4] = [$xTrain + ($xTrainOffset * 2), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 2), $yTrain + $yBtnTrain + $midOffsetY]
 $yTrain = $yTrain + $yTrainOffset
-Global $HealSpellRND[4] = [$xTrain + ($xTrainOffset * 0), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 0), $yTrain + $yBtnTrain + $midOffsetY]
-Global $JumpSpellRND[4] = [$xTrain + ($xTrainOffset * 1), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 1), $yTrain + $yBtnTrain + $midOffsetY]
-Global $CloneSpellRND[4] = [$xTrain + ($xTrainOffset * 2), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 2), $yTrain + $yBtnTrain + $midOffsetY]
+Global $TrainHSpellRND[4] = [$xTrain + ($xTrainOffset * 0), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 0), $yTrain + $yBtnTrain + $midOffsetY]
+Global $TrainJSpellRND[4] = [$xTrain + ($xTrainOffset * 1), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 1), $yTrain + $yBtnTrain + $midOffsetY]
+Global $TrainCSpellRND[4] = [$xTrain + ($xTrainOffset * 2), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 2), $yTrain + $yBtnTrain + $midOffsetY]
 
 Global $xTrain = 331
 Global $yTrain = 371
-Global $PoisonSpellRND[4] = [$xTrain + ($xTrainOffset * 0), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 0), $yTrain + $yBtnTrain + $midOffsetY]
-Global $HasteSpellRND[4] = [$xTrain + ($xTrainOffset * 1), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 1), $yTrain + $yBtnTrain + $midOffsetY]
+Global $TrainPSpellRND[4] = [$xTrain + ($xTrainOffset * 0), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 0), $yTrain + $yBtnTrain + $midOffsetY]
+Global $TrainHaSpellRND[4] = [$xTrain + ($xTrainOffset * 1), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 1), $yTrain + $yBtnTrain + $midOffsetY]
 $yTrain = $yTrain + $yTrainOffset
-Global $EarthSpellRND[4] = [$xTrain + ($xTrainOffset * 0), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 0), $yTrain + $yBtnTrain + $midOffsetY]
-Global $SkeletonSpellRND[4] = [$xTrain + ($xTrainOffset * 1), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 1), $yTrain + $yBtnTrain + $midOffsetY]
+Global $TrainESpellRND[4] = [$xTrain + ($xTrainOffset * 0), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 0), $yTrain + $yBtnTrain + $midOffsetY]
+Global $TrainSkSpellRND[4] = [$xTrain + ($xTrainOffset * 1), $yTrain + $midOffsetY, $xTrain + $xBtnTrain + ($xTrainOffset * 1), $yTrain + $yBtnTrain + $midOffsetY]
 
 
 Global $aArmyTrainButtonRND[4] = [20, 540 + $midOffsetY, 55, 570 + $midOffsetY] ; Main Screen, Army Train Button, RND  Screen 860x732

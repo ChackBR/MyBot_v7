@@ -15,7 +15,7 @@
 Global $LastBarrackTrainDonatedTroop = 1
 Global $LastDarkBarrackTrainDonatedTroop = 1
 
-
+#cs
 Func Train()
 
 	If $iAtkAlgorithm[$LB] = 2 Then
@@ -210,8 +210,34 @@ Func Train()
 
 	If $iChkUseQuickTrain = 1 Then
 		QuickTrain($iCmbCurrentArmy, False)
+		If _Sleep($iDelayTrain4) Then Return
 		ClickP($aAway, 2, $iDelayTrain5, "#0504"); Click away twice with 250ms delay
-		_Sleep(1000)
+		$FirstStart = False
+
+		;;;;;; Protect Army cost stats from being missed up by DC and other errors ;;;;;;;
+		If _Sleep($iDelayTrain4) Then Return
+		VillageReport(True, True)
+
+		$tempCounter = 0
+		While ($iElixirCurrent = "" Or ($iDarkCurrent = "" And $iDarkStart <> "")) And $tempCounter < 30
+			$tempCounter += 1
+			If _Sleep(100) Then Return
+			VillageReport(True, True)
+		WEnd
+
+		If $tempElixir <> "" And $iElixirCurrent <> "" Then
+			$tempElixirSpent = ($tempElixir - $iElixirCurrent)
+			$iTrainCostElixir += $tempElixirSpent
+			$iElixirTotal -= $tempElixirSpent
+		EndIf
+
+		If $tempDElixir <> "" And $iDarkCurrent <> "" Then
+			$tempDElixirSpent = ($tempDElixir - $iDarkCurrent)
+			$iTrainCostDElixir += $tempDElixirSpent
+			$iDarkTotal -= $tempDElixirSpent
+		EndIf
+
+		UpdateStats()
 		Return
 	EndIf
 
@@ -1221,3 +1247,4 @@ Func Train()
 	UpdateStats()
 
 EndFunc   ;==>Train
+#ce

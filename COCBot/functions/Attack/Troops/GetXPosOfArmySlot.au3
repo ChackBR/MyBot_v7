@@ -6,7 +6,7 @@
 ;                  $xOffsetFor11Slot    - an unknown value.
 ; Return values .: None
 ; Author ........:
-; Modified ......: Promac 08-2016
+; Modified ......: Promac 12-2016
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2016
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
@@ -31,13 +31,13 @@ Func GetXPosOfArmySlot($slotNumber, $xOffsetFor11Slot)
 
 	If $slotNumber = $King Or $slotNumber = $Queen Or $slotNumber = $Warden Then $xOffsetFor11Slot += 8
 
-	; check Dark color of the last slot to verify if exists > 11 slots
-	$SlotPixelColor = _ColorCheck(_GetPixelColor(834, 588 + $bottomOffsetY, True), Hex(0x040c0a, 6), 15)
+	; check Dark color on slot 0 to verify if exists > 11 slots
+	$SlotPixelColor = _ColorCheck(_GetPixelColor(15, 580 + $bottomOffsetY, True), Hex(0x07202A, 6), 15)
 
 	If $debugSetlog = 1 Then
-		Setlog(" Slot 0  _ColorCheck 0x040c0a at (834," & 588 + $bottomOffsetY & "): " & $SlotPixelColor, $COLOR_DEBUG)
-		$SlotPixelColorTemp = _GetPixelColor(834, 588 + $bottomOffsetY, $bCapturePixel)
-		Setlog(" Slot 0  _GetPixelColo(834," & 588 + $bottomOffsetY & "): " & $SlotPixelColorTemp, $COLOR_DEBUG)
+		Setlog(" Slot 0  _ColorCheck 0x07202A at (15," & 580 + $bottomOffsetY & "): " & $SlotPixelColor, $COLOR_DEBUG) ;Debug
+		$SlotPixelColorTemp = _GetPixelColor(15, 580 + $bottomOffsetY, $bCapturePixel)
+		Setlog(" Slot 0  _GetPixelColo(15," & 580 + $bottomOffsetY & "): " & $SlotPixelColorTemp, $COLOR_DEBUG) ;Debug
 	EndIf
 
 	If $SlotPixelColor = True Then

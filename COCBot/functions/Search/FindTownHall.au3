@@ -11,7 +11,7 @@
 ; Link ..........:
 ; Example .......: No
 ; ===============================================================================================================================
-Func FindTownHall($check = True)
+Func FindTownHall($check = True, $forceCaptureRegion = True)
 	Local $THString = ""
 	$searchTH = "-"
 	$THx=0
@@ -23,7 +23,7 @@ Func FindTownHall($check = True)
 		($isModeActive[$LB] And (  Number($iChkMeetTH[$LB])>0 Or Number($ichkMeetTHO[$LB])>0)) Then
 
 		;$searchTH = checkTownHallADV2()
-		$searchTH = imgloccheckTownHallADV2()
+		$searchTH = imgloccheckTownHallADV2(0, 0, $forceCaptureRegion)
 
 		;2nd attempt - NOT NEEDED AHS IMGLOC TRIES 2 TIMES
 		;If $searchTH = "-" Then ; retry with autoit search after $iDelayVillageSearch5 seconds
@@ -45,7 +45,7 @@ Func FindTownHall($check = True)
 		Return " [TH]:" & StringFormat("%2s", $searchTH) & ", " & $THLoc
 	EndIf
 	$THLoc = $searchTH
-			$THx = 0
-			$THy = 0
+	$THx = 0
+	$THy = 0
 	Return ""
 EndFunc

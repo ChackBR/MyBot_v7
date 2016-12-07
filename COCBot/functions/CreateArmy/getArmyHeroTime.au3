@@ -4,8 +4,9 @@
 ; Description ...: Obtains time reamining for Heros Training - Army Overview window
 ; Syntax ........: getArmyHeroTime($iHeroEnum = $eKing, $bReturnTimeArray = False, $bOpenArmyWindow = False, $bCloseArmyWindow = False)
 ; Parameters ....: $iHeroEnum = enum value for hero to check, or text "all" to check all heroes
-;					  : $bOpenArmyWindow  = Bool value true if train overview window needs to be opened
+;					  : $bOpenArmyWindow  = Bool value, true if train overview window needs to be opened
 ;					  : $bCloseArmyWindow = Bool value, true if train overview window needs to be closed
+;                     : $bForceReadTime   = Bool value, true if updrade remaining time should be read
 ; Return values .: MonkeyHunter (05/06-2016)
 ; Author ........:
 ; Modified ......:
@@ -16,7 +17,7 @@
 ; Example .......: No
 ; ===============================================================================================================================
 ;
-Func getArmyHeroTime($HeroType = "all", $bOpenArmyWindow = False, $bCloseArmyWindow = False)
+Func getArmyHeroTime($HeroType = "all", $bOpenArmyWindow = False, $bCloseArmyWindow = False, $bForceReadTime = False)
 
 	If $debugsetlogTrain = 1 Or $debugSetlog = 1 Then Setlog("Begin getArmyHeroTime:", $COLOR_DEBUG1)
 
@@ -41,8 +42,9 @@ Func getArmyHeroTime($HeroType = "all", $bOpenArmyWindow = False, $bCloseArmyWin
 	If $iTownHallLevel < 7 then Return
 
 	Local $iRemainTrainHeroTimer = 0
+	Local $i
 	Local $sResult
-	Local $iResultHeroes[3] = ["", "", ""] ; array to hold all remaining regen time read via OCR
+	Local $iResultHeroes[3] = [0, 0, 0] ; array to hold all remaining regen time read via OCR
 	Local Const $HeroSlots[3][2] = [[655, 344], [729, 344], [803, 344]] ; Location of hero status check tile
 
 	; Constant Array with OCR find location: [X pos, Y Pos, Text Name, Global enum value]
@@ -56,7 +58,7 @@ Func getArmyHeroTime($HeroType = "all", $bOpenArmyWindow = False, $bCloseArmyWin
 		; Check if slot has healing hero
 		$sResult = getHeroStatus($HeroSlots[$index][0], $HeroSlots[$index][1]) ; OCR slot for status information
 		If $sResult <> "" Then ; we found something
-			If StringInStr($sResult, "heal", $STR_NOCASESENSEBASIC) = 0 Then
+			If $bForceReadTime = False And StringInStr($sResult, "heal", $STR_NOCASESENSEBASIC) = 0 Then
 				If $debugsetlogTrain = 1 Or $debugSetlog = 1 Then
 					SetLog("Hero slot#" & $index + 1 & " status: " & $sResult & " :skip time read", $COLOR_DEBUG)
 				EndIf
@@ -71,20 +73,31 @@ Func getArmyHeroTime($HeroType = "all", $bOpenArmyWindow = False, $bCloseArmyWin
 		$sResult = getRemainTHero($aHeroRemainData[$index][0], $aHeroRemainData[$index][1]) ;Get Hero training time via OCR.
 
 		If $sResult <> "" Then
-			Select
-				Case StringInStr($sResult, "m", $STR_NOCASESENSEBASIC) ; find minutes?
-					$sResultHeroTime = StringTrimRight($sResult, 1) ; removing the "m"
-					$iResultHeroes[$index] = Number($sResultHeroTime)
-				Case StringInStr($sResult, "s", $STR_NOCASESENSEBASIC) ; find seconds?
-					$sResultHeroTime = StringTrimRight($sResult, 1) ; removing the "s"
-					$iResultHeroes[$index] = Number($sResultHeroTime) / 60 ; convert to minute
-				Case Else
-					SetLog("Bad read of remaining " & $aHeroRemainData[$index][2] & " train time: " & $sResult, $COLOR_ERROR)
-			EndSelect
+			$i = StringInStr($sResult, "d", $STR_NOCASESENSEBASIC)
+			If $i > 0 Then ; find days?
+				$iResultHeroes[$index] += Number($sResult) * 24 * 60
+				$sResult = StringStripWS(StringMid($sResult, $i + 1), 7) ; removing the "d"
+			EndIf
+			If $i > 0 Then ; find hours?
+				$iResultHeroes[$index] += Number($sResult) * 60
+				$sResult = StringStripWS(StringMid($sResult, $i + 1), 7) ; removing the "h"
+			EndIf
+			$i = StringInStr($sResult, "m", $STR_NOCASESENSEBASIC)
+			If $i > 0 Then  ; find minutes?
+				$iResultHeroes[$index] += Number($sResult)
+				$sResult = StringStripWS(StringMid($sResult, $i + 1), 7) ; removing the "m"
+			EndIf
+			$i = StringInStr($sResult, "s", $STR_NOCASESENSEBASIC)
+			If $i > 0 Then ; find seconds?
+				$iResultHeroes[$index] += Number($sResult) / 60 ; convert to minute
+			EndIf
+			If $iResultHeroes[$index] = 0 Then
+				SetLog("Bad read of remaining " & $aHeroRemainData[$index][2] & " train time: " & $sResult, $COLOR_ERROR)
+			EndIf
 			If $debugsetlogTrain = 1 Or $debugSetlog = 1 Then SetLog("Remaining " & $aHeroRemainData[$index][2] & " train time: " & StringFormat("%.2f", $iResultHeroes[$index]), $COLOR_DEBUG)
 
 			If $HeroType = $aHeroRemainData[$index][3] Then ; if only one hero requested, then set return value and exit loop
-				$iRemainTrainHeroTimer = Number($sResultHeroTime)
+				$iRemainTrainHeroTimer = $iResultHeroes[$index]
 				ExitLoop
 			EndIf
 		Else ; empty OCR value

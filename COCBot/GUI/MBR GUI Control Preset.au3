@@ -155,6 +155,7 @@ Func MakeSavePresetMessage()
 		Next
 		$message &= @CRLF
 	EndIf
+#CS 
 	Switch $icmbDarkTroopComp
 		Case "0"
 			$message &= "- Dark Elixir Troops: Barracks: "
@@ -176,7 +177,7 @@ Func MakeSavePresetMessage()
 		Case "2"
 			$message &= "- Dark Elixir Troops: None" & @CRLF
 	EndSwitch
-
+ #CE
 	$message &= "SEARCH SETTINGS:" & @CRLF
 	For $i = $DB To $TS
 		If IsSearchModeActive($i, True) Then

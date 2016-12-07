@@ -13,9 +13,6 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
-Global $g_hProcShieldInput[5] = [0, 0, False, False, 0]
-Global $aAndroidEmbeddedGraphics[0][2]
-
 ; Return Android window handle containing the Android rendering control
 Func GetCurrentAndroidHWnD()
 	Local $h = (($AndroidEmbedded = False Or $AndroidEmbedMode = 1) ? $HWnD : $frmBot)
@@ -172,6 +169,10 @@ Func _AndroidEmbed($Embed = True, $CallWinGetAndroidHandle = True, $bForceEmbed 
 
 			ControlHide($hGUI_LOG, "", $divider)
 			$aPosFrmBotEx = ControlGetPos($frmBot, "", $frmBotEx)
+			If UBound($aPosFrmBotEx) < 4 Then
+				SetLog("Bot Window not available", $COLOR_ERROR)
+				Return False
+			EndIf
 			ControlMove($frmBot, "", $frmBotEx, 0, 0, $aPosFrmBotEx[2], $aPosFrmBotEx[3] - $frmBotAddH)
 			ControlMove($frmBot, "", $frmBotBottom, 0, $_GUI_MAIN_HEIGHT - $_GUI_BOTTOM_HEIGHT + $_GUI_MAIN_TOP)
 			WinSetTrans($frmBotBottom, "", 255)
@@ -277,6 +278,7 @@ Func _AndroidEmbed($Embed = True, $CallWinGetAndroidHandle = True, $bForceEmbed 
 	If $debugAndroidEmbedded Then SetDebugLog("AndroidEmbed: $hCtrl=" & $hCtrl & ", $hCtrlTarget=" & $hCtrlTarget & ", $hCtrlTargetParent=" & $hCtrlTargetParent & ", $HWnD=" & $HWnD, Default, True)
 
 	$targetIsHWnD = $hCtrlTarget = $HWnD
+	Local $adjustPosCtrl = False
 	If $bAlreadyEmbedded = True Then
 
 		$g_hProcShieldInput[3] = True
@@ -297,6 +299,7 @@ Func _AndroidEmbed($Embed = True, $CallWinGetAndroidHandle = True, $bForceEmbed 
 		ElseIf $hCtrlTargetParent = $HWnD Then
 			Local $aPosParentCtl = $aPosCtl
 		Else
+			$adjustPosCtrl = True
 			Local $aPosParentCtl = ControlGetPos($HWnD, "", $hCtrlTargetParent)
 			If $hCtrlTargetParent = 0 Or IsArray($aPosParentCtl) = 0 Or @error <> 0 Then
 				SetDebugLog("Android Parent Control not available", $COLOR_ERROR)
@@ -357,8 +360,10 @@ Func _AndroidEmbed($Embed = True, $CallWinGetAndroidHandle = True, $bForceEmbed 
 		$AndroidEmbeddedCtrlTarget[4] = $lCurStyle
 		$AndroidEmbeddedCtrlTarget[5] = $lCurExStyle
 		; convert to relative position
-		$aPosCtl[0] = $aPosParentCtl[0] - $aPosCtl[0]
-		$aPosCtl[1] = $aPosParentCtl[1] - $aPosCtl[1]
+		If $adjustPosCtrl = True Then
+			$aPosCtl[0] = $aPosParentCtl[0] - $aPosCtl[0]
+			$aPosCtl[1] = $aPosParentCtl[1] - $aPosCtl[1]
+		EndIf
 		$AndroidEmbeddedCtrlTarget[6] = $aPosCtl
 		$AndroidEmbeddedCtrlTarget[7] = $aPos
 		$AndroidEmbeddedCtrlTarget[8] = $lCurStyleTarget
@@ -696,6 +701,13 @@ Func AndroidShieldCheck()
 	Return AndroidShield("AndroidShieldCheck")
 EndFunc   ;==>AndroidShieldCheck
 
+Func AndroidShieldLock($Lock = Default)
+	If $Lock = Default Then Return $g_hProcShieldInput[3]
+	Local $wasLock = $g_hProcShieldInput[3]
+	$g_hProcShieldInput[3] = $Lock
+	Return $wasLock
+EndFunc   ;==>AndroidShieldLock
+
 ; Syncronized _AndroidShield
 Func AndroidShield($sCaller, $Enable = Default, $CallWinGetAndroidHandle = True, $iDelay = 0, $AndroidHasFocus = Default, $AndroidUpdateFocus = True)
 	If $AndroidShieldEnabled = False Or $g_hProcShieldInput[3] = True Then Return False
@@ -870,6 +882,8 @@ Func _AndroidShield($sCaller, $Enable = Default, $CallWinGetAndroidHandle = True
 
 	; Add hooks
 	AndroidShieldStartup()
+
+	HandleWndProc($shieldState = "disabled-focus")
 
 	SetDebugLog("AndroidShield updated to " & $shieldState & "(handle=" & $frmBotEmbeddedShield & ", color=" & Hex($color, 6) & "), caller: " & $sCaller, Default, True)
 

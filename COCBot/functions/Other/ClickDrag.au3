@@ -26,11 +26,20 @@
 ;=================================================================================================
 Func _PostMessage_ClickDrag($X1, $Y1, $X2, $Y2, $Button = "left", $Delay = 50)
 
+	Local $hWin = $HWnDCtrl
+
+    $X1 = Int($X1)
+	$Y1 = Int($Y1)
+    $X2 = Int($X2)
+	$Y2 = Int($Y2)
+
 	; adjust coordinates based on Android control offset
-    $X1 = Int($X1) + $BSrpos[0]
-	$Y1 = Int($Y1) + $BSrpos[1]
-    $X2 = Int($X2) + $BSrpos[0]
-	$Y2 = Int($Y2) + $BSrpos[1]
+	If $hWin = $HWnD Then
+		$X1 += $BSrpos[0]
+		$Y1 += $BSrpos[1]
+		$X2 += $BSrpos[0]
+		$Y2 += $BSrpos[1]
+	EndIf
 
 	WinGetAndroidHandle()
 
@@ -86,6 +95,7 @@ Func _MakeLong($LowWORD, $HiWORD)
 EndFunc   ;==>_MakeLong
 
 Func ClickDrag($X1, $Y1, $X2, $Y2, $Delay = 50)
+	If TestCapture() Then Return
 	;Return _PostMessage_ClickDrag($X1, $Y1, $X2, $Y2, "left", $Delay)
 	Local $error = 0
 	If $AndroidAdbClickDrag = True Then

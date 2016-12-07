@@ -30,8 +30,8 @@ Func TrainIt($troopKind, $howMuch = 1, $iSleep = 400)
 						TrainClickP($pos, $howMuch, $isldTrainITDelay, $FullName, $GemName, "#0266", $RNDName)
 						If _Sleep($iSleep) Then Return False
 						If $OutOfElixir = 1 Then
-							For $i = 0 To UBound($TroopDarkName) - 1
-								If Eval("e" & $TroopDarkName[$i]) = $troopKind Then
+							For $i = 0 To UBound($TroopName) - 1
+								If Eval("e" & $TroopName[$i]) = $troopKind Then
 									$bDark = True
 									Setlog("Not enough Dark Elixir to train position " & $troopKind & " troops!", $COLOR_ERROR)
 									ExitLoop
@@ -80,9 +80,14 @@ Func GetTrainPos($troopKind)
 			Return Eval("Train" & $TroopName[$i])
 		EndIf
 	Next
-	For $i = 0 To UBound($TroopDarkName) - 1
-		If Eval("e" & $TroopDarkName[$i]) = $troopKind Then
-			Return Eval("Train" & $TroopDarkName[$i])
+	; For $i = 0 To UBound($TroopDarkName) - 1
+		; If Eval("e" & $TroopDarkName[$i]) = $troopKind Then
+			; Return Eval("Train" & $TroopDarkName[$i])
+		; EndIf
+	; Next
+	For $i = 0 To UBound($SpellName) - 1
+		If Eval("e" & $SpellName[$i]) = $troopKind Then
+			Return Eval("Train" & $SpellName[$i])
 		EndIf
 	Next
 	SetLog("Don't know how to train the troop " & NameOfTroop($troopKind) & " yet")
@@ -96,9 +101,14 @@ Func GetFullName($troopKind)
 			Return Eval("Full" & $TroopName[$i])
 		EndIf
 	Next
-	For $i = 0 To UBound($TroopDarkName) - 1
-		If Eval("e" & $TroopDarkName[$i]) = $troopKind Then
-			Return Eval("Full" & $TroopDarkName[$i])
+	; For $i = 0 To UBound($TroopDarkName) - 1
+		; If Eval("e" & $TroopDarkName[$i]) = $troopKind Then
+			; Return Eval("Full" & $TroopDarkName[$i])
+		; EndIf
+	; Next
+	For $i = 0 To UBound($SpellName) - 1
+		If Eval("e" & $SpellName[$i]) = $troopKind Then
+			Return Eval("Full" & $SpellName[$i])
 		EndIf
 	Next
 	SetLog("Don't know how to find the troop " & NameOfTroop($troopKind) & " yet")
@@ -112,9 +122,14 @@ Func GetGemName($troopKind)
 			Return Eval("Gem" & $TroopName[$i])
 		EndIf
 	Next
-	For $i = 0 To UBound($TroopDarkName) - 1
-		If Eval("e" & $TroopDarkName[$i]) = $troopKind Then
-			Return Eval("Gem" & $TroopDarkName[$i])
+	; For $i = 0 To UBound($TroopDarkName) - 1
+		; If Eval("e" & $TroopDarkName[$i]) = $troopKind Then
+			; Return Eval("Gem" & $TroopDarkName[$i])
+		; EndIf
+	; Next
+	For $i = 0 To UBound($SpellName) - 1
+		If Eval("e" & $SpellName[$i]) = $troopKind Then
+			Return Eval("Gem" & $SpellName[$i])
 		EndIf
 	Next
 	SetLog("Don't know how to find the troop " & NameOfTroop($troopKind) & " yet")
@@ -128,9 +143,14 @@ Func GetRNDName($troopKind)
 			Return Eval("Train" & $TroopName[$i] & "RND")
 		EndIf
 	Next
-	For $i = 0 To UBound($TroopDarkName) - 1
-		If Eval("e" & $TroopDarkName[$i]) = $troopKind Then
-			Return Eval("Train" & $TroopDarkName[$i] & "RND")
+	; For $i = 0 To UBound($TroopDarkName) - 1
+		; If Eval("e" & $TroopDarkName[$i]) = $troopKind Then
+			; Return Eval("Train" & $TroopDarkName[$i] & "RND")
+		; EndIf
+	; Next
+	For $i = 0 To UBound($SpellName) - 1
+		If Eval("e" & $SpellName[$i]) = $troopKind Then
+			Return Eval("Train" & $SpellName[$i] & "RND")
 		EndIf
 	Next
 	SetLog("Don't know how to find the troop " & $troopKind & " yet")

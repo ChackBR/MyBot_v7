@@ -13,9 +13,20 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
-Func checkArmyCamp()
+Func checkArmyCamp($bOpenArmyWindow = False, $bCloseArmyWindow = False)
 
 	If $debugsetlogTrain = 1 Then SETLOG("Begin checkArmyCamp:", $COLOR_DEBUG1)
+
+	If $bOpenArmyWindow = False And IsTrainPage() = False Then ; check for train page
+		SetError(1)
+		Return ; not open, not requested to be open - error.
+	ElseIf $bOpenArmyWindow = True Then
+		If openArmyOverview() = False Then
+			SetError(2)
+			Return ; not open, requested to be open - error.
+		EndIf
+		If _Sleep($iDelaycheckArmyCamp5) Then Return
+	EndIf
 
 	GetArmyCapacity()
 	If _Sleep($iDelaycheckArmyCamp6) Then Return ; 10ms improve pause button response
@@ -35,10 +46,8 @@ Func checkArmyCamp()
 	getArmySpellCount()
 	If _Sleep($iDelaycheckArmyCamp6) Then Return ; 10ms improve pause button response
 
-	#cs disabled for 6.3.u as not available on Army page, only on Brew Spells page
 	getArmySpellTime()
 	If _Sleep($iDelaycheckArmyCamp6) Then Return ; 10ms improve pause button response
-	#ce
 
 	getArmyCCStatus()
 	If _Sleep($iDelaycheckArmyCamp6) Then Return ; 10ms improve pause button response
@@ -53,6 +62,11 @@ Func checkArmyCamp()
 	If Not $fullArmy Then DeleteExcessTroops()
 
 	$FirstCampView = True
+
+	If $bCloseArmyWindow = True Then
+		ClickP($aAway, 1, 0, "#0000") ;Click Away
+		If _Sleep($iDelaycheckArmyCamp4) Then Return
+	EndIf
 
 	If $debugsetlogTrain = 1 Then SETLOG("End checkArmyCamp: canRequestCC= " & $canRequestCC & ", fullArmy= " & $fullArmy, $COLOR_DEBUG)
 
@@ -106,7 +120,7 @@ Func DeleteExcessTroops()
 			EndIf
 		EndIf
 	Next
-
+#CS 
 	For $i = 0 To UBound($TroopDarkName) - 1
 		If IsTroopToDonateOnly(Eval("e" & $TroopDarkName[$i])) Then
 			$CorrectDonation = 0
@@ -123,7 +137,7 @@ Func DeleteExcessTroops()
 			EndIf
 		EndIf
 	Next
-
+ #CE
 	If $IsNecessaryDeleteTroop = 0 Then Return
 
 	If _ColorCheck(_GetPixelColor(670, 485 + $midOffsetY, True), Hex(0x60B010, 6), 5) Then
@@ -153,6 +167,7 @@ Func DeleteExcessTroops()
 	Next
 
 	If $debugsetlogTrain = 1 Then SetLog("Start-Loop Dark Troops Only To Donate ")
+#CS 
 	For $i = 0 To UBound($TroopDarkName) - 1
 		If IsTroopToDonateOnly(Eval("e" & $TroopDarkName[$i])) Then ; Will delete ONLY the Excess quantity of troop for donations , the rest is to use in Attack
 			If $debugsetlogTrain = 1 Then SetLog("Troop :" & NameOfTroop(Eval("e" & $TroopDarkName[$i])))
@@ -172,7 +187,7 @@ Func DeleteExcessTroops()
 			EndIf
 		EndIf
 	Next
-
+ #CE
 	If _ColorCheck(_GetPixelColor(674, 436 + $midOffsetY, True), Hex(0x60B010, 6), 5) Then
 		Click(674, 436 + $midOffsetY) ; click CONFIRM EDIT
 	EndIf

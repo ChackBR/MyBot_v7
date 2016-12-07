@@ -27,54 +27,45 @@ Local $x = 25, $y = 20
 ;			GUICtrlSetState(-1, $GUI_HIDE)
 ;			_GUICtrlSetTip(-1, $txtTip)
 		$y +=15
-		$cmbScriptNameDB=GUICtrlCreateCombo("", $x, $y, 185, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+		$cmbScriptNameDB = GUICtrlCreateCombo("", $x, $y, 200, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			$txtTip = GetTranslated(607,4, "Choose the script; You can edit/add new scripts located in folder: 'CSV/Attack'")
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetState(-1, $GUI_UNCHECKED)
 			GUICtrlSetOnEvent(-1, "cmbScriptNameDB")
-		$picreloadScriptsDB = GUICtrlCreateIcon($pIconLib, $eIcnReload, $x + 192, $y + 2, 16, 16)
+		$picreloadScriptsDB = GUICtrlCreateIcon($pIconLib, $eIcnReload, $x + 210, $y + 2, 16, 16)
 			$txtTip =  GetTranslated(607,5, "Reload Script Files")
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetOnEvent(-1, 'UpdateComboScriptNameDB') ; Run this function when the secondary GUI [X] is clicked
 		$y +=25
-		$lblNotesScriptDB =  GUICtrlCreateLabel("", $x, $y + 5, 180, 118)
-			PopulateComboScriptsFilesDB() ; populate
-		$picreloadScripts = GUICtrlCreateIcon($pIconLib, $eIcnEdit, $x + 192, $y + 2, 16, 16)
+		$lblNotesScriptDB =  GUICtrlCreateLabel("", $x, $y + 5, 200, 180)
+		$cmbScriptRedlineImplDB = GUICtrlCreateCombo("", $x, $y + 195, 230, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+			GUICtrlSetData(-1, GetTranslated(607,9, "ImgLoc Raw Redline (default)|ImgLoc Redline Drop Points|Original Redline"))
+			_GUICtrlComboBox_SetCurSel(-1, $iRedlineRoutine[$DB])
+			$txtTip = GetTranslated(607,10, "Choose the Redline implementation. ImgLoc Redline is default and best.")
+			_GUICtrlSetTip(-1, $txtTip)
+			GUICtrlSetState(-1, $GUI_UNCHECKED)
+			GUICtrlSetOnEvent(-1, "cmbScriptRedlineImplDB")
+		$cmbScriptDroplineDB = GUICtrlCreateCombo("", $x, $y + 220, 230, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+			GUICtrlSetData(-1, GetTranslated(607,11, "Drop line fix outer corner|Drop line fist Redline point|Full Drop line fix outer corner|Full Drop line fist Redline point|No Drop line"))
+			_GUICtrlComboBox_SetCurSel(-1, $iDroplineEdge[$DB])
+			$txtTip = GetTranslated(607,12, "Choose the drop line edges. Default is outer corner and safer. First Redline point can improve attack.")
+			_GUICtrlSetTip(-1, $txtTip)
+			GUICtrlSetState(-1, $GUI_UNCHECKED)
+			GUICtrlSetOnEvent(-1, "cmbScriptDroplineDB")
+		$picreloadScripts = GUICtrlCreateIcon($pIconLib, $eIcnEdit, $x + 210, $y + 2, 16, 16)
 			$txtTip =  GetTranslated(607,6, "Show/Edit current Attack Script")
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetOnEvent(-1, "EditScriptDB")
 		$y +=25
-		$picnewScriptsDB = GUICtrlCreateIcon($pIconLib, $eIcnAddcvs, $x + 192, $y + 2, 16, 16)
+		$picnewScriptsDB = GUICtrlCreateIcon($pIconLib, $eIcnAddcvs, $x + 210, $y + 2, 16, 16)
 			$txtTip =  GetTranslated(607,7, "Create a new Attack Script")
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetOnEvent(-1, "NewScriptDB")
 		$y +=25
-		$picduplicateScriptsDB = GUICtrlCreateIcon($pIconLib, $eIcnCopy, $x + 192, $y + 2, 16, 16)
+		$picduplicateScriptsDB = GUICtrlCreateIcon($pIconLib, $eIcnCopy, $x + 210, $y + 2, 16, 16)
 			$txtTip =  GetTranslated(607,8, "Copy current Attack Script to a new name")
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetOnEvent(-1, "DuplicateScriptDB")
-
-		; Attack Now (CSV) By MR.ViPeR
-		$y += 130
-		$btnAttNow = GUICtrlCreateButton("Attack Now", $x, $y-30, 91, 25)
-				_GUICtrlSetTip(-1, "Attack Now Button (Useful for CSV Testing)")
-				GUISetState(@SW_SHOW)
-				GUICtrlSetOnEvent(-1, "AttackNowDB")
-
-		; CSV Deployment Speed Mod
-		$y +=  4
-		$grpScriptSpeedDB = GUICtrlCreateGroup("CSV Deployment Speed", $x, $y, 230, 50)
-			$lbltxtSelectedSpeedDB = GUICtrlCreateLabel("Normal speed", $x + 15, $y + 20, 75, 25)
-				_GUICtrlSetTip(-1, "Increase or decrease the speed at which the CSV attack script deploys troops and waves.")
-			$sldSelectedSpeedDB = GUICtrlCreateSlider($x + 98, $y + 20, 125, 25, BitOR($TBS_TOOLTIPS, $TBS_AUTOTICKS))
-				_GUICtrlSetTip(-1, "Increase or decrease the speed at which the CSV attack script deploys troops and waves.")
-				_GUICtrlSlider_SetTipSide(-1, $TBTS_BOTTOM)
-				_GUICtrlSlider_SetTicFreq(-1, 1)
-				GUICtrlSetLimit(-1, 12, 0) ; change max/min value
-				GUICtrlSetData(-1, 4) ; default value
-				GUICtrlSetOnEvent(-1, "sldSelectedSpeedDB")
-	    GUICtrlCreateGroup("", -99, -99, 1, 1)
-
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 ;GUISetState()

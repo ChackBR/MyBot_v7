@@ -70,7 +70,7 @@ $grpDebug = GUICtrlCreateGroup(GetTranslated(636,34, "Debug"), $x - 20, $y - 20,
 		GUICtrlSetState(-1, $GUI_DISABLE)
 		GUICtrlSetState(-1, $GUI_HIDE)
 
-Local $x = 295
+Local $x = 300
 $y = 52
 Local $yNext = 30
 	$btnTestTrain = GUICtrlCreateButton(GetTranslated(636,88, "Test Train"), $x  , $y , 140, 25)
@@ -106,13 +106,14 @@ Local $yNext = 30
 	$btnTestQuickTrainsimgloc = GUICtrlCreateButton("Quick Train Test", $x  , $y , 140, 25)
 
 	; now go up again
-	$x -= 150
+	$x -= 145
 
 	$txtTestFindButton = GUICtrlCreateInput("BoostOne", $x - 90, $y + 3, 85, 20)
 	$btnTestFindButton = GUICtrlCreateButton(GetTranslated(636,118, "Test Find Button"), $x  , $y , 140, 25)
 	$y -= $yNext
 
 	$btnTestDeadBaseFolder = GUICtrlCreateButton(GetTranslated(636,116, "Test Dead Base Folder"), $x  , $y , 140, 25)
+	$btnTestCleanYard = GUICtrlCreateButton(GetTranslated(636,119, "Test Clean Yard"), $x - 145 , $y , 140, 25)
 	$y -= $yNext
 
 	$btnTestAttackCSV = GUICtrlCreateButton(GetTranslated(636,117, "Test Attack CSV"), $x  , $y , 140, 25)

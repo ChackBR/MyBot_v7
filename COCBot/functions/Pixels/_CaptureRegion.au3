@@ -45,7 +45,10 @@ Func _CaptureRegion($iLeft = 0, $iTop = 0, $iRight = $GAME_WIDTH, $iBottom = $GA
 				$_hHBitmap = _WinAPI_CreateCompatibleBitmap($hDC_Capture, $iW, $iH)
 				Local $hObjectOld = _WinAPI_SelectObject($hMemDC, $_hHBitmap)
 
-				DllCall("user32.dll", "int", "PrintWindow", "hwnd", $hCtrl, "handle", $hMemDC, "int", 0)
+				Local $flags = 0
+				; $PW_CLIENTONLY = 1 ; Only the client area of the window is copied to hdcBlt. By default, the entire window is copied.
+				; $PW_RENDERFULLCONTENT = 2 ; New in Windows 8.1, can capture DirectX/OpenGL screens through DWM
+				DllCall("user32.dll", "int", "PrintWindow", "hwnd", $hCtrl, "handle", $hMemDC, "int", $flags)
 				_WinAPI_SelectObject($hMemDC, $_hHBitmap)
 				_WinAPI_BitBlt($hMemDC, 0, 0, $iW, $iH, $hDC_Capture, $iLeft, $iTop, $SRCCOPY)
 

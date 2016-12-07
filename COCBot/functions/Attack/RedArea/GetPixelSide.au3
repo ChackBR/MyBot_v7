@@ -14,5 +14,6 @@
 ; Example .......: No
 ; ===============================================================================================================================
 Func GetPixelSide($listPixel, $index)
+	If $debugSetlog = 1 Then SetDebugLog("GetPixelSide " & $index & " = " & StringReplace($listPixel[$index], "-", ","))
 	Return GetListPixel($listPixel[$index])
 EndFunc   ;==>GetPixelSide

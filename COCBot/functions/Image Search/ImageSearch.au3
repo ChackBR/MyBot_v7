@@ -93,12 +93,12 @@ Func _ImageSearchArea($findImage, $resultPosition, $x1, $y1, $right, $bottom, By
 	EndIf
 EndFunc   ;==>_ImageSearchArea
 
-Func _ImageSearchAreaImgLoc($findImage, $resultPosition, $x1, $y1, $right, $bottom, ByRef $x, ByRef $y)
+Func _ImageSearchAreaImgLoc($findImage, $resultPosition, $x1, $y1, $right, $bottom, ByRef $x, ByRef $y, $hHBMP = $hHBitmap)
 
 	Local $sArea = Int($x1) & "," & Int($y1) & "|" & Int($right) & "," & Int($y1) & "|" & Int($right) & "," & Int($bottom) & "|" & Int($x1) & "," & Int($bottom)
 	Local $MaxReturnPoints = 1
 
-	Local $res = DllCall($hImgLib, "str", "FindTile", "handle", $hHBitmap, "str", $findImage,  "str", $sArea, "Int", $MaxReturnPoints)
+	Local $res = DllCall($hImgLib, "str", "FindTile", "handle", $hHBMP, "str", $findImage,  "str", $sArea, "Int", $MaxReturnPoints)
 	If @error Then _logErrorDLLCall($pImgLib, @error)
 	If IsArray($res) Then
 		;If $DebugSetlog = 1 Then SetLog("_ImageSearchAreaImgLoc " & $findImage & " succeeded " & $res[0] & ",$sArea=" & $sArea & ",$ToleranceImgLoc=" & $ToleranceImgLoc , $COLOR_ERROR)

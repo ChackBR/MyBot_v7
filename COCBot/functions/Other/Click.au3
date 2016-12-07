@@ -22,6 +22,8 @@ Func Click($x, $y, $times = 1, $speed = 0, $debugtxt = "")
 		SetLog("Click " & $x & "," & $y & "," & $times & "," & $speed & " " & $debugtxt & $txt, $COLOR_ACTION, "Verdana", "7.5", 0)
 	EndIf
 
+	If TestCapture() Then Return
+
     If $AndroidAdbClick = True Then
 		AndroidClick($x, $y, $times, $speed)
 	EndIf
@@ -30,9 +32,6 @@ Func Click($x, $y, $times = 1, $speed = 0, $debugtxt = "")
     EndIf
 
     Local $SuspendMode = ResumeAndroid()
-    ;getBSPos()
-    $x = $x  + $BSrpos[0]
-	$y = $y  + $BSrpos[1]
 	If $times <> 1 Then
 		For $i = 0 To ($times - 1)
 			If isProblemAffectBeforeClick($i) Then
@@ -59,13 +58,22 @@ Func Click($x, $y, $times = 1, $speed = 0, $debugtxt = "")
 EndFunc   ;==>Click
 
 Func _ControlClick($x, $y)
-   	Local $hWin = ($AndroidEmbedded = False ? $HWnD : $AndroidEmbeddedCtrlTarget[1])
+   	;Local $hWin = ($AndroidEmbedded = False ? $HWnD : $AndroidEmbeddedCtrlTarget[1])
+	Local $hWin = $HWnDCtrl
+	$x = Int($x)
+	$y = Int($y)
+	If $hWin = $HWnD Then
+		$x += $BSrpos[0]
+		$y += $BSrpos[1]
+	EndIf
 	;Return ControlClick($hWin, "", "", "left", "1", $x, $y)
 	Local $WM_LBUTTONDOWN = 0x0201, $WM_LBUTTONUP = 0x0202
 	Local $lParam =  BitOR(Int($y) * 0x10000, BitAND(Int($x), 0xFFFF)) ; HiWord = y-coordinate, LoWord = x-coordinate
-	_WinAPI_PostMessage($hWin, $WM_LBUTTONDOWN, 0x0001, $lParam)
-	_WinAPI_PostMessage($hWin, $WM_LBUTTONUP, 0x0000, $lParam)
-	_Sleep(10)
+	; _WinAPI_PostMessage or _SendMessage
+	_SendMessage($hWin, $WM_LBUTTONDOWN, 0x0001, $lParam)
+	_SendMessage($hWin, $WM_LBUTTONUP, 0x0000, $lParam)
+	_SleepMicro(25000) ; sleep 25 Milliseconds
+	Return 1
 EndFunc
 
 Func isProblemAffectBeforeClick($iCount = 0)
@@ -100,6 +108,8 @@ Func PureClick($x, $y, $times = 1, $speed = 0, $debugtxt = "")
 		SetLog("PureClick " & $x & "," & $y & "," & $times & "," & $speed & " " & $debugtxt & $txt, $COLOR_ACTION, "Verdana", "7.5", 0)
 	EndIf
 
+	If TestCapture() Then Return
+
     If $AndroidAdbClick = True Then
 	   AndroidClick($x, $y, $times, $speed, False)
 	EndIf
@@ -108,9 +118,6 @@ Func PureClick($x, $y, $times = 1, $speed = 0, $debugtxt = "")
     EndIf
 
     Local $SuspendMode = ResumeAndroid()
-    ;getBSPos()
-    $x = $x  + $BSrpos[0]
-	$y = $y  + $BSrpos[1]
 	If $times <> 1 Then
 		For $i = 0 To ($times - 1)
 			MoveMouseOutBS()
@@ -135,6 +142,8 @@ Func GemClick($x, $y, $times = 1, $speed = 0, $debugtxt = "")
 		SetLog("GemClick " & $x & "," & $y & "," & $times & "," & $speed & " " & $debugtxt & $txt, $COLOR_ACTION, "Verdana", "7.5", 0)
 	EndIf
 
+	If TestCapture() Then Return
+
     If $AndroidAdbClick = True Then
 	   If isGemOpen(True) Then
 		  Return False
@@ -146,9 +155,6 @@ Func GemClick($x, $y, $times = 1, $speed = 0, $debugtxt = "")
     EndIf
 
     Local $SuspendMode = ResumeAndroid()
-    ;getBSPos()
-    $x = $x  + $BSrpos[0]
-	$y = $y  + $BSrpos[1]
 	Local $i
 	If $times <> 1 Then
 		For $i = 0 To ($times - 1)

@@ -36,6 +36,7 @@ Local $txtFull = GetTranslated(626,30, "Full")
 			_GUICtrlSetTip(-1, $txtTip)
 		$txtLvl6 = GUICtrlCreateLabel(GetTranslated(626,3, "Lvl 6. Must be >"), $x + 40, $y + 3, -1, -1)
 			_GUICtrlSetTip(-1, $txtTip)
+			GUICtrlSetState(-1, $GUI_DISABLE)
 		$cmbLvl6 = GUICtrlCreateCombo("", $x + 125, $y, 75, 20, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			$txtTip = GetTranslated(626,23,'Select how full a level 6 collector needs to be for it to be marked "dead"')
 			_GUICtrlSetTip(-1, $txtTip)
@@ -160,10 +161,10 @@ Local $txtFull = GetTranslated(626,30, "Full")
 			GUICtrlSetLimit(-1, 15,-15) ; change max/min value
 			GUICtrlSetData(-1, 0) ; default value
 			GUICtrlSetOnEvent(-1, "sldCollectorTolerance")
-		If $DevMode = 0 Then
+		;If $DevMode = 0 Then
 			GUICtrlSetState($lblTolerance, $GUI_HIDE)
 			GUICtrlSetState($sldCollectorTolerance, $GUI_HIDE)
-		EndIf
+		;EndIf
 	$y += 25
 		$lblCollectorWarning = GUICtrlCreateLabel("Warning: no collecters are selected. The bot will never find a dead base.", $x, $y, 255, 30)
 			GUICtrlSetFont(-1, 10, $FW_BOLD)

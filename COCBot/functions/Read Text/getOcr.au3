@@ -252,6 +252,18 @@ Func getCloudFailShort($x_start, $y_start, $sLogText = Default, $LogTextColor = 
 	Return $result
 EndFunc   ;==>getCloudFailShort
 
+Func getBarracksNewTroopQuantity($x_start, $y_start) ;  -> Gets quantity of troops in army Window
+	Return getOcrAndCapture("coc-newarmy", $x_start, $y_start, 45, 18, True)
+EndFunc   ;==>getBarracksNewTroopQuantity
+
+Func getArmyCapacityOnTrainTroops($x_start, $y_start) ;  -> Gets quantity of troops in army Window
+	Return getOcrAndCapture("coc-NewCapacity", $x_start, $y_start, 67, 14, True)
+EndFunc   ;==>getArmyCapacityOnTrainTroops
+
+Func getQueueTroopsQuantity($x_start, $y_start) ;  -> Gets quantity of troops in Queue in Train Tab
+	Return StringReplace(getOcrAndCapture("coc-qqtroop", $x_start, $y_start, 71, 22, True), "b", "")
+EndFunc   ;==>getQueueTroopsQuantity
+
 Func getOcrAndCapture($language, $x_start, $y_start, $width, $height, $removeSpace = False)
 	_CaptureRegion2($x_start, $y_start, $x_start + $width, $y_start + $height)
 	Local $result = getOcr($hHBitmap2, $language)

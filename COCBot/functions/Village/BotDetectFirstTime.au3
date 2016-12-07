@@ -131,30 +131,39 @@ Func BotDetectFirstTime()
 		EndIf
 	EndIf
 
-	;Boju Display TH Level in Stats
+	;Display Level TH in Stats
+	GUICtrlSetData($lblTHLevels, "")
 
-	_GUI_Value_STATE("HIDE",$groupListTHLevels)
-		If $debugsetlog = 1 Then Setlog("Select TH Level:" & Number($iTownHallLevel), $COLOR_DEBUG)
-		Switch Number($iTownHallLevel)
-			Case 4
-				GUICtrlSetState($THLevels04,$GUI_SHOW)
-			Case 5
-				GUICtrlSetState($THLevels05,$GUI_SHOW)
-			Case 6
-				GUICtrlSetState($THLevels06,$GUI_SHOW)
-			Case 7
-				GUICtrlSetState($THLevels07,$GUI_SHOW)
-			Case 8
-				GUICtrlSetState($THLevels08,$GUI_SHOW)
-			Case 9
-				GUICtrlSetState($THLevels09,$GUI_SHOW)
-			Case 10
-				GUICtrlSetState($THLevels10,$GUI_SHOW)
-			Case 11
-				GUICtrlSetState($THLevels11,$GUI_SHOW)
-		EndSwitch
-	GUICtrlSetState(Eval("$THLevels" + Number($iTownHallLevel)),$GUI_SHOW)
-	;-->Display TH Level in Stats
+	;Boju Display TH Level in Stats
+	_GUI_Value_STATE("HIDE", $groupListTHLevels)
+	If $debugSetlog = 1 Then Setlog("Select TH Level:" & Number($iTownHallLevel), $COLOR_DEBUG)
+	Switch Number($iTownHallLevel)
+		Case 4
+			GUICtrlSetState($THLevels04, $GUI_SHOW)
+			GUICtrlSetData($lblTHLevels, "4")
+		Case 5
+			GUICtrlSetState($THLevels05, $GUI_SHOW)
+			GUICtrlSetData($lblTHLevels, "5")
+		Case 6
+			GUICtrlSetState($THLevels06, $GUI_SHOW)
+			GUICtrlSetData($lblTHLevels, "6")
+		Case 7
+			GUICtrlSetState($THLevels07, $GUI_SHOW)
+			GUICtrlSetData($lblTHLevels, "7")
+		Case 8
+			GUICtrlSetState($THLevels08, $GUI_SHOW)
+			GUICtrlSetData($lblTHLevels, "8")
+		Case 9
+			GUICtrlSetState($THLevels09, $GUI_SHOW)
+			GUICtrlSetData($lblTHLevels, "9")
+		Case 10
+			GUICtrlSetState($THLevels10, $GUI_SHOW)
+			GUICtrlSetData($lblTHLevels, "10")
+		Case 11
+			GUICtrlSetState($THLevels11, $GUI_SHOW)
+			GUICtrlSetData($lblTHLevels, "11")
+	EndSwitch
+	GUICtrlSetState(Eval("$THLevels" + Number($iTownHallLevel)), $GUI_SHOW)
 
 #comments-start  removed due replacement by imgloc collect
 	If $iChkCollect = 1 And $listResourceLocation = "" Then

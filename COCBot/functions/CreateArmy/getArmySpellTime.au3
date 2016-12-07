@@ -30,36 +30,12 @@ Func getArmySpellTime($bOpenArmyWindow = False, $bCloseArmyWindow = False)
 		EndIf
 		If _Sleep($iDelaycheckArmyCamp5) Then Return
 	EndIf
-
-	Local $iRemainTrainSpellsTimer = 0, $sResultSpellsMinutes = "", $aResult
-
-	Local $sResultSpells = getRemainTrainTimer(751, 161)  ;Get spell training time via OCR.
-
-	If $sResultSpells <> "" Then
-		If StringInStr($sResultSpells, "h") > 1 Then
-			$aResult = StringSplit($sResultSpells, "h", $STR_NOCOUNT)
-			; $aResult[0] will be the Hour and the $aResult[1] will be the Minutes with the "m" at end
-			$sResultSpellsMinutes = StringTrimRight($aResult[1], 1) ; removing the "m"
-			$iRemainTrainSpellsTimer = (Number($aResult[0]) * 60) + Number($sResultSpellsMinutes)
-		ElseIf StringInStr($sResultSpells, "m") > 1 Then
-			$iRemainTrainSpellsTimer = Number(StringTrimRight($sResultSpells, 1)) ; removing the "m"
-		ElseIf StringInStr($sResultSpells, "s") > 1 Then
-			$iRemainTrainSpellsTimer = Number(StringTrimRight($sResultSpells, 1)) / 60  ; removing the "s" and convert to minutes
-		Else
-			If $debugsetlogTrain = 1 Or $debugSetlog = 1 Then SetLog("getArmySpellTime: Bad OCR string", $COLOR_ERROR)
-		EndIf
-		SetLog("Spells cook time: " & StringFormat("%.2f", $iRemainTrainSpellsTimer), $COLOR_INFO)
-	Else
-		If Not $bFullArmySpells Then
-			If $debugsetlogTrain = 1 Or $debugSetlog = 1 Then SetLog("Can not read remaining Spell train time!", $COLOR_ERROR)
-		EndIf
-	EndIf
+	; Local $sResultSpells = getRemainTrainTimer(751, 161) ;Get time via OCR.
+	Local $sResultSpells = getRemainTrainTimer(495, 315) ;Get time via OCR.
+	$aTimeTrain[1] = ConvertOCRTime("Spells", $sResultSpells) ; update global array
 
 	If $bCloseArmyWindow = True Then
 		ClickP($aAway, 1, 0, "#0000") ;Click Away
 		If _Sleep($iDelaycheckArmyCamp4) Then Return
 	EndIf
-
-	$aTimeTrain[1] = $iRemainTrainSpellsTimer  ; update global array
-
 EndFunc   ;==>getArmySpellCount

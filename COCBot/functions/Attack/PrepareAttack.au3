@@ -14,6 +14,12 @@
 ; Example .......: No
 ; ===============================================================================================================================
 Func PrepareAttack($pMatchMode, $Remaining = False) ;Assigns troops
+
+	; Attack CSV has debug option to save attack line image, save have png of current $hHBITMAP2
+	If  ($pMatchMode = $DB and $iAtkAlgorithm[$DB] = 1) or ($pMatchMode = $LB and  $iAtkAlgorithm[$LB] = 1) Then
+		If $makeIMGCSV = 1 And $Remaining = False And TestCapture() = 0 Then DebugImageSave("clean", False) ; make clean snapshot as well
+	EndIf
+
 	Local $troopsnumber = 0
 	If $debugSetlog = 1 Then SetLog("PrepareAttack for " & $pMatchMode & " " & $sModeText[$pMatchMode], $COLOR_DEBUG)
 	If $Remaining Then
@@ -161,13 +167,13 @@ Func IsSpecialTroopToBeUsed($pMatchMode, $pTroopType)
 			Case  $eLSpell
 				Switch $pmatchMode
 					Case $DB
-						 If $ichkLightSpell[$DB] = 1 Then Return True
+						 If $ichkLightSpell[$DB] = 1 Or $ichkSmartZap = 1 Then Return True
 					Case $LB
-						 If $ichkLightSpell[$LB] = 1 Then Return True
+						 If $ichkLightSpell[$LB] = 1 Or $ichkSmartZap = 1 Then Return True
 					Case $TS
-						 If $ichkLightSpell[$TS] = 1 Then Return True
+						 If $ichkLightSpell[$TS] = 1 Or $ichkSmartZap = 1 Then Return True
 					Case $MA
-						 If $ichkLightSpell[$DB] = 1 Then Return True
+						 If $ichkLightSpell[$DB] = 1 Or $ichkSmartZap = 1 Then Return True
 				EndSwitch
 			Case  $eHSpell
 				Switch $pmatchMode

@@ -19,8 +19,12 @@ Func isInsideDiamondRedArea($aCoords)
 	Local $aMiddle = [($aDiamond[0][0] + $aDiamond[1][0]) / 2, ($aDiamond[0][1] + $aDiamond[1][1]) / 2]
 	Local $aSize = [$aMiddle[0] - $aDiamond[0][0], $aMiddle[1] - $aDiamond[0][1]]
 
-	Local $DX = Abs($aCoords[0] - $aMiddle[0]) - 5 ; allow additional 5 pixels
-	Local $DY = Abs($aCoords[1] - $aMiddle[1]) - 5 ; allow additional 5 pixels
+	Local $DX = Abs($aCoords[0] - $aMiddle[0])
+	Local $DY = Abs($aCoords[1] - $aMiddle[1])
+
+	; allow additional 5 pixels
+	If $DX >= 5 Then $DX -= 5
+	If $DY >= 5 Then $DY -= 5
 
 	If ($DX / $aSize[0] + $DY / $aSize[1] <= 1) And $aCoords[0] > $DeployableLRTB[0] And $aCoords[0] <= $DeployableLRTB[1] And $aCoords[1] >= $DeployableLRTB[2] And $aCoords[1] <= $DeployableLRTB[3]  Then
 		Return True ; Inside Village

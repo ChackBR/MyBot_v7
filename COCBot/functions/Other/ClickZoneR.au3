@@ -164,9 +164,6 @@ Func GemClickR($boundingBox,$x, $y, $times = 1, $speed = 0, $debugtxt = "", $Out
     EndIf
 
     Local $SuspendMode = ResumeAndroid()
-    ;getBSPos()
-    $x = $x  + $BSrpos[0]
-	$y = $y  + $BSrpos[1]
 	Local $i
 	If $times <> 1 Then
 		For $i = 0 To ($times - 1)

@@ -32,7 +32,7 @@ Global $iOldNbrOfDetectedMines[$iModeCount + 1], $iOldNbrOfDetectedCollectors[$i
 
 Func UpdateStats()
 	If $FirstRun = 1 Then
-		GUICtrlSetState($lblResultStatsTemp, $GUI_HIDE)
+		;GUICtrlSetState($lblResultStatsTemp, $GUI_HIDE)
 		GUICtrlSetState($lblVillageReportTemp, $GUI_HIDE)
 		GUICtrlSetState($picResultGoldTemp, $GUI_HIDE)
 		GUICtrlSetState($picResultElixirTemp, $GUI_HIDE)
@@ -83,11 +83,31 @@ Func UpdateStats()
 	EndIf
 
 	If $FirstAttack = 1 Then
-		GUICtrlSetState($lblLastAttackTemp, $GUI_HIDE)
-		GUICtrlSetState($lblLastAttackBonusTemp, $GUI_HIDE)
-		GUICtrlSetState($lblTotalLootTemp, $GUI_HIDE)
-		GUICtrlSetState($lblHourlyStatsTemp, $GUI_HIDE)
+		;GUICtrlSetState($lblLastAttackTemp, $GUI_HIDE)
+		;GUICtrlSetState($lblLastAttackBonusTemp, $GUI_HIDE)
+		;GUICtrlSetState($lblTotalLootTemp, $GUI_HIDE)
+		;GUICtrlSetState($lblHourlyStatsTemp, $GUI_HIDE)
 		$FirstAttack = 2
+	EndIf
+
+	If Number($iGoldLast) > Number($topgoldloot) Then
+		$topgoldloot = $iGoldLast
+		GUICtrlSetData($lbltopgoldloot,_NumberFormat($topgoldloot))
+	EndIf
+
+	If Number($iElixirLast) > Number($topelixirloot) Then
+		$topelixirloot = $iElixirLast
+		GUICtrlSetData($lbltopelixirloot,_NumberFormat($topelixirloot))
+	EndIf
+
+	If Number($iDarkLast) > Number($topdarkloot) Then
+		$topdarkloot = $iDarkLast
+		GUICtrlSetData($lbltopdarkloot,_NumberFormat($topdarkloot))
+	EndIf
+
+	If Number($iTrophyLast) > Number($topTrophyloot) Then
+		$topTrophyloot = $iTrophylast
+		GUICtrlSetData($lbltopTrophyloot,_NumberFormat($topTrophyloot))
 	EndIf
 
 	If $ResetStats = 1 Then
@@ -376,16 +396,25 @@ Func UpdateStats()
 
 	EndIf
 
-	; SmartZap DE Gain
-	If $iOldSmartZapGain <> $smartZapGain Then
-		GUICtrlSetData($lblSmartZap, _NumberFormat($smartZapGain, True))
-		$iOldSmartZapGain = $smartZapGain
+	If Number($iGoldLast) > Number($topgoldloot) Then
+		$topgoldloot = $iGoldLast
+		GUICtrlSetData($lbltopgoldloot,_NumberFormat($topgoldloot))
 	EndIf
-	; SmartZap Spells Used
-	If $iOldNumLTSpellsUsed <> $numLSpellsUsed Then
-		GUICtrlSetData($lblLightningUsed, _NumberFormat($numLSpellsUsed, True))
-		$iOldNumLTSpellsUsed = $numLSpellsUsed
- 	EndIf
+
+	If Number($iElixirLast) > Number($topelixirloot) Then
+		$topelixirloot = $iElixirLast
+		GUICtrlSetData($lbltopelixirloot,_NumberFormat($topelixirloot))
+	EndIf
+
+	If Number($iDarkLast) > Number($topdarkloot) Then
+		$topdarkloot = $idarklast
+		GUICtrlSetData($lbltopdarkloot,_NumberFormat($topdarkloot))
+	EndIf
+
+	If Number($iTrophyLast) > Number($topTrophyloot) Then
+		$topTrophyloot = $iTrophylast
+		GUICtrlSetData($lbltopTrophyloot,_NumberFormat($topTrophyloot))
+	EndIf
 
 	If $ResetStats = 1 Then
 		$ResetStats = 0
@@ -400,10 +429,10 @@ Func ResetStats()
 	$sTimer = TimerInit()
 	GUICtrlSetData($lblresultruntime, "00:00:00")
 	GUICtrlSetData($lblResultRuntimeNow, "00:00:00")
-	GUICtrlSetState($lblLastAttackTemp, $GUI_SHOW)
-	GUICtrlSetState($lblLastAttackBonusTemp, $GUI_SHOW)
-	GUICtrlSetState($lblTotalLootTemp, $GUI_SHOW)
-	GUICtrlSetState($lblHourlyStatsTemp, $GUI_SHOW)
+	;GUICtrlSetState($lblLastAttackTemp, $GUI_SHOW)
+	;GUICtrlSetState($lblLastAttackBonusTemp, $GUI_SHOW)
+	;GUICtrlSetState($lblTotalLootTemp, $GUI_SHOW)
+	;GUICtrlSetState($lblHourlyStatsTemp, $GUI_SHOW)
 	$iGoldStart = $iGoldCurrent
 	$iElixirStart = $iElixirCurrent
 	$iDarkStart = $iDarkCurrent
@@ -450,10 +479,5 @@ Func ResetStats()
 		$iNbrOfDetectedCollectors[$i] = 0
 		$iNbrOfDetectedDrills[$i] = 0
 	Next
-
-	; SmartZap DE Gain
-	$smartZapGain = 0
-	$numLSpellsUsed = 0
-
 	UpdateStats()
 EndFunc   ;==>ResetStats

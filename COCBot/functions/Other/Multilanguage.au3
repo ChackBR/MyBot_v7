@@ -15,6 +15,8 @@
 
 Func GetTranslated($iSection = -1, $iKey = -1, $sText = "", $var1 = Default, $var2 = Default, $var3 = Default)
 
+	$sText = StringReplace($sText, @CRLF, "\r\n")
+
 	Local $sDefaultText, $sLanguageText
 
 	;If GetTranslated was called without correct parameters return value -2 to show the coder there is a mistake made somewhere (debug)
@@ -91,6 +93,7 @@ EndFunc   ;==>GetTranslatedParsedText
 ;DetectLanguage()
 Func DetectLanguage()
 	$sLanguage = IniRead($config, "other", "language", "")
+	If Not FileExists(@ScriptDir & "\Languages\" & $sLanguage & ".ini") Then $sLanguage = ""
 	If $sLanguage = "" Then
 		$OSLang = @OSLang
 		If $debugSetLog Then SetLog("Detected language code: " & $OSLang)
@@ -99,7 +102,7 @@ Func DetectLanguage()
 			Case Hex(0x0004, 4)
 				$decimalCode = '4'
 				$countryCode = 'zh-CHS'
-				$langName = 'Chinese'
+				$langName = 'Chinese_S'
 			Case Hex(0x0401, 4)
 				$decimalCode = '1025'
 				$countryCode = 'ar-SA'
@@ -115,7 +118,7 @@ Func DetectLanguage()
 			Case Hex(0x0404, 4)
 				$decimalCode = '1028'
 				$countryCode = 'zh-TW'
-				$langName = 'Chinese'
+				$langName = 'Chinese_T'
 			Case Hex(0x0405, 4)
 				$decimalCode = '1029'
 				$countryCode = 'cs-CZ'
@@ -583,7 +586,7 @@ Func DetectLanguage()
 			Case Hex(0x0804, 4)
 				$decimalCode = '2052'
 				$countryCode = 'zh-CN'
-				$langName = 'Chinese'
+				$langName = 'Chinese_S'
 			Case Hex(0x0807, 4)
 				$decimalCode = '2055'
 				$countryCode = 'de-CH'
@@ -707,7 +710,7 @@ Func DetectLanguage()
 			Case Hex(0x0C04, 4)
 				$decimalCode = '3076'
 				$countryCode = 'zh-HK'
-				$langName = 'Chinese'
+				$langName = 'Chinese_T'
 			Case Hex(0x0C07, 4)
 				$decimalCode = '3079'
 				$countryCode = 'de-AT'
@@ -743,7 +746,7 @@ Func DetectLanguage()
 			Case Hex(0x1004, 4)
 				$decimalCode = '4100'
 				$countryCode = 'zh-SG'
-				$langName = 'Chinese'
+				$langName = 'Chinese_S'
 			Case Hex(0x1007, 4)
 				$decimalCode = '4103'
 				$countryCode = 'de-LU'
@@ -779,7 +782,7 @@ Func DetectLanguage()
 			Case Hex(0x1404, 4)
 				$decimalCode = '5124'
 				$countryCode = 'zh-MO'
-				$langName = 'Chinese'
+				$langName = 'Chinese_T'
 			Case Hex(0x1407, 4)
 				$decimalCode = '5127'
 				$countryCode = 'de-LI'
@@ -1007,7 +1010,7 @@ Func DetectLanguage()
 			Case Hex(0x7C04, 4)
 				$decimalCode = '31748'
 				$countryCode = 'zh-CHT'
-				$langName = 'Chinese'
+				$langName = 'Chinese_T'
 			Case Else
 				SetLog("Your computer's language was not recognized.")
 				$langName = "NONE"

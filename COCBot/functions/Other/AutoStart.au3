@@ -14,8 +14,10 @@
 ; ===============================================================================================================================
 Func AutoStart()
 	If $ichkAutoStart = 1 Or $restarted = 1 Then
-		SetLog("Bot Auto Starting in " & $ichkAutoStartDelay & " seconds", $COLOR_ERROR)
-		Sleep($ichkAutoStartDelay * 1000)
+		Local $iDelay = $ichkAutoStartDelay
+		If $restarted = 1 Then $iDelay = 0
+		SetLog("Bot Auto Starting in " & $iDelay & " seconds", $COLOR_ERROR)
+		Sleep($iDelay * 1000)
 		btnStart()
 	EndIf
 EndFunc   ;==>AutoStart

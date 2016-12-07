@@ -14,7 +14,18 @@
 ; Example .......: No
 ; ===============================================================================================================================
 ;
+Global $checkObstaclesActive = False
 Func checkObstacles() ;Checks if something is in the way for mainscreen
+	; prevent recursion
+	If $checkObstaclesActive = True Then Return True
+	$checkObstaclesActive = True
+	Local $Result = _checkObstacles()
+	$checkObstaclesActive = False
+	Return $Result
+EndFunc
+
+Func _checkObstacles() ;Checks if something is in the way for mainscreen
+
 	Local $x, $y, $result
 	$MinorObstacle = False
 
@@ -164,33 +175,47 @@ Func checkObstacles() ;Checks if something is in the way for mainscreen
 		Return True
 	EndIf
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+	If GetAndroidProcessPID() = 0 Then
+		; CoC not running
+		checkObstacles_ReloadCoC()
+		If _Sleep($iDelaycheckObstacles3) Then Return
+		Return True
+	EndIf
 	_CaptureRegion() ; Bot restart is not required for These cases just close window then WaitMainScreen then continue
+	Local $bHasTopBlackBar = _ColorCheck(_GetPixelColor(10, 3), Hex(0x000000, 6), 1) And _ColorCheck(_GetPixelColor(300, 6), Hex(0x000000, 6), 1) And _ColorCheck(_GetPixelColor(600, 9), Hex(0x000000, 6), 1)
 	If _ColorCheck(_GetPixelColor(235, 209 + $midOffsetY), Hex(0x9E3826, 6), 20) Then
+		SetDebugLog("checkObstacles: Found Window to close")
 		PureClick(429, 493 + $midOffsetY, 1, 0, "#0132") ;See if village was attacked, clicks Okay
-		$iShouldRearm = True
+		;$iShouldRearm = True
+		$NotNeedAllTime[0] = 1
+		$NotNeedAllTime[1] = 1
 		$MinorObstacle = True
 		If _Sleep($iDelaycheckObstacles1) Then Return
 		Return False
 	EndIf
-	If _CheckPixel($aIsMainGrayed, $bNoCapturePixel) Then
+	If Not $bHasTopBlackBar And _CheckPixel($aIsMainGrayed, $bNoCapturePixel) Then
+		SetDebugLog("checkObstacles: Found gray Window to close")
 		PureClickP($aAway, 1, 0, "#0133") ;Click away If things are open
 		$MinorObstacle = True
 		If _Sleep($iDelaycheckObstacles1) Then Return
 		Return False
 	EndIf
 	If _ColorCheck(_GetPixelColor(792, 39), Hex(0xDC0408, 6), 20) Then
+		SetDebugLog("checkObstacles: Found Window with Close Button to close")
 		PureClick(792, 39, 1, 0, "#0134") ;Clicks X
 		$MinorObstacle = True
 		If _Sleep($iDelaycheckObstacles1) Then Return
 		Return False
 	EndIf
 	If _CheckPixel($aCancelFight, $bNoCapturePixel) Or _CheckPixel($aCancelFight2, $bNoCapturePixel) Then
+		SetDebugLog("checkObstacles: Found Cancel Fight to close")
 		PureClickP($aCancelFight, 1, 0, "#0135") ;Clicks X
 		$MinorObstacle = True
 		If _Sleep($iDelaycheckObstacles1) Then Return
 		Return False
 	EndIf
 	If _CheckPixel($aChatTab, $bNoCapturePixel) Then
+		SetDebugLog("checkObstacles: Found Chat Tab to close")
 		PureClickP($aChatTab, 1, 0, "#0136") ;Clicks chat tab
 		$MinorObstacle = True
 		If _Sleep($iDelaycheckObstacles1) Then Return
@@ -198,27 +223,19 @@ Func checkObstacles() ;Checks if something is in the way for mainscreen
 	EndIf
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	If _CheckPixel($aEndFightSceneBtn, $bNoCapturePixel) Then
+		SetDebugLog("checkObstacles: Found End Fight Scene to close")
 		PureClickP($aEndFightSceneBtn, 1, 0, "#0137") ;If in that victory or defeat scene
 		Return True
 	EndIf
 	If _CheckPixel($aSurrenderButton, $bNoCapturePixel) Then
+		SetDebugLog("checkObstacles: Found End Battle to close")
 		ReturnHome(False, False) ;If End battle is available
-		Return True
-	EndIf
-	;If _ImageSearchArea($CocStopped, 0, 250, 328 + $midOffsetY, 618, 402 + $midOffsetY, $x, $y, 70) Then
-	If _ImageSearchAreaImgLoc($CocStopped, 0, 250, 328 + $midOffsetY, 618, 402 + $midOffsetY, $x, $y) Then
-		SetLog("CoC Has Stopped Error .....", $COLOR_ERROR)
-		If TestCapture() Then Return "CoC Has Stopped Error ....."
-		PushMsg("CoCError")
-		If _Sleep($iDelaycheckObstacles1) Then Return
-		PureClick(250 + $x, 328 + $midOffsetY + $y, 1, 0, "#0129");Check for "CoC has stopped error, looking for OK message" on screen
-		If _Sleep($iDelaycheckObstacles2) Then Return
-		CloseCoC(True)
 		Return True
 	EndIf
 	If _CheckPixel($aNoCloudsAttack, $bNoCapturePixel) Then ; Prevent drop of troops while searching
 		$aMessage = _PixelSearch(23, 566 + $bottomOffsetY, 36, 580 + $bottomOffsetY, Hex(0xF4F7E3, 6), 10)
 		If IsArray($aMessage) Then
+			SetDebugLog("checkObstacles: Found Return Home button")
 			; If _ColorCheck(_GetPixelColor(67,  602 + $bottomOffsetY), Hex(0xDCCCA9, 6), 10) = False Then  ; add double check?
 			PureClick(67, 602 + $bottomOffsetY, 1, 0, "#0138");Check if Return Home button available
 			If _Sleep($iDelaycheckObstacles2) Then Return
@@ -228,16 +245,38 @@ Func checkObstacles() ;Checks if something is in the way for mainscreen
 	If IsPostDefenseSummaryPage() Then
 		$aMessage = _PixelSearch(23, 566 + $bottomOffsetY, 36, 580 + $bottomOffsetY, Hex(0xE0E1CE, 6), 10)
 		If IsArray($aMessage) Then
+			SetDebugLog("checkObstacles: Found Post Defense Summary to close")
 			PureClick(67, 602 + $bottomOffsetY, 1, 0, "#0138");Check if Return Home button available
 			If _Sleep($iDelaycheckObstacles2) Then Return
 			Return True
 		EndIf
 	EndIf
+
+	Local $CocStoppedArea = "250,358,618,432"
+	Local $CocStoppedFound  =  FindImageInPlace("CocStopped",$CocStopped,$CocStoppedArea)
+	;If _ImageSearchArea($CocStopped, 0, 250, 328 + $midOffsetY, 618, 402 + $midOffsetY, $x, $y, 70) Then
+	;If _ImageSearchAreaImgLoc($CocStopped, 0, 250, 328 + $midOffsetY, 618, 402 + $midOffsetY, $x, $y) Then
+	if $CocStoppedFound <> "" Then
+		SetLog("CoC Has Stopped Error .....", $COLOR_ERROR)
+		If TestCapture() Then Return "CoC Has Stopped Error ....."
+		PushMsg("CoCError")
+		If _Sleep($iDelaycheckObstacles1) Then Return
+		;PureClick(250 + $x, 328 + $midOffsetY + $y, 1, 0, "#0129");Check for "CoC has stopped error, looking for OK message" on screen
+		Local $CSFoundCoords = decodeSingleCoord($CocStoppedFound)
+		PureClick($CSFoundCoords[0], $CSFoundCoords[1], 1, 0, "#0129");Check for "CoC has stopped error, looking for OK message" on screen
+		If _Sleep($iDelaycheckObstacles2) Then Return
+		CloseCoC(True)
+		Return True
+	EndIf
+	If $bHasTopBlackBar Then
+		; if black bar at top, e.g. in Android home screen, restart CoC
+		SetDebugLog("checkObstacles: Found Android Screen")
+	EndIf
 	Return False
 EndFunc   ;==>checkObstacles
 
 ; It's more stable to restart CoC app than click the message restarting the game
-Func checkObstacles_ReloadCoC($point, $debugtxt = "")
+Func checkObstacles_ReloadCoC($point = $aAway, $debugtxt = "")
 	;PureClickP($point, 1, 0, $debugtxt)
 	CloseCoC(True)
 EndFunc   ;==>checkObstacles_ReloadCoC
@@ -247,7 +286,9 @@ Func checkObstacles_ResetSearch()
 	$Is_ClientSyncError = False
 	$Is_SearchLimit = False
 	$Quickattack = False
-	$iShouldRearm = True
+	;$iShouldRearm = True
+	$NotNeedAllTime[0] = 1
+	$NotNeedAllTime[1] = 1
 	$Restart = True ; signal all calling functions to return to runbot
 EndFunc   ;==>checkObstacles_ResetSearch
 

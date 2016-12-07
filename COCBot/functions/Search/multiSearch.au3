@@ -52,11 +52,8 @@ Func captureDebugImage($aResult, $subDirectory)
 		; Create the directory in case it doesn't exist
 		DirCreate($dirTempDebug & $subDirectory)
 
-		; Capture the screen for comparison
-		_CaptureRegion()
-
 		; Store a copy of the image handle
-		Local $editedImage = $hBitmap
+		Local $editedImage = _GDIPlus_BitmapCreateFromHBITMAP($hHBitmap2)
 
 		; Create the timestamp and filename
 		Local $Date = @YEAR & "-" & @MON & "-" & @MDAY
@@ -121,12 +118,12 @@ Func updateResultsRow(ByRef $aResult, $redLines = "")
 	EndIf
 EndFunc   ;==>updateResultsRow
 
-Func multiMatches($directory, $maxReturnPoints = 0, $fullCocAreas = "DCD", $redLines = "", $statFile = "", $minLevel = 0, $maxLevel = 1000)
+Func multiMatches($directory, $maxReturnPoints = 0, $fullCocAreas = "DCD", $redLines = "DCD", $statFile = "", $minLevel = 0, $maxLevel = 1000, $forceCaptureRegion = True)
 	; Setup arrays, including default return values for $return
 	Local $aResult[1][6] = [["", 0, 0, "Seconds", "", ""]], $aCoordArray[0][0], $aCoords, $aCoordsSplit, $aValue
 
 	; Capture the screen for comparison
-	_CaptureRegion2()
+	If $forceCaptureRegion = True Then _CaptureRegion2()
 
 	; Perform the search
 	$res = DllCall($hImgLib, "str", "SearchMultipleTilesBetweenLevels", "handle", $hHBitmap2, "str", $directory, "str", $fullCocAreas, "Int", $maxReturnPoints, "str", $redLines, "Int", $minLevel, "Int", $maxLevel)
@@ -182,37 +179,37 @@ Func multiMatches($directory, $maxReturnPoints = 0, $fullCocAreas = "DCD", $redL
 	Return $aResult
 EndFunc   ;==>multiMatches
 
-Func returnMultipleMatchesOwnVillage($directory, $maxReturnPoints = 0, $statFile = "", $minLevel = 0, $maxLevel = 1000)
+Func returnMultipleMatchesOwnVillage($directory, $maxReturnPoints = 0, $statFile = "", $minLevel = 0, $maxLevel = 1000, $forceCaptureRegion = True)
 	; This is simple, just do a multiMatch search, but pass "ECD" for the redlines and full coc area
 	; so whole village is checked because obstacles can appear on the outer grass area
-	Local $aResult = multiMatches($directory, $maxReturnPoints, "ECD", "ECD", $statFile, $minLevel, $maxLevel)
+	Local $aResult = multiMatches($directory, $maxReturnPoints, "ECD", "ECD", $statFile, $minLevel, $maxLevel, $forceCaptureRegion)
 
 	Return $aResult
 EndFunc   ;==>returnMultipleMatchesOwnVillage
 
-Func returnSingleMatchOwnVillage($directory, $statFile = "", $minLevel = 0, $maxLevel = 1000)
+Func returnSingleMatchOwnVillage($directory, $statFile = "", $minLevel = 0, $maxLevel = 1000, $forceCaptureRegion = True)
 	; This is simple, just do a multiMatch search, with 1 return point but pass "ECD" for the redlines
 	; and full coc area so whole village is checked because obstacles can appear on the outer grass area
-	Local $aResult = multiMatches($directory, 1, "ECD", "ECD", $statFile, $minLevel, $maxLevel)
+	Local $aResult = multiMatches($directory, 1, "ECD", "ECD", $statFile, $minLevel, $maxLevel, $forceCaptureRegion)
 
 	Return $aResult
 EndFunc   ;==>returnSingleMatchOwnVillage
 
-Func returnAllMatches($directory, $redLines = "", $statFile = "", $minLevel = 0, $maxLevel = 1000)
+Func returnAllMatches($directory, $redLines = "DCD", $statFile = "", $minLevel = 0, $maxLevel = 1000, $forceCaptureRegion = True)
 	; This is simple, just do a multiMatches search with 0 for the Max return points parameter
-	Local $aResult = multiMatches($directory, 0, "DCD", $redLines, $statFile, $minLevel, $maxLevel)
+	Local $aResult = multiMatches($directory, 0, "DCD", $redLines, $statFile, $minLevel, $maxLevel, $forceCaptureRegion)
 
 	Return $aResult
 EndFunc   ;==>returnAllMatches
 
-Func returnHighestLevelSingleMatch($directory, $redLines = "", $statFile = "", $minLevel = 0, $maxLevel = 1000)
+Func returnHighestLevelSingleMatch($directory, $redLines = "DCD", $statFile = "", $minLevel = 0, $maxLevel = 1000, $forceCaptureRegion = True)
 	; Setup default return coords of 0,0
 	Local $defaultCoords[1][2] = [[0, 0]]
 	; Setup arrays, including default return values for $return
 	Local $return[7] = ["None", "None", 0, 0, 0, $defaultCoords, ""]
 
 	; This is simple, just do a multiMatches search with 1 for the Max return points parameter
-	Local $aResult = multiMatches($directory, 1, "DCD", $redLines, $statFile, $minLevel, $maxLevel)
+	Local $aResult = multiMatches($directory, 1, "DCD", $redLines, $statFile, $minLevel, $maxLevel, $forceCaptureRegion)
 
 	If UBound($aResult) > 1 Then
 		; Now loop through the array to modify values, select the highest entry to return
@@ -235,14 +232,14 @@ Func returnHighestLevelSingleMatch($directory, $redLines = "", $statFile = "", $
 	Return $return
 EndFunc   ;==>returnHighestLevelSingleMatch
 
-Func returnLowestLevelSingleMatch($directory, $returnMax = 100, $redLines = "", $statFile = "", $minLevel = 0, $maxLevel = 1000)
+Func returnLowestLevelSingleMatch($directory, $returnMax = 100, $redLines = "DCD", $statFile = "", $minLevel = 0, $maxLevel = 1000, $forceCaptureRegion = True)
 	; Setup default return coords of 0,0
 	Local $defaultCoords[1][2] = [[0, 0]]
 	; Setup arrays, including default return values for $return
 	Local $return[7] = ["None", "None", $returnMax + 1, 0, 0, $defaultCoords, ""]
 
 	; This is simple, just do a multiMatches search with 1 for the Max return points parameter
-	Local $aResult = multiMatches($directory, 1, "DCD", $redLines, $statFile, $minLevel, $maxLevel)
+	Local $aResult = multiMatches($directory, 1, "DCD", $redLines, $statFile, $minLevel, $maxLevel, $forceCaptureRegion)
 
 	If UBound($aResult) > 1 Then
 		; Now loop through the array to modify values, select the lowest entry to return
@@ -265,16 +262,16 @@ Func returnLowestLevelSingleMatch($directory, $returnMax = 100, $redLines = "", 
 	Return $return
 EndFunc   ;==>returnLowestLevelSingleMatch
 
-Func returnMultipleMatches($directory, $maxReturnPoints = 0, $redLines = "", $statFile = "", $minLevel = 0, $maxLevel = 1000)
+Func returnMultipleMatches($directory, $maxReturnPoints = 0, $redLines = "DCD", $statFile = "", $minLevel = 0, $maxLevel = 1000, $forceCaptureRegion = True)
 	; This is simple, just do a multiMatches search specifying the Max return points parameter
 	Local $aResult = multiMatches($directory, $maxReturnPoints, "DCD", $redLines, $statFile, $minLevel, $maxLevel)
 
 	Return $aResult
 EndFunc   ;==>returnMultipleMatches
 
-Func returnSingleMatch($directory, $redLines = "", $statFile = "", $minLevel = 0, $maxLevel = 1000)
+Func returnSingleMatch($directory, $redLines = "DCD", $statFile = "", $minLevel = 0, $maxLevel = 1000, $forceCaptureRegion = True)
 	; This is simple, just do a multiMatches search with 1 for the Max return points parameter
-	Local $aResult = multiMatches($directory, 1, "DCD", $redLines, $statFile, $minLevel, $maxLevel)
+	Local $aResult = multiMatches($directory, 1, "DCD", $redLines, $statFile, $minLevel, $maxLevel, $forceCaptureRegion)
 
 	Return $aResult
 EndFunc   ;==>returnSingleMatch

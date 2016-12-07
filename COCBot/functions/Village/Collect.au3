@@ -14,22 +14,12 @@
 ; Example .......: No
 ; ===============================================================================================================================
 Func Collect()
+	If $iChkCollect <> 1 Then Return
 	If $RunState = False Then Return
 
 	ClickP($aAway, 1, 0, "#0332") ;Click Away
 
-	If $iChkCollect = 0 Then Return
-
-	VillageReport(True, True)
-	$tempCounter = 0
-	While ($iGoldCurrent = "" Or $iElixirCurrent = "" Or ($iDarkCurrent = "" And $iDarkStart <> "")) And $tempCounter < 3
-		$tempCounter += 1
-		VillageReport(True, True)
-	WEnd
-	Local $tempGold = $iGoldCurrent
-	Local $tempElixir = $iElixirCurrent
-	Local $tempDElixir = $iDarkCurrent
-
+	StartGainCost()
 	checkAttackDisable($iTaBChkIdle) ; Early Take-A-Break detection
 
 	SetLog("Collecting Resources", $COLOR_INFO)
@@ -49,14 +39,16 @@ Func Collect()
 			If IsMainPage() Then
 				If IsArray($CollectXY) Then
 					For $t = 0 To UBound($CollectXY) - 1 ; each filename can have several positions
-						If $DebugSetLog = 1 Then SetLog($Filename & " found (" & $CollectXY[$t][0] & "," & $CollectXY[$t][1] & ")", $COLOR_SUCCESS)
-						If $iUseRandomClick = 0 then
-							Click($CollectXY[$t][0], $CollectXY[$t][1], 1, 0, "#0430")
-							If _Sleep($iDelayCollect2) Then Return
-						Else
-							ClickZone($CollectXY[$t][0], $CollectXY[$t][1], 5, "#0430")
-							_Sleep(Random($iDelayCollect2, $iDelayCollect2 * 4, 1))
-						EndIF
+						If isInsideDiamondXY($CollectXY[$t][0], $CollectXY[$t][1]) Then
+							If $DebugSetLog = 1 Then SetLog($Filename & " found (" & $CollectXY[$t][0] & "," & $CollectXY[$t][1] & ")", $COLOR_SUCCESS)
+							If $iUseRandomClick = 0 then
+								Click($CollectXY[$t][0], $CollectXY[$t][1], 1, 0, "#0430")
+								If _Sleep($iDelayCollect2) Then Return
+							Else
+								ClickZone($CollectXY[$t][0], $CollectXY[$t][1], 5, "#0430")
+								_Sleep(Random($iDelayCollect2, $iDelayCollect2 * 4, 1))
+							EndIF
+						EndIf
 					Next
 				EndIf
 			EndIf
@@ -91,7 +83,7 @@ Func Collect()
 				$posPoint = StringSplit($expRet[1], ",", $STR_NOCOUNT)
 				$LootCartX = Int($posPoint[0])
 				$LootCartY = Int($posPoint[1])
-				If $LootCartX > 80 Then  ; secure x because of clan chat tab
+				If isInsideDiamondXY($LootCartX, $LootCartY) Then
 					If $DebugSetlog Then SetLog("LootCart found (" & $LootCartX & "," & $LootCartY & ")", $COLOR_SUCCESS)
 					If IsMainPage() Then Click($LootCartX, $LootCartY, 1, 0, "#0330")
 					If _Sleep($iDelayCollect1) Then Return
@@ -117,35 +109,10 @@ Func Collect()
 						EndIf
 					EndIf
 				Else
-					Setlog("Loot Cart found but near clan chat tab, collect manually", $COLOR_ERROR)
+					Setlog("Loot Cart not removed, please do manually!", $COLOR_WARNING)
 				EndIf
 			EndIf
 		EndIf
 
-	VillageReport(True, True)
-	$tempCounter = 0
-	While ($iGoldCurrent = "" Or $iElixirCurrent = "" Or ($iDarkCurrent = "" And $iDarkStart <> "")) And $tempCounter < 3
-		$tempCounter += 1
-		VillageReport(True, True)
-	WEnd
-
-	If $tempGold <> "" And $iGoldCurrent <> "" Then
-		$tempGoldCollected = $iGoldCurrent - $tempGold
-		$iGoldFromMines += $tempGoldCollected
-		$iGoldTotal += $tempGoldCollected
-	EndIf
-
-	If $tempElixir <> "" And $iElixirCurrent <> "" Then
-		$tempElixirCollected = $iElixirCurrent - $tempElixir
-		$iElixirFromCollectors += $tempElixirCollected
-		$iElixirTotal += $tempElixirCollected
-	EndIf
-
-	If $tempDElixir <> "" And $iDarkCurrent <> "" Then
-		$tempDElixirCollected = $iDarkCurrent - $tempDElixir
-		$iDElixirFromDrills += $tempDElixirCollected
-		$iDarkTotal += $tempDElixirCollected
-	EndIf
-
-	UpdateStats()
-EndFunc   ;==>Collect
+	EndGainCost("Collect")
+ EndFunc   ;==>Collect

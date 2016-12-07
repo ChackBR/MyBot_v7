@@ -32,19 +32,15 @@ Local $activeHWnD = WinGetHandle("") ; RichEdit Controls tamper with active wind
 $hGUI_LOG = GUICreate("", $_GUI_MAIN_WIDTH - 20, $_GUI_MAIN_HEIGHT - 255, $_GUI_CHILD_LEFT, $_GUI_CHILD_TOP, BitOR($WS_CHILD, 0), -1, $frmBotEx)
 ;GUISetBkColor($COLOR_WHITE, $hGUI_LOG)
 
-$txtLog = _GUICtrlRichEdit_Create($hGUI_LOG, _PadStringCenter(" " & GetTranslated(601,2, "BOT LOG") & " ", 71, "="), 0, 0, 20, 20, BitOR($ES_MULTILINE, $ES_READONLY, $WS_VSCROLL, 8912), $WS_EX_STATICEDGE)
+$txtLog = _GUICtrlRichEdit_Create($hGUI_LOG, _PadStringCenter(" " & GetTranslated(601,2, "BOT LOG") & " ", 71, "="), 0, 0, 20, 20, BitOR($ES_MULTILINE, $ES_READONLY, $WS_VSCROLL, 8908), $WS_EX_STATICEDGE)
+
 	_GUICtrlRichEdit_SetFont($txtLog, 6, "Lucida Console")
 	_GUICtrlRichEdit_AppendTextColor($txtLog, "" & @CRLF, _ColorConvert($Color_Black))
 	_ArrayConcatenate($G, $A)
-	;add existing Log
-	For $i = 0 To UBound($aTxtLogInitText) - 1
-	   SetLog($aTxtLogInitText[$i][0], $aTxtLogInitText[$i][1], $aTxtLogInitText[$i][2], $aTxtLogInitText[$i][3], $aTxtLogInitText[$i][4], $aTxtLogInitText[$i][5])
-	Next
-	Redim $aTxtLogInitText[0][6]
 $divider = GUICtrlCreateLabel("", 0, 0, 20, 20, $SS_SUNKEN + $SS_BLACKRECT)
 	GUICtrlSetCursor(-1, 11)
 	;GUICtrlSetResizing(-1, $GUI_DOCKTOP + $GUI_DOCKBOTTOM + $GUI_DOCKWIDTH + $GUI_DOCKLEFT)
-	$txtAtkLog = _GUICtrlRichEdit_Create($hGUI_LOG, "", 0, 0, 20, 20, BitOR($ES_MULTILINE, $ES_READONLY, $WS_VSCROLL, 8912), $WS_EX_STATICEDGE)
+	$txtAtkLog = _GUICtrlRichEdit_Create($hGUI_LOG, "", 0, 0, 20, 20, BitOR($ES_MULTILINE, $ES_READONLY, $WS_VSCROLL, 8908), $WS_EX_STATICEDGE)
 
 WinActivate($activeHWnD) ; restore current active window
 

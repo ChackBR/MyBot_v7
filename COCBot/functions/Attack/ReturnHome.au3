@@ -30,14 +30,7 @@ Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
 			While GoldElixirChangeEBO()
 				If _Sleep($iDelayReturnHome1) Then Return
 			WEnd
-
-			; Check to see if we should zap the DE Drills - Added by LunaEclipse
-			If IsAttackPage() Then
-				If $ichkSmartZap = 1 Then
-					smartZap()
-				EndIf
-			EndIf
-
+;~			If IsAttackPage() Then smartZap(); Check to see if we should zap the DE Drills
 			;If Heroes were not activated: Hero Ability activation before End of Battle to restore health
 			If ($checkKPower = True Or $checkQPower = True) And $iActivateKQCondition = "Auto" Then
 				;_CaptureRegion()
@@ -65,26 +58,29 @@ Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
 	$checkQPower = False
 	$checkWPower = False
 
-	If $iTScheck = 1 and $iMatchMode = $TS And $icmbTroopComp <> 8 Then $FirstStart = True ;reset barracks upon return when TH sniping w/custom army
+	If $iTScheck = 1 And $iMatchMode = $TS And $icmbTroopComp <> 8 Then $FirstStart = True ;reset barracks upon return when TH sniping w/custom army
 
 	SetLog("Returning Home", $COLOR_INFO)
 	If $RunState = False Then Return
 
 	; ---- CLICK SURRENDER BUTTON ----
-	If Not (IsReturnHomeBattlePage(True, False)) Then  ; check if battle is already over
+	If Not (IsReturnHomeBattlePage(True, False)) Then ; check if battle is already over
 		$i = 0 ; Reset Loop counter
 		While 1 ; dynamic wait loop for surrender button to appear
-			If _CheckPixel($aSurrenderButton, $bCapturePixel) Then  ;is surrender button is visible?
-				If IsAttackPage() Then  ; verify still on attack page, and battle has not ended magically before clicking
+			If $DebugSetLog = 1 Then SetDebugLog("Wait for surrender button to appear #" & $i)
+			If _CheckPixel($aSurrenderButton, $bCapturePixel) Then ;is surrender button is visible?
+				If IsAttackPage() Then ; verify still on attack page, and battle has not ended magically before clicking
 					ClickP($aSurrenderButton, 1, 0, "#0099") ;Click Surrender
 					$j = 0
 					While 1 ; dynamic wait for Okay button
+						If $DebugSetLog = 1 Then SetDebugLog("Wait for OK button to appear #" & $j)
 						If IsEndBattlePage(False) Then
 							ClickOkay("SurrenderOkay") ; Click Okay to Confirm surrender
 							ExitLoop 2
 						Else
 							$j += 1
 						EndIf
+						If ReturnHomeMainPage() Then Return
 						If $j > 10 Then ExitLoop ; if Okay button not found in 10*(200)ms or 2 seconds, then give up.
 						If _Sleep($iDelayReturnHome5) Then Return
 					WEnd
@@ -94,6 +90,7 @@ Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
 			Else
 				$i += 1
 			EndIf
+			If ReturnHomeMainPage() Then Return
 			If $i > 5 Then ExitLoop ; if end battle or surrender button are not found in 5*(200)ms + 10*(200)ms or 3 seconds, then give up.
 			If _Sleep($iDelayReturnHome5) Then Return
 		WEnd
@@ -110,6 +107,7 @@ Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
 		If IsAttackPage() Then
 			$counter = 0
 			While _ColorCheck(_GetPixelColor($aRtnHomeCheck1[0], $aRtnHomeCheck1[1], True), Hex($aRtnHomeCheck1[2], 6), $aRtnHomeCheck1[3]) = False And _ColorCheck(_GetPixelColor($aRtnHomeCheck2[0], $aRtnHomeCheck2[1], True), Hex($aRtnHomeCheck2[2], 6), $aRtnHomeCheck2[3]) = False ; test for Return Home Button
+				If $DebugSetLog = 1 Then SetDebugLog("Wait for Return Home Button to appear #" & $counter)
 				If _Sleep($iDelayReturnHome2) Then ExitLoop
 				$counter += 1
 				If $counter > 40 Then ExitLoop
@@ -142,6 +140,7 @@ Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
 
 	$i = 0 ; Reset Loop counter
 	While 1
+		If $DebugSetLog = 1 Then SetDebugLog("Wait for End Fight Scene to appear #" & $i)
 		If _CheckPixel($aEndFightSceneAvl, $bCapturePixel) Then ; check for the gold ribbon in the end of battle data screen
 			If IsReturnHomeBattlePage() Then ClickP($aReturnHomeButton, 1, 0, "#0101") ;Click Return Home Button
 			ExitLoop
@@ -155,14 +154,10 @@ Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
 
 	$counter = 0
 	While 1
+		If $DebugSetLog = 1 Then SetDebugLog("Wait for End Fight Scene to appear #" & $counter)
 		If _Sleep($iDelayReturnHome4) Then Return
 		If StarBonus() = True Then Setlog("Star Bonus window closed chief!", $COLOR_INFO) ; Check for Star Bonus window to fill treasury (2016-01) update
-		If IsMainPage() Then
-			_GUICtrlEdit_SetText($txtLog, _PadStringCenter(" BOT LOG ", 71, "="))
-			_GUICtrlRichEdit_SetFont($txtLog, 6, "Lucida Console")
-			_GUICtrlRichEdit_AppendTextColor($txtLog, "" & @CRLF, _ColorConvert($Color_Black))
-			Return
-		EndIf
+		If ReturnHomeMainPage() Then Return
 		$counter += 1
 		If $counter >= 50 Or isProblemAffect(True) Then
 			SetLog("Cannot return home.", $COLOR_ERROR)
@@ -172,4 +167,12 @@ Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
 	WEnd
 EndFunc   ;==>ReturnHome
 
-
+Func ReturnHomeMainPage()
+	If IsMainPage(1) Then
+		_GUICtrlEdit_SetText($txtLog, _PadStringCenter(" BOT LOG ", 71, "="))
+		_GUICtrlRichEdit_SetFont($txtLog, 6, "Lucida Console")
+		_GUICtrlRichEdit_AppendTextColor($txtLog, "" & @CRLF, _ColorConvert($Color_Black))
+		Return True
+	EndIf
+	Return False
+EndFunc   ;==>ReturnHomeMainPage

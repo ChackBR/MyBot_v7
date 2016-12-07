@@ -37,6 +37,10 @@ Global $sTxtClSpell = GetTranslated(605,12, "Clone Spell")
 Global $sTxtSkSpell = GetTranslated(605,13, "Skeleton Spell")
 Global $sTxtSkeletonSpells = GetTranslated(605,14, "Skeleton")
 
+Global $sTxtHeroKing = GetTranslated(644,1, "King")
+Global $sTxtHeroQueen = GetTranslated(644,2, "Queen")
+Global $sTxtHeroWarden = GetTranslated(644,3, "G.Warden")
+
 Global $sTxtElixirTroops =  $sTxtBarbarians & "|" & $sTxtArchers & "|" & $sTxtGiants & "|" & $sTxtGoblins & "|" & $sTxtWallBreakers & "|" & $sTxtBalloons & "|" & $sTxtWizards & "|" & $sTxtHealers &"|" & $sTxtDragons & "|" & $sTxtPekkas & "|" & $sTxtBabyDragons & "|" & $sTxtMiners
 
 ; Array to hold Laboratory Troop information [LocX of upper left corner of image, LocY of upper left corner of image, PageLocation, Troop "name", Icon # in DLL file]

@@ -1414,11 +1414,10 @@ $hGUI_DONATE_TAB_ITEM3 = GUICtrlCreateTabItem(GetTranslated(600,13,"Schedule Don
 		$y += 35
 
 		$cmbFilterDonationsCC = GUICtrlCreateCombo("", $x, $y, 300, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-			_GUICtrlSetTip(-1, GetTranslated(613,3, ""))
 			GUICtrlSetData(-1, GetTranslated(613,4, "No Filter, donate at all Clan Mates") & "|" & GetTranslated(613,5, "No Filter but collect Clan Mates Images") & "|" & GetTranslated(613,6, "Donate only at Clan Mates in White List" ) & "|" & GetTranslated(613,7, "Donate at all Except at Clan Mates in Black List") , GetTranslated(613,4,-1))
 			GUICtrlSetOnEvent(-1, "cmbABAlgorithm")
 		$y += 35
-				$lblFilterDonationsCC1 = GUICtrlCreateLabel(GetTranslated(613, 10,"Images of Clan Mates are captured ad stored in main folder, move to appropriate folder (White or Black List)"), $x , $y - 10, 380, 30, $BS_MULTILINE)
+				$lblFilterDonationsCC1 = GUICtrlCreateLabel(GetTranslated(613, 10,"Images of Clan Mates are captured and stored in main folder, move to appropriate folder (White or Black List)"), $x , $y - 10, 380, 30, $BS_MULTILINE)
 		$y += 20
 	    $btnFilterDonationsCC = GUICtrlCreateButton(GetTranslated(613, 9,"Open Clan Mates Image Folder"), $x + 2, $y, 300, 20,-1)
 			;GUICtrlSetImage(-1, $pIconLib, $eIcnDonBarbarian, 1)

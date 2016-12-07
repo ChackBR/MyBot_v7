@@ -306,6 +306,7 @@ Func chkTrophyRange()
 		GUICtrlSetState($chkTrophyHeroes, $GUI_ENABLE)
 		GUICtrlSetState($chkTrophyAtkDead, $GUI_ENABLE)
 		chkTrophyAtkDead()
+		chkTrophyHeroes()
 	Else
 		GUICtrlSetState($txtdropTrophy, $GUI_DISABLE)
 		GUICtrlSetState($txtMaxTrophy, $GUI_DISABLE)
@@ -314,5 +315,18 @@ Func chkTrophyRange()
 		GUICtrlSetState($txtDTArmyMin, $GUI_DISABLE)
 		GUICtrlSetState($lblDTArmyMin, $GUI_DISABLE)
 		GUICtrlSetState($lblDTArmypercent, $GUI_DISABLE)
+	    GUICtrlSetState($lblTrophyHeroesPriority, $GUI_DISABLE)
+	    GUICtrlSetState($cmbTrophyHeroesPriority, $GUI_DISABLE)
 	EndIf
 EndFunc   ;==>chkTrophyRange
+
+ Func chkTrophyHeroes()
+	If  GUICtrlRead($chkTrophyHeroes) = $GUI_CHECKED  Then
+	   GUICtrlSetState($lblTrophyHeroesPriority, $GUI_ENABLE)
+	   GUICtrlSetState($cmbTrophyHeroesPriority, $GUI_ENABLE)
+	Else
+	   GUICtrlSetState($lblTrophyHeroesPriority, $GUI_DISABLE)
+	   GUICtrlSetState($cmbTrophyHeroesPriority, $GUI_DISABLE)
+	EndIf
+
+ EndFunc   ;==>chkTrophyHeroes

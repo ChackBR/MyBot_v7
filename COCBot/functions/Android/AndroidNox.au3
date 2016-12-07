@@ -94,12 +94,16 @@ EndFunc
 Func GetNoxRtPath()
    Local $path = RegRead($HKLM & "\SOFTWARE\BigNox\VirtualBox\", "InstallDir")
    If @error = 0 Then
-	  If StringRight($path, 1) <> "\" Then $path &= "\"
-   Else
-	  $path = @ProgramFilesDir & "\Bignox\BigNoxVM\RT\"
-	  SetError(0, 0, 0)
+	   If StringRight($path, 1) <> "\" Then $path &= "\"
    EndIf
-   Return $path
+   If FileExists($path) = 0 Then
+	  $path = @ProgramFilesDir & "\Bignox\BigNoxVM\RT\"
+   EndIf
+   If FileExists($path) = 0 Then
+	  $path = EnvGet("ProgramFiles(x86)") & "\Bignox\BigNoxVM\RT\"
+   EndIf
+   SetError(0, 0, 0)
+   Return StringReplace($path, "\\", "\")
 EndFunc
 
 Func GetNoxPath()
@@ -111,7 +115,7 @@ Func GetNoxPath()
 	  $path = ""
 	  SetError(0, 0, 0)
    EndIf
-   Return $path
+   Return StringReplace($path, "\\", "\")
 EndFunc
 
 Func GetNoxAdbPath()
@@ -189,7 +193,8 @@ Func InitNox($bCheckOnly = False)
 	  EndIf
 
 	  ;$AndroidPicturesPath = "/mnt/shell/emulated/0/Download/other/"
-	  $AndroidPicturesPath = "/mnt/shared/Other/"
+	  ;$AndroidPicturesPath = "/mnt/shared/Other/"
+	  $AndroidPicturesPath = "(/mnt/shared/Other|/mnt/shell/emulated/0/Download/other)"
 	  $aRegExResult = StringRegExp($__VBoxVMinfo, "Name: 'Other', Host path: '(.*)'.*", $STR_REGEXPARRAYGLOBALMATCH)
 	  If Not @error Then
 		 $AndroidPicturesHostPath = $aRegExResult[UBound($aRegExResult) - 1] & "\"
@@ -362,3 +367,43 @@ Func RedrawNoxWindow()
 	ControlClick($HWnD, "", "", "left", 1, $aPos[2] - 46, 18)
 	;If _Sleep(500) Then Return False
 EndFunc
+
+Func HideNoxWindow($bHide = True)
+	Return EmbedNox($bHide)
+EndFunc   ;==>HideNoxWindow
+
+Func EmbedNox($bEmbed = Default)
+
+	If $bEmbed = Default Then $bEmbed = $AndroidEmbedded
+
+	; Find QTool Parent Window
+	Local $aWin = _WinAPI_EnumProcessWindows(GetAndroidPid(), False)
+	Local $i
+	Local $hToolbar = 0
+
+	For $i = 1 To UBound($aWin) - 1
+		Local $h = $aWin[$i][0]
+		Local $c = $aWin[$i][1]
+		If $c = "Qt5QWindowToolSaveBits" Then
+			Local $aPos = WinGetPos($h)
+			If UBound($aPos) > 2 Then
+				; found toolbar
+				$hToolbar = $h
+			EndIF
+		EndIf
+	Next
+
+	If $hToolbar = 0 Then
+		SetDebugLog("EmbedNox(" & $bEmbed & "): toolbar Window not found, list of windows:" & $c, Default, True)
+		For $i = 1 To UBound($aWin) - 1
+			Local $h = $aWin[$i][0]
+			Local $c = $aWin[$i][1]
+			SetDebugLog("EmbedNox(" & $bEmbed & "): Handle = " & $h & ", Class = " & $c, Default, True)
+		Next
+	Else
+		SetDebugLog("EmbedNox(" & $bEmbed & "): $hToolbar=" & $hToolbar, Default, True)
+		WinMove2($hToolbar, "", -1, -1, -1, -1, $HWND_NOTOPMOST, 0, False)
+		_WinAPI_ShowWindow($hToolbar, ($bEmbed ? @SW_HIDE : @SW_SHOWNOACTIVATE))
+	EndIf
+
+EndFunc   ;==>EmbedNox

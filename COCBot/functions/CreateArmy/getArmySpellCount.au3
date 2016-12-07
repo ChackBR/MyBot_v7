@@ -34,16 +34,16 @@ Func getArmySpellCount($bOpenArmyWindow = False, $bCloseArmyWindow = False, $tes
 
 	If $iTotalCountSpell > 0 Or $test = True Then ; only use this code if the user had input spells to brew ... and assign the spells quantity
 
-		$CurLightningSpell = 0 ; reset Global variables
-		$CurHealSpell = 0
-		$CurRageSpell = 0
-		$CurJumpSpell = 0
-		$CurFreezeSpell = 0
-		$CurCloneSpell = 0
-		$CurPoisonSpell = 0
-		$CurHasteSpell = 0
-		$CurEarthSpell = 0
-		$CurSkeletonSpell = 0
+		$CurLSpell = 0 ; reset Global variables
+		$CurHSpell = 0
+		$CurRSpell = 0
+		$CurJSpell = 0
+		$CurFSpell = 0
+		$CurCSpell = 0
+		$CurPSpell = 0
+		$CurHSpell = 0
+		$CurESpell = 0
+		$CurSkSpell = 0
 		$CurTotalSpell = True
 
 		For $i = 0 To 4 ; 5 visible slots in ArmyOverView window
@@ -61,43 +61,43 @@ Func getArmySpellCount($bOpenArmyWindow = False, $bCloseArmyWindow = False, $tes
 			If _Sleep($iDelayRespond) Then Return
 			Select
 				Case $FullTemp = "Lightning"
-					$CurLightningSpell = $SpellQ
+					$CurLSpell = $SpellQ
 					Setlog(" - No. of Lightning Spells: " & $SpellQ)
 					$iTotalSpellSpace += (2 * $SpellQ)
 				Case $FullTemp = "Heal"
-					$CurHealSpell = $SpellQ
+					$CurHSpell = $SpellQ
 					Setlog(" - No. of Heal Spells: " & $SpellQ)
 					$iTotalSpellSpace += (2 * $SpellQ)
 				Case $FullTemp = "Rage"
-					$CurRageSpell = $SpellQ
+					$CurRSpell = $SpellQ
 					Setlog(" - No. of Rage Spells: " & $SpellQ)
 					$iTotalSpellSpace += (2 * $SpellQ)
 				Case $FullTemp = "Jump"
-					$CurJumpSpell = $SpellQ
+					$CurJSpell = $SpellQ
 					Setlog(" - No. of Jump Spells: " & $SpellQ)
 					$iTotalSpellSpace += (2 * $SpellQ)
 				Case $FullTemp = "Freeze"
-					$CurFreezeSpell = $SpellQ
+					$CurFSpell = $SpellQ
 					Setlog(" - No. of Freeze Spells: " & $SpellQ)
 					$iTotalSpellSpace += (2 * $SpellQ)
 				Case $FullTemp = "Clone"
-					$CurCloneSpell = $SpellQ
+					$CurCSpell = $SpellQ
 					Setlog(" - No. of Clone Spells: " & $SpellQ)
 					$iTotalSpellSpace += (4 * $SpellQ)
 				Case $FullTemp = "Poison"
-					$CurPoisonSpell = $SpellQ
+					$CurPSpell = $SpellQ
 					Setlog(" - No. of Poison Spells: " & $SpellQ)
 					$iTotalSpellSpace += $SpellQ
 				Case $FullTemp = "Haste"
-					$CurHasteSpell = $SpellQ
+					$CurHSpell = $SpellQ
 					Setlog(" - No. of Haste Spells: " & $SpellQ)
 					$iTotalSpellSpace += $SpellQ
 				Case $FullTemp = "Earth"
-					$CurEarthSpell = $SpellQ
+					$CurESpell = $SpellQ
 					Setlog(" - No. of Earthquake Spells: " & $SpellQ)
 					$iTotalSpellSpace += $SpellQ
 				Case $FullTemp = "Skeleton"
-					$CurSkeletonSpell = $SpellQ
+					$CurSkSpell = $SpellQ
 					Setlog(" - No. of Skeleton Spells: " & $SpellQ)
 					$iTotalSpellSpace += $SpellQ
 				Case $FullTemp = "" And $SpellQ > 0 ; prevent no search condition due problem with spell type detection
@@ -136,16 +136,16 @@ EndFunc   ;==>getArmySpellCount
 ; ===============================================================================================================================
 Func GetCurTotalSpell()
 	If $CurTotalSpell = False And $iTotalCountSpell > 0 Then Return -1
-	Return $CurLightningSpell + _
-			$CurHealSpell + _
-			$CurRageSpell + _
-			$CurJumpSpell + _
-			$CurFreezeSpell + _
-			$CurCloneSpell + _
-			$CurPoisonSpell + _
-			$CurHasteSpell + _
-			$CurSkeletonSpell + _
-			$CurEarthSpell
+	Return $CurLSpell + _
+			$CurHSpell + _
+			$CurRSpell + _
+			$CurJSpell + _
+			$CurFSpell + _
+			$CurCSpell + _
+			$CurPSpell + _
+			$CurHSpell + _
+			$CurSkSpell + _
+			$CurESpell
 EndFunc   ;==>GetCurTotalSpell
 
 ; #FUNCTION# ====================================================================================================================
@@ -155,8 +155,8 @@ EndFunc   ;==>GetCurTotalSpell
 ; ===============================================================================================================================
 Func GetCurTotalDarkSpell()
 	If $CurTotalSpell = False And $iTotalCountSpell > 0 Then Return -1
-	Return $CurPoisonSpell + _
-			$CurHasteSpell + _
-			$CurSkeletonSpell + _
-			$CurEarthSpell
+	Return $CurPSpell + _
+			$CurHSpell + _
+			$CurSkSpell + _
+			$CurESpell
 EndFunc   ;==>GetCurTotalDarkSpell

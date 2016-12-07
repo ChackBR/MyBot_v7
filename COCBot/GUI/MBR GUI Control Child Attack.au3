@@ -12,6 +12,46 @@
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
 ; Example .......: No
 ; ===============================================================================================================================
+#cs
+Func SXSetXP($toSet = "")
+	If $toSet = "S" Or $toSet = "" Then GUICtrlSetData($lblXPatStart, $iStartXP)
+	If $toSet = "C" Or $toSet = "" Then GUICtrlSetData($lblXPCurrent, $iCurrentXP)
+	If $toSet = "W" Or $toSet = "" Then GUICtrlSetData($lblXPSXWon, $iGainedXP)
+	$iGainedXPHour = Round($iGainedXP / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600 * 1000)
+	If $toSet = "H" Or $toSet = "" Then GUICtrlSetData($lblXPSXWonHour, _NumberFormat($iGainedXPHour))
+EndFunc   ;==>SXSetXP
+
+Func chkEnableSuperXP()
+	If GUICtrlRead($chkEnableSuperXP) = $GUI_CHECKED Then
+		GUICtrlSetState($rbSXTraining, $GUI_ENABLE)
+		GUICtrlSetState($rbSXIAttacking, $GUI_ENABLE)
+		GUICtrlSetState($chkSXBK, $GUI_ENABLE)
+		GUICtrlSetState($chkSXAQ, $GUI_ENABLE)
+		GUICtrlSetState($chkSXGW, $GUI_ENABLE)
+	Else
+		GUICtrlSetState($rbSXTraining, $GUI_DISABLE)
+		GUICtrlSetState($rbSXIAttacking, $GUI_DISABLE)
+		GUICtrlSetState($chkSXBK, $GUI_DISABLE)
+		GUICtrlSetState($chkSXAQ, $GUI_DISABLE)
+		GUICtrlSetState($chkSXGW, $GUI_DISABLE)
+	EndIf
+EndFunc   ;==>chkEnableSuperXP
+#ce
+Func chkDBWaitForCCSpell()
+	If GUICtrlRead($chkDBWaitForCastleSpell) = $GUI_CHECKED Then
+		GUICtrlSetState($cmbDBWaitForCastleSpell, $GUI_ENABLE)
+	Else
+		GUICtrlSetState($cmbDBWaitForCastleSpell, $GUI_DISABLE)
+	EndIf
+EndFunc   ;==>chkDBWaitForCCSpell
+
+Func chkABWaitForCCSpell()
+	If GUICtrlRead($chkABWaitForCastleSpell) = $GUI_CHECKED Then
+		GUICtrlSetState($cmbABWaitForCastleSpell, $GUI_ENABLE)
+	Else
+		GUICtrlSetState($cmbABWaitForCastleSpell, $GUI_DISABLE)
+	EndIf
+EndFunc   ;==>chkABWaitForCCSpell
 
 Func chkBalanceDR()
 	If GUICtrlRead($chkUseCCBalanced) = $GUI_CHECKED Then
@@ -477,7 +517,7 @@ Func chkShareAttack()
 		For $i = $lblShareMinGold To $txtShareMessage
 			GUICtrlSetState($i, $GUI_ENABLE)
 		Next
-	Else;If GUICtrlRead($chkUnbreakable) = $GUI_UNCHECKED Then
+	Else ;If GUICtrlRead($chkUnbreakable) = $GUI_UNCHECKED Then
 		For $i = $lblShareMinGold To $txtShareMessage
 			GUICtrlSetState($i, $GUI_DISABLE)
 		Next

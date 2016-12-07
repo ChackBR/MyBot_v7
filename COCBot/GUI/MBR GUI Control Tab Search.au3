@@ -68,6 +68,12 @@ Func chkDBWeakBase()
 		GUICtrlSetState($cmbWeakWizTower[$DB], $GUI_DISABLE)
 	EndIf
 
+	If GUICtrlRead($chkMaxAirDefense[$DB]) = $GUI_CHECKED Then
+		GUICtrlSetState($cmbWeakAirDefense[$DB], $GUI_ENABLE)
+	Else
+		GUICtrlSetState($cmbWeakAirDefense[$DB], $GUI_DISABLE)
+	EndIf
+
 	If GUICtrlRead($chkMaxXBow[$DB]) = $GUI_CHECKED Then
 		GUICtrlSetState($cmbWeakXBow[$DB], $GUI_ENABLE)
 	Else
@@ -140,6 +146,12 @@ Func chkABWeakBase()
 		GUICtrlSetState($cmbWeakWizTower[$LB], $GUI_ENABLE)
 	Else
 		GUICtrlSetState($cmbWeakWizTower[$LB], $GUI_DISABLE)
+	EndIf
+
+	If GUICtrlRead($chkMaxAirDefense[$LB]) = $GUI_CHECKED Then
+		GUICtrlSetState($cmbWeakAirDefense[$LB], $GUI_ENABLE)
+	Else
+		GUICtrlSetState($cmbWeakAirDefense[$LB], $GUI_DISABLE)
 	EndIf
 
 	If GUICtrlRead($chkMaxXBow[$LB]) = $GUI_CHECKED Then
@@ -710,7 +722,7 @@ Func chkSpellWaitError()
 							$sFunnyText = $sText & GetTranslated(625,124,"Sorry not that button!") & @CRLF
 						Case 2
 							_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0xDC00FF, 0x011E00, 12, "Comic Sans MS", 480)
-							$sFunnyText = $sText & GetTranslated(625,125,"Donate ??5000 to MyBot.run while you wait 15 minutes for this to time out?") & @CRLF
+							$sFunnyText = $sText & GetTranslated(625,125,"Donate £5000 to MyBot.run while you wait 15 minutes for this to time out?") & @CRLF
 						Case 3
 							_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x000000, 0xFFFFFF, 12, "Tahoma", 480)
 							$sFunnyText = $sText & GetTranslated(625,126,"Having trouble finding the exit button?") & @CRLF

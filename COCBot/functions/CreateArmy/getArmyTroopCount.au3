@@ -75,11 +75,11 @@ Func getArmyTroopCount($bOpenArmyWindow = False, $bCloseArmyWindow = False, $tes
 	For $i = 0 To UBound($TroopName) - 1 ; Reset the variables
 		Assign(("SlotInArmy" & $TroopName[$i]), -1)
 	Next
-
+#CS 
 	For $i = 0 To UBound($TroopDarkName) - 1 ; Reset the variables
 		Assign(("SlotInArmy" & $TroopDarkName[$i]), -1)
 	Next
-
+ #CE
 	For $i = 0 To UBound($aDTtroopsToBeUsed, 1) - 1 ; Reset the variables
 		$aDTtroopsToBeUsed[$i][1] = 0
 	Next

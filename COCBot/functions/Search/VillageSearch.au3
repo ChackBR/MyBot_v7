@@ -88,11 +88,6 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 		GetResources(False) ;Reads Resource Values
 		If $Restart = True Then Return ; exit func
 
-		If Mod(($iSkipped + 1), 100) = 0 Then
-			If _Sleep($iDelayRespond) Then Return
-			If CheckZoomOut() = False Then Return
-		EndIf
-
 		SuspendAndroid()
 
 		; ---------------- CHECK THE ACTIVE MODE  --------------------------------------------
@@ -117,14 +112,21 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 			EndIf
 		Next
 
+		; only one capture here, very important for consistent debug images, zombies, redline calc etc.
+		ForceCaptureRegion()
+		_CaptureRegion2()
+
+		; measure enemy village
+		If CheckZoomOut("VillageSearch", False) = False Then Return ; exit func
+
 		; ----------------- FIND TARGET TOWNHALL -------------------------------------------
 		; $searchTH name of level of townhall (return "-" if no th found)
 		; $THx and $THy coordinates of townhall
 		Local $THString = ""
 		If $match[$DB] Or $match[$LB] Or $match[$TS] Then; make sure resource conditions are met
-			$THString = FindTownhall(False);find TH, but only if TH condition is checked
+			$THString = FindTownhall(False, False);find TH, but only if TH condition is checked
 		ElseIf ($iChkMeetOne[$DB] = 1 Or $iChkMeetOne[$LB] = 1) Then;meet one then attack, do not need correct resources
-			$THString = FindTownhall(True)
+			$THString = FindTownhall(True, False)
 		EndIf
 
 		For $i = 0 To $iModeCount - 2
@@ -156,9 +158,9 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 
 			;let try to reduce weekbase time
 			If ( $searchTH <> "-" ) then
-				$weakBaseValues = IsWeakBase($IMGLOCTHLEVEL,$IMGLOCREDLINE)
+				$weakBaseValues = IsWeakBase($IMGLOCTHLEVEL, $IMGLOCREDLINE, False)
 			Else
-				$weakBaseValues = IsWeakBase()
+				$weakBaseValues = IsWeakBase(11, "", False)
 			EndIf
 
 			For $i = 0 To $iModeCount - 2
@@ -202,36 +204,11 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 			SetLog("      " & "Dead Base Found!", $COLOR_SUCCESS, "Lucida Console", 7.5)
 			$logwrited = True
 			$iMatchMode = $DB
-
-			; No League Search
-			If $iChkMeetOne[$DB] = 0 Then
-				If $iChkNoLeague[$DB] = 1 Then
-					If _CheckPixel($aNoLeague, True) Then
-						SetLog("      " & "Dead Base is not in a league.", $COLOR_GREEN, "Lucida Console", 7.5)
-					Else
-						SetLog("      " & "Dead Base is in a league.", $COLOR_RED, "Lucida Console", 7.5)
-						$match[$DB] = False ; skip attack
-					EndIf
-				EndIf
-			EndIf
 			ExitLoop
 		ElseIf $match[$LB] And Not $dbBase Then
 			SetLog($GetResourcesTXT, $COLOR_SUCCESS, "Lucida Console", 7.5)
 			SetLog("      " & "Live Base Found!", $COLOR_SUCCESS, "Lucida Console", 7.5)
 			$logwrited = True
-
-			; No League Search
-			If $iChkMeetOne[$LB] = 0 Then
-				If $iChkNoLeague[$LB] = 1 Then
-					If _CheckPixel($aNoLeague, True) Then
-						SetLog("      " & "Live Base is not in a league.", $COLOR_GREEN, "Lucida Console", 7.5)
-					Else
-						SetLog("      " & "Live Base is in a league.", $COLOR_RED, "Lucida Console", 7.5)
-						$match[$LB] = False ; skip attack
-					EndIf
-				EndIf
-			EndIf
-
 			$iMatchMode = $LB
 			ExitLoop
 		ElseIf $match[$LB] And $iDeadBaseDisableCollectorsFilter = 1 Then
@@ -364,8 +341,9 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 	WEnd ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;### Main Search Loop End ###;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 	; center village, also update global village coordinates (that overwrites home base data, but will reset when returning anyway)
-	Local $aCenterVillage = SearchZoomOut($aCenterEnemyVillageClickDrag, True, "VillageSearch")
-	updateGlobalVillageOffset($aCenterVillage[3], $aCenterVillage[4]) ; update red line and TH location
+	; centering disabled and village measuring moved to top
+	;Local $aCenterVillage = SearchZoomOut($aCenterEnemyVillageClickDrag, True, "VillageSearch")
+	;updateGlobalVillageOffset($aCenterVillage[3], $aCenterVillage[4]) ; update red line and TH location
 
 	;--- show buttons attacknow ----
 	If $bBtnAttackNowPressed = True Then

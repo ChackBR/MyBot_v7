@@ -61,13 +61,13 @@ Func isInsideDiamond($aCoords)
 	Local $DY = Abs($y - $aMiddle[1])
 
 	If ($DX / $aSize[0] + $DY / $aSize[1] <= 1) Then
-		If $x < 75 Then ; coordinates where the game will click on the CHAT tab (safe margin)
+		If $x < 68 And $y > 316 Then ; coordinates where the game will click on the CHAT tab (safe margin)
 			If $debugSetlog = 1 Then SetDebuglog("Coordinate Inside Village, but Exclude CHAT")
 			Return False
-		ElseIf $x < 322 And $y < 70 Then ; coordinates where the game will click on the BUILDER button (safe margin)
+		ElseIf $y < 63 Then ; coordinates where the game will click on the BUILDER button or SHIELD button (safe margin)
 			If $debugSetlog = 1 Then SetDebuglog("Coordinate Inside Village, but Exclude BUILDER")
 			Return False
-		ElseIf $x > 690 And $y < 210 Then ; coordinates where the game will click on the GEMS button (safe margin)
+		ElseIf $x > 692 And $y > 156 And $y < 210 Then ; coordinates where the game will click on the GEMS button (safe margin)
 			If $debugSetlog = 1 Then SetDebuglog("Coordinate Inside Village, but Exclude GEMS")
 			Return False
 		EndIf

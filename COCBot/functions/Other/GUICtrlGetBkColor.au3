@@ -1,10 +1,11 @@
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: GUICtrlGetBkColor
-; Description ...:
+; Description ...: Retrieves the RGB value of the control background.
 ; Syntax ........: GUICtrlGetBkColor($hWnd)
-; Parameters ....: $hWnd                - a handle
-; Return values .: None
-; Author ........:
+; Parameters ....: $hWnd                - Control ID/Handle to the control
+; Return values .: Success - RGB value
+;                  Failure - 0
+; Author ........: guinness
 ; Modified ......:
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2016
 ;                  MyBot is distributed under the terms of the GNU GPL

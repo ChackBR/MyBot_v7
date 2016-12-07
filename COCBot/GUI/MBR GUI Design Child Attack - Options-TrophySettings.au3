@@ -42,6 +42,27 @@ Local $x = 25, $y = 45
 			$txtTip = GetTranslated(609,6, "Use Heroes to drop Trophies if Heroes are available.")
 			_GUICtrlSetTip(-1, $txtTip)
 			GuiCtrlSetState(-1,$GUI_DISABLE)
+			GUICtrlSetOnEvent(-1, "chkTrophyHeroes")
+		$y += 25
+	    $lblTrophyHeroesPriority = GUICtrlCreateLabel(GetTranslated(609,11, "Priority Hero to Use") & ":", $x + 16 , $y , 110, -1)
+		$cmbTrophyHeroesPriority = GUICtrlCreateCombo("", $x + 125, $y - 4 , 170, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+		    $txtTip = GetTranslated(609,12, "Set the order on which Hero the Bot drops first when available.")
+			_GUICtrlSetTip(-1, $txtTip)
+			Local $txtPriorityConnector = ">"
+			Local $txtPriorityDefault =   GetTranslated(644,2,-1) & $txtPriorityConnector & GetTranslated(644,1,-1) & $txtPriorityConnector & GetTranslated(644,3,-1) ; default value Queen, King, G.Warden
+			Local $txtPriorityList = "" & _
+			GetTranslated(644,2,-1) & $txtPriorityConnector & GetTranslated(644,1,-1) & $txtPriorityConnector & GetTranslated(644,3,-1) & "|" & _
+			GetTranslated(644,2,-1) & $txtPriorityConnector & GetTranslated(644,3,-1) & $txtPriorityConnector & GetTranslated(644,1,-1) & "|" & _
+			GetTranslated(644,1,-1) & $txtPriorityConnector & GetTranslated(644,2,-1) & $txtPriorityConnector & GetTranslated(644,3,-1) & "|" & _
+			GetTranslated(644,1,-1) & $txtPriorityConnector & GetTranslated(644,3,-1) & $txtPriorityConnector & GetTranslated(644,2,-1) & "|" & _
+			GetTranslated(644,3,-1) & $txtPriorityConnector & GetTranslated(644,1,-1) & $txtPriorityConnector & GetTranslated(644,2,-1) & "|" & _
+			GetTranslated(644,3,-1) & $txtPriorityConnector & GetTranslated(644,2,-1) & $txtPriorityConnector & GetTranslated(644,1,-1) & "|" & _
+			""
+			If $DebugSetlog = 1 Then Setlog($txtPriorityDefault)
+			If $DebugSetlog = 1 Then Setlog($txtPriorityList)
+			GUICtrlSetData(-1, $txtPriorityList , $txtPriorityDefault)
+ 			GUICtrlSetState(-1, $GUI_DISABLE)
+
 		$y += 20
 		$chkTrophyAtkDead = GUICtrlCreateCheckbox(GetTranslated(609,7, "Attack Dead Bases During Drop"), $x  , $y +2, -1, -1)
 			$txtTip = GetTranslated(609,8, "Attack a Deadbase found on the first search while dropping Trophies.")
@@ -50,12 +71,12 @@ Local $x = 25, $y = 45
 			GuiCtrlSetState(-1,$GUI_DISABLE)
 		$y += 24
 		;$x += 10
-		$lblDTArmyMin = GUICtrlCreateLabel(GetTranslated(609,9, "Wait until Army") & " " & ChrW(8805), $x + 10, $y + 6, 120, -1, $SS_RIGHT)
+		$lblDTArmyMin = GUICtrlCreateLabel(GetTranslated(609,9, "Wait until Army Camp are at least") & " " & ChrW(8805), $x + 16 , $y + 6, 200, -1, $SS_LEFT)
 		$txtTip = GetTranslated(609,10, "Enter the percent of full army required for dead base attack before starting trophy drop.")
 			_GUICtrlSetTip(-1, $txtTip)
-		$txtDTArmyMin = GUICtrlCreateInput("70", $x + 135, $y +2, 27, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+		$txtDTArmyMin = GUICtrlCreateInput("70", $x + 215, $y +2, 27, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetLimit(-1, 2)
 			GUICtrlSetState (-1, $GUI_DISABLE)
-		$lblDTArmypercent = GUICtrlCreateLabel(GetTranslated(603,12, "%"), $x + 165, $y +6, -1, -1)
+		$lblDTArmypercent = GUICtrlCreateLabel(GetTranslated(603,12, "%"), $x + 245, $y +6, -1, -1)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)

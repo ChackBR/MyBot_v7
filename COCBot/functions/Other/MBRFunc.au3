@@ -16,6 +16,7 @@
 Func MBRFunc($Start = True)
 	Switch $Start
 		Case True
+			$hNtDll = DllOpen("ntdll.dll")
 			$hFuncLib = DllOpen($pFuncLib)
 			$hImgLib = DllOpen($pImgLib)
 			If $hFuncLib = -1 Then
@@ -24,6 +25,7 @@ Func MBRFunc($Start = True)
 			EndIf
 			SetDebugLog("MBRfunctions.dll opened.")
 		Case False
+			DllClose($hNtDll)
 			DllClose($hFuncLib)
 			DllClose($hImgLib)
 			SetDebugLog("MBRfunctions.dll closed.")
@@ -77,6 +79,10 @@ EndFunc   ;==>setVillageOffset
 
 Func ConvertVillagePos(ByRef $x, ByRef $y, $zoomfactor = 0)
 	Local $result = DllCall($hFuncLib, "str", "ConvertVillagePos", "int", $x, "int", $y, "float", $zoomfactor)
+	if Isarray($result) = False  then
+	   if $debugsetlog=1 then Setlog("ConvertVillagePos result error", $COLOR_ERROR)
+	   Return ;exit if
+    EndIf
 	Local $a = StringSplit($result[0], "|")
 	If UBound($a) < 3 Then Return
 	$x = Int($a[1])
@@ -85,6 +91,10 @@ EndFunc   ;==>ConvertVillagePos
 
 Func ConvertToVillagePos(ByRef $x, ByRef $y, $zoomfactor = 0)
 	Local $result = DllCall($hFuncLib, "str", "ConvertToVillagePos", "int", $x, "int", $y, "float", $zoomfactor)
+	if Isarray($result) = False  then
+	   if $debugsetlog=1 then Setlog("ConvertToVillagePos result error", $COLOR_ERROR)
+	   Return ;exit if
+    EndIf
 	Local $a = StringSplit($result[0], "|")
 	If UBound($a) < 3 Then Return
 	$x = Int($a[1])
@@ -93,6 +103,10 @@ EndFunc   ;==>ConvertToVillagePos
 
 Func ConvertFromVillagePos(ByRef $x, ByRef $y)
 	Local $result = DllCall($hFuncLib, "str", "ConvertFromVillagePos", "int", $x, "int", $y)
+	if Isarray($result) = False  then
+	   if $debugsetlog=1 then Setlog("ConvertVillagePos result error", $COLOR_ERROR)
+	   Return ;exit if
+    EndIf
 	Local $a = StringSplit($result[0], "|")
 	If UBound($a) < 3 Then Return
 	$x = Int($a[1])

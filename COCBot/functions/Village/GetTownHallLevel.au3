@@ -41,6 +41,7 @@ Func GetTownHallLevel($bFirstTime = False)
 		If $aTHInfo[2] <> "" Then
 			$iTownHallLevel = $aTHInfo[2] ; grab building level from building info array
 			SetLog("Your Town Hall Level read as: " & $iTownHallLevel, $COLOR_SUCCESS)
+			saveConfig()
 		Else
 			SetLog("Your Town Hall Level was not found! Please Manually Locate", $COLOR_INFO)
 			ClickP($aAway, 1, 0, "#0350") ; Unselect TH

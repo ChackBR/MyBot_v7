@@ -33,11 +33,12 @@ Func ParseAttackCSV($debug = False)
 	Local $f, $line, $acommand, $command
 	Local $value1, $value2, $value3, $value4, $value5, $value6, $value7, $value8, $value9
 	If FileExists($dirAttacksCSV & "\" & $filename & ".csv") Then
-		$f = FileOpen($dirAttacksCSV & "\" & $filename & ".csv", 0)
+		Local $iLine, $aLines = FileReadToArray($dirAttacksCSV & "\" & $filename & ".csv")
+
 		; Read in lines of text until the EOF is reached
-		While 1
-			$line = FileReadLine($f)
-			$rownum += 1
+		For $iLine = 0 To UBound($aLines) - 1
+			$line = $aLines[$iLine]
+			$rownum = $line + 1
 			If @error = -1 Then ExitLoop
 			If $debug = True Then Setlog("parse line:<<" & $line & ">>")
 			debugAttackCSV("line content: " & $line)
@@ -161,7 +162,7 @@ Func ParseAttackCSV($debug = False)
 						Local $delaypoints1, $delaypoints2, $delaypointsvect
 						$delaypointsvect = StringSplit($value5, "-", 2)
 						If UBound($delaypointsvect) > 1 Then
-							If Int($delaypointsvect[0]) > 0 And Int($delaypointsvect[1]) > 0 Then
+							If Int($delaypointsvect[0]) >= 0 And Int($delaypointsvect[1]) >= 0 Then
 								$delaypoints1 = Int($delaypointsvect[0])
 								$delaypoints2 = Int($delaypointsvect[1])
 							Else
@@ -169,7 +170,7 @@ Func ParseAttackCSV($debug = False)
 								$delaypoints2 = 1
 							EndIf
 						Else
-							If Int($value3) > 0 Then
+							If Int($value5) >= 0 Then
 								$delaypoints1 = Int($value5)
 								$delaypoints2 = Int($value5)
 							Else
@@ -181,7 +182,7 @@ Func ParseAttackCSV($debug = False)
 						Local $delaydrop1, $delaydrop2, $delaydropvect
 						$delaydropvect = StringSplit($value6, "-", 2)
 						If UBound($delaydropvect) > 1 Then
-							If Int($delaydropvect[0]) > 0 And Int($delaydropvect[1]) > 0 Then
+							If Int($delaydropvect[0]) >= 0 And Int($delaydropvect[1]) >= 0 Then
 								$delaydrop1 = Int($delaydropvect[0])
 								$delaydrop2 = Int($delaydropvect[1])
 							Else
@@ -189,7 +190,7 @@ Func ParseAttackCSV($debug = False)
 								$delaydrop2 = 1
 							EndIf
 						Else
-							If Int($value3) > 0 Then
+							If Int($value6) >= 0 Then
 								$delaydrop1 = Int($value6)
 								$delaydrop2 = Int($value6)
 							Else
@@ -201,7 +202,7 @@ Func ParseAttackCSV($debug = False)
 						Local $sleepdrop1, $sleepdrop2, $sleepdroppvect
 						$sleepdroppvect = StringSplit($value7, "-", 2)
 						If UBound($sleepdroppvect) > 1 Then
-							If Int($sleepdroppvect[0]) > 0 And Int($sleepdroppvect[1]) > 0 Then
+							If Int($sleepdroppvect[0]) >= 0 And Int($sleepdroppvect[1]) >= 0 Then
 								$sleepdrop1 = Int($sleepdroppvect[0])
 								$sleepdrop2 = Int($sleepdroppvect[1])
 							Else
@@ -209,7 +210,7 @@ Func ParseAttackCSV($debug = False)
 								$sleepdrop2 = 1
 							EndIf
 						Else
-							If Int($value3) > 0 Then
+							If Int($value7) >= 0 Then
 								$sleepdrop1 = Int($value7)
 								$sleepdrop2 = Int($value7)
 							Else
@@ -220,7 +221,6 @@ Func ParseAttackCSV($debug = False)
 						DropTroopFromINI($value1, $index1, $index2, $indexArray, $qty1, $qty2, $value4, $delaypoints1, $delaypoints2, $delaydrop1, $delaydrop2, $sleepdrop1, $sleepdrop2, $debug)
 						ReleaseClicks($AndroidAdbClicksTroopDeploySize)
 						If _Sleep($iDelayRespond) Then ; check for pause/stop, close file before return
-							FileClose($f)
 							Return
 						EndIf
 					Case "WAIT"
@@ -265,7 +265,6 @@ Func ParseAttackCSV($debug = False)
 							$Gold = getGoldVillageSearch(48, 69)
 							$Elixir = getElixirVillageSearch(48, 69 + 29)
 							If _Sleep($iDelayRespond) Then ; check for pause/stop, close file before return
-								FileClose($f)
 								Return
 							EndIf
 							$Trophies = getTrophyVillageSearch(48, 69 + 99)
@@ -278,24 +277,24 @@ Func ParseAttackCSV($debug = False)
 							If $DebugSetLog = 1 Then SetLog("detected [G]: " & $Gold & " [E]: " & $Elixir & " [DE]: " & $DarkElixir, $COLOR_INFO)
 							;EXIT IF RESOURCES = 0
 							If $ichkEndNoResources[$iMatchMode] = 1 And Number($Gold) = 0 And Number($Elixir) = 0 And Number($DarkElixir) = 0 Then
-								If $DebugSetLog = 1 Then Setlog("From Attackcsv: Gold & Elixir & DE = 0, end battle ", $COLOR_DEBUG)
+								If $DebugSetLog = 0 Then SetDebugLog("detected [G]: " & $Gold & " [E]: " & $Elixir & " [DE]: " & $DarkElixir, $COLOR_INFO) ; log if not down above
+								SetDebugLog("From Attackcsv: Gold & Elixir & DE = 0, end battle ", $COLOR_DEBUG)
 								$exitNoResources = 1
 								ExitLoop
 							EndIf
 							;CALCULATE TWO STARS REACH
 							If $ichkEndTwoStars[$iMatchMode] = 1 And _CheckPixel($aWonTwoStar, True) Then
-								If $DebugSetLog = 1 Then Setlog("From Attackcsv: Two Star Reach, exit", $COLOR_SUCCESS)
+								SetDebugLog("From Attackcsv: Two Star Reach, exit", $COLOR_SUCCESS)
 								$exitTwoStars = 1
 								ExitLoop
 							EndIf
 							;CALCULATE ONE STARS REACH
 							If $ichkEndOneStar[$iMatchMode] = 1 And _CheckPixel($aWonOneStar, True) Then
-								If $DebugSetLog = 1 Then Setlog("From Attackcsv: One Star Reach, exit", $COLOR_SUCCESS)
+								SetDebugLog("From Attackcsv: One Star Reach, exit", $COLOR_SUCCESS)
 								$exitOneStar = 1
 								ExitLoop
 							EndIf
 							If _Sleep($iDelayRespond) Then ; check for pause/stop, close file before return
-								FileClose($f)
 								Return
 							EndIf
 							CheckHeroesHealth()
@@ -571,12 +570,10 @@ Func ParseAttackCSV($debug = False)
 			EndIf
 			CheckHeroesHealth()
 			If _Sleep($iDelayRespond) Then ; check for pause/stop after each line of CSV, close file before return
-				FileClose($f)
 				Return
 			EndIf
-		WEnd
+		Next
 		ReleaseClicks()
-		FileClose($f)
 	Else
 		SetLog("Cannot find attack file " & $dirAttacksCSV & "\" & $filename & ".csv", $COLOR_ERROR)
 	EndIf

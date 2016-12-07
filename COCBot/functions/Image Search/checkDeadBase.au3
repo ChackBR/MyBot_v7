@@ -178,7 +178,7 @@ Func hasElixirStorage()
 
 EndFunc   ;==>hasElixirStorage
 
-Func setZombie($RaidedElixir = -1, $AvailableElixir = -1, $Matched = -1, $SearchIdx = -1, $Timestamp = @YEAR & "-" & @MON & "-" & @MDAY & "_" & StringReplace(_NowTime(5), ":", "-"))
+Func setZombie($RaidedElixir = -1, $AvailableElixir = -1, $Matched = -1, $SearchIdx = -1, $redline = "", $Timestamp = @YEAR & "-" & @MON & "-" & @MDAY & "_" & StringReplace(_NowTime(5), ":", "-"))
 	If TestCapture() Then Return ""
 	If $RaidedElixir = -1 And $AvailableElixir = -1 And $Matched = -1 And $SearchIdx = -1 Then
 		$aZombie[0] = ""
@@ -187,21 +187,24 @@ Func setZombie($RaidedElixir = -1, $AvailableElixir = -1, $Matched = -1, $Search
 		$aZombie[3] = 0
 		$aZombie[4] = 0
 		$aZombie[5] = ""
+		$aZombie[6] = ""
 	Else
 		If $RaidedElixir >= 0 Then $aZombie[1] = Number($RaidedElixir)
 		If $AvailableElixir >= 0 Then $aZombie[2] = Number($AvailableElixir)
 		If $Matched >= 0 Then $aZombie[3] = Number($Matched)
 		If $SearchIdx >= 0 Then $aZombie[4] = Number($SearchIdx)
 		If $aZombie[5] = "" Then $aZombie[5] = $Timestamp
+		If $aZombie[6] = "" Then $aZombie[6] = $redline
 		Local $dbFound = $aZombie[3] >= $iMinCollectorMatches
 		Local $path = @ScriptDir & (($dbFound) ? ("\Zombies\") : ("\SkippedZombies\"))
 		Local $availK = Round($aZombie[2] / 1000)
 		; $ZombieFilename = "DebugDB_xxx%_" & $sCurrProfile & @YEAR & "-" & @MON & "-" & @MDAY & "_" & StringReplace(_NowTime(5), ":", "-") & "_search_" & StringFormat("%03i", $SearchCount) & "_" & StringFormat("%04i", Round($searchElixir / 1000)) & "k_matched_" & $TotalMatched
 		If $aZombie[0] = "" Then
-			Local $create = $aZombie[0] = "" And ($dbFound = True Or ($aZombie[7] = -1 And $aZombie[8] = -1) Or ($availK >= $aZombie[7] And hasElixirStorage() = False) Or $availK >= $aZombie[8])
+			Local $create = $aZombie[0] = "" And ($dbFound = True Or ($aZombie[8] = -1 And $aZombie[9] = -1) Or ($availK >= $aZombie[8] And hasElixirStorage() = False) Or $availK >= $aZombie[9])
 			If $create = True Then
 				Local $ZombieFilename = "DebugDB_" & StringFormat("%04i", $availK) & "k_" & $sCurrProfile & "_search_" & StringFormat("%03i", $aZombie[4]) & "_matched_" & $aZombie[3] & "_" & $aZombie[5] & ".png"
 				SetDebugLog("Saving enemy village screenshot for deadbase validation: " & $ZombieFilename)
+				SetDebugLog("Redline was: " & $aZombie[6])
 				$aZombie[0] = $ZombieFilename
 				Local $hBitmapZombie = _GDIPlus_BitmapCreateFromHBITMAP($hHBitmap2)
 				_GDIPlus_ImageSaveToFile($hBitmapZombie, $path & $aZombie[0])
@@ -212,7 +215,7 @@ Func setZombie($RaidedElixir = -1, $AvailableElixir = -1, $Matched = -1, $Search
 			If $aZombie[2] > 0 And $aZombie[2] >= $aZombie[1] Then
 				$raidPct = Round((100 * $aZombie[1]) / $aZombie[2])
 			EndIf
-			If $aZombie[6] = -1 Or $raidPct >= $aZombie[6] Then
+			If $aZombie[7] <> -1 And $raidPct >= $aZombie[7] And ($aZombie[10] = -1 Or $aZombie[2] >= $aZombie[10]) Then
 				SetDebugLog("Delete enemy village screenshot as base seems dead: " & $aZombie[0])
 				FileDelete($path & $aZombie[0])
 			Else
@@ -323,14 +326,14 @@ Func checkDeadBaseNew()
 	; always update $aZombie[3], current matched collectors count
 	$aZombie[3] = $TotalMatched
 	If $debugDeadBaseImage = 1 Then
-		setZombie(0, $searchElixir, $TotalMatched, $SearchCount)
+		setZombie(0, $searchElixir, $TotalMatched, $SearchCount, $IMGLOCREDLINE)
 	EndIf
 
 	Return $dbFound
 EndFunc   ;==>checkDeadBase
 
 Func checkDeadBase()
-	Return checkDeadBaseSuperNew()
+	Return checkDeadBaseSuperNew(False)
 EndFunc
 
 ;checkDeadBase Variables:-------------===========================
@@ -763,13 +766,12 @@ Func imglocIsDeadBase(ByRef $aPos, $FillLevel = 100, $minCollectorLevel = 0, $ma
 
 EndFunc
 
-Func checkDeadBaseSuperNew()
+Func checkDeadBaseSuperNew($bForceCapture = True, $sFillDirectory = @ScriptDir & "\imgxml\deadbase\elix\fill\", $sLvlDirectory = @ScriptDir & "\imgxml\deadbase\elix\lvl\")
 
     If $iDeadBaseDisableCollectorsFilter = 1 Then
 		Return True
 	EndIf
 
-	Local $bForceCapture = True
 	Local $minCollectorLevel = 0
 	Local $maxCollectorLevel = 0
 	Local $anyFillLevel[2] = [False, False] ; 50% and 100%
@@ -794,13 +796,9 @@ Func checkDeadBaseSuperNew()
 	Local $Matched[2] = [-1, -1]
 	Local $aPoints[0]
 
-	; only one capture here, very important for consistent zombies
-	_CaptureRegion2()
-
 	; found fill positions (deduped)
 	Local $aPos[0]
 
-	Local $sDirectory = @ScriptDir & "\imgxml\deadbase\elix\fill\"
 	Local $sCocDiamond = "ECD" ;
 	Local $redLines = $IMGLOCREDLINE; if TH was Search then redline is set!
 	Local $minLevel = 0
@@ -811,10 +809,8 @@ Func checkDeadBaseSuperNew()
 	Local $TotalMatched = 0
 	Local $x, $y, $lvl, $fill
 
-	If $debugsetlog = 1 Then SetLog("IMGLOC : Searching Deadbase for fill levels using "&  $sDirectory, $COLOR_INFO)
-
-	Local $result = findMultiple($sDirectory, $sCocDiamond, $redLines, $minLevel, $maxLevel, $maxReturnPoints, $returnProps, $bForceCapture)
-
+	; check for any collector filling
+	Local $result = findMultiple($sFillDirectory, $sCocDiamond, $redLines, $minLevel, $maxLevel, $maxReturnPoints, $returnProps, $bForceCapture)
 	Local $foundFilledCollectors = IsArray($result) = 1
 
 	If $foundFilledCollectors = True Then
@@ -827,7 +823,7 @@ Func checkDeadBaseSuperNew()
 				For $sPoint in $aPoints
 					Local $aP = StringSplit($sPoint, ",", $STR_NOCOUNT)
 					ReDim $aP[4] ; 2=fill, 3=lvl
-					$aP[3] = 0 ; initial lvl is 0 (for found/identified yet)
+					$aP[3] = 0 ; initial lvl is 0 (for not found/identified yet)
 					$aP[2] = $lvl
 					Local $bSkipPoint = False
 					For $i = 0 To UBound($aPos) - 1
@@ -858,7 +854,6 @@ Func checkDeadBaseSuperNew()
 		Next
 
 		; check each collector location for collector level
-		$sDirectory = @ScriptDir & "\imgxml\deadbase\elix\lvl\"
 		For $aP in $aPos
 			$x = $aP[0]
 			$y = $aP[1]
@@ -867,7 +862,7 @@ Func checkDeadBaseSuperNew()
 			; search area for collector level, add 20 left and right, 25 top and 15 bottom
 			$sCocDiamond = ($x - 20) & "," & ($y - 25) & "|" & ($x + 20) & "," & ($y - 25) & "|" & ($x + 20) & "," & ($y + 15) & "|" & ($x - 20) & "," & ($y + 15)
 			$redLines = $sCocDiamond ; override red line with CoC Diamond so not calculated again
-			$result = findMultiple($sDirectory, $sCocDiamond, $redLines, $minLevel, $maxLevel, $maxReturnPoints, $returnProps, $bForceCapture)
+			$result = findMultiple($sLvlDirectory, $sCocDiamond, $redLines, $minLevel, $maxLevel, $maxReturnPoints, $returnProps, $bForceCapture)
 			If IsArray($result) then
 				For $matchedValues In $result
 					Local $aPoints = StringSplit($matchedValues[1], "|", $STR_NOCOUNT); multiple points splited by | char
@@ -919,14 +914,14 @@ Func checkDeadBaseSuperNew()
 	; always update $aZombie[3], current matched collectors count
 	$aZombie[3] = $TotalMatched
 	If $debugDeadBaseImage = 1 Then
-		setZombie(0, $searchElixir, $TotalMatched, $SearchCount)
+		setZombie(0, $searchElixir, $TotalMatched, $SearchCount, $IMGLOCREDLINE)
 	EndIf
 
 	Return $dbFound
 
-EndFunc
+EndFunc   ;==>checkDeadBaseSuperNew
 
-Func checkDeadBaseFolder($directory)
+Func checkDeadBaseFolder($directory, $executeOldCode = "checkDeadBaseNew()", $executeNewCode = "checkDeadBaseSuperNew()")
 
 	Local $aFiles = _FileListToArray($directory, "*.png", $FLTA_FILES)
 
@@ -963,19 +958,19 @@ Func checkDeadBaseFolder($directory)
 		_GDIPlus_BitmapDispose($hBMP)
 		TestCapture($hHBMP)
 
-		; get readline
-		Local $res = DllCall($hImgLib, "str", "SearchRedLines", "handle", $hHBMP, "str", $sCocDiamond)
 		$IMGLOCREDLINE = ""
-		If IsArray($res) = 1 Then
-			$IMGLOCREDLINE = $res[0]
-		EndIf
+		; get readline
+		SearchRedLines()
+		; measure village
+		SearchZoomOut(False, True, "checkDeadBaseFolder", False, False)
+		ConvertInternalExternArea() ; generate correct internal/external diamond measures
 
 		For $j = 1 to 2
 
 			If Mod($i + $j, 2) = 0  Then
 				; checkDeadBaseNew
 				Local $hTimer = TimerInit()
-				checkDeadBaseNew()
+				Execute($executeOldCode)
 				Local $iMsNew = TimerDiff($hTimer)
 				$iTotalMsNew += $iMsNew
 				$iMsNew = Round($iMsNew)
@@ -984,7 +979,7 @@ Func checkDeadBaseFolder($directory)
 			Else
 				; checkDeadBaseSuperNew
 				$hTimer = TimerInit()
-				checkDeadBaseSuperNew()
+				Execute($executeNewCode)
 				Local $iMsSuperNew = TimerDiff($hTimer)
 				$iTotalMsSuperNew += $iMsSuperNew
 				$iMsSuperNew = Round($iMsSuperNew)

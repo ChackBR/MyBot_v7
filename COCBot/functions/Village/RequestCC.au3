@@ -13,7 +13,7 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
-Func RequestCC()
+Func RequestCC($ClickPAtEnd = True, $specifyText = "")
 
 	If $iPlannedRequestCCHoursEnable <> 1 Or $canRequestCC = False Or $bDonationEnabled = False Then
 		Return
@@ -71,7 +71,7 @@ Func RequestCC()
 
 	;exit from army overview
 	If _Sleep($iDelayRequestCC1) Then Return
-	ClickP($aAway, 2, 0, "#0335")
+	If $ClickPAtEnd = True Then ClickP($aAway, 2, 0, "#0335")
 
 EndFunc   ;==>RequestCC
 

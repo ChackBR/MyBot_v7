@@ -20,7 +20,7 @@ Global $iTotalSteps = 11, $iCurrentStep = 0
 
 #Region Splash
 
-Local $sSplashImg = @ScriptDir & "\Images\logo.jpg"
+Local $sSplashImg = $sLogoPath
 Local $hImage, $iX, $iY
 Local $iT = 20 ; Top of logo (additional space)
 Local $iB = 10 ; Bottom of logo (additional space)

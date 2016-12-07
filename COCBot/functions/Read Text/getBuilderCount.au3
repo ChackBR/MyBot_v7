@@ -25,6 +25,7 @@ Func getBuilderCount($bSuppressLog = False)
 		If StringInStr($sBuilderInfo, "#") > 0 Then  ; check for valid OCR read
 			$aGetBuilders = StringSplit($sBuilderInfo, "#", $STR_NOCOUNT)  ; Split into free and total builder strings
 			$iFreeBuilderCount = Int($aGetBuilders[0]) ; update global values
+			If $iTestFreeBuilderCount <> -1 Then $iFreeBuilderCount = $iTestFreeBuilderCount ; used for test cases
 			$iTotalBuilderCount = Int($aGetBuilders[1])
 			If $debugSetlog = 1 And $bSuppressLog = False Then Setlog("No. of Free/Total Builders: " & $iFreeBuilderCount & "/" & $iTotalBuilderCount, $COLOR_DEBUG)
 			Return True  ; Happy Monkey returns!

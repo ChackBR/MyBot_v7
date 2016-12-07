@@ -15,10 +15,15 @@
 
 Func BotStart()
 	ResumeAndroid()
+	CalCostCamp()
+	CalCostSpell()
 
 	$RunState = True
 	$TogglePauseAllowed = True
 	$SkipFirstZoomout = False
+	$Is_SearchLimit = False
+	$Is_ClientSyncError = False
+	$Quickattack = False
 
 	EnableControls($frmBotBottom, False, $frmBotBottomCtrlState)
 	;$FirstAttack = 0
@@ -60,13 +65,8 @@ Func BotStart()
 	GUICtrlSetState($chkBackground, $GUI_DISABLE)
 
 	Local $Result = False
-	Local $hWin = $HWnD
-	If $HWnD = 0 Then
-		If $hWin = 0 Then
-			$Result = OpenAndroid(False)
-		Else
-			$Result = RebootAndroid(False)
-		EndIf
+	If WinGetAndroidHandle() = 0 Then
+		$Result = OpenAndroid(False)
 	EndIf
 	SetDebugLog("Android Window Handle: " & WinGetAndroidHandle())
 	If $HWnD <> 0 Then ;Is Android open?
@@ -119,6 +119,7 @@ Func BotStop()
 
 	EnableGuiControls()
 
+	DistributorsBotStopEvent()
 	AndroidBotStopEvent() ; signal android that bot is now stopping
 	AndroidShield("btnStop", Default)
 

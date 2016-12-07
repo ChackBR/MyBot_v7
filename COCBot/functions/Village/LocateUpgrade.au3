@@ -219,11 +219,15 @@ Func UpgradeValue($inum, $bRepeat = False) ;function to find the value and type 
 	If $bOopsFlag = True And $debugImageSave = 1 Then DebugImageSave("ButtonView")
 
 	$aResult = BuildingInfo(242, 520 + $bottomOffsetY)
-	If $aResult[0] > 1 Then
+	If $aResult[0] > 0 Then
 		$aUpgrades[$inum][4] = $aResult[1] ; Store bldg name
-		$aUpgrades[$inum][5] = $aResult[2] ; Sotre bdlg level
 		GUICtrlSetData($txtUpgradeName[$inum], $aUpgrades[$inum][4]) ; Set GUI name to match $aUpgrades variable
-		GUICtrlSetData($txtUpgradeLevel[$inum], $aUpgrades[$inum][5]) ; Set GUI level to match $aUpgrades variable
+		If $aResult[0] > 1 Then
+			$aUpgrades[$inum][5] = $aResult[2] ; Sotre bdlg level
+			GUICtrlSetData($txtUpgradeLevel[$inum], $aUpgrades[$inum][5]) ; Set GUI level to match $aUpgrades variable
+		Else
+			Setlog("Error: Level for Upgrade not found?", $COLOR_ERROR)
+		EndIf
 	Else
 		Setlog("Error: Name & Level for Upgrade not found?", $COLOR_ERROR)
 	EndIf

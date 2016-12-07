@@ -21,7 +21,7 @@ Local $btnColor = False
 
 ;~ Buttons
 Local $y_bottom = 0 ; 515
-Local $x = 15, $y = $y_bottom + 10
+Local $x = 10, $y = $y_bottom + 10
 $grpButtons = GUICtrlCreateGroup("https://mybot.run " & GetTranslated(602,0, "- freeware bot -"), $x - 5, $y - 10, 190, 108)
 	$btnStart = GUICtrlCreateButton(GetTranslated(602,1, "Start Bot"), $x, $y + 2 +5, 90, 40-5)
 		$txtTip = GetTranslated(602,30, "Use this to START the bot.")
@@ -85,20 +85,20 @@ GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 If $AndroidAdbScreencap = True Then chkBackground() ; update background mode GUI
 
-$pic2arrow = GUICtrlCreatePic(@ScriptDir & "\Images\2arrow.jpg", $x + 187, $y + 10, 50, 45)
+$pic2arrow = GUICtrlCreateIcon($pIconLib, $eIcn2Arrow, $x + 190, $y + 10, 48, 48)
 
-$lblVersion = GUICtrlCreateLabel($sBotVersion, 205, $y + 60, 60, 17, $SS_CENTER)
+$lblVersion = GUICtrlCreateLabel($sBotVersion, 200, $y + 60, 60, 17, $SS_CENTER)
 	GUICtrlSetColor(-1, $COLOR_MEDGRAY)
 
-$arrowleft = GUICtrlCreatePic(@ScriptDir & "\Images\triangle_left.bmp", $x + 247, $y + 30, 8, 14)
+$arrowleft = GUICtrlCreateIcon($pIconLib, $eIcnArrowLeft, $x + 249, $y + 30, 16, 16)
    $txtTip = GetTranslated(602,25, "Switch between village info and stats")
    _GUICtrlSetTip(-1, $txtTip)
-$arrowright = GUICtrlCreatePic(@ScriptDir & "\Images\triangle_right.bmp", $x + 247 + 198, $y + 30, 8, 14)
+$arrowright = GUICtrlCreateIcon($pIconLib, $eIcnArrowRight, $x + 247 + 198, $y + 30, 16, 16)
    _GUICtrlSetTip(-1, $txtTip)
 
 ;~ Village
-Local $x = 290, $y = $y_bottom + 20
-$grpVillage = GUICtrlCreateGroup(GetTranslated(603,32, "Village"), $x - 20, $y - 20, 190, 85)
+Local $x = 295, $y = $y_bottom + 20
+$grpVillage = GUICtrlCreateGroup(GetTranslated(603,32, "Village"), $x - 20, $y - 20, 180, 85)
 	$lblResultGoldNow = GUICtrlCreateLabel("", $x - 5, $y + 2, 60, 15, $SS_RIGHT)
 	$lblResultGoldHourNow = GUICtrlCreateLabel("", $x, $y + 2, 50, 15, $SS_RIGHT)
 		GUICtrlSetState(-1, $GUI_HIDE)
@@ -118,7 +118,7 @@ $grpVillage = GUICtrlCreateGroup(GetTranslated(603,32, "Village"), $x - 20, $y -
 		GUICtrlSetState(-1, $GUI_HIDE)
 	$picResultDETemp = GUICtrlCreateIcon ($pIconLib, $eIcnDark, $x - 5, $y + 40, 16, 16)
 
-	$x += 80
+	$x += 75
 	;trophy / runtime
 	$lblResultTrophyNow = GUICtrlCreateLabel("", $x, $y + 2, 55, 15, $SS_RIGHT)
 	$picResultTrophyNow = GUICtrlCreateIcon ($pIconLib, $eIcnTrophy, $x + 59, $y , 16, 16)
@@ -134,14 +134,14 @@ $grpVillage = GUICtrlCreateGroup(GetTranslated(603,32, "Village"), $x - 20, $y -
 	$picResultAttackedHourNow = GUICtrlCreateIcon($pIconLib, $eIcnBldgTarget, $x +59, $y + 20, 16, 16)
 	GUICtrlSetState(-1, $GUI_HIDE)
 	;gems/skipped
-	$lblResultGemNow = GUICtrlCreateLabel("", $x - 5, $y + 42, 60, 15, $SS_RIGHT)
+	$lblResultGemNow = GUICtrlCreateLabel("", $x + 5, $y + 42, 50, 15, $SS_RIGHT)
 	$picResultGemNow = GUICtrlCreateIcon ($pIconLib, $eIcnGem, $x + 59, $y + 40, 16, 16)
 	$lblResultSkippedHourNow = GUICtrlCreateLabel("0", $x, $y + 42, 50, 15, $SS_RIGHT)
 	GUICtrlSetState(-1, $GUI_HIDE)
 	$picResultSkippedHourNow = GUICtrlCreateIcon ($pIconLib, $eIcnBldgX, $x + 59, $y + 40, 16, 16)
 	GUICtrlSetState(-1, $GUI_HIDE)
 
-	$x = 290
+	$x = 285
 	$lblVillageReportTemp = GUICtrlCreateLabel(GetTranslated(602,22, "Village Report") & @CRLF & GetTranslated(602,23, "will appear here") & @CRLF & GetTranslated(602,24, "on first run."), $x + 27, $y + 5, 100, 45, BITOR($SS_CENTER, $BS_MULTILINE))
 
 

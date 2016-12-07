@@ -4,7 +4,7 @@
 ; Description ...: Obtains count of heroes available from Training - Army Overview window
 ; Syntax ........: getArmyHeroCount()
 ; Parameters ....: $bOpenArmyWindow  = Bool value true if train overview window needs to be opened
-;				 	  : $bCloseArmyWindow = Bool value, true if train overview window needs to be closed
+;				 : $bCloseArmyWindow = Bool value, true if train overview window needs to be closed
 ; Return values .: None
 ; Author ........: Separated from checkArmyCamp()
 ; Modified ......: MonkeyHunter (06-2016)
@@ -30,7 +30,7 @@ Func getArmyHeroCount($bOpenArmyWindow = False, $bCloseArmyWindow = False)
 		If _Sleep($iDelaycheckArmyCamp5) Then Return
 	EndIf
 
-	If $iTownHallLevel < 7 then return
+	If $iTownHallLevel < 7 Then Return
 
 	$iHeroAvailable = $HERO_NOHERO ; Reset hero available data
 	$bFullArmyHero = False
@@ -46,32 +46,35 @@ Func getArmyHeroCount($bOpenArmyWindow = False, $bCloseArmyWindow = False)
 		If $sResult <> "" Then ; we found something, figure out what?
 			Select
 				Case StringInStr($sResult, "king", $STR_NOCASESENSEBASIC)
-					Setlog(" - Barbarian King available")
+					Setlog(" - Barbarian King available", $COLOR_GREEN)
 					$iHeroAvailable = BitOR($iHeroAvailable, $HERO_KING)
 				Case StringInStr($sResult, "queen", $STR_NOCASESENSEBASIC)
-					Setlog(" - Archer Queen available")
+					Setlog(" - Archer Queen available", $COLOR_GREEN)
 					$iHeroAvailable = BitOR($iHeroAvailable, $HERO_QUEEN)
 				Case StringInStr($sResult, "warden", $STR_NOCASESENSEBASIC)
-					Setlog(" - Grand Warden available")
+					Setlog(" - Grand Warden available", $COLOR_GREEN)
 					$iHeroAvailable = BitOR($iHeroAvailable, $HERO_WARDEN)
 				Case StringInStr($sResult, "heal", $STR_NOCASESENSEBASIC)
 					If $debugsetlogTrain = 1 Or $debugArmyHeroCount = 1 Then
 						Switch $i
 							Case 0
-								$sMessage = "-Barbarian King"
+								$sMessage = "Barbarian King"
 							Case 1
-								$sMessage = "-Archer Queen"
+								$sMessage = "Archer Queen"
 							Case 2
-								$sMessage = "-Grand Warden"
+								$sMessage = "Grand Warden"
 							Case Else
-								$sMessage = "-Very Bad Monkey Needs"
+								$sMessage = "Very Bad Monkey Needs"
 						EndSwitch
 						SetLog("Hero slot#" & $i + 1 & $sMessage & " Healing", $COLOR_DEBUG)
 					EndIf
+					If $i = 0 Then Setlog(" - Barbarian King Recovering", $COLOR_ACTION)
+					If $i = 1 Then Setlog(" - Archer Queen Recovering", $COLOR_ACTION)
+					If $i = 2 Then Setlog(" - Grand Warden Recovering", $COLOR_ACTION)
 				Case StringInStr($sResult, "upgrade", $STR_NOCASESENSEBASIC)
 					Switch $i
 						Case 0
-							$sMessage = "-Barbarian King"
+							$sMessage = "Barbarian King"
 							; safety code to warn user when wait for hero found while being upgraded to reduce stupid user posts for not attacking
 							If BitAND($iHeroAttack[$DB], $iHeroWait[$DB], $HERO_KING) = $HERO_KING Or BitAND($iHeroAttack[$LB], $iHeroWait[$LB], $HERO_KING) = $HERO_KING Then  ; check wait for hero status
 								;$iHeroWait[$DB] = BitAND($iHeroWait[$DB], $HERO_QUEEN, $HERO_WARDEN) ; remove wait for king value with mask
@@ -80,9 +83,10 @@ Func getArmyHeroCount($bOpenArmyWindow = False, $bCloseArmyWindow = False)
 								;GUICtrlSetState($chkABKingWait, $GUI_UNCHECKED)
 								_GUI_Value_STATE("SHOW", $groupKingSleeping)  ; Show king sleeping icon
 								SetLog("Warning: King Upgrading & Wait enabled, Disable Wait for King or may never attack!", $COLOR_ERROR)
+								SetLog($sMessage & " remaining upgrade time: " & StringFormat("%.2f", GetArmyHeroTime($eKing, False, False, True)) & " Minutes")
 							EndIf
 						Case 1
-							$sMessage = "-Archer Queen"
+							$sMessage = "Archer Queen"
 							; safety code
 							If BitAND($iHeroAttack[$DB], $iHeroWait[$DB], $HERO_QUEEN) = $HERO_QUEEN Or BitAND($iHeroAttack[$LB], $iHeroWait[$LB], $HERO_QUEEN) = $HERO_QUEEN Then
 								;$iHeroWait[$DB] = BitAND($iHeroWait[$DB], $HERO_KING, $HERO_WARDEN)
@@ -91,9 +95,10 @@ Func getArmyHeroCount($bOpenArmyWindow = False, $bCloseArmyWindow = False)
 								;GUICtrlSetState($chkABQueenWait, $GUI_UNCHECKED)
 								_GUI_Value_STATE("SHOW", $groupQueenSleeping)
 								SetLog("Warning: Queen Upgrading & Wait enabled, Disable Wait for Queen or may never attack!", $COLOR_ERROR)
+								SetLog($sMessage & " remaining upgrade time: " & StringFormat("%.2f", GetArmyHeroTime($eQueen, False, False, True)) & " Minutes")
 							EndIf
 						Case 2
-							$sMessage = "-Grand Warden"
+							$sMessage = "Grand Warden"
 							; safety code
 							If BitAND($iHeroAttack[$DB], $iHeroWait[$DB], $HERO_WARDEN) = $HERO_WARDEN Or BitAND($iHeroAttack[$LB], $iHeroWait[$LB], $HERO_WARDEN) = $HERO_WARDEN Then
 								;$iHeroWait[$DB] = BitAND($iHeroWait[$DB], $HERO_KING, $HERO_QUEEN)
@@ -102,11 +107,12 @@ Func getArmyHeroCount($bOpenArmyWindow = False, $bCloseArmyWindow = False)
 								;GUICtrlSetState($chkABWardenWait, $GUI_UNCHECKED)
 								_GUI_Value_STATE("SHOW", $groupWardenSleeping)
 								SetLog("Warning: Warden Upgrading & Wait enabled, Disable Wait for Warden or may never attack!", $COLOR_ERROR)
+								SetLog($sMessage & " remaining upgrade time: " & StringFormat("%.2f", GetArmyHeroTime($eWarden, False, False, True)) & " Minutes")
 							EndIf
 						Case Else
-							$sMessage = "-Need to Get Monkey"
+							$sMessage = "Need to Get Monkey"
 					EndSwitch
-					If $debugsetlogTrain = 1 Or $debugArmyHeroCount = 1 Then SetLog("Hero slot#" & $i + 1 & $sMessage & " Upgrade in Process", $COLOR_DEBUG)
+					If $debugsetlogTrain = 1 Or $debugArmyHeroCount = 1 Then SetLog("Hero slot#" & $i + 1 & "-" & $sMessage & " Upgrade in Process", $COLOR_DEBUG)
 				Case StringInStr($sResult, "none", $STR_NOCASESENSEBASIC)
 					If $debugsetlogTrain = 1 Or $debugArmyHeroCount = 1 Then SetLog("Hero slot#" & $i + 1 & " Empty, stop count", $COLOR_DEBUG)
 					ExitLoop ; when we find empty slots, done looking for heroes

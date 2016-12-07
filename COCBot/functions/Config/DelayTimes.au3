@@ -14,6 +14,7 @@
 ;General Delay Times
 Global Const $iDelaySleep = 100 ; For larger sleep time this is the max. Sleep() call
 Global Const $iDelayWaitForPopup = 1500 ; An action was just clicked and waiting for popup
+Global Const $iDelayCloudsCleared = 1000 ; When Clouds cleared, additional wait
 
 Global Const $iDelayRespond = 5 ; Just to make stop button more Responsive
 Global Const $iDelayRunBot1 = 1000
@@ -264,6 +265,7 @@ Global Const $iDelayCollect3 = 500
 Global Const $iDelayDonateCC1 = 200
 Global Const $iDelayDonateCC2 = 250
 Global Const $iDelayDonateCC3 = 50 ; click
+Global Const $iDelayDonateCC4 = 1250
 
 ;DonateTroopType
 Global Const $iDelayDonateTroopType1 = 250
@@ -358,6 +360,7 @@ Global Const $iDelayTrain4 = 200
 Global Const $iDelayTrain5 = 250 ; click
 Global Const $iDelayTrain6 = 20 ; click
 Global Const $iDelayTrain7 = 5 ; Spells Creation
+Global Const $iDelayTrain8 = 5000 ; wait for a while to desapear the 'received castle troops' msg
 
 ;IsTrainPage
 Global Const $iDelayIsTrainPage1 = 100
@@ -446,3 +449,8 @@ Global Const $iDelayWaitAttack = 120000
 Global Const $iDelayWaitAttack1 = 60000
 Global Const $iDelayWaitAttack2 = 300000
 
+;Close Open
+Global Const $iDelayCloseOpen1000 = 1000
+Global Const $iDelayCloseOpen1500 = 1500
+Global Const $iDelayCloseOpen2000 = 2000
+Global Const $iDelayCloseOpen3000 = 3000

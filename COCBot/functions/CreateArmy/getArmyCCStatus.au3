@@ -41,24 +41,24 @@ Func getArmyCCStatus($bOpenArmyWindow = False, $bCloseArmyWindow = False)
 
 		Local $sResultCC = getArmyCampCap($aArmyCCRemainTime[0], $aArmyCCRemainTime[1]) ;Get CC time via OCR.
 		If $debugsetlogTrain = 1 Then Setlog("getArmyCampCap returned: " & $sResultCC, $COLOR_DEBUG)
-
-		If $sResultCC <> "" Then
-			If StringInStr($sResultCC, "m") > 1 Then
-				$aResult = StringSplit($sResultCC, "m", $STR_NOCOUNT)
-				; $aResult[0] will be the Minutes and the $aResult[1] will be the seconds with the "s" at end
-				$aResult[1] = StringStripWS($aResult[1], $STR_STRIPALL)
-				$sResultCCMinutes = StringTrimRight($aResult[1], 1) ; removing the "s"
-				$iRemainTrainCCTimer = Number($aResult[0]) + Number($sResultCCMinutes / 60)
-			ElseIf StringInStr($sResultCC, "s") > 1 Then
-				$iRemainTrainCCTimer = Number(StringStripWS($sResultCC, $STR_STRIPALL)) / 60 ; removing the "s", " ", and convert to minutes
-			Else
-				If $debugsetlogTrain = 1 Or $debugSetlog = 1 Then SetLog("getArmyCCStatus: Bad OCR string: " & $sResultCC, $COLOR_ERROR)
-			EndIf
-			If $bDonationEnabled Or $debugsetlogTrain = 1 Or $debugSetlog = 1 Then SetLog("CC request time: " & StringFormat("%.2f", $iRemainTrainCCTimer) & " minutes", $COLOR_INFO)
-			$iCCRemainTime = $iRemainTrainCCTimer ; update global value
-		Else
-			If $debugsetlogTrain = 1 Or $debugSetlog = 1 Then SetLog("Can not read remaining Spell train time!", $COLOR_ERROR)
-		EndIf
+		$iCCRemainTime = ConvertOCRTime("CC request time", $sResultCC)
+		; If $sResultCC <> "" Then
+			; If StringInStr($sResultCC, "m") > 1 Then
+				; $aResult = StringSplit($sResultCC, "m", $STR_NOCOUNT)
+				;; $aResult[0] will be the Minutes and the $aResult[1] will be the seconds with the "s" at end
+				; $aResult[1] = StringStripWS($aResult[1], $STR_STRIPALL)
+				; $sResultCCMinutes = StringTrimRight($aResult[1], 1) ; removing the "s"
+				; $iRemainTrainCCTimer = Number($aResult[0]) + Number($sResultCCMinutes / 60)
+			; ElseIf StringInStr($sResultCC, "s") > 1 Then
+				; $iRemainTrainCCTimer = Number(StringStripWS($sResultCC, $STR_STRIPALL)) / 60 ; removing the "s", " ", and convert to minutes
+			; Else
+				; If $debugsetlogTrain = 1 Or $debugSetlog = 1 Then SetLog("getArmyCCStatus: Bad OCR string: " & $sResultCC, $COLOR_ERROR)
+			; EndIf
+			; If $bDonationEnabled Or $debugsetlogTrain = 1 Or $debugSetlog = 1 Then SetLog("CC request time: " & StringFormat("%.2f", $iRemainTrainCCTimer) & " minutes", $COLOR_INFO)
+			; $iCCRemainTime = $iRemainTrainCCTimer ; update global value
+		; Else
+			; If $debugsetlogTrain = 1 Or $debugSetlog = 1 Then SetLog("Can not read remaining Spell train time!", $COLOR_ERROR)
+		; EndIf
 	EndIf
 
 	If $bCloseArmyWindow = True Then

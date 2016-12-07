@@ -6,7 +6,7 @@
 ; Parameters ....:
 ; Return values .: None
 ; Author ........: Sardo
-; Modified ......: Sardo (2916-09)
+; Modified ......: Sardo (2916-09), Boju (2016-11)
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2016
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
@@ -19,8 +19,8 @@ Func AddIdleTime()
 	Local $timetowait
 
 	; Add idle time if feature it is enable
-
-	if $iAddIdleTimeEnable = 1 Then
+	; If $iChkBotStop = 1 And $icmbBotCond >= 19 Then Return
+	if $ichkAddIdleTime = 1 Then
 		if $iAddIdleTimeMin = $iAddIdleTimeMax Then
 			$timetowait  = $iAddIdleTimeMin
 		Else

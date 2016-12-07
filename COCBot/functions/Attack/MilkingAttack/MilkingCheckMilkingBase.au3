@@ -39,7 +39,7 @@ Func CheckMilkingBase($matchDB, $dbBase)
 					  If $debugsetlog = 1 Then Setlog("Milking no match", $COLOR_DEBUG)
 					  If $MilkAttackAfterTHSnipe = 1 and $chkSnipeIfNoElixir = 1 Then
 						  If $debugsetlog = 1 Then Setlog("Milking no match but Snipe even if no structures detected... check...",$COLOR_DEBUG)
-						  If $searchTH = "-" Then	FindTownHall(True)
+						  If $searchTH = "-" Then FindTownHall(True)
 						  If $searchTH <>"-" Then
 							  $milkingAttackOutside = 1
 							  If SearchTownHallLoc() Then  ;check if townhall position it is outside

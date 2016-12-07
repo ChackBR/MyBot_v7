@@ -99,10 +99,6 @@ Func DropTroopFromINI($vectors, $indexStart, $indexEnd, $indexArray, $qtaMin, $q
 ;			If $ichkSkeletonSpell[$iMatchMode] = 0 Then $usespell = False
 	EndSwitch
 
-	; CVSDeploy Speed Mod
-	If $delayPointmin = 0 Then $delayPointmin = 100
-	If $delayPointmax = 0 Then $delayPointmax = 300
-
 	If $troopPosition = -1 Or $usespell = False Then
 		If $usespell = True Then
 			Setlog("No troop found in your attack troops list")
@@ -115,36 +111,12 @@ Func DropTroopFromINI($vectors, $indexStart, $indexEnd, $indexArray, $qtaMin, $q
 
 		;Local $SuspendMode = SuspendAndroid()
 
-		; CVSDeploy Speed Mod
-		Local $blnContinueDeploy = False
-		Global $lastTroopPositionDropTroopFromINI
-
-		If $atkTroops[$troopPosition][0] < 19 Then
-			If $atkTroops[$troopPosition][1] > 0 Then
-				; check the deploy cvs drop qty is that over our remain qty, if yes then reset to qty
-				;If $DebugSetLog = 1 Then SetLog("Troop1:" & NameOfTroop($atkTroops[$troopPosition][0]) & ", $qtyxpoint=" & $qtyxpoint & " : $atkTroops[$troopPosition][1]=" & $atkTroops[$troopPosition][1], $COLOR_PURPLE)
-				If $qtyxpoint > $atkTroops[$troopPosition][1] Then
-					$qtyxpoint = $atkTroops[$troopPosition][1]
-				EndIf
-				;If $DebugSetLog = 1 Then SetLog("Troop2:" & NameOfTroop($atkTroops[$troopPosition][0]) & ", $qtyxpoint:" & $qtyxpoint, $COLOR_PURPLE)
-				SelectDropTroop($troopPosition) ; select the troop...
-
-				If $lastTroopPositionDropTroopFromINI <> $troopPosition Then ReleaseClicks()
-				$lastTroopPositionDropTroopFromINI = $troopPosition
-				$blnContinueDeploy = True
-			Else
-				If $DebugSetLog = 1 Then Setlog("No more troop for deploy or wait next checking remaining unused troops.")
-			EndIf
-		Else
-			;If $DebugSetLog = 1 Then SetLog("$troopPosition: " & $troopPosition & "   Troop3:" & NameOfTroop($atkTroops[$troopPosition][0]) & ", $qtyxpoint=" & $qtyxpoint & " : $atkTroops[$troopPosition][1]=" & $atkTroops[$troopPosition][1], $COLOR_PURPLE)
+		If $lastTroopPositionDropTroopFromINI <> $troopPosition Then
+			ReleaseClicks()
 			SelectDropTroop($troopPosition) ; select the troop...
-			If $lastTroopPositionDropTroopFromINI <> $troopPosition Then ReleaseClicks()
 			$lastTroopPositionDropTroopFromINI = $troopPosition
-			$blnContinueDeploy = True
+			ReleaseClicks()
 		EndIf
-
-		If $blnContinueDeploy Then
-		If $DebugSetLog = 1 Then SetLog("Select slot:" & $troopPosition & ", Troop:" & NameOfTroop($atkTroops[$troopPosition][0]) & ", RemainQTY:" & $atkTroops[$troopPosition][1], $COLOR_PURPLE)
 		;drop
 		For $i = $indexStart To $indexEnd
 			Local $delayDrop = 0
@@ -181,10 +153,6 @@ Func DropTroopFromINI($vectors, $indexStart, $indexEnd, $indexArray, $qtaMin, $q
 						Local $delayPoint = $delayPointmin
 					EndIf
 
-					; CSV Deployment Speed Mod
-					$delayPoint = $delayPoint / $iCSVSpeeds[$isldSelectedCSVSpeed[$iMatchMode]]
-					$delayDropLast = $delayDropLast / $iCSVSpeeds[$isldSelectedCSVSpeed[$iMatchMode]]
-
 					Switch Eval("e" & $troopName)
 						Case $eBarb To $eBowl ; drop normal troops
 							If $debug = True Then
@@ -192,9 +160,6 @@ Func DropTroopFromINI($vectors, $indexStart, $indexEnd, $indexArray, $qtaMin, $q
 							Else
 								AttackClick($pixel[0], $pixel[1], $qty2, $delayPoint, $delayDropLast, "#0666")
 							EndIf
-							If $DebugSetLog = 1 Then SetLog("Deploy " & $qty2 & " " & NameOfTroop($atkTroops[$troopPosition][0]) & " At x,y:" & $pixel[0] & "," & $pixel[1], $COLOR_PURPLE)
-							$atkTroops[$troopPosition][1] -= $qty2
-							If $DebugSetLog = 1 Then SetLog("Troop:" & NameOfTroop($atkTroops[$troopPosition][0]) & ", RemainQTY:" & $atkTroops[$troopPosition][1], $COLOR_PURPLE)
 						Case $eKing
 							If $debug = True Then
 								Setlog("dropHeroes(" & $pixel[0] & ", " & $pixel[1] & ", " & $King & ", -1, -1) ")
@@ -233,7 +198,7 @@ Func DropTroopFromINI($vectors, $indexStart, $indexEnd, $indexArray, $qtaMin, $q
 				;;;;if $j <> $numbersOfVectors Then _sleep(5) ;little delay by passing from a vector to another vector
 			Next
 		Next
-		EndIf
+
 		ReleaseClicks()
 	    ;SuspendAndroid($SuspendMode)
 

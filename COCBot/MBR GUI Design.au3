@@ -35,6 +35,7 @@ Global $hImageList = 0
 ;~ ------------------------------------------------------
 SplashStep(GetTranslated(500, 23, "Loading Main GUI..."))
 $frmBot = GUICreate($sBotTitle, $_GUI_MAIN_WIDTH, $_GUI_MAIN_HEIGHT + $_GUI_MAIN_TOP, $frmBotPosX, $frmBotPosY, BitOr($WS_MINIMIZEBOX, $WS_CAPTION, $WS_POPUP, $WS_SYSMENU, $WS_CLIPCHILDREN, $WS_CLIPSIBLINGS))
+GUISetOnEvent($GUI_EVENT_SECONDARYDOWN, "rightclick")
 ; group multiple bot windows using _WindowAppId
 _WindowAppId($frmBot, "MyBot.run")
 GUISetIcon($pIconLib, $eIcnGUI)
@@ -45,8 +46,10 @@ TraySetToolTip($sBotTitle)
 $frmBotEx = GUICreate("", $_GUI_MAIN_WIDTH, $_GUI_MAIN_HEIGHT - $_GUI_BOTTOM_HEIGHT + $_GUI_MAIN_TOP, 0, 0, BitOR($WS_CHILD, $WS_TABSTOP), $WS_EX_TOPMOST, $frmBot)
 GUICtrlCreateLabel("", 0, 0, $_GUI_MAIN_WIDTH, 5)
 GUICtrlSetBkColor(-1, $COLOR_WHITE)
-Local $sLogoPath = @ScriptDir & "\Images\logo.jpg"
-$frmBot_MAIN_PIC = _GUICtrlCreatePic(@ScriptDir & "\Images\logo.jpg", 0, $_GUI_MAIN_TOP, $_GUI_MAIN_WIDTH, 80)
+$frmBot_MAIN_PIC = _GUICtrlCreatePic($sLogoPath, 0, $_GUI_MAIN_TOP, $_GUI_MAIN_WIDTH, 67)
+$frmBot_URL_PIC = _GUICtrlCreatePic($sLogoUrlPath, 0, $_GUI_MAIN_TOP + 67, $_GUI_MAIN_WIDTH, 13)
+GUICtrlSetCursor(-1, 0)
+
 $hToolTip = _GUIToolTip_Create($frmBot) ; tool tips for URL links etc
 _GUIToolTip_SetMaxTipWidth($hToolTip, $_GUI_MAIN_WIDTH) ; support multiple lines
 
@@ -105,72 +108,73 @@ $tabBot = GUICtrlCreateTabItem(GetTranslated(600,4,"Bot"))
 ;~ About Us Tab
 ;~ -------------------------------------------------------------
 SplashStep(GetTranslated(500, 29, "Loading About Us tab..."))
-$tabAboutUs = GUICtrlCreateTabItem(GetTranslated(600,5, "About Us"))
-Local $x = 30, $y = 150 + $_GUI_MAIN_TOP
-	$grpCredits = GUICtrlCreateGroup("Credits", $x - 20, $y - 20, 450, 375)
-		$lblCreditsBckGrnd = GUICtrlCreateLabel("", $x - 20, $y - 20, 450, 375)  ; adds fixed white background for entire tab, if using "Labels"
+$tabAboutUs = GUICtrlCreateTabItem(GetTranslated(600, 5, "About Us"))
+Local $x = 28, $y = 128 + $_GUI_MAIN_TOP
+	$grpCredits = GUICtrlCreateGroup("Credits", $x - 20, $y - 20, 454, 340)
+		$lblCreditsBckGrnd = GUICtrlCreateLabel("", $x - 20, $y - 20, 454, 340)  ; adds fixed white background for entire tab, if using "Labels"
 		GUICtrlSetBkColor(-1, $COLOR_WHITE)
 		$txtCredits = "My Bot is brought to you by a worldwide team of open source"  & @CRLF & _
 						"programmers and a vibrant community of forum members!"
-		$lblCredits1 = GUICtrlCreateLabel($txtCredits, $x - 5, $y - 10, 400, 35)
+		$lblCredits1 = GUICtrlCreateLabel($txtCredits, $x + 8, $y - 10, 400, 35, $SS_CENTER)
 			GUICtrlSetFont(-1, 10, $FW_BOLD)
 			GUICtrlSetColor(-1, $COLOR_NAVY)
 		$y += 30
 		$txtCredits = "Please visit our web forums:"
-		$lblCredits2 = GUICtrlCreateLabel($txtCredits, $x+20, $y, 180, 30)
+		$lblCredits2 = GUICtrlCreateLabel($txtCredits, $x + 44, $y, 180, 30, $SS_CENTER)
 			GUICtrlSetFont(-1, 9.5, $FW_BOLD)
-		$labelMyBotURL = GUICtrlCreateLabel("https://mybot.run/forums", $x + 198, $y, 150, 20)
+		$labelMyBotURL = GUICtrlCreateLabel("https://mybot.run/forums", $x + 223, $y, 150, 20)
+			;GUICtrlSetCursor(-1, 0) ; not working :(
 			GUICtrlSetFont(-1, 9.5, $FW_BOLD)
 			GUICtrlSetColor(-1, $COLOR_INFO)
 		$y += 22
-		$lblCredits3 = GUICtrlCreateLabel("Credits belong to following programmers for donating their time:", $x - 5, $y , 420, 20)
-			GUICtrlSetFont(-1,10, $FW_BOLD)
+		$lblCredits3 = GUICtrlCreateLabel("Credits belong to following programmers for donating their time:", $x - 5, $y, 420, 20)
+			GUICtrlSetFont(-1, 10, $FW_BOLD)
 		$y += 20
 		$txtCredits =	"Active developers: "
-		$lbltxtCreditsA1 = GUICtrlCreateLabel($txtCredits, $x+5, $y, 410, 20, BITOR($WS_VISIBLE, $ES_AUTOVSCROLL, $SS_LEFT),0)
+		$lbltxtCreditsA1 = GUICtrlCreateLabel($txtCredits, $x - 5, $y, 410, 20, BITOR($WS_VISIBLE, $ES_AUTOVSCROLL, $SS_LEFT),0)
 			GUICtrlSetFont(-1, 9.5, $FW_BOLD)
 			GUICtrlSetColor(-1, $COLOR_NAVY)
-		$txtCredits = "Boju, Cosote, MonkeyHunter, Sardo, Trlopes, Zengzeng"
-		$lbltxtCreditsA2 = GUICtrlCreateLabel($txtCredits, $x+10, $y+15, 410, 20, BITOR($WS_VISIBLE, $ES_AUTOVSCROLL, $SS_LEFT),0)
+		$txtCredits = "Boju, Cosote, Ezeck0001, Fliegerfaust, Hervidero, IceCube, MMHK, MonkeyHunter, MR.ViPeR, ProMac, Roro-Titi, Sardo, TheRevenor, Trlopes, Zengzeng"
+		$lbltxtCreditsA2 = GUICtrlCreateLabel($txtCredits, $x + 5, $y + 15, 410, 50, BITOR($WS_VISIBLE, $ES_AUTOVSCROLL, $SS_LEFT),0)
 			GUICtrlSetFont(-1,9, $FW_MEDIUM)
-		$y += 35
+		$y += 65
 		$txtCredits =	"Inactive developers: "
-		$lbltxtCreditsMIA1 = GUICtrlCreateLabel($txtCredits, $x+5, $y, 410, 20, BITOR($WS_VISIBLE, $ES_AUTOVSCROLL, $SS_LEFT),0)
+		$lbltxtCreditsMIA1 = GUICtrlCreateLabel($txtCredits, $x - 5, $y, 410, 20, BITOR($WS_VISIBLE, $ES_AUTOVSCROLL, $SS_LEFT), 0)
 			GUICtrlSetFont(-1, 9.5, $FW_BOLD)
 			GUICtrlSetColor(-1, $COLOR_NAVY)
-		$txtCredits = "Hervidero, Kaganus"
-		$lbltxtCreditsMIA2 = GUICtrlCreateLabel($txtCredits, $x+10, $y+15, 410, 20, BITOR($WS_VISIBLE, $ES_AUTOVSCROLL, $SS_LEFT),0)
-			GUICtrlSetFont(-1,9, $FW_MEDIUM)
+		$txtCredits = "Kaganus"
+		$lbltxtCreditsMIA2 = GUICtrlCreateLabel($txtCredits, $x + 5, $y + 15, 410, 20, BITOR($WS_VISIBLE, $ES_AUTOVSCROLL, $SS_LEFT), 0)
+			GUICtrlSetFont(-1, 9, $FW_MEDIUM)
 		$y += 35
 		$txtCredits =	"Retired developers: "
-		$lbltxtCreditsDead1 = GUICtrlCreateLabel($txtCredits, $x+5, $y, 410, 20, BITOR($WS_VISIBLE, $ES_AUTOVSCROLL, $SS_LEFT),0)
+		$lbltxtCreditsDead1 = GUICtrlCreateLabel($txtCredits, $x - 5, $y, 410, 20, BITOR($WS_VISIBLE, $ES_AUTOVSCROLL, $SS_LEFT), 0)
 			GUICtrlSetFont(-1, 9.5, $FW_BOLD)
 			GUICtrlSetColor(-1, $COLOR_NAVY)
-		$txtCredits = "Antidote, AtoZ, Barracoda, Didipe, Dinobot, DixonHill, DkEd, GkevinOD, HungLe, KnowJack, LunaEclipse, ProMac, Safar46, Saviart, TheMaster1st, and others"
-		$lbltxtCreditsDead2 = GUICtrlCreateLabel($txtCredits, $x+10, $y+15, 410, 50, BITOR($WS_VISIBLE, $ES_AUTOVSCROLL, $SS_LEFT),0)
-			GUICtrlSetFont(-1,9, $FW_MEDIUM)
+		$txtCredits = "Antidote, AtoZ, Barracoda, Didipe, Dinobot, DixonHill, DkEd, GkevinOD, HungLe, KnowJack, LunaEclipse, Safar46, Saviart, TheMaster1st, and others"
+		$lbltxtCreditsDead2 = GUICtrlCreateLabel($txtCredits, $x + 5, $y + 15, 410, 50, BITOR($WS_VISIBLE, $ES_AUTOVSCROLL, $SS_LEFT), 0)
+			GUICtrlSetFont(-1, 9, $FW_MEDIUM)
 		$y += 66
 		$txtCredits = "Special thanks to all contributing forum members helping " & @CRLF & "to make this software better! "
-		$lbltxtCredits2 = GUICtrlCreateLabel($txtCredits, $x+5, $y, 390,30, BITOR($WS_VISIBLE, $ES_AUTOVSCROLL, $ES_CENTER),0)
-			GUICtrlSetFont(-1,9, $FW_MEDIUM)
+		$lbltxtCredits2 = GUICtrlCreateLabel($txtCredits, $x + 14, $y, 390, 30, BITOR($WS_VISIBLE, $ES_AUTOVSCROLL, $ES_CENTER), 0)
+			GUICtrlSetFont(-1, 9, $FW_MEDIUM)
 		$y += 40
 		$txtCredits =	"The latest release of 'My Bot' can be found at:"
-		$lbltxtNewVer = GUICtrlCreateLabel($txtCredits, $x - 5, $y, 400,15, BITOR($WS_VISIBLE, $ES_AUTOVSCROLL, $SS_LEFT),0)
+		$lbltxtNewVer = GUICtrlCreateLabel($txtCredits, $x - 5, $y, 400, 15, BITOR($WS_VISIBLE, $ES_AUTOVSCROLL, $SS_LEFT), 0)
 			GUICtrlSetFont(-1, 10, $FW_BOLD)
 		$y += 18
-		$labelForumURL = GUICtrlCreateLabel("https://mybot.run/forums/index.php?/forum/4-official-releases/", $x+25, $y, 450, 20)
+		$labelForumURL = GUICtrlCreateLabel("https://mybot.run/forums/index.php?/forum/4-official-releases/", $x + 25, $y, 450, 20)
+			;GUICtrlSetCursor(-1, 0) ; not working :(
 			GUICtrlSetFont(-1, 9.5, $FW_BOLD)
 			GUICtrlSetColor(-1, $COLOR_INFO)
-		$y = 450
+		$y = 455
 		$txtWarn =	"By running this program, the user accepts all responsibility that arises from the use of this software."  & @CRLF & _
 						"This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even " & @CRLF & _
 						"the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General " & @CRLF & _
 						"Public License for more details. The license can be found in the main code folder location."  & @CRLF & _
 						"Copyright (C) 2015-2016 MyBot.run"
-		$lbltxtWarn1 = GUICtrlCreateLabel($txtWarn, $x - 5, $y, 410, 56, BITOR($WS_VISIBLE, $ES_AUTOVSCROLL, $SS_LEFT, $ES_CENTER),0)
+		$lbltxtWarn1 = GUICtrlCreateLabel($txtWarn, $x + 1, $y, 415, 56, BITOR($WS_VISIBLE, $ES_AUTOVSCROLL, $SS_LEFT, $ES_CENTER), 0)
 			GUICtrlSetColor(-1, 0x000053)
-;			GUICtrlSetBkColor(-1, $COLOR_WHITE)
-			GUICtrlSetFont(-1, 6, $FW_BOLD)
+			GUICtrlSetFont(-1, 6.5, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 GUICtrlCreateTabItem("")
 
@@ -266,4 +270,6 @@ SetDebugLog("$frmBot=" & $frmBot, Default, True)
 SetDebugLog("$frmBotEx=" & $frmBotEx, Default, True)
 SetDebugLog("$frmBotBottom=" & $frmBotBottom, Default, True)
 SetDebugLog("$frmBotEmbeddedShield=" & $frmBotEmbeddedShield, Default, True)
+SetDebugLog("$frmBotEmbeddedShieldInput=" & $frmBotEmbeddedShieldInput, Default, True)
 SetDebugLog("$frmBotEmbeddedGarphics=" & $frmBotEmbeddedGarphics, Default, True)
+

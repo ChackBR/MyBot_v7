@@ -13,9 +13,7 @@
 ; Example .......: No
 ; ===============================================================================================================================
 Func AttackCSVDEBUGIMAGE()
-	;MAKE SCREENSHOT WITH INFO
-	DebugImageSave("clean")
-	;_CaptureRegion()
+	_CaptureRegion2()
 	Local $EditedImage = _GDIPlus_BitmapCreateFromHBITMAP($hHBitmap2)
 	Local $testx
 	Local $hGraphic = _GDIPlus_ImageGetGraphicsContext($EditedImage)

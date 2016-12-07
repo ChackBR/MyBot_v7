@@ -99,6 +99,9 @@
 #include "functions\Attack\Troops\SelectDropTroop.au3"
 #include "functions\Attack\Troops\SetSleep.au3"
 
+#include "functions\Attack\SmartZap\drillSearch.au3"
+#include "functions\Attack\SmartZap\smartZap.au3"
+
 #include "functions\CreateArmy\_TrainMoveBtn.au3"
 #include "functions\CreateArmy\BarracksStatus.au3"
 #include "functions\CreateArmy\CheckFullArmy.au3"
@@ -107,6 +110,7 @@
 #include "functions\CreateArmy\getArmyCCStatus.au3"
 #include "functions\CreateArmy\getArmyHeroCount.au3"
 #include "functions\CreateArmy\getArmyHeroTime.au3"
+#include "functions\CreateArmy\getArmyHeroStatus.au3"
 #include "functions\CreateArmy\getArmySpellCapacity.au3"
 #include "functions\CreateArmy\getArmySpellCount.au3"
 #include "functions\CreateArmy\getArmySpellTime.au3"
@@ -118,6 +122,7 @@
 #include "functions\CreateArmy\SmartWait4Train.au3"
 #include "functions\CreateArmy\TrainClick.au3"
 #include "functions\CreateArmy\Train.au3"
+#include "functions\CreateArmy\TrainRevamp.au3"
 #include "functions\CreateArmy\TrainIt.au3"
 
 #include "functions\Image Search\ImageSearch.au3"
@@ -160,11 +165,13 @@
 #include "functions\Android\AndroidLeapDroid.au3"
 #include "functions\Android\AndroidNox.au3"
 #include "functions\Android\AndroidKOPLAYER.au3"
+#include "functions\Android\AndroidiTools.au3"
 #include "functions\Android\getBSPos.au3"
 #include "functions\Android\UniversalCloseWaitOpenCoC.au3"
 #include "functions\Android\AndroidEmbed.au3"
 
 #include "functions\Other\WerFaultClose.au3"
+#include "functions\Other\_ArraySortEx.au3"
 #include "functions\Other\_NumberFormat.au3"
 #include "functions\Other\_PadStringCenter.au3"
 #include "functions\Other\_ReduceMemory.au3"
@@ -207,6 +214,7 @@
 #include "functions\Other\KillProcess.au3"
 #include "functions\Other\LaunchConsole.au3"
 #include "functions\Other\ADB.au3"
+#include "functions\Other\FindAButton.au3"
 
 #include "functions\Pixels\_CaptureRegion.au3"
 #include "functions\Pixels\_ColorCheck.au3"
@@ -276,7 +284,13 @@
 #include "functions\Village\StarBonus.au3"
 #include "functions\Village\AddIdleTime.au3"
 #include "functions\Village\GetVillageSize.au3"
+#include "functions\Village\GainCost.au3"
+#include "functions\Village\ConvertOCRTime.au3"
 #include "functions\Other\ClickZoneR.au3"
+
+#include "functions\Other\Api.au3"
+#include "functions\Other\ApiClient.au3"
+
 ;
 ; MOD files - AwesomeGamer, LunaEclipse, MikeCoC, ...
 ;

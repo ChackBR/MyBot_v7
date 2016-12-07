@@ -14,7 +14,7 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
-Func WerFaultClose($programFile, $tryCount = 0)
+Func WerFaultClose($programFile, $tryCountMax = 10, $tryCount = 0)
 
 	Local $WinTitleMatchMode = Opt("WinTitleMatchMode", -3) ; Window Title exact match mode (case insensitive)
 	Local $title = $programFile
@@ -68,16 +68,16 @@ Func WerFaultClose($programFile, $tryCount = 0)
 		Local $pFileVersionInfo
 		If _WinAPI_GetFileVersionInfo($programFile, $pFileVersionInfo) Then
 			Local $FileDescription = _WinAPI_VerQueryValue($pFileVersionInfo, $FV_FILEDESCRIPTION)
-			If $FileDescription <> "" Then Return WerFaultClose($FileDescription, $tryCount)
+			If $FileDescription <> "" Then Return WerFaultClose($FileDescription, $tryCountMax, $tryCount)
 		EndIf
 	EndIf
 
-	If $closed > 0 And $tryCount < 10 Then
+	If $closed > 0 And $tryCount < $tryCountMax Then
 
 		If _Sleep(1000) = False Then
 
 			; recursive call, as more windows might popup
-			$closed += WerFaultClose($programFile, $tryCount + 1)
+			$closed += WerFaultClose($programFile, $tryCountMax, $tryCount + 1)
 
 		EndIF
 

@@ -24,7 +24,7 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
-Func GetVillageSize()
+Func GetVillageSize($DebugLog = True)
 
 	Local $aResult = 0
 	Local $directory = @ScriptDir & "\imgxml\village\"
@@ -61,7 +61,7 @@ Func GetVillageSize()
 			$bottom = $y0 + $iAdditional
 
 			;SetDebugLog("GetVillageSize check for image " & $findImage)
-			If _ImageSearchAreaImgLoc($directory & "\" & $findImage, 1, $x1, $y1, $right, $bottom, $x, $y) Then
+			If _ImageSearchAreaImgLoc($directory & "\" & $findImage, 1, $x1, $y1, $right, $bottom, $x, $y, $hHBitmap2) Then
 				$x += $x1
 				$y += $y1
 				;SetDebugLog("Found stone image at " & $x & ", " & $y & ": " & $findImage)
@@ -99,7 +99,7 @@ Func GetVillageSize()
 			$bottom = $y0 + $iAdditional
 
 			;SetDebugLog("GetVillageSize check for image " & $findImage)
-			If _ImageSearchAreaImgLoc($directory & "\" & $findImage, 1, $x1, $y1, $right, $bottom, $x, $y) Then
+			If _ImageSearchAreaImgLoc($directory & "\" & $findImage, 1, $x1, $y1, $right, $bottom, $x, $y, $hHBitmap2) Then
 				$x += $x1
 				$y += $y1
 				;SetDebugLog("Found tree image at " & $x & ", " & $y & ": " & $findImage)
@@ -137,7 +137,7 @@ Func GetVillageSize()
 	$x = $stone[0] - $stone_x_exp
 	$y = $stone[1] - $stone_y_exp
 
-	SetDebugLog("GetVillageSize measured: " & $c & ", Zoom factor: " & $z & ", Offset: " & $x & ", " & $y, $COLOR_INFO)
+	If $DebugLog Then SetDebugLog("GetVillageSize measured: " & $c & ", Zoom factor: " & $z & ", Offset: " & $x & ", " & $y, $COLOR_INFO)
 
 	Dim $aResult[10]
 	$aResult[0] = $c
@@ -164,7 +164,7 @@ Func updateGlobalVillageOffset($x, $y)
 
 		For $sPoint In $aPoints
 
-			Local $aPoint = StringSplit($IMGLOCREDLINE, ",", $STR_NOCOUNT)
+			Local $aPoint = GetPixel($sPoint, ",")
 			$aPoint[0] += $x
 			$aPoint[1] += $y
 

@@ -684,6 +684,18 @@ Func saveConfig() ;Saves the controls settings to the config
 		EndIf
 	EndIf
 
+	If GUICtrlRead($hChk_UseQTrain) = $GUI_CHECKED Then
+		$ichkUseQTrain = 1
+	Else
+		$ichkUseQTrain = 0
+	EndIf
+
+	If GUICtrlRead($chkForceBrewBeforeAttack) = $GUI_CHECKED Then
+		$ichkForceBrewBeforeAttack = 1
+	Else
+		$ichkForceBrewBeforeAttack = 0
+	EndIf
+
 	If GUICtrlRead($chkTotalCampForced) = $GUI_CHECKED Then
 		$ichkTotalCampForced = 1
 	Else
@@ -703,6 +715,12 @@ Func saveConfig() ;Saves the controls settings to the config
 		$iUseRandomClick = 1
 	Else
 		$iUseRandomClick = 0
+	EndIf
+
+	If GUICtrlRead($chkAddDelayIdlePhaseEnable) = $GUI_CHECKED Then
+		$ichkAddIdleTime = 1
+	Else
+		$ichkAddIdleTime = 0
 	EndIf
 
 	If GUICtrlRead($chkScreenshotType) = $GUI_CHECKED Then
@@ -770,7 +788,10 @@ Func saveConfig() ;Saves the controls settings to the config
 		$iChkTrophyHeroes = 1
 	Else
 		$iChkTrophyHeroes = 0
-	EndIf
+    EndIf
+	IniWriteS($config, "search", "cmbTrophyHeroesPriority", _GUICtrlComboBox_GetCurSel($cmbTrophyHeroesPriority))
+
+
 	If GUICtrlRead($chkTrophyAtkDead) = $GUI_CHECKED Then
 		$iChkTrophyAtkDead = 1
 	Else
@@ -1036,7 +1057,6 @@ Func saveConfig() ;Saves the controls settings to the config
 	_GUICtrlComboBox_GetLBText($cmbScriptNameAB, $indexofscript, $scriptname)
 	$scmbABScriptName = $scriptname
 
-
 	SetDebugLog("Save Config " & $config)
 
 	; collectors gui -> variables --------------------------------------------------
@@ -1142,12 +1162,14 @@ Func saveConfig() ;Saves the controls settings to the config
 	; weak base gui -> variables ----------------------------------------------------
 	$iCmbWeakMortar[$DB] = _GUICtrlComboBox_GetCurSel($cmbWeakMortar[$DB])
 	$iCmbWeakWizTower[$DB] = _GUICtrlComboBox_GetCurSel($cmbWeakWizTower[$DB])
+	$iCmbWeakAirDefense[$DB] = _GUICtrlComboBox_GetCurSel($cmbWeakAirDefense[$DB])
 	$iCmbWeakXBow[$DB] = _GUICtrlComboBox_GetCurSel($cmbWeakXBow[$DB])
 	$iCmbWeakInferno[$DB] = _GUICtrlComboBox_GetCurSel($cmbWeakInferno[$DB])
 	$iCmbWeakEagle[$DB] = _GUICtrlComboBox_GetCurSel($cmbWeakEagle[$DB])
 
 	$iCmbWeakMortar[$LB] = _GUICtrlComboBox_GetCurSel($cmbWeakMortar[$LB])
 	$iCmbWeakWizTower[$LB] = _GUICtrlComboBox_GetCurSel($cmbWeakWizTower[$LB])
+	$iCmbWeakAirDefense[$LB] = _GUICtrlComboBox_GetCurSel($cmbWeakAirDefense[$LB])
 	$iCmbWeakXBow[$LB] = _GUICtrlComboBox_GetCurSel($cmbWeakXBow[$LB])
 	$iCmbWeakInferno[$LB] = _GUICtrlComboBox_GetCurSel($cmbWeakInferno[$LB])
 	$iCmbWeakEagle[$LB] = _GUICtrlComboBox_GetCurSel($cmbWeakEagle[$LB])
@@ -1163,6 +1185,11 @@ Func saveConfig() ;Saves the controls settings to the config
 			$iChkMaxWizTower[$mode] = 1
 		Else
 			$iChkMaxWizTower[$mode] = 0
+		EndIf
+		If GUICtrlRead($chkMaxAirDefense[$mode]) = $GUI_CHECKED Then
+			$iChkMaxAirDefense[$mode] = 1
+		Else
+			$iChkMaxAirDefense[$mode] = 0
 		EndIf
 		If GUICtrlRead($chkMaxXBow[$mode]) = $GUI_CHECKED Then
 			$iChkMaxXBow[$mode] = 1
@@ -1207,6 +1234,7 @@ Func saveConfig() ;Saves the controls settings to the config
 	IniWriteS($config, "search", "DBWeakEagle", $iCmbWeakEagle[$DB])
 	IniWriteS($config, "search", "DBCheckMortar", $iChkMaxMortar[$DB])
 	IniWriteS($config, "search", "DBCheckWizTower", $iChkMaxWizTower[$DB])
+	IniWriteS($config, "search", "DBCheckAirDefense", $iChkMaxAirDefense[$DB])
 	IniWriteS($config, "search", "DBCheckXBow", $iChkMaxXBow[$DB])
 	IniWriteS($config, "search", "DBCheckInferno", $iChkMaxInferno[$DB])
 	IniWriteS($config, "search", "DBCheckEagle", $iChkMaxEagle[$DB])
@@ -1335,6 +1363,7 @@ Func saveConfig() ;Saves the controls settings to the config
 	IniWriteS($config, "search", "ABWeakEagle", $iCmbWeakEagle[$LB])
 	IniWriteS($config, "search", "ABCheckMortar", $iChkMaxMortar[$LB])
 	IniWriteS($config, "search", "ABCheckWizTower", $iChkMaxWizTower[$LB])
+	IniWriteS($config, "search", "ABCheckAirDefense", $iChkMaxAirDefense[$LB])
 	IniWriteS($config, "search", "ABCheckXBow", $iChkMaxXBow[$LB])
 	IniWriteS($config, "search", "ABCheckInferno", $iChkMaxInferno[$LB])
 	IniWriteS($config, "search", "ABCheckEagle", $iChkMaxEagle[$LB])
@@ -1977,24 +2006,16 @@ Func saveConfig() ;Saves the controls settings to the config
 	IniWriteS($config, "donate", "chkExtraAlphabets", $ichkExtraAlphabets)
 
 
-	;Troop Settings--------------------------------------------------------------------------
-	IniWriteS($config, "troop", "TroopComposition", _GUICtrlComboBox_GetCurSel($cmbTroopComp))
-	IniWriteS($config, "troop", "DarkTroopComposition", _GUICtrlComboBox_GetCurSel($cmbDarkTroopComp))
-	For $i = 0 To UBound($TroopName) - 1
-		IniWriteS($config, "troop", $TroopName[$i], GUICtrlRead(Eval("txtNum" & $TroopName[$i])))
+	;Troop and Spells Settings--------------------------------------------------------------------------
+	For $T = 0 To UBound($TroopName) - 1
+		IniWriteS($config, "troop", $TroopName[$T], GUICtrlRead(Eval("txtNum" & $TroopName[$T])))
+		IniWriteS($config, "LevelTroop", $TroopName[$T], Eval("itxtLev" & $TroopName[$T]))
 	Next
-	For $i = 0 To UBound($TroopDarkName) - 1
-		IniWriteS($config, "troop", $TroopDarkName[$i], GUICtrlRead(Eval("txtNum" & $TroopDarkName[$i])))
+	IniWriteS($config, "Spells", "SpellFactory", GUICtrlRead($txtTotalCountSpell))
+	For $S = 0 To (UBound($SpellName) - 1)
+		IniWriteS($config, "Spells", $SpellName[$S], GUICtrlRead(Eval("txtNum" & $SpellName[$S])))
+		IniWriteS($config, "LevelSpell", $SpellName[$S], Eval("itxtLev" & $SpellName[$S]))
 	Next
-
-	IniWriteS($config, "troop", "troop1", _GUICtrlComboBox_GetCurSel($cmbBarrack1))
-	IniWriteS($config, "troop", "troop2", _GUICtrlComboBox_GetCurSel($cmbBarrack2))
-	IniWriteS($config, "troop", "troop3", _GUICtrlComboBox_GetCurSel($cmbBarrack3))
-	IniWriteS($config, "troop", "troop4", _GUICtrlComboBox_GetCurSel($cmbBarrack4))
-
-	IniWriteS($config, "troop", "Darktroop1", _GUICtrlComboBox_GetCurSel($cmbDarkBarrack1))
-	IniWriteS($config, "troop", "Darktroop2", _GUICtrlComboBox_GetCurSel($cmbDarkBarrack2))
-
 
 	IniWriteS($config, "troop", "fulltroop", GUICtrlRead($txtFullTroop))
 	IniWriteS($config, "other", "TrainITDelay", $isldTrainITDelay)
@@ -2006,45 +2027,63 @@ Func saveConfig() ;Saves the controls settings to the config
 	IniWriteS($config, "other", "btnCloseWaitExact", $ibtnCloseWaitExact)
 	IniWriteS($config, "other", "btnCloseWaitRandom", $ibtnCloseWaitRandom)
 	IniWriteS($config, "other", "CloseWaitRdmPercent", _GUICtrlComboBox_GetCurSel($cmbCloseWaitRdmPercent))
+	IniWriteS($config, "other", "MinimumTimeToClose", GUICtrlRead($cmbMinimumTimeClose))
 
 	IniWriteS($config, "troop", "chkTroopOrder", $ichkTroopOrder)
 	For $z = 0 To UBound($DefaultTroopGroup) -1
 		IniWriteS($config, "troop", "cmbTroopOrder" & $z, _GUICtrlComboBox_GetCurSel($cmbTroopOrder[$z]))
 	Next
 
-	IniWriteS($config, "troop", "chkDarkTroopOrder", $ichkDarkTroopOrder)
-	For $z = 0 To UBound($DefaultTroopGroupDark) -1
-		IniWriteS($config, "troop", "cmbDarkTroopOrder" & $z, _GUICtrlComboBox_GetCurSel($cmbDarkTroopOrder[$z]))
-	Next
+	; IniWriteS($config, "troop", "chkDarkTroopOrder", $ichkDarkTroopOrder)
+	; For $z = 0 To UBound($DefaultTroopGroupDark) -1
+		; IniWriteS($config, "troop", "cmbDarkTroopOrder" & $z, _GUICtrlComboBox_GetCurSel($cmbDarkTroopOrder[$z]))
+	; Next
 
- 	If GUICtrlRead($ChkTrainArchersToFitCamps) = $GUI_CHECKED Then
-		IniWriteS($config, "troop", "TrainArchersToFitCamps", 1)
-	Else
-		IniWriteS($config, "troop", "TrainArchersToFitCamps", 0)
-	EndIf
-
-	If GUICtrlRead($ChkUseQuickTrain) = $GUI_CHECKED Then
-		IniWriteS($config, "troop", "UseQuickTrain", 1)
-	Else
-		IniWriteS($config, "troop", "UseQuickTrain", 0)
-	EndIf
-
-	IniWriteS($config, "troop", "CurrentArmy", _GUICtrlComboBox_GetCurSel($cmbCurrentArmy))
-
+	;Level Troops
+		; IniWriteS($config, "LevelTroop", "Barb", $itxtLevBarb)
+		; IniWriteS($config, "LevelTroop", "Arch", $itxtLevArch)
+		; IniWriteS($config, "LevelTroop", "Gobl", $itxtLevGobl)
+		; IniWriteS($config, "LevelTroop", "Giant", $itxtLevGiant)
+		; IniWriteS($config, "LevelTroop", "Wall", $itxtLevWall)
+		; IniWriteS($config, "LevelTroop", "Heal", $itxtLevHeal)
+		; IniWriteS($config, "LevelTroop", "Pekk", $itxtLevPekk)
+		; IniWriteS($config, "LevelTroop", "Ball", $itxtLevBall)
+		; IniWriteS($config, "LevelTroop", "Wiza", $itxtLevWiza)
+		; IniWriteS($config, "LevelTroop", "Drag", $itxtLevDrag)
+		; IniWriteS($config, "LevelTroop", "BabyD", $itxtLevBabyD)
+		; IniWriteS($config, "LevelTroop", "Mine", $itxtLevMine)
+		; IniWriteS($config, "LevelTroop", "Mini", $itxtLevMini)
+		; IniWriteS($config, "LevelTroop", "Hogs", $itxtLevHogs)
+		; IniWriteS($config, "LevelTroop", "Valk", $itxtLevValk)
+		; IniWriteS($config, "LevelTroop", "Gole", $itxtLevGole)
+		; IniWriteS($config, "LevelTroop", "Witc", $itxtLevWitc)
+		; IniWriteS($config, "LevelTroop", "Lava", $itxtLevLava)
+		; IniWriteS($config, "LevelTroop", "Bowl", $itxtLevBowl)
 	;barracks boost not saved (no use)
 
 	; Spells Creation  ---------------------------------------------------------------------
-	IniWriteS($config, "Spells", "LightningSpell", GUICtrlRead($txtNumLightningSpell))
-	IniWriteS($config, "Spells", "RageSpell", GUICtrlRead($txtNumRageSpell))
-	IniWriteS($config, "Spells", "HealSpell", GUICtrlRead($txtNumHealSpell))
-	IniWriteS($config, "Spells", "JumpSpell", GUICtrlRead($txtNumJumpSpell))
-	IniWriteS($config, "Spells", "FreezeSpell", GUICtrlRead($txtNumFreezeSpell))
-	IniWriteS($config, "Spells", "CloneSpell", GUICtrlRead($txtNumCloneSpell))
-	IniWriteS($config, "Spells", "PoisonSpell", GUICtrlRead($txtNumPoisonSpell))
-	IniWriteS($config, "Spells", "EarthSpell", GUICtrlRead($txtNumEarthSpell))
-	IniWriteS($config, "Spells", "HasteSpell", GUICtrlRead($txtNumHasteSpell))
-	IniWriteS($config, "Spells", "SkeletonSpell", GUICtrlRead($txtNumSkeletonSpell))
-	IniWriteS($config, "Spells", "SpellFactory", GUICtrlRead($txtTotalCountSpell))
+	; IniWriteS($config, "Spells", "LightningSpell", GUICtrlRead($txtNumLSpell))
+	; IniWriteS($config, "Spells", "RageSpell", GUICtrlRead($txtNumRSpell))
+	; IniWriteS($config, "Spells", "HealSpell", GUICtrlRead($txtNumHSpell))
+	; IniWriteS($config, "Spells", "JumpSpell", GUICtrlRead($txtNumJSpell))
+	; IniWriteS($config, "Spells", "FreezeSpell", GUICtrlRead($txtNumFSpell))
+	; IniWriteS($config, "Spells", "CloneSpell", GUICtrlRead($txtNumCSpell))
+	; IniWriteS($config, "Spells", "PoisonSpell", GUICtrlRead($txtNumPSpell))
+	; IniWriteS($config, "Spells", "EarthSpell", GUICtrlRead($txtNumESpell))
+	; IniWriteS($config, "Spells", "HasteSpell", GUICtrlRead($txtNumHaSpell))
+	; IniWriteS($config, "Spells", "SkeletonSpell", GUICtrlRead($txtNumSkSpell))
+
+	;Level spell
+	; IniWriteS($config, "LevelSpell", "Lightning", $itxtLevLSpell)
+	; IniWriteS($config, "LevelSpell", "Heal", $itxtLevHSpell)
+	; IniWriteS($config, "LevelSpell", "Rage", $itxtLevRSpell)
+	; IniWriteS($config, "LevelSpell", "JumpSpell", $itxtLevJSpell)
+	; IniWriteS($config, "LevelSpell", "Freeze", $itxtLevFSpell)
+	; IniWriteS($config, "LevelSpell", "Clone", $itxtLevCSpell)
+	; IniWriteS($config, "LevelSpell", "Poison", $itxtLevPSpell)
+	; IniWriteS($config, "LevelSpell", "Earthquake", $itxtLevESpell)
+	; IniWriteS($config, "LevelSpell", "Haste", $itxtLevHaSpell)
+	; IniWriteS($config, "LevelSpell", "Skeleton", $itxtLevSkSpell)
 
 	;Upgrades
 	IniWriteS($building, "upgrade", "upgradetroops", $ichkLab)
@@ -2327,6 +2366,9 @@ Func saveConfig() ;Saves the controls settings to the config
 	;Use random click
 	IniWriteS($config, "other", "UseRandomClick", $iUseRandomClick)
 
+	;Add idle phase during training
+	IniWriteS($config, "other", "chkAddIdleTime", $ichkAddIdleTime)
+
 	;screenshot
 	IniWriteS($config, "other", "ScreenshotType", $iScreenshotType)
 	IniWriteS($config, "other", "ScreenshotHideName", $ichkScreenshotHideName)
@@ -2362,6 +2404,9 @@ Func saveConfig() ;Saves the controls settings to the config
 		IniDelete($config, "debug", "debugmakeimgcsv")
 	EndIf
 
+	IniWriteS($config, "other", "ChkUseQTrain", $ichkUseQTrain)
+	IniWriteS($config, "other", "ChkForceBrewBeforeAttack", $ichkForceBrewBeforeAttack)
+
 	;forced Total Camp values
 	IniWriteS($config, "other", "ChkTotalCampForced", $ichkTotalCampForced)
 	IniWriteS($config, "other", "ValueTotalCampForced", $iValueTotalCampForced)
@@ -2392,8 +2437,12 @@ Func saveConfig() ;Saves the controls settings to the config
 	SaveStatChkDeadBase() ;call function save stats
 
 	IniWriteS($config, "attack", "ScriptDB", $scmbDBScriptName)
-
 	IniWriteS($config, "attack", "ScriptAB", $scmbABScriptName)
+
+	IniWriteS($config, "attack", "RedlineRoutineDB", $iRedlineRoutine[$DB])
+	IniWriteS($config, "attack", "RedlineRoutineAB", $iRedlineRoutine[$LB])
+	IniWriteS($config, "attack", "DroplineEdgeDB", $iDroplineEdge[$DB])
+	IniWriteS($config, "attack", "DroplineEdgeAB", $iDroplineEdge[$LB])
 
 	;MilkingAttack Options
 	IniWriteS($config, "MilkingAttack", "LocateMine", $MilkFarmLocateMine)
@@ -2469,10 +2518,16 @@ Func saveConfig() ;Saves the controls settings to the config
 	IniWriteS($config, "collectors", "minmatches", $iMinCollectorMatches)
 	IniWriteS($config, "collectors", "tolerance", $toleranceOffset)
 
+
 	; Android Configuration
+	cmbCOCDistributors()
 	IniWriteS($config, "android", "auto.adjust.config", ($AndroidAutoAdjustConfig ? "1" : "0"))
+	IniWriteS($config, "android", "game.distributor", $AndroidGameDistributor)
 	IniWriteS($config, "android", "game.package", $AndroidGamePackage)
 	IniWriteS($config, "android", "game.class", $AndroidGameClass)
+	IniWriteS($config, "android", "user.distributor", $UserGameDistributor)
+	IniWriteS($config, "android", "user.package", $UserGamePackage)
+	IniWriteS($config, "android", "user.class", $UserGameClass)
 	IniWriteS($config, "android", "check.time.lag.enabled", ($AndroidCheckTimeLagEnabled ? "1" : "0"))
 	IniWriteS($config, "android", "adb.screencap.timeout.min", $AndroidAdbScreencapTimeoutMin)
 	IniWriteS($config, "android", "adb.screencap.timeout.max", $AndroidAdbScreencapTimeoutMax)
@@ -2506,6 +2561,12 @@ Func saveConfig() ;Saves the controls settings to the config
 		IniWriteS($config, "search", "ChkDBSpellsWait", 0)
 	EndIf
 
+	If GUICtrlRead($chkDBWaitForCastleSpell) = $GUI_CHECKED Then
+		IniWriteS($config, "search", "ChkDBCastleSpellWait", 1)
+	Else
+		IniWriteS($config, "search", "ChkDBCastleSpellWait", 0)
+	EndIf
+
 	If GUICtrlRead($chkABSpellsWait) = $GUI_CHECKED Then
 		IniWriteS($config, "search", "ChkABSpellsWait", 1)
 	Else
@@ -2513,6 +2574,28 @@ Func saveConfig() ;Saves the controls settings to the config
 	EndIf
 	IniWriteS($config, "search", "TotalTrainSpaceSpell", 0)
 
+	If GUICtrlRead($chkABWaitForCastleSpell) = $GUI_CHECKED Then
+		IniWriteS($config, "search", "ChkABCastleSpellWait", 1)
+	Else
+		IniWriteS($config, "search", "ChkABCastleSpellWait", 0)
+	EndIf
+
+
+	If GUICtrlRead($chkDBWaitForCastleTroops) = $GUI_CHECKED Then
+		IniWriteS($config, "search", "ChkDBCastleTroopsWait", 1)
+	Else
+		IniWriteS($config, "search", "ChkDBCastleTroopsWait", 0)
+	EndIf
+	If GUICtrlRead($chkABWaitForCastleTroops) = $GUI_CHECKED Then
+		IniWriteS($config, "search", "ChkABCastleTroopsWait", 1)
+	Else
+		IniWriteS($config, "search", "ChkABCastleTroopsWait", 0)
+	EndIf
+	IniWriteS($config, "search", "cmbDBWaitForCastleSpell", _GUICtrlComboBox_GetCurSel($cmbDBWaitForCastleSpell))
+	IniWriteS($config, "search", "cmbABWaitForCastleSpell", _GUICtrlComboBox_GetCurSel($cmbABWaitForCastleSpell))
+
+
+	;Add idle phase during training	, save variables to config file
 	If GUICtrlRead($chkAddDelayIdlePhaseEnable) = $GUI_CHECKED Then
 		IniWriteS($config, "other", "chkAddDelayIdlePhaseEnable", "1")
 	Else
@@ -2520,6 +2603,55 @@ Func saveConfig() ;Saves the controls settings to the config
 	EndIf
 	IniWriteS($config, "other", "txtAddDelayIdlePhaseTimeMin", GUICtrlRead($txtAddDelayIdlePhaseTimeMin))
 	IniWriteS($config, "other", "txtAddDelayIdlePhaseTimeMax", GUICtrlRead($txtAddDelayIdlePhaseTimeMax))
+
+
+	;;Train Radio/QuickTrain
+	If GUICtrlRead($hRadio_Army1) = $GUI_CHECKED Then
+		IniWriteS($config, "troop", "QuickTrain1", 1)
+	Else
+		IniWriteS($config, "troop", "QuickTrain1", 0)
+	EndIf
+
+	If GUICtrlRead($hRadio_Army2) = $GUI_CHECKED Then
+		IniWriteS($config, "troop", "QuickTrain2", 1)
+	Else
+		IniWriteS($config, "troop", "QuickTrain2", 0)
+	EndIf
+
+	If GUICtrlRead($hRadio_Army3) = $GUI_CHECKED Then
+		IniWriteS($config, "troop", "QuickTrain3", 1)
+	Else
+		IniWriteS($config, "troop", "QuickTrain3", 0)
+	EndIf
+
+; #Cs
+;==============================================================
+; SmartZap - Added by DocOC team
+;==============================================================
+	If GUICtrlRead($chkSmartLightSpell) = $GUI_CHECKED Then
+		IniWrite($config, "SmartZap", "UseSmartZap", 1)
+	Else
+		IniWrite($config, "SmartZap", "UseSmartZap", 0)
+	EndIf
+	If GUICtrlRead($chkNoobZap) = $GUI_CHECKED Then
+		IniWrite($config, "SmartZap", "UseNoobZap", 1)
+	Else
+		IniWrite($config, "SmartZap", "UseNoobZap", 0)
+	EndIf
+	If GUICtrlRead($chkSmartZapDB) = $GUI_CHECKED Then
+		IniWrite($config, "SmartZap", "ZapDBOnly", 1)
+	Else
+		IniWrite($config, "SmartZap", "ZapDBOnly", 0)
+	EndIf
+	If GUICtrlRead($chkSmartZapSaveHeroes) = $GUI_CHECKED Then
+		IniWrite($config, "SmartZap", "THSnipeSaveHeroes", 1)
+	Else
+		IniWrite($config, "SmartZap", "THSnipeSaveHeroes", 0)
+	EndIf
+	IniWrite($config, "SmartZap", "MinDE", GUICtrlRead($txtMinDark))
+	IniWrite($config, "SmartZap", "ExpectedDE", GUICtrlRead($txtExpectedDE))
+; #Ce
+
 ;
 ; MOD
 ;

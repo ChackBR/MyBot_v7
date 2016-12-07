@@ -287,11 +287,11 @@ Func PushMsgToPushBullet($Message, $Source = "")
 		Case "SkypWalls"
 			If $PushBulletEnabled = 1 And $pWallUpgrade = 1 Then _PushToPushBullet($iOrigPushBullet & " | " & GetTranslated(620,63, "Cannot find Wall level") & $icmbWalls + 4 & "\n" & GetTranslated(620,64, "Skip upgrade") & "...")
 		Case "AnotherDevice3600"
-			If $PushBulletEnabled = 1 And $pAnotherDevice = 1 Then _PushToPushBullet($iOrigPushBullet & " | 1. " & GetTranslated(620,65, "Another Device has connected") & "\n" & GetTranslated(620,66, "Another Device has connected, waiting") & " " & Floor(Floor($sTimeWakeUp / 60) / 60) & " " & GetTranslated(603,14, "Hours") & " " & Floor(Mod(Floor($sTimeWakeUp / 60), 60)) & " " & GetTranslated(603,9, "minutes") & " " & Floor(Mod($sTimeWakeUp, 60)) & " " & GetTranslated(603,8, "seconds"))
+			If $PushBulletEnabled = 1 And $pAnotherDevice = 1 Then _PushToPushBullet($iOrigPushBullet & " | 1. " & GetTranslated(620,65, "Another Device has connected") & "\n" & GetTranslated(620,66, "Another Device has connected, waiting") & " " & Floor(Floor($sTimeWakeUp / 60) / 60) & " " & GetTranslated(603,14, -1) & " " & Floor(Mod(Floor($sTimeWakeUp / 60), 60)) & " " & GetTranslated(603,9, -1) & " " & Floor(Mod($sTimeWakeUp, 60)) & " " & GetTranslated(603,8, -1))
 		Case "AnotherDevice60"
-			If $PushBulletEnabled = 1 And $pAnotherDevice = 1 Then _PushToPushBullet($iOrigPushBullet & " | 2. " & GetTranslated(620,65, "Another Device has connected") & "\n" & GetTranslated(620,66, "Another Device has connected, waiting") & " " & Floor(Mod(Floor($sTimeWakeUp / 60), 60)) & " " & GetTranslated(603,9, "minutes") & " " & Floor(Mod($sTimeWakeUp, 60)) & " " & GetTranslated(603,8, "seconds"))
+			If $PushBulletEnabled = 1 And $pAnotherDevice = 1 Then _PushToPushBullet($iOrigPushBullet & " | 2. " & GetTranslated(620,65, "Another Device has connected") & "\n" & GetTranslated(620,66, "Another Device has connected, waiting") & " " & Floor(Mod(Floor($sTimeWakeUp / 60), 60)) & " " & GetTranslated(603,9, -1) & " " & Floor(Mod($sTimeWakeUp, 60)) & " " & GetTranslated(603,8, -1))
 		Case "AnotherDevice"
-			If $PushBulletEnabled = 1 And $pAnotherDevice = 1 Then _PushToPushBullet($iOrigPushBullet & " | 3. " & GetTranslated(620,65, "Another Device has connected") & "\n" & GetTranslated(620,66, "Another Device has connected, waiting") & " " & Floor(Mod($sTimeWakeUp, 60)) & " " & GetTranslated(603,8, "seconds"))
+			If $PushBulletEnabled = 1 And $pAnotherDevice = 1 Then _PushToPushBullet($iOrigPushBullet & " | 3. " & GetTranslated(620,65, "Another Device has connected") & "\n" & GetTranslated(620,66, "Another Device has connected, waiting") & " " & Floor(Mod($sTimeWakeUp, 60)) & " " & GetTranslated(603,8, -1))
 		Case "TakeBreak"
 			If $PushBulletEnabled = 1 And $pTakeAbreak = 1 Then _PushToPushBullet($iOrigPushBullet & " | " & GetTranslated(620,67, "Chief, we need some rest!") & "\n" & GetTranslated(620,68, "Village must take a break.."))
 		Case "CocError"

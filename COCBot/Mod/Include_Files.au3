@@ -3,12 +3,10 @@
 ;
 
 ; SmartZap
-#include "SmartZap\drillSearch.au3"
-#include "SmartZap\smartZap.au3"
-
+; Official code
 ;
 ; Misc
 ;
 
-; GUI ( While in \MyBot\MBR GUI Control.au3 )
-; #include "MBR GUI Control.au3"
+; GUI Functions
+#include "MBR GUI Control.au3"

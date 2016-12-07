@@ -91,7 +91,7 @@ Func GetDroid4XPath()
 		$droid4xPath = @ProgramFilesDir & "\Droid4X\"
 		SetError(0, 0, 0)
     EndIf
-    Return $droid4xPath
+    Return StringReplace($droid4xPath, "\\", "\")
 EndFunc
 
 Func GetDroid4XAdbPath()
@@ -111,6 +111,7 @@ Func InitDroid4X($bCheckOnly = False)
 		$VirtualBox_Path = @ProgramFilesDir & "\Oracle\VirtualBox\"
 		SetError(0, 0, 0)
     EndIf
+	$VirtualBox_Path = StringReplace($VirtualBox_Path, "\\", "\")
 
    If FileExists($__Droid4X_Path & "Droid4X.exe") = False Then
 	  If Not $bCheckOnly Then

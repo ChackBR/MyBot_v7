@@ -99,7 +99,7 @@ Func GetLeapDroidPath()
 	EndIf
 	SetError(0, 0, 0)
 	If $LeapDroid_Path <> "" And StringRight($LeapDroid_Path, 1) <> "\" Then $LeapDroid_Path &= "\"
-	Return $LeapDroid_Path
+	Return StringReplace($LeapDroid_Path, "\\", "\")
 EndFunc   ;==>GetLeapDroidPath
 
 Func GetLeapDroidAdbPath()
@@ -383,9 +383,9 @@ Func EmbedLeapDroid($bEmbed = Default)
 EndFunc   ;==>EmbedLeapDroid
 
 Func LeapDroidBotStartEvent()
-   Return AndroidCloseSystemBar()
+   ;Return AndroidCloseSystemBar()
 EndFunc   ;==>LeapDroidBotStartEvent
 
 Func LeapDroidBotStopEvent()
-   Return AndroidOpenSystemBar()
+   ;Return AndroidOpenSystemBar()
 EndFunc   ;==>LeapDroidBotStopEvent

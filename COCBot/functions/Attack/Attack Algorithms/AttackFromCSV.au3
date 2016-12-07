@@ -38,13 +38,16 @@ Global $PixelBottomRightUPDropLine
 Global $PixelBottomRightDOWNDropLine
 
 Local $DeployableLRTB = [0, $GAME_WIDTH - 1, 0, 626]
-Local $OuterDiamondLeft = -18, $OuterDiamondRight = 857, $OuterDiamondTop = 20, $OuterDiamondBottom = 679 ; set the diamond shape based on reference village
+Local $DiamandAdjX = -28
+Local $DiamandAdjY = -24
+Local $OuterDiamondLeft = -18 - $DiamandAdjX, $OuterDiamondRight = 857 + $DiamandAdjX, $OuterDiamondTop = 20 - $DiamandAdjY, $OuterDiamondBottom = 679 + $DiamandAdjY ; set the diamond shape based on reference village
 Local $DiamondMiddleX = ($OuterDiamondLeft + $OuterDiamondRight) / 2
 Local $DiamondMiddleY = ($OuterDiamondTop + $OuterDiamondBottom) / 2
-Local $InnerDiamandDiffX = 55 ; set the diamond shape based on reference village
-Local $InnerDiamandDiffY = 47 ; set the diamond shape based on reference village
+Local $InnerDiamandDiffX = 55 + $DiamandAdjX ; set the diamond shape based on reference village
+Local $InnerDiamandDiffY = 47 + $DiamandAdjY; set the diamond shape based on reference village
 Local $InnerDiamondLeft = $OuterDiamondLeft + $InnerDiamandDiffX, $InnerDiamondRight = $OuterDiamondRight - $InnerDiamandDiffX, $InnerDiamondTop = $OuterDiamondTop + $InnerDiamandDiffY, $InnerDiamondBottom = $OuterDiamondBottom - $InnerDiamandDiffY
 
+Global $CocDiamondECD = "ECD"
 Global $ExternalArea[8][3]
 Global $ExternalAreaRef[8][3] = [ _
 		[$OuterDiamondLeft, $DiamondMiddleY, "LEFT"], _
@@ -56,6 +59,7 @@ Global $ExternalAreaRef[8][3] = [ _
 		[$OuterDiamondLeft + ($DiamondMiddleX - $OuterDiamondLeft) / 2, $DiamondMiddleY + ($OuterDiamondBottom - $DiamondMiddleY) / 2, "BOTTOM-LEFT"], _
 		[$DiamondMiddleX + ($OuterDiamondRight - $DiamondMiddleX) / 2, $DiamondMiddleY + ($OuterDiamondBottom - $DiamondMiddleY) / 2, "BOTTOM-RIGHT"] _
 		]
+Global $CocDiamondDCD = "DCD"
 Global $InternalArea[8][3]
 Global $InternalAreaRef[8][3] = [ _
 		[$InnerDiamondLeft, $DiamondMiddleY, "LEFT"], _
@@ -67,9 +71,12 @@ Global $InternalAreaRef[8][3] = [ _
 		[$InnerDiamondLeft + ($DiamondMiddleX - $InnerDiamondLeft) / 2, $DiamondMiddleY + ($InnerDiamondBottom - $DiamondMiddleY) / 2, "BOTTOM-LEFT"], _
 		[$DiamondMiddleX + ($InnerDiamondRight - $DiamondMiddleX) / 2, $DiamondMiddleY + ($InnerDiamondBottom - $DiamondMiddleY) / 2, "BOTTOM-RIGHT"] _
 		]
+ConvertInternalExternArea() ; initial layout so variables are not empty
 
 Func ConvertInternalExternArea()
 	Local $x, $y
+
+	; Update External coord.
 	For $i = 0 To 7
 		$x = $ExternalAreaRef[$i][0]
 		$y = $ExternalAreaRef[$i][1]
@@ -77,8 +84,31 @@ Func ConvertInternalExternArea()
 		$ExternalArea[$i][0] = $x
 		$ExternalArea[$i][1] = $y
 		$ExternalArea[$i][2] = $ExternalAreaRef[$i][2]
-		debugAttackCSV("External Area Point " & $ExternalArea[$i][2] & ": " & $x & ", " & $y)
+		;debugAttackCSV("External Area Point " & $ExternalArea[$i][2] & ": " & $x & ", " & $y)
 	Next
+	; Full ECD Diamond $CocDiamondECD
+	; Top
+	$x = $ExternalAreaRef[2][0]
+	$y = $ExternalAreaRef[2][1] + $DiamandAdjY
+	ConvertToVillagePos($x, $y)
+	$CocDiamondECD = $x & "," & $y
+	; Right
+	$x = $ExternalAreaRef[1][0] - $DiamandAdjX
+	$y = $ExternalAreaRef[1][1]
+	ConvertToVillagePos($x, $y)
+	$CocDiamondECD &= "|" & $x & "," & $y
+	; Bottom
+	$x = $ExternalAreaRef[3][0]
+	$y = $ExternalAreaRef[3][1] - $DiamandAdjY
+	ConvertToVillagePos($x, $y)
+	$CocDiamondECD &= "|" & $x & "," & $y
+	; Left
+	$x = $ExternalAreaRef[0][0] + $DiamandAdjX
+	$y = $ExternalAreaRef[0][1]
+	ConvertToVillagePos($x, $y)
+	$CocDiamondECD &= "|" & $x & "," & $y
+
+	; Update Internal coord.
 	For $i = 0 To 7
 		$x = $InternalAreaRef[$i][0]
 		$y = $InternalAreaRef[$i][1]
@@ -86,8 +116,12 @@ Func ConvertInternalExternArea()
 		$InternalArea[$i][0] = $x
 		$InternalArea[$i][1] = $y
 		$InternalArea[$i][2] = $InternalAreaRef[$i][2]
-		debugAttackCSV("Internal Area Point " & $InternalArea[$i][2] & ": " & $x & ", " & $y)
+		;debugAttackCSV("Internal Area Point " & $InternalArea[$i][2] & ": " & $x & ", " & $y)
 	Next
+	$CocDiamondDCD =  $InternalArea[2][0] & "," & $InternalArea[2][1] & "|" & _
+					  $InternalArea[1][0] & "," & $InternalArea[1][1] & "|" & _
+					  $InternalArea[3][0] & "," & $InternalArea[3][1] & "|" & _
+					  $InternalArea[0][0] & "," & $InternalArea[0][1]
 EndFunc   ;==>ConvertInternalExternArea
 
 Func CheckAttackLocation(ByRef $x, ByRef $y)
@@ -154,6 +188,24 @@ Func CheckAttackLocation(ByRef $x, ByRef $y)
 	;debugAttackCSV("CheckAttackLocation: Failed: " & $x & ", " & $y)
 EndFunc   ;==>CheckAttackLocation
 
+Func GetMinPoint($PointList, $Dim)
+	Local $Result = [9999, 9999]
+	For $i = 0 To UBound($PointList) - 1
+		Local $Point = $PointList[$i]
+		If $Point[$Dim] < $Result[$Dim] Then $Result = $Point
+	Next
+	Return $Result
+EndFunc   ;==>GetMinPoint
+
+Func GetMaxPoint($PointList, $Dim)
+	Local $Result = [-9999, -9999]
+	For $i = 0 To UBound($PointList) - 1
+		Local $Point = $PointList[$i]
+		If $Point[$Dim] > $Result[$Dim] Then $Result = $Point
+	Next
+	Return $Result
+EndFunc   ;==>GetMaxPoint
+
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: Algorithm_AttackCSV
 ; Description ...:
@@ -172,6 +224,7 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 
 	;00 read attack file SIDE row and valorize variables
 	ParseAttackCSV_Read_SIDE_variables()
+	$lastTroopPositionDropTroopFromINI = -1
 	If _Sleep($iDelayRespond) Then Return
 
 	;01 - TROOPS ------------------------------------------------------------------------------------------------------------------------------------------
@@ -184,8 +237,8 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 	;02.01 - REDAREA -----------------------------------------------------------------------------------------------------------------------------------------
 	Local $hTimer = TimerInit()
 
-	_CaptureRegion2()
-	If $captureredarea Then _GetRedArea()
+	_CaptureRegion2() ; ensure full screen is captured (not ideal for debugging as clean image was already saved, but...)
+	If $captureredarea Then _GetRedArea($iRedlineRoutine[$iMatchMode])
 	If _Sleep($iDelayRespond) Then Return
 
 	Local $htimerREDAREA = Round(TimerDiff($hTimer) / 1000, 2)
@@ -195,23 +248,129 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 	debugAttackCSV("	[" & UBound($PixelBottomLeft) & "] pixels BottomLeft")
 	debugAttackCSV("	[" & UBound($PixelBottomRight) & "] pixels BottomRight")
 
-	;02.02  - CLEAN REDAREA BAD POINTS -----------------------------------------------------------------------------------------------------------------------
-	CleanRedArea($PixelTopLeft)
-	CleanRedArea($PixelTopRight)
-	CleanRedArea($PixelBottomLeft)
-	CleanRedArea($PixelBottomRight)
-	debugAttackCSV("RedArea cleaned")
-	debugAttackCSV("	[" & UBound($PixelTopLeft) & "] pixels TopLeft")
-	debugAttackCSV("	[" & UBound($PixelTopRight) & "] pixels TopRight")
-	debugAttackCSV("	[" & UBound($PixelBottomLeft) & "] pixels BottomLeft")
-	debugAttackCSV("	[" & UBound($PixelBottomRight) & "] pixels BottomRight")
-	If _Sleep($iDelayRespond) Then Return
+	If $iDroplineEdge[$iMatchMode] = $DROPLINE_DROPPOINTS_ONLY Then
 
-	;02.03 - MAKE FULL DROP LINE EDGE--------------------------------------------------------------------------------------------------------------------------
-	$PixelTopLeftDropLine = MakeDropLine($PixelTopLeft, StringSplit($InternalArea[0][0] - 27 & "," & $InternalArea[0][1], ",", $STR_NOCOUNT), StringSplit($InternalArea[2][0] & "," & $InternalArea[2][1] - 22, ",", $STR_NOCOUNT))
-	$PixelTopRightDropLine = MakeDropLine($PixelTopRight, StringSplit($InternalArea[2][0] & "," & $InternalArea[2][1] - 22, ",", $STR_NOCOUNT), StringSplit($InternalArea[1][0] + 27 & "," & $InternalArea[1][1], ",", $STR_NOCOUNT))
-	$PixelBottomLeftDropLine = MakeDropLine($PixelBottomLeft, StringSplit($InternalArea[0][0] - 27 & "," & $InternalArea[0][1], ",", $STR_NOCOUNT), StringSplit($InternalArea[3][0] & "," & $InternalArea[3][1] + 22, ",", $STR_NOCOUNT))
-	$PixelBottomRightDropLine = MakeDropLine($PixelBottomRight, StringSplit($InternalArea[3][0] & "," & $InternalArea[3][1] + 22, ",", $STR_NOCOUNT), StringSplit($InternalArea[1][0] + 27 & "," & $InternalArea[1][1], ",", $STR_NOCOUNT))
+		$PixelTopLeftDropLine = $PixelTopLeft
+		$PixelTopRightDropLine = $PixelTopRight
+		$PixelBottomLeftDropLine = $PixelBottomLeft
+		$PixelBottomRightDropLine = $PixelBottomRight
+
+	Else
+
+		;02.02  - CLEAN REDAREA BAD POINTS -----------------------------------------------------------------------------------------------------------------------
+		CleanRedArea($PixelTopLeft)
+		CleanRedArea($PixelTopRight)
+		CleanRedArea($PixelBottomLeft)
+		CleanRedArea($PixelBottomRight)
+		debugAttackCSV("RedArea cleaned")
+		debugAttackCSV("	[" & UBound($PixelTopLeft) & "] pixels TopLeft")
+		debugAttackCSV("	[" & UBound($PixelTopRight) & "] pixels TopRight")
+		debugAttackCSV("	[" & UBound($PixelBottomLeft) & "] pixels BottomLeft")
+		debugAttackCSV("	[" & UBound($PixelBottomRight) & "] pixels BottomRight")
+		If _Sleep($iDelayRespond) Then Return
+
+		;02.03 - MAKE FULL DROP LINE EDGE--------------------------------------------------------------------------------------------------------------------------
+		; default inner area edges
+		Local $coordLeft = [$ExternalArea[0][0], $ExternalArea[0][1]]
+		Local $coordTop = [$ExternalArea[2][0], $ExternalArea[2][1]]
+		Local $coordRight = [$ExternalArea[1][0], $ExternalArea[1][1]]
+		Local $coordBottom = [$ExternalArea[3][0], $ExternalArea[3][1]]
+		Switch $iDroplineEdge[$iMatchMode]
+		Case $DROPLINE_EDGE_FIXED, $DROPLINE_FULL_EDGE_FIXED ; default inner area edges
+			; nothing to do here
+		Case $DROPLINE_EDGE_FIRST, $DROPLINE_FULL_EDGE_FIRST ; use first red point
+			Local $newAxis
+			; left
+			Local $aPoint1 = GetMaxPoint($PixelTopLeft, 1)
+			Local $aPoint2 = GetMinPoint($PixelBottomLeft, 1)
+			$newAxis = (($aPoint1[0] < $aPoint2[0]) ? ($aPoint1[0]) : ($aPoint2[0]))
+			If Abs($newAxis) < 9999 Then $coordLeft[0] = $newAxis
+			; top
+			Local $aPoint1 = GetMaxPoint($PixelTopLeft, 0)
+			Local $aPoint2 = GetMinPoint($PixelTopRight, 0)
+			$newAxis = (($aPoint1[1] < $aPoint2[1]) ? ($aPoint1[1]) : ($aPoint2[1]))
+			If Abs($newAxis) < 9999 Then $coordTop[1] = $newAxis
+			; right
+			Local $aPoint1 = GetMaxPoint($PixelTopRight, 1)
+			Local $aPoint2 = GetMinPoint($PixelBottomRight, 1)
+			$newAxis = (($aPoint1[0] > $aPoint2[0]) ? ($aPoint1[0]) : ($aPoint2[0]))
+			If Abs($newAxis) < 9999 Then $coordRight[0] = $newAxis
+			; bottom
+			Local $aPoint1 = GetMaxPoint($PixelBottomLeft, 0)
+			Local $aPoint2 = GetMinPoint($PixelBottomRight, 0)
+			$newAxis = (($aPoint1[1] > $aPoint2[1]) ? ($aPoint1[1]) : ($aPoint2[1]))
+			If Abs($newAxis) < 9999 Then $coordBottom[1] = $newAxis
+		EndSwitch
+
+		Local $StartEndTopLeft = [$coordLeft, $coordTop]
+		Local $StartEndTopRight = [$coordTop, $coordRight]
+		Local $StartEndBottomLeft = [$coordLeft, $coordBottom]
+		Local $StartEndBottomRight = [$coordBottom, $coordRight]
+
+		SetDebugLog("MakeDropLines, StartEndTopLeft     = " & PixelArrayToString($StartEndTopLeft, ","))
+		SetDebugLog("MakeDropLines, StartEndTopRight    = " & PixelArrayToString($StartEndTopRight, ","))
+		SetDebugLog("MakeDropLines, StartEndBottomLeft  = " & PixelArrayToString($StartEndBottomLeft, ","))
+		SetDebugLog("MakeDropLines, StartEndBottomRight = " & PixelArrayToString($StartEndBottomRight, ","))
+
+		Local $startPoint, $endPoint, $invalid1, $invalid2
+		$startPoint = $StartEndTopLeft[0]
+		$endPoint = $StartEndTopLeft[1]
+		Local $PixelTopLeft1 = SortByDistance($PixelTopLeft, $startPoint, $endPoint, $invalid1)
+		$startPoint = $StartEndTopLeft[1]
+		$endPoint = $StartEndTopLeft[0]
+		Local $PixelTopLeft2 = SortByDistance($PixelTopLeft, $startPoint, $endPoint, $invalid2)
+		$PixelTopLeft = SortByDistance((($invalid1 >= $invalid2) ? ($PixelTopLeft1) : ($PixelTopLeft2)), $StartEndTopLeft[0], $StartEndTopLeft[1], $invalid1)
+		$startPoint = $StartEndTopRight[0]
+		$endPoint = $StartEndTopRight[1]
+		Local $PixelTopRight1 = SortByDistance($PixelTopRight, $startPoint, $endPoint, $invalid1)
+		$startPoint = $StartEndTopRight[1]
+		$endPoint = $StartEndTopRight[0]
+		Local $PixelTopRight2 = SortByDistance($PixelTopRight, $startPoint, $endPoint, $invalid2)
+		$PixelTopRight = SortByDistance((($invalid1 >= $invalid2) ? ($PixelTopRight1) : ($PixelTopRight2)), $StartEndTopRight[0], $StartEndTopRight[1], $invalid1)
+		$startPoint = $StartEndBottomLeft[0]
+		$endPoint = $StartEndBottomLeft[1]
+		Local $PixelBottomLeft1 = SortByDistance($PixelBottomLeft, $startPoint, $endPoint, $invalid1)
+		$startPoint = $StartEndBottomLeft[1]
+		$endPoint = $StartEndBottomLeft[0]
+		Local $PixelBottomLeft2 = SortByDistance($PixelBottomLeft, $startPoint, $endPoint, $invalid2)
+		$PixelBottomLeft = SortByDistance((($invalid1 >= $invalid2) ? ($PixelBottomLeft1) : ($PixelBottomLeft2)), $StartEndBottomLeft[0], $StartEndBottomLeft[1], $invalid1)
+		$startPoint = $StartEndBottomRight[0]
+		$endPoint = $StartEndBottomRight[1]
+		Local $PixelBottomRight1 = SortByDistance($PixelBottomRight, $startPoint, $endPoint, $invalid1)
+		$startPoint = $StartEndBottomRight[1]
+		$endPoint = $StartEndBottomRight[0]
+		Local $PixelBottomRight2 = SortByDistance($PixelBottomRight, $startPoint, $endPoint, $invalid2)
+		$PixelBottomRight = SortByDistance((($invalid1 >= $invalid2) ? ($PixelBottomRight1) : ($PixelBottomRight2)), $StartEndBottomRight[0], $StartEndBottomRight[1], $invalid1)
+
+		Switch $iDroplineEdge[$iMatchMode]
+		Case $DROPLINE_EDGE_FIXED, $DROPLINE_FULL_EDGE_FIXED ; default inner area edges
+			; reset fix corners
+			Local $StartEndTopLeft = [$coordLeft, $coordTop]
+			Local $StartEndTopRight = [$coordTop, $coordRight]
+			Local $StartEndBottomLeft = [$coordLeft, $coordBottom]
+			Local $StartEndBottomRight = [$coordBottom, $coordRight]
+		EndSwitch
+
+		SetDebugLog("MakeDropLines, StartEndTopLeft     = " & PixelArrayToString($StartEndTopLeft, ","))
+		SetDebugLog("MakeDropLines, StartEndTopRight    = " & PixelArrayToString($StartEndTopRight, ","))
+		SetDebugLog("MakeDropLines, StartEndBottomLeft  = " & PixelArrayToString($StartEndBottomLeft, ","))
+		SetDebugLog("MakeDropLines, StartEndBottomRight = " & PixelArrayToString($StartEndBottomRight, ","))
+
+		Switch $iDroplineEdge[$iMatchMode]
+		Case $DROPLINE_EDGE_FIXED, $DROPLINE_EDGE_FIRST ; default drop line
+			$PixelTopLeftDropLine = MakeDropLineOriginal($PixelTopLeft, $StartEndTopLeft[0], $StartEndTopLeft[1])
+			$PixelTopRightDropLine = MakeDropLineOriginal($PixelTopRight, $StartEndTopRight[0], $StartEndTopRight[1])
+			$PixelBottomLeftDropLine = MakeDropLineOriginal($PixelBottomLeft, $StartEndBottomLeft[0], $StartEndBottomLeft[1])
+			$PixelBottomRightDropLine = MakeDropLineOriginal($PixelBottomRight, $StartEndBottomRight[0], $StartEndBottomRight[1])
+		Case $DROPLINE_FULL_EDGE_FIXED, $DROPLINE_FULL_EDGE_FIRST ; full drop line
+			Local $iLineDistanceThreshold = 75
+			If $iRedlineRoutine[$iMatchMode] = $REDLINE_IMGLOC Then $iLineDistanceThreshold = 25
+			$PixelTopLeftDropLine = MakeDropLine($PixelTopLeft, $StartEndTopLeft[0], $StartEndTopLeft[1], $iLineDistanceThreshold, $iDroplineEdge[$iMatchMode] = $DROPLINE_FULL_EDGE_FIXED)
+			$PixelTopRightDropLine = MakeDropLine($PixelTopRight, $StartEndTopRight[0], $StartEndTopRight[1], $iLineDistanceThreshold, $iDroplineEdge[$iMatchMode] = $DROPLINE_FULL_EDGE_FIXED)
+			$PixelBottomLeftDropLine = MakeDropLine($PixelBottomLeft, $StartEndBottomLeft[0], $StartEndBottomLeft[1], $iLineDistanceThreshold, $iDroplineEdge[$iMatchMode] = $DROPLINE_FULL_EDGE_FIXED)
+			$PixelBottomRightDropLine = MakeDropLine($PixelBottomRight, $StartEndBottomRight[0], $StartEndBottomRight[1], $iLineDistanceThreshold, $iDroplineEdge[$iMatchMode] = $DROPLINE_FULL_EDGE_FIXED)
+		EndSwitch
+	EndIf
 
 	;02.04 - MAKE DROP LINE SLICE ----------------------------------------------------------------------------------------------------------------------------
 	;-- TOP LEFT
@@ -219,11 +378,14 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 	Local $tempvectstr2 = ""
 	For $i = 0 To UBound($PixelTopLeftDropLine) - 1
 		$pixel = $PixelTopLeftDropLine[$i]
-		Switch StringLeft(Slice8($pixel), 1)
+		Local $slice = Slice8($pixel)
+		Switch StringLeft($slice, 1)
 			Case "6"
 				$tempvectstr1 &= $pixel[0] & "," & $pixel[1] & "|"
 			Case "5"
 				$tempvectstr2 &= $pixel[0] & "," & $pixel[1] & "|"
+			Case Else
+				SetDebugLog("TOP LEFT: Skip slice " & $slice & " at " & $pixel[0] & ", " & $pixel[1])
 		EndSwitch
 	Next
 	If StringLen($tempvectstr1) > 0 Then $tempvectstr1 = StringLeft($tempvectstr1, StringLen($tempvectstr1) - 1)
@@ -236,11 +398,14 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 	Local $tempvectstr2 = ""
 	For $i = 0 To UBound($PixelTopRightDropLine) - 1
 		$pixel = $PixelTopRightDropLine[$i]
-		Switch StringLeft(Slice8($pixel), 1)
+		Local $slice = Slice8($pixel)
+		Switch StringLeft($slice, 1)
 			Case "3"
 				$tempvectstr1 &= $pixel[0] & "," & $pixel[1] & "|"
 			Case "4"
 				$tempvectstr2 &= $pixel[0] & "," & $pixel[1] & "|"
+			Case Else
+				SetDebugLog("TOP RIGHT: Skip slice " & $slice & " at " & $pixel[0] & ", " & $pixel[1])
 		EndSwitch
 	Next
 	If StringLen($tempvectstr1) > 0 Then $tempvectstr1 = StringLeft($tempvectstr1, StringLen($tempvectstr1) - 1)
@@ -253,11 +418,14 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 	Local $tempvectstr2 = ""
 	For $i = 0 To UBound($PixelBottomLeftDropLine) - 1
 		$pixel = $PixelBottomLeftDropLine[$i]
-		Switch StringLeft(Slice8($pixel), 1)
+		Local $slice = Slice8($pixel)
+		Switch StringLeft($slice, 1)
 			Case "8"
 				$tempvectstr1 &= $pixel[0] & "," & $pixel[1] & "|"
 			Case "7"
 				$tempvectstr2 &= $pixel[0] & "," & $pixel[1] & "|"
+			Case Else
+				SetDebugLog("BOTTOM LEFT: Skip slice " & $slice & " at " & $pixel[0] & ", " & $pixel[1])
 		EndSwitch
 	Next
 	If StringLen($tempvectstr1) > 0 Then $tempvectstr1 = StringLeft($tempvectstr1, StringLen($tempvectstr1) - 1)
@@ -270,11 +438,14 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 	Local $tempvectstr2 = ""
 	For $i = 0 To UBound($PixelBottomRightDropLine) - 1
 		$pixel = $PixelBottomRightDropLine[$i]
-		Switch StringLeft(Slice8($pixel), 1)
+		Local $slice = Slice8($pixel)
+		Switch StringLeft($slice, 1)
 			Case "1"
 				$tempvectstr1 &= $pixel[0] & "," & $pixel[1] & "|"
 			Case "2"
 				$tempvectstr2 &= $pixel[0] & "," & $pixel[1] & "|"
+			Case Else
+				SetDebugLog("BOTTOM RIGHT: Skip slice " & $slice & " at " & $pixel[0] & ", " & $pixel[1])
 		EndSwitch
 	Next
 	If StringLen($tempvectstr1) > 0 Then $tempvectstr1 = StringLeft($tempvectstr1, StringLen($tempvectstr1) - 1)

@@ -158,6 +158,7 @@ Func InitBlueStacksX($bCheckOnly = False, $bAdjustResolution = False, $bLegacyMo
 		$__BlueStacks_Path = @ProgramFilesDir & "\BlueStacks\"
 		SetError(0, 0, 0)
 	EndIf
+	$__BlueStacks_Path = StringReplace($__BlueStacks_Path, "\\", "\")
 
     For $i = 0 To UBound($aFiles) - 1
 

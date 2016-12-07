@@ -116,9 +116,9 @@ $grpOnStartBot = GUICtrlCreateGroup(GetTranslated(636,12, "When Bot Starts"), $x
 						   GetTranslated(636,27, "SNAP: Bot BottomLeft to Android") & "|" & _
 						   GetTranslated(636,95, "DOCK: Android into Bot"), _
 						   GetTranslated(636,24, "SNAP: Bot TopRight to Android"))
-		$txtTip &= @CRLF & GetTranslated(636,28, "0,0: Reposition Android Emulator screen to position 0,0 on windows desktop and align Bot window right or left to it.") & @CRLF & _
-						   GetTranslated(636,29, "SNAP: Only reorder windows, Align Bot window to Android Emulator window at Top Right, Top Left, Bottom Right or Bottom Left.\r\n" & _
-												 "DOCK: Integrate Android Screen into bot window.")
+		$txtTip = GetTranslated(636,28, "0,0: Reposition Android Emulator screen to position 0,0 on windows desktop and align Bot window right or left to it.") & @CRLF & _
+				  GetTranslated(636,29, "SNAP: Only reorder windows, Align Bot window to Android Emulator window at Top Right, Top Left, Bottom Right or Bottom Left.\r\n" & _
+										"DOCK: Integrate Android Screen into bot window.")
 		_GUICtrlSetTip(-1, $txtTip)
 		GUICtrlSetState(-1, $GUI_DISABLE)
 GUICtrlCreateGroup("", -99, -99, 1, 1)
@@ -127,6 +127,7 @@ GUICtrlCreateGroup("", -99, -99, 1, 1)
 Local $x = 240, $y = 45
 $grpAdvanced = GUICtrlCreateGroup(GetTranslated(636,93, "Advanced"), $x - 20, $y - 20, 225, 82)
 	$chkUpdatingWhenMinimized = GUICtrlCreateCheckbox(GetTranslated(636,96, "Updating when minimized"), $x, $y, -1, -1)
+		GUICtrlSetState(-1, $GUI_DISABLE) ; must be always enabled
 		GUICtrlSetOnEvent(-1, "chkUpdatingWhenMinimized")
 		_GUICtrlSetTip(-1, GetTranslated(636,97, "Enable different minimize routine for bot window.\r\nWhen bot is minimized, screen updates are shown in taskbar preview."))
 	$y += 19
@@ -136,6 +137,11 @@ $grpAdvanced = GUICtrlCreateGroup(GetTranslated(636,93, "Advanced"), $x - 20, $y
 	$y += 19
 	$chkUseRandomClick = GUICtrlCreateCheckbox(GetTranslated(636,94, "Random Click"), $x, $y, -1, -1)
 		GUICtrlSetOnEvent(-1, "chkUseRandomClick")
+;~  useless, allready exist this option, restored original
+;~ 	$y += 19
+;~ 	$chkAddIdleTime = GUICtrlCreateCheckbox(GetTranslated(636,120, "Add random delay"), $x, $y, -1, -1)
+;~ 		_GUICtrlSetTip(-1, GetTranslated(636,121, "Increases the waiting time in the idle phase during training"))
+;~ 		GUICtrlSetOnEvent(-1, "chkAddIdleTime")
 GUICtrlCreateGroup("", -99, -99, 1, 1)
 	$y += 47
 $grpPhotoExpert = GUICtrlCreateGroup(GetTranslated(636,55, "Photo Screenshot Options"), $x - 20, $y - 17, 225, 60)
@@ -161,7 +167,7 @@ $grpTimeWakeUp = GUICtrlCreateGroup(GetTranslated(636,85, "Remote Device"), $x -
 GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 $y+= 51
-$grpOtherExpert = GUICtrlCreateGroup(GetTranslated(636,45, "Other Options"), $x - 20, $y - 20, 225, 130)
+$grpOtherExpert = GUICtrlCreateGroup(GetTranslated(636,45, "Other Options"), $x - 20, $y - 20, 225, 90)
 $chkSinglePBTForced = GUICtrlCreateCheckbox(GetTranslated(636,61, "Force Single PB logoff"), $x-5, $y, -1, -1)
 	GUICtrlSetOnEvent(-1, "chkSinglePBTForced")
 	_GUICtrlSetTip(-1, GetTranslated(636,62, "This forces bot to exit CoC only one time prior to normal start of PB"))
@@ -170,7 +176,7 @@ $txtSinglePBTimeForced = GUICtrlCreateInput("18", $x + 130, $y-1, 30, 16, BitOR(
 	GUICtrlSetOnEvent(-1, "txtSinglePBTimeForced")
 	GUICtrlSetLimit(-1, 3)
 	GUICtrlSetState(-1, $GUI_DISABLE)
-$lblSinglePBTimeForced = GUICtrlCreateLabel( GetTranslated(603,9, "Min"), $x+162, $y+2, 27, 15)
+$lblSinglePBTimeForced = GUICtrlCreateLabel( GetTranslated(603,10, -1), $x+162, $y+2, 27, 15)
 $y += 20
 $lblPBTimeForcedExit = GUICtrlCreateLabel( GetTranslated(636,65, "Subtract time for early PB exit"), $x-10, $y+3)
 	$txtTip = GetTranslated(636,66, "Type in number of minutes to quit CoC early! Setting below 10 minutes may not function!")
@@ -180,16 +186,7 @@ $txtPBTimeForcedExit = GUICtrlCreateInput("16", $x + 130, $y, 30, 16, BitOR($GUI
 	GUICtrlSetOnEvent(-1, "txtSinglePBTimeForced")
 	GUICtrlSetLimit(-1, 3)
 	GUICtrlSetState(-1, $GUI_DISABLE)
-$lblPBTimeForcedExit1 = GUICtrlCreateLabel( GetTranslated(603,9, -1), $x+162, $y+1, 27, 15)
-
-$y +=30
-$chkTotalCampForced = GUICtrlCreateCheckbox(GetTranslated(636,46, "Force Total Army Camp")&":", $x-5, $y-5, -1, -1)
-	GUICtrlSetOnEvent(-1, "chkTotalCampForced")
-	_GUICtrlSetTip(-1, GetTranslated(636,47, "If not detected set army camp values (instead ask)"))
-$txtTotalCampForced = GUICtrlCreateInput("200", $x + 130, $y - 5, 30, 16, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
-	GUICtrlSetLimit(-1, 3)
-	GUICtrlSetState(-1, $GUI_DISABLE)
-
+$lblPBTimeForcedExit1 = GUICtrlCreateLabel( GetTranslated(603,10, -1), $x+162, $y+1, 27, 15)
 $y +=30
 $chkFixClanCastle = GUICtrlCreateCheckbox(GetTranslated(636,104, "Force Clan Castle Detection"), $x-5, $y-5, -1, -1)
 	_GUICtrlSetTip(-1, GetTranslated(636,105, "If clan Castle it is undetected and it is NOT placed in the last slot, force bot to consider the undetected slot as Clan Castle"))

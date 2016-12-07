@@ -19,10 +19,13 @@ Func CloseRunningBot($sBotWindowTitle)
 		; other bot window found
 		Local $otherPID = WinGetProcess($otherHWnD)
 		SetDebugLog("Found existing " & $sBotTitle & " instance to close, PID " & $otherPID & ", HWnD " & $otherHWnD)
+		; close any related WerFault Window as well
+		WerFaultClose("AutoIt v3 Script")
+		WerFaultClose(@AutoItExe)
 		If WinClose($otherHWnD) = 1 Then
 			SetDebugLog("Existing bot window closed")
 		EndIf
-		If WinWaitClose($otherHWnD, "", 10) = 0 Then
+		If ProcessWaitClose($otherPID, 30) = 0 Then
 			; bot didn't close in 10 secodns, force close now
 			SetDebugLog("Existing bot window still there...")
 			WinKill($otherHWnD)

@@ -84,7 +84,7 @@ Func GetKOPLAYERPath()
    Else
 	  If StringRight($KOPLAYER_Path, 1) <> "\" Then $KOPLAYER_Path &= "\"
    EndIf
-   Return $KOPLAYER_Path
+   Return StringReplace($KOPLAYER_Path, "\\", "\")
 EndFunc
 
 Func GetKOPLAYERAdbPath()

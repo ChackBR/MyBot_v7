@@ -27,54 +27,45 @@ Local $x = 25, $y = 20
 ;			GUICtrlSetState(-1, $GUI_HIDE)
 ;			_GUICtrlSetTip(-1, $txtTip)
 		$y +=15
-		$cmbScriptNameAB=GUICtrlCreateCombo("", $x , $y, 185, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+		$cmbScriptNameAB=GUICtrlCreateCombo("", $x , $y, 200, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			$txtTip = GetTranslated(607,4, -1)
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetState(-1, $GUI_UNCHECKED)
 			GUICtrlSetOnEvent(-1, "cmbScriptNameAB")
-		$picreloadScriptsAB = GUICtrlCreateIcon($pIconLib, $eIcnReload, $x + 192, $y + 2, 16, 16)
+		$picreloadScriptsAB = GUICtrlCreateIcon($pIconLib, $eIcnReload, $x + 210, $y + 2, 16, 16)
 			$txtTip =  GetTranslated(607,5, -1)
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetOnEvent(-1, 'UpdateComboScriptNameAB') ; Run this function when the secondary GUI [X] is clicked
 		$y +=25
-			$lblNotesScriptAB =  GUICtrlCreateLabel("", $x, $y + 5, 180, 118)
-			PopulateComboScriptsFilesAB() ; populate
-			$picreloadScriptsAB = GUICtrlCreateIcon($pIconLib, $eIcnEdit, $x + 192, $y + 2, 16, 16)
+		$lblNotesScriptAB =  GUICtrlCreateLabel("", $x, $y + 5, 200, 180)
+		$cmbScriptRedlineImplAB = GUICtrlCreateCombo("", $x, $y + 195, 230, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+			GUICtrlSetData(-1, GetTranslated(607,9, "ImgLoc Raw Redline (default)|ImgLoc Redline Drop Points|Original Redline"))
+			_GUICtrlComboBox_SetCurSel(-1, $iRedlineRoutine[$LB])
+			$txtTip = GetTranslated(607,10, "Choose the Redline implementation. ImgLoc Redline is default and best.")
+			_GUICtrlSetTip(-1, $txtTip)
+			GUICtrlSetState(-1, $GUI_UNCHECKED)
+			GUICtrlSetOnEvent(-1, "cmbScriptRedlineImplAB")
+		$cmbScriptDroplineAB = GUICtrlCreateCombo("", $x, $y + 220, 230, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+			GUICtrlSetData(-1, GetTranslated(607,11, "Drop line fix outer corner|Drop line fist Redline point|Full Drop line fix outer corner|Full Drop line fist Redline point|No Drop line"))
+			_GUICtrlComboBox_SetCurSel(-1, $iDroplineEdge[$LB])
+			$txtTip = GetTranslated(607,12, "Choose the drop line edges. Default is outer corner and safer. First Redline point can improve attack.")
+			_GUICtrlSetTip(-1, $txtTip)
+			GUICtrlSetState(-1, $GUI_UNCHECKED)
+			GUICtrlSetOnEvent(-1, "cmbScriptDroplineAB")
+		$picreloadScriptsAB = GUICtrlCreateIcon($pIconLib, $eIcnEdit, $x + 210, $y + 2, 16, 16)
 			$txtTip =  GetTranslated(607,6, -1)
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetOnEvent(-1, "EditScriptAB")
 		$y +=25
-			$picnewScriptsAB = GUICtrlCreateIcon($pIconLib, $eIcnAddcvs, $x + 192, $y + 2, 16, 16)
+		$picnewScriptsAB = GUICtrlCreateIcon($pIconLib, $eIcnAddcvs, $x + 210, $y + 2, 16, 16)
 			$txtTip =  GetTranslated(607,7, -1)
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetOnEvent(-1, "NewScriptAB")
 		$y +=25
-			$picduplicateScriptsAB = GUICtrlCreateIcon($pIconLib, $eIcnCopy, $x + 192, $y + 2, 16, 16)
+		$picduplicateScriptsAB = GUICtrlCreateIcon($pIconLib, $eIcnCopy, $x + 210, $y + 2, 16, 16)
 			$txtTip =  GetTranslated(607,8, -1)
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetOnEvent(-1, "DuplicateScriptAB")
-
-		; Attack Now (CSV) By MR.ViPeR
-		$y += 130
-		$btnAttNow = GUICtrlCreateButton("Attack Now", $x, $y-30, 91, 25)
-				_GUICtrlSetTip(-1, "Attack Now Button (Useful for CSV Testing)")
-				GUISetState(@SW_SHOW)
-				GUICtrlSetOnEvent(-1, "AttackNowAB")
-
-		; CSV Deployment Speed Mod
-		$y +=  4
-		$grpScriptSpeedAB = GUICtrlCreateGroup("CSV Deployment Speed", $x, $y, 230, 50)
-			$lbltxtSelectedSpeedAB = GUICtrlCreateLabel("Normal speed", $x + 15, $y + 20, 75, 25)
-				_GUICtrlSetTip(-1, "Increase or decrease the speed at which the CSV attack script deploys troops and waves.")
-			$sldSelectedSpeedAB = GUICtrlCreateSlider($x + 98, $y + 20, 125, 25, BitOR($TBS_TOOLTIPS, $TBS_AUTOTICKS))
-				_GUICtrlSetTip(-1, "Increase or decrease the speed at which the CSV attack script deploys troops and waves.")
-				_GUICtrlSlider_SetTipSide(-1, $TBTS_BOTTOM)
-				_GUICtrlSlider_SetTicFreq(-1, 1)
-				GUICtrlSetLimit(-1, 12, 0) ; change max/min value
-				GUICtrlSetData(-1, 4) ; default value
-				GUICtrlSetOnEvent(-1, "sldSelectedSpeedAB")
-			GUICtrlCreateGroup("", -99, -99, 1, 1)
-
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 ;GUISetState()

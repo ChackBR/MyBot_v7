@@ -1,4 +1,43 @@
-﻿* **V6.3.u7** (CoC October Update BETA Version)
+* **V6.3.u8** (CoC October Update BETA Version) ...
+ * Add Android support for iTools AVM 2.0.6.8 (http://pro.itools.cn/simulate/), background mode only supported in DirectX mode
+ * Add Android Shared Folder secure behavior creating anonymous filenames that are deleted immediately when not required anymore
+ * Add DocOc Mod Train System, Weak Air Defense by @ProMac, @TheRevenor, @ezeck0001, @MR.ViPeR, @rulesss, @ahsan iqbal, @Roro-Titi, @IceCube
+ * Add watchdog process that automatically restarts bot when not responding or crashed
+ * Add Attack CSV redline engine selection and drop line/edge mode selection
+ * Add check that CoC app is running in foreground and restart CoC app if not
+ * Add Drop trophy now you can select priority of heroes to drop @sardo
+ * Add Chinese(both Traditional, Simplified) translation and detection
+ * Add Multiple CoC APKs support/detection with 20 build-ins and an extra user option (config.ini)
+ * Add Exit CoC gracefully to most APKs
+ * Fix redline and drop line accuracy
+ * Fix redline drop lines missing randomly some areas
+ * Fix Attack early exit when no End Battle Options configured
+ * Fix Nox problems when path contained "\\" (fixed for all emulators as well) @Roro-Titi
+ * Fix wait for heroes
+ * Fix closing running bot instance properly using /restart parameter
+ * Fix Android Nox shared folder issue
+ * Fix rare bot crash
+ * Fix wall upgrade and improve lvl 8 wall detection
+ * Fix Shield Button protection when cleaning yard (now executed more often)
+ * Fix false page error leading to frequent Android reboots
+ * Fix dock mode ESC & Enter keypress removing focus of Android
+ * Fix dock mode shield flickering when Android having focus and log messages printed
+ * Fix collect resource and loot cart from clicking CoC village buttons
+ * Fix weak base settings being used when DB or LB search is completely disabled
+ * Fix ADB problems when connection is not returning anything
+ * Fix LeapDroid GUI error/crashing when starting Android System Bar
+ * Improve village search not centering enemy village anymore
+ * Improve tree obstacles removal with additonal tile for large trees
+ * Improve obstacles removal to get executed also during bot idle
+ * Improve deadbase collector lvl 7 50% detection
+ * Improve LeapDroid Android reboot behavior and it works now well with all other Android's
+ * Improve Nox 3.7.5 support finding Run-time directory
+ * Improve bot performance by refreshing log output only every 500ms
+ * Improve Android logging valid shared folder
+ * Improve CoC App start when Android is instable by restarting Android
+ * Change Android priority order to MEmu, BlueStacks2, BlueStacks, KOPLAYER, LeapDroid, iTools, Droid4X, Nox
+
+* **V6.3.u7** (CoC October Update BETA Version)
  * Fix locate Barracks
  * Fix boost Barracks, Spell Factory, Dark Spell Factory and Heroes
  * Fix bot crash for TH6 or SmartWait error

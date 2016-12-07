@@ -231,6 +231,7 @@ Global $lblWallCost, $cmbWalls, $UseGold, $UseElixir, $UseElixirGold, $txtWallMi
 			_GUICtrlSlider_SetTicFreq(-1, 1)
 			GUICtrlSetLimit(-1, 8, 1)
 			GUICtrlSetData(-1, 4)
+			GUICtrlSetBkColor(-1, $COLOR_WHITE)
 			;GUICtrlSetOnEvent(-1, "SlidemaxNbWall")
 		$btnFindWalls = GUICtrlCreateButton(GetTranslated(617,5, "TEST"), $x + 150, $y +26 , 45, -1)
 			$txtTip = GetTranslated(617,6, "Click here to test the Wall Detection.")
@@ -287,35 +288,35 @@ Global $lblWallCost, $cmbWalls, $UseGold, $UseElixir, $UseElixirGold, $txtWallMi
 		$x -= 3
 		$txtWall04ST = GUICtrlCreateInput("0", $x - 10, $y , 25, 19, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 			_GUICtrlSetTip(-1, GetTranslated(617,30, "Input number of Walls level")&" 4 "&GetTranslated(617,31, "you have."))
-		$Wall04ST = GUICtrlCreateIcon(@ScriptDir & "\Images\Walls\04.ico",-1, $x + 17, $y-2, 24, 24)
+		$Wall04ST = GUICtrlCreateIcon($pIconLib, $eWall04, $x + 17, $y-2, 24, 24)
 		$x = 70
 		$txtWall05ST = GUICtrlCreateInput("0", $x, $y , 25, 19, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 			_GUICtrlSetTip(-1, GetTranslated(617,30, "Input number of Walls level")&" 5 "&GetTranslated(617,31, "you have."))
-		$Wall05ST = GUICtrlCreateIcon(@ScriptDir & "\Images\Walls\05.ico",-1, $x+27, $y-2, 24, 24)
+		$Wall05ST = GUICtrlCreateIcon($pIconLib, $eWall05, $x+27, $y-2, 24, 24)
 		$x = +130
 		$txtWall06ST = GUICtrlCreateInput("0", $x, $y , 25, 19, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 			_GUICtrlSetTip(-1, GetTranslated(617,30, "Input number of Walls level")&" 6 "&GetTranslated(617,31, "you have."))
-		$Wall06ST = GUICtrlCreateIcon(@ScriptDir & "\Images\Walls\06.ico",-1, $x+27, $y-2, 24, 24)
+		$Wall06ST = GUICtrlCreateIcon($pIconLib, $eWall06, $x+27, $y-2, 24, 24)
 		$x = +180
 		$txtWall07ST = GUICtrlCreateInput("0", $x, $y , 25, 19, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 			_GUICtrlSetTip(-1, GetTranslated(617,30, "Input number of Walls level")&" 7 "&GetTranslated(617,31, "you have."))
-		$Wall07ST = GUICtrlCreateIcon(@ScriptDir & "\Images\Walls\07.ico",-1, $x+27, $y-2, 24, 24)
+		$Wall07ST = GUICtrlCreateIcon($pIconLib, $eWall07, $x+27, $y-2, 24, 24)
 		$x = +230
 		$txtWall08ST = GUICtrlCreateInput("0", $x, $y , 25, 19, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 			_GUICtrlSetTip(-1, GetTranslated(617,30, "Input number of Walls level")&" 8 "&GetTranslated(617,31, "you have."))
-		$Wall08ST = GUICtrlCreateIcon(@ScriptDir & "\Images\Walls\08.ico",-1, $x+27, $y-2, 24, 24)
+		$Wall08ST = GUICtrlCreateIcon($pIconLib, $eWall08, $x+27, $y-2, 24, 24)
 		$x = +280
 		$txtWall09ST = GUICtrlCreateInput("0", $x, $y , 25, 19, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 			_GUICtrlSetTip(-1, GetTranslated(617,30, "Input number of Walls level")&" 9 "&GetTranslated(617,31, "you have."))
-		$Wall09ST = GUICtrlCreateIcon(@ScriptDir & "\Images\Walls\09.ico",-1, $x+27, $y-2, 24, 24)
+		$Wall09ST = GUICtrlCreateIcon($pIconLib, $eWall09, $x+27, $y-2, 24, 24)
 		$x = +330
 		$txtWall10ST = GUICtrlCreateInput("0", $x, $y , 25, 19, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 			_GUICtrlSetTip(-1, GetTranslated(617,30, "Input number of Walls level")&" 10 "&GetTranslated(617,31, "you have."))
-		$Wall10ST = GUICtrlCreateIcon(@ScriptDir & "\Images\Walls\10.ico",-1, $x+27, $y-2, 24, 24)
+		$Wall10ST = GUICtrlCreateIcon($pIconLib, $eWall10, $x+27, $y-2, 24, 24)
 		$x = +380
 		$txtWall11ST = GUICtrlCreateInput("0", $x, $y , 25, 19, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 			_GUICtrlSetTip(-1, GetTranslated(617,30, "Input number of Walls level")&" 11 "&GetTranslated(617,31, "you have."))
-		$Wall11ST = GUICtrlCreateIcon(@ScriptDir & "\Images\Walls\11.ico",-1, $x+27, $y-2, 24, 24)
+		$Wall11ST = GUICtrlCreateIcon($pIconLib, $eWall11, $x+27, $y-2, 24, 24)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 GUICtrlCreateTabItem("")
 

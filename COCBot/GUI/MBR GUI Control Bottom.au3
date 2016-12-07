@@ -218,21 +218,13 @@ Func updateBtnHideState($newState = $GUI_ENABLE)
 EndFunc	  ;==>updateBtnHideState
 
 Func btnHide()
-	ResumeAndroid()
-	WinGetAndroidHandle() ; updates android position
-	WinGetPos($HWnD)
-	If @error <> 0 Then Return SetError(0, 0, 0)
-
 	If $Hide = False Then
 		GUICtrlSetData($btnHide, GetTranslated(602, 26, "Show"))
-		Local $a = WinGetPos($HWnD)
-		WinMove2($HWnD, "", -32000, -32000)
+		HideAndroidWindow(True)
 		$Hide = True
-	Else
+	ElseIf $Hide = True Then
 		GUICtrlSetData($btnHide, GetTranslated(602, 11, "Hide"))
-
-		WinMove2($HWnD, "", $AndroidPosX, $AndroidPosY)
-		WinActivate($HWnD)
+		HideAndroidWindow(False)
 		$Hide = False
 	EndIf
 EndFunc   ;==>btnHide

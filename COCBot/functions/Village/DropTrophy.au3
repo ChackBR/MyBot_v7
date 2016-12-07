@@ -134,6 +134,7 @@ Func DropTrophy()
 
 				; Drop a Hero or Troop
 				If $iChkTrophyHeroes = 1 Then
+				    ;a) identify heroes avaiables...
 					$King = -1
 					$Queen = -1
 					$Warden = -1
@@ -147,44 +148,65 @@ Func DropTrophy()
 						EndIf
 					Next
 
+				    ;b) calculate random drop point...
 					$aRandomEdge = $Edges[Round(Random(0, 3))]
 					$iRandomXY = Round(Random(0, 4))
 					If $DebugSetlog = 1 Then Setlog("Hero Loc = " & $iRandomXY & ", X:Y= " & $aRandomEdge[$iRandomXY][0] & "|" & $aRandomEdge[$iRandomXY][1], $COLOR_DEBUG)
 
-					If $Warden <> -1 Then
-						SetTrophyLoss()
-						SetLog("Deploying Warden", $COLOR_INFO)
-						Click(GetXPosOfArmySlot($Warden, 68), 595 + $bottomOffsetY, 1, 0, "#0000") ;Select Warden
-						If _Sleep($iDelayDropTrophy1) Then ExitLoop
-						Click($aRandomEdge[$iRandomXY][0], $aRandomEdge[$iRandomXY][1], 1, 0, "#0000") ;Drop Warden
-						If _Sleep($iDelayDropTrophy4) Then ExitLoop
-						If IsAttackPage() Then SelectDropTroop($Warden) ;If Warden was not activated: Boost Warden before EndBattle to restore some health
-						ReturnHome(False, False) ;Return home no screenshot
-						If _Sleep($iDelayDropTrophy1) Then ExitLoop
-					EndIf
-					If $Warden = -1 And $Queen <> -1 Then
-						SetTrophyLoss()
-						SetLog("Deploying Queen", $COLOR_INFO)
-						Click(GetXPosOfArmySlot($Queen, 68), 595 + $bottomOffsetY, 1, 0, "#0179") ;Select Queen
-						If _Sleep($iDelayDropTrophy1) Then ExitLoop
-						Click($aRandomEdge[$iRandomXY][0], $aRandomEdge[$iRandomXY][1], 1, 0, "#0180") ;Drop Queen
-						If _Sleep($iDelayDropTrophy4) Then ExitLoop
-						If IsAttackPage() Then SelectDropTroop($Queen) ;If Queen was not activated: Boost Queen before EndBattle to restore some health
-						ReturnHome(False, False) ;Return home no screenshot
-						If _Sleep($iDelayDropTrophy1) Then ExitLoop
-					EndIf
-					If $Warden = -1 And $Queen = -1 And $King <> -1 Then
-						SetTrophyLoss()
-						SetLog("Deploying King", $COLOR_INFO)
-						Click(GetXPosOfArmySlot($King, 68), 595 + $bottomOffsetY, 1, 0, "#0177") ;Select King
-						If _Sleep($iDelayDropTrophy1) Then ExitLoop
-						Click($aRandomEdge[$iRandomXY][0], $aRandomEdge[$iRandomXY][1], 1, 0, "#0178") ;Drop King
-						If _Sleep($iDelayDropTrophy4) Then ExitLoop
-						If IsAttackPage() Then SelectDropTroop($King) ;If King was not activated: Boost King before EndBattle to restore some health
-						ReturnHome(False, False) ;Return home no screenshot
-						If _Sleep($iDelayDropTrophy1) Then ExitLoop
-					EndIf
 
+					;c) check if hero avaiable and drop according to priority
+					If ($Queen <> -1 or $King <> -1 Or $Warden <> -1) Then
+					   Local $DropHeroPriority
+						If $iCmbTrophyHeroesPriority = 0 Then $DropHeroPriority = "QKW"
+						If $iCmbTrophyHeroesPriority = 1 Then $DropHeroPriority = "QWK"
+						If $iCmbTrophyHeroesPriority = 2 Then $DropHeroPriority = "KQW"
+						If $iCmbTrophyHeroesPriority = 3 Then $DropHeroPriority = "KWQ"
+						If $iCmbTrophyHeroesPriority = 4 Then $DropHeroPriority = "WKQ"
+						If $iCmbTrophyHeroesPriority = 5 Then $DropHeroPriority = "WQK"
+
+						Local $t
+						For $i = 1 to 3
+							$t = StringMid($DropHeroPriority, $i, 1)
+							Switch $t
+							Case "Q"
+								If $Queen <> -1 Then
+									SetTrophyLoss()
+									SetLog("Deploying Queen", $COLOR_INFO)
+									Click(GetXPosOfArmySlot($Queen, 68), 595 + $bottomOffsetY, 1, 0, "#0179") ;Select Queen
+									If _Sleep($iDelayDropTrophy1) Then ExitLoop
+									Click($aRandomEdge[$iRandomXY][0], $aRandomEdge[$iRandomXY][1], 1, 0, "#0180") ;Drop Queen
+									If _Sleep($iDelayDropTrophy4) Then ExitLoop
+									If IsAttackPage() Then SelectDropTroop($Queen) ;If Queen was not activated: Boost Queen before EndBattle to restore some health
+									ReturnHome(False, False) ;Return home no screenshot
+									If _Sleep($iDelayDropTrophy1) Then ExitLoop
+								EndIf
+							Case "K"
+								If $King <> -1 Then
+									SetTrophyLoss()
+									SetLog("Deploying King", $COLOR_INFO)
+									Click(GetXPosOfArmySlot($King, 68), 595 + $bottomOffsetY, 1, 0, "#0177") ;Select King
+									If _Sleep($iDelayDropTrophy1) Then ExitLoop
+									Click($aRandomEdge[$iRandomXY][0], $aRandomEdge[$iRandomXY][1], 1, 0, "#0178") ;Drop King
+									If _Sleep($iDelayDropTrophy4) Then ExitLoop
+									If IsAttackPage() Then SelectDropTroop($King) ;If King was not activated: Boost King before EndBattle to restore some health
+									ReturnHome(False, False) ;Return home no screenshot
+									If _Sleep($iDelayDropTrophy1) Then ExitLoop
+								EndIf
+							Case "W"
+								If $Warden <> -1 Then
+									SetTrophyLoss()
+									SetLog("Deploying Warden", $COLOR_INFO)
+									Click(GetXPosOfArmySlot($Warden, 68), 595 + $bottomOffsetY, 1, 0, "#0000") ;Select Warden
+									If _Sleep($iDelayDropTrophy1) Then ExitLoop
+									Click($aRandomEdge[$iRandomXY][0], $aRandomEdge[$iRandomXY][1], 1, 0, "#0000") ;Drop Warden
+									If _Sleep($iDelayDropTrophy4) Then ExitLoop
+									If IsAttackPage() Then SelectDropTroop($Warden) ;If Warden was not activated: Boost Warden before EndBattle to restore some health
+									ReturnHome(False, False) ;Return home no screenshot
+									If _Sleep($iDelayDropTrophy1) Then ExitLoop
+								EndIf
+							EndSwitch
+						Next
+					EndIf
 				EndIf
 				If ($Queen = -1 And $King = -1 And $Warden = -1) Or $iChkTrophyHeroes = 0 Then
 					$aRandomEdge = $Edges[Round(Random(0, 3))]

@@ -41,6 +41,6 @@ Local $x = 20, $y = 130 - 105
 		$radUseDBAttack = GUICtrlCreateRadio(GetTranslated(629,9, "DeadBase Atk."), $x + 20, $y, -1, -1)
 			_GUICtrlSetTip(-1, GetTranslated(629,10, "Use Dead Base attack settings when attacking a TH Bully match."))
 			GUICtrlSetState(-1, $GUI_CHECKED)
-		$radUseLBAttack = GUICtrlCreateRadio(GetTranslated(629,11, "LiveBase Atk."), $x + 115, $y, -1, -1)
-			_GUICtrlSetTip(-1, GetTranslated(629,12, "Use Live Base attack settings when attacking a TH Bully match."))
+		$radUseLBAttack = GUICtrlCreateRadio(GetTranslated(629,11, "Active Base Atk."), $x + 115, $y, -1, -1)
+			_GUICtrlSetTip(-1, GetTranslated(629,12, "Use Active Base attack settings when attacking a TH Bully match."))
 	GUICtrlCreateGroup("", -99, -99, 1, 1)

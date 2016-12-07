@@ -17,8 +17,9 @@
 Func ReArm()
 
 	If $ichkTrap = 0 Then Return ; If re-arm is not enable in GUI return and skip this code
-	If $iShouldRearm = False Then Return
-	$iShouldRearm = False
+	;If $iShouldRearm = False Then Return
+	If $NotNeedAllTime[0] = 0 Then Return
+	;$iShouldRearm = False
 	;	Local $y = 562 + $bottomOffsetY ; Add 60 y pixel for 860x780 window
 
 	SetLog("Checking if Village needs Rearming..", $COLOR_INFO)
@@ -77,9 +78,17 @@ Func ReArm()
 						Click(585, 252, 1, 0, "#0227") ; Click close gem window "X"
 						If _Sleep($iDelayReArm1) Then Return
 					Else
-						If $i = 0 Then SetLog("Rearmed Trap(s)", $COLOR_SUCCESS)
-						If $i = 1 Then SetLog("Reloaded XBow(s)", $COLOR_SUCCESS)
-						If $i = 2 Then SetLog("Reloaded Inferno(s)", $COLOR_SUCCESS)
+						Switch $i
+							Case 0
+								SetLog("Rearmed Trap(s)", $COLOR_SUCCESS)
+								$NotNeedAllTime[0] = 0
+							Case 1
+								SetLog("Reloaded XBow(s)", $COLOR_SUCCESS)
+								$NotNeedAllTime[0] = 0
+							Case 2
+								SetLog("Reloaded Inferno(s)", $COLOR_SUCCESS)
+								$NotNeedAllTime[0] = 0
+						EndSwitch
 						$locate = 1
 						If _Sleep($iDelayReArm1) Then Return
 					EndIf
@@ -88,7 +97,10 @@ Func ReArm()
 		EndIf
 	Next
 
-	If $locate = 0 Then SetLog("Rearm not needed!", $COLOR_SUCCESS)
+	If $locate = 0 Then
+		SetLog("Rearm not needed!", $COLOR_SUCCESS)
+		$NotNeedAllTime[0] = 0
+	EndIf
 	ClickP($aAway, 1, 0, "#0234") ; Click away
 	If _Sleep($iDelayReArm2) Then Return
 	checkMainScreen(False) ; check for screen errors while running function

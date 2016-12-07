@@ -65,6 +65,14 @@ Func chkUseRandomClick()
 	EndIf
 EndFunc   ;==>chkUseRandomClick
 
+;~ Func chkAddIdleTime()
+;~ 	If GUICtrlRead($chkAddIdleTime) = $GUI_CHECKED Then
+;~ 		$ichkAddIdleTime = 1
+;~ 	Else
+;~ 		$ichkAddIdleTime = 0
+;~ 	EndIf
+;~ EndFunc   ;==>chkAddIdleTime
+
 Func chkUpdatingWhenMinimized()
 	$iUpdatingWhenMinimized = (GUICtrlRead($chkUpdatingWhenMinimized) = $GUI_CHECKED ? 1 : 0)
 EndFunc   ;==>chkUpdatingWhenMinimized
@@ -133,15 +141,6 @@ Func chkDisposeWindows()
 		GUICtrlSetState($txtWAOffsety, $GUI_DISABLE)
 	EndIf
 EndFunc   ;==>chkDisposeWindows
-
-
-Func chkTotalCampForced()
-	If GUICtrlRead($chkTotalCampForced) = $GUI_CHECKED Then
-		GUICtrlSetState($txtTotalCampForced, $GUI_ENABLE)
-	Else
-		GUICtrlSetState($txtTotalCampForced, $GUI_DISABLE)
-	EndIf
-EndFunc   ;==>chkTotalCampForced
 
 Func chkSinglePBTForced()
 	If GUICtrlRead($chkSinglePBTForced) = $GUI_CHECKED Then
@@ -579,6 +578,12 @@ Func btnTestDeadBase()
 	Local $currentRunState = $RunState
 	$RunState = True
 
+	SearchZoomOut($aCenterEnemyVillageClickDrag, True, "btnTestDeadBase")
+	ResetTHsearch()
+	SetLog("Testing FindTownhall()", $COLOR_INFO)
+	SetLog("FindTownhall() = " & FindTownhall(True), $COLOR_INFO)
+	SetLog("$IMGLOCREDLINE = " & $IMGLOCREDLINE, $COLOR_INFO)
+
 	SetLog("Testing checkDeadBase()", $COLOR_INFO)
 	SetLog("Result checkDeadBase() = " & checkDeadBase(), $COLOR_INFO)
 	SetLog("Testing checkDeadBase() DONE", $COLOR_INFO)
@@ -599,7 +604,10 @@ Func btnTestDeadBaseFolder()
 		SetLog("btnTestDeadBaseFolder cancelled", $COLOR_INFO)
 	EndIf
 
-	checkDeadBaseFolder($directory)
+	;checkDeadBaseFolder($directory, "checkDeadBaseNew()", "checkDeadBaseSuperNew()")
+	Local $oldFill = 'checkDeadBaseSuperNew(False, "' & @ScriptDir & "\imgxml\deadbase\elix\fill\old\" & '")'
+	Local $newFill = 'checkDeadBaseSuperNew(False, "' & @ScriptDir & "\imgxml\deadbase\elix\fill\new\" & '")'
+	checkDeadBaseFolder($directory, $oldFill, $newFill)
 
 EndFunc   ;==>btnTestDeadBase
 
@@ -629,11 +637,13 @@ Func btnTestAttackCSV()
 	$debugAttackCSV = 1
 	$makeIMGCSV = 1
 
-	SetLog("Testing Algorithm_AttackCSV()", $COLOR_INFO)
+	SearchZoomOut($aCenterEnemyVillageClickDrag, True, "btnTestAttackCSV")
 	ResetTHsearch()
-	FindTownhall(True)
-	Local $aCenterVillage = SearchZoomOut($aCenterEnemyVillageClickDrag, True, "btnTestAttackCSV")
-	updateGlobalVillageOffset($aCenterVillage[3], $aCenterVillage[4]) ; update red line and TH location
+	SetLog("Testing FindTownhall()", $COLOR_INFO)
+	SetLog("FindTownhall() = " & FindTownhall(True), $COLOR_INFO)
+	SetLog("$IMGLOCREDLINE = " & $IMGLOCREDLINE, $COLOR_INFO)
+
+	SetLog("Testing Algorithm_AttackCSV()", $COLOR_INFO)
 	Algorithm_AttackCSV()
 	SetLog("Testing Algorithm_AttackCSV() DONE", $COLOR_INFO)
 
@@ -654,10 +664,32 @@ Func btnTestFindButton()
 	Local $sButton = GUICtrlRead($txtTestFindButton)
 	SetLog("Testing findButton(""" & $sButton & """)", $COLOR_INFO)
 	$result = findButton($sButton)
-	If @error Then $result = "Error " & @error & ", " & @extended & ", " & ((IsArray($result)) ? (_ArrayToString($result, ",")) : ($result))
+	$result = ((IsArray($result)) ? (_ArrayToString($result, ",")) : ($result))
+	If @error Then $result = "Error " & @error & ", " & @extended & ", "
 	SetLog("Result findButton(""" & $sButton & """) = " & $result, $COLOR_INFO)
 	SetLog("Testing findButton(""" & $sButton & """) DONE" , $COLOR_INFO)
 	EndImageTest()
+EndFunc
+
+Func btnTestCleanYard()
+	Local $currentRunState = $RunState
+	Local $iCurrFreeBuilderCount = $iFreeBuilderCount
+	$iTestFreeBuilderCount = 5
+	$RunState = True
+	BeginImageTest()
+	Local $result
+	SetLog("Testing CleanYard", $COLOR_INFO)
+	SearchZoomOut($aCenterEnemyVillageClickDrag, True, "btnTestCleanYard")
+	$result = CleanYard()
+	$result = ((IsArray($result)) ? (_ArrayToString($result, ",")) : ($result))
+	If @error Then $result = "Error " & @error & ", " & @extended & ", "
+	SetLog("Result CleanYard", $COLOR_INFO)
+	SetLog("Testing CleanYard DONE" , $COLOR_INFO)
+	EndImageTest()
+	; restore original state
+	$iTestFreeBuilderCount = -1
+	$iFreeBuilderCount = $iCurrFreeBuilderCount
+	$RunState = $currentRunState
 EndFunc
 
 Func BeginImageTest($directory = $dirTemp)
@@ -665,18 +697,20 @@ Func BeginImageTest($directory = $dirTemp)
 	Local $sImageFile = FileOpenDialog("Select CoC screenshot to test, cancel to use live screenshot", $directory, "Image (*.png)", $FD_FILEMUSTEXIST, "", $frmBot)
 	If @error <> 0 Then
 		SetLog("Testing image cancelled, taking screenshot from " & $Android, $COLOR_INFO)
+		ZoomOut()
 		_CaptureRegion()
 		$hHBMP = $hHBitmap
 		TestCapture($hHBMP)
-	Else
-		SetLog("Testing image " & $sImageFile, $COLOR_INFO)
-		; load test image
-		$hBMP = _GDIPlus_BitmapCreateFromFile($sImageFile)
-		$hHBMP = _GDIPlus_BitmapCreateDIBFromBitmap($hBMP)
-		_GDIPlus_BitmapDispose($hBMP)
-		TestCapture($hHBMP)
-		SetLog("Testing image hHBitmap = " & $hHBMP)
+		Return False
 	EndIf
+	SetLog("Testing image " & $sImageFile, $COLOR_INFO)
+	; load test image
+	$hBMP = _GDIPlus_BitmapCreateFromFile($sImageFile)
+	$hHBMP = _GDIPlus_BitmapCreateDIBFromBitmap($hBMP)
+	_GDIPlus_BitmapDispose($hBMP)
+	TestCapture($hHBMP)
+	SetLog("Testing image hHBitmap = " & $hHBMP)
+	Return True
 EndFunc
 
 Func EndImageTest()

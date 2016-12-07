@@ -13,14 +13,18 @@
 ; Example .......: No
 ; ===============================================================================================================================
 ;
-Func CheckZoomOut()
-	_CaptureRegion()
-	If IsArray(GetVillageSize()) = 0 Then
+Func CheckZoomOut($sSource = "CheckZoomOut", $bForecCapture = True)
+	If $bForecCapture = True Then
+		_CaptureRegion2()
+	EndIf
+	Local $aVillageResult = SearchZoomOut(False, True, $sSource, False)
+	If IsArray($aVillageResult) = 0 Or $aVillageResult[0] = "" Then
+		; not zoomed out, Return
 		SetLog("Not Zoomed Out! Exiting to MainScreen...", $COLOR_ERROR)
 		checkMainScreen() ;exit battle screen
-		$Restart = True
+		$Restart = True ; Restart Attack
+		$Is_ClientSyncError = True ; quick restart
 		Return False
-	Else
-		Return True
 	EndIf
+	Return True
 EndFunc   ;==>CheckZoomOut
