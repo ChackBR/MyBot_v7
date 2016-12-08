@@ -116,7 +116,7 @@ Func CheckCamp($NeedOpenArmy = False, $CloseCheckCamp = False)
 			EndIf
 			TrainArmyNumber( $Num - 1 )
 		EndIf
-			TrainArmyNumber($Num)
+		TrainArmyNumber($Num)
 		If _Sleep(700) Then Return
 	EndIf
 	If $CloseCheckCamp Then
