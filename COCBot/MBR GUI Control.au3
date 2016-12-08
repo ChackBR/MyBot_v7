@@ -1055,7 +1055,7 @@ Func tabAttack()
 		GUISetState(@SW_HIDE, $hGUI_SEARCH)
 		GUISetState(@SW_SHOWNOACTIVATE, $hGUI_NewSmartZap)
 		GUISetState(@SW_HIDE, $hGUI_STRATEGIES)
-	Case $tabidx = 2 ; STRATEGIES tab
+	Case $tabidx = 3 ; STRATEGIES tab
 		GUISetState(@SW_SHOWNOACTIVATE, $hGUI_STRATEGIES)
 		GUISetState(@SW_HIDE, $hGUI_ARMY)
 		GUISetState(@SW_HIDE, $hGUI_SEARCH)

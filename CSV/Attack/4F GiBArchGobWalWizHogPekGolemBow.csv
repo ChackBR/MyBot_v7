@@ -47,6 +47,7 @@ DROP  |A-A-B-B    |5          |1          |pekk       |0          |0          |0
 DROP  |A-A-B-B    |5          |1          |gole       |0          |0          |0          |           |launch gole using all 4 vectors concurrently...               4 gole
 DROP  |A-B-A-B    |6          |1          |wall       |0          |0          |0          |           |launch wall using all 4 vectors concurrently...               4 wall
 DROP  |A-B-A-B    |6          |1          |wiza       |0          |0          |0          |           |launch wiza using all 4 vectors concurrently...               4 wiza
+DROP  |A-B-A-B    |6          |1          |Bowl       |0          |0          |0          |           |launch Bowl using all 4 vectors concurrently...               4 Bowl
 DROP  |E-F        |6          |1          |giant      |0          |0          |0          |           |launch giants using all 4 vectors concurrently...             1 giant
 DROP  |E-F        |1,3,5,7,9  |5          |barb       |0          |0          |0          |           |launch barbarians using all 4 vectors concurrently...         5 barb
 DROP  |E-F        |1,3,5,7,9  |5          |arch       |0          |0          |0          |           |launch archs using all 4 vectors concurrently...              5 arch
@@ -57,6 +58,7 @@ DROP  |G-H        |1,3,5,7,9  |5          |arch       |0          |0          |0
 DROP  |G-H        |1,3,5,7,9  |5          |gobl       |0          |0          |0          |           |launch barbarians using all 4 vectors concurrently...         5 gobl
 DROP  |E-F-G-H    |6          |1          |wall       |0          |0          |0          |           |launch wall using all 4 vectors concurrently...               4 wall
 DROP  |E-F-G-H    |6          |1          |wiza       |0          |0          |0          |           |launch wiza using all 4 vectors concurrently...               4 wiza
+DROP  |E-F-G-H    |6          |1          |Bowl       |0          |0          |0          |           |launch Bowl using all 4 vectors concurrently...               4 Bowl
 DROP  |A-B        |6          |1          |giant      |0          |0          |0          |           |launch giants using all 4 vectors concurrently...             1 giant
 DROP  |A-B        |2,4,6,8,10 |5          |barb       |0          |0          |0          |           |launch barbarians using all 4 vectors concurrently...         5 barb
 DROP  |A-B        |2,4,6,8,10 |5          |arch       |0          |0          |0          |           |launch barbarians using all 4 vectors concurrently...         5 arch
@@ -96,6 +98,7 @@ DROP  |A          |7          |4          |hogs       |0          |0          |0
 DROP  |A-B-B-A    |5          |1          |pekk       |0          |0          |0          |           |launch pekk using all 4 vectors concurrently...               4 pekk
 DROP  |A-B-B-A    |6          |1          |wall       |0          |0          |0          |           |launch wall using all 4 vectors concurrently...               4 wall
 DROP  |A-B-B-A    |6          |1          |wiza       |0          |0          |0          |           |launch wiza using all 4 vectors concurrently...               4 wiza
+DROP  |A-B-B-A    |6          |1          |Bowl       |0          |0          |0          |           |launch Bowl using all 4 vectors concurrently...               4 Bowl
 
       |------------------------------------- four fingers gibarch end-----------------------------------|
       |Change log
