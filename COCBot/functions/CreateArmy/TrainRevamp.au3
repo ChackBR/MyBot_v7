@@ -1,6 +1,6 @@
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: Train Revamp Oct 2016
-; Description ...: 
+; Description ...:
 ; Syntax ........:
 ; Parameters ....: None
 ; Return values .: None
@@ -34,7 +34,7 @@ Func TestTrainRevamp()
 	If $debugsetlogTrain = 1 Then Setlog(" »» Line Open Army Window")
 
 	CheckArmySpellCastel()
-	
+
 	;Test for Train/Donate Only and Fullarmy
 	If ($CommandStop = 3 Or $CommandStop = 0) And $fullarmy Then
 		SetLog("You are in halt attack mode and your Army is prepared!", $COLOR_DEBUG) ;Debug
@@ -75,7 +75,7 @@ Func TestTrainRevamp()
 		If $bDonationEnabled = True Then MakingDonatedTroops()
 
 		CheckCamp()
-		
+
 		CheckIsFullQueuedAndNotFullArmy()
 		If $RunState = False Then Return
 		CheckIsEmptyQueuedAndNotFullArmy()
@@ -103,14 +103,20 @@ Func CheckCamp($NeedOpenArmy = False, $CloseCheckCamp = False)
 	If GUICtrlRead($hRadio_Army2) = $GUI_CHECKED Then $Num = 2
 	If GUICtrlRead($hRadio_Army3) = $GUI_CHECKED Then $Num = 3
 	Local $ReturnCamp = TestMaxCamp()
-	If $ReturnCamp = 1 And $bDonationEnabled = False Then
-		DeleteQueued("Troops", 802 - 70)
-		If _Sleep(500) Then Return
-	EndIf
+;~	If $ReturnCamp = 1 And $bDonationEnabled = False Then
+;~		DeleteQueued("Troops", 802 - 70)
+;~		If _Sleep(500) Then Return
+;~	EndIf
 	If $ReturnCamp = 0 Or $ReturnCamp = 1 Then
 		OpenTrainTabNumber($QuickTrainTAB)
 		If _Sleep(1000) Then Return
-		TrainArmyNumber($Num)
+		If $Num > 1 Then
+			If $Num > 2 Then
+				TrainArmyNumber( $Num - 2 )
+  	   	EndIf
+			TrainArmyNumber( $Num - 1 )
+      EndIf
+			TrainArmyNumber($Num)
 		If _Sleep(700) Then Return
 	EndIf
 	If $CloseCheckCamp Then
@@ -139,7 +145,7 @@ EndFunc
 Func TestTrainRevampOldStyle()
 	If $debugsetlogTrain = 1 Then Setlog(" » Initial Custom train Function")
 	CheckArmySpellCastel()
-	
+
 	;Test for Train/Donate Only and Fullarmy
 	If ($CommandStop = 3 Or $CommandStop = 0) And $fullarmy Then
 		SetLog("You are in halt attack mode and your Army is prepared!", $COLOR_DEBUG) ;Debug
@@ -1692,14 +1698,14 @@ Func ResetVariables($txt = "")
 			Assign("Cur" & $TroopName[$i], 0)
 			If _Sleep($iDelayTrain6) Then Return ; '20' just to Pause action
 		Next
-#CS 		
+#CS
 		For $i = 0 To UBound($TroopDarkName) - 1
 			If $Runstate = False Then Return
 			Assign("Cur" & $TroopDarkName[$i], 0)
 			If _Sleep($iDelayTrain6) Then Return ; '20' just to Pause action
 		Next
-		
- #CE
+
+#CE
 	EndIf
 	If $txt = "Spells" Or $txt = "all" Then
 		For $i = 0 To UBound($SpellName) - 1
@@ -1714,7 +1720,7 @@ Func ResetVariables($txt = "")
 			Assign("Don" & $TroopName[$i], 0)
 			If _Sleep($iDelayTrain6) Then Return ; '20' just to Pause action
 		Next
-#CS 
+#CS
 		For $i = 0 To UBound($TroopDarkName) - 1
 			Assign("Don" & $TroopDarkName[$i], 0)
 			If $Runstate = False Then Return
@@ -1829,7 +1835,7 @@ Func Slot($x = 0, $txt = "")
 
 
 EndFunc   ;==>Slot
-#CS 
+#CS
 Func MakingTroops()
 
 	If IsTrainPage() And ISArmyWindow(False, $TrainTroopsTAB) = False Then OpenTrainTabNumber($TrainTroopsTAB)

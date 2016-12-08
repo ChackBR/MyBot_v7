@@ -97,7 +97,7 @@ Func _makerequest()
 			If $ichkBackground = 0 And $NoFocusTampering = False Then ControlFocus($HWnD, "", "")
 			; fix for Android send text bug sending symbols like ``"
 			AndroidSendText($sTxtRequest, True)
-			Click($atxtRequestCCBtn[0], $atxtRequestCCBtn[1], 1, 0, "#0254") ;Select text for request $atxtRequestCCBtn[2] = [430, 140]
+			PureClick($atxtRequestCCBtn[0], $atxtRequestCCBtn[1], 1, 0, "#0254") ;Select text for request $atxtRequestCCBtn[2] = [430, 140]
 			_Sleep($iDelaymakerequest2)
 			If SendText($sTxtRequest) = 0 Then
 				Setlog(" Request text entry failed, try again", $COLOR_ERROR)
@@ -117,7 +117,7 @@ Func _makerequest()
 			CheckMainScreen(False) ;emergency exit
 		EndIf
 		If $ichkBackground = 0 And $NoFocusTampering = False Then ControlFocus($HWnD, "", "")  ; make sure Android has window focus
-		Click($aSendRequestCCBtn[0], $aSendRequestCCBtn[1], 1, 100, "#0256") ; click send button
+		PureClick($aSendRequestCCBtn[0], $aSendRequestCCBtn[1], 1, 100, "#0256") ; click send button
 		$canRequestCC = False
 	EndIf
 

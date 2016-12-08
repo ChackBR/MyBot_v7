@@ -150,22 +150,10 @@ Func QuickTrain($quickTrainOption, $bOpenAndClose = True,$forceDebug=false)
 			$region = "725,455,840,495"
 			$optBtn  = isButtonVisible("Army2",@ScriptDir & "\imgxml\newtrainwindow\TrainArmy_0_0_92.xml",$region)
 			$selBtn	= "Army2"
-			if $optBtn <> "" then ClickP(decodeSingleCoord($optBtn),1,300, $selBtn )
-			$region = "725,335,840,375"
-			$optBtn  = isButtonVisible("Army1",@ScriptDir & "\imgxml\newtrainwindow\TrainArmy_0_0_92.xml",$region)
-			$selBtn	= "Army1"
 		Case 3 ; Army 3
-			$region = "725,455,840,495"
-			$optBtn  = isButtonVisible("Army2",@ScriptDir & "\imgxml\newtrainwindow\TrainArmy_0_0_92.xml",$region)
-			$selBtn	= "Army2"
-			if $optBtn <> "" then ClickP(decodeSingleCoord($optBtn),1,300, $selBtn )
 			$region = "725,570,840,615"
 			$optBtn  = isButtonVisible("Army3",@ScriptDir & "\imgxml\newtrainwindow\TrainArmy_0_0_92.xml",$region)
 			$selBtn	= "Army3"
-			if $optBtn <> "" then ClickP(decodeSingleCoord($optBtn),1,300, $selBtn )
-			$region = "725,335,840,375"
-			$optBtn  = isButtonVisible("Army1",@ScriptDir & "\imgxml\newtrainwindow\TrainArmy_0_0_92.xml",$region)
-			$selBtn	= "Army1"
 	EndSwitch
 
 	if $optBtn <> "" then

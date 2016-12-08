@@ -59,7 +59,7 @@ $hGUI_STATS_TAB_ITEM1 = GUICtrlCreateTabItem(GetTranslated(600,38,"Gain"))
 		GUICtrlSetState(-1,$GUI_HIDE)
 		$THLevels11 = GUICtrlCreateIcon($pIconLib, $eHdV11, $x - 11, $y + 15, 52, 52)
 		GUICtrlSetState(-1,$GUI_HIDE)
-		
+
 		$txtTHLevels = GUICtrlCreateLabel(GetTranslated(632,0, "TownHall"), $x - 11, $y, -1, -1, $SS_CENTER)
 		GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 		GUICtrlSetColor(-1, $COLOR_BLACK)
@@ -92,7 +92,7 @@ $hGUI_STATS_TAB_ITEM1 = GUICtrlCreateTabItem(GetTranslated(600,38,"Gain"))
 		GUICtrlSetState(-1,$GUI_HIDE)
 		$LegendLeague = GUICtrlCreateIcon($pIconLib, $eLegend, $x - 2, $y - 5 + 15, 56, 56)
 		GUICtrlSetState(-1,$GUI_HIDE)
-		
+
 		$txtLeague = GUICtrlCreateLabel(GetTranslated(632,106, "League"), $x + 3, $y, -1, -1, $SS_CENTER)
 		GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 		GUICtrlSetColor(-1, $COLOR_BLACK)
@@ -102,7 +102,7 @@ $hGUI_STATS_TAB_ITEM1 = GUICtrlCreateTabItem(GetTranslated(600,38,"Gain"))
 		GUICtrlSetFont($lblLeague, 11, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 		GUICtrlSetColor($lblLeague, $COLOR_BLACK)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
-		 
+
 	$x = $xStart + 3
 	$y = $yStart + 100
 		$lblStatsRev = GUICtrlCreateLabel("Stats", $x - 20, $y - 32, 87, 17, $SS_CENTER)
@@ -162,7 +162,7 @@ $hGUI_STATS_TAB_ITEM1 = GUICtrlCreateTabItem(GetTranslated(600,38,"Gain"))
 		GUICtrlSetColor(-1, $COLOR_BLACK)
 		_GUICtrlSetTip(-1, $txtTip)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
-	
+
 	$x = $xStart + 3
 	$y = $yStart + 125
 		$grpHourlyStats = GUICtrlCreateGroup("", $x - 20, $y - 20, 422, 28)
@@ -284,7 +284,7 @@ $hGUI_STATS_TAB_ITEM1 = GUICtrlCreateTabItem(GetTranslated(600,38,"Gain"))
 	$y = $yStart + 220
 		$grpLastAttackBonus = GUICtrlCreateGroup("", $x - 20, $y - 20, 422, 28)
 		$lblLastAttackBonus = GUICtrlCreateLabel(GetTranslated(632,16, "League Bonus") & ":", $x - 15, $y - 11, - 1, - 1)
-		;$lblLastAttackBonusTemp = GUICtrlCreateLabel(GetTranslated(632,3, "Report") & @CRLF & GetTranslated(632,99, "will update") & @CRLF & GetTranslated(632,97, "here after") & @CRLF & GetTranslated(632,98, "each attack."), $x - 15, $y + 5, 100, 65, BitOR($SS_LEFT, $BS_MULTILINE))	
+		;$lblLastAttackBonusTemp = GUICtrlCreateLabel(GetTranslated(632,3, "Report") & @CRLF & GetTranslated(632,99, "will update") & @CRLF & GetTranslated(632,97, "here after") & @CRLF & GetTranslated(632,98, "each attack."), $x - 15, $y + 5, 100, 65, BitOR($SS_LEFT, $BS_MULTILINE))
 	$x += 85
 		GUICtrlCreateIcon($pIconLib, $eIcnGold, $x + 50, $y - 12, 16, 16)
 		$txtTip = GetTranslated(632,17, "The amount of Bonus Gold you gained on the last attack.")
@@ -424,7 +424,7 @@ $hGUI_STATS_TAB_ITEM2 = GUICtrlCreateTabItem(GetTranslated(600,39,"Misc"))
 		GUICtrlSetColor(-1, $COLOR_BLACK)
 		_GUICtrlSetTip(-1, $txtTip)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
-	
+
 	$x = $xStart + 180
 	$y = $yStart + 25
 	$y -= 15
@@ -488,7 +488,7 @@ $hGUI_STATS_TAB_ITEM2 = GUICtrlCreateTabItem(GetTranslated(600,39,"Misc"))
 		GUICtrlSetColor(-1, $COLOR_BLACK)
 		_GUICtrlSetTip(-1, $txtTip)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
-	
+
 	$x = $xStart + 5
 	$y = $yStart + 165
 		$lblRunRev = GUICtrlCreateLabel(GetTranslated(632, 103, "Upgrades Made"), $x - 20, $y - 32, 187, 17, $SS_CENTER)
@@ -771,7 +771,7 @@ $hGUI_STATS_TAB_ITEM3 = GUICtrlCreateTabItem(GetTranslated(600,40,"Attacks"))
 		GUICtrlSetColor(-1, $COLOR_BLACK)
 		GUICtrlCreateIcon($pIconLib, $eIcnDrill, $x + 79, $y - 4, 16, 16)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
-	
+
 	$x = $xStart + 5
 	$y = $yStart + 165
 		$lblStatsTSRev = GUICtrlCreateLabel(GetTranslated(632,90, "TH Snipe"), $x - 20, $y - 32, 187, 17, $SS_CENTER)
@@ -857,7 +857,7 @@ $hGUI_STATS_TAB_ITEM3 = GUICtrlCreateTabItem(GetTranslated(600,40,"Attacks"))
 		GUICtrlSetColor(-1, $COLOR_BLACK)
 		_GUICtrlSetTip(-1, $txtTip)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
-	
+
 	$x = $xStart + 180
 	$y = $yStart + 165
 	$y -= 10

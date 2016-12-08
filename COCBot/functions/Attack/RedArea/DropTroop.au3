@@ -25,7 +25,7 @@ Func DropTroop($troop, $nbSides, $number, $slotsPerEdge = 0, $indexToAttack = -1
 	debugRedArea("troop : [" & $troop & "] / nbSides : [" & $nbSides & "] / number : [" & $number & "] / slotsPerEdge [" & $slotsPerEdge & "]")
 
 
-	If ($iChkRedArea[$iMatchMode]) Then
+	If ($iChkRedArea[$iMatchMode] And $iChkDeploySettings[$iMatchMode] <> 4) Then
 		If $slotsPerEdge = 0 Or $number < $slotsPerEdge Then $slotsPerEdge = $number
 		If _Sleep($iDelayDropTroop1) Then Return
 		SelectDropTroop($troop) ;Select Troop
