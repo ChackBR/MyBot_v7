@@ -57,10 +57,10 @@ Func TestTrainRevamp()
 			Setlog(" » Go to TrainRevamp Tab and select your Quick Army position!", $COLOR_ACTION1)
 		EndIf
 
-		DeleteQueued("Spells")
-		If _Sleep(250) Then Return
-		DeleteQueued("Troops")
-		If _Sleep(500) Then Return
+;~		DeleteQueued("Spells")
+;~		If _Sleep(250) Then Return
+;~		DeleteQueued("Troops")
+;~		If _Sleep(500) Then Return
 
 		CheckCamp()
 
@@ -113,9 +113,9 @@ Func CheckCamp($NeedOpenArmy = False, $CloseCheckCamp = False)
 		If $Num > 1 Then
 			If $Num > 2 Then
 				TrainArmyNumber( $Num - 2 )
-  	   	EndIf
+			EndIf
 			TrainArmyNumber( $Num - 1 )
-      EndIf
+		EndIf
 			TrainArmyNumber($Num)
 		If _Sleep(700) Then Return
 	EndIf
@@ -1787,7 +1787,7 @@ Func DeleteQueued($TypeQueued, $OffsetQueued = 802)
 	Else
 		Return
 	EndIf
-		If _Sleep(500) Then Return
+	If _Sleep(500) Then Return
 	Local $x = 0
 	While _ColorCheck(_GetPixelColor($OffsetQueued, 220, True), Hex(0Xbac8a5, 6), 10) = False
 		If _Sleep(20) Then Return

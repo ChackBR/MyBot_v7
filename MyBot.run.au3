@@ -54,7 +54,8 @@ Local $sModversion
 ; "2311" ; MyBot v6.3.0 Beta 7 + Telegram + SwitchAcc
 ; "2312" ; MyBot v6.3.0 Beta 7 With Some Fixes
 ; "2321" ; MyBot v6.3.0 Beta 8 + FFC + SmartZap + Max Time for CCWT
-$sModversion = "2322" ; MyBot v6.3.0 Beta 8 ( FFC, SmartZap, Max Time for CCWT ) + Fix for Load Strategies
+; "2322" ; MyBot v6.3.0 Beta 8 ( FFC, SmartZap, Max Time for CCWT ) + Fix for QuickTrain
+$sModversion = "2323" ; MyBot v6.3.0 Beta 8 ( FFC, SmartZap, Max Time for CCWT ) + Fix for Load Strategies
 $sBotVersion = "v6.3.u8" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it it also use on Checkversion()
 $sBotTitle = "My Bot " & $sBotVersion & ".r" & $sModversion & " " ;~ Don't use any non file name supported characters like \ / : * ? " < > |
 
