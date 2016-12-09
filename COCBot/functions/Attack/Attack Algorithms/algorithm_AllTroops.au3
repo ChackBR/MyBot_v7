@@ -239,7 +239,14 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 	$DeployHeroesPosition[0] = -1
 	$DeployHeroesPosition[1] = -1
 
-	LaunchTroop2($listInfoDeploy, $CC, $King, $Queen, $Warden)
+	; samm0d
+	If $iChkDeploySettings[$iMatchMode] = 5 And  $iMatchMode = $DB Then
+		SetLog(_PadStringCenter("Multi Finger Attack", 50, "="), $COLOR_BLUE)
+		launchMultiFinger($listInfoDeploy, $CC, $King, $Queen, $Warden)
+	Else
+		SetLog(_PadStringCenter("Standard Attack", 50, "="), $COLOR_BLUE)
+		LaunchTroop2($listInfoDeploy, $CC, $King, $Queen, $Warden)
+	EndIf
 
 	If _Sleep($iDelayalgorithm_AllTroops4) Then Return
 	SetLog("Dropping left over troops", $COLOR_INFO)

@@ -29,6 +29,7 @@ Func cmbDeployDB() ; avoid conflict between FourFinger and SmartAttack - DEMEN
 	  GUICtrlSetState($chkSmartAttackRedAreaDB, $GUI_DISABLE)
    Else
 	  GUICtrlSetState($chkSmartAttackRedAreaDB, $GUI_ENABLE)
+	  cmbDBMultiFinger()
    EndIf
 EndFunc
 
