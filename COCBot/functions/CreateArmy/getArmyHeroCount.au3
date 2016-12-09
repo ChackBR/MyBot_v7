@@ -124,7 +124,7 @@ Func getArmyHeroCount($bOpenArmyWindow = False, $bCloseArmyWindow = False)
 		EndIf
 	Next
 
-	If BitAND($iHeroWait[$DB], $iHeroAvailable) > 0 Or BitAND($iHeroWait[$LB], $iHeroAvailable) > 0 Or _
+	If BitAND($iHeroWait[$DB], $iHeroAvailable) = $iHeroWait[$DB] Or BitAND($iHeroWait[$LB], $iHeroAvailable) = $iHeroWait[$LB] Or _
 			($iHeroWait[$DB] = $HERO_NOHERO And $iHeroWait[$LB] = $HERO_NOHERO) Then
 		$bFullArmyHero = True
 		If $debugsetlogTrain = 1 Or $debugArmyHeroCount = 1 Then SetLog("$bFullArmyHero= " & $bFullArmyHero, $COLOR_DEBUG)

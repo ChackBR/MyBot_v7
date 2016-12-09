@@ -155,7 +155,7 @@ Func MakeSavePresetMessage()
 		Next
 		$message &= @CRLF
 	EndIf
-#CS 
+#CS
 	Switch $icmbDarkTroopComp
 		Case "0"
 			$message &= "- Dark Elixir Troops: Barracks: "
@@ -185,7 +185,7 @@ Func MakeSavePresetMessage()
 				Case $DB
 					$message &= "- DB search: "
 				Case $LB
-					$message &= "- AS search: "
+					$message &= "- AB search: "
 				Case $TS
 					$message &= "- TH search: "
 			EndSwitch
@@ -197,7 +197,7 @@ Func MakeSavePresetMessage()
 				Case $DB
 					$message &= "- DB filter: "
 				Case $LB
-					$message &= "- AS filter: "
+					$message &= "- AB filter: "
 				Case $TS
 					$message &= "- TH filter: "
 			EndSwitch
@@ -232,7 +232,7 @@ Func MakeSavePresetMessage()
 				Case $DB
 					$message &= "- DB: "
 				Case $LB
-					$message &= "- AS: "
+					$message &= "- AB: "
 				Case $TS
 					$message &= "- TH: "
 			EndSwitch
@@ -263,7 +263,7 @@ Func MakeSavePresetMessage()
 				Case $DB
 					$message &= "- DB: "
 				Case $LB
-					$message &= "- AS: "
+					$message &= "- AB: "
 				Case $TS
 					$message &= "- TH: "
 			EndSwitch

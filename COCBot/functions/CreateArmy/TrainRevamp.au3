@@ -1726,7 +1726,7 @@ Func ResetVariables($txt = "")
 			If $Runstate = False Then Return
 			If _Sleep($iDelayTrain6) Then Return ; '20' just to Pause action
 		Next
- #CE
+#CE
 	EndIf
 
 EndFunc   ;==>ResetVariables

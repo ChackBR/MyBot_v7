@@ -64,7 +64,7 @@ Func launchMultiFinger($listInfoDeploy, $CC, $King, $Queen, $Warden, $overrideSm
 	Local $RandomEdge, $RandomXY
 	Local $dropVectors[0][0]
 
-	Local $multiStyle = ($iMultiFingerStyle = $mfRandom) ? Random($mfFFStandard, $mf8FPinWheelRight, 1) : $iMultiFingerStyle
+	Local $multiStyle = ($iMultiFingerStyle = $mfRandom) ? Random($mfFFStandard, $mf8FPinWheelRight, 1) : (($iMultiFingerStyle = -1) ? Random($mfFFStandard, $mf8FPinWheelRight, 1) : $iMultiFingerStyle)
 
 	SetLog("Attacking " & $aAttackTypeString[$multiStyle] & " fight style.", $COLOR_BLUE)
 	If $debugSetLog = 1 Then SetLog("Launch " & $aAttackTypeString[$multiStyle] & " with CC " & $CC & ", K " & $King & ", Q " & $Queen & ", W " & $Warden , $COLOR_PURPLE)

@@ -439,9 +439,9 @@ Func Idle() ;Sequence that runs until Full Army
 		CheckArmyCamp(True, True)
 		While $iReHere < 7
 			$iReHere += 1
-			If $iReHere = 1 And SkipDonateNearFullTroops(True) Then
+			If $iReHere = 1 And SkipDonateNearFullTroops(True) = False Then
 				DonateCC(True)
-			ElseIf SkipDonateNearFullTroops(False) = True Then
+			ElseIf SkipDonateNearFullTroops(False) = False Then
 				DonateCC(True)
 			EndIf
 			If _Sleep($iDelayIdle2) Then ExitLoop

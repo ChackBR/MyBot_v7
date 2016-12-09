@@ -22,9 +22,9 @@
 		GUICtrlSetState($chkTrainLogoutMaxTime, $GUI_CHECKED)
 	ElseIf $TrainLogoutMaxTime = 0 Then
 		GUICtrlSetState($chkTrainLogoutMaxTime, $GUI_UNCHECKED)
+	EndIf
+	GUICtrlSetData($txtTrainLogoutMaxTime, $TrainLogoutMaxTimeTXT)	
 
 	; Multi Finger (LunaEclipse)
 	_GUICtrlComboBox_SetCurSel($cmbDBMultiFinger,$iMultiFingerStyle)
 	cmbDBMultiFinger()
-	EndIf
-	GUICtrlSetData($txtTrainLogoutMaxTime, $TrainLogoutMaxTimeTXT)	

@@ -622,7 +622,7 @@ Func DonateTroopType($Type, $Quant = 0, $Custom = False, $bDonateAll = False)
 				EndIf
 			EndIf
 		Next
-#CS 
+#CS
 		For $i = 0 To UBound($TroopDarkName) - 1
 			If Eval("e" & $TroopDarkName[$i]) = $Type Then
 				$iDonTroopsQuantityAv = Floor($iTotalDonateCapacity / $TroopDarkHeight[$i])
@@ -748,7 +748,7 @@ Func DonateTroopType($Type, $Quant = 0, $Custom = False, $bDonateAll = False)
 								EndIf
 							EndIf
 						Next
-#CS 
+#CS
 						;Dark Troops
 						For $i = 0 To UBound($TroopDarkName) - 1
 							If Eval("e" & $TroopDarkName[$i]) = $Type Then
@@ -821,7 +821,7 @@ Func DonateTroopType($Type, $Quant = 0, $Custom = False, $bDonateAll = False)
 								EndIf
 							EndIf
 						Next
-#CS 
+#CS
 						;Dark Troops
 						For $i = 0 To UBound($TroopDarkName) - 1
 							If Eval("e" & $TroopDarkName[$i]) = $Type Then
@@ -848,7 +848,7 @@ Func DonateTroopType($Type, $Quant = 0, $Custom = False, $bDonateAll = False)
 						Assign("Don" & $TroopName[$i], Eval("Don" & $TroopName[$i]) + $Quant)
 					EndIf
 				Next
-#CS 
+#CS
 				For $i = 0 To UBound($TroopDarkName) - 1
 					If Eval("e" & $TroopDarkName[$i]) = $Type Then
 						Assign("Don" & $TroopDarkName[$i], Eval("Don" & $TroopDarkName[$i]) + $Quant)
@@ -861,7 +861,7 @@ Func DonateTroopType($Type, $Quant = 0, $Custom = False, $bDonateAll = False)
 						Assign("Don" & $TroopName[$i], Eval("Don" & $TroopName[$i]) + $iDonTroopsQuantity)
 					EndIf
 				Next
-#CS 
+#CS
 				For $i = 0 To UBound($TroopDarkName) - 1
 					If Eval("e" & $TroopDarkName[$i]) = $Type Then
 						Assign("Don" & $TroopDarkName[$i], Eval("Don" & $TroopDarkName[$i]) + $iDonTroopsQuantity)

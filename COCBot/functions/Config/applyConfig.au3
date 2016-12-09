@@ -2132,7 +2132,7 @@ chkskipDonateNearFulLTroopsEnable()
 		GUICtrlSetState($chkAddDelayIdlePhaseEnable, $GUI_UNCHECKED)
 	EndIf
 	chkAddDelayIdlePhaseEnable()
-	
+
 	;screenshot
 	If $iScreenshotType = 1 Then
 		GUICtrlSetState($chkScreenshotType, $GUI_CHECKED)
