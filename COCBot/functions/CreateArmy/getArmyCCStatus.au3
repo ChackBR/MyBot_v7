@@ -62,7 +62,7 @@ Func getArmyCCStatus($bOpenArmyWindow = False, $bCloseArmyWindow = False)
 	EndIf
 
 	; samm0d
-	RequestCC(False,"",False)
+	RequestCC(False)
 
 	If $bCloseArmyWindow = True Then
 		ClickP($aAway, 1, 0, "#0000") ;Click Away
