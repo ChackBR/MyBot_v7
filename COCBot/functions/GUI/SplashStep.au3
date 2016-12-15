@@ -12,16 +12,16 @@
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
 ; Example .......: SplashStep("Loading GUI...") Show the splash status
 ; ===============================================================================================================================
-Func SplashStep($status)
-   $iCurrentStep += 1
-   If $ichkDisableSplash = 0 Then
-    GUICtrlSetData($hSplashProgress, ($iCurrentStep / $iTotalSteps) * 100)
-    GUICtrlSetData($lSplashStatus, $status)
-   EndIf
+Func SplashStep($status, $bIncreaseStep = True)
+	If $bIncreaseStep = True Then $iCurrentStep += 1
+	SetDebugLog("SplashStep " & $iCurrentStep & " of " & $iTotalSteps & ": " & $status)
+	If $ichkDisableSplash = 1 Then Return
+	GUICtrlSetData($hSplashProgress, ($iCurrentStep / $iTotalSteps) * 100)
+	GUICtrlSetData($lSplashStatus, $status)
 EndFunc   ;==>SplashStep
 
 Func UpdateSplashTitle($title)
-    If $ichkDisableSplash = 0 Then
-        GUICtrlSetData($lSplashTitle, $title)
-    EndIf
-EndFunc
+	SetDebugLog("UpdateSplashTitle: " & $title)
+	If $ichkDisableSplash = 1 Then Return
+	GUICtrlSetData($lSplashTitle, $title)
+EndFunc   ;==>UpdateSplashTitle

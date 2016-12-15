@@ -178,7 +178,7 @@ Func readConfig($inputfile = $config, $partial = False) ;Reads config and sets i
 		IniReadS($iSaveWallBldr, $config, "upgrade", "savebldr", "0")
 		IniReadS($iUseStorage, $config, "upgrade", "use-storage", "0")
 		IniReadS($icmbWalls, $config, "upgrade", "walllvl", "6")
-		IniReadS($iMaxNbWall, $config, "upgrade", "MaxNbWall", "8")
+		; IniReadS($iMaxNbWall, $config, "upgrade", "MaxNbWall", "8")
 		IniReadS($itxtWallMinGold, $config, "upgrade", "minwallgold", "0")
 		IniReadS($itxtWallMinElixir, $config, "upgrade", "minwallelixir", "0")
 		IniReadS($WallCost, $config, "upgrade", "WallCost", "0")
@@ -210,19 +210,37 @@ Func readConfig($inputfile = $config, $partial = False) ;Reads config and sets i
 		IniReadS($iRadio_Army2, $config, "troop", "QuickTrain2", "0")
 		IniReadS($iRadio_Army3, $config, "troop", "QuickTrain3", "0")
 
-		Local $tempTroop
+		Local $tempTroop, $tempLevTroop
 		For $T = 0 To UBound($TroopName) - 1
-			IniReadS($tempTroop, $config, "troop", $TroopName[$T], "0")
+			Switch $TroopName[$T]
+				Case "Barb"
+					IniReadS($tempTroop, $config, "troop", $TroopName[$T], "58")
+					IniReadS($tempLevTroop, $config, "LevelTroop", $TroopName[$T], "1")
+				Case "Arch"
+					IniReadS($tempTroop, $config, "troop", $TroopName[$T], "115")
+					IniReadS($tempLevTroop, $config, "LevelTroop", $TroopName[$T], "1")
+				Case "Gobl"
+					IniReadS($tempTroop, $config, "troop", $TroopName[$T], "19")
+					IniReadS($tempLevTroop, $config, "LevelTroop", $TroopName[$T], "1")
+				Case "Giant"
+					IniReadS($tempTroop, $config, "troop", $TroopName[$T], "4")
+					IniReadS($tempLevTroop, $config, "LevelTroop", $TroopName[$T], "1")
+				Case "Wall"
+					IniReadS($tempTroop, $config, "troop", $TroopName[$T], "4")
+					IniReadS($tempLevTroop, $config, "LevelTroop", $TroopName[$T], "1")
+				Case Else
+					IniReadS($tempTroop, $config, "troop", $TroopName[$T], "0")
+					IniReadS($tempLevTroop, $config, "LevelTroop", $TroopName[$T], "0")
+			EndSwitch
 			Assign($TroopName[$T] & "Comp", $tempTroop)
-			IniReadS($tempTroop, $config, "LevelTroop", $TroopName[$T], "0")
-			Assign("itxtLev" & $TroopName[$T], $tempTroop)
+			Assign("itxtLev" & $TroopName[$T], $tempLevTroop)
 		Next
-		Local $tempSpell
+		Local $tempSpell, $tempLevSpell
 		For $S = 0 To (UBound($SpellName) - 1)
 			IniReadS($tempSpell, $config, "Spells", $SpellName[$S], "0")
 			Assign($SpellName[$S] & "Comp", $tempSpell)
-			IniReadS($tempSpell, $config, "LevelSpell", $SpellName[$S], "0")
-			Assign("itxtLev" & $SpellName[$S], $tempSpell)
+			IniReadS($tempLevSpell, $config, "LevelSpell", $SpellName[$S], "0")
+			Assign("itxtLev" & $SpellName[$S], $tempLevSpell)
 		Next
 
 		For $i = 0 To 3 ;Covers all 4 Barracks
@@ -496,11 +514,17 @@ Func readConfig($inputfile = $config, $partial = False) ;Reads config and sets i
 		IniReadS($temp2, $config, "attack", "DBQueenWait", $HERO_NOHERO)
 		IniReadS($temp3, $config, "attack", "DBWardenWait", $HERO_NOHERO)
 		$iHeroWait[$DB] = BitOR(Int($temp1), Int($temp2), Int($temp3))
+		$iHeroWaitNoBit[$DB][0] = ($temp1 > $HERO_NOHERO) ? 1 : 0
+		$iHeroWaitNoBit[$DB][1] = ($temp2 > $HERO_NOHERO) ? 1 : 0
+		$iHeroWaitNoBit[$DB][2] = ($temp3 > $HERO_NOHERO) ? 1 : 0
 
 		IniReadS($temp1, $config, "attack", "ABKingWait", $HERO_NOHERO)
 		IniReadS($temp2, $config, "attack", "ABQueenWait", $HERO_NOHERO)
 		IniReadS($temp3, $config, "attack", "ABWardenWait", $HERO_NOHERO)
 		$iHeroWait[$LB] = BitOR(Int($temp1), Int($temp2), Int($temp3))
+		$iHeroWaitNoBit[$LB][0] = ($temp1 > $HERO_NOHERO) ? 1 : 0
+		$iHeroWaitNoBit[$LB][1] = ($temp2 > $HERO_NOHERO) ? 1 : 0
+		$iHeroWaitNoBit[$LB][2] = ($temp3 > $HERO_NOHERO) ? 1 : 0
 
 		IniReadS($iDropCC[$DB], $config, "attack", "DBDropCC", "0")
 		IniReadS($iDropCC[$LB], $config, "attack", "ABDropCC", "0")
@@ -542,6 +566,12 @@ Func readConfig($inputfile = $config, $partial = False) ;Reads config and sets i
 		IniReadS($ichkHasteSpell[$DB], $config, "attack", "DBHasteSpell", "0")
 		IniReadS($ichkHasteSpell[$LB], $config, "attack", "ABHasteSpell", "0")
 		IniReadS($ichkHasteSpell[$TS], $config, "attack", "TSHasteSpell", "0")
+
+		IniReadS($ichkCloneSpell[$DB], $config, "attack", "DBCloneSpell", "0")
+		IniReadS($ichkCloneSpell[$LB], $config, "attack", "ABCloneSpell", "0")
+
+		IniReadS($ichkSkeletonSpell[$DB], $config, "attack", "DBSkeletonSpell", "0")
+		IniReadS($ichkSkeletonSpell[$LB], $config, "attack", "ABSkeletonSpell", "0")
 
 		IniReadS($scmbDBScriptName, $config, "attack", "ScriptDB", "Barch four fingers")
 		IniReadS($scmbABScriptName, $config, "attack", "ScriptAB", "Barch four fingers")
@@ -718,28 +748,44 @@ Func readConfig($inputfile = $config, $partial = False) ;Reads config and sets i
 		IniReadS($iWAOffsetX, $config, "other", "WAOffsetX", "0")
 		IniReadS($iWAOffsetY, $config, "other", "WAOffsetY", "0")
 
-		;PushBullet Settings ---------------------------------------------
-		IniReadS($PushBulletToken, $config, "pushbullet", "AccountToken", "")
-		IniReadS($iOrigPushBullet, $config, "pushbullet", "OrigPushBullet", $sCurrProfile)
+		;==============================================================
+		;NOTIFY CONFIG ================================================
+		;==============================================================
+		;PushBullet / Telegram----------------------------------------
+		IniReadS($NotifyPBToken, $config, "notify", "PBToken", "")
+		IniReadS($NotifyTGToken, $config, "notify", "TGToken", "")
+		IniReadS($NotifyOrigin, $config, "notify", "Origin", $sCurrProfile)
 
-		IniReadS($iAlertPBVillage, $config, "pushbullet", "AlertPBVillage", "0")
-		IniReadS($iLastAttackPB, $config, "pushbullet", "AlertPBLastAttack", "0")
-		IniReadS($iAlertPBLastRaidTxt, $config, "pushbullet", "AlertPBLastRaidTxt", "0")
+		IniReadS($NotifyAlerLastRaidTXT, $config, "notify", "AlertPBLastRaidTxt", "0")
+		IniReadS($NotifyPBEnabled, $config, "notify", "PBEnabled", "0")
+		IniReadS($NotifyTGEnabled, $config, "notify", "TGEnabled", "0")
+		IniReadS($NotifyRemoteEnable, $config, "notify", "PBRemote", "0")
+		IniReadS($NotifyDeleteAllPushesOnStart, $config, "notify", "DeleteAllPBPushes", "0")
+		IniReadS($NotifyAlertMatchFound, $config, "notify", "AlertPBVMFound", "0")
+		IniReadS($NotifyAlerLastRaidIMG, $config, "notify", "AlertPBLastRaid", "0")
+		IniReadS($NotifyAlertUpgradeWalls, $config, "notify", "AlertPBWallUpgrade", "0")
+		IniReadS($NotifyAlertOutOfSync, $config, "notify", "AlertPBOOS", "0")
+		IniReadS($NotifyAlertTakeBreak, $config, "notify", "AlertPBVBreak", "0")
+		IniReadS($NotifyAlertAnotherDevice, $config, "notify", "AlertPBOtherDevice", "0")
+		IniReadS($NotifyDeletePushesOlderThanHours, $config, "notify", "HoursPushBullet", "4")
+		IniReadS($NotifyDeletePushesOlderThan, $config, "notify", "DeleteOldPBPushes", "0")
+		IniReadS($NotifyAlertCampFull, $config, "notify", "AlertPBCampFull", "0")
+		IniReadS($NotifyAlertVillageReport, $config, "notify", "AlertPBVillage", "0")
+		IniReadS($NotifyAlertLastAttack, $config, "notify", "AlertPBLastAttack", "0")
+		IniReadS($NotifyAlertBulderIdle, $config, "notify", "AlertBuilderIdle", "0")
+		IniReadS($NotifyAlertMaintenance, $config, "notify", "AlertPBMaintenance", "0")
+		IniReadS($NotifyAlertBAN, $config, "notify", "AlertPBBAN", "0")
+		IniReadS($NotifyAlertBOTUpdate, $config, "notify", "AlertPBUpdate", "0")
 
-		IniReadS($PushBulletEnabled, $config, "pushbullet", "PBEnabled", "0")
-		IniReadS($pRemote, $config, "pushbullet", "PBRemote", "0")
-		IniReadS($iDeleteAllPBPushes, $config, "pushbullet", "DeleteAllPBPushes", "0")
-		IniReadS($pMatchFound, $config, "pushbullet", "AlertPBVMFound", "0")
-		IniReadS($pLastRaidImg, $config, "pushbullet", "AlertPBLastRaid", "0")
-		IniReadS($pWallUpgrade, $config, "pushbullet", "AlertPBWallUpgrade", "0")
-		IniReadS($pOOS, $config, "pushbullet", "AlertPBOOS", "0")
-		IniReadS($pTakeAbreak, $config, "pushbullet", "AlertPBVBreak", "0")
-		IniReadS($pAnotherDevice, $config, "pushbullet", "AlertPBOtherDevice", "0")
-		IniReadS($icmbHoursPushBullet, $config, "pushbullet", "HoursPushBullet", "4")
-		IniReadS($ichkDeleteOldPBPushes, $config, "pushbullet", "DeleteOldPBPushes", "0")
-		IniReadS($ichkAlertPBCampFull, $config, "pushbullet", "AlertPBCampFull", "0")
-		IniReadS($iAlertPBVillage, $config, "pushbullet", "AlertPBVillage", "0")
-		IniReadS($iLastAttackPB, $config, "pushbullet", "AlertPBLastAttack", "0")
+		;Schedule
+		$NotifyScheduleWeekDaysEnable = IniRead($config, "notify", "NotifyWeekDaysEnable", "0")
+		$NotifyScheduleWeekDays = StringSplit(IniRead($config, "notify", "NotifyWeekDays", "1|1|1|1|1|1|1"),"|", $STR_NOCOUNT)
+		$NotifyScheduleHoursEnable = IniRead($config, "notify", "NotifyHoursEnable", "0")
+		$NotifyScheduleHours = StringSplit(IniRead($config, "notify", "NotifyHours", "1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1"),"|", $STR_NOCOUNT)
+		;==============================================================
+		;NOTIFY CONFIG ================================================
+		;==============================================================
+
 
 		IniReadS($ichkDeleteLogs, $config, "deletefiles", "DeleteLogs", "1")
 		IniReadS($iDeleteLogsDays, $config, "deletefiles", "DeleteLogsDays", "2")
@@ -1047,8 +1093,9 @@ Func readConfig($inputfile = $config, $partial = False) ;Reads config and sets i
 		$icmbFilterDonationsCC = IniRead($config, "donate", "cmbFilterDonationsCC", "0")
 
 
-		; Extra Alphabets , Cyrillic.
+		; Extra Alphabets, Cyrillic, Chinese
 		$ichkExtraAlphabets = IniRead($config, "donate", "chkExtraAlphabets", "0")
+		$ichkExtraChinese = IniRead($config, "donate", "chkExtraChinese", "0")
 
 		;InireadS($chkLvl6Enabled, $config, "collectors", "lvl6Enabled", "0", "Int")
 		$chkLvl6Enabled = 0
@@ -1136,5 +1183,3 @@ Func readConfig($inputfile = $config, $partial = False) ;Reads config and sets i
 	EndIf
 
 EndFunc   ;==>readConfig
-
-

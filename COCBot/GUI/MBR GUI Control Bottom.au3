@@ -32,7 +32,7 @@ Func Initiate()
 		$FirstStart = True
 		$Checkrearm = True
 
-		If $iDeleteAllPBPushes = 1 Then _DeletePush()
+		If $NotifyDeleteAllPushesOnStart = 1 Then _DeletePush()
 
 		If Not $bSearchMode Then
 			$sTimer = TimerInit()
@@ -587,7 +587,7 @@ Func ToggleGuiControls($Enable, $OptimizedRedraw = True)
 	$GUIControl_Disabled = True
 	For $i = $FirstControlToHide To $LastControlToHide
 		If IsTab($i) Or IsAlwaysEnabledControl($i) Then ContinueLoop
-		If $PushBulletEnabled And $i = $btnDeletePBmessages Then ContinueLoop ; exclude the DeleteAllMesages button when PushBullet is enabled
+		If $NotifyPBEnabled And $i = $btnNotifyDeleteMessages Then ContinueLoop ; exclude the DeleteAllMesages button when PushBullet is enabled
 		If $i = $btnMakeScreenshot Then ContinueLoop ; exclude
 		If $i = $divider Then ContinueLoop ; exclude divider
 		If $Enable = False Then

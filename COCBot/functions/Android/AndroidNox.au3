@@ -197,8 +197,10 @@ Func InitNox($bCheckOnly = False)
 	  $AndroidPicturesPath = "(/mnt/shared/Other|/mnt/shell/emulated/0/Download/other)"
 	  $aRegExResult = StringRegExp($__VBoxVMinfo, "Name: 'Other', Host path: '(.*)'.*", $STR_REGEXPARRAYGLOBALMATCH)
 	  If Not @error Then
+		$AndroidSharedFolderAvailable = True
 		 $AndroidPicturesHostPath = $aRegExResult[UBound($aRegExResult) - 1] & "\"
 	  Else
+		$AndroidSharedFolderAvailable = False
 		 $AndroidAdbScreencap = False
 		 $AndroidPicturesHostPath = ""
 		 SetLog($Android & " Background Mode is not available", $COLOR_ERROR)
@@ -226,8 +228,12 @@ Func SetScreenNox()
    ; Set dpi
    ;$cmdOutput = LaunchConsole($__VBoxManage_Path, "guestproperty set " & $AndroidInstance & " vbox_dpi 160", $process_killed)
 
-   If $AndroidPicturesPathAutoConfig = True and FileExists($AndroidPicturesHostPath) = 1 Then
-	  $cmdOutput = LaunchConsole($__VBoxManage_Path, "sharedfolder add " & $AndroidInstance & " --name Other --hostpath """ & $AndroidPicturesHostPath & """  --automount", $process_killed)
+   AndroidPicturePathAutoConfig(@MyDocumentsDir, "\Nox_share\Other") ; ensure $AndroidPicturesHostPath is set and exists
+   If $AndroidSharedFolderAvailable = False And $AndroidPicturesPathAutoConfig = True And FileExists($AndroidPicturesHostPath) = 1 Then
+      ; remove tailing backslash
+	  Local $path = $AndroidPicturesHostPath
+	  If StringRight($path, 1) = "\" Then $path = StringLeft($path, StringLen($path) - 1)
+	  $cmdOutput = LaunchConsole($__VBoxManage_Path, "sharedfolder add " & $AndroidInstance & " --name Other --hostpath """ & $path & """  --automount", $process_killed)
    EndIf
 
    Return True
@@ -277,45 +283,7 @@ Func CheckScreenNox($bSetLog = True)
    Next
 
    ; check if shared folder exists
-   If $AndroidPicturesPathAutoConfig = True Then
-	  If $AndroidPicturesHostPath = "" Then
-		 Local $path = @MyDocumentsDir
-		 If FileExists($path) = 1 Then
-			$AndroidPicturesHostPath = $path & "\Nox_share\Other"
-			If FileExists($AndroidPicturesHostPath) = 1 Then
-			   SetLog("Configure " & $Android & " to support Background Mode", $COLOR_SUCCESS)
-			   SetLog("Folder exists: " & $AndroidPicturesHostPath, $COLOR_SUCCESS)
-			   SetLog("This shared folder will be added to " & $Android, $COLOR_SUCCESS)
-			   Return False
-			EndIf
-			If DirCreate($AndroidPicturesHostPath) = 1 Then
-			   SetLog("Configure " & $Android & " to support Background Mode", $COLOR_SUCCESS)
-			   SetLog("Folder created: " & $AndroidPicturesHostPath, $COLOR_SUCCESS)
-			   SetLog("This shared folder will be added to " & $Android, $COLOR_SUCCESS)
-			   Return False
-			Else
-			   SetLog("Cannot configure " & $Android & " Background Mode", $COLOR_SUCCESS)
-			   SetLog("Cannot create folder: " & $AndroidPicturesHostPath, $COLOR_ERROR)
-			   $AndroidPicturesPathAutoConfig = False
-			EndIf
-		 Else
-			SetLog("Cannot configure " & $Android & " Background Mode", $COLOR_SUCCESS)
-			SetLog("Cannot find current user 'Documents' folder", $COLOR_ERROR)
-			$AndroidPicturesPathAutoConfig = False
-		 EndIf
-	  ElseIf FileExists($AndroidPicturesHostPath) = 0 Then
-		 If DirCreate($AndroidPicturesHostPath) = 1 Then
-			SetLog("Configure " & $Android & " to support ADB", $COLOR_SUCCESS)
-			SetLog("Folder created: " & $AndroidPicturesHostPath, $COLOR_SUCCESS)
-			SetLog("This shared folder will be added to " & $Android, $COLOR_SUCCESS)
-			Return False
-		 Else
-			SetLog("Cannot configure " & $Android & " Background Mode", $COLOR_SUCCESS)
-			SetLog("Cannot create folder: " & $AndroidPicturesHostPath, $COLOR_ERROR)
-			$AndroidPicturesPathAutoConfig = False
-		 EndIf
-	  EndIf
-   EndIf
+   If AndroidPicturePathAutoConfig(@MyDocumentsDir, "\Nox_share\Other", $bSetLog) Then $iErrCnt += 1
 
    If $iErrCnt > 0 Then Return False
    Return True

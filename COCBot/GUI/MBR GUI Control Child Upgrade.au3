@@ -251,7 +251,7 @@ Func chkWalls()
 	If GUICtrlRead($chkWalls) = $GUI_CHECKED Then
 		$ichkWalls = 1
 		GUICtrlSetState($UseGold, $GUI_ENABLE)
-		GUICtrlSetState($sldMaxNbWall, $GUI_ENABLE)
+		; GUICtrlSetState($sldMaxNbWall, $GUI_ENABLE)
 		;GUICtrlSetState($sldToleranceWall, $GUI_ENABLE)
 		;GUICtrlSetState($btnFindWalls, $GUI_ENABLE)
 		;		GUICtrlSetState($UseElixir, $GUI_ENABLE)
@@ -268,7 +268,7 @@ Func chkWalls()
 		GUICtrlSetState($cmbWalls, $GUI_DISABLE)
 		GUICtrlSetState($txtWallMinGold, $GUI_DISABLE)
 		GUICtrlSetState($txtWallMinElixir, $GUI_DISABLE)
-		GUICtrlSetState($sldMaxNbWall, $GUI_DISABLE)
+		; GUICtrlSetState($sldMaxNbWall, $GUI_DISABLE)
 		;GUICtrlSetState($sldToleranceWall, $GUI_DISABLE)
 		;GUICtrlSetState($btnFindWalls, $GUI_DISABLE)
 

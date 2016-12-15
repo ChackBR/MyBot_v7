@@ -67,6 +67,16 @@ Func _Sleep($ms, $iSleep = True, $CheckRunState = True)
 	Sleep($ms)
 EndFunc   ;==>_Sleep
 
+Func _SleepMilli($iMilliSec)
+	_SleepMicro($iMilliSec * 1000)
+EndFunc   ;==>_SleepMilli
+
+Func _SleepMicro($iMicroSec)
+    Local $hStruct = DllStructCreate("int64 time;")
+    DllStructSetData($hStruct, "time", -1 * ($iMicroSec * 10))
+    DllCall("ntdll.dll", "dword", "ZwDelayExecution", "int", 0, "ptr", DllStructGetPtr($hStruct))
+EndFunc   ;==>_SleepMicro
+
 If @AutoItX64 = 1 Then
 	MsgBox(0, "", "Don't Run/Compile the Script as (x64)! try to Run/Compile the Script as (x86) to get the bot to work." & @CRLF & _
 			"If this message still appears, try to re-install AutoIt.")
@@ -106,7 +116,7 @@ While 1
 	Local $hLoopTimer = TimerInit()
 	Local $hCheckTimer = TimerInit()
 	While TimerDiff($hLoopTimer) < $iTimeoutBroadcast
-		Sleep($iDelaySleep)
+		_SleepMilli($iDelaySleep)
 		If TimerDiff($hCheckTimer) >= $iTimeoutCheckBot Then
 			; check if bot not responding anymore and restart if so
 			CheckManagedMyBot($iTimeoutRestartBot)

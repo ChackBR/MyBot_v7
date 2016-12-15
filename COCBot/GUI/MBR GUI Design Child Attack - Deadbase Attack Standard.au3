@@ -28,9 +28,8 @@ Local $x = 25, $y = 20
 		$lblDeployDB = GUICtrlCreateLabel(GetTranslated(608,3, "Attack on")&":", $x, $y + 5, -1, -1)
 		$cmbDeployDB = GUICtrlCreateCombo("", $x + 55, $y, 120, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			_GUICtrlSetTip(-1, GetTranslated(608,4, "Attack on a single side, penetrates through base") & @CRLF & GetTranslated(608,5, "Attack on two sides, penetrates through base") & @CRLF & GetTranslated(608,6, "Attack on three sides, gets outer and some inside of base") & @CRLF & "Attack on Classic Four Fingers" & @CRLF & "Attack with Multi Fingers", GetTranslated(608,7,"Select the No. of sides to attack on."))
-			GUICtrlSetData(-1, GetTranslated(608,8, "one side") & "|" & GetTranslated(608,9, "two sides") & "|" & GetTranslated(608,10, "three sides") &"|" & GetTranslated(608,11,"all sides equally" ) &"|" & "Classic Four Fingers" &"|" & "Multi Finger Attacks", GetTranslated(608,11, -1))
+			GUICtrlSetData(-1, GetTranslated(608,8, "one side") & "|" & GetTranslated(608,9, "two sides") & "|" & GetTranslated(608,10, "three sides") &"|" & GetTranslated(608,11,"all sides equally" ) & "|" & "Classic Four Fingers" & "|" & "Multi Finger Attacks", GetTranslated(608,11, -1))
 			GUICtrlSetOnEvent(-1,"cmbDeployDB") ; Uncheck SmartAttack Red Area when enable FourFinger to avoid conflict
-;~			GUICtrlSetOnEvent(-1, "cmbDBMultiFinger") ; Added to "cmbDeployDB"
 		$y += 25
 		$lblUnitDelayDB = GUICtrlCreateLabel(GetTranslated(608,12, "Delay Unit") & ":", $x, $y + 5, -1, -1)
 			$txtTip = GetTranslated(608,13, "This delays the deployment of troops, 1 (fast) = like a Bot, 10 (slow) = Like a Human.") & @CRLF & GetTranslated(608,14, "Random will make bot more varied and closer to a person.")
@@ -98,7 +97,6 @@ Local $x = 25, $y = 20
 						GetTranslated(671,49,"Eight Finger Pin Wheel Spiral Left") & "|" & _
 						GetTranslated(671,50,"Eight Finger Pin Wheel Spiral Right"), GetTranslated(671,42,"Random"))
 	GUICtrlSetOnEvent(-1, "cmbDeployDB")
-;~	GUICtrlSetOnEvent(-1, "cmbDBMultiFinger")
 
 
 ;GUISetState()

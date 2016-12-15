@@ -24,7 +24,7 @@ Func _CaptureRegion($iLeft = 0, $iTop = 0, $iRight = $GAME_WIDTH, $iBottom = $GA
 
 	If $ReturnLocal_hHBitmap = False Then
 		_GDIPlus_BitmapDispose($hBitmap)
-		If $hHBitmap <> $hHBitmapTest Then _WinAPI_DeleteObject($hHBitmap)
+		If $hHBitmap <> $hHBitmapTest And $hHBitmap2 <> $hHBitmap Then _WinAPI_DeleteObject($hHBitmap)
 	EndIf
 
 	Local $_hHBitmap = $hHBitmapTest
@@ -65,21 +65,7 @@ Func _CaptureRegion($iLeft = 0, $iTop = 0, $iRight = $GAME_WIDTH, $iBottom = $GA
 		EndIf
 	ElseIf $iLeft > 0 Or $iTop > 0 Or $iRight < $GAME_WIDTH Or $iBottom < $GAME_HEIGHT Then
 		; resize test image
-		Local $iW = Number($iRight) - Number($iLeft), $iH = Number($iBottom) - Number($iTop)
-		Local $hDC = _WinAPI_GetDC($frmBot)
-		Local $hMemDC_src = _WinAPI_CreateCompatibleDC($hDC)
-		Local $hMemDC_dst = _WinAPI_CreateCompatibleDC($hDC)
-		$_hHBitmap = _WinAPI_CreateCompatibleBitmap($hDC, $iW, $iH)
-		Local $hObjectOld_src = _WinAPI_SelectObject($hMemDC_src, $hHBitmapTest)
-		Local $hObjectOld_dst = _WinAPI_SelectObject($hMemDC_dst, $_hHBitmap)
-
-		_WinAPI_BitBlt($hMemDC_dst, 0, 0, $iW, $iH, $hMemDC_src, $iLeft, $iTop, $SRCCOPY)
-
-		_WinAPI_SelectObject($hMemDC_src, $hObjectOld_src)
-		_WinAPI_SelectObject($hMemDC_dst, $hObjectOld_dst)
-		_WinAPI_ReleaseDC($frmBot, $hDC)
-		_WinAPI_DeleteDC($hMemDC_src)
-		_WinAPI_DeleteDC($hMemDC_dst)
+		$_hHBitmap = GetHHBitmapArea($hHBitmapTest, $iLeft, $iTop, $iRight, $iBottom)
 	EndIf
 
     $ForceCapture = False
@@ -112,12 +98,71 @@ EndFunc   ;==>_CaptureRegion
 ; ===============================================================================================================================
 Func _CaptureRegion2($iLeft = 0, $iTop = 0, $iRight = $GAME_WIDTH, $iBottom = $GAME_HEIGHT)
 
-	If $hHBitmap2 <> $hHBitmapTest Then
+	If $hHBitmap2 <> $hHBitmapTest And $hHBitmap2 <> $hHBitmap Then
 		_WinAPI_DeleteObject($hHBitmap2) ; delete previous DC object using global handle
 	EndIf
 	$hHBitmap2 = _CaptureRegion($iLeft, $iTop, $iRight, $iBottom, False, True)
 
 EndFunc   ;==>_CaptureRegion2
+
+; #FUNCTION# ====================================================================================================================
+; Name ..........: _CaptureRegion2Sync
+; Description ...: Updates $hHBitmap2 from $hHBitmap
+; Syntax ........: _CaptureRegion2Sync()
+; Parameters ....: None
+; Return values .: None
+; Author ........:
+; Modified ......:
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2016
+;                  MyBot is distributed under the terms of the GNU GPL
+; Related .......:
+; Link ..........: https://github.com/MyBotRun/MyBot/wiki
+; Example .......: No
+; ===============================================================================================================================
+Func _CaptureRegion2Sync()
+	If $hHBitmap2 <> $hHBitmapTest And $hHBitmap2 <> $hHBitmap Then
+		_WinAPI_DeleteObject($hHBitmap2) ; delete previous DC object using global handle
+	EndIf
+	$hHBitmap2 = $hHBitmap
+EndFunc   ;==>_CaptureRegion2Sync
+
+; #FUNCTION# ====================================================================================================================
+; Name ..........: GetHHBitmapArea
+; Description ...: Creates a new hHBitmap of given $_hHBitmap in requested size
+; Syntax ........: GetHHBitmapArea($_hHBitmap, [$iLeft = 0[, $iTop = 0[, $iRight = $GAME_WIDTH[, $iBottom = $GAME_HEIGHT]]]])
+; Parameters ....: $_hHBitmap           - hHBitmap of source
+;                  $iLeft               - [optional] an integer value. Default is 0.
+;                  $iTop                - [optional] an integer value. Default is 0.
+;                  $iRight              - [optional] an integer value. Default is $GAME_WIDTH.
+;                  $iBottom             - [optional] an integer value. Default is $GAME_HEIGHT.
+; Return values .: new hHBitmap Object of requested size
+; Author ........:
+; Modified ......:
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2016
+;                  MyBot is distributed under the terms of the GNU GPL
+; Related .......:
+; Link ..........: https://github.com/MyBotRun/MyBot/wiki
+; Example .......: No
+; ===============================================================================================================================
+Func GetHHBitmapArea($_hHBitmap, $iLeft = 0, $iTop = 0, $iRight = $GAME_WIDTH, $iBottom = $GAME_HEIGHT)
+	Local $iW = Number($iRight) - Number($iLeft), $iH = Number($iBottom) - Number($iTop)
+	Local $hDC = _WinAPI_GetDC($frmBot)
+	Local $hMemDC_src = _WinAPI_CreateCompatibleDC($hDC)
+	Local $hMemDC_dst = _WinAPI_CreateCompatibleDC($hDC)
+	Local $_hHBitmapArea = _WinAPI_CreateCompatibleBitmap($hDC, $iW, $iH)
+	Local $hObjectOld_src = _WinAPI_SelectObject($hMemDC_src, $_hHBitmap)
+	Local $hObjectOld_dst = _WinAPI_SelectObject($hMemDC_dst, $_hHBitmapArea)
+
+	_WinAPI_BitBlt($hMemDC_dst, 0, 0, $iW, $iH, $hMemDC_src, $iLeft, $iTop, $SRCCOPY)
+
+	_WinAPI_SelectObject($hMemDC_src, $hObjectOld_src)
+	_WinAPI_SelectObject($hMemDC_dst, $hObjectOld_dst)
+	_WinAPI_ReleaseDC($frmBot, $hDC)
+	_WinAPI_DeleteDC($hMemDC_src)
+	_WinAPI_DeleteDC($hMemDC_dst)
+
+	Return $_hHBitmapArea
+EndFunc   ;==>GetHHBitmapArea
 
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: FastCaptureRegion

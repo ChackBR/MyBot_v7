@@ -87,4 +87,7 @@ Func checkMainScreen($Check = True) ;Checks if in main screen
 
     ;After checkscreen dispose windows
 	DisposeWindows()
+	
+	;Execute Notify Pending Actions
+	NotifyPendingActions()
 EndFunc   ;==>checkMainScreen

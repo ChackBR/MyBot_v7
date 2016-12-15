@@ -2,7 +2,7 @@
 ; Name ..........: OCR
 ; Description ...: Gets complete value of gold/Elixir/DarkElixir/Trophy/Gem xxx,xxx
 ; Author ........: Didipe (2015)
-; Modified ......: ProMac (2015), Hervidero (2015-12)
+; Modified ......: ProMac (2015), Hervidero (2015-12), MMHK (2016-12)
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2016
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
@@ -223,7 +223,7 @@ Func getRemainTLaboratory($x_start, $y_start) ; read actual time remaining in La
 EndFunc   ;==>getRemainTLaboratory
 
 Func getRemainTHero($x_start, $y_start) ; Get time remaining for hero to be ready for attack from train window, BK:443,504 AQ:504,504 GW:565:504
-	Return getOcrAndCapture("coc-remainhero", $x_start, $y_start, 50, 12, True)
+	Return getOcrAndCapture("coc-remainhero", $x_start, $y_start, 38, 12, True)
 EndFunc   ;==>getRemainTHero
 
 Func getHeroStatus($x_start, $y_start) ; Get status/type_of_Hero from Hero Slots in training overview window, Slot1:464,446 Slot2:526,446 Slot3:588:446
@@ -264,9 +264,37 @@ Func getQueueTroopsQuantity($x_start, $y_start) ;  -> Gets quantity of troops in
 	Return StringReplace(getOcrAndCapture("coc-qqtroop", $x_start, $y_start, 71, 22, True), "b", "")
 EndFunc   ;==>getQueueTroopsQuantity
 
-Func getOcrAndCapture($language, $x_start, $y_start, $width, $height, $removeSpace = False)
-	_CaptureRegion2($x_start, $y_start, $x_start + $width, $y_start + $height)
-	Local $result = getOcr($hHBitmap2, $language)
+Func getChatStringChinese($x_start, $y_start) ; -> Get string chat request - Chinese - "DonateCC.au3"
+	Local $bUseOcrImgLoc = True
+	Return getOcrAndCapture("chinese-bundle", $x_start, $y_start, 160, 14, Default, $bUseOcrImgLoc)
+EndFunc   ;==>getChatStringChinese
+
+Func OcrForceCaptureRegion($bForce = Default)
+	If $bForce = Default Then Return $bOcrForceCaptureRegion
+	Local $wasForce = $bOcrForceCaptureRegion
+	$bOcrForceCaptureRegion = $bForce
+	Return $wasForce
+EndFunc   ;==>OcrForceCaptureRegion
+
+Func getOcrAndCapture($language, $x_start, $y_start, $width, $height, $removeSpace = Default, $bImgLoc = Default, $bForceCaptureRegion = Default)
+	If $removeSpace = Default Then $removeSpace = False
+	If $bImgLoc = Default Then $bImgLoc = False
+	If $bForceCaptureRegion = Default Then $bForceCaptureRegion = $bOcrForceCaptureRegion
+	Local $bDelete_hHBitmap = False
+	If $bForceCaptureRegion = True Then
+		_CaptureRegion2($x_start, $y_start, $x_start + $width, $y_start + $height)
+		Local $_hHBitmap = $hHBitmap2
+	Else
+		$bDelete_hHBitmap = True
+		Local $_hHBitmap = GetHHBitmapArea($hHBitmap2, $x_start, $y_start, $x_start + $width, $y_start + $height)
+	EndIf
+	Local $result
+	If $bImgLoc Then
+		$result = getOcrImgLoc($_hHBitmap, $language)
+	Else
+		$result = getOcr($_hHBitmap, $language)
+	EndIf
+	If $bDelete_hHBitmap Then _WinAPI_DeleteObject($_hHBitmap)
 	If ($removeSpace) Then
 		$result = StringReplace($result, " ", "")
 	Else
@@ -283,3 +311,22 @@ Func getOcr($hBitmap, $language)
 		Return ""
 	EndIf
 EndFunc   ;==>getOcr
+
+Func getOcrImgLoc($hBitmap, $sLanguage)
+	Local $result = DllCall($pImgLib, "str", "DoOCR", "handle", $hBitmap, "str", $sLanguage)
+
+	Local $error = @error ; Store error values as they reset at next function call
+	Local $extError = @extended
+	If $error Then
+		_logErrorDLLCall($pImgLib, $error)
+		If $DebugSetlog = 1 Then SetLog(" imgloc DLL Error : " & $error & " --- "  & $extError)
+		Return SetError(2, $extError , "") ; Set external error code = 2 for DLL error
+	EndIF
+	If $debugImageSave = 1 Then DebugImageSave($sLanguage, False)
+
+	If IsArray($result) Then
+		Return $result[0]
+	Else
+		Return ""
+	EndIf
+EndFunc   ;==>getOcrImgLoc

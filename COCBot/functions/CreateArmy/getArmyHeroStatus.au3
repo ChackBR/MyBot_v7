@@ -5,7 +5,7 @@
 ; Parameters ....: $Hero = enum value for hero to OR Hero name
 ; Return values .: MR.ViPER (16-10-2016)
 ; Author ........:
-; Modified ......:
+; Modified ......: MR.ViPER (10-12-2016)
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2016
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
@@ -14,8 +14,8 @@
 ; ===============================================================================================================================
 ;
 Func ArmyHeroStatus($Hero)
-	Local $directory = @ScriptDir & "\images\Other\HeroStatus"
-	Local Const $aHeroesRect[3][4] = [[610, 340, 680, 370], [683, 340, 755, 370], [757, 340, 830, 370]]
+	Local $directory = "trainwindow-HeroStatus-bundle"
+	Local Const $aHeroesRect[3][4] = [[610, 340, 683, 390], [683, 340, 758, 390], [757, 340, 833, 390]] ; [[643, 340, 683, 390], [718, 340, 758, 390], [749, 340, 833, 390]]
 	Local $Result
 
 	Select
@@ -38,8 +38,8 @@ Func ArmyHeroStatus($Hero)
 EndFunc   ;==>ArmyHeroStatus
 
 Func CountHeroes()
-	Local $directory = @ScriptDir & "\images\Other\HeroStatus"
-	Local Const $aHeroesRect[3][4] = [[610, 340, 680, 370], [683, 340, 755, 370], [757, 340, 830, 370]]
+	Local $directory =  "trainwindow-HeroStatus-bundle"
+	Local Const $aHeroesRect[3][4] = [[643, 340, 683, 390], [718, 340, 758, 390], [749, 340, 833, 390]]
 	Local $Result
 	Local $Available = 0, $Healing = 0, $Upgrading = 0, $None = 0, $AvaiAndHealing = 0
 	Local $ToReturn[5] = [$Available, $Healing, $Upgrading, $None, $AvaiAndHealing]

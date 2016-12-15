@@ -866,19 +866,6 @@ Func applyConfig($bRedrawAtExit = True) ;Applies the data from config to the con
 
 	SetComboTroopComp()
 
-	If $iAlertPBVillage = 1 Then
-		GUICtrlSetState($chkAlertPBVillage, $GUI_CHECKED)
-	ElseIf $iAlertPBVillage = 0 Then
-		GUICtrlSetState($chkAlertPBVillage, $GUI_UNCHECKED)
-	EndIf
-
-	If $iLastAttackPB = 1 Then
-		GUICtrlSetState($chkAlertPBLastAttack, $GUI_CHECKED)
-	ElseIf $iLastAttackPB = 0 Then
-		GUICtrlSetState($chkAlertPBLastAttack, $GUI_UNCHECKED)
-	EndIf
-
-
 	;Other Settings--------------------------------------------------------------------------
 
 	GUICtrlSetData($txtWall04ST, $itxtWall04ST)
@@ -1220,8 +1207,27 @@ Func applyConfig($bRedrawAtExit = True) ;Applies the data from config to the con
 		GUICtrlSetState($chkTSHasteSpell, $GUI_UNCHECKED)
 	EndIf
 
+	If $ichkCloneSpell[$DB] = 1 Then
+		GUICtrlSetState($chkDBCloneSpell, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkDBCloneSpell, $GUI_UNCHECKED)
+	EndIf
+	If $ichkCloneSpell[$LB] = 1 Then
+		GUICtrlSetState($chkABCloneSpell, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkABCloneSpell, $GUI_UNCHECKED)
+	EndIf
 
-
+	If $ichkSkeletonSpell[$DB] = 1 Then
+		GUICtrlSetState($chkDBSkeletonSpell, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkDBSkeletonSpell, $GUI_UNCHECKED)
+	EndIf
+	If $ichkSkeletonSpell[$LB] = 1 Then
+		GUICtrlSetState($chkABSkeletonSpell, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkABSkeletonSpell, $GUI_UNCHECKED)
+	EndIf
 
 ;~ 	If $ichkRequest = 1 Then
 ;~ 		GUICtrlSetState($chkRequest, $GUI_CHECKED)
@@ -1272,8 +1278,6 @@ chkskipDonateNearFulLTroopsEnable()
 
 
 	; apply donate GUI ----------------------------------------------------------------------------
-	$LastDonateBtn1 = -1
-	$LastDonateBtn2 = -1
 
 	If $ichkDonateBarbarians = 1 Then
 		GUICtrlSetState($chkDonateBarbarians, $GUI_CHECKED)
@@ -1695,11 +1699,16 @@ chkskipDonateNearFulLTroopsEnable()
 		GUICtrlSetState($chkDonateAllCustomB, $GUI_UNCHECKED)
 	EndIf
 
-	; Extra Alphabets , Cyrillic.
+	; Extra Alphabets, Cyrillic, Chinese
 	If $ichkExtraAlphabets = 0 Then
 		GUICtrlSetState($chkExtraAlphabets, $GUI_UNCHECKED)
 	ElseIf $ichkExtraAlphabets = 1 Then
 		GUICtrlSetState($chkExtraAlphabets, $GUI_CHECKED)
+	EndIf
+	If $ichkExtraChinese = 0 Then
+		GUICtrlSetState($chkExtraChinese, $GUI_UNCHECKED)
+	ElseIf $ichkExtraChinese = 1 Then
+		GUICtrlSetState($chkExtraChinese, $GUI_CHECKED)
 	EndIf
 
 	_GUICtrlComboBox_SetCurSel($cmbFilterDonationsCC, $icmbFilterDonationsCC)
@@ -1719,103 +1728,172 @@ chkskipDonateNearFulLTroopsEnable()
 	;------------------------------------------------------------------------------------
 
 
+;==============================================================
+	;NOTIFY CONFIG ================================================
+	;==============================================================
+
 	; apply notify PushBullet
-	If $PushBulletEnabled = 1 Then
-		GUICtrlSetState($chkPBenabled, $GUI_CHECKED)
-		chkPBenabled()
-	ElseIf $PushBulletEnabled = 0 Then
-		GUICtrlSetState($chkPBenabled, $GUI_UNCHECKED)
-		chkPBenabled()
+	If $NotifyPBEnabled = 1 Then
+		GUICtrlSetState($chkNotifyPBEnabled, $GUI_CHECKED)
+	ElseIf $NotifyPBEnabled = 0 Then
+		GUICtrlSetState($chkNotifyPBEnabled, $GUI_UNCHECKED)
+	EndIf
+	; apply notify Telegram
+	If $NotifyTGEnabled = 1 Then
+		GUICtrlSetState($chkTGenabled, $GUI_CHECKED)
+	ElseIf $NotifyTGEnabled = 0 Then
+		GUICtrlSetState($chkTGenabled, $GUI_UNCHECKED)
+	EndIf
+	chkPBTGenabled()
+
+	If $NotifyRemoteEnable = 1 Then
+		GUICtrlSetState($chkNotifyRemote, $GUI_CHECKED)
+	ElseIf $NotifyRemoteEnable = 0 Then
+		GUICtrlSetState($chkNotifyRemote, $GUI_UNCHECKED)
 	EndIf
 
-	If $pRemote = 1 Then
-		GUICtrlSetState($chkPBRemote, $GUI_CHECKED)
-	ElseIf $pRemote = 0 Then
-		GUICtrlSetState($chkPBRemote, $GUI_UNCHECKED)
+	If $NotifyDeleteAllPushesOnStart = 1 Then
+		GUICtrlSetState($chkNotifyDeleteAllPBPushes, $GUI_CHECKED)
+	ElseIf $NotifyDeleteAllPushesOnStart = 0 Then
+		GUICtrlSetState($chkNotifyDeleteAllPBPushes, $GUI_UNCHECKED)
 	EndIf
 
-	If $iDeleteAllPBPushes = 1 Then
-		GUICtrlSetState($chkDeleteAllPBPushes, $GUI_CHECKED)
-	ElseIf $iDeleteAllPBPushes = 0 Then
-		GUICtrlSetState($chkDeleteAllPBPushes, $GUI_UNCHECKED)
+	If $NotifyDeletePushesOlderThan = 1 Then
+		GUICtrlSetState($chkNotifyDeleteOldPBPushes, $GUI_CHECKED)
+	ElseIf $NotifyDeletePushesOlderThan = 0 Then
+		GUICtrlSetState($chkNotifyDeleteOldPBPushes, $GUI_UNCHECKED)
 	EndIf
 
-	If $ichkDeleteOldPBPushes = 1 Then
-		GUICtrlSetState($chkDeleteOldPBPushes, $GUI_CHECKED)
-	ElseIf $ichkDeleteOldPBPushes = 0 Then
-		GUICtrlSetState($chkDeleteOldPBPushes, $GUI_UNCHECKED)
+	_GUICtrlComboBox_SetCurSel($cmbNotifyPushHours, $NotifyDeletePushesOlderThanHours)
+
+	If $NotifyAlertMatchFound = 1 Then
+		GUICtrlSetState($chkNotifyAlertMatchFound, $GUI_CHECKED)
+	ElseIf $NotifyAlertMatchFound = 0 Then
+		GUICtrlSetState($chkNotifyAlertMatchFound, $GUI_UNCHECKED)
 	EndIf
 
-	_GUICtrlComboBox_SetCurSel($cmbHoursPushBullet, $icmbHoursPushBullet)
-
-	If $pMatchFound = 1 Then
-		GUICtrlSetState($chkAlertPBVMFound, $GUI_CHECKED)
-	ElseIf $pMatchFound = 0 Then
-		GUICtrlSetState($chkAlertPBVMFound, $GUI_UNCHECKED)
+	If $NotifyAlerLastRaidIMG = 1 Then
+		GUICtrlSetState($chkNotifyAlertLastRaidIMG, $GUI_CHECKED)
+	ElseIf $NotifyAlerLastRaidIMG = 0 Then
+		GUICtrlSetState($chkNotifyAlertLastRaidIMG, $GUI_UNCHECKED)
 	EndIf
 
-	If $pLastRaidImg = 1 Then
-		GUICtrlSetState($chkAlertPBLastRaid, $GUI_CHECKED)
-	ElseIf $pLastRaidImg = 0 Then
-		GUICtrlSetState($chkAlertPBLastRaid, $GUI_UNCHECKED)
+	If $NotifyAlertUpgradeWalls = 1 Then
+		GUICtrlSetState($chkNotifyAlertUpgradeWall, $GUI_CHECKED)
+	ElseIf $NotifyAlertUpgradeWalls = 0 Then
+		GUICtrlSetState($chkNotifyAlertUpgradeWall, $GUI_UNCHECKED)
 	EndIf
 
-	If $pWallUpgrade = 1 Then
-		GUICtrlSetState($chkAlertPBWallUpgrade, $GUI_CHECKED)
-	ElseIf $pWallUpgrade = 0 Then
-		GUICtrlSetState($chkAlertPBWallUpgrade, $GUI_UNCHECKED)
+	If $NotifyAlertOutOfSync = 1 Then
+		GUICtrlSetState($chkNotifyAlertOutOfSync, $GUI_CHECKED)
+	ElseIf $NotifyAlertOutOfSync = 0 Then
+		GUICtrlSetState($chkNotifyAlertOutOfSync, $GUI_UNCHECKED)
 	EndIf
 
-	If $pOOS = 1 Then
-		GUICtrlSetState($chkAlertPBOOS, $GUI_CHECKED)
-	ElseIf $pOOS = 0 Then
-		GUICtrlSetState($chkAlertPBOOS, $GUI_UNCHECKED)
+	If $NotifyAlertTakeBreak = 1 Then
+		GUICtrlSetState($chkNotifyAlertTakeBreak, $GUI_CHECKED)
+	ElseIf $NotifyAlertTakeBreak = 0 Then
+		GUICtrlSetState($chkNotifyAlertTakeBreak, $GUI_UNCHECKED)
 	EndIf
 
-	If $pTakeAbreak = 1 Then
-		GUICtrlSetState($chkAlertPBVBreak, $GUI_CHECKED)
-	ElseIf $pTakeAbreak = 0 Then
-		GUICtrlSetState($chkAlertPBVBreak, $GUI_UNCHECKED)
+	If $NotifyAlertAnotherDevice = 1 Then
+		GUICtrlSetState($chkNotifyAlertAnotherDevice, $GUI_CHECKED)
+	ElseIf $NotifyAlertAnotherDevice = 0 Then
+		GUICtrlSetState($chkNotifyAlertAnotherDevice, $GUI_UNCHECKED)
 	EndIf
 
-	If $pAnotherDevice = 1 Then
-		GUICtrlSetState($chkAlertPBOtherDevice, $GUI_CHECKED)
-	ElseIf $pAnotherDevice = 0 Then
-		GUICtrlSetState($chkAlertPBOtherDevice, $GUI_UNCHECKED)
-	EndIf
-
-	If $ichkDeleteOldPBPushes = 1 Then
-		GUICtrlSetState($chkDeleteOldPBPushes, $GUI_CHECKED)
+	If $NotifyDeletePushesOlderThan = 1 Then
+		GUICtrlSetState($chkNotifyDeleteOldPBPushes, $GUI_CHECKED)
 	Else
-		GUICtrlSetState($chkDeleteOldPBPushes, $GUI_UNCHECKED)
+		GUICtrlSetState($chkNotifyDeleteOldPBPushes, $GUI_UNCHECKED)
 	EndIf
 	chkDeleteOldPBPushes()
 
-	If $iAlertPBLastRaidTxt = 1 Then
-		GUICtrlSetState($chkAlertPBLastRaidTxt, $GUI_CHECKED)
-	ElseIf $iAlertPBLastRaidTxt = 0 Then
-		GUICtrlSetState($chkAlertPBLastRaidTxt, $GUI_UNCHECKED)
+	If $NotifyAlerLastRaidTXT = 1 Then
+		GUICtrlSetState($chkNotifyAlertLastRaidTXT, $GUI_CHECKED)
+	ElseIf $NotifyAlerLastRaidTXT = 0 Then
+		GUICtrlSetState($chkNotifyAlertLastRaidTXT, $GUI_UNCHECKED)
 	EndIf
 
-	If $ichkAlertPBCampFull = 1 Then
-		GUICtrlSetState($chkAlertPBCampFull, $GUI_CHECKED)
-	ElseIf $ichkAlertPBCampFull = 0 Then
-		GUICtrlSetState($chkAlertPBCampFull, $GUI_UNCHECKED)
+	If $NotifyAlertCampFull = 1 Then
+		GUICtrlSetState($chkNotifyAlertCampFull, $GUI_CHECKED)
+	ElseIf $NotifyAlertCampFull = 0 Then
+		GUICtrlSetState($chkNotifyAlertCampFull, $GUI_UNCHECKED)
 	EndIf
 
-	If $iAlertPBVillage = 1 Then
-		GUICtrlSetState($chkAlertPBVillage, $GUI_CHECKED)
-	ElseIf $iAlertPBVillage = 0 Then
-		GUICtrlSetState($chkAlertPBVillage, $GUI_UNCHECKED)
+	If $NotifyAlertVillageReport = 1 Then
+		GUICtrlSetState($chkNotifyAlertVillageStats, $GUI_CHECKED)
+	ElseIf $NotifyAlertVillageReport = 0 Then
+		GUICtrlSetState($chkNotifyAlertVillageStats, $GUI_UNCHECKED)
 	EndIf
 
-	If $iLastAttackPB = 1 Then
-		GUICtrlSetState($chkAlertPBLastAttack, $GUI_CHECKED)
-	ElseIf $iLastAttackPB = 0 Then
-		GUICtrlSetState($chkAlertPBLastAttack, $GUI_UNCHECKED)
+	If $NotifyAlertLastAttack = 1 Then
+		GUICtrlSetState($chkNotifyAlertLastAttack, $GUI_CHECKED)
+	ElseIf $NotifyAlertLastAttack = 0 Then
+		GUICtrlSetState($chkNotifyAlertLastAttack, $GUI_UNCHECKED)
 	EndIf
-	GUICtrlSetData($PushBulletTokenValue, $PushBulletToken)
-	GUICtrlSetData($OrigPushBullet, $iOrigPushBullet)
+
+	If $NotifyAlertBulderIdle = 1 Then
+		GUICtrlSetState($chkNotifyAlertBuilderIdle, $GUI_CHECKED)
+	ElseIf $NotifyAlertBulderIdle = 0 Then
+		GUICtrlSetState($chkNotifyAlertBuilderIdle, $GUI_UNCHECKED)
+	EndIf
+
+	If $NotifyAlertMaintenance = 1 Then
+		GUICtrlSetState($chkNotifyAlertMaintenance, $GUI_CHECKED)
+	ElseIf $NotifyAlertMaintenance = 0 Then
+		GUICtrlSetState($chkNotifyAlertMaintenance, $GUI_UNCHECKED)
+	EndIf
+
+	If $NotifyAlertBAN = 1 Then
+		GUICtrlSetState($chkNotifyAlertBAN, $GUI_CHECKED)
+	ElseIf $NotifyAlertBAN = 0 Then
+		GUICtrlSetState($chkNotifyAlertBAN, $GUI_UNCHECKED)
+	EndIf
+
+	If $NotifyAlertBOTUpdate = 1 Then
+		GUICtrlSetState($chkNotifyBOTUpdate, $GUI_CHECKED)
+	ElseIf $NotifyAlertBOTUpdate = 0 Then
+		GUICtrlSetState($chkNotifyBOTUpdate, $GUI_UNCHECKED)
+	EndIf
+
+	GUICtrlSetData($txbNotifyPBToken, $NotifyPBToken)
+	GUICtrlSetData($txbNotifyTGToken, $NotifyTGToken)
+	GUICtrlSetData($txbNotifyOrigin, $NotifyOrigin)
+	;Schedule
+	If $NotifyScheduleHoursEnable = 1 Then
+		GUICtrlSetState($chkNotifyHours, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkNotifyHours, $GUI_UNCHECKED)
+	EndIf
+	chkNotifyHours()
+	For $i = 0 To 23
+		If $NotifyScheduleHours[$i] = 1 Then
+			GUICtrlSetState(Eval("chkNotifyHours" & $i), $GUI_CHECKED)
+		Else
+			GUICtrlSetState(Eval("chkNotifyHours" & $i), $GUI_UNCHECKED)
+	EndIf
+	Next
+	If $NotifyScheduleWeekDaysEnable = 1 Then
+		GUICtrlSetState($chkNotifyWeekDays, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkNotifyWeekDays, $GUI_UNCHECKED)
+	EndIf
+	chkNotifyWeekDays()
+	For $i = 0 To 6
+		If $NotifyScheduleWeekDays[$i] = 1 Then
+			GUICtrlSetState(Eval("chkNotifyWeekdays" & $i), $GUI_CHECKED)
+		Else
+			GUICtrlSetState(Eval("chkNotifyWeekdays" & $i), $GUI_UNCHECKED)
+		EndIf
+	Next
+
+
+	;==============================================================
+	;NOTIFY CONFIG ================================================
+	;==============================================================
+
+
 
 	; apply upgrade buildings -------------------------------------------------------------------
 	;Lab
@@ -1918,7 +1996,7 @@ chkskipDonateNearFulLTroopsEnable()
 	chkWalls()
 
 	;Slider Upgrade Walls
-	GUICtrlSetData($sldMaxNbWall, $iMaxNbWall)
+	; GUICtrlSetData($sldMaxNbWall, $iMaxNbWall)
 
 	If $iSaveWallBldr = 1 Then
 		GUICtrlSetState($chkSaveWallBldr, $GUI_CHECKED)
@@ -2776,17 +2854,16 @@ chkskipDonateNearFulLTroopsEnable()
 
 	IF $iGUIEnabled = 0 Then
 		For $T = 0 To (UBound($TroopName) - 1)
-			;Msgbox(0, "Setting", "Setting " & $TroopName[$T] & "|" & "Lev" & $TroopName[$T])
 			Assign("itxtLev" & $TroopName[$T], Eval("itxtLev" & $TroopName[$T]) - 1)
 			Call("Lev" & $TroopName[$T])
 			If Eval("itxtLev" & $TroopName[$T]) < 0 Then Assign("itxtLev" & $TroopName[$T], 0)
-	Next
-	For $S = 0 To (UBound($SpellName) - 1)
-		Assign("itxtLev" & $SpellName[$S], Eval("itxtLev" & $SpellName[$S]) - 1)
-		Call("Lev" & $SpellName[$S])
-		If Eval("itxtLev" & $SpellName[$S]) < 0 Then Assign("itxtLev" & $SpellName[$S], 0)
-	Next
-		$iGUIEnabled = 1
+		Next
+		For $S = 0 To (UBound($SpellName) - 1)
+			Assign("itxtLev" & $SpellName[$S], Eval("itxtLev" & $SpellName[$S]) - 1)
+			Call("Lev" & $SpellName[$S])
+			If Eval("itxtLev" & $SpellName[$S]) < 0 Then Assign("itxtLev" & $SpellName[$S], 0)
+		Next
+			$iGUIEnabled = 1
 	EndIf
 	If $bRedrawAtExit Then SetRedrawBotWindow(True)
 

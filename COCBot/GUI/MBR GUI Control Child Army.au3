@@ -1625,4 +1625,3 @@ Func chkAddDelayIdlePhaseEnable()
         Next
     EndIf
 EndFunc   ;==>chkAddDelayIdlePhaseEnable
-

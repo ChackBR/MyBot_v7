@@ -16,14 +16,43 @@
 Func LoadLanguagesComboBox()
 
 	Local $hFileSearch = FileFindFirstFile($dirLanguages & "*.ini")
-	Local $sFilename, $sOutput = "", $sLangDisplayName = "", $iFileIndex = 0
+	Local $sFilename, $sLangDisplayName = "", $iFileIndex = 0
+
+	$hLangIcons = _GUIImageList_Create(16, 16, 5)
 
 	While 1
 		$sFilename = FileFindNextFile($hFileSearch)
 		If @error Then ExitLoop ; exit when no more files are found
-
-		ReDim $aLanguageFile[$iFileIndex + 1][2]
+		ReDim $aLanguageFile[$iFileIndex + 1][3]
 		$aLanguageFile[$iFileIndex][0] = StringLeft($sFilename, StringLen($sFilename) - 4)
+		Local $LangIcons
+		Switch $aLanguageFile[$iFileIndex][0]
+				Case "BahasaIND"
+					$LangIcons = 192
+				Case "Chinese_S"
+					$LangIcons = 193
+				Case "Chinese_T"
+					$LangIcons = 194
+				Case "English"
+					$LangIcons = 195
+				Case "French"
+					$LangIcons = 196
+				Case "German"
+					$LangIcons = 197
+				Case "Italian"
+					$LangIcons = 198
+				Case "Persian"
+					$LangIcons = 199
+				Case "Russian"
+					$LangIcons = 200
+				Case "Spanish"
+					$LangIcons = 201
+				Case "Turkish"
+					$LangIcons = 202
+				Case Else
+					$LangIcons = 203 ; Use Grey Icon when none of the Languages is matching
+		EndSwitch
+		$aLanguageFile[$iFileIndex][2] = _GUIImageList_AddIcon($hLangIcons, @ScriptDir & "\lib\MBRBot.dll", $LangIcons)
 		$sLangDisplayName = IniRead($dirLanguages & $sFilename, "Language", "DisplayName", "Unknown")
 		$aLanguageFile[$iFileIndex][1] = $sLangDisplayName
 		If $sLangDisplayName = "Unknown" Then
@@ -33,19 +62,18 @@ Func LoadLanguagesComboBox()
 			$aLanguageFile[$iFileIndex][1] = $sLangDisplayName
 		EndIf
 
-		$sOutput = $sOutput & $sLangDisplayName & "|"
 		$iFileIndex += 1
 	WEnd
 	FileClose($hFileSearch)
-
-	;remove last |
-	$sOutput = StringLeft($sOutput, StringLen($sOutput) - 1)
 
 	;reset combo box
 	_GUICtrlComboBox_ResetContent($cmbLanguage)
 
 	;set combo box
-	GUICtrlSetData($cmbLanguage, $sOutput)
+	_GUICtrlComboBoxEx_SetImageList($cmbLanguage, $hLangIcons)
+	For $i = 0 to UBound($aLanguageFile) - 1
+		_GUICtrlComboBoxEx_AddString($cmbLanguage, $aLanguageFile[$i][1], $aLanguageFile[$i][2], $aLanguageFile[$i][2])
+	Next
 
 EndFunc   ;==>LoadLanguagesComboBox
 

@@ -16,40 +16,56 @@
 ;
 Global $checkObstaclesActive = False
 Func checkObstacles() ;Checks if something is in the way for mainscreen
+	If TestCapture() = False And WinGetAndroidHandle() = 0 Then
+		; Android not available
+		Return True
+	EndIf
+
 	; prevent recursion
 	If $checkObstaclesActive = True Then Return True
+	Local $wasForce = OcrForceCaptureRegion(False)
 	$checkObstaclesActive = True
 	Local $Result = _checkObstacles()
+	OcrForceCaptureRegion($wasForce)
 	$checkObstaclesActive = False
 	Return $Result
 EndFunc
 
 Func _checkObstacles() ;Checks if something is in the way for mainscreen
 
-	Local $x, $y, $result
+	Local $msg, $x, $y, $result
 	$MinorObstacle = False
 
-	If TestCapture() = False And WinGetAndroidHandle() = 0 Then
-		; Android not available
-		Return True
-	EndIf
+	_CaptureRegion()
+	_CaptureRegion2Sync() ; share same image from _CaptureRegion()
 
-	ForceCaptureRegion()
+	If UBound(decodeSingleCoord(FindImageInPlace("CocReconnecting", $CocReconnecting, "420,355,440,375", False))) > 1 Then
+		If $hCocReconnectingTimer = 0 Then
+			SetLog("Network Connection lost...", $COLOR_ERROR)
+			$hCocReconnectingTimer = TimerInit()
+		ElseIf TimerDiff($hCocReconnectingTimer) > $iCocReconnectingTimeout Then
+			SetLog("Network Connection really lost, Reloading CoC...", $COLOR_ERROR)
+			$hCocReconnectingTimer = 0
+			Return checkObstacles_ReloadCoC()
+		Else
+			SetLog("Network Connection lost, waiting...", $COLOR_ERROR)
+		EndIf
+	Else
+		$hCocReconnectingTimer = 0
+	EndIf
 
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	; Detect All Reload Button errors => 1- Another device, 2- Take a break, 3- Connection lost or error, 4- Out of sync, 5- Inactive, 6- Maintenance
-	Local $aMessage = _PixelSearch($aIsReloadError[0], $aIsReloadError[1], $aIsReloadError[0] + 3, $aIsReloadError[1] + 11, Hex($aIsReloadError[2], 6), $aIsReloadError[3])
+	Local $aMessage = _PixelSearch($aIsReloadError[0], $aIsReloadError[1], $aIsReloadError[0] + 3, $aIsReloadError[1] + 11, Hex($aIsReloadError[2], 6), $aIsReloadError[3], $bNoCapturePixel)
 	If IsArray($aMessage) Then
-		_CaptureRegion()
 		If $debugsetlog = 1 Then SetLog("(Inactive=" & _GetPixelColor($aIsInactive[0], $aIsInactive[1]) & ")(DC=" & _GetPixelColor($aIsConnectLost[0], $aIsConnectLost[1]) & ")(OoS=" & _GetPixelColor($aIsCheckOOS[0], $aIsCheckOOS[1]) & ")", $COLOR_DEBUG)
 		If $debugsetlog = 1 Then SetLog("(Maintenance=" & _GetPixelColor($aIsMaintenance[0], $aIsMaintenance[1]) & ")(RateCoC=" & ")", $COLOR_DEBUG)
 		If $debugsetlog = 1 Then SetLog("33B5E5=>true, 282828=>false", $COLOR_DEBUG)
 		;;;;;;;##### 1- Another device #####;;;;;;;
 		$result = getOcrMaintenanceTime(184, 325 + $midOffsetY, "Another Device OCR:") ; OCR text to find Another device message
 		If StringInStr($result, "device", $STR_NOCASESENSEBASIC) Or _
-			_ImageSearchAreaImgLoc($device, 0, 220, 300 + $midOffsetY, 300, 360 + $midOffsetY, $x, $y) Then
+			UBound(decodeSingleCoord(FindImageInPlace("Device", $device, "220,330,300,390", False))) > 1 Then
 			If TestCapture() Then Return "Another Device has connected"
-			;_ImageSearchArea($device, 0, 237, 321 + $midOffsetY, 293, 346 + $midOffsetY, $x, $y, 80) Then
 			If $sTimeWakeUp > 3600 Then
 				SetLog("Another Device has connected, waiting " & Floor(Floor($sTimeWakeUp / 60) / 60) & " hours " & Floor(Mod(Floor($sTimeWakeUp / 60), 60)) & " minutes " & Floor(Mod($sTimeWakeUp, 60)) & " seconds", $COLOR_ERROR)
 				PushMsg("AnotherDevice3600")
@@ -62,15 +78,13 @@ Func _checkObstacles() ;Checks if something is in the way for mainscreen
 			EndIf
 			If _SleepStatus($sTimeWakeUp * 1000) Then Return ; Wait as long as user setting in GUI, default 120 seconds
 			checkObstacles_ReloadCoC($aReloadButton, "#0127")
-			If _Sleep(2000) Then Return
 			If $ichkSinglePBTForced = 1 Then $bGForcePBTUpdate = True
 			checkObstacles_ResetSearch()
 			Return True
 		EndIf
 		;;;;;;;##### 2- Take a break #####;;;;;;;
 
-		;If _ImageSearchArea($break, 0, 165, 257 + $midOffsetY, 335, 295 + $midOffsetY, $x, $y, 100) Then ; used for all 3 different break messages
-		If _ImageSearchAreaImgLoc($break, 0, 165, 257 + $midOffsetY, 335, 295 + $midOffsetY, $x, $y) Then ; used for all 3 different break messages
+		If UBound(decodeSingleCoord(FindImageInPlace("Break", $break, "165,287,335,325", False))) > 1 Then ; used for all 3 different break messages
 			SetLog("Village must take a break, wait ...", $COLOR_ERROR)
 			PushMsg("TakeBreak")
 			If _SleepStatus($iDelaycheckObstacles4) Then Return ; 2 Minutes
@@ -88,17 +102,15 @@ Func _checkObstacles() ;Checks if something is in the way for mainscreen
 				;  Add check for banned account :(
 				$result = getOcrMaintenanceTime(171, 358 + $midOffsetY, "Check Obstacles OCR 'policy at super'=") ; OCR text for "policy at super"
 				If StringInStr($result, "policy", $STR_NOCASESENSEBASIC) Then
-					SetLog("Sorry but account has been banned, Bot must stop!!", $COLOR_ERROR)
+					$msg = "Sorry but account has been banned, Bot must stop!!"
 					BanMsgBox()
-					Btnstop() ; stop bot
-					Return True
+					Return checkObstacles_StopBot($msg)
 				EndIf
 				$result = getOcrMaintenanceTime(171, 337 + $midOffsetY, "Check Obstacles OCR 'prohibited 3rd'= ") ; OCR text for "prohibited 3rd party"
 				If StringInStr($result, "3rd", $STR_NOCASESENSEBASIC) Then
-					SetLog("Sorry but account has been banned, Bot must stop!!", $COLOR_ERROR)
+					$msg = "Sorry but account has been banned, Bot must stop!!"
 					BanMsgBox()
-					Btnstop() ; stop bot
-					Return True
+					Return checkObstacles_StopBot($msg) ; stop bot
 				EndIf
 				SetLog("Connection lost, Reloading CoC...", $COLOR_ERROR)
 			Case _CheckPixel($aIsCheckOOS, $bNoCapturePixel) ; Check OoS
@@ -128,6 +140,7 @@ Func _checkObstacles() ;Checks if something is in the way for mainscreen
 						SetLog("Error reading Maintenance Break time?", $COLOR_ERROR)
 				EndSelect
 				SetLog("Maintenance Break, waiting: " & $iMaintenanceWaitTime / 60000 & " minutes....", $COLOR_ERROR)
+				If ($NotifyPBEnabled = 1 Or $NotifyTGEnabled = 1) And $NotifyAlertMaintenance = 1 Then NotifyPushToBoth("Maintenance Break, waiting: " & $iMaintenanceWaitTime / 60000 & " minutes....")
 				If $ichkSinglePBTForced = 1 Then $bGForcePBTUpdate = True
 				If _SleepStatus($iMaintenanceWaitTime) Then Return
 				checkObstacles_ResetSearch()
@@ -135,7 +148,7 @@ Func _checkObstacles() ;Checks if something is in the way for mainscreen
 				;  Add check for game update and Rate CoC error messages
 				If $debugImageSave = 1 Then DebugImageSave("ChkObstaclesReloadMsg_")  ; debug only
 				$result = getOcrRateCoc(228, 390 + $midOffsetY,"Check Obstacles getOCRRateCoC= ")
-				If StringInStr($result, "never", $STR_NOCASESENSEBASIC) Then
+				If StringInStr($result, "never", $STR_NOCASESENSEBASIC) Or UBound(decodeSingleCoord(FindImageInPlace("RateNever", $AppRateNever, "228,420,273,448", False))) > 1 Then
 					SetLog("Clash feedback window found, permanently closed!", $COLOR_ERROR)
 					PureClick(248, 408 + $midOffsetY, 1, 0, "#9999") ; Click on never to close window and stop reappear. Never=248,408 & Later=429,408
 					$MinorObstacle = True
@@ -143,9 +156,8 @@ Func _checkObstacles() ;Checks if something is in the way for mainscreen
 				EndIf
 				$result = getOcrMaintenanceTime(171, 325 + $midOffsetY, "Check Obstacles OCR 'Good News!'=") ; OCR text for "Good News!"
 				If StringInStr($result, "new", $STR_NOCASESENSEBASIC) Then
-					SetLog("Game Update is required, Bot must stop!!", $COLOR_ERROR)
-					Btnstop() ; stop bot
-					Return True
+					$msg = "Game Update is required, Bot must stop!!"
+					Return checkObstacles_StopBot($msg) ; stop bot
 				ElseIf StringInStr($result, "rate", $STR_NOCASESENSEBASIC) Then  ; back up check for rate CoC reload window
 					SetLog("Clash feedback window found, permanently closed!", $COLOR_ERROR)
 					PureClick(248, 408 + $midOffsetY, 1, 0, "#9999") ; Click on never to close window and stop reappear. Never=248,408 & Later=429,408
@@ -155,33 +167,25 @@ Func _checkObstacles() ;Checks if something is in the way for mainscreen
 				;  Add check for banned account :(
 				$result = getOcrMaintenanceTime(171, 358 + $midOffsetY, "Check Obstacles OCR 'policy at super'=") ; OCR text for "policy at super"
 				If StringInStr($result, "policy", $STR_NOCASESENSEBASIC) Then
-					SetLog("Sorry but account has been banned, Bot must stop!!", $COLOR_ERROR)
+					$msg = "Sorry but account has been banned, Bot must stop!!"
 					BanMsgBox()
-					Btnstop() ; stop bot
-					Return True
+					Return checkObstacles_StopBot($msg) ; stop bot
 				EndIf
 				$result = getOcrMaintenanceTime(171, 337 + $midOffsetY, "Check Obstacles OCR 'prohibited 3rd'= ") ; OCR text for "prohibited 3rd party"
 				If StringInStr($result, "3rd", $STR_NOCASESENSEBASIC) Then
-					SetLog("Sorry but account has been banned, Bot must stop!!", $COLOR_ERROR)
+					$msg = "Sorry but account has been banned, Bot must stop!!"
 					BanMsgBox()
-					Btnstop() ; stop bot
-					Return True
+					Return checkObstacles_StopBot($msg) ; stop bot
 				EndIf
 				SetLog("Warning: Can not find type of Reload error message", $COLOR_ERROR)
 		EndSelect
-		If TestCapture() Then Return "Reload CoC"
-		checkObstacles_ReloadCoC($aReloadButton, "#0131"); Click for out of sync or inactivity or connection lost or maintenance
-		If _Sleep($iDelaycheckObstacles3) Then Return
-		Return True
+		Return checkObstacles_ReloadCoC($aReloadButton, "#0131"); Click for out of sync or inactivity or connection lost or maintenance
 	EndIf
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-	If GetAndroidProcessPID() = 0 Then
+	If TestCapture() = 0 And GetAndroidProcessPID() = 0 Then
 		; CoC not running
-		checkObstacles_ReloadCoC()
-		If _Sleep($iDelaycheckObstacles3) Then Return
-		Return True
+		Return checkObstacles_ReloadCoC()
 	EndIf
-	_CaptureRegion() ; Bot restart is not required for These cases just close window then WaitMainScreen then continue
 	Local $bHasTopBlackBar = _ColorCheck(_GetPixelColor(10, 3), Hex(0x000000, 6), 1) And _ColorCheck(_GetPixelColor(300, 6), Hex(0x000000, 6), 1) And _ColorCheck(_GetPixelColor(600, 9), Hex(0x000000, 6), 1)
 	If _ColorCheck(_GetPixelColor(235, 209 + $midOffsetY), Hex(0x9E3826, 6), 20) Then
 		SetDebugLog("checkObstacles: Found Window to close")
@@ -252,22 +256,18 @@ Func _checkObstacles() ;Checks if something is in the way for mainscreen
 		EndIf
 	EndIf
 
-	Local $CocStoppedArea = "250,358,618,432"
-	Local $CocStoppedFound  =  FindImageInPlace("CocStopped",$CocStopped,$CocStoppedArea)
-	;If _ImageSearchArea($CocStopped, 0, 250, 328 + $midOffsetY, 618, 402 + $midOffsetY, $x, $y, 70) Then
-	;If _ImageSearchAreaImgLoc($CocStopped, 0, 250, 328 + $midOffsetY, 618, 402 + $midOffsetY, $x, $y) Then
-	if $CocStoppedFound <> "" Then
+	Local $CSFoundCoords = decodeSingleCoord(FindImageInPlace("CocStopped", $CocStopped, "250,358,618,432", False))
+	if UBound($CSFoundCoords) > 1 Then
 		SetLog("CoC Has Stopped Error .....", $COLOR_ERROR)
 		If TestCapture() Then Return "CoC Has Stopped Error ....."
 		PushMsg("CoCError")
 		If _Sleep($iDelaycheckObstacles1) Then Return
 		;PureClick(250 + $x, 328 + $midOffsetY + $y, 1, 0, "#0129");Check for "CoC has stopped error, looking for OK message" on screen
-		Local $CSFoundCoords = decodeSingleCoord($CocStoppedFound)
 		PureClick($CSFoundCoords[0], $CSFoundCoords[1], 1, 0, "#0129");Check for "CoC has stopped error, looking for OK message" on screen
 		If _Sleep($iDelaycheckObstacles2) Then Return
-		CloseCoC(True)
-		Return True
+		Return checkObstacles_ReloadCoC()
 	EndIf
+
 	If $bHasTopBlackBar Then
 		; if black bar at top, e.g. in Android home screen, restart CoC
 		SetDebugLog("checkObstacles: Found Android Screen")
@@ -278,8 +278,21 @@ EndFunc   ;==>checkObstacles
 ; It's more stable to restart CoC app than click the message restarting the game
 Func checkObstacles_ReloadCoC($point = $aAway, $debugtxt = "")
 	;PureClickP($point, 1, 0, $debugtxt)
+	If TestCapture() Then Return "Reload CoC"
+	OcrForceCaptureRegion(True)
 	CloseCoC(True)
+	If _Sleep($iDelaycheckObstacles3) Then Return
+	Return True
 EndFunc   ;==>checkObstacles_ReloadCoC
+
+Func checkObstacles_StopBot($msg)
+	SetLog($msg, $COLOR_ERROR)
+	If ($NotifyPBEnabled = 1 Or $NotifyTGEnabled = 1) And $NotifyAlertMaintenance = 1 Then NotifyPushToBoth($msg)
+	If TestCapture() Then Return $msg
+	OcrForceCaptureRegion(True)
+	Btnstop() ; stop bot
+	Return True
+EndFunc   ;==checkObstacles_StopBot
 
 Func checkObstacles_ResetSearch()
 	; reset fast restart flags to ensure base is rearmed after error event that has base offline for long duration, like PB or Maintenance
@@ -296,6 +309,7 @@ Func BanMsgBox()
 	Local $MsgBox
 	Local $stext = "Sorry, youy account is banned!!" & @CRLF & "Bot will stop now..."
 	While 1
+		PushMsg("BAN")
 		_ExtMsgBoxSet(4, 1, 0x004080, 0xFFFF00, 20, "Comic Sans MS", 600)
 		$MsgBox = _ExtMsgBox(48, "Ok", "Banned", $stext, 1, $frmBot)
 		If $MsgBox = 1 Then Return

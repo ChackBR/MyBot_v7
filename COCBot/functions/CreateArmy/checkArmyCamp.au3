@@ -13,7 +13,7 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
-Func checkArmyCamp($bOpenArmyWindow = False, $bCloseArmyWindow = False)
+Func checkArmyCamp($bOpenArmyWindow = False, $bCloseArmyWindow = False, $bGetHeroesTime = False)
 
 	If $debugsetlogTrain = 1 Then SETLOG("Begin checkArmyCamp:", $COLOR_DEBUG1)
 
@@ -31,13 +31,16 @@ Func checkArmyCamp($bOpenArmyWindow = False, $bCloseArmyWindow = False)
 	GetArmyCapacity()
 	If _Sleep($iDelaycheckArmyCamp6) Then Return ; 10ms improve pause button response
 
-	getArmyTroopCount()
+	;getArmyTroopCount()
 	If _Sleep($iDelaycheckArmyCamp6) Then Return ; 10ms improve pause button response
 
 	getArmyTroopTime()
 	If _Sleep($iDelaycheckArmyCamp6) Then Return ; 10ms improve pause button response
 
+	Local $HeroesRegenTime
 	getArmyHeroCount()
+	If _Sleep($iDelaycheckArmyCamp6) Then Return ; 10ms improve pause button response
+	If $bGetHeroesTime = True Then $HeroesRegenTime = getArmyHeroTime("all")
 	If _Sleep($iDelaycheckArmyCamp6) Then Return ; 10ms improve pause button response
 
 	getArmySpellCapacity()
@@ -69,6 +72,8 @@ Func checkArmyCamp($bOpenArmyWindow = False, $bCloseArmyWindow = False)
 	EndIf
 
 	If $debugsetlogTrain = 1 Then SETLOG("End checkArmyCamp: canRequestCC= " & $canRequestCC & ", fullArmy= " & $fullArmy, $COLOR_DEBUG)
+
+	Return $HeroesRegenTime
 
 EndFunc   ;==>checkArmyCamp
 
@@ -120,7 +125,7 @@ Func DeleteExcessTroops()
 			EndIf
 		EndIf
 	Next
-#CS 
+#CS
 	For $i = 0 To UBound($TroopDarkName) - 1
 		If IsTroopToDonateOnly(Eval("e" & $TroopDarkName[$i])) Then
 			$CorrectDonation = 0
@@ -167,7 +172,7 @@ Func DeleteExcessTroops()
 	Next
 
 	If $debugsetlogTrain = 1 Then SetLog("Start-Loop Dark Troops Only To Donate ")
-#CS 
+#CS
 	For $i = 0 To UBound($TroopDarkName) - 1
 		If IsTroopToDonateOnly(Eval("e" & $TroopDarkName[$i])) Then ; Will delete ONLY the Excess quantity of troop for donations , the rest is to use in Attack
 			If $debugsetlogTrain = 1 Then SetLog("Troop :" & NameOfTroop(Eval("e" & $TroopDarkName[$i])))

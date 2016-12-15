@@ -42,7 +42,7 @@ Func RequestCC($ClickPAtEnd = True, $specifyText = "")
 	checkAttackDisable($iTaBChkIdle) ; Early Take-A-Break detection
 
 	;wait to see army overview
-	#cs 6.3.u disabled
+
 	Local $icount = 0
 	While Not ( _ColorCheck(_GetPixelColor($aArmyOverviewTest[0], $aArmyOverviewTest[1], True), Hex($aArmyOverviewTest[2], 6), $aArmyOverviewTest[3]))
 		If _Sleep($iDelayRequestCC1) Then ExitLoop
@@ -51,7 +51,7 @@ Func RequestCC($ClickPAtEnd = True, $specifyText = "")
 		If $icount > 5 Then ExitLoop ; wait 6*500ms = 3 seconds max
 	WEnd
 	If $icount > 5 And $DebugSetLog = 1 Then Setlog("RequestCC warning 1", $COLOR_DEBUG)
-	#ce
+
 
 	$color = _GetPixelColor($aRequestTroopsAO[0], $aRequestTroopsAO[1], True)
 	If _ColorCheck($color, Hex($aRequestTroopsAO[2], 6), $aRequestTroopsAO[5]) Then
@@ -97,7 +97,7 @@ Func _makerequest()
 			If $ichkBackground = 0 And $NoFocusTampering = False Then ControlFocus($HWnD, "", "")
 			; fix for Android send text bug sending symbols like ``"
 			AndroidSendText($sTxtRequest, True)
-			PureClick($atxtRequestCCBtn[0], $atxtRequestCCBtn[1], 1, 0, "#0254") ;Select text for request $atxtRequestCCBtn[2] = [430, 140]
+			Click($atxtRequestCCBtn[0], $atxtRequestCCBtn[1], 1, 0, "#0254") ;Select text for request $atxtRequestCCBtn[2] = [430, 140]
 			_Sleep($iDelaymakerequest2)
 			If SendText($sTxtRequest) = 0 Then
 				Setlog(" Request text entry failed, try again", $COLOR_ERROR)
@@ -117,7 +117,7 @@ Func _makerequest()
 			CheckMainScreen(False) ;emergency exit
 		EndIf
 		If $ichkBackground = 0 And $NoFocusTampering = False Then ControlFocus($HWnD, "", "")  ; make sure Android has window focus
-		PureClick($aSendRequestCCBtn[0], $aSendRequestCCBtn[1], 1, 100, "#0256") ; click send button
+		Click($aSendRequestCCBtn[0], $aSendRequestCCBtn[1], 1, 100, "#0256") ; click send button
 		$canRequestCC = False
 	EndIf
 

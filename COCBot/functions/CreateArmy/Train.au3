@@ -286,7 +286,7 @@ Func Train()
 		$BarrackDarkStatus[0] = False
 		$BarrackDarkStatus[1] = False
 		SetLog("Your Army Camps are now Full", $COLOR_ERROR)
-		If ($PushBulletEnabled = 1 And $ichkAlertPBCampFull = 1) Then PushMsg("CampFull")
+		If ($PushBulletEnabled = 1 And $NotifyAlertCampFull = 1) Then PushMsg("CampFull")
 	EndIf
 
 	;If is fullArmy or FirstStart or we are using the Barracks modes is not necessary count the donations , the $Cur will add the correct troops to make

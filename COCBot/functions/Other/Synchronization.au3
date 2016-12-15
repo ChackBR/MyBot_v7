@@ -17,13 +17,13 @@ Func AcquireMutex($mutexName, $scope = Default, $timout = Default)
 	Local $timer = TimerInit()
 	Local $hMutex_MyBot = 0
 	If $scope = Default Then
-		$scope = @AutoItPID + "/"
+		$scope = @AutoItPID & "/"
 	ElseIf $scope <> "" Then
-		$scope += "/"
+		$scope &= "/"
 	EndIf
 	If $timout = Default Then $timeout = 30000
 	While $hMutex_MyBot = 0 And ($timout = 0 Or TimerDiff($timer) < $timout)
-		$hMutex_MyBot = _Singleton("MyBot.run/" + $scope + $mutexName, 1)
+		$hMutex_MyBot = _Singleton("MyBot.run/" & $scope & $mutexName, 1)
 		If $hMutex_MyBot <> 0 Then ExitLoop
 		If $timout = 0 Then ExitLoop
 		Sleep($iDelaySleep)

@@ -14,49 +14,26 @@
 ; ===============================================================================================================================
 
 Func FindExitButton($sButtonName)
-	Local $sButtons
-	Local $rootFolder = "\imgxml\imglocbuttons\exit"
-	Local $aFiles
-	Local $aButtonPath[0]
-	Local $sPosXY = ""
-	Local $aPosXY
+	Local $aCoor
+	Local $sDirectory = "exitbutton-bundle"
+	Local $sReturnProps = "objectpoints"
+	Local $result = ""
+	Local $aPosXY = ""
 
-	If Not IsString($sButtonName) Then
-		If $DebugSetlog Then SetLog("Button Name not a string: " & $sButtonName, $COLOR_DEBUG)
-		Return ""
-	EndIf
+	$aCoor = StringSplit(GetButtonRectangle($sButtonName), ",", $STR_NOCOUNT)
+	_CaptureRegion2($aCoor[0], $aCoor[1], $aCoor[2], $aCoor[3])
+	$result = findMultiple($sDirectory ,"FV" ,"FV", 0, 0, 1 , $sReturnProps, False)
 
-	$sButtons = "*" & $sButtonName & "*" ; enable reuse same tile file for different $sButtonName
-	$aFiles = _FileListToArray(@ScriptDir & $rootFolder, $sButtons, $FLTA_FILES, True)
-
-	If UBound($aFiles) < 2 Or $aFiles[0] < 1 Then
-		If $DebugSetlog Then SetLog("No files in: " & @ScriptDir & $rootFolder, $COLOR_DEBUG)
-		Return ""
-	EndIf
-
-	For $i = 1 To $aFiles[0]
-		If StringRegExp($aFiles[$i], ".+[.](xml|png|bmp)$") Then _ArrayAdd($aButtonPath, $aFiles[$i])
-	Next
-
-	If UBound($aButtonPath) <> 1 Then
-		If $DebugSetlog Then SetLog("Too many same name tiles found: " & $sButtonName, $COLOR_DEBUG)
-		Return ""
-	EndIf
-
-	If $DebugSetlog Then SetLog("imgLoc searching for: " & $sButtonName & ": " & $aButtonPath[0])
-
-	Local $iBegin = TimerInit()
-	$sPosXY = FindImageInPlace($sButtonName, $aButtonPath[0], GetButtonRectangle($sButtonName))
-	If $DebugSetlog then SetLog("Find button " & $sButtonName & " used: " & Round(TimerDiff($iBegin)) & "ms", $COLOR_DEBUG)
-
-	If $sPosXY <> "" Then
-		$aPosXY = StringSplit($sPosXY, ",", $STR_NOCOUNT)
-		If $DebugSetlog Then Setlog($sButtonName & " Button X|Y = " & $aPosXY[0] & "|" & $aPosXY[1], $COLOR_DEBUG)
-		Return $aPosXY ; return just X,Y coord array
+	If IsArray($result) then
+		$aPosXY = StringSplit(($result[0])[0], ",", $STR_NOCOUNT)
+		$aPosXY[0] += $aCoor[0]
+		$aPosXY[1] += $aCoor[1]
+		If $DebugSetlog = 1 Then Setlog($sButtonName & " Button X|Y = " & $aPosXY[0] & "|" & $aPosXY[1], $COLOR_DEBUG)
+		Return $aPosXY
 	EndIf
 
 	SetLog("FindExitButton: " & $sButtonName & " NOT Found" , $COLOR_INFO)
-	Return $sPosXY
+	Return $aPosXY
 EndFunc   ;==>FindExitButton
 
 Func GetButtonRectangle($sButtonName)
@@ -78,7 +55,7 @@ Func GetButtonRectangle($sButtonName)
 		Case "Aiyouxi"
 			$btnRectangle = GetDummyRectangle("468,392", 10)
 		Case "9game"
-			$btnRectangle = GetDummyRectangle("359,406", 10)
+			$btnRectangle = "349,352,369,436" ; 359,362 -- 359,406 + offset 10 + Y 20 counter the moving button
 		Case "VIVO", "Xiaomi"
 			$btnRectangle = GetDummyRectangle("353,387", 10)
 		Case "Guopan"

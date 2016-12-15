@@ -383,9 +383,11 @@ Func EmbedLeapDroid($bEmbed = Default)
 EndFunc   ;==>EmbedLeapDroid
 
 Func LeapDroidBotStartEvent()
-   ;Return AndroidCloseSystemBar()
+   ; it's required to close the system bar as Android System messages are otherwise some pixels more top and bot doesn't detect correctly
+   Return AndroidCloseSystemBar()
 EndFunc   ;==>LeapDroidBotStartEvent
 
 Func LeapDroidBotStopEvent()
-   ;Return AndroidOpenSystemBar()
+   ;Zygote restart causes CoC restart :( that's why it not used and normal opensysbar started to crash in 1.8.0 in Dec 2016... so disabled for now
+   ;Return AndroidOpenSystemBar(True)
 EndFunc   ;==>LeapDroidBotStopEvent

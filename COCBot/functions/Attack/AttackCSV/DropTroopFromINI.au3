@@ -87,16 +87,16 @@ Func DropTroopFromINI($vectors, $indexStart, $indexEnd, $indexArray, $qtaMin, $q
 			If $ichkJumpSpell[$iMatchMode] = 0 Then $usespell = False
 		Case $eFSpell
 			If $ichkFreezeSpell[$iMatchMode] = 0 Then $usespell = False
-;		Case $eCSpell
-;			If $ichkCloneSpell[$iMatchMode] = 0 Then $usespell = False
+		Case $eCSpell
+			If $ichkCloneSpell[$iMatchMode] = 0 Then $usespell = False
 		Case $ePSpell
 			If $ichkPoisonSpell[$iMatchMode] = 0 Then $usespell = False
 		Case $eESpell
 			If $ichkEarthquakeSpell[$iMatchMode] = 0 Then $usespell = False
 		Case $eHaSpell
 			If $ichkHasteSpell[$iMatchMode] = 0 Then $usespell = False
-;		Case $eSkSpell
-;			If $ichkSkeletonSpell[$iMatchMode] = 0 Then $usespell = False
+		Case $eSkSpell
+			If $ichkSkeletonSpell[$iMatchMode] = 0 Then $usespell = False
 	EndSwitch
 
 	If $troopPosition = -1 Or $usespell = False Then

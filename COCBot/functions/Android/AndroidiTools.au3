@@ -112,11 +112,11 @@ Func InitiTools($bCheckOnly = False)
 	;Local $iToolsVersion = RegRead($HKLM & "\SOFTWARE" & $Wow6432Node & "\Microsoft\Windows\CurrentVersion\Uninstall\iTools\", "DisplayVersion")
 	SetError(0, 0, 0)
 
-    $VirtualBox_Path = RegRead($HKLM & "\SOFTWARE\Oracle\VirtualBox\", "InstallDir")
+	$VirtualBox_Path = RegRead($HKLM & "\SOFTWARE\Oracle\VirtualBox\", "InstallDir")
 	If @error <> 0 And FileExists(@ProgramFilesDir & "\Oracle\VirtualBox\") Then
 		$VirtualBox_Path = @ProgramFilesDir & "\Oracle\VirtualBox\"
 		SetError(0, 0, 0)
-    EndIf
+	EndIf
 	$VirtualBox_Path = StringReplace($VirtualBox_Path, "\\", "\")
 
 	Local $iTools_Path = GetiToolsPath()
@@ -195,7 +195,7 @@ Func InitiTools($bCheckOnly = False)
 		Else
 			$oops = 1
 			SetLog("Cannot read " & $Android & "(" & $AndroidInstance & ") ADB Device Host", $COLOR_ERROR)
-		EndIF
+		EndIf
 
 		$aRegExResult = StringRegExp($__VBoxVMinfo, "ADB_PORT.*host port = (\d{3,5}),", $STR_REGEXPARRAYMATCH)
 		If Not @error Then
@@ -204,7 +204,7 @@ Func InitiTools($bCheckOnly = False)
 		Else
 			$oops = 1
 			SetLog("Cannot read " & $Android & "(" & $AndroidInstance & ") ADB Device Port", $COLOR_ERROR)
-		EndIF
+		EndIf
 
 		If $oops = 0 Then
 			$AndroidAdbDevice = $AndroidAdbDeviceHost & ":" & $AndroidAdbDevicePort
@@ -223,7 +223,7 @@ Func InitiTools($bCheckOnly = False)
 			$AndroidAdbScreencap = False
 			$AndroidSharedFolderAvailable = False
 			$AndroidPicturesHostPath = ""
-			SetLog($Android & " Background Mode is not available", $COLOR_ERROR)
+			SetLog($Android & " shared folder is not available", $COLOR_ERROR)
 		EndIf
 
 		; Android Window Title is always "iTools" so add instance name
@@ -237,23 +237,27 @@ EndFunc   ;==>InitiTools
 
 Func SetScreeniTools()
 
-   If Not $RunState Then Return False
-   If Not InitAndroid() Then Return False
+	If Not $RunState Then Return False
+	If Not InitAndroid() Then Return False
 
-   Local $cmdOutput, $process_killed
+	Local $cmdOutput, $process_killed
 
-   ; Set width and height
-   $cmdOutput = LaunchConsole($__VBoxManage_Path, "guestproperty set " & $AndroidInstance & " vbox_graph_mode " & $AndroidClientWidth & "x" & $AndroidClientHeight & "-16", $process_killed)
+	; Set width and height
+	$cmdOutput = LaunchConsole($__VBoxManage_Path, "guestproperty set " & $AndroidInstance & " vbox_graph_mode " & $AndroidClientWidth & "x" & $AndroidClientHeight & "-16", $process_killed)
 
-   ; Set dpi
-   $cmdOutput = LaunchConsole($__VBoxManage_Path, "guestproperty set " & $AndroidInstance & " vbox_dpi 160", $process_killed)
+	; Set dpi
+	$cmdOutput = LaunchConsole($__VBoxManage_Path, "guestproperty set " & $AndroidInstance & " vbox_dpi 160", $process_killed)
 
-   ;vboxmanage sharedfolder add droid4x --name picture --hostpath "C:\Users\Administrator\Pictures\Droid4X Photo" --automount
-   If $AndroidSharedFolderAvailable = False And $AndroidPicturesPathAutoConfig = True And FileExists($AndroidPicturesHostPath) = 1 Then
-	  $cmdOutput = LaunchConsole($__VBoxManage_Path, "sharedfolder add " & $AndroidInstance & " --name picture --hostpath """ & $AndroidPicturesHostPath & """  --automount", $process_killed)
-   EndIf
+	;vboxmanage sharedfolder add droid4x --name picture --hostpath "C:\Users\Administrator\Pictures\Droid4X Photo" --automount
+	AndroidPicturePathAutoConfig() ; ensure $AndroidPicturesHostPath is set and exists
+	If $AndroidSharedFolderAvailable = False And $AndroidPicturesPathAutoConfig = True And FileExists($AndroidPicturesHostPath) = 1 Then
+		; remove tailing backslash
+		Local $path = $AndroidPicturesHostPath
+		If StringRight($path, 1) = "\" Then $path = StringLeft($path, StringLen($path) - 1)
+		$cmdOutput = LaunchConsole($__VBoxManage_Path, "sharedfolder add " & $AndroidInstance & " --name picture --hostpath """ & $path & """  --automount", $process_killed)
+	EndIf
 
-   Return True
+	Return True
 
 EndFunc   ;==>SetScreeniTools
 
@@ -271,58 +275,33 @@ EndFunc   ;==>CloseiTools
 
 Func CheckScreeniTools($bSetLog = True)
 
-   If Not InitAndroid() Then Return False
+	If Not InitAndroid() Then Return False
 
-   Local $aValues[2][2] = [ _
-	  ["vbox_dpi", "160"], _
-	  ["vbox_graph_mode", $AndroidClientWidth & "x" & $AndroidClientHeight & "-16"] _
-   ]
-   Local $i, $Value, $iErrCnt = 0, $process_killed, $aRegExResult, $properties
+	Local $aValues[2][2] = [ _
+			["vbox_dpi", "160"], _
+			["vbox_graph_mode", $AndroidClientWidth & "x" & $AndroidClientHeight & "-16"] _
+			]
+	Local $i, $Value, $iErrCnt = 0, $process_killed, $aRegExResult, $properties
 
-   For $i = 0 To UBound($aValues) -1
-	  $aRegExResult = StringRegExp($__VBoxGuestProperties, "Name: " & $aValues[$i][0] & ", value: (.+), timestamp:", $STR_REGEXPARRAYMATCH)
-	  If @error = 0 Then $Value = $aRegExResult[0]
-	  If $Value <> $aValues[$i][1] Then
-		 If $iErrCnt = 0 Then
-			If $bSetLog Then
-			   SetLog("MyBot doesn't work with " & $Android & " screen configuration!", $COLOR_ERROR)
-			Else
-			   SetDebugLog("MyBot doesn't work with " & $Android & " screen configuration!", $COLOR_ERROR)
+	For $i = 0 To UBound($aValues) - 1
+		$aRegExResult = StringRegExp($__VBoxGuestProperties, "Name: " & $aValues[$i][0] & ", value: (.+), timestamp:", $STR_REGEXPARRAYMATCH)
+		If @error = 0 Then $Value = $aRegExResult[0]
+		If $Value <> $aValues[$i][1] Then
+			If $iErrCnt = 0 Then
+				SetGuiLog("MyBot doesn't work with " & $Android & " screen configuration!", $COLOR_ERROR, $bSetLog)
 			EndIf
-		 EndIf
-		 If $bSetLog Then
-			SetLog("Setting of " & $aValues[$i][0] & " is " & $Value & " and will be changed to " & $aValues[$i][1], $COLOR_ERROR)
-		 Else
-			SetDebugLog("Setting of " & $aValues[$i][0] & " is " & $Value & " and will be changed to " & $aValues[$i][1], $COLOR_ERROR)
-		 EndIf
-		 $iErrCnt += 1
-	  EndIf
-   Next
-   If $iErrCnt > 0 Then Return False
+			SetGuiLog("Setting of " & $aValues[$i][0] & " is " & $Value & " and will be changed to " & $aValues[$i][1], $COLOR_ERROR, $bSetLog)
+			$iErrCnt += 1
+		EndIf
+	Next
 
-   ; check if shared folder exists for background mode and mouse events
-   If $AndroidPicturesHostPath = "" Then
-	  Local $myPictures = RegRead("HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders\", "My Pictures")
-	  If @error = 0 And FileExists($myPictures) = 1 Then
-		 $AndroidPicturesHostPath = $myPictures & "\" & $Android & " Photo"
-		 If DirCreate($AndroidPicturesHostPath) = 1 Then
-			SetLog("Configure " & $Android & " to support Background Mode", $COLOR_SUCCESS)
-			SetLog("Folder created: " & $AndroidPicturesHostPath, $COLOR_SUCCESS)
-			SetLog("This shared folder will be added to " & $Android, $COLOR_SUCCESS)
-			Return False
-		 Else
-			SetLog("Cannot configure " & $Android & " Background Mode", $COLOR_SUCCESS)
-			SetLog("Cannot create folder: " & $AndroidPicturesHostPath, $COLOR_ERROR)
-			$AndroidPicturesPathAutoConfig = False
-		 EndIf
-	  Else
-		 SetLog("Cannot configure " & $Android & " Background Mode", $COLOR_SUCCESS)
-		 SetLog("Cannot find current user 'My Pictures' folder", $COLOR_ERROR)
-		 $AndroidPicturesPathAutoConfig = False
-	  EndIf
-   EndIf
+	If $iErrCnt > 0 Then Return False
 
-   Return True
+	; check if shared folder exists
+	If AndroidPicturePathAutoConfig(Default, Default, $bSetLog) Then $iErrCnt += 1
+
+	If $iErrCnt > 0 Then Return False
+	Return True
 
 EndFunc   ;==>CheckScreeniTools
 
@@ -355,7 +334,7 @@ Func EmbediTools($bEmbed = Default)
 					ReDim $hAddition[UBound($hAddition) + 1]
 					$hAddition[UBound($hAddition) - 1] = $h
 				EndIf
-			EndIF
+			EndIf
 		EndIf
 	Next
 
@@ -380,10 +359,10 @@ EndFunc   ;==>EmbediTools
 
 #cs
 Func iToolsBotStartEvent()
-   Return AndroidCloseSystemBar()
+	Return AndroidCloseSystemBar()
 EndFunc   ;==>iToolsBotStartEvent
 
 Func iToolsBotStopEvent()
-   Return AndroidOpenSystemBar()
+	Return AndroidOpenSystemBar()
 EndFunc   ;==>iToolsBotStopEvent
 #ce

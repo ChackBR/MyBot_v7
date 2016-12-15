@@ -23,6 +23,7 @@ Func CheckVersion()
 			SetLog("PLEASE DOWNLOAD THE LATEST(" & $lastversion & ") FROM https://MyBot.run               ", $COLOR_ERROR)
 			SetLog(" ")
 			_PrintLogVersion($oldversmessage)
+			PushMsg("Update")
 		ElseIf VersionNumFromVersionTXT($sBotVersion) > VersionNumFromVersionTXT($lastversion) Then
 			SetLog("YOU ARE USING A FUTURE VERSION OF MYBOT CHIEF!", $COLOR_SUCCESS)
 			SetLog("YOUR VERSION: " & $sBotVersion, $COLOR_SUCCESS)

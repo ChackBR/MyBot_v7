@@ -45,7 +45,7 @@ Global $aMainTabItems = [$tabMain, $tabGeneral, $tabVillage, $tabAttack, $tabBot
 Global $aTabControlsVillage = [$hGUI_VILLAGE_TAB, $hGUI_VILLAGE_TAB_ITEM1, $hGUI_VILLAGE_TAB_ITEM2, $hGUI_VILLAGE_TAB_ITEM3, $hGUI_VILLAGE_TAB_ITEM4, $hGUI_VILLAGE_TAB_ITEM5]
 Global $aTabControlsDonate = [$hGUI_DONATE_TAB, $hGUI_DONATE_TAB_ITEM1, $hGUI_DONATE_TAB_ITEM2, $hGUI_DONATE_TAB_ITEM3]
 Global $aTabControlsUpgrade = [$hGUI_UPGRADE_TAB, $hGUI_UPGRADE_TAB_ITEM1, $hGUI_UPGRADE_TAB_ITEM2, $hGUI_UPGRADE_TAB_ITEM3, $hGUI_UPGRADE_TAB_ITEM4]
-Global $aTabControlsNotify = [$hGUI_NOTIFY_TAB, $hGUI_NOTIFY_TAB_ITEM2, $hGUI_NOTIFY_TAB_ITEM4]
+Global $aTabControlsNotify = [$hGUI_NOTIFY_TAB, $hGUI_NOTIFY_TAB_ITEM2, $hGUI_NOTIFY_TAB_ITEM6]
 
 Global $aTabControlsAttack = [$hGUI_ATTACK_TAB, $hGUI_ATTACK_TAB_ITEM1, $hGUI_ATTACK_TAB_ITEM2, $hGUI_ATTACK_TAB_ITEM3]
 Global $aTabControlsArmy = [$hGUI_ARMY_TAB, $hGUI_ARMY_TAB_ITEM1, $hGUI_ARMY_TAB_ITEM2, $hGUI_ARMY_TAB_ITEM3, $hGUI_ARMY_TAB_ITEM4]
@@ -59,7 +59,7 @@ Global $aTabControlsStrategies = [$hGUI_STRATEGIES_TAB, $hGUI_STRATEGIES_TAB_ITE
 Global $aTabControlsBot = [$hGUI_BOT_TAB, $hGUI_BOT_TAB_ITEM1, $hGUI_BOT_TAB_ITEM2, $hGUI_BOT_TAB_ITEM3, $hGUI_BOT_TAB_ITEM4, $hGUI_BOT_TAB_ITEM5]
 Global $aTabControlsStats = [$hGUI_STATS_TAB, $hGUI_STATS_TAB_ITEM1, $hGUI_STATS_TAB_ITEM2, $hGUI_STATS_TAB_ITEM3]
 
-Global $aAlwaysEnabledControls = [$chkUpdatingWhenMinimized, $chkHideWhenMinimized, $chkDebugClick, $chkDebugSetlog, $chkDebugDisableZoomout, $chkDebugDisableVillageCentering, $chkDebugOcr, $chkDebugImageSave, $chkdebugBuildingPos, $chkdebugTrain, $chkdebugOCRDonate,$btnTestTrain, $btnTestDonateCC, $btnTestRequestCC, $btnTestAttackBar, $btnTestClickDrag, $btnTestImage, $btnTestVillageSize, $btnTestDeadBase, $btnTestDeadBaseFolder, $btnTestTHimgloc, $btnTestTrainsimgloc,$btnTestimglocTroopBar,$btnTestQuickTrainsimgloc, $chkdebugAttackCSV, $chkmakeIMGCSV, $btnTestAttackCSV, $btnTestFindButton, $txtTestFindButton, $btnTestCleanYard] ; , $lblLightningUsed, $lblSmartZap
+Global $aAlwaysEnabledControls = [$chkUpdatingWhenMinimized, $chkHideWhenMinimized, $chkDebugClick, $chkDebugSetlog, $chkDebugDisableZoomout, $chkDebugDisableVillageCentering, $chkDebugOcr, $chkDebugImageSave, $chkdebugBuildingPos, $chkdebugTrain, $chkdebugOCRDonate,$btnTestTrain, $btnTestDonateCC, $btnTestRequestCC, $btnTestAttackBar, $btnTestClickDrag, $btnTestImage, $btnTestVillageSize, $btnTestDeadBase, $btnTestDeadBaseFolder, $btnTestTHimgloc, $btnTestimglocTroopBar,$btnTestQuickTrainsimgloc, $chkdebugAttackCSV, $chkmakeIMGCSV, $btnTestAttackCSV, $btnTestFindButton, $txtTestFindButton, $btnTestCleanYard] ; , $lblLightningUsed, $lblSmartZap
 
 Global $frmBot_WNDPROC = 0
 Global $frmBot_WNDPROC_ptr = 0
@@ -161,6 +161,7 @@ Local $aAccelKeys[2][2] = [["{ESC}", $btnStop], ["{PAUSE}", $btnPause]]
 Local $aAccelKeys_DockedUnshieledFocus[3][2] = [["{ESC}", $frmBotEmbeddedShieldInput], ["{ENTER}", $frmBotEmbeddedShieldInput], ["{PAUSE}", $btnPause]] ; used in docked mode when android has focus to support ESC for android
 
 Func SetAccelerators($bDockedUnshieledFocus = False)
+	If IsDeclared("aAccelKeys") = 0 Or IsDeclared("aAccelKeys_DockedUnshieledFocus") = 0 Then Return
 	GUISetAccelerators(0, $frmBot) ; Remove all accelerators
 	If $bDockedUnshieledFocus = False Then
 		GUISetAccelerators($aAccelKeys, $frmBot)
@@ -424,7 +425,7 @@ Func GUIControl_WM_COMMAND($hWind, $iMsg, $wParam, $lParam)
 			btnAttackNowTS()
 		;Case $idMENU_DONATE_SUPPORT
 		;	ShellExecute("https://mybot.run/forums/index.php?/donate/make-donation/")
-		Case $btnDeletePBMessages
+		Case $btnNotifyDeleteMessages
 			If $RunState Then
 				btnDeletePBMessages() ; call with flag when bot is running to execute on _sleep() idle
 			Else
@@ -490,8 +491,6 @@ Func GUIControl_WM_COMMAND($hWind, $iMsg, $wParam, $lParam)
 			btnTestDeadBaseFolder()
 		Case $btnTestTHimgloc
 			imglocTHSearch()
-		Case $btnTestTrainsimgloc
-			imglocTestTrain()
 		Case $btnTestQuickTrainsimgloc
 			imglocTestQuickTrain(1)
 		Case $btnTestimglocTroopBar
@@ -503,6 +502,10 @@ Func GUIControl_WM_COMMAND($hWind, $iMsg, $wParam, $lParam)
 		Case $btnTestCleanYard
 			btnTestCleanYard()
 	EndSwitch
+
+		If $lParam = $cmbLanguage Then
+			If $nNotifyCode = $CBN_SELCHANGE Then cmbLanguage()
+		EndIf
 
 	$TogglePauseAllowed = $wasAllowed
 	Return $GUI_RUNDEFMSG
@@ -971,7 +974,7 @@ Func SetTime()
 	Local $time = _TicksToTime(Int(TimerDiff($sTimer) + $iTimePassed), $hour, $min, $sec)
 	If GUICtrlRead($hGUI_STATS_TAB, 1) = $hGUI_STATS_TAB_ITEM2 Then GUICtrlSetData($lblresultruntime, StringFormat("%02i:%02i:%02i", $hour, $min, $sec))
 	If GUICtrlGetState($lblResultGoldNow) <> $GUI_ENABLE + $GUI_SHOW Then GUICtrlSetData($lblResultRuntimeNow, StringFormat("%02i:%02i:%02i", $hour, $min, $sec))
-	;If $pEnabled = 1 And $pRemote = 1 And StringFormat("%02i", $sec) = "50" Then _RemoteControl()
+	;If $pEnabled = 1 And $pRemote = 1 And StringFormat("%02i", $sec) = "50" Then NotifyRemoteControl()
 	;If $pEnabled = 1 And $ichkDeleteOldPBPushes = 1 And Mod($min + 1, 30) = 0 And $sec = "0" Then _DeleteOldPushes() ; check every 30 min if must to delete old pushbullet messages, increase delay time for anti ban pushbullet
 EndFunc   ;==>SetTime
 
@@ -1172,14 +1175,19 @@ Func tabBot()
 		Select
 			Case $tabidx = 0 ; Options tab
 				GUISetState(@SW_HIDE, $hGUI_STATS)
+				ControlShow("","",$cmbLanguage)
 			Case $tabidx = 1 ; Debug tab
 				GUISetState(@SW_HIDE, $hGUI_STATS)
+				ControlHide("","",$cmbLanguage)
 			Case $tabidx = 2 ; Profiles tab
 				GUISetState(@SW_HIDE, $hGUI_STATS)
+				ControlHide("","",$cmbLanguage)
 			Case $tabidx = 3 ; Android tab
 				GUISetState(@SW_HIDE, $hGUI_STATS)
+				ControlHide("","",$cmbLanguage)
 			Case $tabidx = 4 ; Stats tab
 				GUISetState(@SW_SHOWNOACTIVATE, $hGUI_STATS)
+				ControlHide("","",$cmbLanguage)
 		EndSelect
 EndFunc   ;==>tabBot
 
@@ -1420,7 +1428,7 @@ Func Bind_ImageList($nCtrl)
 
 		Case $hGUI_VILLAGE_TAB
 			; the icons for village tab
-			Local $aIconIndex[5] = [$eIcnTH1, $eIcnCC, $eIcnLaboratory, $eIcnAchievements, $eIcnInfo]
+			Local $aIconIndex[5] = [$eIcnTH1, $eIcnCC, $eIcnLaboratory, $eIcnAchievements, $eIcnPBNotify]
 
 		Case $hGUI_ARMY_TAB
 			; the icons for army tab
@@ -1436,7 +1444,7 @@ Func Bind_ImageList($nCtrl)
 
 		Case $hGUI_NOTIFY_TAB
 			; the icons for NOTIFY tab
-			Local $aIconIndex[2] = [$eIcnPushBullet, $eIcnOptions]
+			Local $aIconIndex[2] = [$eIcnPBNotify, $eIcnHourGlass]
 
 		Case $hGUI_ATTACK_TAB
 			; the icons for attack tab
@@ -1594,6 +1602,7 @@ If FileExists($config) = 0 And $aCmdLine[0] > 0 Then
 	; create new profile when doesn't exit but specified via command line
 	createProfile()
 	saveConfig()
+	;applyConfig()
 	setupProfileComboBox()
 EndIf
 

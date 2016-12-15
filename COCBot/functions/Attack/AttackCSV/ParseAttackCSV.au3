@@ -31,7 +31,7 @@ Func ParseAttackCSV($debug = False)
 	Setlog("execute " & $filename)
 
 	Local $f, $line, $acommand, $command
-	Local $value1, $value2, $value3, $value4, $value5, $value6, $value7, $value8, $value9
+	Local $value1 = "", $value2 = "", $value3 = "", $value4 = "", $value5 = "", $value6 = "", $value7 = "", $value8 = "", $value9 = ""
 	If FileExists($dirAttacksCSV & "\" & $filename & ".csv") Then
 		Local $iLine, $aLines = FileReadToArray($dirAttacksCSV & "\" & $filename & ".csv")
 
@@ -45,15 +45,10 @@ Func ParseAttackCSV($debug = False)
 			$acommand = StringSplit($line, "|")
 			If $acommand[0] >= 8 Then
 				$command = StringStripWS(StringUpper($acommand[1]), $STR_STRIPTRAILING)
-				$value1 = StringStripWS(StringUpper($acommand[2]), $STR_STRIPTRAILING)
-				$value2 = StringStripWS(StringUpper($acommand[3]), $STR_STRIPTRAILING)
-				$value3 = StringStripWS(StringUpper($acommand[4]), $STR_STRIPTRAILING)
-				$value4 = StringStripWS(StringUpper($acommand[5]), $STR_STRIPTRAILING)
-				$value5 = StringStripWS(StringUpper($acommand[6]), $STR_STRIPTRAILING)
-				$value6 = StringStripWS(StringUpper($acommand[7]), $STR_STRIPTRAILING)
-				$value7 = StringStripWS(StringUpper($acommand[8]), $STR_STRIPTRAILING)
-				$value8 = StringStripWS(StringUpper($acommand[9]), $STR_STRIPTRAILING)
-				$value9 = StringStripWS(StringUpper($acommand[10]), $STR_STRIPTRAILING)
+				; Set values
+				For $i = 2 To (UBound($acommand) - 1)
+					Assign("value" & Number($i - 1), StringStripWS(StringUpper($acommand[$i]), $STR_STRIPTRAILING))
+				Next
 
 				Switch $command
 					Case ""
@@ -426,26 +421,28 @@ Func ParseAttackCSV($debug = False)
 							EndSwitch
 						EndIf
 
-						Local $maxValue = $heightBottomRight
-						Local $sidename = "BOTTOM-RIGHT"
+						If $bForceSideExist = False Then
+							Local $maxValue = $heightBottomRight
+							Local $sidename = "BOTTOM-RIGHT"
 
-						If $heightTopLeft > $maxValue Then
-							$maxValue = $heightTopLeft
-							$sidename = "TOP-LEFT"
+							If $heightTopLeft > $maxValue Then
+								$maxValue = $heightTopLeft
+								$sidename = "TOP-LEFT"
+							EndIf
+
+							If $heightTopRight > $maxValue Then
+								$maxValue = $heightTopRight
+								$sidename = "TOP-RIGHT"
+							EndIf
+
+							If $heightBottomLeft > $maxValue Then
+								$maxValue = $heightBottomLeft
+								$sidename = "BOTTOM-LEFT"
+							EndIf
+
+							Setlog("Mainside: " & $sidename & " (top-left:" & $heightTopLeft & " top-right:" & $heightTopRight & " bottom-left:" & $heightBottomLeft & " bottom-right:" & $heightBottomRight)
+							$MAINSIDE = $sidename
 						EndIf
-
-						If $heightTopRight > $maxValue Then
-							$maxValue = $heightTopRight
-							$sidename = "TOP-RIGHT"
-						EndIf
-
-						If $heightBottomLeft > $maxValue Then
-							$maxValue = $heightBottomLeft
-							$sidename = "BOTTOM-LEFT"
-						EndIf
-
-						Setlog("Mainside: " & $sidename & " (top-left:" & $heightTopLeft & " top-right:" & $heightTopRight & " bottom-left:" & $heightBottomLeft & " bottom-right:" & $heightBottomRight)
-						$MAINSIDE = $sidename
 
 						Switch $MAINSIDE
 							Case "BOTTOM-RIGHT"

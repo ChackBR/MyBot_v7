@@ -13,7 +13,8 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
-SplashStep(GetTranslated(500, 21, "Initializing Android..."))
+Local $s = GetTranslated(500, 21, "Initializing Android...")
+SplashStep($s)
 
 ; initialize Android config
 InitAndroidConfig(True)
@@ -24,13 +25,14 @@ If $aCmdLine[0] > 1 Then
 	For $i = 0 To UBound($AndroidAppConfig) - 1
 		If StringCompare($AndroidAppConfig[$i][0], $aCmdLine[2]) = 0 Then
 			$AndroidConfig = $i
-
+			SplashStep($s & "(" & $AndroidAppConfig[$i][0] & ")...", False)
 			If $AndroidAppConfig[$i][1] <> "" And $aCmdLine[0] > 2 Then
 				; Use Instance Name
 				UpdateAndroidConfig($aCmdLine[3])
 			Else
 				UpdateAndroidConfig()
 			EndIf
+			SplashStep($s & "(" & $AndroidAppConfig[$i][0] & ")", False)
 		EndIf
 	Next
 EndIf
@@ -44,6 +46,7 @@ If $aCmdLine[0] < 2 Then
 EndIf
 
 Func CleanSecureFiles($iAgeInUTCSeconds = 600)
+	If $AndroidPicturesHostPath = "" Then Return
 	;0x84F11AA80008358DCF4C2144FE66B332A62C9CFC
 	Local $aFiles = _FileListToArray($AndroidPicturesHostPath, "*", $FLTA_FILES)
 	If @error Then Return
@@ -704,7 +707,7 @@ Func _OpenAndroid($bRestart = False)
 	WerFaultClose($AndroidProgramPath)
 
 	; Close crashed android when $AndroidBackgroundLaunch = False
-	If $AndroidBackgroundLaunch = False And WinGetAndroidHandle(Default, True) <> 0 Then
+	If $AndroidBackgroundLaunch = False And WinGetAndroidHandle(Default, True) <> 0 Or GetAndroidSvcPid() <> 0 Then
 		CloseAndroid("_OpenAndroid")
 		If _Sleep(1000) Then Return False
 	EndIf
@@ -2503,7 +2506,7 @@ Func AndroidCloseSystemBar()
 	Return $Result
 EndFunc   ;==>AndroidCloseSystemBar
 
-Func AndroidOpenSystemBar()
+Func AndroidOpenSystemBar($bZygote = False)
 	If AndroidInvalidState() Then Return False
 	Local $wasRunState = $RunState
 	AndroidAdbLaunchShellInstance($wasRunState)
@@ -2511,9 +2514,16 @@ Func AndroidOpenSystemBar()
 		SetLog("Cannot open " & $Android & " System Bar", $COLOR_ERROR)
 		Return False
 	EndIf
-	Local $cmdOutput = AndroidAdbSendShellCommand("am startservice -n com.android.systemui/.SystemUIService", Default, $wasRunState, False)
-	Local $Result = StringLeft($cmdOutput, 16) = "Starting service"
-	SetDebugLog("Opened " & $Android & " System Bar: " & $Result)
+	Local $cmdOutput
+	Local $Result
+	If $bZygote = True Then
+		$cmdOutput = AndroidAdbSendShellCommand("setprop ctl.restart zygote", Default, $wasRunState, False)
+		$Result = $cmdOutput = ""
+	Else
+		$cmdOutput = AndroidAdbSendShellCommand("am startservice -n com.android.systemui/.SystemUIService", Default, $wasRunState, False)
+		$Result = StringLeft($cmdOutput, 16) = "Starting service"
+		SetDebugLog("Opened " & $Android & " System Bar: " & $Result)
+	EndIf
 	Return $Result
 EndFunc   ;==>AndroidOpenSystemBar
 
@@ -2605,3 +2615,52 @@ Func HideAndroidWindow($bHide = True)
 		WinActivate($HWnD)
 	EndIf
 EndFunc   ;==>HideAndroidWindow
+
+Func AndroidPicturePathAutoConfig($myPictures = Default, $subDir = Default, $bSetLog = Default)
+	If $subDir = Default Then $subDir = $Android & " Photo"
+	If $bSetLog = Default Then $bSetLog = True
+	Local $Result = False
+	Local $path
+	If $AndroidPicturesPathAutoConfig = True Then
+		If $AndroidPicturesHostPath = "" Then
+			If $myPictures = Default Then $myPictures = RegRead("HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders\", "My Pictures")
+			If @error = 0 And FileExists($myPictures) = 1 Then
+				If $subDir <> "" Then $subDir = "\" & $subDir
+				$path = $myPictures & $subDir
+				; add tailing backslash
+				If StringRight($path, 1) <> "\" Then $path &= "\"
+				If FileExists($path) = 1 Then
+					$AndroidPicturesHostPath = $path
+					SetGuiLog("Shared folder: '" & $AndroidPicturesHostPath & "' will be added to " & $Android, $COLOR_SUCCESS, $bSetLog)
+					$Result = True
+				ElseIf DirCreate($path) = 1 Then
+					$AndroidPicturesHostPath = $path
+					SetGuiLog("Configure " & $Android & " to support shared folder", $COLOR_SUCCESS, $bSetLog)
+					SetGuiLog("Folder created: " & $path, $COLOR_SUCCESS, $bSetLog)
+					SetGuiLog("This shared folder will be added to " & $Android, $COLOR_SUCCESS, $bSetLog)
+					$Result = True
+				Else
+					SetGuiLog("Cannot configure " & $Android & " shared folder", $COLOR_SUCCESS, $bSetLog)
+					SetGuiLog("Cannot create folder: " & $path, $COLOR_ERROR, $bSetLog)
+					$AndroidPicturesPathAutoConfig = False
+				EndIf
+			Else
+				SetGuiLog("Cannot configure " & $Android & " shared folder", $COLOR_SUCCESS, $bSetLog)
+				SetGuiLog("Cannot find current user 'My Pictures' folder", $COLOR_ERROR, $bSetLog)
+				$AndroidPicturesPathAutoConfig = False
+			EndIf
+		Else
+			$path = $AndroidPicturesHostPath
+			If FileExists($path) = 1 Then
+				; path exists, nothing to do
+			ElseIf DirCreate($path) = 1 Then
+				SetGuiLog("Shared folder created: " & $path, $COLOR_SUCCESS, $bSetLog)
+			Else
+				SetGuiLog("Cannot configure " & $Android & " shared folder", $COLOR_SUCCESS, $bSetLog)
+				SetGuiLog("Cannot create folder: " & $path, $COLOR_ERROR, $bSetLog)
+				$AndroidPicturesPathAutoConfig = False
+			EndIf
+		EndIf
+	EndIf
+	Return $Result
+EndFunc   ;==>AndroidPicturePathAutoConfig

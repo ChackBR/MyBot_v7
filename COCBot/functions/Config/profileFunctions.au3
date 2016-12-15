@@ -65,6 +65,7 @@ Func createProfile($bCreateNew = False)
 		setupProfileComboBox()
 		setupProfile()
 		saveConfig()
+		; applyConfig()
 		setupProfileComboBox()
 		selectProfile()
 		Return
@@ -107,7 +108,7 @@ Func setupProfile()
 	createProfile()
 	; Set the profile name on the village info group.
 	GUICtrlSetData($grpVillage, GetTranslated(603, 32, "Village") & ": " & $sCurrProfile)
-	GUICtrlSetData($OrigPushBullet, $sCurrProfile)
+	GUICtrlSetData($txbNotifyOrigin, $sCurrProfile)
 EndFunc   ;==>setupProfile
 
 Func selectProfile()
@@ -127,5 +128,5 @@ Func selectProfile()
 
 	; Set the profile name on the village info group.
 	GUICtrlSetData($grpVillage, GetTranslated(603, 32, "Village") & ": " & $sCurrProfile)
-	GUICtrlSetData($OrigPushBullet, $sCurrProfile)
+	GUICtrlSetData($txbNotifyOrigin, $sCurrProfile)
 EndFunc   ;==>selectProfile

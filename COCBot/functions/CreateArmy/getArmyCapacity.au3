@@ -122,10 +122,8 @@ Func getArmyCapacity($bOpenArmyWindow = False, $bCloseArmyWindow = False)
 
 	If ($CurCamp >= ($TotalCamp * $fulltroop / 100)) And $CommandStop = -1 Then
 		$fullArmy = True
-	EndIf
-
-	If ($CurCamp + 1) = $TotalCamp Then
-		$fullArmy = True
+	Else
+		$fullArmy = False
 	EndIf
 
 	If $bCloseArmyWindow = True Then

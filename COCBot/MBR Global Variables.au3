@@ -24,6 +24,7 @@
 #include <GuiStatusBar.au3>
 #include <GUIEdit.au3>
 #include <GUIComboBox.au3>
+#include <GuiComboBoxEx.au3>
 #include <GuiSlider.au3>
 #include <GuiToolBar.au3>
 #include <ProgressConstants.au3> ; Added for Splash
@@ -122,6 +123,7 @@ Global $hBitmap ; Image for pixel functions
 Global $hHBitmap ; Handle Image for pixel functions
 ;Global $hBitmap2  ; Handle to bitmap object with image captured by _captureregion2()  Bitmap object not used when use _captureregion2()
 Global $hHBitmap2  ; handle to Device Context (DC) with graphics captured by _captureregion2()
+Global $bOcrForceCaptureRegion = True ; When True take new $hHBitmap2 screenshot of OCR area otherwise create area from existing (fullscreen!) $hHBitmap2
 
 ;Global $sFile = @ScriptDir & "\Icons\logo.gif"
 
@@ -210,7 +212,7 @@ Global $AndroidAppConfig[8][15] = [ _ ;                    |                    
    ["BlueStacks", "",              "BlueStacks App Player","[CLASS:BlueStacksApp; INSTANCE:1]","_ctl.Window",$DEFAULT_WIDTH,     $DEFAULT_HEIGHT - 48,$DEFAULT_WIDTH,     $DEFAULT_HEIGHT - 48,0,             "127.0.0.1:5555", 1    +8+16+32         ,'$ ',               'BlueStacks Virtual Touch',          0], _
    ["KOPLAYER",   "KOPLAYER",      "KOPLAYER",             "[CLASS:subWin; INSTANCE:1]",       "",           $DEFAULT_WIDTH,     $DEFAULT_HEIGHT - 48,$DEFAULT_WIDTH + 64,$DEFAULT_HEIGHT -  8,0,             "127.0.0.1:6555" ,0+2+4+8+16+32         ,'# ',               'ttVM Virtual Input',                0], _
    ["LeapDroid",  "vm1",           "Leapd",                "[CLASS:subWin; INSTANCE:1]",       "",           $DEFAULT_WIDTH,     $DEFAULT_HEIGHT - 48,$DEFAULT_WIDTH     ,$DEFAULT_HEIGHT - 48,0,             "emulator-5554",  1+    8+16+32         ,'# ',               'qwerty2',                           1], _
-   ["iTools",     "iToolsVM",      "iTools ",              "[CLASS:subWin; INSTANCE:1]",       "",           $DEFAULT_WIDTH,     $DEFAULT_HEIGHT - 48,$DEFAULT_WIDTH +  2,$DEFAULT_HEIGHT + 35,0,             "127.0.0.1:54001",1    +8+16+32         ,'# ',               'iTools Virtual PassThrough Input',  0], _
+   ["iTools",     "iToolsVM",      "iTools ",              "[CLASS:subWin; INSTANCE:1]",       "",           $DEFAULT_WIDTH,     $DEFAULT_HEIGHT - 48,$DEFAULT_WIDTH +  2,$DEFAULT_HEIGHT - 13,0,             "127.0.0.1:54001",1    +8+16+32         ,'# ',               'iTools Virtual PassThrough Input',  0], _
    ["Droid4X",    "droid4x",       "Droid4X ",             "[CLASS:subWin; INSTANCE:1]",       "",           $DEFAULT_WIDTH,     $DEFAULT_HEIGHT - 48,$DEFAULT_WIDTH + 10,$DEFAULT_HEIGHT + 50,0,             "127.0.0.1:26944",0+2+4+8+16+32         ,'# ',               'droid4x Virtual Input',             0], _
    ["Nox",        "nox",           "No",                   "[CLASS:Qt5QWindowIcon;INSTANCE:4]","",           $DEFAULT_WIDTH,     $DEFAULT_HEIGHT - 48,$DEFAULT_WIDTH +  4,$DEFAULT_HEIGHT - 10,0,             "127.0.0.1:62001",0+2+4+8+16+32         ,'# ',               '(nox Virtual Input|Android Input)',-1] _
 ]
@@ -369,6 +371,9 @@ Global $InitAndroid = True ; Used to cache android config, is set to False once 
 Global $frmBot = 0 ; Bot Window Handle
 Global $FrmBotMinimized = False ; prevents bot flickering
 
+Global $hCocReconnectingTimer = 0 ; TimerHandle of first CoC reconnecting animation
+Global $iCoCReconnectingTimeout = 60000 ; When still (or again) CoC reconnecting animation then restart CoC (handled in checkObstacles)
+
 Global $iVillageName
 Global $sProfilePath = @ScriptDir & "\Profiles"
 ;Global $sTemplates = @ScriptDir & "\Templates"
@@ -494,7 +499,7 @@ Global $bRedrawBotWindow[3] = [True, False, False] ; [0] = window redraw enabled
 Global Enum $eIcnArcher = 1, $eIcnDonArcher, $eIcnBalloon, $eIcnDonBalloon, $eIcnBarbarian, $eIcnDonBarbarian, $eIcnKingAbility, $eIcnBuilder, $eIcnCC, $eIcnGUI, $eIcnDark, $eIcnDragon, $eIcnDonDragon, $eIcnDrill, $eIcnElixir, $eIcnCollector, $eIcnFreezeSpell, $eIcnGem, $eIcnGiant, $eIcnDonGiant, _
 		$eIcnTrap, $eIcnGoblin, $eIcnDonGoblin, $eIcnGold, $eIcnGolem, $eIcnDonGolem, $eIcnHealer, $eIcnDonHealer, $eIcnHogRider, $eIcnDonHogRider, $eIcnHealSpell, $eIcnInferno, $eIcnJumpSpell, $eIcnLavaHound, $eIcnDonLavaHound, $eIcnLightSpell, $eIcnMinion, $eIcnDonMinion, $eIcnPekka, $eIcnDonPekka, _
 		$eIcnQueenAbility, $eIcnRageSpell, $eIcnTroops, $eIcnHourGlass, $eIcnTH1, $eIcnTH10, $eIcnTrophy, $eIcnValkyrie, $eIcnDonValkyrie, $eIcnWall, $eIcnWallBreaker, $eIcnDonWallBreaker, $eIcnWitch, $eIcnDonWitch, $eIcnWizard, $eIcnDonWizard, $eIcnXbow, $eIcnBarrackBoost, $eIcnMine, $eIcnCamp, _
-		$eIcnBarrack, $eIcnSpellFactory, $eIcnDonBlacklist, $eIcnSpellFactoryBoost, $eIcnMortar, $eIcnWizTower, $eIcnPayPal, $eIcnPushBullet, $eIcnGreenLight, $eIcnLaboratory, $eIcnRedLight, $eIcnBlank, $eIcnYellowLight, $eIcnDonCustom, $eIcnTombstone, $eIcnSilverStar, $eIcnGoldStar, $eIcnDarkBarrack, _
+		$eIcnBarrack, $eIcnSpellFactory, $eIcnDonBlacklist, $eIcnSpellFactoryBoost, $eIcnMortar, $eIcnWizTower, $eIcnPayPal, $eIcnNotify, $eIcnGreenLight, $eIcnLaboratory, $eIcnRedLight, $eIcnBlank, $eIcnYellowLight, $eIcnDonCustom, $eIcnTombstone, $eIcnSilverStar, $eIcnGoldStar, $eIcnDarkBarrack, _
 		$eIcnCollectorLocate, $eIcnDrillLocate, $eIcnMineLocate, $eIcnBarrackLocate, $eIcnDarkBarrackLocate, $eIcnDarkSpellFactoryLocate, $eIcnDarkSpellFactory, $eIcnEarthQuakeSpell, $eIcnHasteSpell, $eIcnPoisonSpell, $eIcnBldgTarget, $eIcnBldgX, $eIcnRecycle, $eIcnHeroes, _
 		$eIcnBldgElixir, $eIcnBldgGold, $eIcnMagnifier, $eIcnWallElixir, $eIcnWallGold, $eIcnQueen, $eIcnKing, $eIcnDarkSpellBoost, $eIcnQueenBoostLocate, $eIcnKingBoostLocate, $eIcnKingUpgr, $eIcnQueenUpgr, $eIcnWardenAbility, $eIcnWarden, $eIcnWardenBoostLocate, $eIcnKingBoost, _
 		$eIcnQueenBoost, $eIcnWardenBoost, $eIcnWardenUpgr, $eIcnReload, $eIcnCopy, $eIcnAddcvs, $eIcnEdit, $eIcnTreeSnow, $eIcnSleepingQueen, $eIcnSleepingKing, $eIcnGoldElixir, $eIcnBowler, $eIcnDonBowler, $eIcnCCDonate, $eIcnEagleArt, $eIcnGembox, $eIcnInferno4, $eIcnInfo, $eIcnMain, _
@@ -502,7 +507,9 @@ Global Enum $eIcnArcher = 1, $eIcnDonArcher, $eIcnBalloon, $eIcnDonBalloon, $eIc
 		$eIcnNoShield, $eIcnDonCustomB, $eIcnAirdefense, $eIcnDarkBarrackBoost, $eIcnDarkElixirStorage, $eIcnSpellsCost , $eIcnTroopsCost , $eIcnResetButton, $eIcnNewSmartZap, $eIcnTrain, $eIcnAttack, $eIcnDelay, $eIcnReOrder, $eIcn2Arrow, $eIcnArrowLeft, $eIcnArrowRight, $eIcnAndroid, _
 		$eHdV04, $eHdV05, $eHdV06, $eHdV07, $eHdV08, $eHdV09, $eHdV10, $eHdV11, _
 		$eUnranked, $eBronze, $eSilver, $eGold, $eCrystal, $eMaster, $eChampion, $eTitan, $eLegend, _
-		$eWall04, $eWall05, $eWall06, $eWall07, $eWall08, $eWall09, $eWall10, $eWall11
+		$eWall04, $eWall05, $eWall06, $eWall07, $eWall08, $eWall09, $eWall10, $eWall11, _
+		$eIcnPBNotify, $eIcnCCTroops, $eIcnCCSpells, $eIcnSpellsGroup, _
+		$eBahasaIND, $eChinese_S, $eChinese_T, $eEnglish, $eFrench, $eGerman, $eItalian, $ePersian, $eRussian, $eSpanish, $eTurkish, $eMissingLangIcon
 
 Global $eIcnDonBlank = $eIcnDonBlacklist
 Global $eIcnOptions = $eIcnDonBlacklist
@@ -520,8 +527,7 @@ Global $TakeLootSnapShot = True
 Global $ScreenshotLootInfo = False
 Global $AlertSearch = True
 Global $iChkAttackNow, $iAttackNowDelay, $bBtnAttackNowPressed = False
-Global $PushBulletToken = ""
-Global $TelegramToken = ""
+
 
 Global $iGUIMasterWidth = 470
 Global $iGUIMasterHeight = 650
@@ -555,44 +561,84 @@ Global $iDroplineEdge = [$DROPLINE_EDGE_FIRST, $DROPLINE_EDGE_FIRST, 0, 0, 0, 0]
 
 Global $iAtkAlgorithm[$iModeCount]
 
+;--------------------------------------------------------------------------
+; Notify Revamp - PushBullet/Telegram variables - Added by DocOC team
+;-------------------------------------------------------------------------
 ;PushBullet---------------------------------------------------------------
+Global $NotifyVersion = "Revamp v1.5.1"
+Global $NotifyVersionMSG = $sBotTitle & " | Notify " & $NotifyVersion
+Global $NotifyPBEnabled = 0
+Global $NotifyPBToken = ""
+
+
+;Telegram---------------------------------------------------------------
+Global $NotifyTGEnabled = 0
+Global $NotifyTGToken = ""
+
+;Remote Control---------------------------------------------------------------
+Global $NotifyRemoteEnable = 0
+Global $NotifyOrigin = ""
+Global $NotifyForced = 0
+Global $NotifyDeleteAllPushesOnStart = 0
+Global $NotifyDeleteAllPushesNow = 0
+Global $NotifyDeletePushesOlderThan = 0
+Global $NotifyDeletePushesOlderThanHours = 4
+
+;Alerts---------------------------------------------------------------
+Global $NotifyAlertMatchFound = 0
+Global $NotifyAlerLastRaidIMG = 0
+Global $NotifyAlerLastRaidTXT = 0
+Global $NotifyAlertCampFull = 0
+Global $NotifyAlertUpgradeWalls = 0
+Global $NotifyAlertOutOfSync = 0
+Global $NotifyAlertTakeBreak = 0
+Global $NotifyAlertBulderIdle = 0
+Global $NotifyAlertVillageReport = 0
+Global $NotifyAlertLastAttack = 0
+Global $NotifyAlertAnotherDevice = 0
+Global $NotifyAlertMaintenance = 1
+Global $NotifyAlertBAN = 1
+Global $NotifyAlertBOTUpdate = 1
+Global $iReportIdleBuilder = 0
+
+
+;Schedule---------------------------------------------------------------
+Global $NotifyScheduleHoursEnable
+Global $NotifyScheduleWeekDaysEnable
+Global $NotifyScheduleHours[24]
+Global $NotifyScheduleWeekDays[7]
+
+;Vars---------------------------------------------------------------
 Global $PBRemoteControlInterval = 60000 ; 60 secs
 Global $PBDeleteOldPushesInterval = 1800000 ; 30 mins
-Global $iOrigPushBullet
-Global $iLastAttackPB
-Global $iAlertPBVillage
-Global $PushBulletEnabled
-Global $pRemote
-Global $pMatchFound
-Global $pLastRaidImg
-Global $iAlertPBLastRaidTxt
-Global $pWallUpgrade
-Global $pOOS
-Global $pTakeAbreak
-Global $pAnotherDevice
-Global $iDeleteAllPBPushes = 0
-Global $iDeleteAllPBPushesNow = False
-Global $ichkDeleteOldPBPushes
-Global $icmbHoursPushBullet
-Global $chkDeleteAllPBPushes
-Global $ichkAlertPBCampFull
-Global $ichkAlertPBCampFullTest = 0
+Global $hTimer_PBRemoteControlInterval = 0
+Global $hTimer_PBDeleteOldPushesInterval = 0
+Global $TGChatID = ""
+Global $NotifyTroopSpellStats[0][2] = [[]]
+Global $PBRequestScreenshot = 0
+Global $PBRequestScreenshotHD = 0
+Global $PBRequestBuilderInfo = 0
+Global $PBRequestShieldInfo = 0
+Global $TGRequestScreenshot = 0
+Global $TGRequestScreenshotHD = 0
+Global $TGRequestBuilderInfo = 0
+Global $TGRequestShieldInfo = 0
+Global $TGLastRemote = 0
+Global $TGLast_UID = ""
+Global $TGLastMessage = ""
 
-Global $sLogFName
-Global $sAttackLogFName
+;GUI---------------------------------------------------------------
+Global $grpNotify, $chkNotifyPBEnabled,$chkNotifyRemote,$chkNotifyDeleteAllPBPushes,$btnNotifyDeleteMessages,$chkNotifyDeleteOldPBPushes,$cmbNotifyPushHours
+Global $txbNotifyPBToken, $txbNotifyTGToken, $txbNotifyOrigin, $chkNotifyAlertMatchFound, $chkNotifyAlertLastRaidIMG, $chkNotifyAlertLastRaidTXT, $chkNotifyAlertCampFull
+Global $chkNotifyAlertUpgradeWall, $chkNotifyAlertOutOfSync, $chkNotifyAlertTakeBreak, $chkNotifyAlertBuilderIdle, $chkNotifyAlertVillageStats, $chkNotifyAlertLastAttack
+Global $chkNotifyAlertAnotherDevice, $chkNotifyAlertMaintenance, $chkNotifyAlertBAN, $chkNotifyBOTUpdate
+;--------------------------------------------------------------------------
+; Notify Revamp - PushBullet/Telegram variables - Added by DocOC team
+;-------------------------------------------------------------------------
+
+Global $sLogFName = ""
+Global $sAttackLogFName = ""
 Global $AttackFile
-Global $RequestScreenshot = 0
-
-Global $Result
-Global $MessageId
-Global $MessageId2
-Global $lastuid
-Global $Result2
-Global $lastremote = 0
-
-Global $tPush
-Global $tPush2
-
 
 Global $cmbTroopComp ;For Event change on ComboBox Troop Compositions
 Global $iCollectCounter = 0 ; Collect counter, when reaches $COLLECTATCOUNT, it will collect
@@ -795,7 +841,10 @@ Global Const $HERO_QUEEN = 0x02
 Global Const $HERO_WARDEN = 0x04
 Global $iHeroAttack[$iModeCount] ; Hero enabled for attack
 Global $iHeroWait[$iModeCount] ; Heroes wait status for attack
+Global $iHeroWaitNoBit[$iModeCount][3] ; Heroes wait status for attack
 Global $iHeroAvailable = $HERO_NOHERO ; Hero ready status
+Global $iHeroUpgrading[3] = [0, 0, 0] ; Upgrading Heroes
+Global $iHeroUpgradingBit = $HERO_NOHERO ; Upgrading Heroes
 Global $bFullArmyHero = False ; = BitAnd($iHeroWait[$iMatchMode], $iHeroAvailable )
 
 Global $KingAttackCSV[$iModeCount] ;King attack settings
@@ -807,9 +856,11 @@ Global $ichkHealSpell[$iModeCount]
 Global $ichkRageSpell[$iModeCount]
 Global $ichkJumpSpell[$iModeCount]
 Global $ichkFreezeSpell[$iModeCount]
+Global $ichkCloneSpell[$iModeCount]
 Global $ichkPoisonSpell[$iModeCount]
 Global $ichkEarthquakeSpell[$iModeCount]
 Global $ichkHasteSpell[$iModeCount]
+Global $ichkSkeletonSpell[$iModeCount]
 
 
 Global $A[4] = [112, 111, 116, 97]
@@ -887,6 +938,8 @@ Global $DonatePixel
 Global $iClanLevel
 Global $LastBarrackTrainDonatedTroop = 1
 Global $LastDarkBarrackTrainDonatedTroop = 1
+Global $bDonate = -1	; -1 means not set yet
+Global $bDonateTrain = -1	; -1 means not set yet
 
 Global $sTxtRequest = ""
 Global $ichkDonateAllBarbarians, $ichkDonateBarbarians, $sTxtDonateBarbarians, $sTxtBlacklistBarbarians, $aDonBarbarians, $aBlkBarbarians
@@ -921,6 +974,7 @@ Global $sTxtBlacklist, $aBlacklist
 Global $B[6] = [116, 111, 98, 111, 116, 46]
 Global $F[8] = [112, 58, 47, 47, 119, 119, 119, 46]
 Global $ichkExtraAlphabets = 0 ; extra alphabets
+Global $ichkExtraChinese = 0 ; extra Chinese alphabets
 
 Global $DonBarb = 0, $DonArch = 0, $DonGiant = 0, $DonGobl = 0, $DonWall = 0, $DonBall = 0, $DonWiza = 0, $DonHeal = 0
 Global $DonMini = 0, $DonHogs = 0, $DonValk = 0, $DonGole = 0, $DonWitc = 0, $DonLava = 0, $DonBowl = 0, $DonDrag = 0, $DonPekk = 0, $DonBabyD = 0, $DonMine = 0
@@ -931,7 +985,7 @@ Global $icmbFilterDonationsCC = 0 ; 0 no filter, 1 capture only images, 2 white 
 Global $icmbTroopComp ;Troop Composition
 Global $icmbDarkTroopComp = 1
 Global $icmbTroopCap ;Troop Capacity
-Global $BarbComp = 0, $ArchComp = 0, $GoblComp = 0, $GiantComp = 0, $WallComp = 0, $WizaComp = 0, $MiniComp = 0, $HogsComp = 0
+Global $BarbComp = 58, $ArchComp = 115, $GoblComp = 19, $GiantComp = 4, $WallComp = 4, $WizaComp = 0, $MiniComp = 0, $HogsComp = 0
 Global $DragComp = 0, $BallComp = 0, $PekkComp = 0, $HealComp = 0, $ValkComp = 0, $GoleComp = 0, $WitcComp = 0, $LavaComp = 0, $BowlComp = 0
 Global $BabyDComp = 0, $MineComp = 0
 Global $CurBarb = 0, $CurArch = 0, $CurGiant = 0, $CurGobl = 0, $CurWall = 0, $CurBall = 0, $CurWiza = 0, $CurHeal = 0
@@ -1040,9 +1094,12 @@ Global $ichkBackground ; Background mode enabled disabled
 Global $collectorPos[17][2] ;Positions of each collectors
 Global $D[4] = [99, 111, 109, 47]
 
-Global $break = @ScriptDir & "\imgxml\other\break_0_0_95.xml"
-Global $device = @ScriptDir & "\imgxml\other\device_0_0_95.xml"
-Global $CocStopped = @ScriptDir & "\imgxml\other\CocStopped_0_0_95.xml"
+Global $break = @ScriptDir & "\imgxml\other\break*"
+Global $device = @ScriptDir & "\imgxml\other\device*"
+Global $CocStopped = @ScriptDir & "\imgxml\other\CocStopped*"
+Global $CocReconnecting = @ScriptDir & "\imgxml\other\CocReconnecting*"
+Global $AppRateNever = @ScriptDir & "\imgxml\other\RateNever*"
+
 Global $imgDivider = @ScriptDir & "\images\divider.bmp"
 Global $iDividerY = 385
 Global $G[3] = [104, 116, 116]
@@ -1669,7 +1726,6 @@ Global $IMGLOCTHRDISTANCE
 
 Global $ichkUseQTrain = 0
 Global $iRadio_Army1, $iRadio_Army2, $iRadio_Army3
-
 ;---------------------------------------------------------------
 ; SmartZap GUI variables - Added by DocOC team
 ;---------------------------------------------------------------
@@ -1700,7 +1756,7 @@ Global $iChkWaitForCastleTroops[$iModeCount]
 ; Force brew Spells before attack
 Global $ichkForceBrewBeforeAttack = 0
 
-Global $itxtLevBarb = 0, $itxtLevArch = 0, $itxtLevGobl = 0, $itxtLevGiant = 0, $itxtLevWall = 0
+Global $itxtLevBarb = 1, $itxtLevArch = 1, $itxtLevGobl = 1, $itxtLevGiant = 1, $itxtLevWall = 1
 Global $itxtLevHeal = 0, $itxtLevPekk = 0, $itxtLevBall = 0, $itxtLevWiza = 0, $itxtLevDrag = 0
 Global $itxtLevBabyD = 0, $itxtLevMine = 0
 
@@ -1765,5 +1821,3 @@ Global $topTrophyloot = 0
 If FileExists($config) Or FileExists($building) Then
 	readConfig()
 EndIf
-
-

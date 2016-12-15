@@ -61,7 +61,7 @@ Func CheckBaseQuick($bStopRecursion = False, $sReturnHome = "")
 			If $troops_maked_after_fullarmy = False And $actual_train_skip < $max_train_skip Then
 				$troops_maked_after_fullarmy = False
 				; Train()
-				TestTrainRevamp()
+				TrainRevamp()
 				If $Restart = True Then Return
 			Else
 				If $debugsetlogTrain = 1 Then Setlog("skip train. " & $actual_train_skip + 1 & "/" & $max_train_skip, $color_purple)

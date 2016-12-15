@@ -45,10 +45,16 @@ Func getArmyHeroTime($HeroType = "all", $bOpenArmyWindow = False, $bCloseArmyWin
 	Local $i
 	Local $sResult
 	Local $iResultHeroes[3] = [0, 0, 0] ; array to hold all remaining regen time read via OCR
-	Local Const $HeroSlots[3][2] = [[655, 344], [729, 344], [803, 344]] ; Location of hero status check tile
+	Local Const $HeroSlots[3][2] = [[464, 446], [526, 446], [588, 446]] ; Location of hero status check tile
+	Local $tmpUpgradingHeroes[3] = [ $HERO_NOHERO, $HERO_NOHERO, $HERO_NOHERO ]
+	If StringInStr($HeroType, "all", $STR_NOCASESENSEBASIC) > 0 Then
+		$iHeroUpgrading[0] = 0
+		$iHeroUpgrading[1] = 0
+		$iHeroUpgrading[2] = 0
+	EndIf
 
 	; Constant Array with OCR find location: [X pos, Y Pos, Text Name, Global enum value]
-	Local Const $aHeroRemainData[3][4] = [[621, 414, "King", $eKing], [695, 414, "Queen", $eQueen], [769, 414, "Warden", $eWarden]]
+	Local Const $aHeroRemainData[3][4] = [[620, 414, "King", $eKing], [695, 414, "Queen", $eQueen], [775, 414, "Warden", $eWarden]]
 
 	For $index = 0 To UBound($aHeroRemainData) - 1 ;cycle through all 3 slots and hero types
 
@@ -56,9 +62,21 @@ Func getArmyHeroTime($HeroType = "all", $bOpenArmyWindow = False, $bCloseArmyWin
 		If StringInStr($HeroType, "all", $STR_NOCASESENSEBASIC) = 0 And $HeroType <> $aHeroRemainData[$index][3] Then ContinueLoop
 
 		; Check if slot has healing hero
-		$sResult = getHeroStatus($HeroSlots[$index][0], $HeroSlots[$index][1]) ; OCR slot for status information
+		$sResult = ArmyHeroStatus($index) ; OCR slot for status information
+		If $debugSetlog = 1 or $debugsetlogTrain = 1 Then SetLog($aHeroRemainData[$index][2] & " Status: " & $sResult, $COLOR_DEBUG)
 		If $sResult <> "" Then ; we found something
-			If $bForceReadTime = False And StringInStr($sResult, "heal", $STR_NOCASESENSEBASIC) = 0 Then
+			If StringInStr($sResult, "upgrade", $STR_NOCASESENSEBASIC) <> 0 Then
+				Switch $index
+					Case 0
+						$tmpUpgradingHeroes[$index] = $HERO_KING
+					Case 1
+						$tmpUpgradingHeroes[$index] = $HERO_QUEEN
+					Case 2
+						$tmpUpgradingHeroes[$index] = $HERO_WARDEN
+				EndSwitch
+				$iHeroUpgrading[$index] = 1
+			EndIf
+			If $bForceReadTime = False And StringInStr($sResult, "heal", $STR_NOCASESENSEBASIC) = 0 or StringInStr($sResult, "none", $STR_NOCASESENSEBASIC) <> 0 Then
 				If $debugsetlogTrain = 1 Or $debugSetlog = 1 Then
 					SetLog("Hero slot#" & $index + 1 & " status: " & $sResult & " :skip time read", $COLOR_DEBUG)
 				EndIf
@@ -71,52 +89,44 @@ Func getArmyHeroTime($HeroType = "all", $bOpenArmyWindow = False, $bCloseArmyWin
 		EndIf
 
 		$sResult = getRemainTHero($aHeroRemainData[$index][0], $aHeroRemainData[$index][1]) ;Get Hero training time via OCR.
-
+		If $debugSetlog = 1 Then SetLog("OCR|Remain Hero Regen Time = " & $sResult, $COLOR_DEBUG)
 		If $sResult <> "" Then
-			$i = StringInStr($sResult, "d", $STR_NOCASESENSEBASIC)
-			If $i > 0 Then ; find days?
-				$iResultHeroes[$index] += Number($sResult) * 24 * 60
-				$sResult = StringStripWS(StringMid($sResult, $i + 1), 7) ; removing the "d"
-			EndIf
-			If $i > 0 Then ; find hours?
-				$iResultHeroes[$index] += Number($sResult) * 60
-				$sResult = StringStripWS(StringMid($sResult, $i + 1), 7) ; removing the "h"
-			EndIf
-			$i = StringInStr($sResult, "m", $STR_NOCASESENSEBASIC)
-			If $i > 0 Then  ; find minutes?
-				$iResultHeroes[$index] += Number($sResult)
-				$sResult = StringStripWS(StringMid($sResult, $i + 1), 7) ; removing the "m"
-			EndIf
-			$i = StringInStr($sResult, "s", $STR_NOCASESENSEBASIC)
-			If $i > 0 Then ; find seconds?
-				$iResultHeroes[$index] += Number($sResult) / 60 ; convert to minute
-			EndIf
-			If $iResultHeroes[$index] = 0 Then
-				SetLog("Bad read of remaining " & $aHeroRemainData[$index][2] & " train time: " & $sResult, $COLOR_ERROR)
-			EndIf
-			If $debugsetlogTrain = 1 Or $debugSetlog = 1 Then SetLog("Remaining " & $aHeroRemainData[$index][2] & " train time: " & StringFormat("%.2f", $iResultHeroes[$index]), $COLOR_DEBUG)
+			$sResultHeroTime = 0
+			Select
+				Case StringInStr($sResult, "m", $STR_NOCASESENSEBASIC) >= 1 ; find minutes?
+					$sResultHeroTime = StringTrimRight($sResult, 1) ; removing the "m"
+					$iResultHeroes[$index] = Number($sResultHeroTime)
+				Case StringInStr($sResult, "s", $STR_NOCASESENSEBASIC) >= 1 ; find seconds?
+					$sResultHeroTime = StringTrimRight($sResult, 1) ; removing the "s"
+					$iResultHeroes[$index] = Number($sResultHeroTime) / 60 ; convert to minute
+				Case Else
+					SetLog("Bad read of remaining " & $aHeroRemainData[$index][2] & " heal time: " & $sResult, $COLOR_RED)
+			EndSelect
+			If $debugsetlogTrain = 1 Or $debugSetlog = 1 Then SetLog("Remaining " & $aHeroRemainData[$index][2] & " heal time: " & StringFormat("%.2f", $iResultHeroes[$index]), $COLOR_DEBUG) ;Debug
 
 			If $HeroType = $aHeroRemainData[$index][3] Then ; if only one hero requested, then set return value and exit loop
-				$iRemainTrainHeroTimer = $iResultHeroes[$index]
+				$iRemainTrainHeroTimer = Number($sResultHeroTime)
 				ExitLoop
 			EndIf
 		Else ; empty OCR value
 			If $HeroType = $aHeroRemainData[$index][3] Then ; only one hero value?
-				SetLog("Can not read remaining " & $aHeroRemainData[$index][2] & " train time", $COLOR_ERROR)
+				SetLog("Can not read remaining " & $aHeroRemainData[$index][2] & " heal time", $COLOR_RED)
 			Else
 				; reading all heros, need to find if hero is active/wait to determine how to log message?
 				For $pMatchMode = $DB To $iMatchMode - 1 ; check all attack modes
 					If IsSpecialTroopToBeUsed($pMatchMode, $aHeroRemainData[$index][3]) And _
 							BitAND($iHeroAttack[$pMatchMode], $iHeroWait[$pMatchMode]) = $iHeroWait[$pMatchMode] Then ; check if Hero enabled to wait
-						SetLog("Can not read remaining " & $aHeroRemainData[$index][2] & " train time", $COLOR_ERROR)
+						SetLog("Can not read remaining " & $aHeroRemainData[$index][2] & " heal time", $COLOR_RED)
 						ExitLoop
 					Else
-						If $debugsetlogTrain = 1 Or $debugSetlog = 1 Then SetLog("Bad read remain " & $aHeroRemainData[$index][2] & " train time, but not enabled", $COLOR_DEBUG)
+						If $debugsetlogTrain = 1 Or $debugSetlog = 1 Then SetLog("Bad read remain " & $aHeroRemainData[$index][2] & " heal time, but not enabled", $COLOR_DEBUG) ;Debug
 					EndIf
 				Next
 			EndIf
 		EndIf
 	Next
+
+	If StringInStr($HeroType, "all", $STR_NOCASESENSEBASIC) > 0 Then $iHeroUpgradingBit = BitOR($tmpUpgradingHeroes[0], $tmpUpgradingHeroes[1], $tmpUpgradingHeroes[2])
 
 	If $bCloseArmyWindow = True Then
 		ClickP($aAway, 1, 0, "#0000") ;Click Away

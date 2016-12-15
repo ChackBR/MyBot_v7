@@ -19,6 +19,7 @@ Func imglocTHSearch($bReTest = False, $myVillage = False, $bForceCapture = True)
 	;set THSearch Values for multisearch
 	;Local $xdirectory = @ScriptDir & "\imgxml\ImgLocTH"
 	Local $xdirectory = "imglocth-bundle"
+	Local $xdirectoryb = "imglocth2-bundle"
 	Local $sCocDiamond = "ECD"
 	Local $redLines = ""
 	Local $minLevel = 6 ; We only support TH6+
@@ -39,6 +40,7 @@ Func imglocTHSearch($bReTest = False, $myVillage = False, $bForceCapture = True)
 	Local $numRetry = 2 ; try to find TH twice
 
 	For $retry = 0 To $numRetry
+		if $retry > 0 then  $xdirectory = $xdirectoryb
 		Local $hTimer = TimerInit()
 		Local $result = findMultiple($xdirectory, $sCocDiamond, $redLines, $minLevel, $maxLevel, $maxReturnPoints, $returnProps, $bForceCapture)
 

@@ -37,7 +37,7 @@ $hGUI_STATS_TAB_ITEM1 = GUICtrlCreateTabItem(GetTranslated(600,38,"Gain"))
 	Local $xStart = 25, $yStart = 45
 	$x = $xStart
 	$y = $yStart
-		$PicStats = GUICtrlCreatePic(@ScriptDir & "\imgxml\Stats\Stats001.jpg", $x - 18, $y - 20, 426, 80)
+		$PicStats = GUICtrlCreatePic(@ScriptDir & "\images\Stats\Stats001.jpg", $x - 18, $y - 20, 426, 80)
 
 	$x = $xStart + 276
 	$y = $yStart - 14
@@ -105,23 +105,23 @@ $hGUI_STATS_TAB_ITEM1 = GUICtrlCreateTabItem(GetTranslated(600,38,"Gain"))
 
 	$x = $xStart + 3
 	$y = $yStart + 100
-		$lblStatsRev = GUICtrlCreateLabel("Stats", $x - 20, $y - 32, 87, 17, $SS_CENTER)
+		$lblStatsRev = GUICtrlCreateLabel(GetTranslated(632, 107, "Stats"), $x - 20, $y - 32, 87, 17, $SS_CENTER)
 		GUICtrlSetBkColor(-1, 0xA8A8A8)
 		GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 		GUICtrlSetColor(-1, $COLOR_BLACK)
-		$lblGoldRev = GUICtrlCreateLabel("Gold", $x - 18 + 85, $y - 32, 95, 17, $SS_CENTER)
+		$lblGoldRev = GUICtrlCreateLabel(GetTranslated(632, 108, "Gold"), $x - 18 + 85, $y - 32, 95, 17, $SS_CENTER)
 		GUICtrlSetBkColor(-1, 0xA8A8A8)
 		GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 		GUICtrlSetColor(-1, $COLOR_BLACK)
-		$lblElixirRev = GUICtrlCreateLabel("Elixir", $x - 18 + (60 * 3), $y - 32, 75, 17, $SS_CENTER)
+		$lblElixirRev = GUICtrlCreateLabel(GetTranslated(632, 109, "Elixir"), $x - 18 + (60 * 3), $y - 32, 75, 17, $SS_CENTER)
 		GUICtrlSetBkColor(-1, 0xA8A8A8)
 		GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 		GUICtrlSetColor(-1, $COLOR_BLACK)
-		$lblDarkRev = GUICtrlCreateLabel("DarkE", $x - 23 + (65 * 4), $y - 32, 90, 17, $SS_CENTER)
+		$lblDarkRev = GUICtrlCreateLabel(GetTranslated(632, 110, "DarkE"), $x - 23 + (65 * 4), $y - 32, 90, 17, $SS_CENTER)
 		GUICtrlSetBkColor(-1, 0xA8A8A8)
 		GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 		GUICtrlSetColor(-1, $COLOR_BLACK)
-		$lblTrophyRev = GUICtrlCreateLabel("Trophy", $x - 23 + (70 * 5), $y - 32, 75, 17, $SS_CENTER)
+		$lblTrophyRev = GUICtrlCreateLabel(GetTranslated(632, 111, "Trophy"), $x - 23 + (70 * 5), $y - 32, 75, 17, $SS_CENTER)
 		GUICtrlSetBkColor(-1, 0xA8A8A8)
 		GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 		GUICtrlSetColor(-1, $COLOR_BLACK)
@@ -314,11 +314,11 @@ $hGUI_STATS_TAB_ITEM1 = GUICtrlCreateTabItem(GetTranslated(600,38,"Gain"))
  	$x = $xStart + 3
 	$y = $yStart + 265
 		$grpMods = GUICtrlCreateGroup("", $x - 20, $y - 20, 422, 28)
-		$lblMods = GUICtrlCreateLabel(GetTranslated(11,1,"Top Loot") & ":", $x - 15, $y - 11, - 1, - 1)
+		$lblMods = GUICtrlCreateLabel(GetTranslated(632, 112, "Top Loot") & ":", $x - 15, $y - 11, - 1, - 1)
 
 	$x += 85
 		GUICtrlCreateIcon($pIconLib, $eIcnGold, $x + 50, $y - 12, 16, 16)
-		$txtTip = GetTranslated(11,2, "Top Gold gained")
+		$txtTip = GetTranslated(632, 113, "Top Gold gained")
 		_GUICtrlSetTip(-1, $txtTip)
 		$lbltopgoldloot = GUICtrlCreateLabel("0", $x - 18, $y - 12, 65, 17, $SS_RIGHT)
 		GUICtrlSetFont($lbltopgoldloot, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
@@ -327,7 +327,7 @@ $hGUI_STATS_TAB_ITEM1 = GUICtrlCreateTabItem(GetTranslated(600,38,"Gain"))
 
 	$x += 85
 		GUICtrlCreateIcon($pIconLib, $eIcnElixir, $x + 50, $y - 12, 16, 16)
-		$txtTip = GetTranslated(11,3, "Top Elixir gained")
+		$txtTip = GetTranslated(632, 114, "Top Elixir gained")
 		_GUICtrlSetTip(-1, $txtTip)
 		$lbltopelixirloot = GUICtrlCreateLabel("0", $x - 18, $y - 12, 65, 17, $SS_RIGHT)
 		GUICtrlSetFont($lbltopelixirloot, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
@@ -336,7 +336,7 @@ $hGUI_STATS_TAB_ITEM1 = GUICtrlCreateTabItem(GetTranslated(600,38,"Gain"))
 
 	$x += 85
 		GUICtrlCreateIcon($pIconLib, $eIcnDark, $x + 50, $y - 12, 16, 16)
-		$txtTip = GetTranslated(11,4, "Top Dark gained")
+		$txtTip = GetTranslated(632, 115, "Top Dark gained")
 		_GUICtrlSetTip(-1, $txtTip)
 		$lbltopdarkloot = GUICtrlCreateLabel("0", $x - 18, $y - 12, 65, 17, $SS_RIGHT)
 		GUICtrlSetFont($lbltopdarkloot, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
@@ -345,7 +345,7 @@ $hGUI_STATS_TAB_ITEM1 = GUICtrlCreateTabItem(GetTranslated(600,38,"Gain"))
 
 	$x += 75
 		GUICtrlCreateIcon($pIconLib, $eIcnTrophy, $x + 50, $y - 12, 16, 16)
-		$txtTip = GetTranslated(11,5, "Top Trophy gained")
+		$txtTip = GetTranslated(632, 116, "Top Trophy gained")
 		_GUICtrlSetTip(-1, $txtTip)
 		$lbltopTrophyloot = GUICtrlCreateLabel("0", $x - 18 + 5, $y - 12, 60, 17, $SS_RIGHT)
 		GUICtrlSetFont($lbltopTrophyloot, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
@@ -368,7 +368,7 @@ $hGUI_STATS_TAB_ITEM2 = GUICtrlCreateTabItem(GetTranslated(600,39,"Misc"))
 		GUICtrlSetBkColor(-1, 0xA8A8A8)
 		GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 		GUICtrlSetColor(-1, $COLOR_BLACK)
-		$lblCostandCollectRev = GUICtrlCreateLabel("Cost && Collect", $x - 18 + 212, $y - 32, 207, 17, $SS_CENTER)
+		$lblCostandCollectRev = GUICtrlCreateLabel(GetTranslated(632, 117, "Cost && Collect"), $x - 18 + 212, $y - 32, 207, 17, $SS_CENTER)
 		GUICtrlSetBkColor(-1, 0xA8A8A8)
 		GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 		GUICtrlSetColor(-1, $COLOR_BLACK)

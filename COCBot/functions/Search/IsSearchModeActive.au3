@@ -24,7 +24,28 @@ Func IsSearchModeActive($iMatchMode, $nocheckHeroes = False)
 	Local $checkTropies = Int($currentTropies) >= Int($iEnableAfterTropies[$iMatchMode]) And Int($currentTropies) <= Int($iEnableBeforeTropies[$iMatchMode]) And $iEnableSearchTropies[$iMatchMode] = 1
 	Local $checkArmyCamps = Int($currentArmyCamps) >= Int($iEnableAfterArmyCamps[$iMatchMode]) Or $fullarmy = True And $iEnableSearchCamps[$iMatchMode] = 1
 	Local $checkHeroes = Not ($iHeroWait[$iMatchMode] > $HERO_NOHERO And (BitAND($iHeroAttack[$iMatchMode], $iHeroWait[$iMatchMode], $iHeroAvailable) = $iHeroWait[$iMatchMode]) = False) Or $nocheckHeroes
+
+	If $checkHeroes = False Then
+		If abs($iHeroWait[$iMatchMode] - $iHeroUpgradingBit) <= $HERO_NOHERO Then $checkHeroes = True
+	EndIf
+
 	Local $checkSpells = ($bFullArmySpells And $iEnableSpellsWait[$iMatchMode] = 1) Or $iEnableSpellsWait[$iMatchMode] = 0
+	Local $totalSpellsToBrew = 0
+	;--- To Brew
+	$totalSpellsToBrew += $PSpellComp + $ESpellComp + $HaSpellComp + $SkSpellComp + _
+	$LSpellComp + $RSpellComp + $HSpellComp + $JSpellComp + $FSpellComp + $CSpellComp
+
+	$iTotalCountSpell = $totalSpellsToBrew
+	;---
+	If GetCurTotalSpell() = $totalSpellsToBrew And $iEnableSpellsWait[$iMatchMode] = 1 Then
+		$checkSpells = True
+	ElseIf $bFullArmySpells = True And $iEnableSpellsWait[$iMatchMode] = 1 Then
+		$checkSpells = True
+	ElseIf $iEnableSpellsWait[$iMatchMode] = 0 Then
+		$checkSpells = True
+	Else
+		$checkSpells = False
+	EndIf
 
 	Switch $iMatchMode
 		Case $DB
@@ -38,6 +59,17 @@ Func IsSearchModeActive($iMatchMode, $nocheckHeroes = False)
 	EndSwitch
 
 	If $bMatchModeEnabled = False Then Return False ; exit if no DB, LB, TS mode enabled
+
+#CS	If $debugsetlog = 1 Then
+		Setlog("====== DEBUG IsSearchModeActive ======" )
+		Setlog("$iHeroWait["& $iMatchMode &"]: " & $iHeroWait[$iMatchMode])
+		Setlog("$iHeroAttack["& $iMatchMode &"]: " & $iHeroAttack[$iMatchMode])
+		Setlog("$iHeroUpgradingBit: " & $iHeroUpgradingBit)
+		Setlog("$iHeroAvailable: " & $iHeroAvailable)
+		Setlog("$checkHeroes: " & $checkHeroes)
+		Setlog("======================================" )
+	EndIf
+#CE
 
 	If $checkHeroes And $checkSpells Then ;If $checkHeroes Then
 		If $bMatchModeEnabled And ($checkSearches Or $iEnableSearchSearches[$iMatchMode] = 0) And ($checkTropies Or $iEnableSearchTropies[$iMatchMode] = 0) And ($checkArmyCamps Or $iEnableSearchCamps[$iMatchMode] = 0) Then
@@ -75,6 +107,19 @@ Func IsSearchModeActive($iMatchMode, $nocheckHeroes = False)
 	EndIf
 EndFunc   ;==>IsSearchModeActive
 
+Func IsSearchModeActiveMini($iMatchMode)
+	Switch $iMatchMode
+		Case $DB
+			Return ($iDBcheck = 1)
+		Case $LB
+			Return ($iABcheck = 1)
+		Case $TS
+			Return ($iTScheck = 1)
+		Case Else
+			Return False
+	EndSwitch
+EndFunc   ;==>IsSearchModeActiveMini
+
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: IsWaitforSpellsActive
 ; Description ...: Checks if Wait for Spells is enabled for all enabled attack modes
@@ -102,11 +147,11 @@ Func IsWaitforSpellsActive()
 				$bMatchModeEnabled = ($iTScheck = 1)
 		EndSwitch
 		If $bMatchModeEnabled And $iEnableSpellsWait[$i] = 1 Then
-			If $debugsetlogTrain = 1 Or $debugSetlog = 1 Then Setlog("IsWaitforSpellsActive = True", $COLOR_DEBUG)
+			If $debugsetlogTrain = 1 Or $debugsetlog = 1 Then Setlog("IsWaitforSpellsActive = True", $COLOR_DEBUG)
 			Return True
 		EndIf
 	Next
-	If $debugsetlogTrain = 1 Or $debugSetlog = 1 Then Setlog("IsWaitforSpellsActive = False", $COLOR_DEBUG)
+	If $debugsetlogTrain = 1 Or $debugsetlog = 1 Then Setlog("IsWaitforSpellsActive = False", $COLOR_DEBUG)
 	Return False
 EndFunc   ;==>IsWaitforSpellsActive
 
@@ -136,11 +181,11 @@ Func IsWaitforHeroesActive()
 			Case $TS
 				$bMatchModeEnabled = ($iTScheck = 1)
 		EndSwitch
-		If $bMatchModeEnabled And ($iHeroWait[$i] > $HERO_NOHERO And (BitAND($iHeroAttack[$i], $iHeroWait[$i]) = $iHeroWait[$i])) Then
-			If $debugsetlogTrain = 1 Or $debugSetlog = 1 Then Setlog("IsWaitforHeroesActive = True", $COLOR_DEBUG)
+		If $bMatchModeEnabled And ($iHeroWait[$i] > $HERO_NOHERO And (BitAND($iHeroAttack[$i], $iHeroWait[$i]) = $iHeroWait[$i]) And (abs($iHeroWait[$i] - $iHeroUpgradingBit) > $HERO_NOHERO)) Then
+			If $debugsetlogTrain = 1 Or $debugsetlog = 1 Then Setlog("IsWaitforHeroesActive = True", $COLOR_DEBUG)
 			Return True
 		EndIf
 	Next
-	If $debugsetlogTrain = 1 Or $debugSetlog = 1 Then Setlog("IsWaitforHeroesActive = False", $COLOR_DEBUG)
+	If $debugsetlogTrain = 1 Or $debugsetlog = 1 Then Setlog("IsWaitforHeroesActive = False", $COLOR_DEBUG)
 	Return False
 EndFunc   ;==>IsWaitforHeroesActive

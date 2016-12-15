@@ -18,14 +18,14 @@
 Local $x = 25, $y = 45
 $grpLanguages = GUICtrlCreateGroup(GetTranslated(636,83, "GUI Language"), $x - 20, $y - 20, 210, 47)
 	$y -=2
-	$cmbLanguage = GUICtrlCreateCombo("", $x - 8 , $y, 185, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+	$cmbLanguage = _GUICtrlComboBoxEx_Create($hGUI_BOT,"",$x - 8, $y, 185, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+	$hcmbLanguage = _GUICtrlComboBoxEx_GetComboControl($cmbLanguage)
 	$txtTip = GetTranslated(636,84, "Use this to switch to a different GUI language")
-	_GUICtrlSetTip(-1, $txtTip)
+	_GUICtrlSetTip($hcmbLanguage,$txtTip,Default,Default,Default, False)
 
 	LoadLanguagesComboBox() ; full combo box languages reading from languages folders
 
-	GUICtrlSetData(-1, "English", "English") ;default set english language
-	GUICtrlSetOnEvent(-1, "cmbLanguage")
+	_GUICtrlComboBoxEx_SetCurSel($cmbLanguage, _GUICtrlComboBoxEx_FindStringExact($cmbLanguage, $sLanguage))
 GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 $y += 54
@@ -191,4 +191,5 @@ $y +=30
 $chkFixClanCastle = GUICtrlCreateCheckbox(GetTranslated(636,104, "Force Clan Castle Detection"), $x-5, $y-5, -1, -1)
 	_GUICtrlSetTip(-1, GetTranslated(636,105, "If clan Castle it is undetected and it is NOT placed in the last slot, force bot to consider the undetected slot as Clan Castle"))
 	GUICtrlSetState(-1, $GUI_UNCHECKED)
+
 GUICtrlCreateGroup("", -99, -99, 1, 1)

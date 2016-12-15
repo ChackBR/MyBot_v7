@@ -19,8 +19,8 @@
 #pragma compile(Icon, "Images\MyBot.ico")
 #pragma compile(FileDescription, Clash of Clans Bot - A Free Clash of Clans bot - https://mybot.run)
 #pragma compile(ProductName, My Bot)
-#pragma compile(ProductVersion, 6.3)
-#pragma compile(FileVersion, 6.3)
+#pragma compile(ProductVersion, 6.4)
+#pragma compile(FileVersion, 6.4)
 #pragma compile(LegalCopyright, © https://mybot.run)
 #pragma compile(Out, MyBot.run.exe) ; Required
 
@@ -56,8 +56,9 @@ Local $sModversion
 ; "2321" ; MyBot v6.3.0 Beta 8 + FFC + SmartZap + Max Time for CCWT
 ; "2322" ; MyBot v6.3.0 Beta 8 ( FFC, SmartZap, Max Time for CCWT ) + Fix for QuickTrain
 ; "2323" ; MyBot v6.3.0 Beta 8 ( FFC, SmartZap, Max Time for CCWT ) + Fix for Load Strategies
-$sModversion = "2324" ; MyBot v6.3.0 Beta 8 ( FFC, Multi Finger, SmartZap, ... ) + Fix for Load Strategies
-$sBotVersion = "v6.3.u8" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it it also use on Checkversion()
+; "2324" ; MyBot v6.3.0 Beta 8 ( FFC, Multi Finger, SmartZap, ... ) + Fix for Load Strategies
+$sModversion = "2400" ; MyBot v6.4.0 ( FFC, Multi Finger, SmartZap, ... )
+$sBotVersion = "v6.4" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it is also use on Checkversion()
 $sBotTitle = "My Bot " & $sBotVersion & ".r" & $sModversion & " " ;~ Don't use any non file name supported characters like \ / : * ? " < > |
 
 #include "COCBot\functions\Config\DelayTimes.au3"
@@ -210,10 +211,10 @@ SetLog(GetTranslated(500, 8, "Android Emulator Configuration: %s", $sAndroidInfo
 
 CheckDisplay() ; verify display size and DPI (Dots Per Inch) setting
 
-LoadTHImage() ; Load TH images
-LoadElixirImage() ; Load Elixir images
-LoadElixirImage75Percent() ; Load Elixir images full at 75%
-LoadElixirImage50Percent() ; Load Elixir images full at 50%
+;LoadTHImage() ; Load TH images
+;LoadElixirImage() ; Load Elixir images
+;LoadElixirImage75Percent() ; Load Elixir images full at 75%
+;LoadElixirImage50Percent() ; Load Elixir images full at 50%
 LoadAmountOfResourcesImages()
 
 $iGUIEnabled = 1
@@ -254,12 +255,16 @@ While 1
 		Case $eBotClose
 			BotClose()
 	EndSwitch
+
+	; force app crash for debugging/testing purposes
+	;DllCallAddress("NONE", 0)
 WEnd
 
 Func runBot() ;Bot that runs everything in order
 	$TotalTrainedTroops = 0
 	Local $Quickattack = False
 	Local $iWaitTime
+	PrepareDonateCC()
 	While 1
 		$Restart = False
 		$fullArmy = False
@@ -282,7 +287,6 @@ Func runBot() ;Bot that runs everything in order
 			If _Sleep($iDelayRunBot2) Then Return
 			checkMainScreen(False)
 			If $Restart = True Then ContinueLoop
-			If $RequestScreenshot = 1 Then PushMsg("RequestScreenshot")
 			If _Sleep($iDelayRunBot3) Then Return
 			VillageReport()
 			If $OutOfGold = 1 And (Number($iGoldCurrent) >= Number($itxtRestartGold)) Then ; check if enough gold to begin searching again
@@ -325,7 +329,7 @@ Func runBot() ;Bot that runs everything in order
 			If $RunState = False Then Return
 			If $Restart = True Then ContinueLoop
 			If IsSearchAttackEnabled() Then ; if attack is disabled skip reporting, requesting, donating, training, and boosting
-				Local $aRndFuncList = ['ReplayShare', 'ReportNotify', 'DonateCC,Train', 'BoostBarracks', 'BoostSpellFactory', 'BoostDarkSpellFactory', 'BoostKing', 'BoostQueen', 'BoostWarden', 'RequestCC']
+				Local $aRndFuncList = ['ReplayShare', 'NotifyReport', 'DonateCC,Train', 'BoostBarracks', 'BoostSpellFactory', 'BoostDarkSpellFactory', 'BoostKing', 'BoostQueen', 'BoostWarden', 'RequestCC']
 				While 1
 					If $RunState = False Then Return
 					If $Restart = True Then ContinueLoop 2 ; must be level 2 due to loop-in-loop
@@ -426,34 +430,38 @@ Func Idle() ;Sequence that runs until Full Army
 	Local $TimeIdle = 0 ;In Seconds
 	If $debugsetlog = 1 Then SetLog("Func Idle ", $COLOR_DEBUG)
 
-	While $fullArmy = False Or $bFullArmyHero = False Or $bFullArmySpells = False
+	While $IsFullArmywithHeroesAndSpells = False
 		checkAndroidReboot()
 
-		If $RequestScreenshot = 1 Then PushMsg("RequestScreenshot")
+		;Execute Notify Pending Actions
+		NotifyPendingActions()
 		If _Sleep($iDelayIdle1) Then Return
 		If $CommandStop = -1 Then SetLog("====== Waiting for full army ======", $COLOR_SUCCESS)
 		Local $hTimer = TimerInit()
 		Local $iReHere = 0
 
 		;If $iSkipDonateNearFulLTroopsEnable = 1 Then getArmyCapacity(true,true)
-		CheckArmyCamp(True, True)
-		While $iReHere < 7
-			$iReHere += 1
-			If $iReHere = 1 And SkipDonateNearFullTroops(True) = False Then
-				DonateCC(True)
-			ElseIf SkipDonateNearFullTroops(False) = False Then
-				DonateCC(True)
-			EndIf
-			If _Sleep($iDelayIdle2) Then ExitLoop
-			If $Restart = True Then ExitLoop
-			If checkAndroidReboot() Then ContinueLoop 2
-		WEnd
+		If $bDonate = True Then
+			Local $aHeroResult = CheckArmyCamp(True, True, True)
+			While $iReHere < 7
+				$iReHere += 1
+				If $iReHere = 1 And SkipDonateNearFullTroops(True, $aHeroResult) = False Then
+					DonateCC(True)
+				ElseIf SkipDonateNearFullTroops(False, $aHeroResult) = False Then
+					DonateCC(True)
+				EndIf
+				If _Sleep($iDelayIdle2) Then ExitLoop
+				If $Restart = True Then ExitLoop
+				If checkAndroidReboot() Then ContinueLoop 2
+			WEnd
+		EndIF
 		If _Sleep($iDelayIdle1) Then ExitLoop
+		checkObstacles() ; trap common error messages also check for reconnecting animation
 		checkMainScreen(False) ; required here due to many possible exits
 		If ($CommandStop = 3 Or $CommandStop = 0) Then
 			CheckArmyCamp(True, True)
 			If _Sleep($iDelayIdle1) Then Return
-			If Not ($fullArmy) And $bTrainEnabled = True Then
+			If ($fullArmy = False Or $bFullArmySpells = False) And $bTrainEnabled = True Then
 				SetLog("Army Camp and Barracks are not full, Training Continues...", $COLOR_ACTION)
 				$CommandStop = 0
 			EndIf
@@ -489,7 +497,7 @@ Func Idle() ;Sequence that runs until Full Army
 			If $troops_maked_after_fullarmy = False And $actual_train_skip < $max_train_skip Then
 				$troops_maked_after_fullarmy = False
 				;Train()
-				TestTrainRevamp()
+				TrainRevamp()
 				If $Restart = True Then ExitLoop
 				If _Sleep($iDelayIdle1) Then ExitLoop
 				checkMainScreen(False)
@@ -509,7 +517,7 @@ Func Idle() ;Sequence that runs until Full Army
 				If $troops_maked_after_fullarmy = False And $actual_train_skip < $max_train_skip Then
 					$troops_maked_after_fullarmy = False
 					;Train()
-					TestTrainRevamp()
+					TrainRevamp()
 					If $Restart = True Then ExitLoop
 					If _Sleep($iDelayIdle1) Then ExitLoop
 					checkMainScreen(False)
@@ -531,7 +539,7 @@ Func Idle() ;Sequence that runs until Full Army
 		If $CommandStop = -1 Then
 			DropTrophy()
 			If $Restart = True Then ExitLoop
-			If $fullArmy Then ExitLoop
+			;If $fullArmy Then ExitLoop		; Never will reach to SmartWait4Train() to close coc while Heroes/Spells not ready 'if' Army is full, so better to be commented
 			If _Sleep($iDelayIdle1) Then ExitLoop
 			checkMainScreen(False)
 		EndIf
@@ -623,21 +631,22 @@ EndFunc   ;==>Attack
 
 
 Func QuickAttack()
+
 	Local $quicklymilking = 0
 	Local $quicklythsnipe = 0
-	If $ichkUseQTrain = 1 Then
-		CheckCamp(True, True)
-	Else
-		getArmyCapacity(True, True)
-	EndIf
+
+	getArmyCapacity(True, True)
+
 	If ($iAtkAlgorithm[$DB] = 2 And IsSearchModeActive($DB)) Or (IsSearchModeActive($TS)) Then
 		VillageReport()
 	EndIf
+
 	$iTrophyCurrent = getTrophyMainScreen($aTrophies[0], $aTrophies[1])
 	If ($iChkTrophyRange = 1 And Number($iTrophyCurrent) > Number($iTxtMaxTrophy)) Then
 		If $debugsetlog = 1 Then Setlog("No quickly re-attack, need to drop tropies", $COLOR_DEBUG)
 		Return False ;need to drop tropies
 	EndIf
+
 	If $iAtkAlgorithm[$DB] = 2 And IsSearchModeActive($DB) Then
 		If Int($CurCamp) >= $TotalCamp * $iEnableAfterArmyCamps[$DB] / 100 And $iEnableSearchCamps[$DB] = 1 Then
 			If $debugsetlog = 1 Then Setlog("Milking: Quickly re-attack " & Int($CurCamp) & " >= " & $TotalCamp & " * " & $iEnableAfterArmyCamps[$DB] & "/100 " & "= " & $TotalCamp * $iEnableAfterArmyCamps[$DB] / 100, $COLOR_DEBUG)
@@ -647,6 +656,7 @@ Func QuickAttack()
 			Return False ;milking attack no restart.. no enough army
 		EndIf
 	EndIf
+
 	If IsSearchModeActive($TS) Then
 		If Int($CurCamp) >= $TotalCamp * $iEnableAfterArmyCamps[$TS] / 100 And $iEnableSearchCamps[$TS] = 1 Then
 			If $debugsetlog = 1 Then Setlog("THSnipe: Quickly re-attack " & Int($CurCamp) & " >= " & $TotalCamp & " * " & $iEnableAfterArmyCamps[$TS] & "/100 " & "= " & $TotalCamp * $iEnableAfterArmyCamps[$TS] / 100, $COLOR_DEBUG)
@@ -676,21 +686,25 @@ Func _RunFunction($action)
 		Case "ReplayShare"
 			ReplayShare($iShareAttackNow)
 			_Sleep($iDelayRunBot3)
-		Case "ReportNotify"
-			ReportNotify()
+		Case "NotifyReport"
+			NotifyReport()
 			_Sleep($iDelayRunBot3)
 		Case "DonateCC"
-			If $iSkipDonateNearFulLTroopsEnable = 1 and $FirstStart = False Then getArmyCapacity(True, True)
-			DonateCC()
-			If _Sleep($iDelayRunBot1) = False Then checkMainScreen(False)
+			If $bDonate = True Then
+				;If $iSkipDonateNearFulLTroopsEnable = 1 and $FirstStart = False Then getArmyCapacity(True, True)
+				If SkipDonateNearFullTroops(True) = False Then DonateCC()
+				If _Sleep($iDelayRunBot1) = False Then checkMainScreen(False)
+			EndIF
 		Case "DonateCC,Train"
-			If $iSkipDonateNearFulLTroopsEnable = 1 and $FirstStart = False Then getArmyCapacity(True, True)
-			DonateCC()
+			If $iSkipDonateNearFulLTroopsEnable = 1 and $FirstStart = true Then getArmyCapacity(True, True)
+			If $bDonate = True Then
+				If SkipDonateNearFullTroops(True) = False Then DonateCC()
+			EndIF
 			If _Sleep($iDelayRunBot1) = False Then checkMainScreen(False)
 			If $troops_maked_after_fullarmy = False And $actual_train_skip < $max_train_skip Then
 				$troops_maked_after_fullarmy = False
 				;Train()
-				TestTrainRevamp()
+				TrainRevamp()
 				_Sleep($iDelayRunBot1)
 			Else
 				Setlog("Humanize bot, prevent to delete and recreate troops " & $actual_train_skip + 1 & "/" & $max_train_skip, $color_blue)

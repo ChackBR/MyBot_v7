@@ -16,21 +16,16 @@
 Local $x = 25, $y = 40
 	$grpDBAttack = GUICtrlCreateGroup(GetTranslated(624,1,"Attack with"), $x - 20, $y - 15, 145, 223)
 		$x -= 15
-		$lblDBAlgorithm = GUICtrlCreateLabel(GetTranslated(624,2,"Attack Type") & ":", $x, $y, 135, 18, $SS_LEFT)
-		$y += 15
+		$y += 5
 		$cmbDBAlgorithm = GUICtrlCreateCombo("", $x, $y, 135, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			_GUICtrlSetTip(-1, "")
 			GUICtrlSetData(-1, GetTranslated(624,3,"Standard Attack") & "|" & GetTranslated(624,4,"Scripted Attack") & "|" & GetTranslated(624,5,"Milking Attack"), GetTranslated(624,3,-1))
 			GUICtrlSetOnEvent(-1, "cmbDBAlgorithm")
-		$y += 25
-		$lblDBSelectTroop=GUICtrlCreateLabel(GetTranslated(624,6,"Only drop these troops") & ":", $x, $y, 135, 18, $SS_LEFT)
-		$y += 15
+		$y += 30
 		$cmbDBSelectTroop=GUICtrlCreateCombo("", $x, $y, 135, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			GUICtrlSetData(-1, GetTranslated(624,7, "Use All Troops") &"|"&GetTranslated(624,8, "Use Troops in Barracks")&"|"&GetTranslated(624,9, "Barb Only")&"|" & GetTranslated(624,10, "Arch Only") &"|"&GetTranslated(624,11, "B+A")&"|"&GetTranslated(624,12, "B+Gob")&"|"&GetTranslated(624,13, "A+Gob")&"|"&GetTranslated(624,14, "B+A+Gi")&"|"&GetTranslated(624,15, "B+A+Gob+Gi")&"|"&GetTranslated(624,16, "B+A+Hog Rider")&"|"&GetTranslated(624,17, "B+A+Minion") , GetTranslated(624,7, -1))
 			_GUICtrlSetTip(-1, GetTranslated(624,18,"Select the troops to use in attacks"))
-		$y += 25
-		$lblDBSelectSpecialTroop=GUICtrlCreateLabel(GetTranslated(624,19,"Special troops to use") & ":",$x, $y, 135, 18, $SS_LEFT)
-		$y += 18
+		$y += 30
 		$IMGchkDBKingAttack=GUICtrlCreateIcon($pIconLib, $eIcnKing, $x , $y, 24, 24)
 			$txtTip = GetTranslated(624,20, "Use your King when Attacking...") & @CRLF & GetTranslated(624,41, "Enabled with TownHall 7 and higher")
 			_GUICtrlSetTip(-1, $txtTip)
@@ -88,6 +83,12 @@ Local $x = 25, $y = 40
 			_GUICtrlSetTip(-1, $txtTip)
 	    $y +=27
 		$x -=92
+		$IMGchkDBCloneSpell=GUICtrlCreateIcon($pIconLib, $eIcnCloneSpell , $x, $y, 24, 24)
+			$txtTip = GetTranslated(624,44, "Use your Clone Spells when Attacking...")
+			_GUICtrlSetTip(-1, $txtTip)
+		$chkDBCloneSpell = GUICtrlCreateCheckbox("", $x + 27, $y, 17, 17)
+			_GUICtrlSetTip(-1, $txtTip)
+		$x +=46
 		$IMGchkDBPoisonSpell=GUICtrlCreateIcon($pIconLib, $eIcnPoisonSpell , $x, $y, 24, 24)
 			$txtTip = GetTranslated(624,29, "Use your Poison Spells when Attacking...")
 			_GUICtrlSetTip(-1, $txtTip)
@@ -99,12 +100,20 @@ Local $x = 25, $y = 40
 			_GUICtrlSetTip(-1, $txtTip)
 		$chkDBEarthquakeSpell = GUICtrlCreateCheckbox("", $x + 27, $y, 17, 17)
 			_GUICtrlSetTip(-1, $txtTip)
-		$x +=46
-			$IMGchkDBHasteSpell=GUICtrlCreateIcon($pIconLib, $eIcnHasteSpell, $x, $y, 24, 24)
-			$txtTip =GetTranslated(624,31, "Use your Haste Spells when Attacking...")
-			_GUICtrlSetTip(-1, $txtTip)
+		$y +=27
+		$x -=92
+		$IMGchkDBHasteSpell=GUICtrlCreateIcon($pIconLib, $eIcnHasteSpell, $x, $y, 24, 24)
+		$txtTip =GetTranslated(624,31, "Use your Haste Spells when Attacking...")
+		_GUICtrlSetTip(-1, $txtTip)
 		$chkDBHasteSpell = GUICtrlCreateCheckbox("", $x + 27, $y, 17, 17)
+		_GUICtrlSetTip(-1, $txtTip)
+		$x +=46
+		$IMGchkDBSkeletonSpell=GUICtrlCreateIcon($pIconLib, $eIcnSkeletonSpell , $x, $y, 24, 24)
+			$txtTip = GetTranslated(624,45, "Use your Skeletons Spells when Attacking...")
 			_GUICtrlSetTip(-1, $txtTip)
+		$chkDBSkeletonSpell = GUICtrlCreateCheckbox("", $x + 27, $y, 17, 17)
+			_GUICtrlSetTip(-1, $txtTip)
+
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 Local $x = 10, $y = 268

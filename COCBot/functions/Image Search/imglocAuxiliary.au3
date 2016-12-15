@@ -214,15 +214,36 @@ Func GetButtonDiamond($sButtonName)
 EndFunc   ;==>GetButtonDiamond
 
 Func findImage($sImageName, $sImageTile, $sImageArea, $maxReturnPoints = 1, $bForceCapture = True)
+	Local $aCoords = "" ; use AutoIt mixed variable type and initialize array of coordinates to null
+	Local $iPattern = StringInStr($sImageTile, "*")
+	If $iPattern > 0 Then
+		Local $dir = ""
+		Local $pat = $sImageTile
+		Local $iLastBS = StringInStr($sImageTile, "\", 0, -1)
+		If $iLastBS > 0 Then
+			$dir = StringLeft($sImageTile, $iLastBS)
+			$pat = StringMid($sImageTile, $iLastBS + 1)
+		EndIf
+		Local $files = _FileListToArray($dir, $pat, $FLTA_FILES, True)
+		If @error Or UBound($files) < 2 Then
+			If $DebugSetlog = 1 Then SetLog("findImage files not found : " & $sImageTile, $COLOR_ERROR)
+			SetError(1, 0, $aCoords) ; Set external error code = 1 for bad input values
+			Return
+		EndIf
+		For $i = 1 To $files[0]
+			$aCoords = findImage($sImageName, $files[$i], $sImageArea, $maxReturnPoints, $bForceCapture)
+			If UBound(decodeSingleCoord($aCoords)) > 1 Then Return $aCoords
+		Next
+		Return $aCoords
+	EndIf
 	; same has findButton, but allow custom area instead of button area decoding
 	; nice for dinamic locations
 	Local $error, $extError
-	Local $searchArea = $sImageArea
-	Local $aCoords = "" ; use AutoIt mixed variable type and initialize array of coordinates to null
 
 	; Check function parameters
 	If Not FileExists($sImageTile) Then
-		SetError(1, "Bad Input Values", $aCoords) ; Set external error code = 1 for bad input values
+		If $DebugSetlog = 1 Then SetLog("findImage file not found : " & $sImageTile, $COLOR_ERROR)
+		SetError(1, 1, $aCoords) ; Set external error code = 1 for bad input values
 		Return
 	EndIf
 
@@ -233,7 +254,7 @@ Func findImage($sImageName, $sImageTile, $sImageArea, $maxReturnPoints = 1, $bFo
 
 	If $DebugSetlog Then SetLog("findImage Looking for : " & $sImageName & " : " & $sImageTile & " on " & $sImageArea)
 
-	Local $result = DllCall($pImgLib, "str", "FindTile", "handle", $hHBitmap2, "str", $sImageTile, "str", $searchArea, "Int", $maxReturnPoints)
+	Local $result = DllCall($pImgLib, "str", "FindTile", "handle", $hHBitmap2, "str", $sImageTile, "str", $sImageArea, "Int", $maxReturnPoints)
 	$error = @error ; Store error values as they reset at next function call
 	$extError = @extended
 	If $error Then
@@ -267,8 +288,8 @@ Func findImage($sImageName, $sImageTile, $sImageArea, $maxReturnPoints = 1, $bFo
 
 EndFunc   ;==>findImage
 
-Func GetDeployableNextTo($sPoints, $distance = 3)
-	Local $result = DllCall($pImgLib, "str", "GetDeployableNextTo", "str", $sPoints, "int", $distance)
+Func GetDeployableNextTo($sPoints, $distance = 3, $redlineoverride="")
+	Local $result = DllCall($pImgLib, "str", "GetDeployableNextTo", "str", $sPoints, "int", $distance, "str" , $redlineoverride)
 	$error = @error ; Store error values as they reset at next function call
 	$extError = @extended
 	If $error Then
@@ -413,21 +434,28 @@ Func GetDiamondFromRect($rect)
 	Return $returnvalue
 EndFunc   ;==>GetDiamondFromRect
 
-Func FindImageInPlace($sImageName, $sImageTile, $place)
+Func FindImageInPlace($sImageName, $sImageTile, $place, $bForceCaptureRegion = True)
 	;creates a reduced capture of the place area a finds the image in that area
 	;returns string with X,Y of ACTUALL FULL SCREEN coordinates or Empty if not found
 	If $DebugSetlog = 1 Then SetLog("FindImageInPlace : > " & $sImageName & " - " & $sImageTile & " - " & $place, $COLOR_INFO)
 	Local $returnvalue = ""
-	Local $aPlaces = StringSplit($place, ",", $STR_NOCOUNT)
-	_CaptureRegion2(Number($aPlaces[0]), Number($aPlaces[1]), Number($aPlaces[2]), Number($aPlaces[3]))
 	Local $sImageArea = GetDiamondFromRect($place)
-	Local $coords = findImage($sImageName, $sImageTile, "FV", 1, False) ; reduce capture full image
+	Local $aPlaces = StringSplit($place, ",", $STR_NOCOUNT)
+	If $bForceCaptureRegion = True Then
+		$sImageArea = "FV"
+		_CaptureRegion2(Number($aPlaces[0]), Number($aPlaces[1]), Number($aPlaces[2]), Number($aPlaces[3]))
+	EndIf
+	Local $coords = findImage($sImageName, $sImageTile, $sImageArea, 1, False) ; reduce capture full image
 	Local $aCoords = decodeSingleCoord($coords)
 	If UBound($aCoords) < 2 Then
 		If $DebugSetlog = 1 Then SetLog("FindImageInPlace : " & $sImageName & " NOT Found", $COLOR_INFO)
 		Return ""
 	EndIf
-	$returnvalue = Number($aCoords[0]) + Number($aPlaces[0]) & "," & Number($aCoords[1]) + Number($aPlaces[1])
+	If $bForceCaptureRegion = True Then
+		$returnvalue = Number($aCoords[0]) + Number($aPlaces[0]) & "," & Number($aCoords[1]) + Number($aPlaces[1])
+	Else
+		$returnvalue = Number($aCoords[0]) & "," & Number($aCoords[1])
+	EndIf
 	If $DebugSetlog = 1 Then SetLog("FindImageInPlace : < " & $sImageName & " Found in " & $returnvalue, $COLOR_INFO)
 	Return $returnvalue
 EndFunc   ;==>FindImageInPlace
@@ -518,9 +546,9 @@ Func decodeTroopEnum($tEnum)
 		Case $eRSpell
 			Return "RageSpell"
 		Case $eSkSpell
-			Return "SkeletonSpell" ;Missing
+			Return "SkeletonSpell"
 		Case $eCSpell
-			Return "CloneSpell" ;Missing
+			Return "CloneSpell"
 		Case $eCastle
 			Return "Castle"
 	EndSwitch
@@ -591,9 +619,9 @@ Func decodeTroopName($sName)
 			Return $ePSpell
 		Case "RageSpell"
 			Return $eRSpell
-		Case "SkeletonSpell" ;Missing
+		Case "SkeletonSpell"
 			Return $eSkSpell
-		Case "CloneSpell" ;Missing
+		Case "CloneSpell"
 			Return $eCSpell
 		Case "Castle"
 			Return $eCastle

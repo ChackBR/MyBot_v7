@@ -114,7 +114,7 @@
 #include "functions\CreateArmy\getArmySpellCapacity.au3"
 #include "functions\CreateArmy\getArmySpellCount.au3"
 #include "functions\CreateArmy\getArmySpellTime.au3"
-#include "functions\CreateArmy\getArmyTroopCount.au3"
+;#include "functions\CreateArmy\getArmyTroopCount.au3" we don't use this anymore
 #include "functions\CreateArmy\getArmyTroopTime.au3"
 #include "functions\CreateArmy\isBarrack.au3"
 #include "functions\CreateArmy\openArmyOverview.au3"
@@ -128,7 +128,7 @@
 #include "functions\Image Search\ImageSearch.au3"
 #include "functions\Image Search\checkDeadBase.au3"
 #include "functions\Image Search\checkTownhall.au3"
-#include "functions\Image Search\checkWall.au3"
+; #include "functions\Image Search\checkWall.au3"
 #include "functions\Image Search\CheckTombs.au3"
 #include "functions\Image Search\THSearch.au3"
 
@@ -275,7 +275,6 @@
 #include "functions\Village\UpgradeBuilding.au3"
 #include "functions\Village\UpgradeWall.au3"
 #include "functions\Village\Notify.au3"
-#include "functions\Village\PushBullet.au3"
 #include "functions\Village\Laboratory.au3"
 #include "functions\Village\ReplayShare.au3"
 #include "functions\Village\BoostHeroes.au3"

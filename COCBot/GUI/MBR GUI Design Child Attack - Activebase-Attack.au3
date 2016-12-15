@@ -16,21 +16,16 @@
 Local $x = 25, $y = 40
 	$grpABAttack = GUICtrlCreateGroup(GetTranslated(624,1, -1), $x - 20, $y - 15, 145, 223)
 		$x -= 15
-		$lblABAlgorithm = GUICtrlCreateLabel(GetTranslated(624,2, -1) & ":",  $x, $y, 135, 18,$SS_LEFT)
-		$y += 15
+		$y += 5
 		$cmbABAlgorithm = GUICtrlCreateCombo("", $x, $y, 135, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			_GUICtrlSetTip(-1, "")
 			GUICtrlSetData(-1, GetTranslated(624,3, -1) & "|" & GetTranslated(624,4, -1) , GetTranslated(624,3,-1))
 			GUICtrlSetOnEvent(-1, "cmbABAlgorithm")
-		$y += 25
-		$lblABSelectTroop=GUICtrlCreateLabel(GetTranslated(624,6, -1) & ":", $x, $y, 135, 18,$SS_LEFT)
-		$y += 15
+		$y += 30
 		$cmbABSelectTroop=GUICtrlCreateCombo("", $x, $y, 135, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			GUICtrlSetData(-1, GetTranslated(624,7, -1) & "|" & GetTranslated(624,8, -1) & "|" & GetTranslated(624,9, -1) & "|" & GetTranslated(624,10, -1) & "|" & GetTranslated(624,11, -1) & "|" & GetTranslated(624,12, -1) & "|" & GetTranslated(624,13, -1) & "|" & GetTranslated(624,14, -1) & "|" & GetTranslated(624,15, -1) & "|" & GetTranslated(624,16, -1) & "|" & GetTranslated(624,17, -1), GetTranslated(624,7, -1))
 			_GUICtrlSetTip(-1, GetTranslated(624,18, -1))
-		$y += 25
-		$lblABSelectSpecialTroop=GUICtrlCreateLabel(GetTranslated(624,19, -1) & ":",$x, $y, 135, 18, $SS_LEFT)
-		$y += 18
+		$y += 30
 		$IMGchkABKingAttack=GUICtrlCreateIcon($pIconLib, $eIcnKing, $x , $y, 24, 24)
 			$txtTip = GetTranslated(624,20, -1) & @CRLF & GetTranslated(624, 41, -1)
 			_GUICtrlSetTip(-1, $txtTip)
@@ -88,6 +83,12 @@ Local $x = 25, $y = 40
 			_GUICtrlSetTip(-1, $txtTip)
 	    $y +=27
 		$x -=92
+		$IMGchkABCloneSpell=GUICtrlCreateIcon($pIconLib, $eIcnCloneSpell , $x, $y, 24, 24)
+			$txtTip = GetTranslated(624,44, -1)
+			_GUICtrlSetTip(-1, $txtTip)
+		$chkABCloneSpell = GUICtrlCreateCheckbox("", $x + 27, $y, 17, 17)
+			_GUICtrlSetTip(-1, $txtTip)
+		$x +=46
 		$IMGchkABPoisonSpell=GUICtrlCreateIcon($pIconLib, $eIcnPoisonSpell , $x, $y, 24, 24)
 			$txtTip = GetTranslated(624,29, -1)
 			_GUICtrlSetTip(-1, $txtTip)
@@ -99,11 +100,18 @@ Local $x = 25, $y = 40
 			_GUICtrlSetTip(-1, $txtTip)
 		$chkABEarthquakeSpell = GUICtrlCreateCheckbox("", $x + 27, $y, 17, 17)
 			_GUICtrlSetTip(-1, $txtTip)
-		$x +=46
-			$IMGchkABHasteSpell=GUICtrlCreateIcon($pIconLib, $eIcnHasteSpell, $x, $y, 24, 24)
-			$txtTip =GetTranslated(624,31, -1)
-			_GUICtrlSetTip(-1, $txtTip)
+		$y +=27
+		$x -=92
+		$IMGchkABHasteSpell=GUICtrlCreateIcon($pIconLib, $eIcnHasteSpell, $x, $y, 24, 24)
+		$txtTip =GetTranslated(624,31, -1)
+		_GUICtrlSetTip(-1, $txtTip)
 		$chkABHasteSpell = GUICtrlCreateCheckbox("", $x + 27, $y, 17, 17)
+		_GUICtrlSetTip(-1, $txtTip)
+		$x +=46
+		$IMGchkABSkeletonSpell=GUICtrlCreateIcon($pIconLib, $eIcnSkeletonSpell , $x, $y, 24, 24)
+			$txtTip = GetTranslated(624,45, -1)
+			_GUICtrlSetTip(-1, $txtTip)
+		$chkABSkeletonSpell = GUICtrlCreateCheckbox("", $x + 27, $y, 17, 17)
 			_GUICtrlSetTip(-1, $txtTip)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 

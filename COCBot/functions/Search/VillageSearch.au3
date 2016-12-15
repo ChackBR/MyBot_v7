@@ -30,8 +30,8 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 			$iAimGold[$i] = $iMinGold[$i]
 			$iAimElixir[$i] = $iMinElixir[$i]
 			$iAimGoldPlusElixir[$i] = $iMinGoldPlusElixir[$i]
-			$iAimDark[$i] = $iMinDark[$i]
-			$iAimTrophy[$i] = $iMinTrophy[$i]
+			$iAimDark[$i] = ($iChkMeetDE[$i] = 1 ? ($iMinDark[$i]) : (0))
+			$iAimTrophy[$i] = ($iChkMeetTrophy[$i] = 1 ? ($iMinTrophy[$i]) : (0))
 		Next
 	EndIf
 

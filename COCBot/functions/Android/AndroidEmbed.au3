@@ -236,8 +236,7 @@ Func _AndroidEmbed($Embed = True, $CallWinGetAndroidHandle = True, $bForceEmbed 
 			Return False
 		EndIf
 		SetDebugLog("Docked Android Window gone", $COLOR_ERROR)
-		AndroidEmbed(False)
-		Return AndroidEmbed(True)
+		Return _AndroidEmbed(False)
 	EndIf
 
 	Local $bAlreadyEmbedded = $AndroidEmbedded = True
@@ -384,8 +383,6 @@ Func _AndroidEmbed($Embed = True, $CallWinGetAndroidHandle = True, $bForceEmbed 
 			EndIf
 			_WinAPI_SetWindowLong($HWnD, $GWL_STYLE, $newStyle)
 			;ControlFocus($frmBot, "", $frmBot) ; required for BlueStacks
-			WinMove2($hCtrlTarget, "", 0, 0, $aPosCtl[2], $aPosCtl[3] - 1, $HWND_BOTTOM, 0, False) ; trigger window change (required for BS in Windows 7)
-			WinMove2($hCtrlTarget, "", 0, 0, $aPosCtl[2], $aPosCtl[3], $HWND_BOTTOM, 0, False)
 			If $targetIsHWnD = False Then
 				WinMove2($HWnD, "", $a[0], $a[1], -1, -1, $HWND_BOTTOM, 0, False)
 			EndIf
@@ -446,6 +443,12 @@ Func _AndroidEmbed($Embed = True, $CallWinGetAndroidHandle = True, $bForceEmbed 
 	_WinAPI_RedrawWindow($frmBotBottom, 0, 0, $RDW_INVALIDATE + $RDW_ALLCHILDREN + $RDW_ERASE)
 	_WinAPI_UpdateWindow($frmBot)
 	_WinAPI_UpdateWindow($frmBotBottom)
+	;update Android Window
+	If $AndroidEmbedMode = 0 Then
+		WinMove2($hCtrlTarget, "", 0, 0, $aPosCtl[2], $aPosCtl[3] - 1, $HWND_BOTTOM, 0, False) ; trigger window change (required for iTools and probably others)
+		WinMove2($hCtrlTarget, "", 0, 0, $aPosCtl[2], $aPosCtl[3], $HWND_BOTTOM, 0, False)
+	EndIf
+
 	;CheckRedrawControls(True)
 
 	;If $FrmBotMinimized = False And $activeHWnD = $frmBot Then WinActivate($activeHWnD) ; re-activate bot
@@ -540,7 +543,7 @@ Func AndroidEmbed_HWnD_Position($bForShield = False, $bDetachedShield = Default,
 			$aPos[0] = 0
 			$aPos[1] = 0
 		EndIf
-	ElseIf $bForShield = True And $bDetachedShield = False Then
+	ElseIf $bForShield = True And ($bDetachedShield = False Or $bDetachedShield = Default) Then
 		$aPos[0] = 0
 		$aPos[1] = 0
 	Else

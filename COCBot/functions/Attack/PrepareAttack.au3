@@ -32,17 +32,20 @@ Func PrepareAttack($pMatchMode, $Remaining = False) ;Assigns troops
 	If _Sleep($iDelayPrepareAttack1) Then Return
 
     ;SuspendAndroid()
+	;Local $result = DllCall($hFuncLib, "str", "searchIdentifyTroop", "ptr", $hHBitmap2)
+	;If $ichkFixClanCastle= 1 Then $result[0] = FixClanCastle( $result[0])
 
-	Local $result = DllCall($hFuncLib, "str", "searchIdentifyTroop", "ptr", $hHBitmap2)
-	If $ichkFixClanCastle= 1 Then $result[0] = FixClanCastle( $result[0])
-	If $debugSetlog = 1 Then Setlog("DLL Troopsbar list: " & $result[0], $COLOR_DEBUG)
-	Local $aTroopDataList = StringSplit($result[0], "|")
+	Local $Plural = 0
+	Local $result = AttackBarCheck()
+	If $debugSetlog = 1 Then Setlog("DLL Troopsbar list: " & $result, $COLOR_DEBUG)
+	Local $aTroopDataList = StringSplit($result, "|")
 	Local $aTemp[12][3]
-	If $result[0] <> "" Then
+	If $result <> "" Then
 		For $i = 1 To $aTroopDataList[0]
 			Local $troopData = StringSplit($aTroopDataList[$i], "#", $STR_NOCOUNT)
 			$aTemp[Number($troopData[1])][0] = $troopData[0]
 			$aTemp[Number($troopData[1])][1] = Number($troopData[2])
+			$aTemp[Number($troopData[1])][2] = Number($troopData[1])
 		Next
 	EndIf
 	For $i = 0 To UBound($aTemp) - 1
@@ -86,7 +89,9 @@ Func PrepareAttack($pMatchMode, $Remaining = False) ;Assigns troops
 				EndIf
 			EndIf
 
-			If $troopKind <> -1 Then SetLog("-*-" & $atkTroops[$i][0] & " " & NameOfTroop($atkTroops[$i][0]) & " " & $atkTroops[$i][1], $COLOR_SUCCESS)
+			$Plural = 0
+			If $aTemp[$i][1] > 1 then $Plural = 1
+			If $troopKind <> -1 Then SetLog($aTemp[$i][2] & " » " & $aTemp[$i][1] & " " & NameOfTroop($atkTroops[$i][0], $Plural), $COLOR_SUCCESS)
 		EndIf
     Next
 
@@ -252,8 +257,7 @@ Func IsSpecialTroopToBeUsed($pMatchMode, $pTroopType)
 					Case $MA
 						 If $ichkHasteSpell[$DB] = 1 Then Return True
 				EndSwitch
-#comments-start	; add new spells when ready
-				Case $eCSpell
+			Case $eCSpell
 				Switch $pmatchMode
 					Case $DB
 						 If $ichkCloneSpell[$DB] = 1 Then Return True
@@ -264,7 +268,7 @@ Func IsSpecialTroopToBeUsed($pMatchMode, $pTroopType)
 					Case $MA
 						 If $ichkCloneSpell[$DB] = 1 Then Return True
 				EndSwitch
-				Case  $eSkSpell
+			Case  $eSkSpell
 				Switch $pmatchMode
 					Case $DB
 						 If $ichkSkeletonSpell[$DB] = 1 Then Return True
@@ -275,7 +279,6 @@ Func IsSpecialTroopToBeUsed($pMatchMode, $pTroopType)
 					Case $MA
 						 If $ichkSkeletonSpell[$DB] = 1 Then Return True
 				EndSwitch
-#comments-end
 			Case Else
 				Return False
 		EndSwitch

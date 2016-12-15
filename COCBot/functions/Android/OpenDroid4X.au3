@@ -196,10 +196,12 @@ Func InitDroid4X($bCheckOnly = False)
 	  $aRegExResult = StringRegExp($__VBoxVMinfo, "Name: 'picture', Host path: '(.*)'.*", $STR_REGEXPARRAYMATCH)
 	  If Not @error Then
 		 $AndroidPicturesHostPath = $aRegExResult[0] & "\"
+		 $AndroidSharedFolderAvailable = True
 	  Else
 		 SetLog($Android & " Background Mode is not available", $COLOR_ERROR)
 		 $AndroidPicturesHostPath = ""
 		 $AndroidAdbScreencap = False
+		 $AndroidSharedFolderAvailable = False
 	  EndIf
 
 	  $__VBoxGuestProperties = LaunchConsole($__VBoxManage_Path, "guestproperty enumerate " & $AndroidInstance, $process_killed)
@@ -227,8 +229,12 @@ Func SetScreenDroid4X()
    $cmdOutput = LaunchConsole($__VBoxManage_Path, "guestproperty set " & $AndroidInstance & " vbox_dpi 160", $process_killed)
 
    ;vboxmanage sharedfolder add droid4x --name picture --hostpath "C:\Users\Administrator\Pictures\Droid4X Photo" --automount
-   If $ichkBackground = 1 And $AndroidAdbScreencap = False And $AndroidPicturesPathAutoConfig = True And BitAND($AndroidSupportFeature, 2) = 2 and FileExists($AndroidPicturesHostPath) = 1 Then
-	  $cmdOutput = LaunchConsole($__VBoxManage_Path, "sharedfolder add " & $AndroidInstance & " --name picture --hostpath """ & $AndroidPicturesHostPath & """  --automount", $process_killed)
+   AndroidPicturePathAutoConfig() ; ensure $AndroidPicturesHostPath is set and exists
+   If $AndroidSharedFolderAvailable = False And $AndroidPicturesPathAutoConfig = True And FileExists($AndroidPicturesHostPath) = 1 Then
+      ; remove tailing backslash
+      Local $path = $AndroidPicturesHostPath
+      If StringRight($path, 1) = "\" Then $path = StringLeft($path, StringLen($path) - 1)
+	  $cmdOutput = LaunchConsole($__VBoxManage_Path, "sharedfolder add " & $AndroidInstance & " --name picture --hostpath """ & $path & """  --automount", $process_killed)
    EndIf
 
    Return True
@@ -271,27 +277,8 @@ Func CheckScreenDroid4X($bSetLog = True)
    Next
    If $iErrCnt > 0 Then Return False
 
-   ; check if shared folder exists for background mode and mouse events
-   If $ichkBackground = 1 And $AndroidAdbScreencap = False And $AndroidPicturesPathAutoConfig = True And BitAND($AndroidSupportFeature, 2) = 2 Then
-	  Local $myPictures = RegRead("HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders\", "My Pictures")
-	  If @error = 0 And FileExists($myPictures) = 1 Then
-		 $AndroidPicturesHostPath = $myPictures & "\" & $Android & " Photo"
-		 If DirCreate($AndroidPicturesHostPath) = 1 Then
-			SetLog("Configure " & $Android & " to support Background Mode", $COLOR_SUCCESS)
-			SetLog("Folder created: " & $AndroidPicturesHostPath, $COLOR_SUCCESS)
-			SetLog("This shared folder will be added to " & $Android, $COLOR_SUCCESS)
-			Return False
-		 Else
-			SetLog("Cannot configure " & $Android & " Background Mode", $COLOR_SUCCESS)
-			SetLog("Cannot create folder: " & $AndroidPicturesHostPath, $COLOR_ERROR)
-			$AndroidPicturesPathAutoConfig = False
-		 EndIf
-	  Else
-		 SetLog("Cannot configure " & $Android & " Background Mode", $COLOR_SUCCESS)
-		 SetLog("Cannot find current user 'My Pictures' folder", $COLOR_ERROR)
-		 $AndroidPicturesPathAutoConfig = False
-	  EndIf
-   EndIf
+   ; check if shared folder exists
+   If AndroidPicturePathAutoConfig(Default, Default, $bSetLog) Then $iErrCnt += 1
 
    Return True
 

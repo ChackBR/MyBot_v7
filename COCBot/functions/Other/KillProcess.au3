@@ -22,6 +22,17 @@ Func KillProcess($pid, $process_info = "", $attempts = 3)
 	While ProcessExists($pid) And $iCount < $attempts
 		If ProcessClose($pid) = 1 Then
 			SetDebugLog("KillProcess(" & $iCount & "): PID = " & $pid & " closed" & $process_info)
+		Else
+			Switch @error
+				Case 1 ; OpenProcess failed
+					SetDebugLog("Process close error: OpenProcess failed")
+				Case 2 ; AdjustTokenPrivileges Failed
+					SetDebugLog("Process close error: AdjustTokenPrivileges Failed")
+				Case 3 ; TerminateProcess Failed
+					SetDebugLog("Process close error: TerminateProcess Failed")
+				Case 4 ; Cannot verify if process exists
+					SetDebugLog("Process close error: Cannot verify if process exists")
+			EndSwitch
 		EndIf
 		If ProcessExists($pid) Then ; If it is still running, then try again
 			ShellExecute(@WindowsDir & "\System32\taskkill.exe", " -pid " & $pid, "", Default, @SW_HIDE)

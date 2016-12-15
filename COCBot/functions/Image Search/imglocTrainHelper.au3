@@ -24,64 +24,6 @@ Func imglocTestQuickTrain($quickTrainOption=0)
 	$RunState = $currentRunState
 EndFunc
 
-Func imglocTestTrain()
-	Local $currentRunState = $RunState
-	$RunState = True
-	SetLog(" TEST TRAIN IMGLOC START test trains archer and rage spell" )
-	imglocOpenTrainWindow()
-	If _Sleep($tDelayBtn) Then Return
-	Local $optBtn
-	;Train Troops
-	Local $TrainTroopTabArea = "235,115,365,140"
-	Local $TroopTrainTabBtn  =  isButtonVisible("TroopTrainTabBtn",@ScriptDir & "\imgxml\newtrainwindow\TrainTroops_0_0_90.xml",$TrainTroopTabArea)
-	if $TroopTrainTabBtn <> "" then
-		ClickP(decodeSingleCoord($TroopTrainTabBtn),1,300,"TroopTrainTabBtn") ; should switch to Troop Train Tab
-		If _Sleep($tDelayBtn) Then Return
-		;now check tab area to see if tab color is white now (tab opened)
-		Local $CheckTabBtn  =  isButtonVisible("TroopTrainTabBtn",@ScriptDir & "\imgxml\newtrainwindow\CheckTab_0_0_97.xml",$TrainTroopTabArea) ;check same region for White Area when tab selected
-		If $CheckTabBtn = "" Then ; not found, tab is not selected
-			SetLog("COULD NOT FIND TROOP TAB" , $COLOR_INFO)
-			ClickP($aAway, 1, 0, "#0000") ;Click Away
-			Return
-		EndIf
-		SetLog(" >> TESTING REGULAR TROOPS 10 Archer")
-		Local $RegularTroops = imglocFindAvailableToTrain("regular")
-		If IsArray($RegularTroops) Then
-			imglocTrainIfAvailable($eArch,10,$RegularTroops)
-		Else
-			SetLog("COULD NOT FIND ANY REGULAR TROOPS ")
-		EndIf
-		SetLog(" << TESTING REGULAR TROOPS 10 Archer")
-	EndIf
-	If _Sleep($tDelayBtn) Then Return
-
-	SetLog(" >> TESTING SPELS 1 rage")
-	Local $SpellTroopTabArea = "435,115,555,140"
-	Local $SpellTrainTabBtn  =  isButtonVisible("SpellTrainTabBtn",@ScriptDir & "\imgxml\newtrainwindow\BrewSpells_0_0_90.xml",$SpellTroopTabArea)
-	If $SpellTrainTabBtn <> "" then
-		ClickP(decodeSingleCoord($SpellTrainTabBtn),1,300,"SpellTrainTabBtn") ; should switch to Quick Train Tab
-		If _Sleep($tDelayBtn) Then Return
-		;now check tab area to see if tab color is white now (tab opened)
-		Local $CheckTabBtn  =  isButtonVisible("TroopTrainTabBtn",@ScriptDir & "\imgxml\newtrainwindow\CheckTab_0_0_97.xml",$SpellTroopTabArea) ;check same region for White Area when tab selected
-		If $CheckTabBtn = "" Then ; not found, tab is not selected
-			SetLog("COULD NOT FIND SPELL TAB" , $COLOR_INFO)
-			ClickP($aAway, 1, 0, "#0000") ;Click Away
-			Return
-		EndIf
-		Local $AllSpells = imglocFindAvailableToTrain("spells")
-		If IsArray($AllSpells) Then
-			imglocTrainIfAvailable($eRSpell,1,$AllSpells)
-		Else
-			SetLog("COULD NOT FIND ANY SPELS ")
-		EndIf
-		SetLog(" << TESTING SPELS 1 Rage")
-	EndIF
-	If _Sleep($tDelayBtn) Then Return
-
-	SetLog(" TEST TRAIN IMGLOC FINISH" )
-	$RunState = $currentRunState
-EndFunc
-
 
 
 Func QuickTrain($quickTrainOption, $bOpenAndClose = True,$forceDebug=false)

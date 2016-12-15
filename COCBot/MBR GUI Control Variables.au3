@@ -33,15 +33,15 @@ Global Const $groupSearchTS=$grpTSFilter&"#"&$cmbTSMeetGE&"#"&$txtTSMinGold&"#"&
 
 ;Attack
 ;Global $groupAttackDB=$lblDBTitle&"#"&$lblDBAlgorithm&"#"&$cmbDBAlgorithm&"#"&$lblDBSelectTroop&"#"&$cmbDBSelectTroop&"#"&$lblDBSelectSpecialTroop&"#"&$chkDBKingAttack&"#"&$chkDBQueenAttack&"#"&$chkDBWardenAttack&"#"&$chkDBDropCC&"#"&$chkDBLightSpell&"#"&$chkDBHealSpell&"#"&$chkDBRageSpell&"#"&$chkDBJumpSpell&"#"&$chkDBFreezeSpell&"#"&$chkDBPoisonSpell&"#"&$chkDBEarthquakeSpell&"#"&$chkDBHasteSpell
-Global Const $groupAttackDB=$lblDBAlgorithm&"#"&$cmbDBAlgorithm&"#"&$lblDBSelectTroop&"#"&$cmbDBSelectTroop&"#"&$lblDBSelectSpecialTroop&"#"&$chkDBKingAttack&"#"&$chkDBQueenAttack&"#"&$chkDBWardenAttack&"#"&$chkDBDropCC&"#"&$chkDBLightSpell&"#"&$chkDBHealSpell&"#"&$chkDBRageSpell&"#"&$chkDBJumpSpell&"#"&$chkDBFreezeSpell&"#"&$chkDBPoisonSpell&"#"&$chkDBEarthquakeSpell&"#"&$chkDBHasteSpell
-Global Const $groupAttackDBSpell=$chkDBLightSpell&"#"&$chkDBHealSpell&"#"&$chkDBRageSpell&"#"&$chkDBJumpSpell&"#"&$chkDBFreezeSpell&"#"&$chkDBPoisonSpell&"#"&$chkDBEarthquakeSpell&"#"&$chkDBHasteSpell
+Global Const $groupAttackDB=$cmbDBAlgorithm&"#"&$cmbDBSelectTroop&"#"&$chkDBKingAttack&"#"&$chkDBQueenAttack&"#"&$chkDBWardenAttack&"#"&$chkDBDropCC&"#"&$chkDBLightSpell&"#"&$chkDBHealSpell&"#"&$chkDBRageSpell&"#"&$chkDBJumpSpell&"#"&$chkDBFreezeSpell&"#"&$chkDBPoisonSpell&"#"&$chkDBEarthquakeSpell&"#"&$chkDBHasteSpell&"#"&$chkDBSkeletonSpell&"#"&$chkDBCloneSpell
+Global Const $groupAttackDBSpell=$chkDBLightSpell&"#"&$chkDBHealSpell&"#"&$chkDBRageSpell&"#"&$chkDBJumpSpell&"#"&$chkDBFreezeSpell&"#"&$chkDBPoisonSpell&"#"&$chkDBEarthquakeSpell&"#"&$chkDBHasteSpell&"#"&$chkDBSkeletonSpell&"#"&$chkDBCloneSpell
 Global Const $groupIMGAttackDB=$IMGchkDBKingAttack&"#"&$IMGchkDBQueenAttack&"#"&$IMGchkDBWardenAttack&"#"&$IMGchkDBDropCC&"#"&$IMGchkDBLightSpell&"#"&$IMGchkDBHealSpell&"#"&$IMGchkDBRageSpell&"#"&$IMGchkDBJumpSpell&"#"&$IMGchkDBFreezeSpell&"#"&$IMGchkDBPoisonSpell&"#"&$IMGchkDBEarthquakeSpell&"#"&$IMGchkDBHasteSpell
-Global Const $groupIMGAttackDBSpell=$IMGchkDBLightSpell&"#"&$IMGchkDBHealSpell&"#"&$IMGchkDBRageSpell&"#"&$IMGchkDBJumpSpell&"#"&$IMGchkDBFreezeSpell&"#"&$IMGchkDBPoisonSpell&"#"&$IMGchkDBEarthquakeSpell&"#"&$IMGchkDBHasteSpell
+Global Const $groupIMGAttackDBSpell=$IMGchkDBLightSpell&"#"&$IMGchkDBHealSpell&"#"&$IMGchkDBRageSpell&"#"&$IMGchkDBJumpSpell&"#"&$IMGchkDBFreezeSpell&"#"&$IMGchkDBPoisonSpell&"#"&$IMGchkDBEarthquakeSpell&"#"&$IMGchkDBHasteSpell&"#"&$IMGchkDBSkeletonSpell&"#"&$IMGchkDBCloneSpell
 
-Global Const $groupAttackAB=$lblABAlgorithm&"#"&$cmbABAlgorithm&"#"&$lblABSelectTroop&"#"&$cmbABSelectTroop&"#"&$lblABSelectSpecialTroop&"#"&$chkABKingAttack&"#"&$chkABQueenAttack&"#"&$chkABWardenAttack&"#"&$chkABDropCC&"#"&$chkABLightSpell&"#"&$chkABHealSpell&"#"&$chkABRageSpell&"#"&$chkABJumpSpell&"#"&$chkABFreezeSpell&"#"&$chkABPoisonSpell&"#"&$chkABEarthquakeSpell&"#"&$chkABHasteSpell
-Global Const $groupAttackABSpell=$chkABLightSpell&"#"&$chkABHealSpell&"#"&$chkABRageSpell&"#"&$chkABJumpSpell&"#"&$chkABFreezeSpell&"#"&$chkABPoisonSpell&"#"&$chkABEarthquakeSpell&"#"&$chkABHasteSpell
+Global Const $groupAttackAB=$cmbABAlgorithm&"#"&$cmbABSelectTroop&"#"&$chkABKingAttack&"#"&$chkABQueenAttack&"#"&$chkABWardenAttack&"#"&$chkABDropCC&"#"&$chkABLightSpell&"#"&$chkABHealSpell&"#"&$chkABRageSpell&"#"&$chkABJumpSpell&"#"&$chkABFreezeSpell&"#"&$chkABPoisonSpell&"#"&$chkABEarthquakeSpell&"#"&$chkABHasteSpell&"#"&$chkABSkeletonSpell&"#"&$chkABCloneSpell
+Global Const $groupAttackABSpell=$chkABLightSpell&"#"&$chkABHealSpell&"#"&$chkABRageSpell&"#"&$chkABJumpSpell&"#"&$chkABFreezeSpell&"#"&$chkABPoisonSpell&"#"&$chkABEarthquakeSpell&"#"&$chkABHasteSpell&"#"&$chkABSkeletonSpell&"#"&$chkABCloneSpell
 Global Const $groupIMGAttackAB=$IMGchkABKingAttack&"#"&$IMGchkABQueenAttack&"#"&$IMGchkABWardenAttack&"#"&$IMGchkABDropCC&"#"&$IMGchkABLightSpell&"#"&$IMGchkABHealSpell&"#"&$IMGchkABRageSpell&"#"&$IMGchkABJumpSpell&"#"&$IMGchkABFreezeSpell&"#"&$IMGchkABPoisonSpell&"#"&$IMGchkABEarthquakeSpell&"#"&$IMGchkABHasteSpell
-Global Const $groupIMGAttackABSpell=$IMGchkABLightSpell&"#"&$IMGchkABHealSpell&"#"&$IMGchkABRageSpell&"#"&$IMGchkABJumpSpell&"#"&$IMGchkABFreezeSpell&"#"&$IMGchkABPoisonSpell&"#"&$IMGchkABEarthquakeSpell&"#"&$IMGchkABHasteSpell
+Global Const $groupIMGAttackABSpell=$IMGchkABLightSpell&"#"&$IMGchkABHealSpell&"#"&$IMGchkABRageSpell&"#"&$IMGchkABJumpSpell&"#"&$IMGchkABFreezeSpell&"#"&$IMGchkABPoisonSpell&"#"&$IMGchkABEarthquakeSpell&"#"&$IMGchkABHasteSpell&"#"&$IMGchkABSkeletonSpell&"#"&$IMGchkABCloneSpell
 
 Global Const $groupAttackTS=$grpABAttack&"#"&$lblAttackTHType&"#"&$cmbAttackTHType&"#"&$lblTSSelectTroop&"#"&$cmbTSSelectTroop&"#"&$lblTSSelectSpecialTroop&"#"&$chkTSKingAttack&"#"&$chkTSQueenAttack&"#"&$chkTSWardenAttack&"#"&$chkTSDropCC&"#"&$chkTSLightSpell&"#"&$chkTSHealSpell&"#"&$chkTSRageSpell&"#"&$chkTSJumpSpell&"#"&$chkTSFreezeSpell&"#"&$chkTSPoisonSpell&"#"&$chkTSEarthquakeSpell&"#"&$chkTSHasteSpell
 Global Const $groupAttackTSSpell=$chkTSLightSpell&"#"&$chkTSHealSpell&"#"&$chkTSRageSpell&"#"&$chkTSJumpSpell&"#"&$chkTSFreezeSpell&"#"&$chkTSPoisonSpell&"#"&$chkTSEarthquakeSpell&"#"&$chkTSHasteSpell
@@ -97,5 +97,3 @@ Global Const $groupListTHLevels=$THLevels04&"#"&$THLevels05&"#"&$THLevels06&"#"&
 
 ;League
 Global Const $groupLeague=$UnrankedLeague&"#"&$BronzeLeague&"#"&$SilverLeague&"#"&$GoldLeague &"#"&$CrystalLeague&"#"&$MasterLeague&"#"&$ChampionLeague&"#"&$TitanLeague&"#"&$LegendLeague
-
-

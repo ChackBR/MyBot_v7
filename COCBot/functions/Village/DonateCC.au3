@@ -14,24 +14,49 @@
 ; ===============================================================================================================================
 
 Global $DonationWindowY
+Global $PrepDon[4] = [False, False, False, False]
 
-Func DonateCC($Check = False)
+Func SetbDonateTrain()
+	$bDonateTrain = BitOR(BitOR($iChkDonateBarbarians, $iChkDonateArchers, $iChkDonateGiants, $iChkDonateGoblins, _
+			$iChkDonateWallBreakers, $iChkDonateBalloons, $iChkDonateWizards, $iChkDonateHealers, _
+			$iChkDonateDragons, $iChkDonatePekkas, $iChkDonateBabyDragons, $iChkDonateMiners, $iChkDonateMinions, $iChkDonateHogRiders, _
+			$iChkDonateValkyries, $iChkDonateGolems, $iChkDonateWitches, $iChkDonateLavaHounds, $iChkDonateBowlers, $iChkDonateCustomA, $iChkDonateCustomB), BitOR($iChkDonateAllBarbarians, $iChkDonateAllArchers, $iChkDonateAllGiants, $iChkDonateAllGoblins, _
+			$iChkDonateAllWallBreakers, $iChkDonateAllBalloons, $iChkDonateAllWizards, $iChkDonateAllHealers, _
+			$iChkDonateAllDragons, $iChkDonateAllPekkas, $iChkDonateAllBabyDragons, $iChkDonateAllMiners, $iChkDonateAllMinions, $iChkDonateAllHogRiders, _
+			$iChkDonateAllValkyries, $iChkDonateAllGolems, $iChkDonateAllWitches, $iChkDonateAllLavaHounds, $iChkDonateAllBowlers, $iChkDonateAllCustomA, $iChkDonateAllCustomB), BitOR($iChkDonatePoisonSpells, $iChkDonateEarthQuakeSpells, $iChkDonateHasteSpells, $iChkDonateSkeletonSpells), BitOR($iChkDonateAllPoisonSpells, $iChkDonateAllEarthQuakeSpells, $iChkDonateAllHasteSpells, $iChkDonateAllSkeletonSpells))
+EndFunc   ;==>SetbDonate
 
-	Local $bDonateTroop = BitOR($iChkDonateBarbarians, $iChkDonateArchers, $iChkDonateGiants, $iChkDonateGoblins, _
+Func PrepareDonateCC()
+
+	$PrepDon[0] = BitOR($iChkDonateBarbarians, $iChkDonateArchers, $iChkDonateGiants, $iChkDonateGoblins, _
 			$iChkDonateWallBreakers, $iChkDonateBalloons, $iChkDonateWizards, $iChkDonateHealers, _
 			$iChkDonateDragons, $iChkDonatePekkas, $iChkDonateBabyDragons, $iChkDonateMiners, $iChkDonateMinions, $iChkDonateHogRiders, _
 			$iChkDonateValkyries, $iChkDonateGolems, $iChkDonateWitches, $iChkDonateLavaHounds, $iChkDonateBowlers, $iChkDonateCustomA, $iChkDonateCustomB)
 
-	Local $bDonateAllTroop = BitOR($iChkDonateAllBarbarians, $iChkDonateAllArchers, $iChkDonateAllGiants, $iChkDonateAllGoblins, _
+	$PrepDon[1] = BitOR($iChkDonateAllBarbarians, $iChkDonateAllArchers, $iChkDonateAllGiants, $iChkDonateAllGoblins, _
 			$iChkDonateAllWallBreakers, $iChkDonateAllBalloons, $iChkDonateAllWizards, $iChkDonateAllHealers, _
 			$iChkDonateAllDragons, $iChkDonateAllPekkas, $iChkDonateAllBabyDragons, $iChkDonateAllMiners, $iChkDonateAllMinions, $iChkDonateAllHogRiders, _
 			$iChkDonateAllValkyries, $iChkDonateAllGolems, $iChkDonateAllWitches, $iChkDonateAllLavaHounds, $iChkDonateAllBowlers, $iChkDonateAllCustomA, $iChkDonateAllCustomB)
 
-	Local $bDonateSpell = BitOR($iChkDonatePoisonSpells, $iChkDonateEarthQuakeSpells, $iChkDonateHasteSpells, $iChkDonateSkeletonSpells)
-	Local $bDonateAllSpell = BitOR($iChkDonateAllPoisonSpells, $iChkDonateAllEarthQuakeSpells, $iChkDonateAllHasteSpells, $iChkDonateAllSkeletonSpells)
+	$PrepDon[2] = BitOR($iChkDonatePoisonSpells, $iChkDonateEarthQuakeSpells, $iChkDonateHasteSpells, $iChkDonateSkeletonSpells)
+	$PrepDon[3] = BitOR($iChkDonateAllPoisonSpells, $iChkDonateAllEarthQuakeSpells, $iChkDonateAllHasteSpells, $iChkDonateAllSkeletonSpells)
+
+	$bDonate = BitOR($PrepDon[0], $PrepDon[1], $PrepDon[2], $PrepDon[3])
+	;Setlog(" - Donate: $bDonate:" & $bDonate & " $bDonateTroop:" & $PrepDon[0] & " $bDonateAllTroop:" & $PrepDon[1] & " $bDonateSpell:" & $PrepDon[2] & " $bDonateAllSpell:" & $PrepDon[3], $COLOR_GREEN)
+EndFunc   ;==>PrepareDonateCC
+
+Func DonateCC($Check = False)
+
+	Local $bDonateTroop = $PrepDon[0]
+
+	Local $bDonateAllTroop = $PrepDon[1]
+
+	Local $bDonateSpell = $PrepDon[2]
+	Local $bDonateAllSpell = $PrepDon[3]
 	Local $bOpen = True, $bClose = False
 
-	Global $bDonate = BitOR($bDonateTroop, $bDonateAllTroop, $bDonateSpell, $bDonateAllSpell)
+	;Global $bDonate = BitOR($bDonateTroop, $bDonateAllTroop, $bDonateSpell, $bDonateAllSpell)
+	;Setlog(" - Donate: $bDonate:" & $bDonate & " $bDonateTroop:" & $bDonateTroop & " $bDonateAllTroop:" & $bDonateAllTroop & " $bDonateSpell:" & $bDonateSpell & " $bDonateAllSpell:" & $bDonateAllSpell, $COLOR_GREEN)
 	Global $iTotalDonateCapacity, $iTotalDonateSpellCapacity
 
 	Global $iDonTroopsLimit = 5, $iDonSpellsLimit = 1, $iDonTroopsAv = 0, $iDonSpellsAv = 0
@@ -105,7 +130,7 @@ Func DonateCC($Check = False)
 	WEnd
 
 	Local $Scroll
-	Local $donateCCfilter = false
+	Local $donateCCfilter = False
 	; add scroll here
 	While 1
 		ForceCaptureRegion()
@@ -148,6 +173,7 @@ Func DonateCC($Check = False)
 			If ($bDonateTroop Or $bDonateSpell Or $bDonateAllTroop Or $bDonateAllSpell) And $donateCCfilter Then
 				If $ichkExtraAlphabets = 1 Then
 					; Chat Request , Latin + Turkish + Extra latin + Cyrillic Alphabets / three paragraphs.
+					Setlog("Reading Latin, Turkish, Extra latin, Cyrillic...", $COLOR_INFO)
 					$ClanString = ""
 					$ClanString = getChatString(30, $DonatePixel[1] - 50, "coc-latin-cyr")
 					If $ClanString = "" Then
@@ -163,6 +189,7 @@ Func DonateCC($Check = False)
 					If _Sleep($iDelayDonateCC2) Then ExitLoop
 				Else
 					; Chat Request , Latin + Turkish + Extra / three paragraphs.
+					Setlog("Reading Latin, Turkish, Extra latin...", $COLOR_INFO)
 					$ClanString = ""
 					$ClanString = getChatString(30, $DonatePixel[1] - 50, "coc-latinA")
 					If $ClanString = "" Then
@@ -174,6 +201,16 @@ Func DonateCC($Check = False)
 						$ClanString = getChatString(30, $DonatePixel[1] - 23, "coc-latinA")
 					Else
 						$ClanString &= " " & getChatString(30, $DonatePixel[1] - 23, "coc-latinA")
+					EndIf
+					If _Sleep($iDelayDonateCC2) Then ExitLoop
+				EndIf
+					; Chat Request , Chinese / one paragraphs.
+				If $ichkExtraChinese = 1 Then
+					Setlog("Reading Chinese...", $COLOR_INFO)
+					If $ClanString = "" Then
+						$ClanString = getChatStringChinese(30, $DonatePixel[1] - 24)
+					Else
+						$ClanString &= " " & getChatStringChinese(30, $DonatePixel[1] - 24)
 					EndIf
 					If _Sleep($iDelayDonateCC2) Then ExitLoop
 				EndIf
@@ -197,7 +234,7 @@ Func DonateCC($Check = False)
 			; Get remaining CC capacity of requested troops from your ClanMates
 			RemainingCCcapacity()
 
-			If $donateCCfilter =false Then
+			If $donateCCfilter = False Then
 			   Setlog("Skip Donation at this Clan Mate...", $COLOR_ACTION)
 			   $bSkipDonTroops = True
 			   $bSkipDonSpells = True
@@ -571,7 +608,7 @@ Func CheckDonateTroop($Type, $aDonTroop, $aBlkTroop, $aBlackList, $ClanString)
 		Next
 	EndIf
 
-	If $bDonateAllRespectBlk = True then Return True
+	If $bDonateAllRespectBlk = True Then Return True
 
 	If $debugsetlog = 1 Then Setlog("Bad call of CheckDonateTroop:" & $Type & "=" & NameOfTroop($Type), $COLOR_DEBUG)
 	Return False
@@ -1214,26 +1251,67 @@ Func DetectSlotTroop($Type)
 
 EndFunc   ;==>DetectSlotTroop
 
-Func SkipDonateNearFullTroops($setlog = False)
-	If $bDonate = False Or $bDonationEnabled = False Then Return False
+Func SkipDonateNearFullTroops($setlog = False, $aHeroResult = Default)
+
+	If $bDonationEnabled = False Then Return True ; will disable the donation
+
+	If $iSkipDonateNearFulLTroopsEnable = 0 Then Return False ; will enable the donation
+
 	Local $hour = StringSplit(_NowTime(4), ":", $STR_NOCOUNT)
-	If $iPlannedDonateHours[$hour[0]] = 0 And $iPlannedDonateHoursEnable = 1 Then Return False
+
+	If $iPlannedDonateHours[$hour[0]] = 0 And $iPlannedDonateHoursEnable = 1 Then Return True ; will disable the donation
+
 	If $iSkipDonateNearFulLTroopsEnable = 1 Then
 		If (Number($ArmyCapacity) > Number($sSkipDonateNearFulLTroopsPercentual)) Then
-			If $setlog then Setlog("donation disabled: camps current " & $ArmyCapacity  & "% limit " & $sSkipDonateNearFulLTroopsPercentual & "%" ,$COLOR_INFO)
-			Return True ; troops camps% > limit
+			Local $rIsWaitforHeroesActive = IsWaitforHeroesActive()
+			If $rIsWaitforHeroesActive = True Then
+				If $aHeroResult = Default Or IsArray($aHeroResult) = False Then
+					If OpenArmyWindow() = False Then Return False ; Return False if failed to Open Army Window
+					$aHeroResult = getArmyHeroTime("all")
+				EndIf
+				If @error Or UBound($aHeroResult) < 3 Then
+					Setlog("getArmyHeroTime return error: #" & @error & "|IA:" & IsArray($aHeroResult) & "," & UBound($aHeroResult) & ", exit SkipDonateNearFullTroops!", $COLOR_ERROR)
+					Return False ; if error, then quit SkipDonateNearFullTroops enable the donation
+				EndIf
+				If $debugSetlog = 1 Then SetLog("getArmyHeroTime returned: " & $aHeroResult[0] & ":" & $aHeroResult[1] & ":" & $aHeroResult[2], $COLOR_DEBUG)
+				Local $iActiveHero = 0
+				Local $iHighestTime = -1
+				For $pTroopType = $eKing To $eWarden ; check all 3 hero
+					For $pMatchMode = $DB To $iModeCount - 1 ; check all attack modes
+						$iActiveHero = -1
+						If IsSearchModeActiveMini($pMatchMode) And IsSpecialTroopToBeUsed($pMatchMode, $pTroopType) And $iHeroUpgrading[$pTroopType - $eKing] <> 1 And $iHeroWaitNoBit[$pMatchMode][$pTroopType - $eKing] = 1 Then
+							$iActiveHero = $pTroopType - $eKing ; compute array offset to active hero
+						EndIf
+								;SetLog("$iActiveHero = " & $iActiveHero, $COLOR_DEBUG)
+						If $iActiveHero <> -1 And $aHeroResult[$iActiveHero] > 0 Then ; valid time?
+							If $aHeroResult[$iActiveHero] > $iHighestTime Then	; Is the time higher than indexed time?
+								$iHighestTime = $aHeroResult[$iActiveHero]
+							EndIf
+						EndIf
+					Next
+					If _Sleep($iDelayRespond) Then Return
+				Next
+				If $debugSetlog = 1 Then SetLog("$iHighestTime = " & $iHighestTime & "|" & String($iHighestTime > 5), $COLOR_DEBUG)
+				If $iHighestTime > 5 Then
+					If $setlog Then Setlog("» Donations enabled, Heroes recover time is long", $COLOR_INFO)
+					Return False
+				Else
+					If $setlog Then Setlog("» Donation disabled, available troops " & $ArmyCapacity & "%, limit " & $sSkipDonateNearFulLTroopsPercentual & "%", $COLOR_INFO)
+					Return True ; troops camps% > limit
+				EndIf
+			EndIf
 		Else
-			If $setlog then Setlog("donations enabled: camps current " & $ArmyCapacity  & "% limit " & $sSkipDonateNearFulLTroopsPercentual & "%" ,$COLOR_INFO)
+			If $setlog Then Setlog("» Donations enabled, available troops " & $ArmyCapacity & "%, limit " & $sSkipDonateNearFulLTroopsPercentual & "%", $COLOR_INFO)
 			Return False ; troops camps% into limits
 		EndIf
 	Else
 		;Setlog("ok, donate enabled (Skip Donate Near FulL Troops disabled option)")
 		Return False ; feature disabled
 	EndIf
-EndFunc
+EndFunc   ;==>SkipDonateNearFullTroops
 
 Func DonatedTroop($Type, $iDonTroopsQuantity) ; @TODO Add GUI, this is just a dummy
-EndFunc
+EndFunc   ;==>DonatedTroop
 
 Func DonatedSpell($Type, $iDonSpellsQuantity) ; @TODO Add GUI, this is just a dummy
-EndFunc
+EndFunc   ;==>DonatedSpell
