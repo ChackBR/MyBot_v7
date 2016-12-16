@@ -47,17 +47,11 @@ Local $sModversion
 ; "2304" ; MyBot v6.3.0 Beta 3
 ; "2305" ; MyBot v6.3.0 Beta 4
 ; "2306" ; MyBot v6.3.0 Beta 5
-; "2307" ; MyBot v6.3.0 Beta 5 + Fix for BlueStacks
-; "2308" ; Minor Fixes + Multi Farming ( SwitchAcc )
 ; "2309" ; MyBot v6.3.0 Beta 6
-; "2310" ; MyBot v6.3.0 Beta 6 + SmartZap
 ; "2311" ; MyBot v6.3.0 Beta 7 + Telegram + SwitchAcc
-; "2312" ; MyBot v6.3.0 Beta 7 With Some Fixes
 ; "2321" ; MyBot v6.3.0 Beta 8 + FFC + SmartZap + Max Time for CCWT
-; "2322" ; MyBot v6.3.0 Beta 8 ( FFC, SmartZap, Max Time for CCWT ) + Fix for QuickTrain
-; "2323" ; MyBot v6.3.0 Beta 8 ( FFC, SmartZap, Max Time for CCWT ) + Fix for Load Strategies
-; "2324" ; MyBot v6.3.0 Beta 8 ( FFC, Multi Finger, SmartZap, ... ) + Fix for Load Strategies
-$sModversion = "2400" ; MyBot v6.4.0 ( FFC, Multi Finger, SmartZap, ... )
+; "2400" ; MyBot v6.4.0 ( FFC, Multi Finger, SmartZap, ... )
+$sModversion = "2401" ; MyBot v6.4.0 ( Fix for QuickTrain [ Donate and Pre Train Troops ] )
 $sBotVersion = "v6.4" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it is also use on Checkversion()
 $sBotTitle = "My Bot " & $sBotVersion & ".r" & $sModversion & " " ;~ Don't use any non file name supported characters like \ / : * ? " < > |
 
@@ -433,6 +427,10 @@ Func Idle() ;Sequence that runs until Full Army
 	While $IsFullArmywithHeroesAndSpells = False
 		checkAndroidReboot()
 
+		If $ichkUseQTrain = 0 Then
+			PrepareDonateCC()
+		EndIf
+
 		;Execute Notify Pending Actions
 		NotifyPendingActions()
 		If _Sleep($iDelayIdle1) Then Return
@@ -533,6 +531,12 @@ Func Idle() ;Sequence that runs until Full Army
 			If $fullArmy Then
 				SetLog("Army Camp and Barracks are full, stop Training...", $COLOR_ACTION)
 				$CommandStop = 3
+
+				If $ichkUseQTrain = 0 Then
+					;Train()
+					TrainRevamp()
+				EndIf
+
 			EndIf
 		EndIf
 		If _Sleep($iDelayIdle1) Then Return
