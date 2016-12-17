@@ -20,7 +20,7 @@
 #pragma compile(FileDescription, Clash of Clans Bot - A Free Clash of Clans bot - https://mybot.run)
 #pragma compile(ProductName, My Bot)
 #pragma compile(ProductVersion, 6.4)
-#pragma compile(FileVersion, 6.4)
+#pragma compile(FileVersion, 6.4.1)
 #pragma compile(LegalCopyright, © https://mybot.run)
 #pragma compile(Out, MyBot.run.exe) ; Required
 
@@ -50,9 +50,9 @@ Local $sModversion
 ; "2309" ; MyBot v6.3.0 Beta 6
 ; "2311" ; MyBot v6.3.0 Beta 7 + Telegram + SwitchAcc
 ; "2321" ; MyBot v6.3.0 Beta 8 + FFC + SmartZap + Max Time for CCWT
-; "2400" ; MyBot v6.4.0 ( FFC, Multi Finger, SmartZap, ... )
-$sModversion = "2401" ; MyBot v6.4.0 ( Fix for QuickTrain [ Donate and Pre Train Troops ] )
-$sBotVersion = "v6.4" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it is also use on Checkversion()
+; "2401" ; MyBot v6.4.0 ( FFC, Multi Finger, SmartZap, ... )
+$sModversion = "2411" ; MyBot v6.4.1
+$sBotVersion = "v6.4.1" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it is also use on Checkversion()
 $sBotTitle = "My Bot " & $sBotVersion & ".r" & $sModversion & " " ;~ Don't use any non file name supported characters like \ / : * ? " < > |
 
 #include "COCBot\functions\Config\DelayTimes.au3"
@@ -225,6 +225,8 @@ If $AndroidShieldEnabled = False Then
 	SetLog($sMsg, $COLOR_ACTION)
 EndIf
 
+DisableProcessWindowsGhosting()
+
 ;~ Restore process priority
 ProcessSetPriority(@AutoItPID, $iBotProcessPriority)
 
@@ -258,8 +260,8 @@ Func runBot() ;Bot that runs everything in order
 	$TotalTrainedTroops = 0
 	Local $Quickattack = False
 	Local $iWaitTime
-	PrepareDonateCC()
 	While 1
+		PrepareDonateCC()
 		$Restart = False
 		$fullArmy = False
 		$CommandStop = -1
@@ -427,16 +429,13 @@ Func Idle() ;Sequence that runs until Full Army
 	While $IsFullArmywithHeroesAndSpells = False
 		checkAndroidReboot()
 
-		If $ichkUseQTrain = 0 Then
-			PrepareDonateCC()
-		EndIf
-
 		;Execute Notify Pending Actions
 		NotifyPendingActions()
 		If _Sleep($iDelayIdle1) Then Return
 		If $CommandStop = -1 Then SetLog("====== Waiting for full army ======", $COLOR_SUCCESS)
 		Local $hTimer = TimerInit()
 		Local $iReHere = 0
+		PrepareDonateCC()
 
 		;If $iSkipDonateNearFulLTroopsEnable = 1 Then getArmyCapacity(true,true)
 		If $bDonate = True Then
@@ -531,12 +530,6 @@ Func Idle() ;Sequence that runs until Full Army
 			If $fullArmy Then
 				SetLog("Army Camp and Barracks are full, stop Training...", $COLOR_ACTION)
 				$CommandStop = 3
-
-				If $ichkUseQTrain = 0 Then
-					;Train()
-					TrainRevamp()
-				EndIf
-
 			EndIf
 		EndIf
 		If _Sleep($iDelayIdle1) Then Return
@@ -560,7 +553,13 @@ Func Idle() ;Sequence that runs until Full Army
 		SetLog("Time Idle: " & StringFormat("%02i", Floor(Floor($TimeIdle / 60) / 60)) & ":" & StringFormat("%02i", Floor(Mod(Floor($TimeIdle / 60), 60))) & ":" & StringFormat("%02i", Floor(Mod($TimeIdle, 60))))
 
 		If $OutOfGold = 1 Or $OutOfElixir = 1 Then Return ; Halt mode due low resources, only 1 idle loop
-		If ($CommandStop = 3 Or $CommandStop = 0) And $bTrainEnabled = False Then ExitLoop ; If training is not enabled, run only 1 idle loop
+		If ($CommandStop = 3 Or $CommandStop = 0) And $bTrainEnabled = False Then
+			ExitLoop ; If training is not enabled, run only 1 idle loop
+			If $ichkUseQTrain = 0 Then
+				;Train()
+				TrainRevamp()
+			EndIf
+		EndIf
 
 		If $iChkSnipeWhileTrain = 1 Then SnipeWhileTrain() ;snipe while train
 

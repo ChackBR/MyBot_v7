@@ -1,3 +1,42 @@
+﻿* **V6.4.1**
+ * Fix bot ghosting/freezing jumping window when busy
+ * Fix minor GUI refresh issues
+ * Fix slow bot GUI when docked
+ * Fix Donate in Halt Attack ( donate/train only )
+ * Fix Halt Attack ( stay online only )
+ * Fix Android Failed to Stop Log
+ * Improve watchdog CPU utilization
+ * Improve the Hero Activation check
+ * Revert zombie mode to be off
+ * Add a check for outdated CoC double capacity on Train window
+ * Changed the Debug Dead Base images to dir Temp Debug inside Profile
+
+* **V6.4**
+ * Fix iTools AVM WinAPI screen resize
+ * Fix create shared folder for iTools, Nox and Droid4X
+ * Fix the change log prepare attack when the conditional are not checked
+ * Fix some logic on Quick Train System
+ * Fix the Donation limits (skip donation)
+ * Fix Train donated troops (quick train)
+ * Fix Close While Train issues
+ * Fix Wait for Heroes & Spells for SC Oct Update
+ * Fix some setlog issues
+ * Fix rare bot freeze during Android inizialize phase (related to a mutex bug)
+ * Fix Donate GUI overlap bug
+ * Fix iTools docking refreshing Android screen
+ * Full revamp of Notify v1.5.1
+ * Add quick check for Donate, Don't test Donate Near Full Troops if Donate not select
+ * Add Telegram to Notify
+ * Add the new attack bar detection
+ * Add Chinese(both Traditional and Simplified) Alphabet Recognition for Request/Donation
+ * Add the Clone and Skeleton Spell to scripted attack
+ * Add CoC reconnecting check that restarts CoC when reconnecting animation exists for 60 Seconds
+ * Improve performance of checking for CoC obstacles/popup windows/stable state of CoC
+ * Improve rate never CoC
+ * Improve Close While Train And Wait For ...
+ * Improve (reduce) watchdog CPU utilization by 50%
+ * Revert LeapDroid System Bar close (it must be closed in order to detect system messages during CoC launch, but cannot be restored anymore)
+
 * **V6.3.u8** (CoC October Update BETA Version) ...
  * Add Android support for iTools AVM 2.0.6.8 (http://pro.itools.cn/simulate/), background mode only supported in DirectX mode
  * Add Android Shared Folder secure behavior creating anonymous filenames that are deleted immediately when not required anymore
