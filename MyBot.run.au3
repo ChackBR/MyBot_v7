@@ -251,9 +251,6 @@ While 1
 		Case $eBotClose
 			BotClose()
 	EndSwitch
-
-	; force app crash for debugging/testing purposes
-	;DllCallAddress("NONE", 0)
 WEnd
 
 Func runBot() ;Bot that runs everything in order
@@ -553,13 +550,7 @@ Func Idle() ;Sequence that runs until Full Army
 		SetLog("Time Idle: " & StringFormat("%02i", Floor(Floor($TimeIdle / 60) / 60)) & ":" & StringFormat("%02i", Floor(Mod(Floor($TimeIdle / 60), 60))) & ":" & StringFormat("%02i", Floor(Mod($TimeIdle, 60))))
 
 		If $OutOfGold = 1 Or $OutOfElixir = 1 Then Return ; Halt mode due low resources, only 1 idle loop
-		If ($CommandStop = 3 Or $CommandStop = 0) And $bTrainEnabled = False Then
-			ExitLoop ; If training is not enabled, run only 1 idle loop
-			If $ichkUseQTrain = 0 Then
-				;Train()
-				TrainRevamp()
-			EndIf
-		EndIf
+		If ($CommandStop = 3 Or $CommandStop = 0) And $bTrainEnabled = False Then ExitLoop ; If training is not enabled, run only 1 idle loop
 
 		If $iChkSnipeWhileTrain = 1 Then SnipeWhileTrain() ;snipe while train
 

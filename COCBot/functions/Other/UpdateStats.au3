@@ -321,6 +321,24 @@ Func UpdateStats()
 		$iOldDElixirFromDrills = $iDElixirFromDrills
 	EndIf
 
+;==============================================================
+; SmartZap - Added by DocOC team
+;==============================================================
+   ; SmartZap DE Gain - Added by DocOC team
+	If $iOldSmartZapGain <> $smartZapGain Then
+		GUICtrlSetData($lblSmartZap, _NumberFormat($smartZapGain, True))
+		$iOldSmartZapGain = $smartZapGain
+	EndIf
+
+	; SmartZap Spells Used - Added by DocOC team
+	If $iOldNumLTSpellsUsed <> $numLSpellsUsed Then
+		GUICtrlSetData($lblLightningUsed, _NumberFormat($numLSpellsUsed, True))
+		$iOldNumLTSpellsUsed = $numLSpellsUsed
+ 	EndIf
+;==============================================================
+; SmartZap - Added by DocOC team
+;==============================================================
+
 	$iAttackedCount = 0
 
 	For $i = 0 To $iModeCount
@@ -479,5 +497,11 @@ Func ResetStats()
 		$iNbrOfDetectedCollectors[$i] = 0
 		$iNbrOfDetectedDrills[$i] = 0
 	Next
+
+; ======================= SmartZap - Added by NTS team =======================
+	$smartZapGain = 0
+	$numLSpellsUsed = 0
+; ======================= SmartZap - Added by NTS team =======================
+
 	UpdateStats()
 EndFunc   ;==>ResetStats
