@@ -1873,7 +1873,7 @@ Func DeleteQueued($TypeQueued, $OffsetQueued = 802)
 		Return
 	EndIf
 	If _Sleep(500) Then Return
-	If ( $FirstInit = False ) Then
+	If ( $FirstStart = False ) Then
 	Local $x = 0
 	While Not IsQueueEmpty(-1, True, False)
 		If _Sleep(20) Then Return
