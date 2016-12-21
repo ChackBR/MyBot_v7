@@ -434,7 +434,7 @@ Func Idle() ;Sequence that runs until Full Army
 		Local $iReHere = 0
 
 		;If $iSkipDonateNearFulLTroopsEnable = 1 Then getArmyCapacity(true,true)
-		If $bDonate = True Then
+		If $bActiveDonate = True Then
 			Local $aHeroResult = CheckArmyCamp(True, True, True)
 			While $iReHere < 7
 				$iReHere += 1
@@ -683,14 +683,14 @@ Func _RunFunction($action)
 			NotifyReport()
 			_Sleep($iDelayRunBot3)
 		Case "DonateCC"
-			If $bDonate = True Then
+			If $bActiveDonate = True Then
 				;If $iSkipDonateNearFulLTroopsEnable = 1 and $FirstStart = False Then getArmyCapacity(True, True)
 				If SkipDonateNearFullTroops(True) = False Then DonateCC()
 				If _Sleep($iDelayRunBot1) = False Then checkMainScreen(False)
 			EndIF
 		Case "DonateCC,Train"
 			If $iSkipDonateNearFulLTroopsEnable = 1 and $FirstStart = true Then getArmyCapacity(True, True)
-			If $bDonate = True Then
+			If $bActiveDonate = True Then
 				If SkipDonateNearFullTroops(True) = False Then DonateCC()
 			EndIF
 			If _Sleep($iDelayRunBot1) = False Then checkMainScreen(False)
