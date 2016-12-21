@@ -111,7 +111,8 @@ Func lblTotalCount2()
 	Local $NbrOfDarkBarrack = 2 ;For the moment fix to 2 until fine detect level of each Barrack
 	For $i = 0 To UBound($TroopName) - 1
 		Local $NbrOfTroop = GUICtrlRead(Eval("txtNum" & $TroopName[$i]))
-		If $NbrOfTroop > 0 Then
+		Local $LevOfTroop = Eval("itxtLev" & $TroopName[$i])
+		If $NbrOfTroop > 0 And $LevOfTroop > 0 Then
 			If $TroopType[$i] = "e" Then
 				If IsInt($NbrOfTroop / $NbrOfBarrack) = 1 then
 					$TotalTotalTimeTroop += ($NbrOfTroop / $NbrOfBarrack) * $TroopTimes[$i]
@@ -760,7 +761,7 @@ Func ChangeDarkTroopTrainOrder()
 	Return True
 
 EndFunc   ;==>ChangeDarkTroopTrainOrder
- #CE
+#CE
 Func SetDefaultTroopGroup($bNoiseMode = True)
 	;
 	; $TroopGroup[10][3] = [["Arch", 1, 1], ["Giant", 2, 5], ["Wall", 4, 2], ["Barb", 0, 1], ["Gobl", 3, 1], ["Heal", 7, 14], ["Pekk", 9, 25], ["Ball", 5, 5], ["Wiza", 6, 4], ["Drag", 8, 20]]
@@ -786,7 +787,7 @@ Func SetDefaultTroopGroup($bNoiseMode = True)
 		$TroopElixirHeight[$i] = $DefaultTroopGroupElixir[$i][2]
 		$TroopElixirTimes[$i] = $DefaultTroopGroupElixir[$i][3]
 	Next
- #CE
+#CE
 	If $bNoiseMode Or $debugsetlogTrain = 1 Then Setlog("Default troop training order set", $COLOR_GREEN)
 EndFunc   ;==>SetDefaultTroopGroup
 #CS
@@ -807,7 +808,7 @@ Func SetDefaultTroopGroupDark($bNoiseMode = True)
 	Next
 	If $bNoiseMode Or $debugsetlogTrain = 1 Then Setlog("Default dark troop training order set", $COLOR_GREEN)
 EndFunc   ;==>SetDefaultTroopGroupDark
- #CE
+#CE
 Func IsUseCustomTroopOrder()
 	For $i = 0 To UBound($aTroopOrderList) - 2 ; Check if custom train order has been used to select log message
 		If $icmbTroopOrder[$i] = -1 Then
@@ -829,8 +830,8 @@ Func IsUseCustomDarkTroopOrder()
 	If $debugsetlogTrain = 1 Then Setlog("Custom dark train order used...", $COLOR_DEBUG) ;Debug
 	Return True
 EndFunc   ;==>IsUseCustomDarkTroopOrder
- #CE
-; #Cs
+#CE
+;~ #Cs
 	;==============================================================
 	; SmartZap - Added by DocOC team
 	;==============================================================
@@ -896,16 +897,20 @@ EndFunc   ;==>IsUseCustomDarkTroopOrder
 	;==========================END=================================
 	;			 SmartZap - Added by DocOC team
 	;==============================================================
-; #Ce
+;~ #Ce
 
-Func LevUpDown($SelTroopSpell)
+Func LevUpDown($SelTroopSpell, $NoChangeLev = True)
 	Local $MaxLev = UBound(Eval("Lev" & $SelTroopSpell & "Cost"), 1)
 	Local $LevColor = $COLOR_WHITE
 	Local $TempLev
-	If _IsPressed("10") Or _IsPressed("02") Then
-		$TempLev = Eval("itxtLev" & $SelTroopSpell) - 1
+	If $NoChangeLev Then
+		If _IsPressed("10") Or _IsPressed("02") Then
+			$TempLev = Eval("itxtLev" & $SelTroopSpell) - 1
+		Else
+			$TempLev = Eval("itxtLev" & $SelTroopSpell) + 1
+		EndIf
 	Else
-		$TempLev = Eval("itxtLev" & $SelTroopSpell) + 1
+		$TempLev = Eval("itxtLev" & $SelTroopSpell)
 	EndIf
 	If $TempLev > $MaxLev - 1 Or $TempLev = 0 Then
 		$TempLev = 0

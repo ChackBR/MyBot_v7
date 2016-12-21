@@ -734,6 +734,8 @@ Func applyConfig($bRedrawAtExit = True) ;Applies the data from config to the con
 		Else
 			GUICtrlSetData(Eval("txtNum" & $TroopName[$T]), 0)
 		EndIf
+		GUICtrlSetData(Eval("txtLev" & $TroopName[$T]), Eval("itxtLev" & $TroopName[$T]))
+		LevUpDown($TroopName[$T], False)
 	Next
 	For $S = 0 To UBound($SpellName) - 1
 		If BitAND(Eval($SpellName[$S] & "Comp") <> 0, Eval("itxtLev" & $SpellName[$S]) <> 0) Then
@@ -741,6 +743,8 @@ Func applyConfig($bRedrawAtExit = True) ;Applies the data from config to the con
 		Else
 			GUICtrlSetData(Eval("txtNum" & $SpellName[$S]), 0)
 		EndIf
+		GUICtrlSetData(Eval("txtLev" & $SpellName[$S]), Eval("itxtLev" & $SpellName[$S]))
+		LevUpDown($SpellName[$S], False)
 	Next
 
 	GUICtrlSetData($txtFullTroop, $fulltroop)
@@ -876,6 +880,7 @@ Func applyConfig($bRedrawAtExit = True) ;Applies the data from config to the con
 	GUICtrlSetData($txtWall09ST, $itxtWall09ST)
 	GUICtrlSetData($txtWall10ST, $itxtWall10ST)
 	GUICtrlSetData($txtWall11ST, $itxtWall11ST)
+	GUICtrlSetData($txtWall12ST, $itxtWall12ST)
 
 	_GUICtrlComboBox_SetCurSel($cmbWalls, $icmbWalls)
 	Switch $iUseStorage
@@ -2012,6 +2017,7 @@ chkskipDonateNearFulLTroopsEnable()
 	GUICtrlSetData($txtWall09ST, $itxtWall09ST)
 	GUICtrlSetData($txtWall10ST, $itxtWall10ST)
 	GUICtrlSetData($txtWall11ST, $itxtWall11ST)
+	GUICtrlSetData($txtWall12ST, $itxtWall12ST)
 
 	GUICtrlSetData($txtUpgrMinGold, $itxtUpgrMinGold)
 	GUICtrlSetData($txtUpgrMinElixir, $itxtUpgrMinElixir)
@@ -2134,6 +2140,11 @@ chkskipDonateNearFulLTroopsEnable()
 		GUICtrlSetState($chkDebugDisableVillageCentering, $GUI_CHECKED)
 	Else
 		GUICtrlSetState($chkDebugDisableVillageCentering, $GUI_UNCHECKED)
+	EndIf
+	If $debugDeadbaseImage = 1 Then
+		GUICtrlSetState($chkDebugDeadbaseImage, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkDebugDeadbaseImage, $GUI_UNCHECKED)
 	EndIf
 	If $debugOcr = 1 Then
 		GUICtrlSetState($chkDebugOcr, $GUI_CHECKED)
@@ -2809,7 +2820,7 @@ chkskipDonateNearFulLTroopsEnable()
 	Else
 		GUICtrlSetState($hRadio_Army3, $GUI_UNCHECKED)
 	EndIf
-; #Cs
+;~ #Cs
 	;SmartZap
 	If $ichkSmartZap = 1 Then
 		GUICtrlSetState($chkSmartLightSpell, $GUI_CHECKED)
@@ -2843,7 +2854,7 @@ chkskipDonateNearFulLTroopsEnable()
 	EndIf
 	GUICtrlSetData($txtMinDark, $itxtMinDE)
 	GUICtrlSetData($txtExpectedDE, $itxtExpectedDE)
-; #Ce
+;~ #Ce
 
 ;
 ; MOD
@@ -2853,16 +2864,17 @@ chkskipDonateNearFulLTroopsEnable()
 	; Reenabling window redraw - Keep this last....
 
 	IF $iGUIEnabled = 0 Then
-		For $T = 0 To (UBound($TroopName) - 1)
-			Assign("itxtLev" & $TroopName[$T], Eval("itxtLev" & $TroopName[$T]) - 1)
-			Call("Lev" & $TroopName[$T])
-			If Eval("itxtLev" & $TroopName[$T]) < 0 Then Assign("itxtLev" & $TroopName[$T], 0)
-		Next
-		For $S = 0 To (UBound($SpellName) - 1)
-			Assign("itxtLev" & $SpellName[$S], Eval("itxtLev" & $SpellName[$S]) - 1)
-			Call("Lev" & $SpellName[$S])
-			If Eval("itxtLev" & $SpellName[$S]) < 0 Then Assign("itxtLev" & $SpellName[$S], 0)
-		Next
+		lblTotalCount2()
+		; For $T = 0 To (UBound($TroopName) - 1)
+			; Assign("itxtLev" & $TroopName[$T], Eval("itxtLev" & $TroopName[$T]) - 1)
+			; Call("Lev" & $TroopName[$T])
+			; If Eval("itxtLev" & $TroopName[$T]) < 0 Then Assign("itxtLev" & $TroopName[$T], 0)
+		; Next
+		; For $S = 0 To (UBound($SpellName) - 1)
+			; Assign("itxtLev" & $SpellName[$S], Eval("itxtLev" & $SpellName[$S]) - 1)
+			; Call("Lev" & $SpellName[$S])
+			; If Eval("itxtLev" & $SpellName[$S]) < 0 Then Assign("itxtLev" & $SpellName[$S], 0)
+		; Next
 			$iGUIEnabled = 1
 	EndIf
 	If $bRedrawAtExit Then SetRedrawBotWindow(True)

@@ -116,7 +116,7 @@ Func QueenUpgrade()
 				SetLog("Your Queen Level read as: " & $aHeroLevel, $COLOR_SUCCESS)
 				If $aHeroLevel = 40 Then; max hero
 					SetLog("Your AQ is max, cannot upgrade!", $COLOR_INFO)
-					$ichkUpgradeQueen = 0 ; turn Off the Queen´s upgrade
+					$ichkUpgradeQueen = 0 ; turn Off the Queenï¿½s upgrade
 					Return
 				EndIf
 			Else
@@ -129,7 +129,7 @@ Func QueenUpgrade()
 	If _Sleep($iDelayUpgradeHero1) Then Return
 
 	;##### Get updated village elixir and dark elixir values
-	If _ColorCheck(_GetPixelColor(812, 141, True), Hex(0x000000, 6), 10) Then ; check if the village have a Dark Elixir Storage
+	If _ColorCheck(_GetPixelColor(837, 134, True), Hex(0x302030, 6), 10) Then ; check if the village have a Dark Elixir Storage
 		$iDarkCurrent = Number(getResourcesMainScreen(728, 123))
 		If $debugSetlog = 1 Then SetLog("Updating village values [D]: " & $iDarkCurrent, $COLOR_DEBUG)
 	Else
@@ -153,7 +153,7 @@ Func QueenUpgrade()
 		Click($ButtonPixel[0] + 20, $ButtonPixel[1] + 20, 1, 0, "#0305") ; Click Upgrade Button
 		If _Sleep($iDelayUpgradeHero3) Then Return ; Wait for window to open
 		If $DebugImageSave = 1 Then DebugImageSave("UpgradeDarkBtn1")
-		If _ColorCheck(_GetPixelColor(720, 118 + $midOffsetY, True), Hex(0xE00408, 6), 20) Then ; Check if the Hero Upgrade window is open
+		If _ColorCheck(_GetPixelColor(721, 118 + $midOffsetY, True), Hex(0xE00408, 6), 20) Then ; Check if the Hero Upgrade window is open
 			If _ColorCheck(_GetPixelColor(691, 523 + $midOffsetY, True), Hex(0xE70A12, 6), 20) And _ColorCheck(_GetPixelColor(691, 527 + $midOffsetY), Hex(0xE70A12, 6), 20) And _
 					_ColorCheck(_GetPixelColor(691, 531 + $midOffsetY, True), Hex(0xE70A12, 6), 20) Then ; Check for Red Zero = means not enough loot!
 				SetLog("Queen Upgrade Fail! No DE!", $COLOR_ERROR)
@@ -232,7 +232,7 @@ Func KingUpgrade()
 	If _Sleep($iDelayUpgradeHero1) Then Return
 
 	;##### Get updated village elixir and dark elixir values
-	If _ColorCheck(_GetPixelColor(812, 141, True), Hex(0x000000, 6), 10) Then ; check if the village have a Dark Elixir Storage
+	If _ColorCheck(_GetPixelColor(837, 134, True), Hex(0x302030, 6), 10) Then ; check if the village have a Dark Elixir Storage
 		$iDarkCurrent = Number(getResourcesMainScreen(728, 123))
 		If $debugSetlog = 1 Then SetLog("Updating village values [D]: " & $iDarkCurrent, $COLOR_DEBUG)
 	Else
@@ -342,7 +342,7 @@ Func WardenUpgrade()
 	If _Sleep($iDelayUpgradeHero1) Then Return
 
 	;##### Get updated village elixir values
-	If _ColorCheck(_GetPixelColor(812, 141, True), Hex(0x000000, 6), 10) Then ; check if the village have a Dark Elixir Storage
+	If _ColorCheck(_GetPixelColor(837, 134, True), Hex(0x302030, 6), 10) Then ; check if the village have a Dark Elixir Storage
 		$iElixirCurrent = getResourcesMainScreen(705, 74)
 		If $debugSetlog = 1 Then SetLog("Updating village values [E]: " & $iElixirCurrent, $COLOR_DEBUG)
 	Else
