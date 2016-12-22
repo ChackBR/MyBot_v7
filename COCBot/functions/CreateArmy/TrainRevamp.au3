@@ -91,6 +91,7 @@ Func TrainRevamp()
 EndFunc   ;==>TrainRevamp
 
 Func CheckCamp($NeedOpenArmy = False, $CloseCheckCamp = False)
+	Local $i
 	If $NeedOpenArmy Then
 		OpenArmyWindow()
 		If _Sleep(500) Then Return
@@ -106,8 +107,10 @@ Func CheckCamp($NeedOpenArmy = False, $CloseCheckCamp = False)
 		If _Sleep(1000) Then Return
 		If $Num > 1 Then
 			If $Num > 2 Then
-				TrainArmyNumber( $Num - 2 )
-				If _Sleep(250) Then Return
+				For $i = 1 To 3
+					TrainArmyNumber( $Num - 2 )
+					If _Sleep(250) Then Return
+				Next
 			EndIf
 			TrainArmyNumber( $Num - 1 )
 			If _Sleep(250) Then Return
@@ -1873,7 +1876,7 @@ Func DeleteQueued($TypeQueued, $OffsetQueued = 802)
 		Return
 	EndIf
 	If _Sleep(500) Then Return
-	If ( $FirstStart = False ) Then
+	If $ichkUseQTrain = 0 Then
 	Local $x = 0
 	While Not IsQueueEmpty(-1, True, False)
 		If _Sleep(20) Then Return
