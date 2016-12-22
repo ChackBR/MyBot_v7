@@ -51,7 +51,8 @@ Local $sModversion
 ; "2311" ; MyBot v6.3.0 Beta 7 + Telegram + SwitchAcc
 ; "2321" ; MyBot v6.3.0 Beta 8 + FFC + SmartZap + Max Time for CCWT
 ; "2401" ; MyBot v6.4.0 ( FFC, Multi Finger, SmartZap, ... )
-$sModversion = "2501" ; MyBot v6.5
+; "2501" ; MyBot v6.5
+$sModversion = "2502" ; MyBot v6.5 + Fix for Quick Train
 $sBotVersion = "v6.5" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it is also use on Checkversion()
 $sBotTitle = "My Bot " & $sBotVersion & ".r" & $sModversion & " " ;~ Don't use any non file name supported characters like \ / : * ? " < > |
 
@@ -598,7 +599,7 @@ Func AttackMain() ;Main control for attack functions
 			Return True
 		Else
 			Setlog("No one of search condition match:", $COLOR_WARNING)
-			Setlog("Waiting on troops, heroes and/or spells according to search settings", $COLOR_WARNING)
+			Setlog("Waiting on troops, heroes and/or CC/spells according to search settings", $COLOR_WARNING)
 			$Is_SearchLimit = False
 			$Is_ClientSyncError = False
 			$Quickattack = False

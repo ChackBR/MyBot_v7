@@ -26,7 +26,7 @@ Local $x = 25, $y = 20
 ;			GUICtrlSetState(-1, $GUI_UNCHECKED)
 ;			GUICtrlSetState(-1, $GUI_HIDE)
 ;			_GUICtrlSetTip(-1, $txtTip)
-		$y +=15
+		$y +=5
 		$cmbScriptNameAB=GUICtrlCreateCombo("", $x , $y, 200, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			$txtTip = GetTranslated(607,4, -1)
 			_GUICtrlSetTip(-1, $txtTip)
@@ -37,15 +37,15 @@ Local $x = 25, $y = 20
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetOnEvent(-1, 'UpdateComboScriptNameAB') ; Run this function when the secondary GUI [X] is clicked
 		$y +=25
-		$lblNotesScriptAB =  GUICtrlCreateLabel("", $x, $y + 5, 200, 180)
-		$cmbScriptRedlineImplAB = GUICtrlCreateCombo("", $x, $y + 195, 230, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+		$lblNotesScriptAB =  GUICtrlCreateLabel("", $x, $y + 5, 200, 200)
+		$cmbScriptRedlineImplAB = GUICtrlCreateCombo("", $x, $y + 205, 230, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			GUICtrlSetData(-1, GetTranslated(607,9, "ImgLoc Raw Redline (default)|ImgLoc Redline Drop Points|Original Redline"))
 			_GUICtrlComboBox_SetCurSel(-1, $iRedlineRoutine[$LB])
 			$txtTip = GetTranslated(607,10, "Choose the Redline implementation. ImgLoc Redline is default and best.")
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetState(-1, $GUI_UNCHECKED)
 			GUICtrlSetOnEvent(-1, "cmbScriptRedlineImplAB")
-		$cmbScriptDroplineAB = GUICtrlCreateCombo("", $x, $y + 220, 230, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+		$cmbScriptDroplineAB = GUICtrlCreateCombo("", $x, $y + 230, 230, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			GUICtrlSetData(-1, GetTranslated(607,11, "Drop line fix outer corner|Drop line fist Redline point|Full Drop line fix outer corner|Full Drop line fist Redline point|No Drop line"))
 			_GUICtrlComboBox_SetCurSel(-1, $iDroplineEdge[$LB])
 			$txtTip = GetTranslated(607,12, "Choose the drop line edges. Default is outer corner and safer. First Redline point can improve attack.")

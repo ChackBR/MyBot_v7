@@ -107,16 +107,21 @@ Func CheckCamp($NeedOpenArmy = False, $CloseCheckCamp = False)
 		If _Sleep(1000) Then Return
 		If $Num > 1 Then
 			If $Num > 2 Then
-				For $i = 1 To 3
-					TrainArmyNumber( $Num - 2 )
-					If _Sleep(250) Then Return
-				Next
+				TrainArmyNumber( $Num - 2 )
+				If _Sleep(250) Then Return
 			EndIf
 			TrainArmyNumber( $Num - 1 )
 			If _Sleep(250) Then Return
 		EndIf
-		TrainArmyNumber($Num)
-		If _Sleep(700) Then Return
+		If $Num > 2 Then
+			For $i = 1 To 3
+				TrainArmyNumber( $Num )
+				If _Sleep(250) Then Return
+			Next
+		Else
+			TrainArmyNumber($Num)
+			If _Sleep(700) Then Return
+		EndIf
 	EndIf
 	If $ReturnCamp = 0 Then
 		; The number of troops is not correct
@@ -1851,8 +1856,8 @@ Func TrainArmyNumber($Num)
 			SetLog("Making the Army " & $Num + 1)
 			If _Sleep(1000) Then Return
 		Else
-			Setlog(" - Error Clicking On Army: " & $Num + 1 & "| Pixel was :" & _GetPixelColor($a_TrainArmy[$Num][0], $a_TrainArmy[$Num][1], True), $COLOR_ORANGE)
-			Setlog(" - Please 'edit' the Army " & $Num + 1 & " before start the BOT!!!", $COLOR_RED)
+			Setlog(" - All ok: Clicked On Army: " & $Num + 1 & "| Pixel was :" & _GetPixelColor($a_TrainArmy[$Num][0], $a_TrainArmy[$Num][1], True), $COLOR_ORANGE)
+			Setlog(" - If needed 'edit' the Army " & $Num + 1 & " before start the BOT!!!", $COLOR_RED)
 			;BotStop()
 		EndIf
 	Else
