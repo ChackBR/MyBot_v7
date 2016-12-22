@@ -97,9 +97,9 @@ Global $aDetectLang[2]	= [16, 634 + $bottomOffsetY] ; Detect Language, bottom le
 
 ; Check healthy color RGB ( 220,255,19~27) ; the king and queen haves the same Y , but warden is a little lower ...
 ; King Crown ; background pixel not at green bar
-Global $aKingHealth = [-1, 569 + $bottomOffsetY, 0x543e20, 20] ; Attack Screen, Check King's Health, X coordinate is dynamic, not used from array   ;  -> with slot compensation 0xbfb29e
-; Quuen crown ; background pixel not at green bar
-Global $aQueenHealth = [-1, 569 + $bottomOffsetY, 0x9a4825, 20] ; Attack Screen, Check Queen's Health, X coordinate is dynamic, not used from array  ;  -> with slot compensation 0xe08227
+Global $aKingHealth = [-1, 569 + $bottomOffsetY, 0x543e20, 15] ; Attack Screen, Check King's Health, X coordinate is dynamic, not used from array   ;  -> with slot compensation 0xbfb29e
+; Queen purple between crown ; background pixel not at green bar
+Global $aQueenHealth = [-1, 569 + $bottomOffsetY, 0x4b35b5, 15] ; Attack Screen, Check Queen's Health, X coordinate is dynamic, not used from array  ;  -> with slot compensation 0xe08227
 ; Warden hair ; background pixel not at green bar
 Global $aWardenHealth = [-1, 569 + $bottomOffsetY, 0xd2696c, 15] ; Attack Screen, Check Warden's Health, X coordinate is dynamic, not used from array  ;  -> with slot compensation 0xe08227
 

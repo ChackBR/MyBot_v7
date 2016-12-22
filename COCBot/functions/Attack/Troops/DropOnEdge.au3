@@ -91,11 +91,7 @@ Func DropOnEdge($troop, $edge, $number, $slotsPerEdge = 0, $edge2 = -1, $x = -1,
 				Else
 					Local $posX2 = Round($maxX2 - (($maxX2 - $minX2) * $i) / ($slotsPerEdge - 1))
 					Local $posY2 = Round($maxY2 - (($maxY2 - $minY2) * $i) / ($slotsPerEdge - 1))
-					;If $x = 0 Then
-					;	If _SleepAttack(SetSleep(0)) Then Return ; add delay for first wave attack to prevent skip dropping troops, must add for 4 sides attack
-					;EndIf
 				EndIf
-
 				AttackClick($posX2, $posY2, $nbtroopPerSlot, SetSleep(0), 0, "#0109")
 			EndIf
 			$nbTroopsLeft -= $nbtroopPerSlot

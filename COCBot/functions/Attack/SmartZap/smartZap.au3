@@ -32,7 +32,6 @@ Func getDarkElixir()
 	Local $searchDark = "", $iCount = 0
 
 	If _ColorCheck(_GetPixelColor(31, 144, True), Hex(0x0a050a, 6), 10) Or _ColorCheck(_GetPixelColor(31, 144, True), Hex(0x0F0617, 6), 5) Then ; Check if the village have a Dark Elixir Storage
-;~	If _ColorCheck(_GetPixelColor(31, 144, True), Hex(0x282020, 6), 10) Or _ColorCheck(_GetPixelColor(31, 144, True), Hex(0x0F0617, 6), 5) Then ; Check if the village have a Dark Elixir Storage
 		While $searchDark = ""
 			$oldSearchDark = $searchDark
 			$searchDark = getDarkElixirVillageSearch(48, 69 + 57) ; Get updated Dark Elixir value
