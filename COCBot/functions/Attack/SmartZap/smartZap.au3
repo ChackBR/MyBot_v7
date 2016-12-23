@@ -99,7 +99,7 @@ Func smartZap($minDE = -1)
 	; Get Dark Elixir value, if no DE value exists, exit.
 	$searchDark = getDarkElixirVillageSearch(48, 69 + 57)
 	If Number($searchDark) = 0 Then
-		SetLog("No Dark Elixir so lets just exit [Zero DE] !", $COLOR_FUCHSIA)
+		SetLog("No Dark Elixir so lets just exit [Zero DE]!", $COLOR_FUCHSIA)
 		Return $performedZap
 	; Check to see if the DE Storage is already full
 	ElseIf isDarkElixirFull() Then

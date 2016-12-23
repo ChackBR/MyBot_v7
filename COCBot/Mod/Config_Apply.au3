@@ -1,5 +1,5 @@
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: applyConfig.au3
+; Name ..........: Config_Apply.au3
 ; Description ...: Applies all of the  variable to the GUI
 ; Syntax ........:
 ; Parameters ....:

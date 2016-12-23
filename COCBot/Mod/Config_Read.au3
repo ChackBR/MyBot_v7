@@ -1,5 +1,5 @@
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: readConfig.au3
+; Name ..........: Config_Read.au3
 ; Description ...: Reads config file and sets variables
 ; Syntax ........: readConfig()
 ; Parameters ....: NA
