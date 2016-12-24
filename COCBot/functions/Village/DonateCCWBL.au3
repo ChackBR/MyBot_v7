@@ -19,7 +19,7 @@ Func donateCCWBLUserImageCollect($x,$y)
    Local $imagematch = False
 
 	;capture donate request image
-	_CaptureRegion(0 , $y -  90, $x -30,$y)
+	_CaptureRegion2(0 , $y -  90, $x -30,$y)
 	If $debugImageSave= 1 Then DebugImageSave("donateCCWBLUserImageCollect_",  False, "png",  True)
 
    ;if OnlyWhiteList enable check and donate TO COMPLETE
