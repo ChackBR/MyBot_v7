@@ -5,7 +5,7 @@ List of Supported Android Emulator
 MEmu
 ====
 http://www.memuplay.com/
-Versions 2.8.6, 2.8.5, 2.8.3, 2.8.2, 2.8.0, 2.7.2, 2.7.0, 2.6.6, 2.6.5, 2.6.2, 2.6.1, 2.5.0, 2.3.1, 2.3.0, 2.2.1
+Versions 2.9.1, 2.8.6, 2.8.5, 2.8.3, 2.8.2, 2.8.0, 2.7.2, 2.7.0, 2.6.6, 2.6.5, 2.6.2, 2.6.1, 2.5.0, 2.3.1, 2.3.0, 2.2.1
 MyBot Command Line Key: MEmu
 Default Instance Key: MEmu
 Second Instance Key:  MEmu_1
@@ -15,7 +15,7 @@ Known issues/bugs: None
 BlueStacks
 ==========
 http://www.bluestacks.com/
-Version 2.5.x, 2.4.x, 2.3.x, 2.2.x, 2.1.x, 0.11.x, 0.10.x, 0.9.x, 0.8.x
+Version 2.5.x, 2.4.x, 2.3.x, 2.2.x, 2.1.x, 2.0.x, 0.11.x, 0.10.x, 0.9.x, 0.8.x
 MyBot Command Line Key (0.8.x - 0.11.x): BlueStacks
 MyBot Command Line Key (2.x): BlueStacks2
 Default Instance Key: N/A (internally empty String "" or "Android" is used)
@@ -38,7 +38,7 @@ Known issues/bugs: None
 Droid4X
 =======
 http://www.droid4x.com/
-Versions 0.10.4 Beta, 0.10.3 Beta, 0.10.2 Beta, 0.10.1 Beta, 0.10.0 Beta, 0.9.0 Beta, 0.8.7 Beta, 0.8.6 Beta
+Versions 0.10.5 Beta, 0.10.4 Beta, 0.10.3 Beta, 0.10.2 Beta, 0.10.1 Beta, 0.10.0 Beta, 0.9.0 Beta, 0.8.7 Beta, 0.8.6 Beta
 MyBot Command Line Key: Droid4X
 Default Instance Key: droid4x
 Second Instance Key:  droid4x_1
@@ -64,7 +64,7 @@ You must change vm1 ADB port with command line, e.g. "C:\Program Files\LeapDroid
 Nox
 ===
 http://en.bignox.com/
-Versions 3.7.3, 3.7.1, 3.7.0, 3.6.0, 3.5.1, 3.3.0, 3.1.0
+Versions 3.7.5.1, 3.7.5, 3.7.3, 3.7.1, 3.7.0, 3.6.0, 3.5.1, 3.3.0, 3.1.0
 MyBot Command Line Key: Nox
 Default Instance Key: nox
 Second Instance Key:  Nox_1
@@ -72,7 +72,17 @@ Second Instance Key:  Nox_1
 Known issues/bugs: Only in low computer screen resolutions and when Android Window doesn't have android screen size of 860x732
 due to different window size, MyBot resizing fails for any version (3.5.1 and 3.1 resize is quite unstable but could work).
 Dock mode not available.
-Latest version 3.7.3 supports setting of framerates and 10 fps in OpenGL significantly reduces CPU.
+Newer versions since 3.7.3 supports setting of framerates and 10 fps in OpenGL significantly reduces CPU.
+
+iTools AVM
+==========
+http://pro.itools.cn/simulate/
+Versions 2.0.6.8
+MyBot Command Line Key: iTools
+Default Instance Key: iToolsVM
+Second Instance Key:  iToolsVM_01
+
+Known issues/bugs: Background mode only support when iTools running in DirectX mode.
 
 
 MyBot Internal Feature & Functions Matrix (not complete yet!)

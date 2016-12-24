@@ -35,7 +35,7 @@ Func GetResources($bLog = True, $pMatchMode = -1) ;Reads resources
 	If _Sleep($iDelayRespond) Then Return
 	If $debugSetlog Then SetLog("Village dark elixir available chk color: " & _GetPixelColor(31, 144, True) & " : 0x0F0617 expected", $COLOR_DEBUG) ; 0F0617(15,6,23) / 06000E(6,0,14) / 000003(0,0,3) / 000000(0,0,0)
 	If _ColorCheck(_GetPixelColor(31, 144, True), Hex(0x282020, 6), 10) Or _ColorCheck(_GetPixelColor(31, 144, True), Hex(0x0F0617, 6), 5) Then ; check if the village have a Dark Elixir Storage
-		$searchDark = getDarkElixirVillageSearch(48, 69 + 57)
+		$searchDark = getDarkElixirVillageSearch(48, 126)
 		$searchTrophy = getTrophyVillageSearch(45, 168)
 	Else
 		$searchDark = "N/A"

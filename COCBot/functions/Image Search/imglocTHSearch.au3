@@ -34,6 +34,7 @@ Func imglocTHSearch($bReTest = False, $myVillage = False, $bForceCapture = True)
 	EndIf
 
 
+
 	;aux data
 	Local $propsNames = StringSplit($returnProps, ",", $STR_NOCOUNT)
 	If $debugsetlog = 1 Then SetLog("imgloc TH search Start", $COLOR_DEBUG)

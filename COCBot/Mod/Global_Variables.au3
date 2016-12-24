@@ -36,3 +36,16 @@ Global Enum $mfRandom, $mfFFStandard, $mfFFSpiralLeft, $mfFFSpiralRight, $mf8FBl
 Global $iMultiFingerStyle = 0
 
 Global Enum  $eCCSpell = $eHaSpell + 1
+
+;
+; AwesomeGamer
+;
+
+; DEB
+Global $iChkDontRemove = 1
+Global $chkDontRemove = True
+
+; No League Search
+Global $aNoLeague[4] = [30, 30, 0x616568, 20] ; No League Shield
+Global $chkDBNoLeague, $chkABNoLeague, $iChkNoLeague[$iModeCount]
+
