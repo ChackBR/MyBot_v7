@@ -261,7 +261,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 		For $i = $eBarb To $eBowl ; lauch all remaining troops
 			;If $i = $eBarb Or $i = $eArch Then
 			LauchTroop($i, $nbSides, 0, 1)
-			If $iActivateKQCondition = "Auto" then CheckHeroesHealth()
+			If $iActivateKQCondition = "Auto" Then CheckHeroesHealth()
 			;Else
 			;	 LauchTroop($i, $nbSides, 0, 1, 2)
 			;EndIf
@@ -283,7 +283,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 			SelectDropTroop($Queen)
 			$checkQPower = False
 		EndIf
-		If $checkWPower then
+		If $checkWPower Then
 			SetLog("Activating Warden's power", $COLOR_INFO)
 			SelectDropTroop($Warden)
 			$checkWPower = False

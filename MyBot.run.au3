@@ -57,7 +57,8 @@ Local $sModversion
 ; "2504" ; MyBot v6.5 + SmartZap Fix
 ; "2505" ; MyBot v6.5 + Demem Switch Acc
 ; "2511" ; MyBot v6.5.1
-$sModversion = "2512" ; MyBot v6.5.1 + Fix Donate + Fix for Train Golem
+; "2512" ; MyBot v6.5.1 + Fix Donate + Fix for Train Golem
+$sModversion = "2513" ; MyBot v6.5.1 + Fix for QuickTrain ( Fill with Archer: no more )
 $sBotVersion = "v6.5.1" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it is also use on Checkversion()
 $sBotTitle = "My Bot " & $sBotVersion & ".r" & $sModversion & " " ;~ Don't use any non file name supported characters like \ / : * ? " < > |
 

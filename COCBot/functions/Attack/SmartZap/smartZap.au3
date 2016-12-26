@@ -238,7 +238,7 @@ Func smartZap($minDE = -1)
 			If $aDarkDrills[0][2] <> -1 Then
 				If $ichkNoobZap = 0 Then
 					$expectedDE = $drillLevelSteal[($aDarkDrills[0][2] - 1)] * 0.75
-				Else 
+				Else
 					$expectedDE = $itxtExpectedDE
 				EndIf
 			Else

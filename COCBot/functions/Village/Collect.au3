@@ -41,13 +41,13 @@ Func Collect()
 					For $t = 0 To UBound($CollectXY) - 1 ; each filename can have several positions
 						If isInsideDiamondXY($CollectXY[$t][0], $CollectXY[$t][1]) Then
 							If $DebugSetLog = 1 Then SetLog($Filename & " found (" & $CollectXY[$t][0] & "," & $CollectXY[$t][1] & ")", $COLOR_SUCCESS)
-							If $iUseRandomClick = 0 then
+							If $iUseRandomClick = 0 Then
 								Click($CollectXY[$t][0], $CollectXY[$t][1], 1, 0, "#0430")
 								If _Sleep($iDelayCollect2) Then Return
 							Else
 								ClickZone($CollectXY[$t][0], $CollectXY[$t][1], 5, "#0430")
 								_Sleep(Random($iDelayCollect2, $iDelayCollect2 * 4, 1))
-							EndIF
+							EndIf
 						EndIf
 					Next
 				EndIf

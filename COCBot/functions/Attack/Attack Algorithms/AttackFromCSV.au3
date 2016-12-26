@@ -752,7 +752,7 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 			SelectDropTroop($Queen)
 			$checkQPower = False
 		EndIf
-		If $checkWPower then
+		If $checkWPower Then
 			SetLog("Activating Warden's power", $COLOR_INFO)
 			SelectDropTroop($Warden)
 			$checkWPower = False
