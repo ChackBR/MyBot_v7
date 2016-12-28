@@ -35,7 +35,7 @@ Func fourFingerDropOnEdge($dropVectors, $waveNumber, $kind, $dropAmount, $positi
 	Local $troopsPerEdge = Ceiling($dropAmount / 4)
 
 	If $dropAmount = 0 Or isProblemAffect(True) Then Return
-		
+
 	If _SleepAttack($iDelayDropOnEdge1) Then Return
 	SelectDropTroop($kind) ; Select Troop
 	If _SleepAttack($iDelayDropOnEdge2) Then Return

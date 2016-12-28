@@ -77,6 +77,11 @@ Func TrainRevamp()
 		If $Runstate = False Then Return
 		CheckIsEmptyQueuedAndNotFullArmy()
 		If $Runstate = False Then Return
+
+		If $ichkUseQTrain = 1 Then
+			CheckCamp()
+		EndIf
+
 		If $FirstStart Then $FirstStart = False
 	EndIf
 

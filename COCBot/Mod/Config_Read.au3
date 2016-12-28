@@ -17,9 +17,16 @@
 ; MOD Config - Save Data
 ;
 
-	;Max logout time
-	$TrainLogoutMaxTime = IniRead($config, "TrainLogout", "TrainLogoutMaxTime", "0")
-	$TrainLogoutMaxTimeTXT = IniRead($config, "TrainLogout", "TrainLogoutMaxTimeTXT", "20")
+; Max logout time
+$TrainLogoutMaxTime = IniRead($config, "TrainLogout", "TrainLogoutMaxTime", "0")
+$TrainLogoutMaxTimeTXT = IniRead($config, "TrainLogout", "TrainLogoutMaxTimeTXT", "20")
 
-	; Multi Finger (LunaEclipse)
-	$iMultiFingerStyle = IniRead($config, "MultiFinger", "Select", "1")
+; Multi Finger (LunaEclipse)
+$iMultiFingerStyle = IniRead($config, "MultiFinger", "Select", "1")
+
+;
+; AwesomeGamer
+;
+
+; DEB
+$iChkDontRemove = IniRead($config, "troop", "DontRemove", "0")

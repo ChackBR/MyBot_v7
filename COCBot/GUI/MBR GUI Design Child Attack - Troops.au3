@@ -53,11 +53,18 @@ GUICtrlSetState(-1, $GUI_DISABLE)
 GUICtrlSetState(-1, $GUI_CHECKED)
 $hRadio_Army2 = GUICtrlCreateRadio( "Army 12", $x + 180, $y + 20, 55, 15)
 GUICtrlSetState(-1, $GUI_DISABLE)
-$hRadio_Army3 = GUICtrlCreateRadio( "Army 123", $x + 250, $y + 20, 60, 15)
+$hRadio_Army3 = GUICtrlCreateRadio( "Army 123 + Don't Empty Barracks", $x + 245, $y + 20, -1, 15)
 GUICtrlSetState(-1, $GUI_DISABLE)
-	$LblRemovecamp = GUICtrlCreateLabel(GetTranslated(621, 41, "Remove Army"), $x + 340, $y + 20, -1, 15, $SS_LEFT)
-	$icnRemovecamp = GUICtrlCreateIcon($pIconLib, $eIcnResetButton, $x + 405, $y + 17, 24, 24)
-	GUICtrlSetOnEvent(-1, "Removecamp")
+;~ 	$LblRemovecamp = GUICtrlCreateLabel(GetTranslated(621, 41, "Remove Army"), $x + 340, $y + 20, -1, 15, $SS_LEFT)
+;~ 	$icnRemovecamp = GUICtrlCreateIcon($pIconLib, $eIcnResetButton, $x + 405, $y + 17, 24, 24)
+;~ 	GUICtrlSetOnEvent(-1, "Removecamp")
+
+;~
+;~ AwesomeGamer DEB
+;~
+;~ $chkDontRemove = GUICtrlCreateCheckbox("Dont Empty Barrack", $x + 325, $y + 18, -1, -1)
+;~ $txtTip ="DEB: will not remove extra troops while training"
+;~ GUICtrlSetTip(-1, $txtTip)
 
 Local $x = 10
 Local $y = 45
@@ -361,6 +368,14 @@ $Y -= 23
 
 $x -= 175
 $Y += 35
+
+;~
+;~ AwesomeGamer DEB ( Move this control )
+;~
+$LblRemovecamp = GUICtrlCreateLabel(GetTranslated(621, 41, "Remove Army"), $x + 200, $y + 4, -1, -1, $SS_LEFT)
+$icnRemovecamp = GUICtrlCreateIcon($pIconLib, $eIcnResetButton, $x + 270, $y - 2, 24, 24)
+GUICtrlSetOnEvent(-1, "Removecamp")
+
 $chkTotalCampForced = GUICtrlCreateCheckbox(GetTranslated(636, 46, "Force Total Army Camp") & ":", $x, $y, -1, -1)
 GUICtrlSetState(-1, $GUI_CHECKED)
 GUICtrlSetOnEvent(-1, "chkTotalCampForced")
@@ -373,8 +388,8 @@ $caltotaltroops = GUICtrlCreateProgress($x, $y + 22, 407, 10)
 $lbltotalprogress = GUICtrlCreateLabel("", $x, $y + 22, 407, 10)
 GUICtrlSetBkColor(-1, $COLOR_RED)
 GUICtrlSetState(-1, BitOR($GUI_DISABLE, $GUI_HIDE))
-$x += 38
-$lblTotalTroops = GUICtrlCreateLabel(GetTranslated(621, 15, "Total"), $x + 300, $y + 7, -1, -1, $SS_RIGHT)
+$x += 36
+$lblTotalTroops = GUICtrlCreateLabel(GetTranslated(621, 15, "Total"), $x + 296, $y + 5, -1, -1, $SS_RIGHT)
 $lblCountTotal = GUICtrlCreateLabel(0, $x + 332, $y + 5, 30, 15, $SS_CENTER)
 _GUICtrlSetTip(-1, GetTranslated(621, 16, "The total Units of Troops should equal Total Army Camps."))
 GUICtrlSetBkColor(-1, $COLOR_MONEYGREEN) ;lime, moneygreen

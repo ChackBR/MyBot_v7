@@ -17,13 +17,25 @@
 ; MOD Config - Save Data
 ;
 
-	; Max logout time
-	If GUICtrlRead($chkTrainLogoutMaxTime) = $GUI_CHECKED Then
-		IniWrite($config, "TrainLogout", "TrainLogoutMaxTime", 1)
-	Else
-		IniWrite($config, "TrainLogout", "TrainLogoutMaxTime", 0)
-	EndIf
-	IniWrite($config, "TrainLogout", "TrainLogoutMaxTimeTXT", GUICtrlRead($txtTrainLogoutMaxTime))
+; Max logout time
+If GUICtrlRead($chkTrainLogoutMaxTime) = $GUI_CHECKED Then
+	IniWrite($config, "TrainLogout", "TrainLogoutMaxTime", 1)
+Else
+	IniWrite($config, "TrainLogout", "TrainLogoutMaxTime", 0)
+EndIf
+IniWrite($config, "TrainLogout", "TrainLogoutMaxTimeTXT", GUICtrlRead($txtTrainLogoutMaxTime))
 
-	; Multi Finger (LunaEclipse)
-	IniWrite($config, "MultiFinger", "Select", _GUICtrlComboBox_GetCurSel($cmbDBMultiFinger))
+; Multi Finger (LunaEclipse)
+IniWrite($config, "MultiFinger", "Select", _GUICtrlComboBox_GetCurSel($cmbDBMultiFinger))
+
+;
+; AwesomeGamer
+;
+
+; DEB
+If GUICtrlRead($chkDontRemove) = $GUI_CHECKED Then
+	IniWrite($config, "troop", "DontRemove", 1)
+Else
+	IniWrite($config, "troop", "DontRemove", 0)
+EndIf
+
