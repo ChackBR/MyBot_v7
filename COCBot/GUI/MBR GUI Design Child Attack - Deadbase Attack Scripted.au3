@@ -19,7 +19,7 @@ $hGUI_DEADBASE_ATTACK_SCRIPTED = GUICreate("", $_GUI_MAIN_WIDTH - 195, $_GUI_MAI
 ;GUISetBkColor($COLOR_WHITE, $hGUI_DEADBASE_ATTACK_SCRIPTED)
 
 Local $x = 25, $y = 20
-	$grpAttackCSVDB = GUICtrlCreateGroup(GetTranslated(607,1,"Deploy"), $x - 20, $y - 20, 278, 306)
+	$grpAttackCSVDB = GUICtrlCreateGroup(GetTranslated(607,1,"Deploy"), $x - 20, $y - 20, 268, 168)
 ;	 $x -= 15
 ;		$chkmakeIMGCSVDB = GUICtrlCreateCheckbox(GetTranslated(607,2, "IMG"), $x + 150, $y, -1, -1)
 ;			$txtTip = GetTranslated(607,3, "Make IMG with extra info in Profile -> Temp Folder")
@@ -36,8 +36,8 @@ Local $x = 25, $y = 20
 			$txtTip =  GetTranslated(607,5, "Reload Script Files")
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetOnEvent(-1, 'UpdateComboScriptNameDB') ; Run this function when the secondary GUI [X] is clicked
-		$y +=25
-		$lblNotesScriptDB =  GUICtrlCreateLabel("", $x, $y + 5, 200, 230)
+		$y +=20
+		$lblNotesScriptDB =  GUICtrlCreateLabel("", $x, $y + 5, 230, 112)
 		$cmbScriptRedlineImplDB = GUICtrlCreateCombo("", $x, $y + 205, 230, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			GUICtrlSetData(-1, GetTranslated(607,9, "ImgLoc Raw Redline (default)|ImgLoc Redline Drop Points|Original Redline"))
 			_GUICtrlComboBox_SetCurSel(-1, $iRedlineRoutine[$DB])
@@ -66,6 +66,28 @@ Local $x = 25, $y = 20
 			$txtTip =  GetTranslated(607,8, "Copy current Attack Script to a new name")
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetOnEvent(-1, "DuplicateScriptDB")
+	GUICtrlCreateGroup("", -99, -99, 1, 1)
+
+	; Attack Now (CSV) By MR.ViPeR
+	$y += 106
+	$btnAttNowDB = GUICtrlCreateButton(GetTranslated(671, 58, "Attack Now: Testing CSV File"), $x, $y-30, -1, 25)
+		_GUICtrlSetTip(-1, "Attack Now Button (Useful for CSV Testing)")
+		;GUISetState(@SW_SHOW)
+		GUICtrlSetOnEvent(-1, "AttackNowDB")
+
+	; CSV Deployment Speed Mod
+	$y -=4
+	$grpScriptSpeedDB = GUICtrlCreateGroup(GetTranslated(671, 55, "CSV Deployment Speed - Dead Base"), $x, $y, 230, 50)
+		$lbltxtSelectedSpeedDB = GUICtrlCreateLabel("Normal speed", $x + 10, $y+20, 75, 25)
+			$txtTip = GetTranslated(671, 56, "Increase or decrease the speed at which the CSV attack script deploys troops and waves.")
+			_GUICtrlSetTip(-1, $txtTip)
+		$sldSelectedSpeedDB = GUICtrlCreateSlider($x + 98, $y + 20, 125, 25, BitOR($TBS_TOOLTIPS, $TBS_AUTOTICKS))
+			_GUICtrlSetTip(-1, $txtTip)
+			_GUICtrlSlider_SetTipSide(-1, $TBTS_BOTTOM)
+			_GUICtrlSlider_SetTicFreq(-1, 1)
+			GUICtrlSetLimit(-1, 18, 0) ; change max/min value
+			GUICtrlSetData(-1, 5) ; default value
+			GUICtrlSetOnEvent(-1, "sldSelectedSpeedDB")
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 ;GUISetState()

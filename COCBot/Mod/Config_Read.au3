@@ -24,6 +24,10 @@ $TrainLogoutMaxTimeTXT = IniRead($config, "TrainLogout", "TrainLogoutMaxTimeTXT"
 ; Multi Finger (LunaEclipse)
 $iMultiFingerStyle = IniRead($config, "MultiFinger", "Select", "1")
 
+; CSV Deployment Speed Mod
+IniReadS($isldSelectedCSVSpeed[$DB], $config, "attack", "CSVSpeedDB", 4)
+IniReadS($isldSelectedCSVSpeed[$LB], $config, "attack", "CSVSpeedAB", 4)
+
 ;
 ; AwesomeGamer
 ;

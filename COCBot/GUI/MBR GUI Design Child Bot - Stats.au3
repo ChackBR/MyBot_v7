@@ -964,7 +964,7 @@ $z += 20
 	GUICtrlCreateIcon($pIconLib, $eIcnWallBreaker, $x + 340, $y, 32, 32)
 	$lblDonQ[5] = GUICtrlCreateLabel("0", $x + 300, $z, 35, 20, $SS_RIGHT)
 	GUICtrlSetFont(-1, 11, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	
+
 	GUICtrlCreateIcon($pIconLib, $eIcnBalloon, $x + 410, $y, 32, 32)
 	$lblDonQ[6] = GUICtrlCreateLabel("0", $x + 370, $z, 35, 20, $SS_RIGHT)
 	GUICtrlSetFont(-1, 11, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
@@ -991,7 +991,7 @@ $z += 35
 	GUICtrlCreateIcon($pIconLib, $eIcnBabyDragon, $x + 340, $y, 32, 32)
 	$lblDonQ[11] = GUICtrlCreateLabel("0", $x + 300, $z, 35, 20, $SS_RIGHT)
 	GUICtrlSetFont(-1, 11, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	
+
 	GUICtrlCreateIcon($pIconLib, $eIcnMiner, $x + 410, $y, 32, 32)
 	$lblDonQ[12] = GUICtrlCreateLabel("0", $x + 370, $z, 35, 20, $SS_RIGHT)
 	GUICtrlSetFont(-1, 11, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
@@ -1018,7 +1018,7 @@ $z += 50
 	GUICtrlCreateIcon($pIconLib, $eIcnWitch, $x + 340, $y, 32, 32)
 	$lblDonQ[17] = GUICtrlCreateLabel("0", $x + 300, $z, 35, 20, $SS_RIGHT)
 	GUICtrlSetFont(-1, 11, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	
+
 	GUICtrlCreateIcon($pIconLib, $eIcnLavaHound, $x +410, $y, 32, 32)
 	$lblDonQ[18] = GUICtrlCreateLabel("0", $x + 370, $z, 35, 20, $SS_RIGHT)
 	GUICtrlSetFont(-1, 11, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)

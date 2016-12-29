@@ -39,8 +39,8 @@ Global Enum  $eCCSpell = $eHaSpell + 1
 
 ; CSV Deployment Speed Mod
 Global $isldSelectedCSVSpeed[$iModeCount], $iCSVSpeeds[19]
-$isldSelectedCSVSpeed[$DB] = 4
-$isldSelectedCSVSpeed[$LB] = 4
+$isldSelectedCSVSpeed[$DB] = 5
+$isldSelectedCSVSpeed[$LB] = 5
 $iCSVSpeeds[0] = .1
 $iCSVSpeeds[1] = .25
 $iCSVSpeeds[2] = .5

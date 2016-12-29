@@ -26,6 +26,10 @@
 ; Example .......: No
 ; ===============================================================================================================================
 Func DropTroopFromINI($vectors, $indexStart, $indexEnd, $indexArray, $qtaMin, $qtaMax, $troopName, $delayPointmin, $delayPointmax, $delayDropMin, $delayDropMax, $sleepafterMin, $sleepAfterMax, $debug = False)
+
+	Local $delayPoint = 0
+	Local $delayDropLast = 0
+
 	If IsArray($indexArray) = 0 Then
 		debugAttackCSV("drop using vectors " & $vectors & " index " & $indexStart & "-" & $indexEnd & " and using " & $qtaMin & "-" & $qtaMax & " of " & $troopName)
 	Else
@@ -99,6 +103,10 @@ Func DropTroopFromINI($vectors, $indexStart, $indexEnd, $indexArray, $qtaMin, $q
 			If $ichkSkeletonSpell[$iMatchMode] = 0 Then $usespell = False
 	EndSwitch
 
+	; CVSDeploy Speed Mod
+   If $delayPointmin < 100 Then $delayPointmin = 100
+   If $delayPointmax < 300 Then $delayPointmax = 300
+
 	If $troopPosition = -1 Or $usespell = False Then
 		If $usespell = True Then
 			Setlog("No troop found in your attack troops list")
@@ -139,19 +147,16 @@ Func DropTroopFromINI($vectors, $indexStart, $indexEnd, $indexArray, $qtaMin, $q
 
 			For $j = 1 To $numbersOfVectors
 				;delay time between 2 drops in different point
-				Local $delayDropLast = 0
+				$delayDropLast = 0
 				If $j = $numbersOfVectors Then $delayDropLast = $delayDrop
 				If $index <= UBound(Execute("$" & Eval("vector" & $j))) Then
 					$pixel = Execute("$" & Eval("vector" & $j) & "[" & $index - 1 & "]")
 					Local $qty2 = $qtyxpoint
 					If $index < $indexStart + $extraunit Then $qty2 += 1
 
-					;delay time between 2 drops in same point
-					If $delayPointmin <> $delayPointmax Then
-						Local $delayPoint = Random($delayPointmin, $delayPointmax, 1)
-					Else
-						Local $delayPoint = $delayPointmin
-					EndIf
+					; CSV Deployment Speed Mod
+					$delayPoint = $delayPoint / $iCSVSpeeds[$isldSelectedCSVSpeed[$iMatchMode]]
+					$delayDropLast = $delayDropLast / $iCSVSpeeds[$isldSelectedCSVSpeed[$iMatchMode]]
 
 					Switch Eval("e" & $troopName)
 						Case $eBarb To $eBowl ; drop normal troops

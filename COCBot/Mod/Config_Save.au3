@@ -28,6 +28,10 @@ IniWrite($config, "TrainLogout", "TrainLogoutMaxTimeTXT", GUICtrlRead($txtTrainL
 ; Multi Finger (LunaEclipse)
 IniWrite($config, "MultiFinger", "Select", _GUICtrlComboBox_GetCurSel($cmbDBMultiFinger))
 
+; CSV Deployment Speed Mod
+IniWriteS($config, "attack", "CSVSpeedDB", $isldSelectedCSVSpeed[$DB])
+IniWriteS($config, "attack", "CSVSpeedAB", $isldSelectedCSVSpeed[$LB])
+
 ;
 ; AwesomeGamer
 ;

@@ -29,6 +29,11 @@ GUICtrlSetData($txtTrainLogoutMaxTime, $TrainLogoutMaxTimeTXT)
 _GUICtrlComboBox_SetCurSel($cmbDBMultiFinger,$iMultiFingerStyle)
 cmbDBMultiFinger()
 
+; CSV Deployment Speed Mod
+GUICtrlSetData($sldSelectedSpeedDB, $isldSelectedCSVSpeed[$DB])
+GUICtrlSetData($sldSelectedSpeedAB, $isldSelectedCSVSpeed[$LB])
+sldSelectedSpeedDB()
+sldSelectedSpeedAB()
 ;
 ; AwesomeGamer
 ;

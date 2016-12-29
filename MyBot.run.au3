@@ -42,14 +42,6 @@ Local $sModversion
 ; "2101" ; MyBot v6.2.1
 ; "2201" ; MyBot v6.2.2
 ; "2301" ; MyBot v6.3.0
-; "2302" ; Enable CSV Speed Mode ( AwesomeGamer + MikeMikeCoc )
-; "2303" ; Fix for CSV Attack Files
-; "2304" ; MyBot v6.3.0 Beta 3
-; "2305" ; MyBot v6.3.0 Beta 4
-; "2306" ; MyBot v6.3.0 Beta 5
-; "2309" ; MyBot v6.3.0 Beta 6
-; "2311" ; MyBot v6.3.0 Beta 7 + Telegram + SwitchAcc
-; "2321" ; MyBot v6.3.0 Beta 8 + FFC + SmartZap + Max Time for CCWT
 ; "2401" ; MyBot v6.4.0 ( FFC, Multi Finger, SmartZap, ... )
 ; "2501" ; MyBot v6.5
 ; "2502" ; MyBot v6.5 + Fix for Quick Train
@@ -59,7 +51,8 @@ Local $sModversion
 ; "2511" ; MyBot v6.5.1
 ; "2512" ; MyBot v6.5.1 + Fix Donate + Fix for Train Golem
 ; "2513" ; MyBot v6.5.1 + Fix for QuickTrain
-$sModversion = "2514" ; MyBot v6.5.1 + DEB( Don't Empty Barracks )
+; "2514" ; MyBot v6.5.1 + DEB( Don't Empty Barracks )
+$sModversion = "2515" ; MyBot v6.5.1 + CSV Deploy Speed Mode
 $sBotVersion = "v6.5.1" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it is also use on Checkversion()
 $sBotTitle = "My Bot " & $sBotVersion & ".r" & $sModversion & " " ;~ Don't use any non file name supported characters like \ / : * ? " < > |
 
