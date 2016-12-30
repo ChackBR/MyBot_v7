@@ -146,17 +146,28 @@ Func DropTroopFromINI($vectors, $indexStart, $indexEnd, $indexArray, $qtaMin, $q
 			EndIf
 
 			For $j = 1 To $numbersOfVectors
-				;delay time between 2 drops in different point
-				$delayDropLast = 0
-				If $j = $numbersOfVectors Then $delayDropLast = $delayDrop
 				If $index <= UBound(Execute("$" & Eval("vector" & $j))) Then
 					$pixel = Execute("$" & Eval("vector" & $j) & "[" & $index - 1 & "]")
 					Local $qty2 = $qtyxpoint
 					If $index < $indexStart + $extraunit Then $qty2 += 1
-
-					; CSV Deployment Speed Mod
-					$delayPoint = $delayPoint / $iCSVSpeeds[$isldSelectedCSVSpeed[$iMatchMode]]
-					$delayDropLast = $delayDropLast / $iCSVSpeeds[$isldSelectedCSVSpeed[$iMatchMode]]
+					IF $isldSelectedCSVSpeed[$iMatchMode] = 4 Then
+						;delay time between 2 drops in same point
+						If $delayPointmin <> $delayPointmax Then
+							Local $delayPoint = Random($delayPointmin, $delayPointmax, 1)
+						Else
+							Local $delayPoint = $delayPointmin
+						EndIf
+						;delay time between 2 drops in different point
+						If $j = $numbersOfVectors Then
+							$delayDropLast = $delayDrop
+						Else
+							$delayDropLast = 0
+						EndIf
+					Else
+						; CSV Deployment Speed Mod
+						$delayPoint = $delayPoint / $iCSVSpeeds[$isldSelectedCSVSpeed[$iMatchMode]]
+						$delayDropLast = $delayDropLast / $iCSVSpeeds[$isldSelectedCSVSpeed[$iMatchMode]]
+					Endif
 
 					Switch Eval("e" & $troopName)
 						Case $eBarb To $eBowl ; drop normal troops
