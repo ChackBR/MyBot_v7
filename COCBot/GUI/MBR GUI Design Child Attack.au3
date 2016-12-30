@@ -31,7 +31,7 @@ $hGUI_ATTACK_TAB_ITEM1 = GUICtrlCreateTabItem(GetTranslated(600,41,"Train Army")
 ; this tab will be empty because it is only used to display a child GUI
 $hGUI_ATTACK_TAB_ITEM2 = GUICtrlCreateTabItem(GetTranslated(600,42,"Search && Attack"))
 ; this tab will be empty because it is only used to display a child GUI
-$hGUI_ATTACK_TAB_ITEM4 = GUICtrlCreateTabItem("NewSmartZap")
+$hGUI_ATTACK_TAB_ITEM4 = GUICtrlCreateTabItem(GetTranslated(600,56,"SmartZap"))
 $hGUI_ATTACK_TAB_ITEM3 = GUICtrlCreateTabItem(GetTranslated(600,43,"Strategies"))
 ; this tab will be empty because it is only used to display a child GUI
 

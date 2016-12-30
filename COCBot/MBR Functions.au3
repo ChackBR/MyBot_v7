@@ -179,6 +179,7 @@
 #include "functions\Other\_Sleep.au3"
 #include "functions\Other\_SleepStatus.au3"
 #include "functions\Other\_StatusUpdateTime.au3"
+#include "functions\Other\_TicksToDay.au3"
 #include "functions\Other\Click.au3"
 #include "functions\Other\ClickOkay.au3"
 #include "functions\Other\ClickRemove.au3"

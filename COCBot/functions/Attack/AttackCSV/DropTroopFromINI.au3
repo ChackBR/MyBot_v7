@@ -104,8 +104,10 @@ Func DropTroopFromINI($vectors, $indexStart, $indexEnd, $indexArray, $qtaMin, $q
 	EndSwitch
 
 	; CVSDeploy Speed Mod
-   If $delayPointmin < 100 Then $delayPointmin = 100
-   If $delayPointmax < 300 Then $delayPointmax = 300
+	IF ( $isldSelectedCSVSpeed[$iMatchMode] <> 4 ) Then
+		If $delayPointmin < 100 Then $delayPointmin = 100
+		If $delayPointmax < 300 Then $delayPointmax = 300
+	EndIf
 
 	If $troopPosition = -1 Or $usespell = False Then
 		If $usespell = True Then

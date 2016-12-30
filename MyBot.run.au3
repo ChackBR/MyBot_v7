@@ -52,8 +52,8 @@ Local $sModversion
 ; "2512" ; MyBot v6.5.1 + Fix Donate + Fix for Train Golem
 ; "2513" ; MyBot v6.5.1 + Fix for QuickTrain
 ; "2514" ; MyBot v6.5.1 + DEB( Don't Empty Barracks )
-$sModversion = "2515" ; MyBot v6.5.1 + CSV Deploy Speed Mode
-$sBotVersion = "v6.5.1" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it is also use on Checkversion()
+$sModversion = "2601" ; MyBot v6.5.2
+$sBotVersion = "v6.5.2" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it is also use on Checkversion()
 $sBotTitle = "My Bot " & $sBotVersion & ".r" & $sModversion & " " ;~ Don't use any non file name supported characters like \ / : * ? " < > |
 
 #include "COCBot\functions\Config\DelayTimes.au3"
