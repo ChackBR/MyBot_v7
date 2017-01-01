@@ -1965,7 +1965,6 @@ Func TrainArmyNumber($Num)
 EndFunc   ;==>TrainArmyNumber
 
 Func DeleteQueued($TypeQueued, $OffsetQueued = 802)
-	Local $x = 0
 	If $TypeQueued = "Troops" Then
 		If ISArmyWindow(False, $TrainTroopsTAB) = False Then OpenTrainTabNumber($TrainTroopsTAB)
 		If _Sleep(1500) Then Return
@@ -1978,6 +1977,7 @@ Func DeleteQueued($TypeQueued, $OffsetQueued = 802)
 		Return
 	EndIf
 	If _Sleep(500) Then Return
+	Local $x = 0
 	If $ichkUseQTrain = 0 Then
 		While Not IsQueueEmpty(-1, True, False)
 			If $x = 0 Then SetLog(" - Delete " & $TypeQueued & " Queued!", $COLOR_ACTION)

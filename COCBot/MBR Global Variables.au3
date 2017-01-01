@@ -1086,7 +1086,7 @@ Global $bTrainEnabled = True
 
 Global $bDonationEnabled = True
 Global $sSkipDonateNearFulLTroopsPercentual = 90
-Global $iSkipDonateNearFulLTroopsEnable = 1
+Global $iSkipDonateNearFulLTroopsEnable = 0
 
 Global $UseTimeStop = -1
 Global $TimeToStop = -1
@@ -1836,6 +1836,7 @@ Global $TroopsDonXP[24] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 Global $lblDonQ[24] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 Global $isSantaSpellAvailable = -1	; -1 Means not Set
+Global $isIceWizardAvailable = -1
 Global $_CheckIceWizardSlot = True ; Check if Ice Wizard changes normal troop layout (reset to true in readConfig!)
 
 ;
