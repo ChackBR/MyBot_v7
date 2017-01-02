@@ -1011,7 +1011,6 @@ $y += 18
 	GUICtrlSetLimit(-1, 999)
 	$lbltxtAddDelayIdlePhaseSec = GUICtrlCreateLabel(GetTranslated(603, 6, "sec."), $x+110, $y, 20, 30)
 	;GUICtrlSetState(-1,$GUI_DISABLE)
-GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 $x = $xStart + 28
 $y = $yStart + 28

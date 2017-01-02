@@ -77,7 +77,6 @@ Local $x = 25, $y = 20
  			_GUICtrlSetTip(-1, $txtTip)
 		$picAttackNearDarkElixirDrillDB = GUICtrlCreateIcon($pIconLib, $eIcnDrill, $x + 20 , $y - 3, 24, 24)
  			_GUICtrlSetTip(-1, $txtTip)
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	; samm0d multi finger
 	$x = 25
@@ -98,5 +97,6 @@ Local $x = 25, $y = 20
 						GetTranslated(671,50,"Eight Finger Pin Wheel Spiral Right"), GetTranslated(671,42,"Random"))
 	GUICtrlSetOnEvent(-1, "cmbDeployDB")
 
+	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 ;GUISetState()

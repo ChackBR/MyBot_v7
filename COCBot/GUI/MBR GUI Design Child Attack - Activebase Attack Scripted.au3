@@ -66,7 +66,6 @@ Local $x = 25, $y = 20
 			$txtTip =  GetTranslated(607,8, -1)
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetOnEvent(-1, "DuplicateScriptAB")
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	; Attack Now (CSV) By MR.ViPeR
 	$y += 106
