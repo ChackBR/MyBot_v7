@@ -218,7 +218,7 @@ Func DropTroopFromINI($vectors, $indexStart, $indexEnd, $indexArray, $qtaMin, $q
 		Next
 
 		ReleaseClicks()
-	    ;SuspendAndroid($SuspendMode)
+		;SuspendAndroid($SuspendMode)
 
 		;sleep time after deploy all troops
 		Local $sleepafter = 0
@@ -229,15 +229,15 @@ Func DropTroopFromINI($vectors, $indexStart, $indexEnd, $indexArray, $qtaMin, $q
 		EndIf
 		If $sleepafter > 0 And IsKeepClicksActive() = False Then
 			debugAttackCSV(">> delay after drop all troops: " & $sleepafter)
-			If $sleepafter <= 1000 Then  ; check SLEEPAFTER value is less than 1 second?
+			If $sleepafter <= 1000 Then ; check SLEEPAFTER value is less than 1 second?
 				If _Sleep($sleepafter) Then Return
-				CheckHeroesHealth()  ; check hero health == does nothing if hero not dropped
-			Else  ; $sleepafter is More than 1 second, then improve pause/stop button response with max 1 second delays
-				For $z = 1 To Int($sleepafter/1000) ; Check hero health every second while while sleeping
-					If _Sleep(980) Then Return  ; sleep 1 second minus estimated herohealthcheck time when heroes not activiated
-					CheckHeroesHealth()  ; check hero health == does nothing if hero not dropped
+				CheckHeroesHealth() ; check hero health == does nothing if hero not dropped
+			Else ; $sleepafter is More than 1 second, then improve pause/stop button response with max 1 second delays
+				For $z = 1 To Int($sleepafter / 1000) ; Check hero health every second while while sleeping
+					If _Sleep(980) Then Return ; sleep 1 second minus estimated herohealthcheck time when heroes not activiated
+					CheckHeroesHealth() ; check hero health == does nothing if hero not dropped
 				Next
-				If _Sleep(Mod($sleepafter,1000)) Then Return  ; $sleepafter must be integer for MOD function return correct value!
+				If _Sleep(Mod($sleepafter, 1000)) Then Return ; $sleepafter must be integer for MOD function return correct value!
 				CheckHeroesHealth() ; check hero health == does nothing if hero not dropped
 			EndIf
 		EndIf

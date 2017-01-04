@@ -209,7 +209,6 @@ Func btnLocateKingAltar()
 	LocateKingAltar()
 EndFunc   ;==>btnLocateKingAltar
 
-
 Func btnLocateQueenAltar()
 	LocateQueenAltar()
 EndFunc   ;==>btnLocateQueenAltar
@@ -239,8 +238,6 @@ Func btnLocateTownHall()
 	$RunState = $wasRunState
 	AndroidShield("btnLocateTownHall") ; Update shield status due to manual $RunState
 EndFunc   ;==>btnLocateTownHall
-
-
 
 Func btnResetBuilding()
 	Local $wasRunState = $RunState

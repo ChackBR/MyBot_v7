@@ -13,7 +13,9 @@
 ; Example .......: Noo
 ; ===============================================================================================================================
 
-Func Alogrithm_MilkingAttack()
+Func Algorithm_MilkingAttack()
+
+	LoadAmountOfResourcesImages()
 
 	;--- TH snipe After Milking...
 	If $THSnipeBeforeDBEnable = 1 and $searchTH = "-" Then FindTownHall(True) ; if no previous detect search townhall

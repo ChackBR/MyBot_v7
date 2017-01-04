@@ -38,7 +38,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 		EndIf
 	EndIf
 
-	If $iMatchMode = $TS Then; Return ;Exit attacking if trophy hunting and not bullymode
+	If $iMatchMode = $TS Then ; Return ;Exit attacking if trophy hunting and not bullymode
 		If ($THusedKing = 1 Or $THusedQueen = 1) And ($ichkSmartZap = 1 And $ichkSmartZapSaveHeroes = 1) Then
 			SetLog("King and/or Queen dropped, close attack")
 			If $ichkSmartZap = 1 Then SetLog("Skipping SmartZap to protect your royals!", $COLOR_FUCHSIA)
@@ -48,7 +48,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 		EndIf
 
 		;Apply to switch Attack Standard after THSnipe End  ==>
-		If CompareResources($DB) And $iAtkAlgorithm[$DB] = 0 And $ichkTSActivateCamps2 = 1 And Int($CurCamp / $TotalCamp * 100) >= Int($iEnableAfterArmyCamps2) then
+		If CompareResources($DB) And $iAtkAlgorithm[$DB] = 0 And $ichkTSActivateCamps2 = 1 And Int($CurCamp / $TotalCamp * 100) >= Int($iEnableAfterArmyCamps2) Then
 			$iMatchMode = $DB
 		Else
 			CloseBattle()
@@ -335,7 +335,7 @@ EndFunc   ;==>CloseBattle
 
 
 Func SmartAttackStrategy($imode)
-	If $iMatchMode <> $MA then ; (milking attack use own strategy)
+	If $iMatchMode <> $MA Then ; (milking attack use own strategy)
 
 		If ($iChkRedArea[$imode]) Then
 			SetLog("Calculating Smart Attack Strategy", $COLOR_INFO)
@@ -390,4 +390,4 @@ Func SmartAttackStrategy($imode)
 		EndIf
 	EndIf
 
-EndFunc
+EndFunc   ;==>SmartAttackStrategy

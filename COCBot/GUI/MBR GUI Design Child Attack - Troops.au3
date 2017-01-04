@@ -55,9 +55,6 @@ Local $y = $yStart + 8
 	GUICtrlSetState(-1, $GUI_DISABLE)
 	$hRadio_Army3 = GUICtrlCreateRadio( "Army 123 + Don't Empty Barracks", $x + 245, $y + 20, -1, 15)
 	GUICtrlSetState(-1, $GUI_DISABLE)
-;~	$LblRemovecamp = GUICtrlCreateLabel(GetTranslated(621, 41, "Remove Army"), $x + 335, $y + 20, -1, 15, $SS_LEFT)
-;~	$icnRemovecamp = GUICtrlCreateIcon($pIconLib, $eIcnResetButton, $x + 405, $y + 17, 24, 24)
-;~	GUICtrlSetOnEvent(-1, "Removecamp")
 
 Local $x = 10
 Local $y = 45
@@ -365,12 +362,13 @@ $Y -= 23
 $x -= 195
 $Y += 35
 
-;~
-;~ AwesomeGamer DEB ( Move this control )
-;~
-$LblRemovecamp = GUICtrlCreateLabel(GetTranslated(621, 41, "Remove Army"), $x + 200, $y + 4, -1, -1, $SS_LEFT)
-$icnRemovecamp = GUICtrlCreateIcon($pIconLib, $eIcnResetButton, $x + 270, $y - 2, 24, 24)
-GUICtrlSetOnEvent(-1, "Removecamp")
+	;~
+	;~ ( control Moved )
+	;~
+	$LblRemovecamp = GUICtrlCreateLabel(GetTranslated(621, 41, "Remove Army"), $x + 200, $y + 4, -1, -1, $SS_LEFT)
+	$icnRemovecamp = GUICtrlCreateIcon($pIconLib, $eIcnResetButton, $x + 270, $y - 2, 24, 24)
+	GUICtrlSetOnEvent(-1, "Removecamp")
+
 	$chkTotalCampForced = GUICtrlCreateCheckbox(GetTranslated(636, 46, "Force Total Army Camp") & ":", $x + 3, $y, -1, -1)
 	GUICtrlSetState(-1, $GUI_CHECKED)
 	GUICtrlSetOnEvent(-1, "chkTotalCampForced")
@@ -1027,5 +1025,4 @@ $y = $yStart + 28
 		GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 GUICtrlCreateGroup("", -99, -99, 1, 1)
-
 GUICtrlCreateTabItem("")

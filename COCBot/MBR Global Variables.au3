@@ -1086,7 +1086,7 @@ Global $bTrainEnabled = True
 
 Global $bDonationEnabled = True
 Global $sSkipDonateNearFulLTroopsPercentual = 90
-Global $iSkipDonateNearFulLTroopsEnable = 0
+Global $iSkipDonateNearFulLTroopsEnable = 1
 
 Global $UseTimeStop = -1
 Global $TimeToStop = -1

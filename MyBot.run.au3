@@ -53,7 +53,8 @@ Local $sModversion
 ; "2513" ; MyBot v6.5.1 + Fix for QuickTrain
 ; "2514" ; MyBot v6.5.1 + DEB( Don't Empty Barracks )
 ; "2601" ; MyBot v6.5.2
-$sModversion = "2602" ; MyBot v6.5.2 + SmartZap Fix
+; "2602" ; MyBot v6.5.2 + SmartZap Fix
+$sModversion = "2603" ; MyBot v6.5.2 + SmartZap Fix
 $sBotVersion = "v6.5.2" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it is also use on Checkversion()
 $sBotTitle = "My Bot " & $sBotVersion & ".r" & $sModversion & " " ;~ Don't use any non file name supported characters like \ / : * ? " < > |
 
@@ -207,12 +208,6 @@ SetLog(GetTranslated(500, 8, "Android Emulator Configuration: %s", $sAndroidInfo
 
 CheckDisplay() ; verify display size and DPI (Dots Per Inch) setting
 
-;LoadTHImage() ; Load TH images
-;LoadElixirImage() ; Load Elixir images
-;LoadElixirImage75Percent() ; Load Elixir images full at 75%
-;LoadElixirImage50Percent() ; Load Elixir images full at 50%
-LoadAmountOfResourcesImages()
-
 $iGUIEnabled = 1
 
 ;~ InitializeVariables();initialize variables used in extrawindows
@@ -233,7 +228,7 @@ DisableProcessWindowsGhosting()
 ProcessSetPriority(@AutoItPID, $iBotProcessPriority)
 
 ; ensure watchdog is launched
-LaunchWatchdog()
+; LaunchWatchdog()
 
 ;AutoStart Bot if request
 AutoStart()
@@ -544,10 +539,6 @@ Func Idle() ;Sequence that runs until Full Army
 
 		If $canRequestCC = True Then RequestCC()
 
-		;If $CurCamp >= $TotalCamp * $iEnableAfterArmyCamps[$DB] / 100 And $iEnableSearchCamps[$DB] = 1 And IsSearchModeActive($DB) Then ExitLoop
-		;If $CurCamp >= $TotalCamp * $iEnableAfterArmyCamps[$LB] / 100 And $iEnableSearchCamps[$LB] = 1 And IsSearchModeActive($LB) Then ExitLoop
-		;If $CurCamp >= $TotalCamp * $iEnableAfterArmyCamps[$TS] / 100 And $iEnableSearchCamps[$TS] = 1 And IsSearchModeActive($TS) Then ExitLoop
-
 		SetLog("Time Idle: " & StringFormat("%02i", Floor(Floor($TimeIdle / 60) / 60)) & ":" & StringFormat("%02i", Floor(Mod(Floor($TimeIdle / 60), 60))) & ":" & StringFormat("%02i", Floor(Mod($TimeIdle, 60))))
 
 		If $OutOfGold = 1 Or $OutOfElixir = 1 Then Return ; Halt mode due low resources, only 1 idle loop
@@ -617,7 +608,7 @@ Func Attack() ;Selects which algorithm
 		Algorithm_AttackCSV()
 	ElseIf $iMatchMode = $DB And $iAtkAlgorithm[$DB] = 2 Then
 		If $debugsetlog = 1 Then Setlog("start milking attack", $COLOR_ERROR)
-		Alogrithm_MilkingAttack()
+		Algorithm_MilkingAttack()
 	Else
 		If $debugsetlog = 1 Then Setlog("start standard attack", $COLOR_ERROR)
 		algorithm_AllTroops()

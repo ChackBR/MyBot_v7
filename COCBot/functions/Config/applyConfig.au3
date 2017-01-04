@@ -1251,27 +1251,6 @@ Func applyConfig($bRedrawAtExit = True) ;Applies the data from config to the con
 GUICtrlSetData($txtSkipDonateNearFulLTroopsPercentual, $sSkipDonateNearFulLTroopsPercentual)
 chkskipDonateNearFulLTroopsEnable()
 
-
-
-
-
-
-
-;~ 	Switch $iActivateKQConditionCSV
-;~ 		Case "Manual"
-;~ 			GUICtrlSetState($radManAbilitiesCSV, $GUI_CHECKED)
-;~ 		Case "Auto"
-;~ 			GUICtrlSetState($radAutoAbilitiesCSV, $GUI_CHECKED)
-;~ 	EndSwitch
-
-;~ 	If $iActivateWardenConditionCSV = 1 Then
-;~ 		GUICtrlSetState($chkUseWardenAbilityCSV, $GUI_CHECKED)
-;~ 	Else
-;~ 		GUICtrlSetState($chkUseWardenAbilityCSV, $GUI_UNCHECKED)
-;~ 	EndIf
-
-;~ 	GUICtrlSetData($txtManAbilitiesCSV, ($delayActivateKQCSV / 1000))
-
 	If $iShareAttack = 1 Then
 		GUICtrlSetState($chkShareAttack, $GUI_CHECKED)
 	Else
