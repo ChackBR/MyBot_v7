@@ -50,7 +50,7 @@ Func TrainRevamp()
 	If $Runstate = False Then Return
 
 	If $ichkUseQTrain = 1 Then
-		QT_ClickCamp( True, 0 )
+		QT_ClickTrain( True, 0 )
 		SetLog(" - Do nothing and hope Quick Train fills it")
 	Else
 		If ($IsFullArmywithHeroesAndSpells = True) Or ($CurCamp = 0 And $FirstStart) Then
@@ -109,7 +109,7 @@ Func CheckCamp($NeedOpenArmy = False, $CloseCheckCamp = False)
 	If $ReturnCamp = 1 Then
 		OpenTrainTabNumber($QuickTrainTAB)
 		If _Sleep(1000) Then Return
-		QT_ClickCamp( False, $Num )
+		QT_ClickTrain( False, $Num )
 	EndIf
 	If $ReturnCamp = 0 Then
 		; The number of troops is not correct
@@ -2479,7 +2479,7 @@ Func ICEWizardDetection()
 
 EndFunc   ;==>ICEWizardDetection
 
-Func QT_ClickCamp( $NeedOpenArmy = False, $Num = 0 )
+Func QT_ClickTrain( $NeedOpenArmy = False, $Num = 0 )
 	Local $i
 	Setlog("Simple Quick Train")
 	If $Runstate = False Then Return
@@ -2494,18 +2494,19 @@ Func QT_ClickCamp( $NeedOpenArmy = False, $Num = 0 )
 		OpenTrainTabNumber($QuickTrainTAB)
 	EndIf
 	If _Sleep(1000) Then Return
-	If $Num > 1 Then
-		If $Num > 2 Then
-			TrainArmyNumber( $Num - 2 )
+	For $i = 1 TO 3
+		If $Num > 1 Then
+			If $Num > 2 Then
+				TrainArmyNumber( $Num - 2 )
+				If _Sleep(250) Then Return
+			EndIf
+			TrainArmyNumber( $Num - 1 )
 			If _Sleep(250) Then Return
 		EndIf
-		TrainArmyNumber( $Num - 1 )
-		If _Sleep(250) Then Return
-	EndIf
-	TrainArmyNumber($Num)
-	If _Sleep(700) Then Return
-
+		TrainArmyNumber($Num)
+		If _Sleep(700) Then Return
+	Next
 	ClickP($aAway, 2, 0, "#0346") ;Click Away
 	If _Sleep(250) Then Return
 
-EndFunc	;==>QT_ClickCamp
+EndFunc	;==>QT_ClickTrain
