@@ -1,5 +1,5 @@
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: saveConfig.au3
+; Name ..........: Config_Save.au3
 ; Description ...:
 ; Syntax ........:
 ; Parameters ....:
@@ -17,20 +17,24 @@
 ; MOD Config - Save Data
 ;
 
-; Max logout time
-If GUICtrlRead($chkTrainLogoutMaxTime) = $GUI_CHECKED Then
-	IniWrite($config, "TrainLogout", "TrainLogoutMaxTime", 1)
-Else
-	IniWrite($config, "TrainLogout", "TrainLogoutMaxTime", 0)
-EndIf
-IniWrite($config, "TrainLogout", "TrainLogoutMaxTimeTXT", GUICtrlRead($txtTrainLogoutMaxTime))
+	; Max logout time
+	If GUICtrlRead($chkTrainLogoutMaxTime) = $GUI_CHECKED Then
+		IniWrite($config, "TrainLogout", "TrainLogoutMaxTime", 1)
+	Else
+		IniWrite($config, "TrainLogout", "TrainLogoutMaxTime", 0)
+	EndIf
+	IniWrite($config, "TrainLogout", "TrainLogoutMaxTimeTXT", GUICtrlRead($txtTrainLogoutMaxTime))
 
-; Multi Finger (LunaEclipse)
-IniWrite($config, "MultiFinger", "Select", _GUICtrlComboBox_GetCurSel($cmbDBMultiFinger))
+;
+; LunaEclipse
+;
 
-; CSV Deployment Speed Mod
-IniWriteS($config, "attack", "CSVSpeedDB", $isldSelectedCSVSpeed[$DB])
-IniWriteS($config, "attack", "CSVSpeedAB", $isldSelectedCSVSpeed[$LB])
+	; Multi Finger
+	IniWrite($config, "MultiFinger", "Select", _GUICtrlComboBox_GetCurSel($cmbDBMultiFinger))
+
+	; CSV Deployment Speed Mod
+	IniWriteS($config, "attack", "CSVSpeedDB", $isldSelectedCSVSpeed[$DB])
+	IniWriteS($config, "attack", "CSVSpeedAB", $isldSelectedCSVSpeed[$LB])
 
 ;
 ; AwesomeGamer

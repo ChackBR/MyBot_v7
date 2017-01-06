@@ -54,7 +54,8 @@ Local $sModversion
 ; "2514" ; MyBot v6.5.1 + DEB( Don't Empty Barracks )
 ; "2601" ; MyBot v6.5.2
 ; "2602" ; MyBot v6.5.2 + SmartZap Fix
-$sModversion = "2603" ; MyBot v6.5.2 + SmartZap Fix
+; "2603" ; MyBot v6.5.2 + SmartZap Fix
+$sModversion = "2604" ; MyBot v6.5.2 + QuickTrain Update
 $sBotVersion = "v6.5.2" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it is also use on Checkversion()
 $sBotTitle = "My Bot " & $sBotVersion & ".r" & $sModversion & " " ;~ Don't use any non file name supported characters like \ / : * ? " < > |
 

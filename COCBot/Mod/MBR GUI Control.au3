@@ -23,7 +23,7 @@ Func cmbDeployAB() ; avoid conflict between FourFinger and SmartAttack - DEMEN
    EndIf
 EndFunc
 
-Func cmbDeployDB() ; avoid conflict between FourFinger and SmartAttack - DEMEN
+Func cmbDeployDB() ; avoid conflict between FourFinger and SmartAttack
    If _GUICtrlCombobox_GetCurSel($cmbDeployDB) = 4 Then
 	  GUICtrlSetState($chkSmartAttackRedAreaDB, $GUI_UNCHECKED)
 	  GUICtrlSetState($chkSmartAttackRedAreaDB, $GUI_DISABLE)

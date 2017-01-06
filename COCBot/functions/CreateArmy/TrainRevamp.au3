@@ -49,40 +49,40 @@ Func TrainRevamp()
 
 	If $Runstate = False Then Return
 
-	If ($IsFullArmywithHeroesAndSpells = True) Or ($CurCamp = 0 And $FirstStart) Then
-
-		If $IsFullArmywithHeroesAndSpells Then Setlog(" - Your Army is Full, let's make troops before Attack!", $COLOR_BLUE)
-		If ($CurCamp = 0 And $FirstStart) Then
-			Setlog(" - Your Army is Empty, let's make troops before Attack!", $COLOR_ACTION1)
-			Setlog(" - Go to TrainRevamp Tab and select your Quick Army position!", $COLOR_ACTION1)
-		EndIf
-
-		DeleteQueued("Troops")
-		If _Sleep(250) Then Return
-		DeleteQueued("Spells")
-		If _Sleep(500) Then Return
-
-		CheckCamp()
-
-		ResetVariables("donated")
-
-		If $FirstStart Then $FirstStart = False
-
-		If _Sleep(700) Then Return
+	If $ichkUseQTrain = 1 Then
+		QT_ClickCamp( True, 0 )
+		SetLog(" - Do nothing and hope Quick Train fills it")
 	Else
+		If ($IsFullArmywithHeroesAndSpells = True) Or ($CurCamp = 0 And $FirstStart) Then
 
-		If $bDonationEnabled = True Then MakingDonatedTroops()
+			If $IsFullArmywithHeroesAndSpells Then Setlog(" - Your Army is Full, let's make troops before Attack!", $COLOR_BLUE)
+			If ($CurCamp = 0 And $FirstStart) Then
+				Setlog(" - Your Army is Empty, let's make troops before Attack!", $COLOR_ACTION1)
+				Setlog(" - Go to TrainRevamp Tab and select your Quick Army position!", $COLOR_ACTION1)
+			EndIf
 
-		CheckIsFullQueuedAndNotFullArmy()
-		If $Runstate = False Then Return
-		CheckIsEmptyQueuedAndNotFullArmy()
-		If $Runstate = False Then Return
+			DeleteQueued("Troops")
+			If _Sleep(250) Then Return
+			DeleteQueued("Spells")
+			If _Sleep(500) Then Return
 
-		If $ichkUseQTrain = 1 Then
 			CheckCamp()
-		EndIf
 
-		If $FirstStart Then $FirstStart = False
+			ResetVariables("donated")
+
+			If $FirstStart Then $FirstStart = False
+
+			If _Sleep(700) Then Return
+		Else
+
+			If $bDonationEnabled = True Then MakingDonatedTroops()
+
+			CheckIsFullQueuedAndNotFullArmy()
+			If $Runstate = False Then Return
+			CheckIsEmptyQueuedAndNotFullArmy()
+			If $Runstate = False Then Return
+			If $FirstStart Then $FirstStart = False
+		EndIf
 	EndIf
 
 	ClickP($aAway, 2, 0, "#0346") ;Click Away
@@ -554,6 +554,7 @@ Func GetCurCCSpell()
 	Local $directory = "armytspells-bundle"
 	Local $res = SearchArmy($directory, 508, 518, 585, 570, "", True)
 	If ValidateSearchArmyResult($res) Then
+		IF $res[0][0] = "LSpell" Then $res[0][0] = "FSpell" ; ChackBR temp fix
 		Setlog(" - " & NameOfTroop(Eval("e" & $res[0][0])), $COLOR_GREEN)
 		Return $res[0][0]
 	EndIf
@@ -1856,8 +1857,11 @@ Func SearchArmy($directory = "", $x = 0, $y = 0, $x1 = 0, $y1 = 0, $txt = "", $s
 	EndIf
 	If $txt = "Spells" Then
 		For $i = 0 To UBound($aResult) - 1
-			$aResult[$i][3] = Number(getBarracksNewTroopQuantity(Slot($aResult[$i][1], "spells"), 341)) ; coc-newarmy
-			;Setlog("$aResult: " & $aResult[$i][0] & "|" & $aResult[$i][1] & "|" & $aResult[$i][2] & "|" & $aResult[$i][3])
+			If $aResult[$i][0] = "LSpell" Then 
+				$aResult[$i][3] = 0
+			Else
+				$aResult[$i][3] = Number(getBarracksNewTroopQuantity(Slot($aResult[$i][1], "spells"), 341)) ; coc-newarmy
+			EndIf
 		Next
 	EndIf
 	If $txt = "Heroes" Then
@@ -1978,16 +1982,14 @@ Func DeleteQueued($TypeQueued, $OffsetQueued = 802)
 	EndIf
 	If _Sleep(500) Then Return
 	Local $x = 0
-	If $ichkUseQTrain = 0 Then
-		While Not IsQueueEmpty(-1, True, False)
-			If $x = 0 Then SetLog(" - Delete " & $TypeQueued & " Queued!", $COLOR_ACTION)
-			If _Sleep(20) Then Return
-			If $Runstate = False Then Return
-			Click($OffsetQueued + 24, 202, 2, 50)
-			$x += 1
-			If $x = 250 Then ExitLoop
-		WEnd
-	EndIf
+	While Not IsQueueEmpty(-1, True, False)
+		If $x = 0 Then SetLog(" - Delete " & $TypeQueued & " Queued!", $COLOR_ACTION)
+		If _Sleep(20) Then Return
+		If $Runstate = False Then Return
+		Click($OffsetQueued + 24, 202, 2, 50)
+		$x += 1
+		If $x = 250 Then ExitLoop
+	WEnd
 EndFunc   ;==>DeleteQueued
 
 Func Slot($x = 0, $txt = "")
@@ -2207,17 +2209,12 @@ Func CheckIsFullQueuedAndNotFullArmy()
 	If UBound($ArmyCamp) = 3 And $ArmyCamp[2] < 0 Then
 		If _ColorCheck(_GetPixelColor($CheckTroop[0], $CheckTroop[1], True), Hex($CheckTroop[2], 6), $CheckTroop[3]) Then
 			SetLog(" - Conditions met: FULL Queue and Not Full Army")
-			If $ichkUseQTrain = 0 Then
-				DeleteQueued("Troops")
-				If _Sleep(500) Then Return
-				$ArmyCamp = GetOCRCurrent(48, 160)
-				Local $ArchToMake = $ArmyCamp[2]
-				If ISArmyWindow(False, $TrainTroopsTAB) Then PureClick($TrainArch[0], $TrainArch[1], $ArchToMake, 500)
-				Setlog("Trained " & $ArchToMake & " archer(s)!")
-			Else
-				QT_ClickCamp( True, 0 )
-				SetLog(" - Do nothing and hope Quick Train fills it")
-			EndIf
+			DeleteQueued("Troops")
+			If _Sleep(500) Then Return
+			$ArmyCamp = GetOCRCurrent(48, 160)
+			Local $ArchToMake = $ArmyCamp[2]
+			If ISArmyWindow(False, $TrainTroopsTAB) Then PureClick($TrainArch[0], $TrainArch[1], $ArchToMake, 500)
+			Setlog("Trained " & $ArchToMake & " archer(s)!")
 		Else
 			SetLog(" - Conditions NOT met: FULL queue and Not Full Army")
 		EndIf
@@ -2242,15 +2239,10 @@ Func CheckIsEmptyQueuedAndNotFullArmy()
 			If Not _ColorCheck(_GetPixelColor($CheckTroop1[0], $CheckTroop1[1], True), Hex($CheckTroop1[2], 6), $CheckTroop1[3]) Then
 				SetLog(" - Conditions met: Empty Queue and Not Full Army")
 				If _Sleep(500) Then Return
-				If $ichkUseQTrain = 0 Then
-					$ArmyCamp = GetOCRCurrent(48, 160)
-					Local $ArchToMake = $ArmyCamp[2]
-					If ISArmyWindow(False, $TrainTroopsTAB) Then PureClick($TrainArch[0], $TrainArch[1], $ArchToMake, 500)
-					SetLog(" - Trained " & $ArchToMake & " archer(s)!")
-				Else
-					QT_ClickCamp( True, 0 )
-					SetLog(" - Do nothing and hope Quick Train fills it")
-				EndIf
+				$ArmyCamp = GetOCRCurrent(48, 160)
+				Local $ArchToMake = $ArmyCamp[2]
+				If ISArmyWindow(False, $TrainTroopsTAB) Then PureClick($TrainArch[0], $TrainArch[1], $ArchToMake, 500)
+				SetLog(" - Trained " & $ArchToMake & " archer(s)!")
 			Else
 				SetLog(" - Conditions NOT met: Empty queue and Not Full Army")
 			EndIf
@@ -2489,15 +2481,19 @@ EndFunc   ;==>ICEWizardDetection
 
 Func QT_ClickCamp( $NeedOpenArmy = False, $Num = 0 )
 	Local $i
+	Setlog("Simple Quick Train")
+	If $Runstate = False Then Return
 	IF $Num = 0 Then
 		If GUICtrlRead($hRadio_Army1) = $GUI_CHECKED Then $Num = 1
 		If GUICtrlRead($hRadio_Army2) = $GUI_CHECKED Then $Num = 2
 		If GUICtrlRead($hRadio_Army3) = $GUI_CHECKED Then $Num = 3
 	EndIf
 	If $NeedOpenArmy Then
+		OpenArmyWindow()
+		If _Sleep(500) Then Return
 		OpenTrainTabNumber($QuickTrainTAB)
-		If _Sleep(1000) Then Return
 	EndIf
+	If _Sleep(1000) Then Return
 	If $Num > 1 Then
 		If $Num > 2 Then
 			TrainArmyNumber( $Num - 2 )
@@ -2506,13 +2502,10 @@ Func QT_ClickCamp( $NeedOpenArmy = False, $Num = 0 )
 		TrainArmyNumber( $Num - 1 )
 		If _Sleep(250) Then Return
 	EndIf
-	If $Num > 2 Then
-		For $i = 1 To 3
-			TrainArmyNumber( $Num )
-			If _Sleep(250) Then Return
-		Next
-	Else
-		TrainArmyNumber($Num)
-		If _Sleep(700) Then Return
-	EndIf
-EndFunc   ;==>QT_CheckCamp
+	TrainArmyNumber($Num)
+	If _Sleep(700) Then Return
+
+	ClickP($aAway, 2, 0, "#0346") ;Click Away
+	If _Sleep(250) Then Return
+
+EndFunc	;==>QT_ClickCamp

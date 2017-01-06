@@ -1014,7 +1014,7 @@ $x = $xStart + 28
 $y = $yStart + 28
 
 	;max logout time
-	$y += 280
+	$y += 492
 		$chkTrainLogoutMaxTime = GUICtrlCreateCheckbox("Max Logout Time: ", $x+140, $y-190, -1, -1)
 			$txtTip = "Only allow logout for a maximum amount of time: "
 			GUICtrlSetTip(-1, $txtTip)
@@ -1022,7 +1022,6 @@ $y = $yStart + 28
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetLimit(-1, 2)
 		$lblTrainLogoutMaxTime= GUICtrlCreateLabel("min", $x + 285, $y - 188, -1, -1)
-		GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 GUICtrlCreateGroup("", -99, -99, 1, 1)
 GUICtrlCreateTabItem("")

@@ -17,20 +17,24 @@
 ; MOD Config - Save Data
 ;
 
-; Max logout time
-$TrainLogoutMaxTime = IniRead($config, "TrainLogout", "TrainLogoutMaxTime", "0")
-$TrainLogoutMaxTimeTXT = IniRead($config, "TrainLogout", "TrainLogoutMaxTimeTXT", "20")
+	; Max logout time
+	$TrainLogoutMaxTime = IniRead($config, "TrainLogout", "TrainLogoutMaxTime", "0")
+	$TrainLogoutMaxTimeTXT = IniRead($config, "TrainLogout", "TrainLogoutMaxTimeTXT", "20")
 
-; Multi Finger (LunaEclipse)
-$iMultiFingerStyle = IniRead($config, "MultiFinger", "Select", "1")
+;
+; LunaEclipse
+;
 
-; CSV Deployment Speed Mod
-IniReadS($isldSelectedCSVSpeed[$DB], $config, "attack", "CSVSpeedDB", 4)
-IniReadS($isldSelectedCSVSpeed[$LB], $config, "attack", "CSVSpeedAB", 4)
+	; Multi Finger
+	$iMultiFingerStyle = IniRead($config, "MultiFinger", "Select", "1")
+
+	; CSV Deployment Speed Mod
+	IniReadS($isldSelectedCSVSpeed[$DB], $config, "attack", "CSVSpeedDB", 4)
+	IniReadS($isldSelectedCSVSpeed[$LB], $config, "attack", "CSVSpeedAB", 4)
 
 ;
 ; AwesomeGamer
 ;
 
-; DEB
-$iChkDontRemove = IniRead($config, "troop", "DontRemove", "0")
+	; DEB
+	$iChkDontRemove = IniRead($config, "troop", "DontRemove", "0")

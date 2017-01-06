@@ -17,30 +17,36 @@
 ; MOD Config - Save Data
 ;
 
-;Max logout time
-If $TrainLogoutMaxTime = 1 Then
-	GUICtrlSetState($chkTrainLogoutMaxTime, $GUI_CHECKED)
-ElseIf $TrainLogoutMaxTime = 0 Then
-	GUICtrlSetState($chkTrainLogoutMaxTime, $GUI_UNCHECKED)
-EndIf
-GUICtrlSetData($txtTrainLogoutMaxTime, $TrainLogoutMaxTimeTXT)
+	;Max logout time
+	If $TrainLogoutMaxTime = 1 Then
+		GUICtrlSetState($chkTrainLogoutMaxTime, $GUI_CHECKED)
+	ElseIf $TrainLogoutMaxTime = 0 Then
+		GUICtrlSetState($chkTrainLogoutMaxTime, $GUI_UNCHECKED)
+	EndIf
+	GUICtrlSetData($txtTrainLogoutMaxTime, $TrainLogoutMaxTimeTXT)
 
-; Multi Finger (LunaEclipse)
-_GUICtrlComboBox_SetCurSel($cmbDBMultiFinger,$iMultiFingerStyle)
-cmbDBMultiFinger()
+;
+; LunaEclipse
+;
 
-; CSV Deployment Speed Mod
-GUICtrlSetData($sldSelectedSpeedDB, $isldSelectedCSVSpeed[$DB])
-GUICtrlSetData($sldSelectedSpeedAB, $isldSelectedCSVSpeed[$LB])
-sldSelectedSpeedDB()
-sldSelectedSpeedAB()
+	; Multi Finger
+	_GUICtrlComboBox_SetCurSel($cmbDBMultiFinger,$iMultiFingerStyle)
+	cmbDBMultiFinger()
+
+	; CSV Deployment Speed Mod
+	GUICtrlSetData($sldSelectedSpeedDB, $isldSelectedCSVSpeed[$DB])
+	GUICtrlSetData($sldSelectedSpeedAB, $isldSelectedCSVSpeed[$LB])
+	sldSelectedSpeedDB()
+	sldSelectedSpeedAB()
+
 ;
 ; AwesomeGamer
 ;
 
-; DEB
-If $iChkDontRemove = 1 Then
-	GUICtrlSetState($chkDontRemove, $GUI_CHECKED)
-Else
-	GUICtrlSetState($chkDontRemove, $GUI_UNCHECKED)
-EndIf
+	; DEB
+	If $iChkDontRemove = 1 Then
+		GUICtrlSetState($chkDontRemove, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkDontRemove, $GUI_UNCHECKED)
+	EndIf
+

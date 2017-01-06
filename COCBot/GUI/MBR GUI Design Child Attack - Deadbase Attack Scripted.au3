@@ -37,7 +37,7 @@ Local $x = 25, $y = 20
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetOnEvent(-1, 'UpdateComboScriptNameDB') ; Run this function when the secondary GUI [X] is clicked
 		$y +=20
-		$lblNotesScriptDB =  GUICtrlCreateLabel("", $x, $y + 5, 230, 112)
+		$lblNotesScriptDB =  GUICtrlCreateLabel("", $x, $y + 5, 208, 112)
 		$cmbScriptRedlineImplDB = GUICtrlCreateCombo("", $x, $y + 205, 230, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			GUICtrlSetData(-1, GetTranslated(607,9, "ImgLoc Raw Redline (default)|ImgLoc Redline Drop Points|Original Redline"))
 			_GUICtrlComboBox_SetCurSel(-1, $iRedlineRoutine[$DB])

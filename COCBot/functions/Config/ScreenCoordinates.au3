@@ -75,6 +75,7 @@ Global $aArmyOverviewTest[4] = [150, 554 + $midOffsetY, 0xBC2BD1, 20] ; Color pu
 Global $aCancRequestCCBtn[4] = [340, 250, 0xCC4010, 20] ; Red button Cancel in window request CC
 Global $aSendRequestCCBtn[2] = [524, 250] ; Green button Send in window request CC
 Global $atxtRequestCCBtn[2] = [430, 140] ; textbox in window request CC
+Global $aIsAtkDarkElixirFull[4] = [743, 62 + $midOffsetY, 0x1A0026, 10] ; Attack Screen DE Resource bar is full
 Global $aIsDarkElixirFull[4] = [710, 107 + $midOffsetY, 0x1A0026, 10] ; Main Screen DE Resource bar is full
 Global $aIsGoldFull[4] = [661, 6 + $midOffsetY, 0xDAB300, 10] ; Main Screen Gold Resource bar is Full
 Global $aIsElixirFull[4] = [661, 57 + $midOffsetY, 0xB31AB3, 10] ; Main Screen Elixir Resource bar is Full
