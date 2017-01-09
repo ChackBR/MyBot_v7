@@ -50,8 +50,7 @@ Func TrainRevamp()
 	If $Runstate = False Then Return
 
 	If $ichkUseQTrain = 1 Then
-		QT_ClickTrain( True, 0 )
-		SetLog(" - Do nothing and hope Quick Train fills it")
+		QT_ClickTrain( True, 0, 3 )
 	Else
 		If ($IsFullArmywithHeroesAndSpells = True) Or ($CurCamp = 0 And $FirstStart) Then
 
@@ -109,7 +108,8 @@ Func CheckCamp($NeedOpenArmy = False, $CloseCheckCamp = False)
 	If $ReturnCamp = 1 Then
 		OpenTrainTabNumber($QuickTrainTAB)
 		If _Sleep(1000) Then Return
-		QT_ClickTrain( False, $Num )
+		TrainArmyNumber($Num)
+		If _Sleep(700) Then Return
 	EndIf
 	If $ReturnCamp = 0 Then
 		; The number of troops is not correct
@@ -1958,8 +1958,7 @@ Func TrainArmyNumber($Num)
 			SetLog("Making the Army " & $Num + 1, $COLOR_INFO)
 			If _Sleep(1000) Then Return
 		Else
-			Setlog(" - All ok: Clicked On Army: " & $Num + 1 & "| Pixel was :" & _GetPixelColor($a_TrainArmy[$Num][0], $a_TrainArmy[$Num][1], True), $COLOR_ORANGE)
-			Setlog(" - If needed 'edit' the Army " & $Num + 1 & " before start the BOT!!!", $COLOR_RED)
+			Setlog(" - All ok: No Clic On Army: " & $Num + 1 & "| Pixel was :" & _GetPixelColor($a_TrainArmy[$Num][0], $a_TrainArmy[$Num][1], True), $COLOR_ORANGE)
 			;BotStop()
 		EndIf
 	Else
@@ -2479,7 +2478,7 @@ Func ICEWizardDetection()
 
 EndFunc   ;==>ICEWizardDetection
 
-Func QT_ClickTrain( $NeedOpenArmy = False, $Num = 0 )
+Func QT_ClickTrain( $NeedOpenArmy = False, $Num = 0, $nLoop = 3 )
 	Local $i
 	Setlog("Simple Quick Train")
 	If $Runstate = False Then Return
@@ -2494,7 +2493,7 @@ Func QT_ClickTrain( $NeedOpenArmy = False, $Num = 0 )
 		OpenTrainTabNumber($QuickTrainTAB)
 	EndIf
 	If _Sleep(1000) Then Return
-	For $i = 1 TO 3
+	For $i = 1 TO $nLoop
 		If $Num > 1 Then
 			If $Num > 2 Then
 				TrainArmyNumber( $Num - 2 )
