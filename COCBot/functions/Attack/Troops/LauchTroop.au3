@@ -53,7 +53,15 @@ Func LaunchTroop2($listInfoDeploy, $CC, $King, $Queen, $Warden)
 	Local $pixelRandomDrop[2]
 	Local $pixelRandomDropcc[2]
 
-	If ($iChkRedArea[$iMatchMode] = 1) And ($iChkDeploySettings[$iMatchMode] <> 4) Then ; ! FourFinger
+	; MultiFinger Check
+	Local $bCFF = False
+	If $iMatchMode = $DB And $iChkDeploySettings[$iMatchMode] = 5 Then
+		$bCFF = True
+	ElseIf $iMatchMode = $LB And $iChkDeploySettings[$iMatchMode] = 4 Then
+		$bCFF = True
+	EndIf
+
+	If ($iChkRedArea[$iMatchMode] = 1) And $bCFF = False Then ; ! MultiFinger
 		For $i = 0 To UBound($listInfoDeploy) - 1
 			Local $troop = -1
 			Local $troopNb = 0

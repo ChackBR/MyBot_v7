@@ -24,8 +24,15 @@ Func DropTroop($troop, $nbSides, $number, $slotsPerEdge = 0, $indexToAttack = -1
 	debugRedArea($nameFunc & " IN ")
 	debugRedArea("troop : [" & $troop & "] / nbSides : [" & $nbSides & "] / number : [" & $number & "] / slotsPerEdge [" & $slotsPerEdge & "]")
 
+	; MultiFinger Check
+	Local $bCFF = False
+	If $iMatchMode = $DB And $iChkDeploySettings[$iMatchMode] = 5 Then
+		$bCFF = True
+	ElseIf $iMatchMode = $LB And $iChkDeploySettings[$iMatchMode] = 4 Then
+		$bCFF = True
+	EndIf
 
-	If ($iChkRedArea[$iMatchMode]) And ($iChkDeploySettings[$iMatchMode] <> 4) Then ; ! FourFinger
+	If ($iChkRedArea[$iMatchMode]) And $bCFF = False Then ; ! MultiFinger
 		If $slotsPerEdge = 0 Or $number < $slotsPerEdge Then $slotsPerEdge = $number
 		If _Sleep($iDelayDropTroop1) Then Return
 		SelectDropTroop($troop) ;Select Troop

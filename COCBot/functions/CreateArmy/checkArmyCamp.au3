@@ -55,13 +55,6 @@ Func checkArmyCamp($bOpenArmyWindow = False, $bCloseArmyWindow = False, $bGetHer
 	getArmyCCStatus()
 	If _Sleep($iDelaycheckArmyCamp6) Then Return ; 10ms improve pause button response
 
-	;call BarracksStatus() to read barracks num
-;~ 	If $FirstStart Then
-;~ 		BarracksStatus(True)
-;~ 	Else
-;~ 		BarracksStatus(False)
-;~ 	EndIf
-
 	If Not $fullArmy Then DeleteExcessTroops()
 
 	$FirstCampView = True
