@@ -86,8 +86,8 @@ Func GetTrainPos($troopKind)
 	; Get the Image path to search
 	For $i = 0 To UBound($TroopName) - 1
 		If Eval("e" & $TroopName[$i]) = $troopKind Then
-			$TemVar = Eval("Train" & $TroopName[$i])
-			If $TemVar[0] = -1 Then
+			;$TemVar = Eval("Train" & $TroopName[$i])
+			;If $TemVar[0] = -1 Then
 				$directory = @ScriptDir & "\imgxml\Train\Train_Train\"
 				$Filter = String($TroopName[$i]) & "*"
 				$ImageToUse = _FileListToArray($directory, $Filter, $FLTA_FILES, True)
@@ -95,16 +95,16 @@ Func GetTrainPos($troopKind)
 				$IsTroop = GetVariable($ImageToUse[1], $troopKind)
 				Assign("Train" & $TroopName[$i], $IsTroop)
 				Return $IsTroop
-			Else
-				Return $TemVar
-			EndIf
+			;Else
+			;	Return $TemVar
+			;EndIf
 		EndIf
 	Next
 
 	For $i = 0 To UBound($SpellName) - 1
 		If Eval("e" & $SpellName[$i]) = $troopKind Then
-			$TemVar = Eval("Train" & $SpellName[$i])
-			If $TemVar[0] = -1 Then
+			;$TemVar = Eval("Train" & $SpellName[$i])
+			;If $TemVar[0] = -1 Then
 				$directory = @ScriptDir & "\imgxml\Train\Spell_Train\"
 				$Filter = String($SpellName[$i]) & "*"
 				$ImageToUse = _FileListToArray($directory, $Filter, $FLTA_FILES, True)
@@ -112,9 +112,9 @@ Func GetTrainPos($troopKind)
 				$IsSpell = GetVariable($ImageToUse[1], $troopKind)
 				Assign("Train" & $SpellName[$i], $IsSpell)
 				Return $IsSpell
-			Else
-				Return $TemVar
-			EndIf
+			;Else
+			;	Return $TemVar
+			;EndIf
 		EndIf
 	Next
 
