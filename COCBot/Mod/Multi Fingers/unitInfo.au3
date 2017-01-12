@@ -5,7 +5,7 @@
 ; Parameters ....:
 ; Return values .:
 ; Author ........: @LunaEclipse
-; Modified ......:
+; Modified ......: Samkie (9 Jan 2017)
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
@@ -134,7 +134,6 @@ EndFunc   ;==>addVector
 Func standardSideDrop($dropVectors, $waveNumber, $sideIndex, $currentSlot, $troopsPerSlot, $useDelay = False)
 	Local $delay = ($useDelay = True) ? SetSleep(0): 0
 	Local $dropPoints
-
 	$dropPoints = $dropVectors[$waveNumber][$sideIndex]
 	If $currentSlot < UBound($dropPoints) Then AttackClick($dropPoints[$currentSlot][0], $dropPoints[$currentSlot][1], $troopsPerSlot, 0, 0)
 EndFunc   ;==>standardSideDrop
@@ -192,7 +191,6 @@ EndFunc   ;==>multiDouble
 ; Drop the troops from a single point on a single side
 Func sideSingle($dropSide, $dropAmount, $useDelay = False)
 	Local $delay = ($useDelay = True) ? SetSleep(0): 0
-
 	AttackClick($dropSide[2][0], $dropSide[2][1], $dropAmount, $delay, 0)
 EndFunc   ;==>sideSingle
 
@@ -200,7 +198,6 @@ EndFunc   ;==>sideSingle
 Func sideDouble($dropSide, $dropAmount, $useDelay = False)
 	Local $delay = ($useDelay = True) ? SetSleep(0): 0
 	Local $half = Ceiling($dropAmount / 2)
-
 	AttackClick($dropSide[1][0], $dropSide[1][1], $half, 0, 0)
 	AttackClick($dropSide[3][0], $dropSide[3][1], $dropAmount - $half, $delay, 0)
 EndFunc   ;==>sideDouble

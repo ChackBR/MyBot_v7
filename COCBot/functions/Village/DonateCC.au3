@@ -782,7 +782,7 @@ Func DonateTroopType($Type, $Quant = 0, $Custom = False, $bDonateAll = False)
 									$CommandStop = 0
 									$fullArmy = False
 								EndIf
-								If _Sleep(1000) Then Return
+								If _Sleep(1000/4) Then Return
 								$icount += 1
 							EndIf
 						Next
@@ -853,7 +853,7 @@ Func DonateTroopType($Type, $Quant = 0, $Custom = False, $bDonateAll = False)
 									$CommandStop = 0
 									$fullArmy = False
 								EndIf
-								If _Sleep(1000) Then Return
+								If _Sleep(1000/4) Then Return
 							EndIf
 						Next
 						$iDonTroopsQuantity = $icount ; Count Troops Donated Clicks

@@ -21,9 +21,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 
 	; MultiFinger Check
 	Local $bCFF = False
-	If $iMatchMode = $DB And $iChkDeploySettings[$iMatchMode] = 5 Then
-		$bCFF = True
-	ElseIf $iMatchMode = $LB And $iChkDeploySettings[$iMatchMode] = 4 Then
+	If $iMatchMode = $DB And $iChkDeploySettings[$iMatchMode] = 4 Then
 		$bCFF = True
 	EndIf
 

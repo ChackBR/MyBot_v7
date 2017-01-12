@@ -5,7 +5,7 @@
 ; Parameters ....:
 ; Return values .: None
 ; Author ........: LunaEclipse(January, 2016)
-; Modified ......:
+; Modified ......: Samkie (9 Jan 2017)
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2016
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
@@ -99,8 +99,6 @@ Func launchMultiFinger($listInfoDeploy, $CC, $King, $Queen, $Warden, $overrideSm
 			$unitCount[$kind] -= $dropAmount
 
 			If $dropAmount > 0 Then
-				;SetLog("Dropping " & getWaveName($waveNumber, $waveCount) & " wave of " & $dropAmount & " " & getTranslatedTroopName($kind), $COLOR_GREEN)
-
 				multiFingerDropOnEdge($multiStyle, $dropVectors, $i, $barPosition, $dropAmount, $position)
 				If _SleepAttack(SetSleep(1)) Then Return
 			EndIf
@@ -222,16 +220,36 @@ Func modDropTroop($troop, $nbSides, $number, $slotsPerEdge = 0, $indexToAttack =
 	debugRedArea($nameFunc & " OUT ")
 EndFunc   ;==>modDropTroop
 
-
 Func cmbDBMultiFinger()
-	$iChkDeploySettings[$DB] = _GUICtrlComboBox_GetCurSel($cmbDeployDB)
-	$iMultiFingerStyle = _GUICtrlComboBox_GetCurSel($cmbDBMultiFinger)
 	If $iChkDeploySettings[$DB] = 5 Then
 		GUICtrlSetState($lblDBMultiFinger, $GUI_SHOW)
 		GUICtrlSetState($cmbDBMultiFinger, $GUI_SHOW)
+		$iMultiFingerStyle = _GUICtrlComboBox_GetCurSel($cmbDBMultiFinger)
 	Else
 		GUICtrlSetState($lblDBMultiFinger, $GUI_HIDE)
 		GUICtrlSetState($cmbDBMultiFinger, $GUI_HIDE)
 	EndIf
 EndFunc   ;==>cmbDBMultiFinger
 
+Func cmbDeployAB()
+	$iChkDeploySettings[$LB] = _GUICtrlComboBox_GetCurSel($cmbDeployAB)
+	If $iChkDeploySettings[$LB] = 4 Then
+		GUICtrlSetState($chkSmartAttackRedAreaAB, $GUI_UNCHECKED)
+		GUICtrlSetState($chkSmartAttackRedAreaAB, $GUI_DISABLE)
+		chkSmartAttackRedAreaAB()
+	Else
+		GUICtrlSetState($chkSmartAttackRedAreaAB, $GUI_ENABLE)
+	EndIf
+EndFunc	;==>cmbDeployAB
+
+Func cmbDeployDB()
+	$iChkDeploySettings[$DB] = _GUICtrlComboBox_GetCurSel($cmbDeployDB)
+	If $iChkDeploySettings[$DB] = 4 Or $iChkDeploySettings[$DB] = 5 Then
+		GUICtrlSetState($chkSmartAttackRedAreaDB, $GUI_UNCHECKED)
+		GUICtrlSetState($chkSmartAttackRedAreaDB, $GUI_DISABLE)
+		chkSmartAttackRedAreaDB()
+	Else
+		GUICtrlSetState($chkSmartAttackRedAreaDB, $GUI_ENABLE)
+	EndIf
+	cmbDBMultiFinger()
+EndFunc	;==>cmbDeployDB
