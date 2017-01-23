@@ -26,6 +26,23 @@ Local $txtFull = GetTranslated(626,30, "Full")
 		$chkDeadBaseDisableCollectorsFilter = GUICtrlCreateCheckbox(GetTranslated(626,32,"Disable Collector Filter"), $x+250, $y+60, 150, 18)
 			GUICtrlSetState(-1, $GUI_UNCHECKED)
 			_GUICtrlSetTip(-1, GetTranslated(626,33, "Excluding Collector Filter the bot consider DeadBase as ActiveBase"))
+
+		; Check Collectors Outside
+		$chkDBMeetCollOutside = GUICtrlCreateCheckbox(GetTranslated(626,40, "Check Collectors Outside"), $x+250, $y+90, -1, -1)
+			$txtTip = GetTranslated(626,41, "Search for bases that has their collectors outside.")
+			GUICtrlSetOnEvent(-1, "chkDBMeetCollOutside")
+			GUICtrlSetTip(-1, $txtTip)
+			GUICtrlSetState(-1, $GUI_UNCHECKED)
+			GUICtrlCreateLabel("Min: ", $x+270, $y+120, -1, -1)
+		$txtDBMinCollOutsidePercent = GUICtrlCreateInput("50", $x+300, $y+115, 31, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			$txtTip = GetTranslated(626,42, "Set the Min. % of collectors outside to search for on a village to attack.")
+			GUICtrlSetTip(-1, $txtTip)
+			GUICtrlSetState(-1, $GUI_DISABLE)
+			GUICtrlSetLimit(-1, 3)
+			GUICtrlSetData(-1, 50)
+			GUICtrlCreateLabel("%", $x+335, $y+120, -1, -1)
+			GUICtrlSetTip(-1, $txtTip)
+
 	$y+=40
 		$chkLvl6 = GUICtrlCreateCheckbox("", $x, $y, 18, 18)
 			$txtTip = $txtTip1 & @CRLF & GetTranslated(626,16, "for level 6 elixir collectors during dead base detection.")

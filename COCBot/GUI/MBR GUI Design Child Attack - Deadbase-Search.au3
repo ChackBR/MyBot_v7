@@ -295,4 +295,5 @@ Local $x = 220, $y = 45
 		$chkDBMeetOne = GUICtrlCreateCheckbox(GetTranslated(625,40, "Meet One Then Attack"), $x, $y, -1, -1)
 			$txtTip = GetTranslated(625,41, "Just meet only ONE of the above conditions, then Attack.")
 			_GUICtrlSetTip(-1, $txtTip)
+
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
