@@ -216,6 +216,7 @@
 #include "functions\Other\LaunchConsole.au3"
 #include "functions\Other\ADB.au3"
 #include "functions\Other\FindAButton.au3"
+#include "functions\Other\ArrayFunctions.au3"
 
 #include "functions\Pixels\_CaptureRegion.au3"
 #include "functions\Pixels\_ColorCheck.au3"
