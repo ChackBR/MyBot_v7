@@ -20,7 +20,8 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
-Global $TypeTroops[4] = [1, 10, 20, 0]
+;Global $TypeTroops[4] = [1, 10, 20, 0] ; unnecessary variable , is a parameter !!!
+
 Func TrainClick($x, $y, $iTimes, $iSpeed, $aWatchSpot, $aLootSpot, $sdebugtxt, $TypeTroops)
 	If IsTrainPage() Then
 		If $debugClick = 1 Then

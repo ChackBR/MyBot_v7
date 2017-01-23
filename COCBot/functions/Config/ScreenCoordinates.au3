@@ -150,7 +150,7 @@ Global $TrainMine[4]   = [-1, -1, -1, -1]
 ; Full Variables checks if The [i] symbol on each Icon on train is gray : Troops not available to train
 Global $FullBarb[4]	   = [-1, -1, -1, -1] ;
 Global $FullArch[4]    = [-1, -1, -1, -1] ;
-Global $FullGiant[4]    = [-1, -1, -1, -1] ;
+Global $FullGiant[4]   = [-1, -1, -1, -1] ;
 Global $FullGobl[4]    = [-1, -1, -1, -1] ;
 Global $FullWall[4]    = [-1, -1, -1, -1] ;
 Global $FullBall[4]	   = [-1, -1, -1, -1] ;

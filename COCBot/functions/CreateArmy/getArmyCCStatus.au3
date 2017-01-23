@@ -37,10 +37,10 @@ Func getArmyCCStatus($bOpenArmyWindow = False, $bCloseArmyWindow = False)
 
 	If $canRequestCC = false then
 		If _ColorCheck(_GetPixelColor($aRequestTroopsAO[0], $aRequestTroopsAO[1], True), Hex($aRequestTroopsAO[3], 6), $aRequestTroopsAO[5]) then
-			Setlog(" - Castle request already made.", $COLOR_INFO)
+			Setlog(" - Castle request allready made.", $COLOR_INFO)
 		EndIf
 		If _ColorCheck(_GetPixelColor($aRequestTroopsAO[0], $aRequestTroopsAO[1], True), Hex($aRequestTroopsAO[4], 6), $aRequestTroopsAO[5]) then
-			Setlog(" - Castle full/no clan.")
+			Setlog("Castle Full/No clan.", $COLOR_INFO)
 		EndIf
 	EndIf
 

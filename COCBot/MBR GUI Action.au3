@@ -50,7 +50,7 @@ Func BotStart()
 
 	;Reset Telegram message
 	NotifyGetLastMessageFromTelegram()
-	
+
 	If BitAND($AndroidSupportFeature, 1 + 2) = 0 And $ichkBackground = 1 Then
 		GUICtrlSetState($chkBackground, $GUI_UNCHECKED)
 		chkBackground() ; Invoke Event manually

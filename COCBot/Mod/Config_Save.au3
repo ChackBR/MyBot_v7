@@ -47,3 +47,29 @@
 		IniWrite($config, "troop", "DontRemove", 0)
 	EndIf
 
+	; Check Collectors Outside
+	If GUICtrlRead($chkDBMeetCollOutside) = $GUI_CHECKED Then
+		IniWriteS($config, "search", "DBMeetCollOutside", 1)
+	Else
+		IniWriteS($config, "search", "DBMeetCollOutside", 0)
+	EndIf
+	IniWriteS($config, "search", "DBMinCollOutsidePercent", GUICtrlRead($txtDBMinCollOutsidePercent))
+
+	; Smart Upgrade
+	IniWrite($config, "upgrade", "chkSmartUpgrade", $ichkSmartUpgrade)
+	IniWrite($config, "upgrade", "chkIgnoreTH", $ichkIgnoreTH)
+	IniWrite($config, "upgrade", "chkIgnoreKing", $ichkIgnoreKing)
+	IniWrite($config, "upgrade", "chkIgnoreQueen", $ichkIgnoreQueen)
+	IniWrite($config, "upgrade", "chkIgnoreWarden", $ichkIgnoreWarden)
+	IniWrite($config, "upgrade", "chkIgnoreCC", $ichkIgnoreCC)
+	IniWrite($config, "upgrade", "chkIgnoreLab", $ichkIgnoreLab)
+	IniWrite($config, "upgrade", "chkIgnoreBarrack", $ichkIgnoreBarrack)
+	IniWrite($config, "upgrade", "chkIgnoreDBarrack", $ichkIgnoreDBarrack)
+	IniWrite($config, "upgrade", "chkIgnoreFactory", $ichkIgnoreFactory)
+	IniWrite($config, "upgrade", "chkIgnoreDFactory", $ichkIgnoreDFactory)
+	IniWrite($config, "upgrade", "chkIgnoreGColl", $ichkIgnoreGColl)
+	IniWrite($config, "upgrade", "chkIgnoreEColl", $ichkIgnoreEColl)
+	IniWrite($config, "upgrade", "chkIgnoreDColl", $ichkIgnoreDColl)
+	IniWrite($config, "upgrade", "SmartMinGold", GUICtrlRead($SmartMinGold))
+	IniWrite($config, "upgrade", "SmartMinElixir", GUICtrlRead($SmartMinElixir))
+	IniWrite($config, "upgrade", "SmartMinDark", GUICtrlRead($SmartMinDark))

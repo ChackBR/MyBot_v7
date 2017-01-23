@@ -19,7 +19,6 @@ Func TrainIt($troopKind, $howMuch = 1, $iSleep = 400)
 	Local $bDark = False
 
 	Local $pos = GetTrainPos($troopKind)
-
 	If IsArray($pos) And $pos[0] <> -1 Then
 		If _ColorCheck(_GetPixelColor($pos[0], $pos[1], $bCapturePixel), Hex($pos[2], 6), $pos[3]) = True Then
 			Local $GemName = GetGemName($troopKind)
@@ -64,6 +63,28 @@ Func TrainIt($troopKind, $howMuch = 1, $iSleep = 400)
 			Else
 				Setlog("Bad pixel check on troop position " & NameOfTroop($troopKind), $COLOR_ERROR)
 				If $debugsetlogTrain = 1 Then Setlog("Train Pixel Color: " & $badPixelColor, $COLOR_DEBUG)
+
+				; Reset the $Train'troop' and $Full'troop' variable , with this the next train loop will detect again the position and color/slot
+				For $i = 0 To UBound($TroopName) - 1
+					If Eval("e" & $TroopName[$i]) = $troopKind Then
+						For $t = 0 to 3
+							Assign("Train" & $TroopName[$t], -1)
+							Assign("Full" & $TroopName[$t], -1)
+						Next
+						ExitLoop
+					EndIf
+				Next
+				; Reset the $Train'spell' and $Full'spell' variable , with this the next train loop will detect again the position and color/slot
+				For $i = 0 To UBound($SpellName) - 1
+					If Eval("e" & $SpellName[$i]) = $troopKind Then
+						For $t = 0 to 3
+							Assign("Train" & $SpellName[$t], -1)
+							Assign("Full" & $SpellName[$t], -1)
+						Next
+						ExitLoop
+					EndIf
+				Next
+
 			EndIf
 		EndIf
 	Else
@@ -95,9 +116,9 @@ Func GetTrainPos($troopKind)
 				$IsTroop = GetVariable($ImageToUse[1], $troopKind)
 				Assign("Train" & $TroopName[$i], $IsTroop)
 				Return $IsTroop
-			;Else
-			;	Return $TemVar
-			;EndIf
+;~ 			Else
+;~ 				Return $TemVar
+;~ 			EndIf
 		EndIf
 	Next
 
@@ -112,12 +133,11 @@ Func GetTrainPos($troopKind)
 				$IsSpell = GetVariable($ImageToUse[1], $troopKind)
 				Assign("Train" & $SpellName[$i], $IsSpell)
 				Return $IsSpell
-			;Else
-			;	Return $TemVar
-			;EndIf
+;~ 			Else
+;~ 				Return $TemVar
+;~ 			EndIf
 		EndIf
 	Next
-
 	Return 0
 EndFunc   ;==>GetTrainPos
 
@@ -160,7 +180,6 @@ Func GetFullName($troopKind)
 	Return $slotTemp
 EndFunc   ;==>GetFullName
 
-
 Func GetGemName($troopKind)
 	If $debugsetlogTrain = 1 Then SetLog("Func GetGemName " & $troopKind, $COLOR_DEBUG)
 	For $i = 0 To UBound($TroopName) - 1
@@ -179,17 +198,30 @@ EndFunc   ;==>GetGemName
 
 Func GetRNDName($troopKind)
 	If $debugsetlogTrain = 1 Then SetLog("Func GetRNDName " & $troopKind, $COLOR_DEBUG)
+	Local $aReturn[4]
 	For $i = 0 To UBound($TroopName) - 1
 		If Eval("e" & $TroopName[$i]) = $troopKind Then
-			Return Eval("Train" & $TroopName[$i] & "RND")
+			Local $aTempCoord = Eval("Train" & $TroopName[$i])
+			$aReturn[0] = $aTempCoord[0] - 5
+			$aReturn[1] = $aTempCoord[1] - 5
+			$aReturn[2] = $aTempCoord[0] + 5
+			$aReturn[3] = $aTempCoord[1] + 5
+			;Assign("Train" & $TroopName[$i] & "RND", $aReturn)
+			Return $aReturn
 		EndIf
 	Next
 	For $i = 0 To UBound($SpellName) - 1
 		If Eval("e" & $SpellName[$i]) = $troopKind Then
-			Return Eval("Train" & $SpellName[$i] & "RND")
+			Local $aTempCoord = Eval("Train" & $SpellName[$i])
+			$aReturn[0] = $aTempCoord[0] - 5
+			$aReturn[1] = $aTempCoord[1] - 5
+			$aReturn[2] = $aTempCoord[0] + 5
+			$aReturn[3] = $aTempCoord[1] + 5
+			;Assign("Train" & $SpellName[$i] & "RND", $aReturn)
+			Return $aReturn
 		EndIf
 	Next
-	SetLog("Don't know how to find the troop " & $troopKind & " yet")
+	SetLog("Don't know how to find the " & $troopKind & " yet!", $COLOR_ERROR)
 	Return 0
 EndFunc   ;==>GetRNDName
 

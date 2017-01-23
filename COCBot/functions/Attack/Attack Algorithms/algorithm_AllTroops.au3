@@ -99,13 +99,25 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 	If ($nbSides = 0) Then Return
 	If _Sleep($iDelayalgorithm_AllTroops2) Then Return
 
+	Local $SlotsGiants = 1 ; standard on middle of village
+
+	If $nbSides = 5 Then
+		If Number($GiantComp) > 7 Then $SlotsGiants = 2
+	Else
+		If Number($GiantComp) > 20 Then
+			$SlotsGiants = 0
+		Else
+			If Number($GiantComp) > 16 Then $SlotsGiants = 2
+		Endif
+	EndIf
+
 	; $ListInfoDeploy = [Troop, No. of Sides, $WaveNb, $MaxWaveNb, $slotsPerEdge]
 	If $iMatchMode = $LB And $iChkDeploySettings[$LB] = 4 Then ; Customise DE side wave deployment here
 		Switch $icmbStandardAlgorithm[$iMatchMode]
 			Case 0
 				Local $listInfoDeploy[21][5] = [[$eGole, $nbSides, 1, 1, 2] _
 						, [$eLava, $nbSides, 1, 1, 2] _
-						, [$eGiant, $nbSides, 1, 1, 2] _
+						, [$eGiant, $nbSides, 1, 1, $SlotsGiants] _
 						, [$eDrag, $nbSides, 1, 1, 0] _
 						, [$eBall, $nbSides, 1, 1, 0] _
 						, [$eBabyD, $nbSides, 1, 1, 1] _
@@ -134,7 +146,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 						, ["HEROES", 1, 2, 1, 1] _
 						]
 			Case 2
-				Local $listInfoDeploy[13][5] = [[$eGiant, $nbSides, 1, 1, 2] _
+				Local $listInfoDeploy[13][5] = [[$eGiant, $nbSides, 1, 1, $SlotsGiants] _
 						, [$eWall, $nbSides, 1, 1, 2] _
 						, [$eBarb, $nbSides, 1, 2, 2] _
 						, [$eArch, $nbSides, 1, 3, 3] _
@@ -152,7 +164,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 
 	; Classic Four Fingers
 	ElseIf $nbSides = 5 Then
-		Local $listInfoDeploy[20][5] = [[$eGiant, $nbSides, 1, 1, 2], _
+		Local $listInfoDeploy[20][5] = [[$eGiant, $nbSides, 1, 1, $SlotsGiants], _
 						[$eGole,  $nbSides, 1, 1, 2], _
 						[$eLava,  $nbSides, 1, 1, 2], _
 						[$eBarb,  $nbSides, 1, 1, 0], _
@@ -179,7 +191,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 			Case 0
 				Local $listInfoDeploy[21][5] = [[$eGole, $nbSides, 1, 1, 2] _
 						, [$eLava, $nbSides, 1, 1, 2] _
-						, [$eGiant, $nbSides, 1, 1, 2] _
+						, [$eGiant, $nbSides, 1, 1, $SlotsGiants] _
 						, [$eDrag, $nbSides, 1, 1, 0] _
 						, [$eBall, $nbSides, 1, 1, 0] _
 						, [$eBabyD, $nbSides, 1, 1, 0] _
@@ -208,7 +220,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 						, ["HEROES", 1, 2, 1, 1] _
 						]
 			Case 2
-				Local $listInfoDeploy[13][5] = [[$eGiant, $nbSides, 1, 1, 2] _
+				Local $listInfoDeploy[13][5] = [[$eGiant, $nbSides, 1, 1, $SlotsGiants] _
 						, [$eBarb, $nbSides, 1, 2, 0] _
 						, [$eWall, $nbSides, 1, 1, 1] _
 						, [$eArch, $nbSides, 1, 2, 0] _
@@ -224,7 +236,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 						]
 			Case Else
 				SetLog("Algorithm type unavailable, defaulting to regular", $COLOR_ERROR)
-				Local $listInfoDeploy[13][5] = [[$eGiant, $nbSides, 1, 1, 2] _
+				Local $listInfoDeploy[13][5] = [[$eGiant, $nbSides, 1, 1, $SlotsGiants] _
 						, [$eBarb, $nbSides, 1, 2, 0] _
 						, [$eWall, $nbSides, 1, 1, 1] _
 						, [$eArch, $nbSides, 1, 2, 0] _

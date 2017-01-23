@@ -73,3 +73,22 @@ Global $chkDontRemove = True
 Global $aNoLeague[4] = [30, 30, 0x616568, 20] ; No League Shield
 Global $chkDBNoLeague, $chkABNoLeague, $iChkNoLeague[$iModeCount]
 
+; Check Collector Outside
+Global $ichkDBMeetCollOutside, $iDBMinCollOutsidePercent, $iCollOutsidePercent ; check later if $iCollOutsidePercent obsolete
+Global Const $THEllipseWidth = 200, $THEllipseHeigth = 150, $CollectorsEllipseWidth = 130, $CollectorsEllipseHeigth = 97.5
+Global Const $centerX = 430, $centerY = 335 ; check later if $THEllipseWidth, $THEllipseHeigth obsolete
+Global $hBitmapFirst
+
+; SmartUpgrade
+Global $ichkSmartUpgrade
+Global $ichkIgnoreTH, $ichkIgnoreKing, $ichkIgnoreQueen, $ichkIgnoreWarden, $ichkIgnoreCC, $ichkIgnoreLab
+Global $ichkIgnoreBarrack, $ichkIgnoreDBarrack, $ichkIgnoreFactory, $ichkIgnoreDFactory, $ichkIgnoreGColl, $ichkIgnoreEColl, $ichkIgnoreDColl
+Global $iSmartMinGold, $iSmartMinElixir, $iSmartMinDark
+Global $sBldgText, $sBldgLevel, $aString
+Global $upgradeName[3] = ["", "", ""]
+Global $UpgradeCost
+Global $TypeFound = 0
+Global $SmartMinGold, $SmartMinElixir, $SmartMinDark
+Global $UpgradeDuration
+Global $canContinueLoop = True
+

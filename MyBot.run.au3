@@ -49,7 +49,8 @@ Local $sModversion
 ; "2603" ; MyBot v6.5.2 + SmartZap Fix
 ; "2604" ; MyBot v6.5.2 + QuickTrain Update
 ; "2605" ; MyBot v6.5.2 + Sinc with Samkie MultiFinger
-$sModversion = "2611" ; MyBot v6.5.3
+; "2611" ; MyBot v6.5.3
+$sModversion = "2614" ; MyBot v6.5.3 + Doc Octopus v3.5.5 + Collectors Outside
 $sBotVersion = "v6.5.3" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it is also use on Checkversion()
 $sBotTitle = "My Bot " & $sBotVersion & ".r" & $sModversion & " " ;~ Don't use any non file name supported characters like \ / : * ? " < > |
 
@@ -212,6 +213,7 @@ LoadAmountOfResourcesImages()
 $iGUIEnabled = 1
 
 ;~ InitializeVariables();initialize variables used in extrawindows
+$ichkVersion = 0
 CheckVersion() ; check latest version on mybot.run site
 
 ;~ Remember time in Milliseconds bot launched
@@ -341,6 +343,10 @@ Func runBot() ;Bot that runs everything in order
 					If Unbreakable() = True Then ContinueLoop
 				EndIf
 			EndIf
+
+			; Smart Upgrade
+			SmartUpgrade()
+
 			Local $aRndFuncList = ['Laboratory', 'UpgradeHeroes', 'UpgradeBuilding']
 			While 1
 				If $RunState = False Then Return

@@ -18,7 +18,9 @@
 ;
 
 ; GUI Functions
+#include "AreCollectorsOutside.au3"
 #include "MBR GUI Control.au3"
+#include "SmartUpgrade.au3"
 
 ;
 ; LunaEclipse
