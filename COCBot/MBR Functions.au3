@@ -296,3 +296,4 @@
 ; MOD files - AwesomeGamer, LunaEclipse, MikeCoC, ...
 ;
 #include "MOD\Include_Files.au3"
+#include "functions\BotHumanization\BotHumanization.au3"

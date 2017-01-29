@@ -689,10 +689,10 @@ Func _RunFunction($action)
 				If _Sleep($iDelayRunBot1) = False Then checkMainScreen(False)
 			EndIF
 		Case "DonateCC,Train"
-			If $iSkipDonateNearFulLTroopsEnable = 1 and $FirstStart = true Then getArmyCapacity(True, True)
+			If $iSkipDonateNearFulLTroopsEnable = 1 And $FirstStart = True Then getArmyCapacity(True, True)
 			If $bActiveDonate = True Then
 				If SkipDonateNearFullTroops(True) = False Then DonateCC()
-			EndIF
+			EndIf
 			If _Sleep($iDelayRunBot1) = False Then checkMainScreen(False)
 			If $troops_maked_after_fullarmy = False And $actual_train_skip < $max_train_skip Then
 				$troops_maked_after_fullarmy = False
