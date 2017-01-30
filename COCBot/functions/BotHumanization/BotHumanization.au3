@@ -85,8 +85,6 @@ Func randomSleep($SleepTime, $Range = 0)
 
 EndFunc   ;==>randomSleep
 
-#cs
-
 ; ================================================== QuickMIS PART ================================================== ;
 
 Func QuickMIS($ValueReturned, $directory, $Left = 0, $Top = 0, $Right = $GAME_WIDTH, $Bottom = $GAME_HEIGHT, $Debug = False)
@@ -130,14 +128,9 @@ Func QuickMIS($ValueReturned, $directory, $Left = 0, $Top = 0, $Right = $GAME_WI
 
 				Case "BC1" ; coordinates of first/one image found + boolean value
 
-					$Result = ""
 					$KeyValue = StringSplit($Res[0], "|", $STR_NOCOUNT)
-					For $i = 0 To UBound($KeyValue) - 1
-						$DLLRes = DllCall($hImgLib, "str", "GetProperty", "str", $KeyValue[$i], "str", "objectpoints")
-						$Result &= $DLLRes[0] & "|"
-					Next
-					If StringRight($Result, 1) = "|" Then $Result = StringLeft($Result, (StringLen($Result) - 1))
-					$CoordsInArray = StringSplit($Result, ",", $STR_NOCOUNT)
+					$DLLRes = DllCall($hImgLib, "str", "GetProperty", "str", $KeyValue[0], "str", "objectpoints")
+					$CoordsInArray = StringSplit($DLLRes[0], ",", $STR_NOCOUNT)
 					$QuickMISX = $CoordsInArray[0]
 					$QuickMISY = $CoordsInArray[1]
 					Return True
@@ -235,6 +228,8 @@ Func BotHumanization()
 	EndIf
 
 EndFunc   ;==>BotHumanization
+
+#cs
 
 Func RandomHumanAction()
 

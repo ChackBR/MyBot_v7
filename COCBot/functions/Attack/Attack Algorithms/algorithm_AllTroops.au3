@@ -19,13 +19,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 
 	If _Sleep($iDelayalgorithm_AllTroops1) Then Return
 
-	; MultiFinger Check
-	Local $bCFF = False
-	If $iMatchMode = $DB And $iChkDeploySettings[$iMatchMode] = 4 Then
-		$bCFF = True
-	EndIf
-
-	If $bCFF = False Then ; ! MultiFinger
+	If $iChkDeploySettings[$iMatchMode] <> 4 Then ; ! FourFinger
 		SmartAttackStrategy($iMatchMode) ; detect redarea first to drop any troops
 	EndIf
 

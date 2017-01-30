@@ -92,7 +92,7 @@ EndFunc   ;==>openUpgradeTab
 
 Func searchZeros() ; check for zeros on the builers menu - translate upgrade available
 
-	If QuickMIS("BC1", @ScriptDir & "\imgxml\Resources\SmartUpgrade\Upgrade", 150, 70, 500, 300) Then
+	If QuickMIS("BC1", @ScriptDir & "\imgxml\Resources\SmartUpgrade\Price", 150, 70, 500, 300) Then
 		SetLog("Upgrade found !", $COLOR_GREEN)
 		Return True
 	Else

@@ -114,7 +114,6 @@
 #include "functions\CreateArmy\getArmySpellCapacity.au3"
 #include "functions\CreateArmy\getArmySpellCount.au3"
 #include "functions\CreateArmy\getArmySpellTime.au3"
-;#include "functions\CreateArmy\getArmyTroopCount.au3" we don't use this anymore
 #include "functions\CreateArmy\getArmyTroopTime.au3"
 #include "functions\CreateArmy\isBarrack.au3"
 #include "functions\CreateArmy\openArmyOverview.au3"

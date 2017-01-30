@@ -327,7 +327,7 @@ Global $lblWallCost, $cmbWalls, $UseGold, $UseElixir, $UseElixirGold, $txtWallMi
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 GUICtrlCreateTabItem("")
 
-$hGUI_UPGRADE_TAB_ITEM4 = GUICtrlCreateTabItem(GetTranslated(600,71, "SmartUpgrade"))
+$hGUI_UPGRADE_TAB_ITEM5 = GUICtrlCreateTabItem(GetTranslated(600,71, "SmartUpgrade"))
 
 Local $x = 25, $y = 45
 
