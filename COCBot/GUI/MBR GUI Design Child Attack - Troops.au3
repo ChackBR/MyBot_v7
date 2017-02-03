@@ -55,6 +55,7 @@ Local $y = $yStart + 8
 	GUICtrlSetState(-1, $GUI_DISABLE)
 	$hRadio_Army3 = GUICtrlCreateRadio( "Army 123 + Don't Empty Barracks", $x + 245, $y + 20, -1, 15)
 	GUICtrlSetState(-1, $GUI_DISABLE)
+;	Moved down
 ;	$LblRemovecamp = GUICtrlCreateLabel(GetTranslated(621, 41, "Remove Army"), $x + 335, $y + 20, -1, 15, $SS_LEFT)
 ;	$icnRemovecamp = GUICtrlCreateIcon($pIconLib, $eIcnResetButton, $x + 405, $y + 17, 24, 24)
 ;	GUICtrlSetOnEvent(-1, "Removecamp")

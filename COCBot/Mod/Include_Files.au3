@@ -17,11 +17,11 @@
 ; Misc
 ;
 
-; GUI Functions
+; MOD Functions, etc...
 #include "AreCollectorsOutside.au3"
 #include "MBR GUI Control.au3"
 #include "SmartUpgrade.au3"
-
+#include "SimpleQuickTrain.au3"
 ;
 ; LunaEclipse
 ;

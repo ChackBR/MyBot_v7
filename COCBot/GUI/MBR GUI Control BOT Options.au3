@@ -290,20 +290,6 @@ EndFunc   ;==>chkmakeIMGCSV
 Func btnTestTrain()
 	Local $currentOCR = $debugOcr
 	Local $currentRunState = $RunState
-	#cs
-	_GUICtrlTab_ClickTab($tabMain, 0)
-	$debugOcr = 1
-	$RunState = True
-	ForceCaptureRegion()
-	DebugImageSave("train_")
-	SetLog(_PadStringCenter(" Test Train begin (" & $sBotVersion & ")", 54, "="), $COLOR_INFO)
-	getArmyTroopCount(False, False, True)
-	getArmySpellCount(False, False, True)
-	getArmyHeroCount(False, False)
-	SetLog(_PadStringCenter(" Test Train end ", 54, "="), $COLOR_INFO)
-	Run("Explorer.exe " & $LibDir & "\debug\ocr\")
-	Run("Explorer.exe " & $dirTempDebug & "train_")
-	#ce
 
 	$RunState = True
 	BeginImageTest()
@@ -552,25 +538,6 @@ Func btnTestVillageSize()
 	$RunState = $currentRunState
 EndFunc   ;==>btnTestVillageSize
 
-#cs
-Func btnTestDeadBase()
-	Local $test = 0
-	LoadTHImage()
-	LoadElixirImage()
-	LoadElixirImage75Percent()
-	LoadElixirImage50Percent()
-	Zoomout()
-	If $debugBuildingPos = 0 Then
-		$test = 1
-		$debugBuildingPos = 1
-	EndIf
-	SETLOG("DEADBASE CHECK..................")
-	$dbBase = checkDeadBase()
-	SETLOG("TOWNHALL CHECK. imgloc.................")
-	$searchTH = imgloccheckTownhallADV2()
-	If $test = 1 Then $debugBuildingPos = 0
-EndFunc   ;==>btnTestDeadBase
-#ce
 
 Func btnTestDeadBase()
 	Local $hBMP = 0, $hHBMP = 0

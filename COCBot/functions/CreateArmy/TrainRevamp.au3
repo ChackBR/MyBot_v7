@@ -44,7 +44,7 @@ Func TrainRevamp()
 	If $Runstate = False Then Return
 
 	If $ichkUseQTrain = 1 Then
-		QT_ClickTrain( True, 0, 3 )
+		SimpleQuickTrain( True, 0, 3 )
 	Else
 	If ($IsFullArmywithHeroesAndSpells = True) Or ($CurCamp = 0 And $FirstStart) Then
 
@@ -465,10 +465,10 @@ Func IsFullCastleSpells($returnOnly = False)
 
 		; Debug
 		If $iMaxCCSpell > 1 Then
-			If $debugsetlogTrain Then Setlog(" Â» Slot 1 to remove: " & $aShouldRemove[0])
-			If $debugsetlogTrain Then Setlog(" Â» Slot 2 to remove: " & $aShouldRemove[1])
+			If $debugsetlogTrain Then Setlog(" » Slot 1 to remove: " & $aShouldRemove[0])
+			If $debugsetlogTrain Then Setlog(" » Slot 2 to remove: " & $aShouldRemove[1])
 		Else
-			If $debugsetlogTrain Then Setlog(" Â» Slot 1 to remove: " & $aShouldRemove[0])
+			If $debugsetlogTrain Then Setlog(" » Slot 1 to remove: " & $aShouldRemove[0])
 		EndIf
 
 		If $aShouldRemove[0] > 0 Or $aShouldRemove[1] > 0 Then
@@ -478,8 +478,8 @@ Func IsFullCastleSpells($returnOnly = False)
 			; Check the Request Clan troops & Spells buttom
 			$canRequestCC = _ColorCheck(_GetPixelColor($aRequestTroopsAO[0], $aRequestTroopsAO[1], True), Hex($aRequestTroopsAO[2], 6), $aRequestTroopsAO[5])
 			; Debug
-			If $debugsetlogTrain Then Setlog(" Â» Clans Castle button available? " & $canRequestCC)
-			; LetÂ´s request Troops & Spells
+			If $debugsetlogTrain Then Setlog(" » Clans Castle button available? " & $canRequestCC)
+			; Let´s request Troops & Spells
 			If $canRequestCC = True Then
 				$rColCheckFullCCTroops = _ColorCheck(_GetPixelColor(24, 470, True), Hex(0x93C230, 6), 30)
 				If $rColCheckFullCCTroops = True Then SetLog("Clan Castle Spell is empty, Requesting for...")
@@ -2000,7 +2000,7 @@ Func OpenTrainTabNumber($Num)
 	If IsTrainPage() Then
 		Click($TabNumber[$Num][0], $TabNumber[$Num][1], 2, 200)
 		Setlog(" - Opening the " & $Message[$Num], $COLOR_ACTION1)
-		If _Sleep(1500) Then Return
+		If _Sleep(1000) Then Return
 		If ISArmyWindow(False, $Num) Then
 			;If $Num = $BrewSpellsTAB Then CheckForSantaSpell() ; Can be Deleted after DEC (in 2017 :P)
 			;If $Num = $TrainTroopsTAB Then ICEWizardDetection() ; Can be Deleted after DEC (in 2017 :P)
@@ -2504,35 +2504,3 @@ Func ThSnipesSkiptrain()
 		Return False ; 	Proceeds as usual
 	EndIf
 EndFunc   ;==>ThSnipesSkiptrain
-
-Func QT_ClickTrain( $NeedOpenArmy = False, $Num = 0, $nLoop = 3 )
-	Local $i
-	Setlog("Simple Quick Train")
-	If $Runstate = False Then Return
-	IF $Num = 0 Then
-		If $iChkQuickArmy1 = 1 Then $Num = 1
-		If $iChkQuickArmy2 = 1 Then $Num = 2
-		If $iChkQuickArmy3 = 1 Then $Num = 3
-	EndIf
-	If $NeedOpenArmy Then
-		OpenArmyWindow()
-		If _Sleep(500) Then Return
-		OpenTrainTabNumber($QuickTrainTAB)
-	EndIf
-	If _Sleep(1000) Then Return
-	For $i = 1 TO $nLoop
-		If $Num > 1 Then
-			If $Num > 2 Then
-				TrainArmyNumber( $Num - 2 )
-				If _Sleep(250) Then Return
-			EndIf
-			TrainArmyNumber( $Num - 1 )
-			If _Sleep(250) Then Return
-		EndIf
-		TrainArmyNumber($Num)
-		If _Sleep(700) Then Return
-	Next
-	ClickP($aAway, 2, 0, "#0346") ;Click Away
-	If _Sleep(250) Then Return
-
-EndFunc	;==>QT_ClickTrain

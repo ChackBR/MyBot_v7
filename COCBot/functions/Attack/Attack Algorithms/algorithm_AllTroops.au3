@@ -98,10 +98,10 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 	If $nbSides = 5 Then
 		If Number($GiantComp) > 7 Then $SlotsGiants = 2
 	Else
-		If Number($GiantComp) > 20 Then
+		If Number($GiantComp) > 19 Then
 			$SlotsGiants = 0
 		Else
-			If Number($GiantComp) > 16 Then $SlotsGiants = 2
+			If Number($GiantComp) > 15 Then $SlotsGiants = 2
 		Endif
 	EndIf
 

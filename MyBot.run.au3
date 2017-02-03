@@ -204,21 +204,12 @@ SetLog(GetTranslated(500, 8, "Android Emulator Configuration: %s", $sAndroidInfo
 
 CheckDisplay() ; verify display size and DPI (Dots Per Inch) setting
 
-;LoadTHImage() ; Load TH images
-;LoadElixirImage() ; Load Elixir images
-;LoadElixirImage75Percent() ; Load Elixir images full at 75%
-;LoadElixirImage50Percent() ; Load Elixir images full at 50%
-LoadAmountOfResourcesImages()
-
 $iGUIEnabled = 1
 
 ;~ InitializeVariables();initialize variables used in extrawindows
 $ichkVersion = 0
 CheckVersion() ; check latest version on mybot.run site
 
-;~ Remember time in Milliseconds bot launched
-$iBotLaunchTime = TimerDiff($hBotLaunchTime)
-SetDebugLog("MyBot.run launch time " & Round($iBotLaunchTime) & " ms.")
 
 $sMsg = GetTranslated(500, 9, "Android Shield not available for %s", @OSVersion)
 If $AndroidShieldEnabled = False Then
@@ -232,6 +223,10 @@ ProcessSetPriority(@AutoItPID, $iBotProcessPriority)
 
 ; ensure watchdog is launched
 ; LaunchWatchdog()
+
+;~ Remember time in Milliseconds bot launched
+$iBotLaunchTime = TimerDiff($hBotLaunchTime)
+Setlog("MyBot.run launch time " & Round($iBotLaunchTime) & " ms.", $COLOR_INFO)
 
 ;AutoStart Bot if request
 AutoStart()
@@ -426,6 +421,8 @@ EndFunc   ;==>runBot
 Func Idle() ;Sequence that runs until Full Army
 	Local $TimeIdle = 0 ;In Seconds
 	If $debugsetlog = 1 Then SetLog("Func Idle ", $COLOR_DEBUG)
+
+	RequestCC()
 
 	While $IsFullArmywithHeroesAndSpells = False
 		checkAndroidReboot()

@@ -464,7 +464,6 @@ $x += $Offx
 ;		GUICtrlSetImage (-1, $pIconLib, $eIcnTroops, 0)
 ;		GUICtrlSetOnEvent(-1, "btnDonateCustomE")
 
-
 $x += 4
 $x += $Offx
 ; Button Not Active - future expansion?

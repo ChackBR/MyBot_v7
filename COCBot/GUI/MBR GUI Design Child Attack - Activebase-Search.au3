@@ -289,4 +289,5 @@ Local $x = 220, $y = 45
 		$chkABMeetOne = GUICtrlCreateCheckbox(GetTranslated(625,40, -1), $x, $y, -1, -1)
 			$txtTip = GetTranslated(625,41, -1)
 			_GUICtrlSetTip(-1, $txtTip)
+
 	GUICtrlCreateGroup("", -99, -99, 1, 1)

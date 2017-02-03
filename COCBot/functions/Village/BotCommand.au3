@@ -103,7 +103,7 @@ Func BotCommand()
 						SetLog("Halt Attack, Stay Online/Collect/Donate...", $COLOR_INFO)
 					Else
 						SetLog("Halt Attack, Stay Online/Train/Collect/Donate...", $COLOR_INFO)
-						If $ichkUseQTrain = 1 Then QT_ClickTrain( True, 0, 1 )
+						If $ichkUseQTrain = 1 Then SimpleQuickTrain( True, 0, 1 )
 					EndIf
 					$CommandStop = 0 ; Halt Attack
 					If _Sleep($iDelayBotCommand1) Then Return
