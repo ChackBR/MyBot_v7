@@ -8,7 +8,7 @@
 ; Return values .: None
 ; Author ........: Sardo (2016)
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2016
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2017
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -22,27 +22,27 @@ Func MilkFarmObjectivesSTR_INSERT($type, $level, $coordinate)
 	$ResourceToInsert = $type
 	$ResourceToInsert &= "." & $level
 	$ResourceToInsert &= "." & $coordinate
-	$pixel = StringSplit($coordinate, "-", 2)
+	Local $pixel = StringSplit($coordinate, "-", 2)
 
-	Local $diamondx = $MilkFarmOffsetX + $MilkFarmOffsetXStep * $MilkFarmResMaxTilesFromBorder
-	Local $diamondy = $MilkFarmOffsetY + $MilkFarmOffsetYStep * $MilkFarmResMaxTilesFromBorder
+	Local $diamondx = $g_iMilkFarmOffsetX + $g_iMilkFarmOffsetXStep * $g_iMilkFarmResMaxTilesFromBorder
+	Local $diamondy = $g_iMilkFarmOffsetY + $g_iMilkFarmOffsetYStep * $g_iMilkFarmResMaxTilesFromBorder
 	If UBound($pixel) = 2 Then
 
 		;adjust********************************************************************************************************************
 		Switch $type
 			Case "gomine"
-				Local $px = StringSplit($MilkFarmOffsetMine[$level], "-", 2)
+				Local $px = StringSplit($g_asMilkFarmOffsetMine[$level], "-", 2)
 			Case "elixir"
-				Local $px = StringSplit($MilkFarmOffsetElixir[$level], "-", 2)
+				Local $px = StringSplit($g_asMilkFarmOffsetElixir[$level], "-", 2)
 			Case "ddrill"
-				Local $px = StringSplit($MilkFarmOffsetDark[$level], "-", 2)
+				Local $px = StringSplit($g_asMilkFarmOffsetDark[$level], "-", 2)
 			Case Else
 				Local $px = StringSplit("0-0", "-", 2)
 		EndSwitch
 		$pixel[0] += $px[0]
 		$pixel[1] += $px[1]
 
-		Local $vector = $PixelTopLeft
+		Local $vector = $g_aiPixelTopLeft
 		For $i = 0 To UBound($vector) - 1
 			Local $pixel2 = $vector[$i]
 			If UBound($pixel2) = 2 Then
@@ -51,11 +51,11 @@ Func MilkFarmObjectivesSTR_INSERT($type, $level, $coordinate)
 					$ResourceToInsertQty += 1
 				EndIf
 			Else
-				If $DebugSetLog = 1 Then Setlog("MilkFarmObjectivesSTR_INSERT Discard error #3", $COLOR_ERROR)
+				If $g_iDebugSetlog = 1 Then Setlog("MilkFarmObjectivesSTR_INSERT Discard error #3", $COLOR_ERROR)
 			EndIf
 		Next
 
-		Local $vector = $PixelTopRight
+		Local $vector = $g_aiPixelTopRight
 		For $i = 0 To UBound($vector) - 1
 			Local $pixel2 = $vector[$i]
 			If UBound($pixel2) = 2 Then
@@ -64,11 +64,11 @@ Func MilkFarmObjectivesSTR_INSERT($type, $level, $coordinate)
 					$ResourceToInsertQty += 1
 				EndIf
 			Else
-				If $DebugSetLog = 1 Then Setlog("MilkFarmObjectivesSTR_INSERT Discard error #3", $COLOR_ERROR)
+				If $g_iDebugSetlog = 1 Then Setlog("MilkFarmObjectivesSTR_INSERT Discard error #3", $COLOR_ERROR)
 			EndIf
 		Next
 
-		Local $vector = $PixelBottomLeft
+		Local $vector = $g_aiPixelBottomLeft
 		For $i = 0 To UBound($vector) - 1
 			Local $pixel2 = $vector[$i]
 			If UBound($pixel2) = 2 Then
@@ -77,11 +77,11 @@ Func MilkFarmObjectivesSTR_INSERT($type, $level, $coordinate)
 					$ResourceToInsertQty += 1
 				EndIf
 			Else
-				If $DebugSetLog = 1 Then Setlog("MilkFarmObjectivesSTR_INSERT Discard error #3", $COLOR_ERROR)
+				If $g_iDebugSetlog = 1 Then Setlog("MilkFarmObjectivesSTR_INSERT Discard error #3", $COLOR_ERROR)
 			EndIf
 		Next
 
-		Local $vector = $PixelBottomRight
+		Local $vector = $g_aiPixelBottomRight
 		For $i = 0 To UBound($vector) - 1
 			Local $pixel2 = $vector[$i]
 			If UBound($pixel2) = 2 Then
@@ -90,16 +90,16 @@ Func MilkFarmObjectivesSTR_INSERT($type, $level, $coordinate)
 					$ResourceToInsertQty += 1
 				EndIf
 			Else
-				If $DebugSetLog = 1 Then Setlog("MilkFarmObjectivesSTR_INSERT Discard error #3", $COLOR_ERROR)
+				If $g_iDebugSetlog = 1 Then Setlog("MilkFarmObjectivesSTR_INSERT Discard error #3", $COLOR_ERROR)
 			EndIf
 		Next
 
 		If $ResourceToInsertQty > 0 Then
-			If StringLen($MilkFarmObjectivesSTR) > 0 Then $MilkFarmObjectivesSTR &= "|"
-			$MilkFarmObjectivesSTR &= $ResourceToInsert
+			If StringLen($g_sMilkFarmObjectivesSTR) > 0 Then $g_sMilkFarmObjectivesSTR &= "|"
+			$g_sMilkFarmObjectivesSTR &= $ResourceToInsert
 		EndIf
 	Else
-		If $DebugSetLog = 1 Then Setlog("MilkFarmObjectivesSTR_INSERT Discard error #1 " & $pixel & " " & UBound($pixel), $COLOR_ERROR)
+		If $g_iDebugSetlog = 1 Then Setlog("MilkFarmObjectivesSTR_INSERT Discard error #1 " & $pixel & " " & UBound($pixel), $COLOR_ERROR)
 	EndIf
 
 	Return $ResourceToInsertQty

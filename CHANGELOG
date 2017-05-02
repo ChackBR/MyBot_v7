@@ -1,4 +1,135 @@
-﻿* **V6.5.3**
+﻿* **V7.1.3**
+ * Add Suspend Computer option to SmartWait and Attack Schedule (see https://mybot.run/forums/index.php?/topic/29562-how-to-use-new-suspendsleep-computer-support/ for more details)
+ * Add Inferno lv4 , Mortar Lv9/10 , WizardTower lv10 , Xbow lv5 and AD lv9 to weakBase Images/GUI settings
+ * Add ObjEvent Code to handle with Objects errors and Poor Connection on Notify.
+ * Fix training not completing when out of resources detected but not restored or incorrectly detected in first place
+ * Fix SmartWait initiating wait for heroes
+ * Fix detect CoC App not installed (introduced in 7.1)
+ * Fix MEmu wrong phone layout for new instances (only MEmu till 2.6.1 impacted)
+ * Fix BlueStacks set screen size crashing bot due to recursion
+ * Fix MEmu sometimes not starting
+ * Fix watchdog restarting bots after computer resuming from sleep
+ * Fix z order of detached shield (when docked in Windows 7)
+ * Fix creation on imglog debug images when not configure with /lib/imglocdebug.txt
+ * Fix eventual issue if the object 'WinHTTP' was not created on Notify
+ * Fix Telegram last cmd on Stop/Start BOT
+ * Fix Telegram LOG remote command
+ * Fix Telegram Keyboard translate commands
+ * Fix Wait for Spells
+ * Improve CoC network reconnecting state detection and restart CoC during village search and home screen checks
+ * Improve auto-start bot so auto-start can be stopped
+ * Improve bot crashed handling during waiting for clouds
+ * Arabic Language File by @awssaad
+
+* **V7.1.2**
+ * Add Persian Alphabet Recognition for Donation
+ * Fix MEmu wrong phone layout used for window resizing introduced in 7.1
+ * Fix halt mode for Dark Elixir Full
+ * Optimize Translate GUI and identify unused number of translate
+ * Add auto slide bot when docked (when using new My Bot design Title Bar is used)
+
+* **V7.1.1**
+ * Fix DPI awareness switch from scaled compensation title bar height in classic window title bar design mode (docked Android window was cut off at bottom)
+ * Fix classic window title bar design mode resizing/hiding active window during bot launch
+ * Fix some incorrect GUI translate references
+
+* **V7.1**
+ * Fix General BlackList Donations GUI setting not saved
+ * Stop troop training in Halt Mode(s) -On-line Only & -Donate Only
+ * Fix memory leak in OCR
+ * Fix attack not starting when clan castle not available (broken)
+ * Fix rare bot freeze/crash during launch and run mode
+ * Fix trophy drop not working with long cloud wait time
+ * Fix ADB send text to correctly escape symbols
+ * Fix not check the collect resources, rearm, clear tombstones with new profile
+ * Fix user mouse wheel with CTRL key for zoom-in/-out in dock mode
+ * Fix rare issue with Halt mode when user sets one of "not online" modes and low loot error occurs
+ * Fix minor Smartzap Errors @TripleM
+ * Fix tracking troop training TIME
+ * Fix random timer issue due AutoIt bug in TimerDiff() function with replacement timer functions
+ * Fix CoC double launch (e.g. in BS, but others might have been effected as well)
+ * Improve redline fall back to outer green for smaller villages
+ * Improve bot memory allocation
+ * Improve Android Window resize and docking
+ * Improve ADB session restart after 10 timeouts
+ * Improve bot window  z ordering for detached shields (using when LeapDroid docked)
+ * Add layout with custom title bar and in docked mode slide bot into Android
+ * Add forced timer activation of Grand Warden "eternal tome" ability separate from other heroes
+ * Add league image on trophy setting
+ * Add Auto collect Treasury when Treasury is full and when resources lower than the set values.
+ * Add support for hires Windows DPI > 100% (tested with Windows 10, BS1/2, iTools, MEmu, LeapDroid at 200%/192 DPI and Windows Server 2016 iTools, Droid4X, KOPLAYER at 125%/120 DPI)
+ * Add command line option /dpiaware to always set bot DPI Aware, scaled at 100% if possible
+ * Add bot command line parameter /nowatchdog for debugging or when watchdog shouldn't be launched
+ * Add max trophy search filter
+ * Add MyBot.run.Wmi.exe process used to list and query Windows Process information
+ * Add automatic random order fill of Custom Troop Order slots when user does not assign all troops
+ * Finalize global variable refactoring started in v7.0.0
+ * Change minimum .NET Framework requirement to 4.0 (adds Windows XP support)
+ * Change MEmu default/expected Android Screen layout to 860x732 without system bar (only important when phone_layout cannot be retrieved)
+ * Azerbaijan Language File by @Z E C K
+ * Update Russian Language File by @Vlab97
+
+* **V7.0.1**
+ * Fix AutoIt Errors/crashes when checking donate request due variable not defined
+ * Fix Meet One Condition For Attack GUI Setting
+ * Fix Wrong Bowler Troop Space and Archer Train Time
+ * Fix Delete Queued Spells on Quick Train
+ * Fix Custom Train Order not working
+ * Fix Wall upgrade issues where wall is upgraded, but reports no upgrade possible
+ * Fix GUI issues with Quick Train, CSV Script red line method, and training time
+ * Fix bot crash when debug log was enabled manually in script
+ * Fix unnecessary repeated hero activation when certain end battle options used
+ * Improve console log messaging
+ * Update Vietnamese Language File (by @NguyenAnhHD)
+
+* **V7.0**
+ * Major Code Cleaning and formatting
+ * Add Korean Alphabet Recognition for Donation - 108 chars
+ * Add Auto Resume after x Minutes. (Suggested by @takamper)
+ * Add 2 More End Battle Options related to Overall Battle Damage. (Suggested by @rahulblaze)
+ * Add 2 More Auto Upgrade Slots
+ * Add Auto Activate Hero Ability when Battle Damage is above 92%
+ * Add CheckBox to disable Donate
+ * Reduce open Army to only open when it's needed (Estimate training time)
+ * Show Shield and PBT time remaining in BOT LOG if checked
+ * Fix redline detection choosing best out of 4 images for best attack
+ * Fix redline falling back to outer green when line too short
+ * Fix About Us tab display incorrectly on system locales as Chinese and some others
+ * Fix Stats tab title rows Korean display problems
+ * Fix Run Time occasionally displays garbage time at bot first start without target emulator running
+ * Fix Random Delay not working when Max # input first
+ * Fix Wait For CC Spell
+ * Fix small Bug in DonateCC Debug Testing
+ * Fix test village size debug button
+ * Fix transparent bot when "Hide when minimized" is used
+ * Fix Bot looping through Obstacles with no Elixir available
+ * Fix Balloon and Wizard getting not detected sometimes while Donating
+ * Fix GUI redraw in Donate Tab
+ * Fix drawing yellow circles when selecting upgrades and smartwait is active
+ * Fix bot crashes due to bot window refresh initiated from dll
+ * Fix GUI in attacks tabs that got enabled during bot start/stop when it should stay hidden
+ * Fix GDI memory leak
+ * Fix custom train order
+ * Fix wrong Android Emulator being using in rare cases of bot crash
+ * Fix smartwait errors with minimum wait time settings & short shield times
+ * Fix file handle leak on \Device\NamedPipe
+ * Improve skip wall upgrade logic to allow wall upgrades when adequate resources exist for buildings+walls
+ * Improve bot memory allocation
+ * Improve speed disabling and enabling all GUI controls during bot start/stop
+ * Improve Android launch when VirtualBox VM parameter dynamically change
+ * Improve Upgrades when Android docked to draw yellow circles on existing upgrades
+ * Improve manually locate townhall automatically rebooting bot
+ * Improve switch language automatically rebooting bot
+ * Improve run time with days format in stats tab
+ * Improve the Lighting Spell detection and Freeze on Train
+ * Enable Au3Stripper to reduce compiled script size
+ * Vietnamese Language File (by @NguyenAnhHD)
+ * Spanish Language File (by @dcm4682)
+ * Korean Language File (by @sadam129 @school4i)
+ * Update Russian Language File (by @Vlab97)
+ * Update Portuguese Language File (by @RoPa)
+
+* **V6.5.3**
  * Add Donation of 2 Space Spells
  * Add new Detection of Troops in Training Window using ImgLoc
  * Fix deadbase search during trophy drop
@@ -24,7 +155,7 @@
  * Update Icons for Troops and Spells extract from DEC Update
  * Add New detection of Train/Brew slots
  * Add Red Line Option on CSV to deploy on external Edges
- 
+
 * **V6.5.2**
  * Fix Android or Bot window out of visible screen problem
  * Fix Bot /restart parameter not closing other bot instance when Window not accessible

@@ -11,7 +11,7 @@
 ; Return values .: True when the referenced pixel is found, False if not found
 ; Author ........: FastFrench (2015)
 ; Modified ......: Hervidero (2015), MonkeyHunter (08-2015)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2016
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2017
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -20,16 +20,30 @@
 
 Func _CheckPixel($aScreenCode, $bNeedCapture = Default, $Ignore = Default, $sLogText = Default, $LogTextColor = Default, $bSilentSetLog = Default)
 	If $bNeedCapture = Default Then $bNeedCapture = False
-	If $debugSetlog = 1 And $sLogText <> Default And IsString($sLogText) Then
+	If $g_iDebugSetlog = 1 And $sLogText <> Default And IsString($sLogText) Then
 		$sLogText &= ", Expected: " & Hex($aScreenCode[2], 6) & ", Tolerance: " & $aScreenCode[3]
 	Else
 		$sLogText = Default
 	EndIf
 	If _ColorCheck( _
 			_GetPixelColor($aScreenCode[0], $aScreenCode[1], $bNeedCapture, $sLogText, $LogTextColor, $bSilentSetLog), _ ; capture color #1
-			Hex($aScreenCode[2], 6), _  ; compare to Color #2 from screencode
+			Hex($aScreenCode[2], 6), _ ; compare to Color #2 from screencode
 			$aScreenCode[3], $Ignore) Then ; using tolerance from screencode and color mask name referenced by $Ignore
 		Return True
 	EndIf
-	Return False;
+	Return False ;
 EndFunc   ;==>_CheckPixel
+
+Func _WaitForCheckPixel($aScreenCode, $bNeedCapture = Default, $Ignore = Default, $sLogText = Default, $LogTextColor = Default, $bSilentSetLog = Default, $iWaitLoop = Default)
+	If $iWaitLoop = Default Then $iWaitLoop = 250  ; if default wait time per loop, then wait 250ms
+	Local $wCount = 0
+	While _CheckPixel($aScreenCode, $bNeedCapture, $Ignore, $sLogText, $LogTextColor, $bSilentSetLog) = False
+		If _Sleep($iWaitLoop ) Then Return
+		$wCount += 1
+		If $wCount > 20 Then ; wait for 20*250ms=5 seconds for pixel to appear
+			Setlog($sLogText & " not found!", $COLOR_ERROR)
+			Return False
+		EndIf
+	WEnd
+	Return True
+EndFunc

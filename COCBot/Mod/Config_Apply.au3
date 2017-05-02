@@ -13,140 +13,194 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
+Func ApplyConfig_SwitchAcc($TypeReadSave)
+	; <><><> SwitchAcc_Demen_Style <><><>
+	Switch $TypeReadSave
+		Case "Read"
+			GUICtrlSetState($chkSwitchAcc, $ichkSwitchAcc = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
+			chkSwitchAcc()
+			If $ichkSmartSwitch = 1 Then
+				GUICtrlSetState($radSmartSwitch, $GUI_CHECKED)
+			Else
+				GUICtrlSetState($radNormalSwitch, $GUI_CHECKED)
+			EndIf
+			If GUICtrlRead($chkSwitchAcc) = $GUI_CHECKED Then radNormalSwitch()
+			_GUICtrlComboBox_SetCurSel($cmbTotalAccount, $icmbTotalCoCAcc - 1)
+			GUICtrlSetState($g_hChkForceSwitch, $ichkForceSwitch = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetData($g_txtForceSwitch, $iForceSwitch)
+			If GUICtrlRead($chkSwitchAcc) = $GUI_CHECKED Then chkForceSwitch()
+			GUICtrlSetState($g_hChkForceStayDonate, $ichkForceStayDonate = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
+			If $ichkCloseTraining >= 1 Then
+				GUICtrlSetState($chkUseTrainingClose, $GUI_CHECKED)
+				If $ichkCloseTraining = 1 Then
+					GUICtrlSetState($radCloseCoC, $GUI_CHECKED)
+				Else
+					GUICtrlSetState($radCloseAndroid, $GUI_CHECKED)
+				EndIf
+			Else
+				GUICtrlSetState($chkUseTrainingClose, $GUI_UNCHECKED)
+			EndIf
+			For $i = 0 To 7
+				_GUICtrlComboBox_SetCurSel($cmbAccountNo[$i], $aMatchProfileAcc[$i] - 1)
+				_GUICtrlComboBox_SetCurSel($cmbProfileType[$i], $aProfileType[$i] - 1)
+			Next
+
+		Case "Save"
+			$ichkSwitchAcc = GUICtrlRead($chkSwitchAcc) = $GUI_CHECKED ? 1 : 0
+			$icmbTotalCoCAcc = _GUICtrlComboBox_GetCurSel($cmbTotalAccount) + 1
+			$ichkSmartSwitch = GUICtrlRead($radSmartSwitch) = $GUI_CHECKED ? 1 : 0
+			$ichkForceSwitch = GUICtrlRead($g_hChkForceSwitch) = $GUI_CHECKED ? 1 : 0
+			$ichkForceStayDonate = GUICtrlRead($g_hChkForceStayDonate) = $GUI_CHECKED ? 1 : 0
+			$iForceSwitch = GUICtrlRead($g_txtForceSwitch)
+			$ichkCloseTraining = GUICtrlRead($chkUseTrainingClose) = $GUI_CHECKED ? 1 : 0
+			If $ichkCloseTraining = 1 Then
+				$ichkCloseTraining = GUICtrlRead($radCloseCoC) = $GUI_CHECKED ? 1 : 2
+			EndIf
+	EndSwitch
+EndFunc   ;==>ApplyConfig_SwitchAcc
+
 ;
 ; MOD Config - Save Data
 ;
+Func ApplyConfig_MOD($TypeReadSave)
 
-	;Max logout time
-	If $TrainLogoutMaxTime = 1 Then
-		GUICtrlSetState($chkTrainLogoutMaxTime, $GUI_CHECKED)
-	ElseIf $TrainLogoutMaxTime = 0 Then
-		GUICtrlSetState($chkTrainLogoutMaxTime, $GUI_UNCHECKED)
-	EndIf
-	GUICtrlSetData($txtTrainLogoutMaxTime, $TrainLogoutMaxTimeTXT)
+	Switch $TypeReadSave
+		Case "Read"
 
-;
-; LunaEclipse
-;
+		Case "Save"
 
-	; Multi Finger
-	_GUICtrlComboBox_SetCurSel($cmbDBMultiFinger,$iMultiFingerStyle)
-	cmbDBMultiFinger()
+			;Max logout time
+			If $TrainLogoutMaxTime = 1 Then
+				GUICtrlSetState($chkTrainLogoutMaxTime, $GUI_CHECKED)
+			ElseIf $TrainLogoutMaxTime = 0 Then
+				GUICtrlSetState($chkTrainLogoutMaxTime, $GUI_UNCHECKED)
+			EndIf
+			GUICtrlSetData($txtTrainLogoutMaxTime, $TrainLogoutMaxTimeTXT)
 
-	; CSV Deployment Speed Mod
-	GUICtrlSetData($sldSelectedSpeedDB, $isldSelectedCSVSpeed[$DB])
-	GUICtrlSetData($sldSelectedSpeedAB, $isldSelectedCSVSpeed[$LB])
-	sldSelectedSpeedDB()
-	sldSelectedSpeedAB()
+			;
+			; LunaEclipse
+			;
 
-;
-; AwesomeGamer
-;
+			; Multi Finger
+			_GUICtrlComboBox_SetCurSel($cmbDBMultiFinger,$iMultiFingerStyle)
+			cmbDBMultiFinger()
 
-	; DEB
-	If $iChkDontRemove = 1 Then
-		GUICtrlSetState($chkDontRemove, $GUI_CHECKED)
-	Else
-		GUICtrlSetState($chkDontRemove, $GUI_UNCHECKED)
-	EndIf
+			; CSV Deployment Speed Mod
+			GUICtrlSetData($sldSelectedSpeedDB, $isldSelectedCSVSpeed[$DB])
+			GUICtrlSetData($sldSelectedSpeedAB, $isldSelectedCSVSpeed[$LB])
+			sldSelectedSpeedDB()
+			sldSelectedSpeedAB()
 
-	; Check Collectors Outside
-	If $ichkDBMeetCollOutside = 1 Then
-		GUICtrlSetState($chkDBMeetCollOutside, $GUI_CHECKED)
-	Else
-		GUICtrlSetState($chkDBMeetCollOutside, $GUI_UNCHECKED)
-	EndIf
-	chkDBMeetCollOutside()
-	GUICtrlSetData($txtDBMinCollOutsidePercent, $iDBMinCollOutsidePercent)
+			;
+			; AwesomeGamer
+			;
 
-	; Smart Upgarde
-	If $ichkSmartUpgrade = 1 Then
-		GUICtrlSetState($chkSmartUpgrade, $GUI_CHECKED)
-	Else
-		GUICtrlSetState($chkSmartUpgrade, $GUI_UNCHECKED)
-	EndIf
-	chkSmartUpgrade()
+			; DEB
+			If $iChkDontRemove = 1 Then
+				GUICtrlSetState($chkDontRemove, $GUI_CHECKED)
+			Else
+				GUICtrlSetState($chkDontRemove, $GUI_UNCHECKED)
+			EndIf
 
-	GUICtrlSetData($SmartMinGold, $iSmartMinGold)
-	GUICtrlSetData($SmartMinElixir, $iSmartMinElixir)
-	GUICtrlSetData($SmartMinDark, $iSmartMinDark)
+			; Check Collectors Outside
+			If $ichkDBMeetCollOutside = 1 Then
+				GUICtrlSetState($chkDBMeetCollOutside, $GUI_CHECKED)
+			Else
+				GUICtrlSetState($chkDBMeetCollOutside, $GUI_UNCHECKED)
+			EndIf
+			chkDBMeetCollOutside()
+			GUICtrlSetData($txtDBMinCollOutsidePercent, $iDBMinCollOutsidePercent)
 
-	If $ichkIgnoreTH = 1 Then
-		GUICtrlSetState($chkIgnoreTH, $GUI_CHECKED)
-	Else
-		GUICtrlSetState($chkIgnoreTH, $GUI_UNCHECKED)
-	EndIf
+			; Smart Upgarde
+			If $ichkSmartUpgrade = 1 Then
+				GUICtrlSetState($chkSmartUpgrade, $GUI_CHECKED)
+			Else
+				GUICtrlSetState($chkSmartUpgrade, $GUI_UNCHECKED)
+			EndIf
+			chkSmartUpgrade()
 
-	If $ichkIgnoreKing = 1 Then
-		GUICtrlSetState($chkIgnoreKing, $GUI_CHECKED)
-	Else
-		GUICtrlSetState($chkIgnoreKing, $GUI_UNCHECKED)
-	EndIf
+			GUICtrlSetData($SmartMinGold, $iSmartMinGold)
+			GUICtrlSetData($SmartMinElixir, $iSmartMinElixir)
+			GUICtrlSetData($SmartMinDark, $iSmartMinDark)
 
-	If $ichkIgnoreQueen = 1 Then
-		GUICtrlSetState($chkIgnoreQueen, $GUI_CHECKED)
-	Else
-		GUICtrlSetState($chkIgnoreQueen, $GUI_UNCHECKED)
-	EndIf
+			If $ichkIgnoreTH = 1 Then
+				GUICtrlSetState($chkIgnoreTH, $GUI_CHECKED)
+			Else
+				GUICtrlSetState($chkIgnoreTH, $GUI_UNCHECKED)
+			EndIf
 
-	If $ichkIgnoreWarden = 1 Then
-		GUICtrlSetState($chkIgnoreWarden, $GUI_CHECKED)
-	Else
-		GUICtrlSetState($chkIgnoreWarden, $GUI_UNCHECKED)
-	EndIf
+			If $ichkIgnoreKing = 1 Then
+				GUICtrlSetState($chkIgnoreKing, $GUI_CHECKED)
+			Else
+				GUICtrlSetState($chkIgnoreKing, $GUI_UNCHECKED)
+			EndIf
 
-	If $ichkIgnoreCC = 1 Then
-		GUICtrlSetState($chkIgnoreCC, $GUI_CHECKED)
-	Else
-		GUICtrlSetState($chkIgnoreCC, $GUI_UNCHECKED)
-	EndIf
+			If $ichkIgnoreQueen = 1 Then
+				GUICtrlSetState($chkIgnoreQueen, $GUI_CHECKED)
+			Else
+				GUICtrlSetState($chkIgnoreQueen, $GUI_UNCHECKED)
+			EndIf
 
-	If $ichkIgnoreLab = 1 Then
-		GUICtrlSetState($chkIgnoreLab, $GUI_CHECKED)
-	Else
-		GUICtrlSetState($chkIgnoreLab, $GUI_UNCHECKED)
-	EndIf
+			If $ichkIgnoreWarden = 1 Then
+				GUICtrlSetState($chkIgnoreWarden, $GUI_CHECKED)
+			Else
+				GUICtrlSetState($chkIgnoreWarden, $GUI_UNCHECKED)
+			EndIf
 
-	If $ichkIgnoreBarrack = 1 Then
-		GUICtrlSetState($chkIgnoreBarrack, $GUI_CHECKED)
-	Else
-		GUICtrlSetState($chkIgnoreBarrack, $GUI_UNCHECKED)
-	EndIf
+			If $ichkIgnoreCC = 1 Then
+				GUICtrlSetState($chkIgnoreCC, $GUI_CHECKED)
+			Else
+				GUICtrlSetState($chkIgnoreCC, $GUI_UNCHECKED)
+			EndIf
 
-	If $ichkIgnoreDBarrack = 1 Then
-		GUICtrlSetState($chkIgnoreDBarrack, $GUI_CHECKED)
-	Else
-		GUICtrlSetState($chkIgnoreDBarrack, $GUI_UNCHECKED)
-	EndIf
+			If $ichkIgnoreLab = 1 Then
+				GUICtrlSetState($chkIgnoreLab, $GUI_CHECKED)
+			Else
+				GUICtrlSetState($chkIgnoreLab, $GUI_UNCHECKED)
+			EndIf
 
-	If $ichkIgnoreFactory = 1 Then
-		GUICtrlSetState($chkIgnoreFactory, $GUI_CHECKED)
-	Else
-		GUICtrlSetState($chkIgnoreFactory, $GUI_UNCHECKED)
-	EndIf
+			If $ichkIgnoreBarrack = 1 Then
+				GUICtrlSetState($chkIgnoreBarrack, $GUI_CHECKED)
+			Else
+				GUICtrlSetState($chkIgnoreBarrack, $GUI_UNCHECKED)
+			EndIf
 
-	If $ichkIgnoreDFactory = 1 Then
-		GUICtrlSetState($chkIgnoreDFactory, $GUI_CHECKED)
-	Else
-		GUICtrlSetState($chkIgnoreDFactory, $GUI_UNCHECKED)
-	EndIf
+			If $ichkIgnoreDBarrack = 1 Then
+				GUICtrlSetState($chkIgnoreDBarrack, $GUI_CHECKED)
+			Else
+				GUICtrlSetState($chkIgnoreDBarrack, $GUI_UNCHECKED)
+			EndIf
 
-	If $ichkIgnoreGColl = 1 Then
-		GUICtrlSetState($chkIgnoreGColl, $GUI_CHECKED)
-	Else
-		GUICtrlSetState($chkIgnoreGColl, $GUI_UNCHECKED)
-	EndIf
+			If $ichkIgnoreFactory = 1 Then
+				GUICtrlSetState($chkIgnoreFactory, $GUI_CHECKED)
+			Else
+				GUICtrlSetState($chkIgnoreFactory, $GUI_UNCHECKED)
+			EndIf
 
-	If $ichkIgnoreEColl = 1 Then
-		GUICtrlSetState($chkIgnoreEColl, $GUI_CHECKED)
-	Else
-		GUICtrlSetState($chkIgnoreEColl, $GUI_UNCHECKED)
-	EndIf
+			If $ichkIgnoreDFactory = 1 Then
+				GUICtrlSetState($chkIgnoreDFactory, $GUI_CHECKED)
+			Else
+				GUICtrlSetState($chkIgnoreDFactory, $GUI_UNCHECKED)
+			EndIf
 
-	If $ichkIgnoreDColl = 1 Then
-		GUICtrlSetState($chkIgnoreDColl, $GUI_CHECKED)
-	Else
-		GUICtrlSetState($chkIgnoreDColl, $GUI_UNCHECKED)
-	EndIf
-	chkSmartUpgrade()
+			If $ichkIgnoreGColl = 1 Then
+				GUICtrlSetState($chkIgnoreGColl, $GUI_CHECKED)
+			Else
+				GUICtrlSetState($chkIgnoreGColl, $GUI_UNCHECKED)
+			EndIf
 
+			If $ichkIgnoreEColl = 1 Then
+				GUICtrlSetState($chkIgnoreEColl, $GUI_CHECKED)
+			Else
+				GUICtrlSetState($chkIgnoreEColl, $GUI_UNCHECKED)
+			EndIf
+
+			If $ichkIgnoreDColl = 1 Then
+				GUICtrlSetState($chkIgnoreDColl, $GUI_CHECKED)
+			Else
+				GUICtrlSetState($chkIgnoreDColl, $GUI_UNCHECKED)
+			EndIf
+			chkSmartUpgrade()
+
+	EndSwitch
+EndFunc   ;==>ApplyConfig_MOD

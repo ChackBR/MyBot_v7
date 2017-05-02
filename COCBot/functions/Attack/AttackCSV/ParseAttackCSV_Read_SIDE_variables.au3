@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: Sardo (2016)
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2016
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2017
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -14,32 +14,33 @@
 ; ===============================================================================================================================
 Func ParseAttackCSV_Read_SIDE_variables()
 
-	$attackcsv_locate_mine = 0
-	$attackcsv_locate_elixir = 0
-	$attackcsv_locate_drill = 0
-	$attackcsv_locate_gold_storage = 0
-	$attackcsv_locate_elixir_storage = 0
-	$attackcsv_locate_dark_storage = 0
-	$attackcsv_locate_townhall = 0
-	$attackcsv_locate_Eagle = 0
-;	$attackcsv_locate_Inferno = 0
-;	$attackcsv_locate_XBow = 0
-;	$attackcsv_locate_WizTower = 0
-;	$attackcsv_locate_Mortar = 0
-;	$attackcsv_locate_GemBox = 0
+	$g_bCSVLocateMine = False
+	$g_bCSVLocateElixir = False
+	$g_bCSVLocateDrill = False
+	$g_bCSVLocateStorageGold = False
+	$g_bCSVLocateStorageElixir = False
+	$g_bCSVLocateStorageDarkElixir = False
+	$g_bCSVLocateStorageTownHall = False
+	$g_bCSVLocateEagle = False
+	; $g_bCSVLocateInferno = False
+	; $g_bCSVLocateXBow = False
+	; $g_bCSVLocateWizTower = False
+	; $g_bCSVLocateMortar = False
+	; $g_bCSVLocateAirDefense = False
+	; $g_bCSVLocateGemBox = False
 
-	If $iMatchMode = $DB Then
-		Local $filename = $scmbDBScriptName
+	If $g_iMatchMode = $DB Then
+		Local $filename = $g_sAttackScrScriptName[$DB]
 	Else
-		Local $filename = $scmbABScriptName
+		Local $filename = $g_sAttackScrScriptName[$LB]
 	EndIf
 
 	Local $f, $line, $acommand, $command
 	Local $value1, $value2, $value3, $value4, $value5, $value6, $value7, $value8, $value9
 	Local $bForceSideExist = False
 
-	If FileExists($dirAttacksCSV & "\" & $filename & ".csv") Then
-		$f = FileOpen($dirAttacksCSV & "\" & $filename & ".csv", 0)
+	If FileExists($g_sCSVAttacksPath & "\" & $filename & ".csv") Then
+		$f = FileOpen($g_sCSVAttacksPath & "\" & $filename & ".csv", 0)
 		; Read in lines of text until the EOF is reached
 		While 1
 			$line = FileReadLine($f)
@@ -66,32 +67,32 @@ Func ParseAttackCSV_Read_SIDE_variables()
 						$bForceSideExist = True
 					Else
 						;if this line uses a building, then it must be detected
-						If Int($value1) > 0 Then $attackcsv_locate_mine = 1
-						If Int($value2) > 0 Then $attackcsv_locate_elixir = 1
-						If Int($value3) > 0 Then $attackcsv_locate_drill = 1
-						If Int($value4) > 0 Then $attackcsv_locate_gold_storage = 1
-						If Int($value5) > 0 Then $attackcsv_locate_elixir_storage = 1
-						If Int($value6) > 0 Then $attackcsv_locate_dark_storage = 1
-						If Int($value7) > 0 Then $attackcsv_locate_townhall = 1
+						If Int($value1) > 0 Then $g_bCSVLocateMine = True
+						If Int($value2) > 0 Then $g_bCSVLocateElixir = True
+						If Int($value3) > 0 Then $g_bCSVLocateDrill = True
+						If Int($value4) > 0 Then $g_bCSVLocateStorageGold = True
+						If Int($value5) > 0 Then $g_bCSVLocateStorageElixir = True
+						If Int($value6) > 0 Then $g_bCSVLocateStorageDarkElixir = True
+						If Int($value7) > 0 Then $g_bCSVLocateStorageTownHall = True
 						; $value8 = Forced Side value
 					EndIf
 				EndIf
 
 				If $command = "SIDEB" And $bForceSideExist = False Then
-					If Int($value1) > 0 Then $attackcsv_locate_Eagle = 1
-;					If Int($value2) > 0 Then $attackcsv_locate_Inferno = 1
-;					If Int($value3) > 0 Then $attackcsv_locate_XBow = 1
-;					If Int($value4) > 0 Then $attackcsv_locate_WizTower = 1
-;					If Int($value5) > 0 Then $attackcsv_locate_Mortar = 1
-;					If Int($value6) > 0 Then $attackcsv_locate_GemBox = 1
-;					If Int($value7) > 0 Then $attackcsv_locate_GemBox = 1
-;					If Int($value8) > 0 Then $attackcsv_locate_GemBox = 1
+					If Int($value1) > 0 Then $g_bCSVLocateEagle = True
+					;	If Int($value2) > 0 Then $g_bCSVLocateInferno = True
+					;	If Int($value3) > 0 Then $g_bCSVLocateXBow = True
+					;	If Int($value4) > 0 Then $g_bCSVLocateWizTower = True
+					;	If Int($value5) > 0 Then $g_bCSVLocateMortar = True
+					;	If Int($value6) > 0 Then $g_bCSVLocateAirDefense = True
+					;	If Int($value7) > 0 Then $g_bCSVLocateGemBox = True
+					;	If Int($value8) > 0 Then $g_bCSVLocateGemBox = True
 				EndIf
 
 			EndIf
 		WEnd
 		FileClose($f)
 	Else
-		SetLog("Cannot find attack file " & $dirAttacksCSV & "\" & $filename & ".csv", $COLOR_ERROR)
+		SetLog("Cannot find attack file " & $g_sCSVAttacksPath & "\" & $filename & ".csv", $COLOR_ERROR)
 	EndIf
 EndFunc   ;==>ParseAttackCSV_Read_SIDE_variables

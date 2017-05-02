@@ -4,10 +4,10 @@
 ; Description ...: Updates global value of time reamining in mimutes for CC remaining time till can reques again - Army Overview window
 ; Syntax ........: getArmyCCStatus($bOpenArmyWindow = False, $bCloseArmyWindow = False)
 ; Parameters ....:
-; Return values .: MonkeyHunter (06-2016)
-; Author ........:
+; Return values .:
+; Author ........: MonkeyHunter (06-2016)
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2016
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2017
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -16,9 +16,9 @@
 ;
 Func getArmyCCStatus($bOpenArmyWindow = False, $bCloseArmyWindow = False)
 
-	If $debugsetlogTrain = 1 Or $debugSetlog = 1 Then Setlog("Begin getArmyCCStatus:", $COLOR_DEBUG1)
+	If $g_iDebugSetlogTrain = 1 Or $g_iDebugSetlog = 1 Then Setlog("Begin getArmyCCStatus:", $COLOR_DEBUG1)
 
-	$iCCRemainTime = 0 ; reset global time
+	$g_iCCRemainTime = 0 ; reset global time
 
 	If $bOpenArmyWindow = False And IsTrainPage() = False Then ; check for train page
 		SetError(1)
@@ -28,18 +28,18 @@ Func getArmyCCStatus($bOpenArmyWindow = False, $bCloseArmyWindow = False)
 			SetError(2)
 			Return ; not open, requested to be open - error.
 		EndIf
-		If _Sleep($iDelaycheckArmyCamp5) Then Return
+		If _Sleep($DELAYCHECKARMYCAMP5) Then Return
 	EndIf
 
 	;verify can make requestCC and update global flag
-	$canRequestCC = _ColorCheck(_GetPixelColor($aRequestTroopsAO[0], $aRequestTroopsAO[1], True), Hex($aRequestTroopsAO[2], 6), $aRequestTroopsAO[5])
-	If $debugsetlogTrain = 1 Then SETLOG("Can Request CC: " & $canRequestCC, $COLOR_DEBUG)
+	$g_bCanRequestCC = _ColorCheck(_GetPixelColor($aRequestTroopsAO[0], $aRequestTroopsAO[1], True), Hex($aRequestTroopsAO[2], 6), $aRequestTroopsAO[5])
+	If $g_iDebugSetlogTrain = 1 Then SETLOG("Can Request CC: " & $g_bCanRequestCC, $COLOR_DEBUG)
 
-	If $canRequestCC = false then
-		If _ColorCheck(_GetPixelColor($aRequestTroopsAO[0], $aRequestTroopsAO[1], True), Hex($aRequestTroopsAO[3], 6), $aRequestTroopsAO[5]) then
+	If $g_bCanRequestCC = False Then
+		If _ColorCheck(_GetPixelColor($aRequestTroopsAO[0], $aRequestTroopsAO[1], True), Hex($aRequestTroopsAO[3], 6), $aRequestTroopsAO[5]) Then
 			Setlog(" - Castle request allready made.", $COLOR_INFO)
 		EndIf
-		If _ColorCheck(_GetPixelColor($aRequestTroopsAO[0], $aRequestTroopsAO[1], True), Hex($aRequestTroopsAO[4], 6), $aRequestTroopsAO[5]) then
+		If _ColorCheck(_GetPixelColor($aRequestTroopsAO[0], $aRequestTroopsAO[1], True), Hex($aRequestTroopsAO[4], 6), $aRequestTroopsAO[5]) Then
 			Setlog("Castle Full/No clan.", $COLOR_INFO)
 		EndIf
 	EndIf
@@ -49,33 +49,31 @@ Func getArmyCCStatus($bOpenArmyWindow = False, $bCloseArmyWindow = False)
 		Local $iRemainTrainCCTimer = 0, $sResultCCMinutes = "", $aResult
 
 		;Local $sResultCC = getArmyCampCap($aArmyCCRemainTime[0], $aArmyCCRemainTime[1]) ;Get CC time via OCR.
-		Local $sResultCC = getRequestRemainTime( $aArmyCCRemainTime[0] ,  $aArmyCCRemainTime[1] )
-		If $debugsetlogTrain = 1 Then Setlog("getArmyCampCap returned: " & $sResultCC, $COLOR_DEBUG)
-		$iCCRemainTime = ConvertOCRTime("CC request", $sResultCC)
+		Local $sResultCC = getRequestRemainTime($aArmyCCRemainTime[0], $aArmyCCRemainTime[1])
+		If $g_iDebugSetlogTrain = 1 Then Setlog("getArmyCampCap returned: " & $sResultCC, $COLOR_DEBUG)
+		$g_iCCRemainTime = ConvertOCRTime("CC request", $sResultCC)
 		; If $sResultCC <> "" Then
-			; If StringInStr($sResultCC, "m") > 1 Then
-				; $aResult = StringSplit($sResultCC, "m", $STR_NOCOUNT)
-				;; $aResult[0] will be the Minutes and the $aResult[1] will be the seconds with the "s" at end
-				; $aResult[1] = StringStripWS($aResult[1], $STR_STRIPALL)
-				; $sResultCCMinutes = StringTrimRight($aResult[1], 1) ; removing the "s"
-				; $iRemainTrainCCTimer = Number($aResult[0]) + Number($sResultCCMinutes / 60)
-			; ElseIf StringInStr($sResultCC, "s") > 1 Then
-				; $iRemainTrainCCTimer = Number(StringStripWS($sResultCC, $STR_STRIPALL)) / 60 ; removing the "s", " ", and convert to minutes
-			; Else
-				; If $debugsetlogTrain = 1 Or $debugSetlog = 1 Then SetLog("getArmyCCStatus: Bad OCR string: " & $sResultCC, $COLOR_ERROR)
-			; EndIf
-			; If $bDonationEnabled Or $debugsetlogTrain = 1 Or $debugSetlog = 1 Then SetLog("CC request time: " & StringFormat("%.2f", $iRemainTrainCCTimer) & " minutes", $COLOR_INFO)
-			; $iCCRemainTime = $iRemainTrainCCTimer ; update global value
+		; If StringInStr($sResultCC, "m") > 1 Then
+		; $aResult = StringSplit($sResultCC, "m", $STR_NOCOUNT)
+		;; $aResult[0] will be the Minutes and the $aResult[1] will be the seconds with the "s" at end
+		; $aResult[1] = StringStripWS($aResult[1], $STR_STRIPALL)
+		; $sResultCCMinutes = StringTrimRight($aResult[1], 1) ; removing the "s"
+		; $iRemainTrainCCTimer = Number($aResult[0]) + Number($sResultCCMinutes / 60)
+		; ElseIf StringInStr($sResultCC, "s") > 1 Then
+		; $iRemainTrainCCTimer = Number(StringStripWS($sResultCC, $STR_STRIPALL)) / 60 ; removing the "s", " ", and convert to minutes
 		; Else
-			; If $debugsetlogTrain = 1 Or $debugSetlog = 1 Then SetLog("Can not read remaining Spell train time!", $COLOR_ERROR)
+		; If $g_iDebugSetlogTrain = 1 Or $g_iDebugSetlog = 1 Then SetLog("getArmyCCStatus: Bad OCR string: " & $sResultCC, $COLOR_ERROR)
+		; EndIf
+		; If $g_bDonationEnabled Or $g_iDebugSetlogTrain = 1 Or $g_iDebugSetlog = 1 Then SetLog("CC request time: " & StringFormat("%.2f", $iRemainTrainCCTimer) & " minutes", $COLOR_INFO)
+		; $g_iCCRemainTime = $iRemainTrainCCTimer ; update global value
+		; Else
+		; If $g_iDebugSetlogTrain = 1 Or $g_iDebugSetlog = 1 Then SetLog("Can not read remaining Spell train time!", $COLOR_ERROR)
 		; EndIf
 	EndIf
 
-	RequestCC(False)
-
 	If $bCloseArmyWindow = True Then
 		ClickP($aAway, 1, 0, "#0000") ;Click Away
-		If _Sleep($iDelaycheckArmyCamp4) Then Return
+		If _Sleep($DELAYCHECKARMYCAMP4) Then Return
 	EndIf
 
 EndFunc   ;==>getArmyCCStatus

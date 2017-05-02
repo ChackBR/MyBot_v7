@@ -6,38 +6,38 @@
 ; Return values .: None
 ; Author ........: Boju(2016
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2016
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2017
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......: checkMainscreen, isProblemAffect
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
 ; Example .......: No
 ; ===============================================================================================================================
 
-Global $TempBot[4] = [1, 10, 20, 0]
+Global $g_aiTempBot[4] = [1, 10, 20, 0]
 
-Func ClickZone ($x, $y, $Offset = 7, $debugtxt = "", $times = 1, $speed = 0, $OutScreen = (680 + $bottomOffsetY), $scale = 3, $density = 1, $centerX = 0, $centerY = 0)
+Func ClickZone ($x, $y, $Offset = 7, $debugtxt = "", $times = 1, $speed = 0, $OutScreen = (680 + $g_iBottomOffsetY), $scale = 3, $density = 1, $centerX = 0, $centerY = 0)
 	Local $BasY
 	If $y-$Offset > $OutScreen Then
 		$BasY = $y
 	Else
 		$BasY = $y-$Offset
 	EndIf
-	Dim $TempBot[4] = [$x-$Offset, $BasY, $x+$Offset, $y+$Offset]
-	If $debugClick = 1 Then
+	Dim $g_aiTempBot[4] = [$x-$Offset, $BasY, $x+$Offset, $y+$Offset]
+	If $g_iDebugClick = 1 Then
 		Local $txt = _DecodeDebug($debugtxt)
 		SetLog("ClickZone " & $x & "," & $y & "," & $times & "," & $speed & " " & $debugtxt & $txt, $COLOR_ACTION, "Verdana", "7.5", 0)
 	EndIf
-	ClickR($TempBot,$x, $y, $times, $speed, $OutScreen, $scale, $density, $centerX, $centerY)
+	ClickR($g_aiTempBot,$x, $y, $times, $speed, $OutScreen, $scale, $density, $centerX, $centerY)
 EndFunc
 
-Func ClickR($boundingBox, $x, $y, $times = 1, $speed = 0, $OutScreen = (680 + $bottomOffsetY), $scale = 3, $density = 1, $centerX = 0, $centerY = 0)
+Func ClickR($boundingBox, $x, $y, $times = 1, $speed = 0, $OutScreen = (680 + $g_iBottomOffsetY), $scale = 3, $density = 1, $centerX = 0, $centerY = 0)
 	Local $AncVal = " ValIn: X=" & $x & " Y=" & $y
 	Local Const $PI = 3.141592653589793
 	Local $boxWidth = $boundingBox[2] - $boundingBox[0]
 	Local $boxHeight = $boundingBox[3] - $boundingBox[1]
 	Local $boxCenterX = $boundingBox[0] + $boxWidth/2 + $centerX
 	Local $boxCenterY = $boundingBox[1] + $boxHeight/2 + $centerY
-	Local $loopStartTime = TimerInit()
+	Local $loopStartTime = __TimerInit()
 	Do
 		Local $angle = Random() * 2 *$PI
 		Local $xR = Random()
@@ -47,7 +47,7 @@ Func ClickR($boundingBox, $x, $y, $times = 1, $speed = 0, $OutScreen = (680 + $b
 			Local $offsetY = $distance * Cos($angle)
 			$x = $boxCenterX + $boxWidth * $offsetX/4
 			$y = $boxCenterY + $boxHeight * $offsetY/4
-			If TimerDiff($loopStartTime)>5000 Then
+			If __TimerDiff($loopStartTime)>5000 Then
 			$x = $boxCenterX
 			$y = $boxCenterY
 			ExitLoop
@@ -63,24 +63,24 @@ Func ClickR($boundingBox, $x, $y, $times = 1, $speed = 0, $OutScreen = (680 + $b
 	$y = Round($y, 3)
 	If $times <> 1 Then
 		For $i = 0 To ($times - 1)
-			If $debugClick = 1 Then SetLog("_ControlClick " & "X=" & $x & " Y=" & $y & " ,t" & $times & ",s" & $speed & $AncVal, $COLOR_ACTION, "Verdana", "7.5", 0)
+			If $g_iDebugClick = 1 Then SetLog("_ControlClick " & "X=" & $x & " Y=" & $y & " ,t" & $times & ",s" & $speed & $AncVal, $COLOR_ACTION, "Verdana", "7.5", 0)
 			Click($x, $y)
 			If _Sleep($speed, False) Then ExitLoop
 		Next
 	Else
-		If $debugClick = 1 Then SetLog("_ControlClick " & "X=" & $x & " Y=" & $y & $AncVal, $COLOR_ACTION, "Verdana", "7.5", 0)
+		If $g_iDebugClick = 1 Then SetLog("_ControlClick " & "X=" & $x & " Y=" & $y & $AncVal, $COLOR_ACTION, "Verdana", "7.5", 0)
 		Click($x, $y)
 	EndIf
 EndFunc   ;==>ClickR
 
-Func PureClickR($boundingBox, $x, $y, $times = 1, $speed = 0, $OutScreen = (680 + $bottomOffsetY), $scale = 3, $density = 1, $centerX = 0, $centerY = 0)
+Func PureClickR($boundingBox, $x, $y, $times = 1, $speed = 0, $OutScreen = (680 + $g_iBottomOffsetY), $scale = 3, $density = 1, $centerX = 0, $centerY = 0)
 	Local $AncVal = " ValIn: X=" & $x & " Y=" & $y
 	Local Const $PI = 3.141592653589793
 	Local $boxWidth = $boundingBox[2] - $boundingBox[0]
 	Local $boxHeight = $boundingBox[3] - $boundingBox[1]
 	Local $boxCenterX = $boundingBox[0] + $boxWidth/2 + $centerX
 	Local $boxCenterY = $boundingBox[1] + $boxHeight/2 + $centerY
-	Local $loopStartTime = TimerInit()
+	Local $loopStartTime = __TimerInit()
 	Do
 		Local $angle = Random() * 2 *$PI
 		Local $xR = Random()
@@ -90,7 +90,7 @@ Func PureClickR($boundingBox, $x, $y, $times = 1, $speed = 0, $OutScreen = (680 
 			Local $offsetY = $distance * Cos($angle)
 			$x = $boxCenterX + $boxWidth * $offsetX/4
 			$y = $boxCenterY + $boxHeight * $offsetY/4
-			If TimerDiff($loopStartTime)>5000 Then
+			If __TimerDiff($loopStartTime)>5000 Then
 			$x = $boxCenterX
 			$y = $boxCenterY
 			ExitLoop
@@ -106,24 +106,24 @@ Func PureClickR($boundingBox, $x, $y, $times = 1, $speed = 0, $OutScreen = (680 
 	$y = Round($y, 3)
 	If $times <> 1 Then
 		For $i = 0 To ($times - 1)
-			If $debugClick = 1 Then SetLog("PureClick " & "X=" & $x & " Y=" & $y & " ,t" & $times & ",s" & $speed & $AncVal, $COLOR_ACTION, "Verdana", "7.5", 0)
+			If $g_iDebugClick = 1 Then SetLog("PureClick " & "X=" & $x & " Y=" & $y & " ,t" & $times & ",s" & $speed & $AncVal, $COLOR_ACTION, "Verdana", "7.5", 0)
 			PureClick($x, $y)
 			If _Sleep($speed, False) Then ExitLoop
 		Next
 	Else
-		If $debugClick = 1 Then SetLog("PureClick " & "X=" & $x & " Y=" & $y & $AncVal, $COLOR_ACTION, "Verdana", "7.5", 0)
+		If $g_iDebugClick = 1 Then SetLog("PureClick " & "X=" & $x & " Y=" & $y & $AncVal, $COLOR_ACTION, "Verdana", "7.5", 0)
 		PureClick($x, $y)
 	EndIf
 EndFunc   ;==>ClickR
 
-Func GemClickR($boundingBox,$x, $y, $times = 1, $speed = 0, $debugtxt = "", $OutScreen = (680 + $bottomOffsetY), $scale = 3, $density = 1, $centerX = 0, $centerY = 0)
+Func GemClickR($boundingBox,$x, $y, $times = 1, $speed = 0, $debugtxt = "", $OutScreen = (680 + $g_iBottomOffsetY), $scale = 3, $density = 1, $centerX = 0, $centerY = 0)
 	Local $AncVal = " ValIn: X=" & $x & " Y=" & $y
 	Local Const $PI = 3.141592653589793
 	Local $boxWidth = $boundingBox[2] - $boundingBox[0]
 	Local $boxHeight = $boundingBox[3] - $boundingBox[1]
 	Local $boxCenterX = $boundingBox[0] + $boxWidth/2 + $centerX
 	Local $boxCenterY = $boundingBox[1] + $boxHeight/2 + $centerY
-	Local $loopStartTime = TimerInit()
+	Local $loopStartTime = __TimerInit()
 	Do
 		Local $angle = Random() * 2 *$PI
 		Local $xR = Random()
@@ -133,7 +133,7 @@ Func GemClickR($boundingBox,$x, $y, $times = 1, $speed = 0, $debugtxt = "", $Out
 			Local $offsetY = $distance * Cos($angle)
 			$x = $boxCenterX + $boxWidth * $offsetX/4
 			$y = $boxCenterY + $boxHeight * $offsetY/4
-			If TimerDiff($loopStartTime)>5000 Then
+			If __TimerDiff($loopStartTime)>5000 Then
 			$x = $boxCenterX
 			$y = $boxCenterY
 			ExitLoop
@@ -148,18 +148,18 @@ Func GemClickR($boundingBox,$x, $y, $times = 1, $speed = 0, $debugtxt = "", $Out
 	$x = Round($x, 3)
 	$y = Round($y, 3)
 
-	If $debugClick = 1 Then
+	If $g_iDebugClick = 1 Then
 		Local $txt = _DecodeDebug($debugtxt)
 		SetLog("GemClickR " & $x & "," & $y & "," & $times & "," & $speed & " " & $debugtxt & $txt, $COLOR_ACTION, "Verdana", "7.5", 0)
 	EndIf
 
-    If $AndroidAdbClick = True Then
+    If $g_bAndroidAdbClick = True Then
 	   If isGemOpen(True) Then
 		  Return False
 	   EndIf
 	   AndroidClick($x, $y, $times, $speed)
 	EndIf
-	If $AndroidAdbClick = True Then
+	If $g_bAndroidAdbClick = True Then
 	   Return
     EndIf
 
@@ -172,7 +172,7 @@ Func GemClickR($boundingBox,$x, $y, $times = 1, $speed = 0, $debugtxt = "", $Out
 			   Return False
 			EndIf
 			If isProblemAffectBeforeClick($i) Then
-				If $debugClick = 1 Then Setlog("VOIDED GemClickR " & $x & "," & $y & "," & $times & "," & $speed & " " & $debugtxt & $txt, $COLOR_ERROR, "Verdana", "7.5", 0)
+				If $g_iDebugClick = 1 Then Setlog("VOIDED GemClickR " & $x & "," & $y & "," & $times & "," & $speed & " " & $debugtxt & $txt, $COLOR_ERROR, "Verdana", "7.5", 0)
 				checkMainScreen(False)
 				SuspendAndroid($SuspendMode)
 				Return  ; if need to clear screen do not click
@@ -191,7 +191,7 @@ Func GemClickR($boundingBox,$x, $y, $times = 1, $speed = 0, $debugtxt = "", $Out
 			Return False
 		EndIf
 		If isProblemAffectBeforeClick() Then
-			If $debugClick = 1 Then Setlog("VOIDED GemClickR " & $x & "," & $y & "," & $times & "," & $speed & " " & $debugtxt & $txt, $COLOR_ERROR, "Verdana", "7.5", 0)
+			If $g_iDebugClick = 1 Then Setlog("VOIDED GemClickR " & $x & "," & $y & "," & $times & "," & $speed & " " & $debugtxt & $txt, $COLOR_ERROR, "Verdana", "7.5", 0)
 			checkMainScreen(False)
 			SuspendAndroid($SuspendMode)
 			Return  ; if need to clear screen do not click

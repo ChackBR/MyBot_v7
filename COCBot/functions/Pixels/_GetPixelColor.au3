@@ -12,7 +12,7 @@
 ; Return values .: None
 ; Author ........:
 ; Modified ......: MonkeyHunter (08-2015)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2016
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2017
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -20,11 +20,12 @@
 ; ===============================================================================================================================
 
 Func _GetPixelColor($iX, $iY, $bNeedCapture = False, $sLogText = Default, $LogTextColor = Default, $bSilentSetLog = Default)
-	If $bNeedCapture = False Or $RunState = False Then
-		$aPixelColor = _GDIPlus_BitmapGetPixel($hBitmap, $iX, $iY)
+	Local $aPixelColor = 0
+	If $bNeedCapture = False Or $g_bRunState = False Then
+		$aPixelColor = _GDIPlus_BitmapGetPixel($g_hBitmap, $iX, $iY)
 	Else
 		_CaptureRegion($iX - 1, $iY - 1, $iX + 1, $iY + 1)
-		$aPixelColor = _GDIPlus_BitmapGetPixel($hBitmap, 1, 1)
+		$aPixelColor = _GDIPlus_BitmapGetPixel($g_hBitmap, 1, 1)
 	EndIf
 	If $sLogText <> Default And IsString($sLogText) Then
 		Local $String = $sLogText & " at X,Y: " & $iX & "," & $iY & " Found: " & Hex($aPixelColor, 6)

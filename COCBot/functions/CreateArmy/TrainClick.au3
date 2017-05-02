@@ -11,20 +11,18 @@
 ;                  $aLootSpot           - [in/out] an array of [X location, Y location, Hex Color, Tolerance] to check after click, color used to see if out of Elixir for more troops
 ;						 $sdebugtxt				 - String with click debug text
 ; Return values .: None
-; Author ........: KnowJack (July 2015)
-; Modified ......: Sardo 2015-08, Boju 2016-06
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2016
+; Author ........: KnowJack (07-2015)
+; Modified ......: Sardo (08-2015), Boju (06-2016)
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2017
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
 ; Example .......: No
 ; ===============================================================================================================================
 
-;Global $TypeTroops[4] = [1, 10, 20, 0] ; unnecessary variable , is a parameter !!!
-
-Func TrainClick($x, $y, $iTimes, $iSpeed, $aWatchSpot, $aLootSpot, $sdebugtxt, $TypeTroops)
+Func TrainClick($x, $y, $iTimes, $iSpeed, $aWatchSpot, $sdebugtxt, $TypeTroops)
 	If IsTrainPage() Then
-		If $debugClick = 1 Then
+		If $g_iDebugClick = 1 Then
 			Local $txt = _DecodeDebug($sdebugtxt)
 			SetLog("TrainClick " & $x & "," & $y & "," & $iTimes & "," & $iSpeed & " " & $sdebugtxt & $txt, $COLOR_ACTION, "Verdana", "7.5", 0)
 		EndIf
@@ -34,19 +32,12 @@ Func TrainClick($x, $y, $iTimes, $iSpeed, $aWatchSpot, $aLootSpot, $sdebugtxt, $
 				For $i = 0 To ($iTimes - 1)
 					If isProblemAffect(True) Then checkMainScreen(False) ; Check for BS/CoC errors
 					Local $sLogText = Default
-					If $debugsetlogTrain = 1 Then $sLogText = "TrainClick " & $x & "," & $y & "," & $iTimes
+					If $g_iDebugSetlogTrain = 1 Then $sLogText = "TrainClick " & $x & "," & $y & "," & $iTimes
 					If _CheckPixel($aWatchSpot, True, Default, $sLogText) = True Then ; Check to see if barrack full
-						If $debugClick = 1 Then SetLog("Camp is FULL after " & $i & " clicks", $COLOR_DEBUG)
+						If $g_iDebugClick = 1 Then SetLog("Camp is FULL after " & $i & " clicks", $COLOR_DEBUG)
 						ExitLoop
 					EndIf
-					If _CheckPixel($aLootSpot, True) = True Then ; Check to see if out of Elixir
-						SetLog("Elixir Check Fail: Color = " & _GetPixelColor($aLootSpot[0], $aLootSpot[1], False), $COLOR_DEBUG)
-						$OutOfElixir = 1
-						If _Sleep($iDelayTrainClick1) Then Return
-						If IsGemOpen(True) = True Then ClickP($aAway) ;Click Away
-						ExitLoop
-					EndIf
-					If $iUseRandomClick = 0 then
+					If $g_bUseRandomClick = False Then
 						PureClick($x, $y) ;Click once.
 					Else
 						PureClickR($TypeTroops, $x, $y) ;Click once.
@@ -56,19 +47,12 @@ Func TrainClick($x, $y, $iTimes, $iSpeed, $aWatchSpot, $aLootSpot, $sdebugtxt, $
 			Else
 				If isProblemAffect(True) Then checkMainScreen(False) ; Check for BS/CoC errors
 				Local $sLogText = Default
-				If $debugsetlogTrain = 1 Then $sLogText = "TrainClick " & $x & "," & $y & "," & $iTimes
+				If $g_iDebugSetlogTrain = 1 Then $sLogText = "TrainClick " & $x & "," & $y & "," & $iTimes
 				If _CheckPixel($aWatchSpot, True, Default, $sLogText) = True Then ; Check to see if barrack full
-					If $debugClick = 1 Then SetLog("Camp is FULL", $COLOR_DEBUG)
+					If $g_iDebugClick = 1 Then SetLog("Camp is FULL", $COLOR_DEBUG)
 					Return ; Check to see if barrack full
 				EndIf
-				If _CheckPixel($aLootSpot, False) = True Then ; Check to see if out of Elixir
-					SetLog("Elixir Check Fail: Color = " & _GetPixelColor($aLootSpot[0], $aLootSpot[1], False), $COLOR_DEBUG)
-					$OutOfElixir = 1
-					If _Sleep($iDelayTrainClick1) Then Return
-					If IsGemOpen(False) = True Then ClickP($aAway) ;Click Away
-					Return
-				EndIf
-				If $iUseRandomClick = 0 then
+				If $g_bUseRandomClick = False Then
 					PureClick($x, $y, $iTimes, $iSpeed) ;Click $iTimes.
 				Else
 					PureClickR($TypeTroops, $x, $y, $iTimes, $iSpeed) ;Click $iTimes.
@@ -77,35 +61,20 @@ Func TrainClick($x, $y, $iTimes, $iSpeed, $aWatchSpot, $aLootSpot, $sdebugtxt, $
 			EndIf
 		Else
 			Local $sLogText = Default
-			If $debugsetlogTrain = 1 Then $sLogText = "TrainClick " & $x & "," & $y & "," & $iTimes
+			If $g_iDebugSetlogTrain = 1 Then $sLogText = "TrainClick " & $x & "," & $y & "," & $iTimes
 			If isProblemAffect(True) Then checkMainScreen(False) ; Check for BS/CoC errors
-			If $debugsetlogTrain = 1 Then SetLog("Full Check=" & _GetPixelColor($aWatchSpot[0], $aWatchSpot[1], False), $COLOR_DEBUG)
+			If $g_iDebugSetlogTrain = 1 Then SetLog("Full Check=" & _GetPixelColor($aWatchSpot[0], $aWatchSpot[1], False), $COLOR_DEBUG)
 			If _CheckPixel($aWatchSpot, True, Default, $sLogText) = True Then
-				If $debugClick = 1 Then SetLog("Camp is FULL", $COLOR_DEBUG)
+				If $g_iDebugClick = 1 Then SetLog("Camp is FULL", $COLOR_DEBUG)
 				Return ; Check to see if barrack full
 			EndIf
-			If _CheckPixel($aLootSpot, False) = True Then ; Check to see if out of Elixir
-				SetLog("Elixir Check Fail: Color = " & _GetPixelColor($aLootSpot[0], $aLootSpot[1], False), $COLOR_DEBUG)
-				$OutOfElixir = 1
-				If _Sleep($iDelayTrainClick1) Then Return
-				If IsGemOpen(False) = True Then ClickP($aAway) ;Click Away
-				Return
-			EndIf
-
-			If $iUseRandomClick = 0 then
+			If $g_bUseRandomClick = False Then
 				PureClick($x, $y)
 			Else
 				PureClickR($TypeTroops, $x, $y)
-			EndIF
+			EndIf
 
 			If _Sleep($iSpeed, False) Then Return
-			If _CheckPixel($aLootSpot, True) = True Then ; Check to see if out of Elixir
-				SetLog("Elixir Check Fail: Color = " & _GetPixelColor($aLootSpot[0], $aLootSpot[1], True), $COLOR_DEBUG)
-				$OutOfElixir = 1
-				If _Sleep($iDelayTrainClick1) Then Return
-				If IsGemOpen(True) = True Then ClickP($aAway) ;Click Away
-				Return
-			EndIf
 		EndIf
 		Return True
 	Else
@@ -113,6 +82,6 @@ Func TrainClick($x, $y, $iTimes, $iSpeed, $aWatchSpot, $aLootSpot, $sdebugtxt, $
 	EndIf
 EndFunc   ;==>TrainClick
 
-Func TrainClickP($point, $howMany, $speed, $aWatchSpot, $aLootSpot, $debugtxt, $TypeTroops)
-	Return TrainClick($point[0], $point[1], $howMany, $speed, $aWatchSpot, $aLootSpot, $debugtxt, $TypeTroops)
+Func TrainClickP($point, $howMany, $speed, $aWatchSpot, $debugtxt, $TypeTroops)
+	Return TrainClick($point[0], $point[1], $howMany, $speed, $aWatchSpot, $debugtxt, $TypeTroops)
 EndFunc   ;==>TrainClickP

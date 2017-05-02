@@ -17,6 +17,13 @@
 ; Global Variables
 ;
 
+; Fix drop on edge from Doc Octopus
+Global Const $g_aaiTopLeftDropPoints[5][2] = [[62, 306], [156, 238], [221, 188], [288, 142], [383, 76]]
+Global Const $g_aaiTopRightDropPoints[5][2] = [[486, 59], [586, 134], [652, 184], [720, 231], [817, 308]]
+Global Const $g_aaiBottomLeftDropPoints[5][2] = [[20, 373], [101, 430], [171, 481], [244, 535], [346, 615]]
+Global Const $g_aaiBottomRightDropPoints[5][2] = [[530, 615], [632, 535], [704, 481], [781, 430], [848, 373]]
+Global Const $g_aaiEdgeDropPoints[4] = [$g_aaiBottomRightDropPoints, $g_aaiTopLeftDropPoints, $g_aaiBottomLeftDropPoints, $g_aaiTopRightDropPoints]
+
 ;
 ; mandryd
 ;
@@ -38,7 +45,7 @@ Global $iMultiFingerStyle = 0
 Global Enum  $eCCSpell = $eHaSpell + 1
 
 ; CSV Deployment Speed Mod
-Global $isldSelectedCSVSpeed[$iModeCount], $iCSVSpeeds[19]
+Global $isldSelectedCSVSpeed[$g_iModeCount], $iCSVSpeeds[19]
 $isldSelectedCSVSpeed[$DB] = 4
 $isldSelectedCSVSpeed[$LB] = 4
 $iCSVSpeeds[0] = .1
@@ -71,7 +78,7 @@ Global $chkDontRemove = True
 
 ; No League Search
 Global $aNoLeague[4] = [30, 30, 0x616568, 20] ; No League Shield
-Global $chkDBNoLeague, $chkABNoLeague, $iChkNoLeague[$iModeCount]
+Global $chkDBNoLeague, $chkABNoLeague, $iChkNoLeague[$g_iModeCount]
 
 ; Check Collector Outside
 Global $ichkDBMeetCollOutside, $iDBMinCollOutsidePercent, $iCollOutsidePercent ; check later if $iCollOutsidePercent obsolete
@@ -92,3 +99,23 @@ Global $SmartMinGold, $SmartMinElixir, $SmartMinDark
 Global $UpgradeDuration
 Global $canContinueLoop = True
 
+;
+; DEMEN
+;
+
+; SwitchAcc_Demen_Style
+Global $profile = $g_sProfilePath & "\Profile.ini"
+Global $ichkSwitchAcc = 0, $icmbTotalCoCAcc, $nTotalCoCAcc = 8, $ichkSmartSwitch, $ichkCloseTraining
+Global Enum $eNull, $eActive, $eDonate, $eIdle, $eStay, $eContinuous ; Enum for Profile Type & Switch Case & ForceSwitch
+Global $ichkForceSwitch, $iForceSwitch, $eForceSwitch = 0, $iProfileBeforeForceSwitch
+Global $ichkForceStayDonate
+Global $nTotalProfile = 1, $nCurProfile = 1, $nNextProfile
+Global $ProfileList
+Global $aProfileType[8] ; Type of the all Profiles, 1 = active, 2 = donate, 3 = idle
+Global $aMatchProfileAcc[8] ; Accounts match with All Profiles
+Global $aDonateProfile, $aActiveProfile
+Global $aAttackedCountSwitch[8], $ActiveSwitchCounter = 0, $DonateSwitchCounter = 0
+Global $bReMatchAcc = False
+Global $aTimerStart[8], $aTimerEnd[8]
+Global $aRemainTrainTime[8], $aUpdateRemainTrainTime[8], $nMinRemainTrain
+Global $aLocateAccConfig[8], $aAccPosY[8]

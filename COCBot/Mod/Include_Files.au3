@@ -16,12 +16,15 @@
 ;
 ; Misc
 ;
+#include "Config_Save.au3"
+#include "Config_Read.au3"
+#include "Config_Apply.au3"
 
-; MOD Functions, etc...
 #include "AreCollectorsOutside.au3"
-#include "MBR GUI Control.au3"
+#include "AttackNowButtom.au3"
 #include "SmartUpgrade.au3"
 #include "SimpleQuickTrain.au3"
+
 ;
 ; LunaEclipse
 ;
@@ -40,3 +43,11 @@
 #include "Multi Fingers\eightFinger.au3"
 #include "Multi Fingers\multiFinger.au3"
 #include "Multi Fingers\unitInfo.au3"
+
+;
+; DEMEN
+;
+
+; SwitchAcc
+#include "SwitchAcc.au3"
+#include "UpdateProfileStats.au3"

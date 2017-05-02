@@ -9,7 +9,7 @@
 ; Return values .: None
 ; Author ........:
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2016
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2017
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -26,7 +26,7 @@ Func DropOnPixel($troop, $listArrPixel, $number, $slotsPerEdge = 0)
 	If isProblemAffect(True) Then Return
 	If Not IsAttackPage() Then Return
 
-	$nameFunc = "[DropOnPixel]"
+	Local $nameFunc = "[DropOnPixel]"
 	debugRedArea($nameFunc & " IN ")
 	debugRedArea("troop : [" & $troop & "] / size arrPixel [" & UBound($listArrPixel) & "] / number [" & $number & "]/ $slotsPerEdge [" & $slotsPerEdge & "] ")
 	If ($number = 0 Or UBound($listArrPixel) = 0) Then Return
@@ -38,17 +38,17 @@ Func DropOnPixel($troop, $listArrPixel, $number, $slotsPerEdge = 0)
 			debugRedArea("$arrPixel $UBound($arrPixel) : [" & UBound($arrPixel) & "] ")
 			If UBound($arrPixel) > 0 Then
 				Local $pixel = $arrPixel[0]
-				If $i = Int(UBound($arrPixel) / 2) And $isHeroesDropped = False Then
-					$DeployHeroesPosition[0] = $pixel[0]
-					$DeployHeroesPosition[1] = $pixel[1]
+				If $i = Int(UBound($arrPixel) / 2) And $g_bIsHeroesDropped = False Then
+					$g_aiDeployHeroesPosition[0] = $pixel[0]
+					$g_aiDeployHeroesPosition[1] = $pixel[1]
 					debugRedArea("Heroes : $slotsPerEdge = 1 ")
 				EndIf
-				If $i = Int(UBound($arrPixel) / 2) And $isCCDropped = False Then
-					$DeployCCPosition[0] = $pixel[0]
-					$DeployCCPosition[1] = $pixel[1]
+				If $i = Int(UBound($arrPixel) / 2) And $g_bIsCCDropped = False Then
+					$g_aiDeployCCPosition[0] = $pixel[0]
+					$g_aiDeployCCPosition[1] = $pixel[1]
 					debugRedArea("CC : $slotsPerEdge = 1 ")
 				EndIf
-				AttackClick($pixel[0], $pixel[1], $number, $iDelayDropOnPixel2, $iDelayDropOnPixel1, "#0096")
+				AttackClick($pixel[0], $pixel[1], $number, $DELAYDROPONPIXEL2, $DELAYDROPONPIXEL1, "#0096")
 			EndIf
 		Next
 	ElseIf $slotsPerEdge = 2 Then ; Drop on 2 points per edge
@@ -56,14 +56,14 @@ Func DropOnPixel($troop, $listArrPixel, $number, $slotsPerEdge = 0)
 			Local $arrPixel = $listArrPixel[$i]
 			If UBound($arrPixel) > 0 Then
 				Local $pixel = $arrPixel[0]
-				If $i = Int(UBound($arrPixel) / 2) And $isHeroesDropped = False Then
-					$DeployHeroesPosition[0] = $pixel[0]
-					$DeployHeroesPosition[1] = $pixel[1]
+				If $i = Int(UBound($arrPixel) / 2) And $g_bIsHeroesDropped = False Then
+					$g_aiDeployHeroesPosition[0] = $pixel[0]
+					$g_aiDeployHeroesPosition[1] = $pixel[1]
 					debugRedArea("Heroes : $slotsPerEdge = 2 ")
 				EndIf
-				If $i = Int(UBound($arrPixel) / 2) And $isCCDropped = False Then
-					$DeployCCPosition[0] = $pixel[0]
-					$DeployCCPosition[1] = $pixel[1]
+				If $i = Int(UBound($arrPixel) / 2) And $g_bIsCCDropped = False Then
+					$g_aiDeployCCPosition[0] = $pixel[0]
+					$g_aiDeployCCPosition[1] = $pixel[1]
 					debugRedArea("CC : $slotsPerEdge = 2 ")
 				EndIf
 				AttackClick($pixel[0], $pixel[1], $number, SetSleep(0), SetSleep(1), "#0097")
@@ -98,19 +98,19 @@ Func DropOnPixel($troop, $listArrPixel, $number, $slotsPerEdge = 0)
 						$index = UBound($arrPixel) - 1
 					EndIf
 					Local $currentPixel = $arrPixel[Floor($index)]
-					If $j >= Round(UBound($arrPixel) / 2) And $j <= Round((UBound($arrPixel) / 2) + $offset) And $isHeroesDropped = False Then
-						$DeployHeroesPosition[0] = $currentPixel[0]
-						$DeployHeroesPosition[1] = $currentPixel[1]
+					If $j >= Round(UBound($arrPixel) / 2) And $j <= Round((UBound($arrPixel) / 2) + $offset) And $g_bIsHeroesDropped = False Then
+						$g_aiDeployHeroesPosition[0] = $currentPixel[0]
+						$g_aiDeployHeroesPosition[1] = $currentPixel[1]
 						debugRedArea("Heroes : $slotsPerEdge = else ")
 						debugRedArea("$offset: " & $offset)
 					EndIf
-					If $j >= Round(UBound($arrPixel) / 2) And $j <= Round((UBound($arrPixel) / 2) + $offset) And $isCCDropped = False Then
-						$DeployCCPosition[0] = $currentPixel[0]
-						$DeployCCPosition[1] = $currentPixel[1]
+					If $j >= Round(UBound($arrPixel) / 2) And $j <= Round((UBound($arrPixel) / 2) + $offset) And $g_bIsCCDropped = False Then
+						$g_aiDeployCCPosition[0] = $currentPixel[0]
+						$g_aiDeployCCPosition[1] = $currentPixel[1]
 						debugRedArea("CC : $slotsPerEdge = else ")
 						debugRedArea("$offset: " & $offset)
 					EndIf
-					If Number($currentPixel[1]) > 555 + $bottomOffsetY then $currentPixel[1] = 555 + $bottomOffsetY
+					If Number($currentPixel[1]) > 555 + $g_iBottomOffsetY Then $currentPixel[1] = 555 + $g_iBottomOffsetY
 					AttackClick($currentPixel[0], $currentPixel[1], $nbTroopByPixel, SetSleep(0), 0, "#0098")
 					$nbTroopsLeft -= $nbTroopByPixel
 				Next

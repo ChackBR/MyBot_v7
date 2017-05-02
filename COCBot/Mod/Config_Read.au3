@@ -13,10 +13,25 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
+Func ReadConfig_SwitchAcc()
+	IniReadS($ichkSwitchAcc, $profile, "SwitchAcc", "Enable", 0, "int")
+	IniReadS($icmbTotalCoCAcc, $profile, "SwitchAcc", "Total Coc Account", -1, "int")
+	IniReadS($ichkSmartSwitch, $profile, "SwitchAcc", "Smart Switch", 0, "int")
+	IniReadS($ichkForceSwitch, $profile, "SwitchAcc", "Force Switch", 0, "int")
+	IniReadS($iForceSwitch, $profile, "SwitchAcc", "Force Switch Search", 100, "int")
+	IniReadS($ichkForceStayDonate, $profile, "SwitchAcc", "Force Stay Donate", 0, "int")
+	IniReads($ichkCloseTraining, $profile, "SwitchAcc", "Sleep Combo", 0, "int") ; Sleep Combo, 1 = Close CoC, 2 = Close Android, 0 = No sleep
+	For $i = 0 To 7
+		IniReadS($aMatchProfileAcc[$i], $profile, "SwitchAcc", "MatchProfileAcc." & $i + 1, "-1")
+		IniReadS($aProfileType[$i], $profile, "SwitchAcc", "ProfileType." & $i + 1, "-1")
+		IniReadS($aAccPosY[$i], $profile, "SwitchAcc", "AccLocation." & $i + 1, "-1")
+	Next
+EndFunc   ;==>ReadConfig_SwitchAcc
+
 ;
 ; MOD Config - Save Data
 ;
-
+Func ReadConfig_MOD()
 	; Max logout time
 	$TrainLogoutMaxTime = IniRead($config, "TrainLogout", "TrainLogoutMaxTime", "0")
 	$TrainLogoutMaxTimeTXT = IniRead($config, "TrainLogout", "TrainLogoutMaxTimeTXT", "20")
@@ -61,3 +76,5 @@
 	$iSmartMinGold = IniRead($config, "upgrade", "SmartMinGold", "0")
 	$iSmartMinElixir = IniRead($config, "upgrade", "SmartMinElixir", "0")
 	$iSmartMinDark = IniRead($config, "upgrade", "SmartMinDark", "0")
+
+EndFunc   ;==>ReadConfig_MOD

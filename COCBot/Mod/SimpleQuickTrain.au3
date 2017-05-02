@@ -1,5 +1,5 @@
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: SmartQuickTrain / QT_ClickTrain
+; Name ..........: Qt_SimpleQuickTrain
 ; Description ...: This file contains the Sequence that runs all MBR Bot
 ; Author ........: Chack++
 ; Modified ......:
@@ -10,22 +10,24 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
-Func SimpleQuickTrain( $NeedOpenArmy = False, $Num = 0, $nLoop = 3 )
+Func Qt_SimpleQuickTrain( $NeedOpenArmy = False, $nLoop = 3 )
 	Local $i
+	Local $Num
 	Setlog("Simple Quick Train")
-	If $Runstate = False Then Return
-	IF $Num = 0 Then
-		If $iChkQuickArmy1 = 1 Then $Num = 1
-		If $iChkQuickArmy2 = 1 Then $Num = 2
-		If $iChkQuickArmy3 = 1 Then $Num = 3
-	EndIf
+	If $g_bRunState = False Then Return
+	$Num = $g_iQuickTrainArmyNum
+	If $g_bCanRequestCC = True Then RequestCC()
 	If $NeedOpenArmy Then
 		OpenArmyWindow()
 		If _Sleep(500) Then Return
-		OpenTrainTabNumber($QuickTrainTAB)
 	EndIf
-	If _Sleep(1000) Then Return
+	If $g_bCanRequestCC = False Then
+		$g_bCanRequestCC = _ColorCheck(_GetPixelColor($aRequestTroopsAO[0], $aRequestTroopsAO[1], True), Hex($aRequestTroopsAO[2], 6), $aRequestTroopsAO[5])
+		If _Sleep(500) Then Return
+	EndIf
+	OpenTrainTabNumber($QuickTrainTAB, "CheckCamp()")
 	For $i = 1 TO $nLoop
+		If _Sleep(500) Then Return
 		If $Num > 1 Then
 			If $Num > 2 Then
 				TrainArmyNumber( $Num - 2 )
@@ -35,9 +37,10 @@ Func SimpleQuickTrain( $NeedOpenArmy = False, $Num = 0, $nLoop = 3 )
 			If _Sleep(250) Then Return
 		EndIf
 		TrainArmyNumber($Num)
-		If _Sleep(700) Then Return
+		If _Sleep(500) Then Return
 	Next
 	ClickP($aAway, 2, 0, "#0346") ;Click Away
-	If _Sleep(250) Then Return
+	If _Sleep(1000) Then Return ; Delay AFTER the click Away Prevents lots of coc restarts
+	If $g_bCanRequestCC = True Then RequestCC()
 
-EndFunc	;==>SimpleQuickTrain
+EndFunc	;==> Qt_SimpleQuickTrain

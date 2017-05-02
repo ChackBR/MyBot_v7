@@ -230,26 +230,3 @@ Func cmbDBMultiFinger()
 		GUICtrlSetState($cmbDBMultiFinger, $GUI_HIDE)
 	EndIf
 EndFunc   ;==>cmbDBMultiFinger
-
-Func cmbDeployAB()
-	$iChkDeploySettings[$LB] = _GUICtrlComboBox_GetCurSel($cmbDeployAB)
-	If $iChkDeploySettings[$LB] = 4 Then
-		GUICtrlSetState($chkSmartAttackRedAreaAB, $GUI_UNCHECKED)
-		GUICtrlSetState($chkSmartAttackRedAreaAB, $GUI_DISABLE)
-		chkSmartAttackRedAreaAB()
-	Else
-		GUICtrlSetState($chkSmartAttackRedAreaAB, $GUI_ENABLE)
-	EndIf
-EndFunc	;==>cmbDeployAB
-
-Func cmbDeployDB()
-	$iChkDeploySettings[$DB] = _GUICtrlComboBox_GetCurSel($cmbDeployDB)
-	If $iChkDeploySettings[$DB] = 4 Or $iChkDeploySettings[$DB] = 5 Then
-		GUICtrlSetState($chkSmartAttackRedAreaDB, $GUI_UNCHECKED)
-		GUICtrlSetState($chkSmartAttackRedAreaDB, $GUI_DISABLE)
-		chkSmartAttackRedAreaDB()
-	Else
-		GUICtrlSetState($chkSmartAttackRedAreaDB, $GUI_ENABLE)
-	EndIf
-	cmbDBMultiFinger()
-EndFunc	;==>cmbDeployDB

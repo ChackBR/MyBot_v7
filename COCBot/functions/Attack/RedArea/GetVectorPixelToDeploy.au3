@@ -7,7 +7,7 @@
 ;                  $sizeVector          - Number of pixel for the vector
 ; Return values .: vector of pixel
 ; Author ........: didipe
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2016
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2017
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -19,7 +19,7 @@
 ;			Get the offset to browse the array pixel (depends of size vector)
 ;			For min to max with offset , get pixel closer and add to the vector
 
-Func GetVectorPixelToDeploy($arrPixel, $vectorDirection , $sizeVector)
+Func GetVectorPixelToDeploy($arrPixel, $vectorDirection, $sizeVector)
 	Local $vectorPixel[0]
 	debugRedArea("GetVectorPixelToDeploy IN")
 	debugRedArea("size " & UBound($arrPixel))

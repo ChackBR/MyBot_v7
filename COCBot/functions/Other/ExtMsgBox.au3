@@ -9,7 +9,7 @@
 ; Author(s) .....: Melba23, based on some original code by photonbuddy & YellowLab, and KaFu (default font data)
 ; Link ..........: https://www.autoitscript.com/forum/topic/109096-extended-message-box-bugfix-version-9-aug-16/
 ;
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2016
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2017
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -279,7 +279,8 @@ EndFunc   ;==>_ExtMsgBoxSet
 ; Author ........: Melba23, based on some original code by photonbuddy & YellowLab
 ; Example........; Yes
 ;=====================================================================================================================
-Func _ExtMsgBox($vIcon, $vButton, $sTitle, $sText, $iTimeOut = 0, $hWin = "", $iVPos = 0, $bMain = True)
+; CS69 Jan 2017 - default $hWin parameter to $g_hFrmBot so it doesn't have to be set everytime this function is called
+Func _ExtMsgBox($vIcon, $vButton, $sTitle, $sText, $iTimeOut = 0, $hWin = $g_hFrmBot, $iVPos = 0, $bMain = True)
 
 	; Set default sizes for message box
 	Local $iMsg_Width_Max = $g_aEMB_Settings[6], $iMsg_Width_Min = 150, $iMsg_Width_Abs = $g_aEMB_Settings[7]
@@ -523,7 +524,7 @@ Func _ExtMsgBox($vIcon, $vButton, $sTitle, $sText, $iTimeOut = 0, $hWin = "", $i
 	If BitAND($g_aEMB_Settings[0], 2) Then $iExtStyle = -1
 
 	; Create GUI with $WS_POPUPWINDOW, $WS_CAPTION style and required extended style
-	Local $hMsgGUI = GUICreate($sTitle, $iDialog_Width, $iMsg_Height, $iHpos, $iVPos, BitOR(0x80880000, 0x00C00000), $iExtStyle, $iParent_Win)
+	Local $hMsgGUI = _GUICreate($sTitle, $iDialog_Width, $iMsg_Height, $iHpos, $iVPos, BitOR(0x80880000, 0x00C00000), $iExtStyle, $iParent_Win)
 	If @error Then
 		Return SetError(7, 0, -1)
 	EndIf
@@ -642,7 +643,7 @@ Func _ExtMsgBox($vIcon, $vButton, $sTitle, $sText, $iTimeOut = 0, $hWin = "", $i
 	GUISetState(@SW_SHOW, $hMsgGUI)
 
 	; Begin timeout counter
-	Local $iTimeout_Begin = TimerInit()
+	Local $iTimeout_Begin = __TimerInit()
 	Local $iCounter = 0
 
 	; Declare GUIGetMsg return array here and not in loop
@@ -678,14 +679,14 @@ Func _ExtMsgBox($vIcon, $vButton, $sTitle, $sText, $iTimeOut = 0, $hWin = "", $i
 		EndIf
 
 		; Timeout if required
-		If TimerDiff($iTimeout_Begin) / 1000 >= $iTimeOut And $iTimeOut > 0 Then
+		If __TimerDiff($iTimeout_Begin) / 1000 >= $iTimeOut And $iTimeOut > 0 Then
 			$iRet_Value = 9
 			ExitLoop
 		EndIf
 
 		; Show countdown if required
 		If $fCountdown = True Then
-			Local $iTimeRun = Int(TimerDiff($iTimeout_Begin) / 1000)
+			Local $iTimeRun = Int(__TimerDiff($iTimeout_Begin) / 1000)
 			If $iTimeRun <> $iCounter Then
 				$iCounter = $iTimeRun
 				GUICtrlSetData($cCountdown_Label, StringFormat("%2s", $iTimeOut - $iCounter))
@@ -731,26 +732,40 @@ Func __EMB_GetDefaultFont()
 	Local $hTheme = DllCall($hThemeDLL, 'ptr', 'OpenThemeData', 'hwnd', $hWnd, 'wstr', "Static")
 	If @error Then Return $aDefFontData
 	$hTheme = $hTheme[0]
+
 	; Create LOGFONT structure
 	Local $tFont = DllStructCreate("long;long;long;long;long;byte;byte;byte;byte;byte;byte;byte;byte;wchar[32]")
 	Local $pFont = DllStructGetPtr($tFont)
+
 	; Get MsgBox font from theme
 	DllCall($hThemeDLL, 'long', 'GetThemeSysFont', 'HANDLE', $hTheme, 'int', 805, 'ptr', $pFont) ; TMT_MSGBOXFONT
-	If @error Then Return $aDefFontData
+	If @error Then
+	   $tFont = 0
+	   Return $aDefFontData
+    EndIf
+
 	; Get default DC
 	Local $hDC = DllCall("user32.dll", "handle", "GetDC", "hwnd", $hWnd)
-	If @error Then Return $aDefFontData
+	If @error Then
+	   $tFont = 0
+	   Return $aDefFontData
+    EndIf
 	$hDC = $hDC[0]
+
 	; Get font vertical size
 	Local $iPixel_Y = DllCall("gdi32.dll", "int", "GetDeviceCaps", "handle", $hDC, "int", 90) ; LOGPIXELSY
 	If Not @error Then
 		$iPixel_Y = $iPixel_Y[0]
 		$aDefFontData[0] = Int(2 * (.25 - DllStructGetData($tFont, 1) * 72 / $iPixel_Y)) / 2
 	EndIf
+
 	; Close DC
 	DllCall("user32.dll", "int", "ReleaseDC", "hwnd", $hWnd, "handle", $hDC)
+
 	; Extract font data from LOGFONT structure
 	$aDefFontData[1] = DllStructGetData($tFont, 14)
+
+	$tFont = 0
 
 	Return $aDefFontData
 

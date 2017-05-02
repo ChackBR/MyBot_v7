@@ -4,48 +4,50 @@
 ; Syntax ........: FindTownHall([$check = True])
 ; Parameters ....: $check               - [optional] an unknown value. Default is True.
 ; Return values .: None
-; Author ........: Your Name
-; Modified ......:
-; Remarks .......:
+; Author ........:
+; Modified ......: CodeSlinger69 (2017)
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2017
+;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........:
 ; Example .......: No
 ; ===============================================================================================================================
+#include-once
+
 Func FindTownHall($check = True, $forceCaptureRegion = True)
 	Local $THString = ""
-	$searchTH = "-"
-	$THx=0
-	$THy=0;if not check, find     TH Snipe and bully mode, always find				if deadbase enabled, and TH lvl or Outside checked, find          same with ActiveBase
+	$g_iSearchTH = "-"
+	$g_iTHx = 0
+	$g_iTHy = 0 ;if not check, find     TH Snipe and bully mode, always find				if deadbase enabled, and TH lvl or Outside checked, find          same with ActiveBase
 
 	If $check = True Or _
-		 IsSearchModeActive($TS)  Or _
-		($isModeActive[$DB] And (  Number($iChkMeetTH[$DB])>0 Or Number($ichkMeetTHO[$DB])>0)) Or _
-		($isModeActive[$LB] And (  Number($iChkMeetTH[$LB])>0 Or Number($ichkMeetTHO[$LB])>0)) Then
+			IsSearchModeActive($TS) Or _
+			($isModeActive[$DB] And ($g_abFilterMeetTH[$DB] Or $g_abFilterMeetTHOutsideEnable[$DB])) Or _
+			($isModeActive[$LB] And ($g_abFilterMeetTH[$LB] Or $g_abFilterMeetTHOutsideEnable[$LB])) Then
 
-		;$searchTH = checkTownHallADV2()
-		$searchTH = imgloccheckTownHallADV2(0, 0, $forceCaptureRegion)
+		$g_iSearchTH = imgloccheckTownHallADV2(0, 0, $forceCaptureRegion)
 
 		;2nd attempt - NOT NEEDED AHS IMGLOC TRIES 2 TIMES
-		;If $searchTH = "-" Then ; retry with autoit search after $iDelayVillageSearch5 seconds
-		;	If _Sleep($iDelayGetResources5) Then Return
-		;	If $debugsetlog=1 Then SetLog("2nd attempt to detect the TownHall!", $COLOR_ERROR)
-		;	$searchTH = THSearch()
+		;If $g_iSearchTH = "-" Then ; retry with autoit search after $DELAYVILLAGESEARCH5 seconds
+		;	If _Sleep($DELAYGETRESOURCES5) Then Return
+		;	If $g_iDebugSetlog=1 Then SetLog("2nd attempt to detect the TownHall!", $COLOR_ERROR)
+		;	$g_iSearchTH = THSearch()
 		;EndIf
 
-		If $searchTH <> "-"  And SearchTownHallLoc() = False Then
-			$THLoc = "In"
-		ElseIf $searchTH <> "-" Then
-			$THLoc = "Out"
+		If $g_iSearchTH <> "-" And SearchTownHallLoc() = False Then
+			$g_sTHLoc = "In"
+		ElseIf $g_iSearchTH <> "-" Then
+			$g_sTHLoc = "Out"
 		Else
-			$THLoc = $searchTH
-			$THx = 0
-			$THy = 0
+			$g_sTHLoc = $g_iSearchTH
+			$g_iTHx = 0
+			$g_iTHy = 0
 		EndIf
 		;EndIf
-		Return " [TH]:" & StringFormat("%2s", $searchTH) & ", " & $THLoc
+		Return " [TH]:" & StringFormat("%2s", $g_iSearchTH) & ", " & $g_sTHLoc
 	EndIf
-	$THLoc = $searchTH
-	$THx = 0
-	$THy = 0
+	$g_sTHLoc = $g_iSearchTH
+	$g_iTHx = 0
+	$g_iTHy = 0
 	Return ""
-EndFunc
+EndFunc   ;==>FindTownHall

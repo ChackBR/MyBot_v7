@@ -1,4 +1,3 @@
-
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: VillageSearch
 ; Description ...: Searches for a village that until meets conditions
@@ -6,88 +5,91 @@
 ; Parameters ....:
 ; Return values .: None
 ; Author ........: Code Monkey #6
-; Modified ......: kaganus (Jun/Aug 2015), Sardo 2015-07, KnowJack(Aug 2015) , The Master (2015), MonkeyHunter (02/08-2016)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2016
+; Modified ......: kaganus (Jun/Aug 2015), Sardo 2015-07, KnowJack(Aug 2015) , The Master (2015), MonkeyHunter (02/08-2016),
+;				   CodeSlinger69 (2017)
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2017
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
 ; Example .......: No
 ; ===============================================================================================================================
+
 Func VillageSearch() ;Control for searching a village that meets conditions
 	Local $Result
 	Local $weakBaseValues
 	Local $logwrited = False
-	$iSkipped = 0
+	Local $iSkipped = 0
+	$iProfileBeforeForceSwitch = 0;	Force SwitchAcc - Demen
 
-	If $debugDeadBaseImage = 1 Or $iSearchEnableDebugDeadBaseImage > 0 Then
-		DirCreate($dirTempDebug & "\SkippedZombies\")
-		DirCreate($dirTempDebug & "\Zombies\")
+	If $g_iDebugDeadBaseImage = 1 Or $g_aiSearchEnableDebugDeadBaseImage > 0 Then
+		DirCreate($g_sProfileTempDebugPath & "\SkippedZombies\")
+		DirCreate($g_sProfileTempDebugPath & "\Zombies\")
 		setZombie()
 	EndIf
 
-	If $Is_ClientSyncError = False Then
-		For $i = 0 To $iModeCount - 1
-			$iAimGold[$i] = $iMinGold[$i]
-			$iAimElixir[$i] = $iMinElixir[$i]
-			$iAimGoldPlusElixir[$i] = $iMinGoldPlusElixir[$i]
-			$iAimDark[$i] = ($iChkMeetDE[$i] = 1 ? ($iMinDark[$i]) : (0))
-			$iAimTrophy[$i] = ($iChkMeetTrophy[$i] = 1 ? ($iMinTrophy[$i]) : (0))
+	If $g_bIsClientSyncError = False Then
+		For $i = 0 To $g_iModeCount - 1
+			$g_iAimGold[$i] = $g_aiFilterMinGold[$i]
+			$g_iAimElixir[$i] = $g_aiFilterMinElixir[$i]
+			$g_iAimGoldPlusElixir[$i] = $g_aiFilterMinGoldPlusElixir[$i]
+			$g_iAimDark[$i] = ($g_abFilterMeetDEEnable[$i] ? ($g_aiFilterMeetDEMin[$i]) : (0))
+			$g_iAimTrophy[$i] = ($g_abFilterMeetTrophyEnable[$i] ? ($g_aiFilterMeetTrophyMin[$i]) : (0))
+			$g_iAimTrophyMax[$i] = ($g_abFilterMeetTrophyEnable[$i] ? ($g_aiFilterMeetTrophyMax[$i]) : (0))
 		Next
 	EndIf
 
-	If _Sleep($iDelayVillageSearch1) Then Return
+	If _Sleep($DELAYVILLAGESEARCH1) Then Return
 	$Result = getAttackDisable(346, 182) ; Grab Ocr for TakeABreak check
-	checkAttackDisable($iTaBChkAttack, $Result) ;last check to see If TakeABreak msg on screen for fast PC from PrepareSearch click
-	If $Restart = True Then Return ; exit func
-	If Not ($Is_SearchLimit) Then
-		SetLog(_StringRepeat("=", 50), $COLOR_INFO)
+	checkAttackDisable($g_iTaBChkAttack, $Result) ;last check to see If TakeABreak msg on screen for fast PC from PrepareSearch click
+	If $g_bRestart = True Then Return ; exit func
+	If Not ($g_bIsSearchLimit) Then
+		SetLogCentered("=", "=", $COLOR_INFO)
 	EndIf
-	For $x = 0 To $iModeCount - 1
+	For $x = 0 To $g_iModeCount - 1
 		If IsSearchModeActive($x) Then WriteLogVillageSearch($x)
 	Next
 
-	If Not ($Is_SearchLimit) Then
-		SetLog(_StringRepeat("=", 50), $COLOR_INFO)
+	If Not ($g_bIsSearchLimit) Then
+		SetLogCentered("=", "=", $COLOR_INFO)
 	Else
-		SetLog(_PadStringCenter(" Restart To Search ", 54, "="), $COLOR_INFO)
+		SetLogCentered(" Restart To Search ", Default, $COLOR_INFO)
 	EndIf
 
-	If $iChkAttackNow = 1 Then
-		GUICtrlSetState($btnAttackNowDB, $GUI_SHOW)
-		GUICtrlSetState($btnAttackNowLB, $GUI_SHOW)
-		GUICtrlSetState($btnAttackNowTS, $GUI_SHOW)
-		GUICtrlSetState($pic2arrow, $GUI_HIDE)
-		GUICtrlSetState($lblVersion, $GUI_HIDE)
+	If $g_bSearchAttackNowEnable Then
+		GUICtrlSetState($g_hBtnAttackNowDB, $GUI_SHOW)
+		GUICtrlSetState($g_hBtnAttackNowLB, $GUI_SHOW)
+		GUICtrlSetState($g_hBtnAttackNowTS, $GUI_SHOW)
+		GUICtrlSetState($g_hPicTwoArrowShield, $GUI_HIDE)
+		GUICtrlSetState($g_hLblVersion, $GUI_HIDE)
 	EndIf
 
-	If $Is_ClientSyncError = False And $Is_SearchLimit = False Then
-		$SearchCount = 0
+	If $g_bIsClientSyncError = False And $g_bIsSearchLimit = False Then
+		$g_iSearchCount = 0
 	EndIf
 
-	If $Is_SearchLimit = True Then $Is_SearchLimit = False
+	If $g_bIsSearchLimit = True Then $g_bIsSearchLimit = False
 
 	While 1 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;### Main Search Loop ###;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 		; cleanup some vars used by imgloc just in case. usend in TH and DeadBase ( imgloc functions)
 		ResetTHsearch()
 
-		If $debugVillageSearchImages = 1 Then DebugImageSave("villagesearch")
+		If $g_iDebugVillageSearchImages = 1 Then DebugImageSave("villagesearch")
 		$logwrited = False
-		$bBtnAttackNowPressed = False
-		$hAttackCountDown = TimerInit()
-		$SearchTHLResult = - 1
+		$g_bBtnAttackNowPressed = False
+		$g_iSearchTHLResult = -1
 
 		Local $Date = @YEAR & "-" & @MON & "-" & @MDAY
 		Local $Time = @HOUR & "." & @MIN & "." & @SEC
 
-		If $Restart = True Then Return ; exit func
+		If $g_bRestart = True Then Return ; exit func
 
 		; ----------------- READ ENEMY VILLAGE RESOURCES  -----------------------------------
 		WaitForClouds() ; Wait for clouds to disappear
-		If $Restart = True Then Return ; exit func
+		If $g_bRestart = True Then Return ; exit func
 
 		GetResources(False) ;Reads Resource Values
-		If $Restart = True Then Return ; exit func
+		If $g_bRestart = True Then Return ; exit func
 
 		SuspendAndroid()
 
@@ -97,16 +99,16 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 		; $isModeActive[$i] = the mode it is active or not (cups, research, army %)
 		Local $noMatchTxt = ""
 		Local $dbBase = False
-		Local $match[$iModeCount]
-		Global $isModeActive[$iModeCount]
-		For $i = 0 To $iModeCount - 1
+		Local $match[$g_iModeCount]
+		Global $isModeActive[$g_iModeCount]
+		For $i = 0 To $g_iModeCount - 1
 			$match[$i] = False
 			$isModeActive[$i] = False
 		Next
 
-		If _Sleep($iDelayRespond) Then Return
+		If _Sleep($DELAYRESPOND) Then Return
 
-		For $i = 0 To $iModeCount - 1
+		For $i = 0 To $g_iModeCount - 1
 			$isModeActive[$i] = IsSearchModeActive($i)
 			If $isModeActive[$i] Then
 				$match[$i] = CompareResources($i)
@@ -118,7 +120,7 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 		_CaptureRegion2()
 
 		; measure enemy village (only if resources match)
-		For $i = 0 To $iModeCount - 1
+		For $i = 0 To $g_iModeCount - 1
 			If $match[$i] Then
 				If CheckZoomOut("VillageSearch", True, False) = False Then
 					; check two more times, only required for snow theme (snow fall can make it easily fail), but don't hurt to keep it
@@ -126,7 +128,7 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 					Local $bMeasured
 					Do
 						$i += 1
-						If _Sleep($iDelayPrepareSearch3) Then Return ; wait 500 ms
+						If _Sleep($DELAYPREPARESEARCH2) Then Return ; wait 500 ms
 						ForceCaptureRegion()
 						_CaptureRegion2()
 						$bMeasured = CheckZoomOut("VillageSearch", $i < 2, False)
@@ -137,130 +139,117 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 			EndIf
 		Next
 		; ----------------- FIND TARGET TOWNHALL -------------------------------------------
-		; $searchTH name of level of townhall (return "-" if no th found)
-		; $THx and $THy coordinates of townhall
+		; $g_iSearchTH name of level of townhall (return "-" if no th found)
+		; $g_iTHx and $g_iTHy coordinates of townhall
 		Local $THString = ""
-		If $match[$DB] Or $match[$LB] Or $match[$TS] Then; make sure resource conditions are met
-			$THString = FindTownhall(False, False);find TH, but only if TH condition is checked
-		ElseIf ($iChkMeetOne[$DB] = 1 Or $iChkMeetOne[$LB] = 1) Then;meet one then attack, do not need correct resources
+		If $match[$DB] Or $match[$LB] Or $match[$TS] Then ; make sure resource conditions are met
+			$THString = FindTownhall(False, False) ;find TH, but only if TH condition is checked
+		ElseIf ($g_abFilterMeetOneConditionEnable[$DB] Or $g_abFilterMeetOneConditionEnable[$LB]) Then ; meet one then attack, do not need correct resources
 			$THString = FindTownhall(True, False)
-		ElseIf $OptBullyMode = 1 And ($SearchCount >= $ATBullyMode) then
+		ElseIf $g_abAttackTypeEnable[$TB] = 1 And ($g_iSearchCount >= $g_iAtkTBEnableCount) Then
 			; Check the TH for BullyMode
 			$THString = FindTownhall(True, False)
 		EndIf
 
-		For $i = 0 To $iModeCount - 2
+		For $i = 0 To $g_iModeCount - 2
 			If $isModeActive[$i] Then
-				If $iChkMeetOne[$i] = 1 Then
-					If $iChkMeetTH[$i] <> 1 And $iChkMeetTHO[$i] <> 1 Then
+				If $g_abFilterMeetOneConditionEnable[$i] Then
+					If $g_abFilterMeetTH[$i] = False And $g_abFilterMeetTHOutsideEnable[$i] = False Then
 						;ignore, conditions not checked
 					Else
-						If CompareTH($i) Then $match[$i] = True;have a match if meet one enabled & a TH condition is met. ; UPDATE THE VARIABLE $SearchTHLResult
+						If CompareTH($i) Then $match[$i] = True ;have a match if meet one enabled & a TH condition is met. ; UPDATE THE VARIABLE $g_iSearchTHLResult
 					EndIf
 				Else
-					If Not CompareTH($i) Then $match[$i] = False;if TH condition not met, skip. if it is, match is determined based on resources ; UPDATE THE VARIABLE $SearchTHLResult
+					If Not CompareTH($i) Then $match[$i] = False ;if TH condition not met, skip. if it is, match is determined based on resources ; UPDATE THE VARIABLE $g_iSearchTHLResult
 				EndIf
 			EndIf
 		Next
 
 		; Check the TH Level for BullyMode conditional
-		if $SearchTHLResult = -1 then CompareTH(0)  ; inside have a conditional to update $SearchTHLResult
+		If $g_iSearchTHLResult = -1 Then CompareTH(0) ; inside have a conditional to update $g_iSearchTHLResult
 
 		; ----------------- WRITE LOG OF ENEMY RESOURCES -----------------------------------
-		$GetResourcesTXT = StringFormat("%3s", $SearchCount) & "> [G]:" & StringFormat("%7s", $searchGold) & " [E]:" & StringFormat("%7s", $searchElixir) & " [D]:" & StringFormat("%5s", $searchDark) & " [T]:" & StringFormat("%2s", $searchTrophy) & $THString
+		Local $GetResourcesTXT = StringFormat("%3s", $g_iSearchCount) & "> [G]:" & StringFormat("%7s", $g_iSearchGold) & " [E]:" & StringFormat("%7s", $g_iSearchElixir) & " [D]:" & StringFormat("%5s", $g_iSearchDark) & " [T]:" & StringFormat("%2s", $g_iSearchTrophy) & $THString
 
 		; ----------------- CHECK DEAD BASE -------------------------------------------------
-		If Not $RunState Then Return
-		; check deadbase if no milking attack or milking attack but low cpu settings  ($MilkAttackType=1)
-		Local $checkDeadBase = ($match[$DB] And $iAtkAlgorithm[$DB] <> 2) Or $match[$LB] Or ($match[$DB] And $iAtkAlgorithm[$DB] = 2 And $MilkAttackType = 1)
+		If Not $g_bRunState Then Return
+		; check deadbase if no milking attack or milking attack but low cpu settings  ($g_iMilkAttackType=1)
+		Local $checkDeadBase = ($match[$DB] And $g_aiAttackAlgorithm[$DB] <> 2) Or $match[$LB] Or ($match[$DB] And $g_aiAttackAlgorithm[$DB] = 2 And $g_iMilkAttackType = 1)
 		If $checkDeadBase Then
 			$dbBase = checkDeadBase()
 		EndIf
 
 		; ----------------- CHECK WEAK BASE -------------------------------------------------
-		If (IsWeakBaseActive($DB) And $dbBase And ($match[$DB] Or $iChkMeetOne[$DB] = 1)) Or _
-			(IsWeakBaseActive($LB) And ($match[$LB] Or $iChkMeetOne[$LB] = 1)) Then
+		If (IsWeakBaseActive($DB) And $dbBase And ($match[$DB] Or $g_abFilterMeetOneConditionEnable[$DB])) Or _
+				(IsWeakBaseActive($LB) And ($match[$LB] Or $g_abFilterMeetOneConditionEnable[$LB])) Then
 
 			;let try to reduce weekbase time
-			If ( $searchTH <> "-" ) then
-				$weakBaseValues = IsWeakBase($IMGLOCTHLEVEL, $IMGLOCREDLINE, False)
+			If ($g_iSearchTH <> "-") Then
+				$weakBaseValues = IsWeakBase($g_iImglocTHLevel, $g_sImglocRedline, False)
 			Else
 				$weakBaseValues = IsWeakBase(11, "", False)
 			EndIf
 
-			For $i = 0 To $iModeCount - 2
-				If IsWeakBaseActive($i) And (($i = $DB And $dbBase) Or $i <> $DB) And ($match[$i] Or $iChkMeetOne[$i] = 1) Then
+			For $i = 0 To $g_iModeCount - 2
+				If IsWeakBaseActive($i) And (($i = $DB And $dbBase) Or $i <> $DB) And ($match[$i] Or $g_abFilterMeetOneConditionEnable[$i]) Then
 					If getIsWeak($weakBaseValues, $i) Then
 						$match[$i] = True
 					Else
 						$match[$i] = False
-						$noMatchTxt &= ", Not a Weak Base for " & $sModeText[$i]
+						$noMatchTxt &= ", Not a Weak Base for " & $g_asModeText[$i]
 					EndIf
 				EndIf
 			Next
 		EndIf
 
 		; ----------------- CHECK MILKING ----------------------------------------------------
-		CheckMilkingBase($match[$DB], $dbBase) ;update  $milkingAttackOutside, $MilkFarmObjectivesSTR, $searchTH  etc.
+		CheckMilkingBase($match[$DB], $dbBase) ;update  $milkingAttackOutside, $g_sMilkFarmObjectivesSTR, $g_iSearchTH  etc.
 
 		ResumeAndroid()
 
-		; ----------------- WRITE LOG VILLAGE FOUND AND ASSIGN VALUE AT $imatchmode and exitloop  IF CONTITIONS MEET ---------------------------
-		If $match[$DB] And $iAtkAlgorithm[$DB] = 2 And $milkingAttackOutside = 1 Then
+		; ----------------- WRITE LOG VILLAGE FOUND AND ASSIGN VALUE AT $g_iMatchMode and exitloop  IF CONTITIONS MEET ---------------------------
+		If $match[$DB] And $g_aiAttackAlgorithm[$DB] = 2 And $g_bMilkingAttackOutside = True Then
 			SetLog($GetResourcesTXT, $COLOR_SUCCESS, "Lucida Console", 7.5)
 			SetLog("      " & "Milking Attack th outside Found!", $COLOR_SUCCESS, "Lucida Console", 7.5)
 			$logwrited = True
-			$iMatchMode = $DB
+			$g_iMatchMode = $DB
 			ExitLoop
-		ElseIf $match[$DB] And $iAtkAlgorithm[$DB] = 2 And $MilkAttackType = 0 And StringLen($MilkFarmObjectivesSTR) > 0 Then
+		ElseIf $match[$DB] And $g_aiAttackAlgorithm[$DB] = 2 And $g_iMilkAttackType = 0 And StringLen($g_sMilkFarmObjectivesSTR) > 0 Then
 			SetLog($GetResourcesTXT, $COLOR_SUCCESS, "Lucida Console", 7.5)
 			SetLog("      " & "Milking Attack HIGH CPU SETTINGS Found!", $COLOR_SUCCESS, "Lucida Console", 7.5)
 			$logwrited = True
-			$iMatchMode = $DB
+			$g_iMatchMode = $DB
 			ExitLoop
-		ElseIf $match[$DB] And $iAtkAlgorithm[$DB] = 2 And $MilkAttackType = 1 And StringLen($MilkFarmObjectivesSTR) > 0 And $dbBase Then
+		ElseIf $match[$DB] And $g_aiAttackAlgorithm[$DB] = 2 And $g_iMilkAttackType = 1 And StringLen($g_sMilkFarmObjectivesSTR) > 0 And $dbBase Then
 			SetLog($GetResourcesTXT, $COLOR_SUCCESS, "Lucida Console", 7.5)
 			SetLog("      " & "Milking Attack LOW CPU SETTINGS Found!", $COLOR_SUCCESS, "Lucida Console", 7.5)
 			$logwrited = True
-			$iMatchMode = $DB
+			$g_iMatchMode = $DB
 			ExitLoop
 		ElseIf $match[$DB] And $dbBase Then
 			SetLog($GetResourcesTXT, $COLOR_SUCCESS, "Lucida Console", 7.5)
 			SetLog("      " & "Dead Base Found!", $COLOR_SUCCESS, "Lucida Console", 7.5)
 			$logwrited = True
-
-			; Collectors Outside
-			If $ichkDBMeetCollOutside = 1 Then
-				If AreCollectorsOutside($iDBMinCollOutsidePercent) Then
-					SetLog("Collectors are outside, match found !", $COLOR_GREEN, "Lucida Console", 7.5)
-					$iMatchMode = $DB
-					ExitLoop
-				Else
-					SetLog("Collectors are not outside, skipping search !", $COLOR_RED, "Lucida Console", 7.5)
-				EndIf
-			Else
-				$iMatchMode = $DB
-				ExitLoop
-			EndIf
-
+			$g_iMatchMode = $DB
+			ExitLoop
 		ElseIf $match[$LB] And Not $dbBase Then
 			SetLog($GetResourcesTXT, $COLOR_SUCCESS, "Lucida Console", 7.5)
 			SetLog("      " & "Live Base Found!", $COLOR_SUCCESS, "Lucida Console", 7.5)
 			$logwrited = True
-			$iMatchMode = $LB
+			$g_iMatchMode = $LB
 			ExitLoop
-		ElseIf $match[$LB] And $iDeadBaseDisableCollectorsFilter = 1 Then
+		ElseIf $match[$LB] And $g_bCollectorFilterDisable Then
 			SetLog($GetResourcesTXT, $COLOR_SUCCESS, "Lucida Console", 7.5)
 			SetLog("      " & "Live Base Found!*", $COLOR_SUCCESS, "Lucida Console", 7.5)
 			$logwrited = True
-			$iMatchMode = $LB
+			$g_iMatchMode = $LB
 			ExitLoop
-		ElseIf $OptBullyMode = 1 And ($SearchCount >= $ATBullyMode) Then  ; TH bully doesn't need the resources conditions
-			If $SearchTHLResult = 1 Then
+		ElseIf $g_abAttackTypeEnable[$TB] = 1 And ($g_iSearchCount >= $g_iAtkTBEnableCount) Then ; TH bully doesn't need the resources conditions
+			If $g_iSearchTHLResult = 1 Then
 				SetLog($GetResourcesTXT, $COLOR_SUCCESS, "Lucida Console", 7.5)
 				SetLog("      " & "Not a match, but TH Bully Level Found! ", $COLOR_SUCCESS, "Lucida Console", 7.5)
 				$logwrited = True
-				$iMatchMode = $iTHBullyAttackMode
+				$g_iMatchMode = $g_iAtkTBMode
 				ExitLoop
 			EndIf
 		EndIf
@@ -270,17 +259,17 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 				SetLog($GetResourcesTXT, $COLOR_SUCCESS, "Lucida Console", 7.5)
 				SetLog("      " & "TH Outside Found! ", $COLOR_SUCCESS, "Lucida Console", 7.5)
 				$logwrited = True
-				$iMatchMode = $TS
+				$g_iMatchMode = $TS
 				ExitLoop
 			Else
-				$noMatchTxt &= ", Not a " & $sModeText[$TS] & ", fails resource min"
+				$noMatchTxt &= ", Not a " & $g_asModeText[$TS] & ", fails resource min"
 			EndIf
 		EndIf
 
 		If $match[$DB] And Not $dbBase Then
-			$noMatchTxt &= ", Not a " & $sModeText[$DB]
+			$noMatchTxt &= ", Not a " & $g_asModeText[$DB]
 		ElseIf $match[$LB] And $dbBase Then
-			$noMatchTxt &= ", Not a " & $sModeText[$LB]
+			$noMatchTxt &= ", Not a " & $g_asModeText[$LB]
 		EndIf
 
 		If $noMatchTxt <> "" Then
@@ -297,89 +286,139 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 		; Return Home on Search limit
 		If SearchLimit($iSkipped + 1) Then Return True
 
+		; Force SwitchAcc when long search - DEMEN
+		If $ichkForceSwitch = 1 And $iSkipped+1 >= $iForceSwitch And Mod(($iSkipped+1), _Min(10, Number($iForceSwitch))) = 0 Then
+			If UBound($aDonateProfile) >= 1 Then
+				Setlog("Reach search limit: " & $iForceSwitch & ". Force switch to Donate Account.")
+				$eForceSwitch = $eDonate
+			ElseIf MinRemainTrainAcc(False, $nCurProfile) <= 0 Then	;	min train time, no writelog, exclude current profile
+				Setlog("Reach search limit: " & $iForceSwitch & ". Force switch to another Active Account.")
+				Setlog("Targeted Account: " & $ProfileList[$nNextProfile] & " , having troops ready " & -Round($nMinRemainTrain,2) & " m ago")
+				$eForceSwitch = $eActive
+			Else
+				Setlog("Reach search limit: " & $iForceSwitch & ". Another Active Account will be ready in " & Round($nMinRemainTrain,2) & " m")
+				Setlog("Continue searching")
+				$eForceSwitch = $eNull
+			EndIf
+
+			If $eForceSwitch <> $eNull Then
+				$iProfileBeforeForceSwitch = $nCurProfile
+				$i = 0
+				While 1
+					If _CheckPixel($aSurrenderButton, $g_bCapturePixel) = True Then
+						PureClickP($aSurrenderButton, 1, 0, "#0099") ;Click Surrender
+						Local $j = 0
+						While 1 ; dynamic wait for Okay button
+							If IsEndBattlePage(False) Then
+								ClickOkay("SurrenderOkay") ; Click Okay to Confirm surrender
+								ExitLoop 2
+							Else
+								$j += 1
+							EndIf
+							If IsMainPage(1) Then ExitLoop
+							If $j > 5 Then ExitLoop ; if Okay button not found in 5*(200)ms or 1 second, then give up.
+						WEnd
+					Else
+						$i += 1
+					EndIf
+					If IsMainPage(1) Then ExitLoop
+					If $i >= 5 Then ExitLoop ; if end battle or surrender button are not found in 5*(200)ms + 5*(200)ms or 2 seconds, then give up.
+				WEnd
+				If $i > 5 Or isProblemAffect(True) Then checkMainScreen()
+				ForceSwitchAcc($eForceSwitch, "SearchLimit")
+			EndIf
+		EndIf	; Force SwitchAcc when long search - DEMEN
+
 		If checkAndroidReboot() = True Then
-			$Restart = True
-			$Is_ClientSyncError = True
+			$g_bRestart = True
+			$g_bIsClientSyncError = True
 			Return
 		EndIf
 
 		; ----------------- ADD RANDOM DELAY IF REQUESTED -----------------------------------
-		If $iVSDelay > 0 And $iMaxVSDelay > 0 Then ; Check if village delay values are set
-			If $iVSDelay <> $iMaxVSDelay Then ; Check if random delay requested
-				If _Sleep(Round(1000 * Random($iVSDelay, $iMaxVSDelay))) Then Return ;Delay time is random between min & max set by user
+		If $g_iSearchDelayMin > 0 And $g_iSearchDelayMax > 0 Then ; Check if village delay values are set
+			If $g_iSearchDelayMin <> $g_iSearchDelayMax Then ; Check if random delay requested
+				If _Sleep(Round(1000 * Random($g_iSearchDelayMin, $g_iSearchDelayMax))) Then Return ;Delay time is random between min & max set by user
 			Else
-				If _Sleep(1000 * $iVSDelay) Then Return ; Wait Village Serch delay set by user
+				If _Sleep(1000 * $g_iSearchDelayMin) Then Return ; Wait Village Serch delay set by user
 			EndIf
 		EndIf
-		If _Sleep($iDelayRespond) Then Return
+		If _Sleep($DELAYRESPOND) Then Return
 
 		; ------- Add attack not button delay and check button status
-		If $iChkAttackNow = 1 And $iAttackNowDelay > 0 Then
-			If _Sleep(1000 * $iAttackNowDelay) Then Return ; add human reaction time on AttackNow button function
+		If $g_bSearchAttackNowEnable And $g_iSearchAttackNowDelay > 0 Then
+			If _Sleep(1000 * $g_iSearchAttackNowDelay) Then Return ; add human reaction time on AttackNow button function
 		EndIf
-		If $bBtnAttackNowPressed = True Then ExitLoop
+		If $g_bBtnAttackNowPressed = True Then ExitLoop
 
 		; ----------------- PRESS BUTTON NEXT  -------------------------------------------------
-		If $checkDeadBase And $debugDeadBaseImage = 0 And $SearchCount > $iSearchEnableDebugDeadBaseImage Then
+		If $checkDeadBase And $g_iDebugDeadBaseImage = 0 And $g_iSearchCount > $g_aiSearchEnableDebugDeadBaseImage Then
 			SetLog("Enabled collecting debug images of dead bases (zombies)", $COLOR_DEBUG)
-			SetLog("- Save skipped dead base when available Elixir with empty storage > " & (($aZombie[8] > -1) ? ($aZombie[8] & "k") : ("is disabled")), $COLOR_DEBUG)
-			SetLog("- Save skipped dead base when available Elixir > " & (($aZombie[9] > -1) ? ($aZombie[9] & "k") : ("is disabled")), $COLOR_DEBUG)
-			SetLog("- Save dead base when available Elixir < " & (($aZombie[10] > -1) ? ($aZombie[10] & "k") : ("is disabled")), $COLOR_DEBUG)
-			SetLog("- Save dead base when raided Elixir < " & (($aZombie[7] > -1) ? ($aZombie[7] & "%") : ("is disabled")), $COLOR_DEBUG)
-			$debugDeadBaseImage = 1
+			SetLog("- Save skipped dead base when available Elixir with empty storage > " & (($g_aZombie[8] > -1) ? ($g_aZombie[8] & "k") : ("is disabled")), $COLOR_DEBUG)
+			SetLog("- Save skipped dead base when available Elixir > " & (($g_aZombie[9] > -1) ? ($g_aZombie[9] & "k") : ("is disabled")), $COLOR_DEBUG)
+			SetLog("- Save dead base when available Elixir < " & (($g_aZombie[10] > -1) ? ($g_aZombie[10] & "k") : ("is disabled")), $COLOR_DEBUG)
+			SetLog("- Save dead base when raided Elixir < " & (($g_aZombie[7] > -1) ? ($g_aZombie[7] & "%") : ("is disabled")), $COLOR_DEBUG)
+			$g_iDebugDeadBaseImage = 1
 		EndIf
-		If $debugDeadBaseImage = 1 Then setZombie()
+		If $g_iDebugDeadBaseImage = 1 Then setZombie()
 		Local $i = 0
 		While $i < 100
-			If _Sleep($iDelayVillageSearch2) Then Return
+			If _Sleep($DELAYVILLAGESEARCH2) Then Return
 			$i += 1
-			If ( _ColorCheck(_GetPixelColor($NextBtn[0], $NextBtn[1], True), Hex($NextBtn[2], 6), $NextBtn[3])) And IsAttackPage() Then
-				If $iUseRandomClick = 0 Then
+			_CaptureRegions()
+			If ( _ColorCheck(_GetPixelColor($NextBtn[0], $NextBtn[1]), Hex($NextBtn[2], 6), $NextBtn[3])) And IsAttackPage(False) Then
+				If $g_bUseRandomClick = False Then
 					ClickP($NextBtn, 1, 0, "#0155") ;Click Next
 				Else
 					ClickR($NextBtnRND, $NextBtn[0], $NextBtn[1], 1, 0)
 				EndIf
 				ExitLoop
 			Else
-				If $debugsetlog = 1 Then SetLog("Wait to see Next Button... " & $i, $COLOR_DEBUG)
+				If $g_iDebugSetlog = 1 Then SetLog("Wait to see Next Button... " & $i, $COLOR_DEBUG)
 			EndIf
-			If $i >= 99 Or isProblemAffect(True) Then ; if we can't find the next button or there is an error, then restart
-				$Is_ClientSyncError = True
+			If $i >= 99 Or isProblemAffect() Or (Mod($i, 10) = 0 And checkObstacles_Network(False, False)) Then ; if we can't find the next button or there is an error, then restart
+				$g_bIsClientSyncError = True
 				checkMainScreen()
-				If $Restart Then
-					$iNbrOfOoS += 1
+				If $g_bRestart Then
+					$g_iNbrOfOoS += 1
 					UpdateStats()
 					SetLog("Couldn't locate Next button", $COLOR_ERROR)
 					PushMsg("OoSResources")
 				Else
 					SetLog("Have strange problem Couldn't locate Next button, Restarting CoC and Bot...", $COLOR_ERROR)
-					$Is_ClientSyncError = False ; disable fast OOS restart if not simple error and try restarting CoC
+					$g_bIsClientSyncError = False ; disable fast OOS restart if not simple error and try restarting CoC
 					CloseCoC(True)
 				EndIf
 				Return
 			EndIf
 		WEnd
 
-		If _Sleep($iDelayRespond) Then Return
+		If _Sleep($DELAYRESPOND) Then Return
 		$Result = getAttackDisable(346, 182) ; Grab Ocr for TakeABreak check
-		checkAttackDisable($iTaBChkAttack, $Result) ; check to see If TakeABreak msg on screen after next click
-		If $Restart = True Then Return ; exit func
+		checkAttackDisable($g_iTaBChkAttack, $Result) ; check to see If TakeABreak msg on screen after next click
+		If $g_bRestart = True Then Return ; exit func
 
 		If isGemOpen(True) = True Then
 			Setlog(" Not enough gold to keep searching.....", $COLOR_ERROR)
 			Click(585, 252, 1, 0, "#0156") ; Click close gem window "X"
-			If _Sleep($iDelayVillageSearch3) Then Return
-			$OutOfGold = 1 ; Set flag for out of gold to search for attack
+			If _Sleep($DELAYVILLAGESEARCH3) Then Return
+			$g_bOutOfGold = True ; Set flag for out of gold to search for attack
 			ReturnHome(False, False)
 			Return
 		EndIf
 
 		$iSkipped = $iSkipped + 1
-		$iSkippedVillageCount += 1
-		If $iTownHallLevel <> "" And $iTownHallLevel > 0 Then
-			$iSearchCost += $aSearchCost[$iTownHallLevel - 1]
-			$iGoldTotal -= $aSearchCost[$iTownHallLevel - 1]
+		$g_iSkippedVillageCount += 1
+		If $g_iTownHallLevel <> "" And $g_iTownHallLevel > 0 Then
+			$g_iSearchCost += $g_aiSearchCost[$g_iTownHallLevel - 1]
+			$g_iStatsTotalGain[$eLootGold] -= $g_aiSearchCost[$g_iTownHallLevel - 1]
 		EndIf
+
+		If $ichkSwitchAcc = 1 Then ; SwitchAcc - Demen
+			$aSkippedVillageCountAcc[$nCurProfile - 1] += 1
+			If $g_iTownHallLevel <> "" And $g_iTownHallLevel > 0 Then $aGoldTotalAcc[$nCurProfile -1] -= $g_aiSearchCost[$g_iTownHallLevel - 1]
+		EndIf
+
 		UpdateStats()
 
 	WEnd ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;### Main Search Loop End ###;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -390,22 +429,22 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 	;updateGlobalVillageOffset($aCenterVillage[3], $aCenterVillage[4]) ; update red line and TH location
 
 	;--- show buttons attacknow ----
-	If $bBtnAttackNowPressed = True Then
-		Setlog(_PadStringCenter(" Attack Now Pressed! ", 50, "~"), $COLOR_SUCCESS)
+	If $g_bBtnAttackNowPressed = True Then
+		SetLogCentered(" Attack Now Pressed! ", "~", $COLOR_SUCCESS)
 	EndIf
 
-	If $iChkAttackNow = 1 Then
-		GUICtrlSetState($btnAttackNowDB, $GUI_HIDE)
-		GUICtrlSetState($btnAttackNowLB, $GUI_HIDE)
-		GUICtrlSetState($btnAttackNowTS, $GUI_HIDE)
-		GUICtrlSetState($pic2arrow, $GUI_SHOW)
-		GUICtrlSetState($lblVersion, $GUI_SHOW)
-		$bBtnAttackNowPressed = False
+	If $g_bSearchAttackNowEnable Then
+		GUICtrlSetState($g_hBtnAttackNowDB, $GUI_HIDE)
+		GUICtrlSetState($g_hBtnAttackNowLB, $GUI_HIDE)
+		GUICtrlSetState($g_hBtnAttackNowTS, $GUI_HIDE)
+		GUICtrlSetState($g_hPicTwoArrowShield, $GUI_SHOW)
+		GUICtrlSetState($g_hLblVersion, $GUI_SHOW)
+		$g_bBtnAttackNowPressed = False
 	EndIf
 
 	;--- write in log match found ----
-	If $AlertSearch = 1 Then
-		TrayTip($sModeText[$iMatchMode] & " Match Found!", "Gold: " & $searchGold & "; Elixir: " & $searchElixir & "; Dark: " & $searchDark & "; Trophy: " & $searchTrophy, "", 0)
+	If $g_bSearchAlertMe Then
+		TrayTip($g_asModeText[$g_iMatchMode] & " Match Found!", "Gold: " & $g_iSearchGold & "; Elixir: " & $g_iSearchElixir & "; Dark: " & $g_iSearchDark & "; Trophy: " & $g_iSearchTrophy, "", 0)
 		If FileExists(@WindowsDir & "\media\Festival\Windows Exclamation.wav") Then
 			SoundPlay(@WindowsDir & "\media\Festival\Windows Exclamation.wav", 1)
 		ElseIf FileExists(@WindowsDir & "\media\Windows Exclamation.wav") Then
@@ -413,53 +452,32 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 		EndIf
 	EndIf
 
-	SetLog(_PadStringCenter(" Search Complete ", 50, "="), $COLOR_INFO)
+	SetLogCentered(" Search Complete ", Default, $COLOR_INFO)
 	PushMsg("MatchFound")
 
-
-;~ 	; --- TH Detection Check Once Conditions ---
-;~ 	; if TownHall no previous detect and we need to TH snipe before attack DB or LB, locate TH and determine if it is placed inside or outside the village; log result in main log
-;~ 	If  $iChkMeetTH[$iMatchMode] = 0 And $iChkMeetTHO[$iMatchMode] = 0 And  ($iMatchMode = $DB and $THSnipeBeforeDBEnable = 1 ) or ($iMatchMode = $LB and $THSnipeBeforeDBEnable = 1 ) Then
-;~ 		$searchTH = checkTownHallADV2()
-
-;~ 		If $searchTH = "-" Then ; retry with autoit search after $iDelayVillageSearch5 seconds
-;~ 			If _Sleep($iDelayVillageSearch5) Then Return
-;~ 			If $debugsetlog = 1 Then SetLog("2nd attempt to detect the TownHall!", $COLOR_ERROR)
-;~ 			$searchTH = THSearch()
-;~ 		EndIf
-
-;~ 		If SearchTownHallLoc() = False And $searchTH <> "-" Then
-;~ 			SetLog("Checking Townhall location: TH is inside, skip Attack TH")
-;~ 		ElseIf $searchTH <> "-" Then
-;~ 			SetLog("Checking Townhall location: TH is outside, Attacking Townhall!")
-;~ 		Else
-;~ 			SetLog("Checking Townhall location: Could not locate TH, skipping attack TH...")
-;~ 		EndIf
-;~ 	EndIf
-
-	$Is_ClientSyncError = False
+	$g_bIsClientSyncError = False
 
 EndFunc   ;==>VillageSearch
 
 Func SearchLimit($iSkipped)
-	If $iChkRestartSearchLimit = 1 And $iSkipped >= Number($iRestartSearchlimit) Then
+	If $g_bSearchRestartEnable And $iSkipped >= Number($g_iSearchRestartLimit) Then
 		Local $Wcount = 0
-		While _CheckPixel($aSurrenderButton, $bCapturePixel) = False
-			If _Sleep($iDelaySWHTSearchLimit1) Then Return
+		While _CheckPixel($aSurrenderButton, $g_bCapturePixel) = False
+			If _Sleep($DELAYSEARCHLIMIT) Then Return
 			$Wcount += 1
-			If $debugsetlog = 1 Then setlog("wait surrender button " & $Wcount, $COLOR_DEBUG)
+			If $g_iDebugSetlog = 1 Then setlog("wait surrender button " & $Wcount, $COLOR_DEBUG)
 			If $Wcount >= 50 Or isProblemAffect(True) Then
 				checkMainScreen()
-				$Is_ClientSyncError = False ; reset OOS flag for long restart
-				$Restart = True ; set force runbot restart flag
+				$g_bIsClientSyncError = False ; reset OOS flag for long restart
+				$g_bRestart = True ; set force runbot restart flag
 				Return True
 			EndIf
 		WEnd
-		$Is_SearchLimit = True
+		$g_bIsSearchLimit = True
 		ReturnHome(False, False) ;If End battle is available
 		getArmyCapacity(True, True)
-		$Restart = True ; set force runbot restart flag
-		$Is_ClientSyncError = True ; set OOS flag for fast restart
+		$g_bRestart = True ; set force runbot restart flag
+		$g_bIsClientSyncError = True ; set OOS flag for fast restart
 		Return True
 	Else
 		Return False
@@ -478,21 +496,21 @@ Func WriteLogVillageSearch($x)
 	;[18.07.30] - Weak Base(Mortar: 5, WizTower: 5)
 
 	Local $MeetGxEtext = "", $MeetGorEtext = "", $MeetGplusEtext = "", $MeetDEtext = "", $MeetTrophytext = "", $MeetTHtext = "", $MeetTHOtext = "", $MeetWeakBasetext = "", $EnabledAftertext = ""
-	If $iCmbMeetGE[$x] = 0 Then $MeetGxEtext = "- Meet: Gold and Elixir"
-	If $iCmbMeetGE[$x] = 1 Then $MeetGorEtext = "- Meet: Gold or Elixir"
-	If $iCmbMeetGE[$x] = 2 Then $MeetGplusEtext = "- Meet: Gold + Elixir"
-	If $iChkMeetDE[$x] = 1 Then $MeetDEtext = "- Dark"
-	If $iChkMeetTrophy[$x] = 1 Then $MeetTrophytext = "- Trophy"
-	If $iChkMeetTH[$x] = 1 Then $MeetTHtext = "- Max TH " & $iMaxTH[$x] ;$icmbTH
-	If $iChkMeetTHO[$x] = 1 Then $MeetTHOtext = "- TH Outside"
+	If $g_aiFilterMeetGE[$x] = 0 Then $MeetGxEtext = "- Meet: Gold and Elixir"
+	If $g_aiFilterMeetGE[$x] = 1 Then $MeetGorEtext = "- Meet: Gold or Elixir"
+	If $g_aiFilterMeetGE[$x] = 2 Then $MeetGplusEtext = "- Meet: Gold + Elixir"
+	If $g_abFilterMeetDEEnable[$x] Then $MeetDEtext = "- Dark"
+	If $g_abFilterMeetTrophyEnable[$x] Then $MeetTrophytext = "- Trophy"
+	If $g_abFilterMeetTH[$x] Then $MeetTHtext = "- Max TH " & $g_aiMaxTH[$x] ;$g_aiFilterMeetTHMin
+	If $g_abFilterMeetTHOutsideEnable[$x] Then $MeetTHOtext = "- TH Outside"
 	If IsWeakBaseActive($x) Then $MeetWeakBasetext = "- Weak Base"
-	If Not ($Is_SearchLimit) And $debugsetlog = 1 Then
-		SetLog(_PadStringCenter(" Searching For " & $sModeText[$x] & " ", 54, "="), $COLOR_INFO)
-		Setlog("Enable " & $sModeText[$x] & " search IF ", $COLOR_INFO)
-		If $iEnableSearchSearches[$x] = 1 Then Setlog("- Numbers of searches range " & $iEnableAfterCount[$x] & " - " & $iEnableBeforeCount[$x], $COLOR_INFO)
-		If $iEnableSearchTropies[$x] = 1 Then Setlog("- Search tropies range " & $iEnableAfterTropies[$x] & " - " & $iEnableBeforeTropies[$x], $COLOR_INFO)
-		If $iEnableSearchCamps[$x] = 1 Then Setlog("- Army Camps % >  " & $iEnableAfterArmyCamps[$x], $COLOR_INFO)
-		Setlog("Match " & $sModeText[$x] & "  village IF ", $COLOR_INFO)
+	If Not ($g_bIsSearchLimit) And $g_iDebugSetlog = 1 Then
+		SetLogCentered(" Searching For " & $g_asModeText[$x] & " ", Default, $COLOR_INFO)
+		Setlog("Enable " & $g_asModeText[$x] & " search IF ", $COLOR_INFO)
+		If $g_abSearchSearchesEnable[$x] Then Setlog("- Numbers of searches range " & $g_aiSearchSearchesMin[$x] & " - " & $g_aiSearchSearchesMax[$x], $COLOR_INFO)
+		If $g_abSearchTropiesEnable[$x] Then Setlog("- Search tropies range " & $g_aiSearchTrophiesMin[$x] & " - " & $g_aiSearchTrophiesMax[$x], $COLOR_INFO)
+		If $g_abSearchCampsEnable[$x] Then Setlog("- Army Camps % >  " & $g_aiSearchCampsPct[$x], $COLOR_INFO)
+		Setlog("Match " & $g_asModeText[$x] & "  village IF ", $COLOR_INFO)
 		If $MeetGxEtext <> "" Then Setlog($MeetGxEtext, $COLOR_INFO)
 		If $MeetGorEtext <> "" Then Setlog($MeetGorEtext, $COLOR_INFO)
 		If $MeetGplusEtext <> "" Then Setlog($MeetGplusEtext, $COLOR_INFO)
@@ -501,18 +519,18 @@ Func WriteLogVillageSearch($x)
 		If $MeetTHtext <> "" Then Setlog($MeetTHtext, $COLOR_INFO)
 		If $MeetTHOtext <> "" Then Setlog($MeetTHOtext, $COLOR_INFO)
 		If $MeetWeakBasetext <> "" Then Setlog($MeetWeakBasetext, $COLOR_INFO)
-		If $iChkMeetOne[$x] = 1 Then SetLog("Meet One and Attack!")
-		SetLog(_PadStringCenter(" RESOURCE CONDITIONS ", 50, "~"), $COLOR_INFO)
-		If $iChkMeetTH[$x] = 1 Then $iAimTHtext[$x] = " [TH]:" & StringFormat("%2s", $iMaxTH[$x]) ;$icmbTH
-		If $iChkMeetTHO[$x] = 1 Then $iAimTHtext[$x] &= ", Out"
+		If $g_abFilterMeetOneConditionEnable[$x] Then SetLog("Meet One and Attack!")
+		SetLogCentered(" RESOURCE CONDITIONS ", "~", $COLOR_INFO)
 	EndIf
-	If Not ($Is_SearchLimit) Then
-		Local $txtTrophies = ""
-		If $iChkMeetTrophy[$x] = 1 Then $txtTrophies = " [T]:" & StringFormat("%2s", $iAimTrophy[$x]) & $iAimTHtext[$x]
-		If $iCmbMeetGE[$x] = 2 Then
-			SetLog("Aim:           [G+E]:" & StringFormat("%7s", $iAimGoldPlusElixir[$x]) & " [D]:" & StringFormat("%5s", $iAimDark[$x]) & $txtTrophies & " for: " & $sModeText[$x], $COLOR_SUCCESS, "Lucida Console", 7.5)
+	If Not ($g_bIsSearchLimit) Then
+		Local $txtTrophies = "", $txtTownhall = ""
+		If $g_abFilterMeetTrophyEnable[$x] Then $txtTrophies = " [T]:" & StringFormat("%2s", $g_iAimTrophy[$x]) & "-" & StringFormat("%2s", $g_iAimTrophyMax[$x])
+		If $g_abFilterMeetTH[$x] Then $txtTownhall = " [TH]:" & StringFormat("%2s", $g_aiMaxTH[$x]) ;$g_aiFilterMeetTHMin
+		If $g_abFilterMeetTHOutsideEnable[$x] Then $txtTownhall &= ", Out"
+		If $g_aiFilterMeetGE[$x] = 2 Then
+			SetLog("Aim:           [G+E]:" & StringFormat("%7s", $g_iAimGoldPlusElixir[$x]) & " [D]:" & StringFormat("%5s", $g_iAimDark[$x]) & $txtTrophies & $txtTownhall & " for: " & $g_asModeText[$x], $COLOR_SUCCESS, "Lucida Console", 7.5)
 		Else
-			SetLog("Aim: [G]:" & StringFormat("%7s", $iAimGold[$x]) & " [E]:" & StringFormat("%7s", $iAimElixir[$x]) & " [D]:" & StringFormat("%5s", $iAimDark[$x]) & $txtTrophies & " for: " & $sModeText[$x], $COLOR_SUCCESS, "Lucida Console", 7.5)
+			SetLog("Aim: [G]:" & StringFormat("%7s", $g_iAimGold[$x]) & " [E]:" & StringFormat("%7s", $g_iAimElixir[$x]) & " [D]:" & StringFormat("%5s", $g_iAimDark[$x]) & $txtTrophies & $txtTownhall & " for: " & $g_asModeText[$x], $COLOR_SUCCESS, "Lucida Console", 7.5)
 		EndIf
 	EndIf
 

@@ -1,6 +1,6 @@
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: Config_Save.au3
-; Description ...:
+; Description ...: Saves all of the GUI values to the config.ini and building.ini files
 ; Syntax ........:
 ; Parameters ....:
 ; Return values .:
@@ -13,9 +13,29 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
+Func SaveConfig_SwitchAcc()
+	ApplyConfig_SwitchAcc("Save")
+
+	IniWriteS($profile, "SwitchAcc", "Enable", $ichkSwitchAcc ? 1 : 0)
+	IniWriteS($profile, "SwitchAcc", "Total Coc Account", $icmbTotalCoCAcc) ; 1 = 1 Acc, 2 = 2 Acc, etc.
+	IniWriteS($profile, "SwitchAcc", "Smart Switch", $ichkSmartSwitch ? 1 : 0)
+	IniWriteS($profile, "SwitchAcc", "Force Switch", $ichkForceSwitch ? 1 : 0)
+	IniWriteS($profile, "SwitchAcc", "Force Switch Search", $iForceSwitch)
+	IniWriteS($profile, "SwitchAcc", "Force Stay Donate", $ichkForceStayDonate ? 1 : 0)
+	IniWriteS($profile, "SwitchAcc", "Sleep Combo", $ichkCloseTraining) ; 0 = No Sleep, 1 = Close CoC, 2 = Close Android
+	For $i = 1 To 8
+		IniWriteS($profile, "SwitchAcc", "MatchProfileAcc." & $i, _GUICtrlComboBox_GetCurSel($cmbAccountNo[$i - 1]) + 1) ; 1 = Acc 1, 2 = Acc 2, etc.
+		IniWriteS($profile, "SwitchAcc", "ProfileType." & $i, _GUICtrlComboBox_GetCurSel($cmbProfileType[$i - 1]) + 1) ; 1 = Active, 2 = Donate, 3 = Idle
+	Next
+EndFunc   ;==>SaveConfig_SwitchAcc
+
+
 ;
 ; MOD Config - Save Data
 ;
+Func SaveConfig_MOD()
+
+	ApplyConfig_MOD("Save")
 
 	; Max logout time
 	If GUICtrlRead($chkTrainLogoutMaxTime) = $GUI_CHECKED Then
@@ -73,3 +93,5 @@
 	IniWrite($config, "upgrade", "SmartMinGold", GUICtrlRead($SmartMinGold))
 	IniWrite($config, "upgrade", "SmartMinElixir", GUICtrlRead($SmartMinElixir))
 	IniWrite($config, "upgrade", "SmartMinDark", GUICtrlRead($SmartMinDark))
+
+EndFunc   ;==>SaveConfig_MOD

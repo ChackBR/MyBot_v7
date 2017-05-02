@@ -7,7 +7,7 @@
 ; Return values .: Number of windows closed
 ; Author ........:
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2016
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2017
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......: checkMainscreen, isProblemAffect
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -17,18 +17,18 @@
 Func WerFaultClose($programFile, $tryCountMax = 10, $tryCount = 0)
 
 	Local $WinTitleMatchMode = Opt("WinTitleMatchMode", -3) ; Window Title exact match mode (case insensitive)
-	Local $title = $programFile
+	Local $g_sAndroidTitle = $programFile
 
-	Local $iLastBS = StringInStr($title, "\", 0, -1)
-	If $iLastBS > 0 Then $title = StringMid($title, $iLastBS + 1)
+	Local $iLastBS = StringInStr($g_sAndroidTitle, "\", 0, -1)
+	If $iLastBS > 0 Then $g_sAndroidTitle = StringMid($g_sAndroidTitle, $iLastBS + 1)
 
-	Local $aList = WinList($title)
+	Local $aList = WinList($g_sAndroidTitle)
 	Opt("WinTitleMatchMode", $WinTitleMatchMode)
 
 	Local $closed = 0
 	Local $i
 
-	SetDebugLog("Found " & $aList[0][0] & " WerFault Windows with title '" & $title & "'")
+	SetDebugLog("Found " & $aList[0][0] & " WerFault Windows with title '" & $g_sAndroidTitle & "'")
 
 	If $aList[0][0] > 0 Then
 		For $i = 1 To $aList[0][0]
@@ -37,8 +37,8 @@ Func WerFaultClose($programFile, $tryCountMax = 10, $tryCount = 0)
 			Local $pid = WinGetProcess($HWnD)
 
 			Local $process = ProcessGetWmiProcess($pid)
-			If IsObj($process) Then
-				Local $werfault = $process.ExecutablePath
+			If IsArray($process) Then
+				Local $werfault = $process[1]
 				$iLastBS = StringInStr($werfault, "\", 0, -1)
 				$werfault = StringMid($werfault, $iLastBS + 1)
 
@@ -56,7 +56,7 @@ Func WerFaultClose($programFile, $tryCountMax = 10, $tryCount = 0)
 						EndIf
 					EndIf
 				Else
-					SetDebugLog("Process " & $pid & " is not WerFault, " & $process.CommandLine, $COLOR_ERROR)
+					SetDebugLog("Process " & $pid & " is not WerFault, " & $process[2], $COLOR_ERROR)
 				EndIf
 			ELse
 				SetDebugLog("Wmi Object for process " & $pid & " not found")
@@ -85,4 +85,4 @@ Func WerFaultClose($programFile, $tryCountMax = 10, $tryCount = 0)
 
 	Return $closed
 
-EndFunc   ;==>SendAdbCommand
+EndFunc   ;==>WerFaultClose

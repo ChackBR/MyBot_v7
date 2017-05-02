@@ -8,7 +8,7 @@
 ; Return values .: None
 ; Author ........: Sardo (2016)
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2016
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2017
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -30,13 +30,13 @@ Func MakeDropLine($searchvect, $startpoint, $endpoint, $iLineDistanceThreshold =
 	;CheckAttackLocation($endX, $endY)
 	Local $size = UBound($searchvect)
 	ReDim $searchvect[$size + 1]
-	$searchvect[$Size] = $endpoint
-	Local $Pixel0 = [$startX, $starty]
+	$searchvect[$size] = $endpoint
+	Local $Pixel0 = [$startX, $startY]
 	Local $ReturnVect = $startX & "," & $startY
 	Local $iLineIdx = -1
 
 	For $idx = 0 To $size
-		$Pixel1 = $searchvect[$idx]
+		Local $Pixel1 = $searchvect[$idx]
 
 		If $Pixel1[0] < 0 Then ContinueLoop
 
@@ -87,7 +87,7 @@ Func MakeDropLineOriginal($searchvect, $startpoint, $endpoint)
 	CheckAttackLocation($startX, $startY)
 	CheckAttackLocation($endX, $endY)
 
-	Local $point1 = [$startX, $starty]
+	Local $point1 = [$startX, $startY]
 	Local $t, $f
 	$t = 0
 	$f = 0
@@ -95,7 +95,7 @@ Func MakeDropLineOriginal($searchvect, $startpoint, $endpoint)
 
 	For $i = $startX + 1 To $endX
 		For $j = $t To UBound($searchvect) - 1
-			$pixel = $searchvect[$j]
+			Local $pixel = $searchvect[$j]
 			If $i < $pixel[0] Then
 				Local $h = Line2Points($point1, $pixel, $i)
 				CheckAttackLocation($i, $h)
@@ -123,4 +123,4 @@ Func MakeDropLineOriginal($searchvect, $startpoint, $endpoint)
 	Next
 
 	Return GetListPixel($ReturnVect, ",")
-EndFunc   ;==>MakeDropLine
+EndFunc   ;==>MakeDropLineOriginal
