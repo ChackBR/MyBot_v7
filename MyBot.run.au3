@@ -1,4 +1,4 @@
-﻿; #FUNCTION# ====================================================================================================================
+; #FUNCTION# ====================================================================================================================
 ; Name ..........: MBR Bot
 ; Description ...: This file contains the initialization and main loop sequences f0r the MBR Bot
 ; Author ........:  (2014)
@@ -906,12 +906,7 @@ Func Idle() ;Sequence that runs until Full Army
 
 		If $g_iCommandStop = -1 Then ; Check if closing bot/emulator while training and not in halt mode
 			If $ichkSwitchAcc = 1 Then ; SwitchAcc Demen
-				If $bWaitForCCTroopSpell Then
-					Setlog("Still waiting for CC troops/ spells, switching to another Account")
-					ForceSwitchAcc($eDonate)
-				Else
-					checkSwitchAcc()
-				EndIf
+				checkSwitchAcc()
 			Else
 				SmartWait4Train()
 			EndIf
