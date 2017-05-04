@@ -275,5 +275,3 @@
 
 ; Mod
 #include "MOD\Include_Files.au3"
-
-; OLD CODE

@@ -182,7 +182,7 @@ Func CreateMainGUIControls()
 	   GUICtrlSetBkColor(-1, 0xF0F0F0)
 	   GUICtrlSetColor(-1, 0xB8B8B8)
 	   ; minimize button
-	   $g_hLblBotMinimize = GUICtrlCreateLabel("?", $aBtnSize[0], 0, $aBtnSize[0], $aBtnSize[1], $SS_CENTER)
+	   $g_hLblBotMinimize = GUICtrlCreateLabel("??", $aBtnSize[0], 0, $aBtnSize[0], $aBtnSize[1], $SS_CENTER)
 	   GUICtrlSetFont(-1, 10)
 	   GUICtrlSetBkColor(-1, 0xF0F0F0)
 	   GUICtrlSetColor(-1, 0xB8B8B8)

@@ -1356,6 +1356,7 @@ Func SetTime($bForceUpdate = False)
 	If $g_hTimerSinceStarted = 0 Then Return ; GIGO, no setTime when timer hasn't started yet
 	Local $day = 0, $hour = 0, $min = 0, $sec = 0
 	Local $DisplayLoop = 0
+
 	If GUICtrlRead($g_hGUI_STATS_TAB, 1) = $g_hGUI_STATS_TAB_ITEM2 Or $bForceUpdate = True Then
 		_TicksToDay(Int(__TimerDiff($g_hTimerSinceStarted) + $g_iTimePassed), $day, $hour, $min, $sec)
 		GUICtrlSetData($g_hLblResultRuntime, $day > 0 ? StringFormat("%2u Day(s) %02i:%02i:%02i", $day, $hour, $min, $sec) : StringFormat("%02i:%02i:%02i", $hour, $min, $sec))
@@ -1393,6 +1394,7 @@ Func SetTime($bForceUpdate = False)
 	EndIf
 	$DisplayLoop += 1
 ; Showing troops time in ProfileStats - SwitchAcc - Demen
+
 EndFunc   ;==>SetTime
 
 Func tabMain()
