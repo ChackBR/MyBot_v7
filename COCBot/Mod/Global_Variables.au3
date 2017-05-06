@@ -36,13 +36,15 @@ Global $TrainLogoutMaxTime, $TrainLogoutMaxTimeTXT
 ;
 
 ; Multi Finger Attack Style Setting
+Global $LblDBMultiFinger = 0, $TxtUnitFactor = 0, $TxtWaveFactor = 0
+Global $CmbDBMultiFinger = 0, $ChkUnitFactor = 0, $ChkWaveFactor = 0
+
 Global Enum $directionLeft, $directionRight
 Global Enum $sideBottomRight, $sideTopLeft, $sideBottomLeft, $sideTopRight
 Global Enum $mfRandom, $mfFFStandard, $mfFFSpiralLeft, $mfFFSpiralRight, $mf8FBlossom, $mf8FImplosion, $mf8FPinWheelLeft, $mf8FPinWheelRight
 
-Global $iMultiFingerStyle = 0
-
-Global Enum  $eCCSpell = $eHaSpell + 1
+Global $iMultiFingerStyle = 1
+Global Enum $eCCSpell = $eHaSpell + 1
 
 ; CSV Deployment Speed Mod
 Global $isldSelectedCSVSpeed[$g_iModeCount], $iCSVSpeeds[19]
@@ -72,19 +74,24 @@ $iCSVSpeeds[18] = 99
 ; AwesomeGamer
 ;
 
-; DEB
-Global $iChkDontRemove = 1
-Global $chkDontRemove = True
-
 ; No League Search
 Global $aNoLeague[4] = [30, 30, 0x616568, 20] ; No League Shield
 Global $chkDBNoLeague, $chkABNoLeague, $iChkNoLeague[$g_iModeCount]
 
 ; Check Collector Outside
+#region Check Collectors Outside
+; Collectors outside filter
 Global $ichkDBMeetCollOutside, $iDBMinCollOutsidePercent, $iCollOutsidePercent ; check later if $iCollOutsidePercent obsolete
+
+; constants
 Global Const $THEllipseWidth = 200, $THEllipseHeigth = 150, $CollectorsEllipseWidth = 130, $CollectorsEllipseHeigth = 97.5
 Global Const $centerX = 430, $centerY = 335 ; check later if $THEllipseWidth, $THEllipseHeigth obsolete
 Global $hBitmapFirst
+#endregion
+
+;
+; Rorotiti
+;
 
 ; SmartUpgrade
 Global $ichkSmartUpgrade
@@ -95,7 +102,6 @@ Global $sBldgText, $sBldgLevel, $aString
 Global $upgradeName[3] = ["", "", ""]
 Global $UpgradeCost
 Global $TypeFound = 0
-Global $SmartMinGold, $SmartMinElixir, $SmartMinDark
 Global $UpgradeDuration
 Global $canContinueLoop = True
 

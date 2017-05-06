@@ -226,7 +226,8 @@ Func ReadRegularConfig()
 	; <><><><> Bot / Stats <><><><>
 	; <<< nothing here >>>
 
-	; <><><><> Mod <><><><> 
+	; <><><><> Mod <><><><>
+	ReadConfig_MOD()
 	ReadConfig_SwitchAcc()
 
 EndFunc   ;==>ReadRegularConfig

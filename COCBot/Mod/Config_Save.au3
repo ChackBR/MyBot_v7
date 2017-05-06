@@ -13,6 +13,73 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
+;
+; MOD Config - Save Data
+;
+Func SaveConfig_MOD()
+
+	ApplyConfig_MOD("Save")
+
+;
+; Mandrid
+;
+
+#CS
+	; Max logout time
+	If GUICtrlRead($chkTrainLogoutMaxTime) = $GUI_CHECKED Then
+		IniWrite($config, "TrainLogout", "TrainLogoutMaxTime", 1)
+	Else
+		IniWrite($config, "TrainLogout", "TrainLogoutMaxTime", 0)
+	EndIf
+	IniWrite($config, "TrainLogout", "TrainLogoutMaxTimeTXT", GUICtrlRead($txtTrainLogoutMaxTime))
+#CE
+
+;
+; LunaEclipse
+;
+
+	; Multi Finger
+	_Ini_Add("MultiFinger", "Select", $iMultiFingerStyle)
+
+#CS
+	; CSV Deploy Speed
+	_Ini_Add("DeploymentSpeed", "DB", $g_iCmbCSVSpeed[$DB])
+	_Ini_Add("DeploymentSpeed", "LB", $g_iCmbCSVSpeed[$LB])
+#CE
+
+;
+; AwesomeGamer
+;
+
+	; Check Collector Outside (McSlither) - Added by NguyenAnhHD
+	_Ini_Add("search", "DBMeetCollOutside", $ichkDBMeetCollOutside ? 1 : 0)
+	_Ini_Add("search", "DBMinCollOutsidePercent", $iDBMinCollOutsidePercent)
+
+;
+; Rorotiti
+;
+
+	; Smart Upgrade
+	_Ini_Add("upgrade", "chkSmartUpgrade", $ichkSmartUpgrade ? 1 : 0)
+	_Ini_Add("upgrade", "chkIgnoreTH", $ichkIgnoreTH ? 1 : 0)
+	_Ini_Add("upgrade", "chkIgnoreKing", $ichkIgnoreKing ? 1 : 0)
+	_Ini_Add("upgrade", "chkIgnoreQueen", $ichkIgnoreQueen ? 1 : 0)
+	_Ini_Add("upgrade", "chkIgnoreWarden", $ichkIgnoreWarden ? 1 : 0)
+	_Ini_Add("upgrade", "chkIgnoreCC", $ichkIgnoreCC ? 1 : 0)
+	_Ini_Add("upgrade", "chkIgnoreLab", $ichkIgnoreLab ? 1 : 0)
+	_Ini_Add("upgrade", "chkIgnoreBarrack", $ichkIgnoreBarrack ? 1 : 0)
+	_Ini_Add("upgrade", "chkIgnoreDBarrack", $ichkIgnoreDBarrack ? 1 : 0)
+	_Ini_Add("upgrade", "chkIgnoreFactory", $ichkIgnoreFactory ? 1 : 0)
+	_Ini_Add("upgrade", "chkIgnoreDFactory", $ichkIgnoreDFactory ? 1 : 0)
+	_Ini_Add("upgrade", "chkIgnoreGColl", $ichkIgnoreGColl ? 1 : 0)
+	_Ini_Add("upgrade", "chkIgnoreEColl", $ichkIgnoreEColl ? 1 : 0)
+	_Ini_Add("upgrade", "chkIgnoreDColl", $ichkIgnoreDColl ? 1 : 0)
+	_Ini_Add("upgrade", "SmartMinGold", $iSmartMinGold)
+	_Ini_Add("upgrade", "SmartMinElixir", $iSmartMinElixir)
+	_Ini_Add("upgrade", "SmartMinDark", $iSmartMinDark)
+
+EndFunc   ;==>SaveConfig_MOD
+
 Func SaveConfig_SwitchAcc()
 	ApplyConfig_SwitchAcc("Save")
 
@@ -28,70 +95,3 @@ Func SaveConfig_SwitchAcc()
 		IniWriteS($profile, "SwitchAcc", "ProfileType." & $i, _GUICtrlComboBox_GetCurSel($cmbProfileType[$i - 1]) + 1) ; 1 = Active, 2 = Donate, 3 = Idle
 	Next
 EndFunc   ;==>SaveConfig_SwitchAcc
-
-
-;
-; MOD Config - Save Data
-;
-Func SaveConfig_MOD()
-
-	ApplyConfig_MOD("Save")
-
-	; Max logout time
-	If GUICtrlRead($chkTrainLogoutMaxTime) = $GUI_CHECKED Then
-		IniWrite($config, "TrainLogout", "TrainLogoutMaxTime", 1)
-	Else
-		IniWrite($config, "TrainLogout", "TrainLogoutMaxTime", 0)
-	EndIf
-	IniWrite($config, "TrainLogout", "TrainLogoutMaxTimeTXT", GUICtrlRead($txtTrainLogoutMaxTime))
-
-;
-; LunaEclipse
-;
-
-	; Multi Finger
-	IniWrite($config, "MultiFinger", "Select", _GUICtrlComboBox_GetCurSel($cmbDBMultiFinger))
-
-	; CSV Deployment Speed Mod
-	IniWriteS($config, "attack", "CSVSpeedDB", $isldSelectedCSVSpeed[$DB])
-	IniWriteS($config, "attack", "CSVSpeedAB", $isldSelectedCSVSpeed[$LB])
-
-;
-; AwesomeGamer
-;
-
-	; DEB
-	If GUICtrlRead($chkDontRemove) = $GUI_CHECKED Then
-		IniWrite($config, "troop", "DontRemove", 1)
-	Else
-		IniWrite($config, "troop", "DontRemove", 0)
-	EndIf
-
-	; Check Collectors Outside
-	If GUICtrlRead($chkDBMeetCollOutside) = $GUI_CHECKED Then
-		IniWriteS($config, "search", "DBMeetCollOutside", 1)
-	Else
-		IniWriteS($config, "search", "DBMeetCollOutside", 0)
-	EndIf
-	IniWriteS($config, "search", "DBMinCollOutsidePercent", GUICtrlRead($txtDBMinCollOutsidePercent))
-
-	; Smart Upgrade
-	IniWrite($config, "upgrade", "chkSmartUpgrade", $ichkSmartUpgrade)
-	IniWrite($config, "upgrade", "chkIgnoreTH", $ichkIgnoreTH)
-	IniWrite($config, "upgrade", "chkIgnoreKing", $ichkIgnoreKing)
-	IniWrite($config, "upgrade", "chkIgnoreQueen", $ichkIgnoreQueen)
-	IniWrite($config, "upgrade", "chkIgnoreWarden", $ichkIgnoreWarden)
-	IniWrite($config, "upgrade", "chkIgnoreCC", $ichkIgnoreCC)
-	IniWrite($config, "upgrade", "chkIgnoreLab", $ichkIgnoreLab)
-	IniWrite($config, "upgrade", "chkIgnoreBarrack", $ichkIgnoreBarrack)
-	IniWrite($config, "upgrade", "chkIgnoreDBarrack", $ichkIgnoreDBarrack)
-	IniWrite($config, "upgrade", "chkIgnoreFactory", $ichkIgnoreFactory)
-	IniWrite($config, "upgrade", "chkIgnoreDFactory", $ichkIgnoreDFactory)
-	IniWrite($config, "upgrade", "chkIgnoreGColl", $ichkIgnoreGColl)
-	IniWrite($config, "upgrade", "chkIgnoreEColl", $ichkIgnoreEColl)
-	IniWrite($config, "upgrade", "chkIgnoreDColl", $ichkIgnoreDColl)
-	IniWrite($config, "upgrade", "SmartMinGold", GUICtrlRead($SmartMinGold))
-	IniWrite($config, "upgrade", "SmartMinElixir", GUICtrlRead($SmartMinElixir))
-	IniWrite($config, "upgrade", "SmartMinDark", GUICtrlRead($SmartMinDark))
-
-EndFunc   ;==>SaveConfig_MOD

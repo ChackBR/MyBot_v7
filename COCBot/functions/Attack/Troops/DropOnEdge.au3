@@ -19,7 +19,7 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
-Func DropOnEdge($troop, $edge, $number, $slotsPerEdge = 0, $edge2 = -1, $x = -1, $FourFingers = 0)	; FourFinger Demen
+Func DropOnEdge($troop, $edge, $number, $slotsPerEdge = 0, $edge2 = -1, $x = -1, $FourFingers = 0)
 
 	If isProblemAffect(True) Then Return
 	If $number = 0 Then Return
@@ -34,7 +34,7 @@ Func DropOnEdge($troop, $edge, $number, $slotsPerEdge = 0, $edge2 = -1, $x = -1,
 			AttackClick($edge[2][0], $edge[2][1], $number, $DELAYDROPONEDGE1, 0, "#0102")
 			AttackClick($edge2[2][0], $edge2[2][1], $number, $DELAYDROPONEDGE1, $DELAYDROPONEDGE3, "#0103")
 		EndIf
-	ElseIf $slotsPerEdge = 2 And $FourFingers = 0 Then ; Drop on 2 points per edge - FourFinger Demen
+	ElseIf $slotsPerEdge = 2 And $FourFingers = 0 Then ; Drop on 2 points per edge
 		Local $half = Ceiling($number / 2)
 		AttackClick($edge[1][0], $edge[1][1], $half, SetSleep(0), 0, "#0104")
 		If $edge2 <> -1 Then
@@ -49,7 +49,7 @@ Func DropOnEdge($troop, $edge, $number, $slotsPerEdge = 0, $edge2 = -1, $x = -1,
 		Local $maxX = $edge[4][0]
 		Local $minY = $edge[0][1]
 		Local $maxY = $edge[4][1]
-		If $FourFingers = 5 Then ; FourFinger Demen
+		If $FourFingers = 5 Then
 			Local $minXTL = $g_aaiTopLeftDropPoints[0][0]
 			Local $maxXTL = $g_aaiTopLeftDropPoints[4][0]
 			Local $minYTL = $g_aaiTopLeftDropPoints[0][1]
@@ -60,7 +60,7 @@ Func DropOnEdge($troop, $edge, $number, $slotsPerEdge = 0, $edge2 = -1, $x = -1,
 			Local $maxX2 = $edge2[4][0]
 			Local $minY2 = $edge2[0][1]
 			Local $maxY2 = $edge2[4][1]
-			If $FourFingers = 5 Then ; FourFinger Demen
+			If $FourFingers = 5 Then
 				Local $minX2TR = $g_aaiTopRightDropPoints[0][0]
 				Local $maxX2TR = $g_aaiTopRightDropPoints[4][0]
 				Local $minY2TR = $g_aaiTopRightDropPoints[0][1]
@@ -70,7 +70,7 @@ Func DropOnEdge($troop, $edge, $number, $slotsPerEdge = 0, $edge2 = -1, $x = -1,
 		Local $nbTroopsLeft = $number
 		For $i = 0 To $slotsPerEdge - 1
 			Local $nbtroopPerSlot = Round($nbTroopsLeft / ($slotsPerEdge - $i)) ; progressively adapt the number of drops to fill at the best
-			If $FourFingers = 5 Then ; FourFinger Demen
+			If $FourFingers = 5 Then
 				Local $posX = $minX + (($maxX - $minX) * ($slotsPerEdge - $i)) / ($slotsPerEdge - 1)
 				Local $posY = $minY + (($maxY - $minY) * ($slotsPerEdge - $i)) / ($slotsPerEdge - 1)
 				AttackClick($posX, $posY, $nbtroopPerSlot, SetSleep(0), 0, "#0108")
@@ -82,7 +82,7 @@ Func DropOnEdge($troop, $edge, $number, $slotsPerEdge = 0, $edge2 = -1, $x = -1,
 			EndIf
 			AttackClick($posX, $posY, $nbtroopPerSlot, SetSleep(0), 0, "#0108")
 			If $edge2 <> -1 Then ; for 2, 3 and 4 sides attack use 2x dropping
-				If $FourFingers = 5 Then  ; FourFinger Demen
+				If $FourFingers = 5 Then
 					Local $posX2 = $maxX2 - (($maxX2 - $minX2) * ($slotsPerEdge - $i)) / ($slotsPerEdge - 1)
 					Local $posY2 = $maxY2 - (($maxY2 - $minY2) * ($slotsPerEdge - $i)) / ($slotsPerEdge - 1)
 					AttackClick($posX2, $posY2, $nbtroopPerSlot, SetSleep(0), 0, "#0109")

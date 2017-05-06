@@ -29,20 +29,20 @@
 ; LunaEclipse
 ;
 
-; Vectors
-#include "Multi Fingers\Vectors\fourFingerStandard.au3"
-#include "Multi Fingers\Vectors\fourFingerSpiralLeft.au3"
-#include "Multi Fingers\Vectors\fourFingerSpiralRight.au3"
-#include "Multi Fingers\Vectors\eightFingerPinWheelLeft.au3"
-#include "Multi Fingers\Vectors\eightFingerPinWheelRight.au3"
-#include "Multi Fingers\Vectors\eightFingerBlossom.au3"
-#include "Multi Fingers\Vectors\eightFingerImplosion.au3"
+; Multi Finger - Profiles
+#include "Multi Fingers\4Fingers.au3"
+#include "Multi Fingers\8Fingers.au3"
+#include "Multi Fingers\MultiFinger.au3"
+#include "Multi Fingers\UnitInfo.au3"
 
-; Profiles
-#include "Multi Fingers\fourFinger.au3"
-#include "Multi Fingers\eightFinger.au3"
-#include "Multi Fingers\multiFinger.au3"
-#include "Multi Fingers\unitInfo.au3"
+; Multi Finger - Vectors
+#include "Multi Fingers\Vectors\4FingerStandard.au3"
+#include "Multi Fingers\Vectors\4FingerSpiralLeft.au3"
+#include "Multi Fingers\Vectors\4FingerSpiralRight.au3"
+#include "Multi Fingers\Vectors\8FingerPinWheelLeft.au3"
+#include "Multi Fingers\Vectors\8FingerPinWheelRight.au3"
+#include "Multi Fingers\Vectors\8FingerBlossom.au3"
+#include "Multi Fingers\Vectors\8FingerImplosion.au3"
 
 ;
 ; DEMEN

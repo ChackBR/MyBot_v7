@@ -208,6 +208,7 @@ Func SaveRegularConfig()
 	; <<< nothing here >>>
 
 	; <><><><> Mod <><><><> 
+	SaveConfig_MOD()
 	SaveConfig_SwitchAcc()
 
 	;SetDebugLog("saveConfig: Wrote " & $g_iIniLineCount & " ini lines.")

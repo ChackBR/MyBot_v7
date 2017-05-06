@@ -13,6 +13,67 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
+;
+; MOD Config - Save Data
+;
+Func ReadConfig_MOD()
+
+;
+; Mandrid
+;
+
+#CS
+	; Max logout time
+	$TrainLogoutMaxTime = IniRead($config, "TrainLogout", "TrainLogoutMaxTime", "0")
+	$TrainLogoutMaxTimeTXT = IniRead($config, "TrainLogout", "TrainLogoutMaxTimeTXT", "20")
+#CE
+
+;
+; LunaEclipse
+;
+
+	; Multi Finger
+	IniReadS($iMultiFingerStyle, $g_sProfileConfigPath, "MultiFinger", "Select", 2, "int")
+
+#CS
+	; CSV Deployment Speed Mod
+	IniReadS($isldSelectedCSVSpeed[$DB], $config, "attack", "CSVSpeedDB", 4)
+	IniReadS($isldSelectedCSVSpeed[$LB], $config, "attack", "CSVSpeedAB", 4)
+#CE
+
+;
+; AwesomeGamer
+;
+
+	; Check Collector Outside
+	IniReadS($ichkDBMeetCollOutside, $g_sProfileConfigPath, "search", "DBMeetCollOutside", 0, "int")
+	IniReadS($iDBMinCollOutsidePercent, $g_sProfileConfigPath, "search", "DBMinCollOutsidePercent", 50, "int")
+
+;
+; Rorotiti
+;
+
+	; Smart Upgrade
+	IniReadS($ichkSmartUpgrade, $g_sProfileConfigPath, "upgrade", "chkSmartUpgrade", 0, "int")
+	IniReadS($ichkIgnoreTH, $g_sProfileConfigPath, "upgrade", "chkIgnoreTH", 0, "int")
+	IniReadS($ichkIgnoreKing, $g_sProfileConfigPath, "upgrade", "chkIgnoreKing", 0, "int")
+	IniReadS($ichkIgnoreQueen, $g_sProfileConfigPath, "upgrade", "chkIgnoreQueen", 0, "int")
+	IniReadS($ichkIgnoreWarden, $g_sProfileConfigPath, "upgrade", "chkIgnoreWarden", 0, "int")
+	IniReadS($ichkIgnoreCC, $g_sProfileConfigPath, "upgrade", "chkIgnoreCC", 0, "int")
+	IniReadS($ichkIgnoreLab, $g_sProfileConfigPath, "upgrade", "chkIgnoreLab", 0, "int")
+	IniReadS($ichkIgnoreBarrack, $g_sProfileConfigPath, "upgrade", "chkIgnoreBarrack", 0, "int")
+	IniReadS($ichkIgnoreDBarrack, $g_sProfileConfigPath, "upgrade", "chkIgnoreDBarrack", 0, "int")
+	IniReadS($ichkIgnoreFactory, $g_sProfileConfigPath, "upgrade", "chkIgnoreFactory", 0, "int")
+	IniReadS($ichkIgnoreDFactory, $g_sProfileConfigPath, "upgrade", "chkIgnoreDFactory", 0, "int")
+	IniReadS($ichkIgnoreGColl, $g_sProfileConfigPath, "upgrade", "chkIgnoreGColl", 0, "int")
+	IniReadS($ichkIgnoreEColl, $g_sProfileConfigPath, "upgrade", "chkIgnoreEColl", 0, "int")
+	IniReadS($ichkIgnoreDColl, $g_sProfileConfigPath, "upgrade", "chkIgnoreDColl", 0, "int")
+	IniReadS($iSmartMinGold, $g_sProfileConfigPath, "upgrade", "SmartMinGold", 200000, "int")
+	IniReadS($iSmartMinElixir, $g_sProfileConfigPath, "upgrade", "SmartMinElixir", 200000, "int")
+	IniReadS($iSmartMinDark, $g_sProfileConfigPath, "upgrade", "SmartMinDark", 1500, "int")
+
+EndFunc   ;==>ReadConfig_MOD
+
 Func ReadConfig_SwitchAcc()
 	IniReadS($ichkSwitchAcc, $profile, "SwitchAcc", "Enable", 0, "int")
 	IniReadS($icmbTotalCoCAcc, $profile, "SwitchAcc", "Total Coc Account", -1, "int")
@@ -26,55 +87,4 @@ Func ReadConfig_SwitchAcc()
 		IniReadS($aProfileType[$i], $profile, "SwitchAcc", "ProfileType." & $i + 1, "-1")
 		IniReadS($aAccPosY[$i], $profile, "SwitchAcc", "AccLocation." & $i + 1, "-1")
 	Next
-EndFunc   ;==>ReadConfig_SwitchAcc
-
-;
-; MOD Config - Save Data
-;
-Func ReadConfig_MOD()
-	; Max logout time
-	$TrainLogoutMaxTime = IniRead($config, "TrainLogout", "TrainLogoutMaxTime", "0")
-	$TrainLogoutMaxTimeTXT = IniRead($config, "TrainLogout", "TrainLogoutMaxTimeTXT", "20")
-
-;
-; LunaEclipse
-;
-
-	; Multi Finger
-	$iMultiFingerStyle = IniRead($config, "MultiFinger", "Select", "1")
-
-	; CSV Deployment Speed Mod
-	IniReadS($isldSelectedCSVSpeed[$DB], $config, "attack", "CSVSpeedDB", 4)
-	IniReadS($isldSelectedCSVSpeed[$LB], $config, "attack", "CSVSpeedAB", 4)
-
-;
-; AwesomeGamer
-;
-
-	; DEB
-	$iChkDontRemove = IniRead($config, "troop", "DontRemove", "0")
-
-	; Check Collectors Outside
-	$ichkDBMeetCollOutside = IniRead($config, "search", "DBMeetCollOutside", "0")
-	$iDBMinCollOutsidePercent = IniRead($config, "search", "DBMinCollOutsidePercent", "50")
-
-	; Smart Upgrade
-	$ichkSmartUpgrade = IniRead($config, "upgrade", "chkSmartUpgrade", "0")
-	$ichkIgnoreTH = IniRead($config, "upgrade", "chkIgnoreTH", "0")
-	$ichkIgnoreKing = IniRead($config, "upgrade", "chkIgnoreKing", "0")
-	$ichkIgnoreQueen = IniRead($config, "upgrade", "chkIgnoreQueen", "0")
-	$ichkIgnoreWarden = IniRead($config, "upgrade", "chkIgnoreWarden", "0")
-	$ichkIgnoreCC = IniRead($config, "upgrade", "chkIgnoreCC", "0")
-	$ichkIgnoreLab = IniRead($config, "upgrade", "chkIgnoreLab", "0")
-	$ichkIgnoreBarrack = IniRead($config, "upgrade", "chkIgnoreBarrack", "0")
-	$ichkIgnoreDBarrack = IniRead($config, "upgrade", "chkIgnoreDBarrack", "0")
-	$ichkIgnoreFactory = IniRead($config, "upgrade", "chkIgnoreFactory", "0")
-	$ichkIgnoreDFactory = IniRead($config, "upgrade", "chkIgnoreDFactory", "0")
-	$ichkIgnoreGColl = IniRead($config, "upgrade", "chkIgnoreGColl", "0")
-	$ichkIgnoreEColl = IniRead($config, "upgrade", "chkIgnoreEColl", "0")
-	$ichkIgnoreDColl = IniRead($config, "upgrade", "chkIgnoreDColl", "0")
-	$iSmartMinGold = IniRead($config, "upgrade", "SmartMinGold", "0")
-	$iSmartMinElixir = IniRead($config, "upgrade", "SmartMinElixir", "0")
-	$iSmartMinDark = IniRead($config, "upgrade", "SmartMinDark", "0")
-
-EndFunc   ;==>ReadConfig_MOD
+EndFunc	;==>ReadConfig_SwitchAcc

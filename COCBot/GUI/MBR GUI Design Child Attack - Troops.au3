@@ -887,7 +887,7 @@ Func CreateOptionsSubTab()
 	   GUICtrlSetOnEvent(-1, "btnCloseWaitSuspendComputer")
 	   ;$g_hPicCloseWaitStop = GUICtrlCreateIcon($g_sLibIconPath, $eIcnRecycle, $x - 13, $y + 13, 24, 24)
 	   ;_GUICtrlSetTip(-1, $sTxtTip)
-	   
+
    $y += 28
 	   $g_hChkRandomClose = GUICtrlCreateCheckbox(GetTranslated(641, 10, "Random Close"), $x + 18, $y + 1, 110, -1)
 	   GUICtrlSetState(-1, $GUI_UNCHECKED)

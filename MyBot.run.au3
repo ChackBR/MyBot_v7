@@ -81,7 +81,8 @@ Global $g_sModversion
 ; "2701" ; MyBot v7.0.1
 ; "2702" ; MyBot v7.0.1 + Add CSV Test Button
 ; "2801" ; MyBot v7.1.3 + Demem SwitchAcc
-$g_sModversion = "2811" ; MyBot v7.1.4 + Demem SwitchAcc
+; "2811" ; MyBot v7.1.4 + Demem SwitchAcc
+$g_sModversion = "2812" ; MyBot v7.1.4 + Add: Multi-Finger
 
 ; All executable code is in a function block, to detect coding errors, such as variable declaration scope problems
 InitializeBot()

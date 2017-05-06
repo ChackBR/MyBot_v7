@@ -19,7 +19,9 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 
 	If _Sleep($DELAYALGORITHM_ALLTROOPS1) Then Return
 
-	If $g_aiAttackStdDropSides[$g_iMatchMode] <> 4 Then SmartAttackStrategy($g_iMatchMode) ; detect redarea first to drop any troops ; FourFinger Classic - Demen
+	If $g_aiAttackStdDropSides[$g_iMatchMode] <> 4 Then	; ! FourFinger
+		SmartAttackStrategy($g_iMatchMode) ; detect redarea first to drop any troops
+	EndIf
 
 	; If one of condtions passed then start TH snipe attack
 	; - detect matchmode TS
@@ -76,14 +78,17 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 		Case 3 ;All sides ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			SetLog("Attacking on all sides", $COLOR_INFO)
 			$nbSides = 4
-		Case 4 ;Classic FourFinger ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		Case 4 ;Classic Four Finger ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			SetLog("Attacking four finger fight style", $COLOR_INFO)
 			$nbSides = 5
-		Case 5 ;DE Side - Live Base only ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		Case 5 ;Multi Finger Attack ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			SetLog("Attacking multi finger fight style", $COLOR_INFO)
+			$nbSides = 6
+		Case 6 ;DE Side - Live Base only ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			SetLog("Attacking on Dark Elixir Side.", $COLOR_INFO)
 			$nbSides = 1
 			If Not ($g_abAttackStdSmartAttack[$g_iMatchMode]) Then GetBuildingEdge($eSideBuildingDES) ; Get DE Storage side when Redline is not used.
-		Case 6 ;TH Side - Live Base only ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		Case 7 ;TH Side - Live Base only ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			SetLog("Attacking on Town Hall Side.", $COLOR_INFO)
 			$nbSides = 1
 			If Not ($g_abAttackStdSmartAttack[$g_iMatchMode]) Then GetBuildingEdge($eSideBuildingTH) ; Get Townhall side when Redline is not used.
@@ -141,7 +146,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 						, [$eGobl, $nbSides, 1, 1, 1] _
 						]
 		EndSwitch
-	; Classic FourFingers
+	; Classic Four Fingers
 	ElseIf $nbSides = 5 Then
 		Local $listInfoDeploy[21][5] = [[$eGiant, $nbSides, 1, 1, 2], _
 						[$eGole, $nbSides, 1, 1, 2], _
@@ -164,6 +169,28 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 						["CC", 1, 1, 1, 1], _
 						["HEROES", 1, 2, 1, 1]]
 
+	; Multi-Finger
+	ElseIf $nbSides = 6 Then
+		Local $listInfoDeploy[21][5] = [[$eGiant, $nbSides, 1, 1, 2], _
+						[$eGole, $nbSides, 1, 1, 2], _
+						[$eLava, $nbSides, 1, 1, 2], _
+						[$eBarb, $nbSides, 1, 1, 0], _
+						[$eWall, $nbSides, 1, 1, 2], _
+						[$eHogs, $nbSides, 1, 1, 2], _
+						[$eValk, $nbSides, 1, 1, 2], _
+						[$eBowl, $nbSides, 1, 1, 0], _
+						[$eArch, $nbSides, 1, 1, 0], _
+						[$eGobl, $nbSides, 1, 1, 0], _
+						[$eMine, $nbSides, 1, 1, 0], _
+						[$ePekk, $nbSides, 1, 1, 2], _
+						[$eDrag, $nbSides, 1, 1, 2], _
+						[$eBall, $nbSides, 1, 1, 2], _
+						[$eBabyD, $nbSides, 1, 1, 1], _
+						[$eWiza, $nbSides, 1, 1, 2], _
+						[$eWitc, $nbSides, 1, 1, 2], _
+						[$eMini, $nbSides, 1, 1, 0], _
+						["CC", 1, 1, 1, 1], _
+						["HEROES", 1, 2, 1, 1]]
 	Else
 		If $g_iDebugSetlog = 1 Then SetLog("listdeploy standard for attack", $COLOR_DEBUG)
 		Switch $g_aiAttackStdDropOrder[$g_iMatchMode]
@@ -239,7 +266,13 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 	$g_aiDeployHeroesPosition[0] = -1
 	$g_aiDeployHeroesPosition[1] = -1
 
-	LaunchTroop2($listInfoDeploy, $g_iClanCastleSlot, $g_iKingSlot, $g_iQueenSlot, $g_iWardenSlot)
+	If $g_aiAttackStdDropSides[$g_iMatchMode] = 5 And $g_iMatchMode = $DB Then
+		SetLog(_PadStringCenter("Multi Finger Attack", 50, "="), $COLOR_BLUE)
+		launchMultiFinger($listInfoDeploy, $g_iClanCastleSlot, $g_iKingSlot, $g_iQueenSlot, $g_iWardenSlot)
+	Else
+		SetLog(_PadStringCenter("Standard Attack", 50, "="), $COLOR_BLUE)
+		LaunchTroop2($listInfoDeploy, $g_iClanCastleSlot, $g_iKingSlot, $g_iQueenSlot, $g_iWardenSlot)
+	EndIf
 
 	CheckHeroesHealth()
 

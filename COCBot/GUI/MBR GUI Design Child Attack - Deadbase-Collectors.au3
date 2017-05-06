@@ -18,6 +18,7 @@ Global $g_hChkDBDisableCollectorsFilter = 0
 Global $g_ahChkDBCollectorLevel[13] = [-1, -1, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0] ; elements 0 thru 5 are never referenced
 Global $g_ahCmbDBCollectorLevel[13] = [-1, -1, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0] ; elements 0 thru 5 are never referenced
 Global $g_hCmbMinCollectorMatches = 0, $g_hSldCollectorTolerance = 0, $g_hLblCollectorWarning = 0
+Global $g_hChkDBMeetCollOutside = 0, $g_hTxtDBMinCollOutsidePercent ; Check Collector Outside - Added By NguyenAnhHD
 
 Func CreateAttackSearchDeadBaseCollectors()
    Local $x = 10, $y = 45
@@ -30,6 +31,22 @@ Func CreateAttackSearchDeadBaseCollectors()
 		$g_hChkDBDisableCollectorsFilter = GUICtrlCreateCheckbox(GetTranslated(626,32,"Disable Collector Filter"), $x+250, $y+60, 150, 18)
 			GUICtrlSetState(-1, $GUI_UNCHECKED)
 			_GUICtrlSetTip(-1, GetTranslated(626,33, "Disable Collector Filter CHANGES DeadBase into another ActiveBase search"))
+
+		; Check Collector Outside - AwesomeGamer
+		$g_hChkDBMeetCollOutside = GUICtrlCreateCheckbox(GetTranslated(626,40, "Check Collectors Outside"), $x+250, $y+90, -1, -1)
+			$sTxtTip = GetTranslated(626,41, "Search for bases that has their collectors outside.")
+			GUICtrlSetOnEvent(-1, "chkDBMeetCollOutside")
+			GUICtrlSetTip(-1, $sTxtTip)
+			GUICtrlSetState(-1, $GUI_UNCHECKED)
+			GUICtrlCreateLabel("Min: ", $x+270, $y+120, -1, -1)
+		$g_hTxtDBMinCollOutsidePercent = GUICtrlCreateInput("50", $x+300, $y+115, 31, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			$sTxtTip = GetTranslated(626,42, "Set the Min. % of collectors outside to search for on a village to attack.")
+			GUICtrlSetTip(-1, $sTxtTip)
+			GUICtrlSetState(-1, $GUI_DISABLE)
+			GUICtrlSetLimit(-1, 3)
+			GUICtrlSetData(-1, 50)
+			GUICtrlCreateLabel("%", $x+335, $y+120, -1, -1)
+			GUICtrlSetTip(-1, $sTxtTip)
 
 		$y+=40
 		$g_ahChkDBCollectorLevel[6] = GUICtrlCreateCheckbox("", $x, $y, 18, 18)
