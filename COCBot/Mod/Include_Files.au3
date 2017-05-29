@@ -22,7 +22,6 @@
 
 #include "AreCollectorsOutside.au3"
 #include "AttackNowButtom.au3"
-#include "SmartUpgrade.au3"
 #include "SimpleQuickTrain.au3"
 
 ;

@@ -55,29 +55,6 @@ Func SaveConfig_MOD()
 	_Ini_Add("search", "DBMeetCollOutside", $ichkDBMeetCollOutside ? 1 : 0)
 	_Ini_Add("search", "DBMinCollOutsidePercent", $iDBMinCollOutsidePercent)
 
-;
-; Rorotiti
-;
-
-	; Smart Upgrade
-	_Ini_Add("upgrade", "chkSmartUpgrade", $ichkSmartUpgrade ? 1 : 0)
-	_Ini_Add("upgrade", "chkIgnoreTH", $ichkIgnoreTH ? 1 : 0)
-	_Ini_Add("upgrade", "chkIgnoreKing", $ichkIgnoreKing ? 1 : 0)
-	_Ini_Add("upgrade", "chkIgnoreQueen", $ichkIgnoreQueen ? 1 : 0)
-	_Ini_Add("upgrade", "chkIgnoreWarden", $ichkIgnoreWarden ? 1 : 0)
-	_Ini_Add("upgrade", "chkIgnoreCC", $ichkIgnoreCC ? 1 : 0)
-	_Ini_Add("upgrade", "chkIgnoreLab", $ichkIgnoreLab ? 1 : 0)
-	_Ini_Add("upgrade", "chkIgnoreBarrack", $ichkIgnoreBarrack ? 1 : 0)
-	_Ini_Add("upgrade", "chkIgnoreDBarrack", $ichkIgnoreDBarrack ? 1 : 0)
-	_Ini_Add("upgrade", "chkIgnoreFactory", $ichkIgnoreFactory ? 1 : 0)
-	_Ini_Add("upgrade", "chkIgnoreDFactory", $ichkIgnoreDFactory ? 1 : 0)
-	_Ini_Add("upgrade", "chkIgnoreGColl", $ichkIgnoreGColl ? 1 : 0)
-	_Ini_Add("upgrade", "chkIgnoreEColl", $ichkIgnoreEColl ? 1 : 0)
-	_Ini_Add("upgrade", "chkIgnoreDColl", $ichkIgnoreDColl ? 1 : 0)
-	_Ini_Add("upgrade", "SmartMinGold", $iSmartMinGold)
-	_Ini_Add("upgrade", "SmartMinElixir", $iSmartMinElixir)
-	_Ini_Add("upgrade", "SmartMinDark", $iSmartMinDark)
-
 EndFunc   ;==>SaveConfig_MOD
 
 Func SaveConfig_SwitchAcc()

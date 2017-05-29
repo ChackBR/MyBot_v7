@@ -207,7 +207,7 @@ Func InitializeControlVariables()
    ; Groups of controls
    Dim $aTabControlsVillage = [$g_hGUI_VILLAGE_TAB, $g_hGUI_VILLAGE_TAB_ITEM1, $g_hGUI_VILLAGE_TAB_ITEM2, $g_hGUI_VILLAGE_TAB_ITEM3, $g_hGUI_VILLAGE_TAB_ITEM4, $g_hGUI_VILLAGE_TAB_ITEM5]
    Dim $aTabControlsDonate = [$g_hGUI_DONATE_TAB, $g_hGUI_DONATE_TAB_ITEM1, $g_hGUI_DONATE_TAB_ITEM2, $g_hGUI_DONATE_TAB_ITEM3]
-   Dim $aTabControlsUpgrade = [$g_hGUI_UPGRADE_TAB, $g_hGUI_UPGRADE_TAB_ITEM1, $g_hGUI_UPGRADE_TAB_ITEM2, $g_hGUI_UPGRADE_TAB_ITEM3, $g_hGUI_UPGRADE_TAB_ITEM4, $g_hGUI_UPGRADE_TAB_ITEM5]
+   Dim $aTabControlsUpgrade = [$g_hGUI_UPGRADE_TAB, $g_hGUI_UPGRADE_TAB_ITEM1, $g_hGUI_UPGRADE_TAB_ITEM2, $g_hGUI_UPGRADE_TAB_ITEM3, $g_hGUI_UPGRADE_TAB_ITEM4]
    Dim $aTabControlsNotify = [$g_hGUI_NOTIFY_TAB, $g_hGUI_NOTIFY_TAB_ITEM2, $g_hGUI_NOTIFY_TAB_ITEM6]
 
    Dim $aTabControlsAttack = [$g_hGUI_ATTACK_TAB, $g_hGUI_ATTACK_TAB_ITEM1, $g_hGUI_ATTACK_TAB_ITEM2, $g_hGUI_ATTACK_TAB_ITEM3]
@@ -252,6 +252,7 @@ Func InitializeControlVariables()
 	$oAlwaysEnabledControls($g_hChkdebugAttackCSV) = 1
 	$oAlwaysEnabledControls($g_hChkMakeIMGCSV) = 1
 	$oAlwaysEnabledControls($g_hBtnTestAttackCSV) = 1
+	$oAlwaysEnabledControls($g_hBtnTestBuildingLocation) = 1
 	$oAlwaysEnabledControls($g_hBtnTestFindButton) = 1
 	$oAlwaysEnabledControls($g_hTxtTestFindButton) = 1
 	$oAlwaysEnabledControls($g_hBtnTestCleanYard) = 1
