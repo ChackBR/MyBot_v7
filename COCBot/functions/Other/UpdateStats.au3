@@ -246,8 +246,7 @@ Func UpdateStats()
 
 	If $iOldSkippedVillageCount <> $g_iSkippedVillageCount Then
 		GUICtrlSetData($g_hLblResultVillagesSkipped, _NumberFormat($g_iSkippedVillageCount, True))
-		If $ichkSwitchAcc <> 1 Then GUICtrlSetData($g_hLblResultSkippedHourNow, _NumberFormat($g_iSkippedVillageCount, True))		; ProfileStats SwitchAcc - Demen
-		$iOldSkippedVillageCount = $g_iSkippedVillageCount
+		If $ichkSwitchAcc <> 1 Then GUICtrlSetData($g_hLblResultSkippedHourNow, _NumberFormat($g_iSkippedVillageCount, True))		; ProfileStats SwitchAcc - Demen		$iOldSkippedVillageCount = $g_iSkippedVillageCount
 	EndIf
 
 	If $iOldDroppedTrophyCount <> $g_iDroppedTrophyCount Then
@@ -448,7 +447,6 @@ Func UpdateStats()
 			GUICtrlSetData($g_hLblResultDEHourNow, _NumberFormat(Round($g_iStatsTotalGain[$eLootDarkElixir] / (Int(__TimerDiff($g_hTimerSinceStarted) + $g_iTimePassed)) * 3600 * 1000)) & " / h") ;GUI BOTTOM
 		EndIf
 	EndIf								; 	ProfileStats - SwitchAcc - Demen
-
 	EndIf
 
 	If Number($g_iStatsLastAttack[$eLootGold]) > Number($topgoldloot) Then

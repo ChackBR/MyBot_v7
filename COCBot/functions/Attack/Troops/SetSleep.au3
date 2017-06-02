@@ -21,7 +21,7 @@ Func SetSleep($type)
 		$factor0 = 10
 		$factor1 = 100
 	EndIf
-	
+
 	Switch $type
 		Case 0
 			If $g_abAttackStdRandomizeDelay[$g_iMatchMode] Then

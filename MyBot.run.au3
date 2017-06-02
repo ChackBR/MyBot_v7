@@ -32,8 +32,31 @@
 Opt("MustDeclareVars", 1)
 
 Global $g_sBotVersion = "v7.2" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it is also use on Checkversion()
+Global $g_sModversion
 Global $g_sBotTitle = "" ;~ Don't assign any title here, use Func UpdateBotTitle()
 Global $g_hFrmBot = 0 ; The main GUI window
+
+; "0001" ; MyBot v6.0.0
+; "1001" ; MyBot v6.1.0
+; "2001" ; MyBot v6.2.0
+; "2101" ; MyBot v6.2.1
+; "2201" ; MyBot v6.2.2
+; "2301" ; MyBot v6.3.0
+; "2401" ; MyBot v6.4.0 ( FFC, Multi Finger, SmartZap, ... )
+; "2501" ; MyBot v6.5
+; "2601" ; MyBot v6.5.2
+; "2602" ; MyBot v6.5.2 + SmartZap Fix
+; "2603" ; MyBot v6.5.2 + SmartZap Fix
+; "2604" ; MyBot v6.5.2 + QuickTrain Update
+; "2605" ; MyBot v6.5.2 + Sinc with Samkie MultiFinger
+; "2611" ; MyBot v6.5.3
+; "2614" ; MyBot v6.5.3 + Doc Octopus v3.5.5 + Collectors Outside
+; "2701" ; MyBot v7.0.1
+; "2702" ; MyBot v7.0.1 + Add CSV Test Button
+; "2801" ; MyBot v7.1.3 + Demem SwitchAcc
+; "2811" ; MyBot v7.1.4 + Demem SwitchAcc
+; "2812" ; MyBot v7.1.4 + Add: Multi-Finger
+$g_sModversion = "2901" ; MyBot v7.2.0 + Demen SwitchAcc + MF
 
 ; MBR includes
 #include "COCBot\MBR Global Variables.au3"
@@ -61,29 +84,6 @@ Opt("MouseClickDelay", 10)
 Opt("MouseClickDownDelay", 10)
 Opt("TrayMenuMode", 3)
 Opt("TrayOnEventMode", 1)
-
-Global $g_sModversion
-; "0001" ; MyBot v6.0.0
-; "1001" ; MyBot v6.1.0
-; "2001" ; MyBot v6.2.0
-; "2101" ; MyBot v6.2.1
-; "2201" ; MyBot v6.2.2
-; "2301" ; MyBot v6.3.0
-; "2401" ; MyBot v6.4.0 ( FFC, Multi Finger, SmartZap, ... )
-; "2501" ; MyBot v6.5
-; "2601" ; MyBot v6.5.2
-; "2602" ; MyBot v6.5.2 + SmartZap Fix
-; "2603" ; MyBot v6.5.2 + SmartZap Fix
-; "2604" ; MyBot v6.5.2 + QuickTrain Update
-; "2605" ; MyBot v6.5.2 + Sinc with Samkie MultiFinger
-; "2611" ; MyBot v6.5.3
-; "2614" ; MyBot v6.5.3 + Doc Octopus v3.5.5 + Collectors Outside
-; "2701" ; MyBot v7.0.1
-; "2702" ; MyBot v7.0.1 + Add CSV Test Button
-; "2801" ; MyBot v7.1.3 + Demem SwitchAcc
-; "2811" ; MyBot v7.1.4 + Demem SwitchAcc
-; "2812" ; MyBot v7.1.4 + Add: Multi-Finger
-$g_sModversion = "2901" ; MyBot v7.2.0 + Demen SwitchAcc + MF
 
 ; All executable code is in a function block, to detect coding errors, such as variable declaration scope problems
 InitializeBot()
@@ -984,14 +984,14 @@ Func AttackMain() ;Main control for attack functions
 		Else
 			Setlog("No one of search condition match:", $COLOR_WARNING)
 			Setlog("Waiting on troops, heroes and/or spells according to search settings", $COLOR_WARNING)
+			$g_bIsSearchLimit = False
+			$g_bIsClientSyncError = False
+			$g_bQuickAttack = False
 			If $ichkSwitchAcc = 1 Then ; SwitchAcc Demen
 				checkSwitchAcc()
 			Else
 				SmartWait4Train()
 			EndIf
-			$g_bIsSearchLimit = False
-			$g_bIsClientSyncError = False
-			$g_bQuickAttack = False
 		EndIf
 	Else
 		SetLog("Attacking Not Planned, Skipped..", $COLOR_WARNING)

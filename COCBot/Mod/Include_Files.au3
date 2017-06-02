@@ -1,12 +1,12 @@
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: additional Mod Functions
+; Name ..........: Mod Functions
 ; Description ...: This file Includes several files in the current script.
 ; Syntax ........: #include
 ; Parameters ....: None
 ; Return values .: None
 ; Author ........:
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2016
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2017
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -23,6 +23,7 @@
 #include "AreCollectorsOutside.au3"
 #include "AttackNowButtom.au3"
 #include "SimpleQuickTrain.au3"
+#include "GUI Control.au3"
 
 ;
 ; LunaEclipse

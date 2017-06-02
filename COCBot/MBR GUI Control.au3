@@ -48,9 +48,6 @@ Global $g_hFrmBot_WNDPROC_ptr = 0
 #include "GUI\MBR GUI Control Android.au3"
 #include "MBR GUI Action.au3"
 
-; Demen Mod
-#include "MOD\GUI Control_Demen.au3"
-
 Func InitializeMainGUI()
    InitializeControlVariables()
 

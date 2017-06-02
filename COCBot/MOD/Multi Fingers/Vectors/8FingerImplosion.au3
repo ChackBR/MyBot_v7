@@ -16,9 +16,9 @@
 ; Set up the vectors to deploy troops
 Func eightFingerImplosionVectors(ByRef $dropVectors, $listInfoDeploy)
 	If Not IsArray($dropVectors) Or Not IsArray($listInfoDeploy) Then Return
-	
+
 	ReDim $dropVectors[UBound($listInfoDeploy)][8]
-	
+
 	Local $kind, $waveNumber, $waveCount, $position, $remainingWaves, $waveDropAmount, $dropAmount, $barPosition
 	Local $startPoint[2] = [0, 0], $endPoint[2] = [0, 0]
 	Local $aDeployButtonPositions = getUnitLocationArray()
@@ -38,10 +38,14 @@ Func eightFingerImplosionVectors(ByRef $dropVectors, $listInfoDeploy)
 
 			; Top Left - Left Half
 			$dropAmount = Ceiling($waveDropAmount / 8)
+
+			;If $iSamM0dDebug = 1 Then setlog("$waveDropAmount: " & $waveDropAmount & "      $dropAmount: " & $dropAmount)
+
 			If $dropAmount > 0 Then
 				$startPoint = convertToPoint($g_aaiTopLeftDropPoints[0][0], $g_aaiTopLeftDropPoints[0][1])
 				$endPoint = convertToPoint($g_aaiTopLeftDropPoints[2][0], $g_aaiTopLeftDropPoints[2][1])
 				addVector($dropVectors, $i, 0, $startPoint, $endPoint, $dropAmount)
+				;If $iSamM0dDebug = 1 Then setlog("Top Left - Left Half: " & $waveDropAmount & "   Half$startPoint: " & $startPoint[0] & ","  & $startPoint[1] & "   $endPoint: " & $endPoint[0] & "," & $endPoint[1])
 				$waveDropAmount -= $dropAmount
 			EndIf
 
@@ -51,6 +55,7 @@ Func eightFingerImplosionVectors(ByRef $dropVectors, $listInfoDeploy)
 				$startPoint = convertToPoint($g_aaiTopLeftDropPoints[4][0], $g_aaiTopLeftDropPoints[4][1])
 				$endPoint = convertToPoint($g_aaiTopLeftDropPoints[2][0], $g_aaiTopLeftDropPoints[2][1])
 				addVector($dropVectors, $i, 1, $startPoint, $endPoint, $dropAmount + 1)
+				;If $iSamM0dDebug = 1 Then setlog("Top Left - Right Half: " & $waveDropAmount & "   Half$startPoint: " & $startPoint[0] & ","  & $startPoint[1] & "   $endPoint: " & $endPoint[0] & "," & $endPoint[1])
 				$waveDropAmount -= $dropAmount
 			EndIf
 
@@ -60,6 +65,7 @@ Func eightFingerImplosionVectors(ByRef $dropVectors, $listInfoDeploy)
 				$startPoint = convertToPoint($g_aaiTopRightDropPoints[0][0], $g_aaiTopRightDropPoints[0][1])
 				$endPoint = convertToPoint($g_aaiTopRightDropPoints[2][0], $g_aaiTopRightDropPoints[2][1])
 				addVector($dropVectors, $i, 2, $startPoint, $endPoint, $dropAmount)
+				;If $iSamM0dDebug = 1 Then setlog("Top Right - Left Half: " & $waveDropAmount & "   Half$startPoint: " & $startPoint[0] & ","  & $startPoint[1] & "   $endPoint: " & $endPoint[0] & "," & $endPoint[1])
 				$waveDropAmount -= $dropAmount
 			EndIf
 
@@ -69,6 +75,8 @@ Func eightFingerImplosionVectors(ByRef $dropVectors, $listInfoDeploy)
 				$startPoint = convertToPoint($g_aaiTopRightDropPoints[4][0], $g_aaiTopRightDropPoints[4][1])
 				$endPoint = convertToPoint($g_aaiTopRightDropPoints[2][0], $g_aaiTopRightDropPoints[2][1])
 				addVector($dropVectors, $i, 3, $startPoint, $endPoint, $dropAmount + 1)
+				;If $iSamM0dDebug = 1 Then setlog("Top Right - Right Half: " & $waveDropAmount & "   Half$startPoint: " & $startPoint[0] & ","  & $startPoint[1] & "   $endPoint: " & $endPoint[0] & "," & $endPoint[1])
+				;$waveDropAmount -= $dropAmount
 				$unitCount[$kind] -= $dropAmount
 			EndIf
 
@@ -78,6 +86,7 @@ Func eightFingerImplosionVectors(ByRef $dropVectors, $listInfoDeploy)
 				$startPoint = convertToPoint($g_aaiBottomRightDropPoints[0][0], $g_aaiBottomRightDropPoints[0][1])
 				$endPoint = convertToPoint($g_aaiBottomRightDropPoints[2][0], $g_aaiBottomRightDropPoints[2][1])
 				addVector($dropVectors, $i, 4, $startPoint, $endPoint, $dropAmount)
+				;If $iSamM0dDebug = 1 Then setlog("Bottom Right - Left Half: " & $waveDropAmount & "   Half$startPoint: " & $startPoint[0] & ","  & $startPoint[1] & "   $endPoint: " & $endPoint[0] & "," & $endPoint[1])
 				$waveDropAmount -= $dropAmount
 			EndIf
 
@@ -87,6 +96,7 @@ Func eightFingerImplosionVectors(ByRef $dropVectors, $listInfoDeploy)
 				$startPoint = convertToPoint($g_aaiBottomRightDropPoints[4][0], $g_aaiBottomRightDropPoints[4][1])
 				$endPoint = convertToPoint($g_aaiBottomRightDropPoints[2][0], $g_aaiBottomRightDropPoints[2][1])
 				addVector($dropVectors, $i, 5, $startPoint, $endPoint, $dropAmount + 1)
+				;If $iSamM0dDebug = 1 Then setlog("Bottom Right - Right Half: " & $waveDropAmount & "   Half$startPoint: " & $startPoint[0] & ","  & $startPoint[1] & "   $endPoint: " & $endPoint[0] & "," & $endPoint[1])
 				$waveDropAmount -= $dropAmount
 			EndIf
 
@@ -96,6 +106,7 @@ Func eightFingerImplosionVectors(ByRef $dropVectors, $listInfoDeploy)
 				$startPoint = convertToPoint($g_aaiBottomLeftDropPoints[0][0], $g_aaiBottomLeftDropPoints[0][1])
 				$endPoint = convertToPoint($g_aaiBottomLeftDropPoints[2][0], $g_aaiBottomLeftDropPoints[2][1])
 				addVector($dropVectors, $i, 6, $startPoint, $endPoint, $dropAmount)
+				;If $iSamM0dDebug = 1 Then setlog("Bottom Left - Left Half: " & $waveDropAmount & "   Half$startPoint: " & $startPoint[0] & ","  & $startPoint[1] & "   $endPoint: " & $endPoint[0] & "," & $endPoint[1])
 				$waveDropAmount -= $dropAmount
 			EndIf
 
@@ -104,7 +115,8 @@ Func eightFingerImplosionVectors(ByRef $dropVectors, $listInfoDeploy)
 			If $dropAmount > 0 Then
 				$startPoint = convertToPoint($g_aaiBottomLeftDropPoints[4][0], $g_aaiBottomLeftDropPoints[4][1])
 				$endPoint = convertToPoint($g_aaiBottomLeftDropPoints[2][0], $g_aaiBottomLeftDropPoints[2][1])
-				addVector($dropVectors, $i, 7, $startPoint, $endPoint, $dropAmount + 1)				
+				addVector($dropVectors, $i, 7, $startPoint, $endPoint, $dropAmount + 1)
+				;If $iSamM0dDebug = 1 Then setlog("Bottom Left - Right Half: " & $waveDropAmount & "   Half$startPoint: " & $startPoint[0] & ","  & $startPoint[1] & "   $endPoint: " & $endPoint[0] & "," & $endPoint[1])
 				$waveDropAmount -= $dropAmount
 			EndIf
 		EndIf

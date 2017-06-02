@@ -43,7 +43,7 @@ Global Enum $directionLeft, $directionRight
 Global Enum $sideBottomRight, $sideTopLeft, $sideBottomLeft, $sideTopRight
 Global Enum $mfRandom, $mfFFStandard, $mfFFSpiralLeft, $mfFFSpiralRight, $mf8FBlossom, $mf8FImplosion, $mf8FPinWheelLeft, $mf8FPinWheelRight
 
-Global $iMultiFingerStyle = 1
+Global $iMultiFingerStyle = 4
 Global Enum $eCCSpell = $eHaSpell + 1
 
 ; CSV Deployment Speed Mod
@@ -69,24 +69,36 @@ $iCSVSpeeds[15] = 10
 $iCSVSpeeds[16] = 20
 $iCSVSpeeds[17] = 50
 $iCSVSpeeds[18] = 99
+Global $grpScriptSpeedDB, $lbltxtSelectedSpeedDB, $sldSelectedSpeedDB, $grpScriptSpeedAB, $lbltxtSelectedSpeedAB, $sldSelectedSpeedAB
 
 ;
 ; AwesomeGamer
 ;
 
 ; No League Search
-Global $aNoLeague[4] = [30, 30, 0x616568, 20] ; No League Shield
 Global $chkDBNoLeague, $chkABNoLeague, $iChkNoLeague[$g_iModeCount]
+Global $aNoLeague[4] = [30, 30, 0x616568, 20] ; No League Shield
 
-; Check Collector Outside
+; Check Collectors Outside
 #region Check Collectors Outside
 ; Collectors outside filter
-Global $ichkDBMeetCollOutside, $iDBMinCollOutsidePercent, $iCollOutsidePercent ; check later if $iCollOutsidePercent obsolete
+Global $ichkDBMeetCollOutside, $iDBMinCollOutsidePercent = 80, $iCollOutsidePercent ; check later if $iCollOutsidePercent obsolete
 
 ; constants
 Global Const $THEllipseWidth = 200, $THEllipseHeigth = 150, $CollectorsEllipseWidth = 130, $CollectorsEllipseHeigth = 97.5
 Global Const $centerX = 430, $centerY = 335 ; check later if $THEllipseWidth, $THEllipseHeigth obsolete
 Global $hBitmapFirst
+;samm0d
+Global $ichkSkipCollectorCheckIF = 1
+Global $itxtSkipCollectorGold = 400000
+Global $itxtSkipCollectorElixir = 400000
+Global $itxtSkipCollectorDark = 0
+Global $ichkSkipCollectorCheckIFTHLevel = 1
+Global $itxtIFTHLevel = 7
+Global $ichkDBCollectorsNearRedline = 0
+Global $icmbRedlineTiles = 1
+Global $chkDBMeetCollOutside, $txtDBMinCollOutsidePercent, $chkDBCollectorsNearRedline, $cmbRedlineTiles, $chkSkipCollectorCheckIF, $lblSkipCollectorGold, $txtSkipCollectorGold, $lblSkipCollectorElixir, _
+$txtSkipCollectorElixir, $lblSkipCollectorDark, $txtSkipCollectorDark, $chkSkipCollectorCheckIFTHLevel, $txtIFTHLevel
 #endregion
 
 ;

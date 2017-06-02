@@ -491,8 +491,7 @@ Global Enum $eIcnArcher = 1, $eIcnDonArcher, $eIcnBalloon, $eIcnDonBalloon, $eIc
 		$eWall04, $eWall05, $eWall06, $eWall07, $eWall08, $eWall09, $eWall10, $eWall11, $eIcnPBNotify, $eIcnCCTroops, _
 		$eIcnCCSpells, $eIcnSpellsGroup, $eBahasaIND, $eChinese_S, $eChinese_T, $eEnglish, $eFrench, $eGerman, $eItalian, $ePersian, _
 		$eRussian, $eSpanish, $eTurkish, $eMissingLangIcon, $eWall12, $ePortuguese, $eIcnDonPoisonSpell, $eIcnDonEarthQuakeSpell, $eIcnDonHasteSpell, $eIcnDonSkeletonSpell, $eVietnamese, $eKorean, $eAzerbaijani, _
-		$eArabic, _
-		$eIcnUpgrade, $eIcnDebug, $eIcnMods, $eIcnSwitchOption, $eIcnBrain, $eIcnGoblinXP, $eIcnStats, $eIcnForecast, $eIcnChat, $eIcnSwords, $eIcnLoop, $eIcnRepeat, $eIcnClan, $eIcnClanHop, $eIcnKick, $eIcnSwitchProfile, $eIcnSwitchAcc
+		$eArabic
 
 Global $eIcnDonBlank = $eIcnDonBlacklist
 Global $eIcnOptions = $eIcnDonBlacklist
@@ -1174,7 +1173,7 @@ Global $g_iImglocTHLevel = 0
 Global $g_aiTownHallDetails[4] = [-1, -1, -1, -1] ; [LocX, LocY, BldgLvl, Quantity]
 
 ; Attack
-#CS	;	Fix drop on edge from DocOc - Demen
+#CS	;	Fix drop on edge
 Global Const $g_aaiTopLeftDropPoints[5][2] = [[83, 306], [174, 238], [240, 188], [303, 142], [390, 76]]
 Global Const $g_aaiTopRightDropPoints[5][2] = [[466, 66], [556, 134], [622, 184], [684, 231], [775, 300]]
 Global Const $g_aaiBottomLeftDropPoints[5][2] = [[81, 363], [174, 434], [235, 481], [299, 530], [390, 600]]

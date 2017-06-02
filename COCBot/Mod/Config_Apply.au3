@@ -86,7 +86,7 @@ Func ApplyConfig_MOD($TypeReadSave)
 			$iDBMinCollOutsidePercent = GUICtrlRead($g_hTxtDBMinCollOutsidePercent)
 
 	EndSwitch
-	
+
 EndFunc   ;==>ApplyConfig_MOD
 
 Func ApplyConfig_SwitchAcc($TypeReadSave)

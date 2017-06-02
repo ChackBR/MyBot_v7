@@ -159,7 +159,7 @@ Func chkSwitchAcc()
 	If GUICtrlRead($chkSwitchAcc) = $GUI_CHECKED Then
 		If _GUICtrlComboBox_GetCount($g_hCmbProfile) <= 1 Then
 			GUICtrlSetState($chkSwitchAcc, $GUI_UNCHECKED)
-			MsgBox($MB_OK, GetTranslated(109, 42, "SwitchAcc Mode"), GetTranslated(109, 43, "Cannot enable SwitchAcc Mode") & @CRLF & GetTranslated(109, 44, "You have only ") & _GUICtrlComboBox_GetCount($g_hCmbProfile) & " Profile", 30, $g_hGUI_BOT)
+			MsgBox($MB_OK, GetTranslated(109, 60, "SwitchAcc Mode"), GetTranslated(109, 61, "Cannot enable SwitchAcc Mode") & @CRLF & GetTranslated(109, 62, "You have only ") & _GUICtrlComboBox_GetCount($g_hCmbProfile) & " Profile", 30, $g_hGUI_BOT)
 		Else
 			For $i = $cmbTotalAccount To $g_EndHideSwitchAcc
 				GUICtrlSetState($i, $GUI_ENABLE)
@@ -223,7 +223,7 @@ EndFunc   ;==>cmbMatchProfileAcc8
 
 Func MatchProfileAcc($Num)
 	If _GUICtrlComboBox_GetCurSel($cmbAccountNo[$Num]) > _GUICtrlComboBox_GetCurSel($cmbTotalAccount) Then
-		MsgBox($MB_OK, GetTranslated(109, 42, "SwitchAcc Mode"), GetTranslated(109, 45, "Account [") & _GUICtrlComboBox_GetCurSel($cmbAccountNo[$Num]) & GetTranslated(109, 46, "] exceeds Total Account declared"), 30, $g_hGUI_BOT)
+		MsgBox($MB_OK, GetTranslated(109, 70, "SwitchAcc Mode"), GetTranslated(109, 71, "Account [") & _GUICtrlComboBox_GetCurSel($cmbAccountNo[$Num]) & GetTranslated(109, 72, "] exceeds Total Account declared"), 30, $g_hGUI_BOT)
 		_GUICtrlComboBox_SetCurSel($cmbAccountNo[$Num], -1)
 		_GUICtrlComboBox_SetCurSel($cmbProfileType[$Num], -1)
 		btnUpdateProfile()
@@ -234,7 +234,7 @@ Func MatchProfileAcc($Num)
 		For $i = 0 To 7
 			If $i = $Num Then ContinueLoop
 			If $AccSelected = _GUICtrlComboBox_GetCurSel($cmbAccountNo[$i]) Then
-				MsgBox($MB_OK, GetTranslated(109, 42, "SwitchAcc Mode"), GetTranslated(109, 45, "Account [") & $AccSelected + 1 & GetTranslated(109, 47, "] has been assigned to Profile [") & $i + 1 & "]", 30, $g_hGUI_BOT)
+				MsgBox($MB_OK, GetTranslated(109, 70, "SwitchAcc Mode"), GetTranslated(109, 71, "Account [") & $AccSelected + 1 & GetTranslated(109, 73, "] has been assigned to Profile [") & $i + 1 & "]", 30, $g_hGUI_BOT)
 				_GUICtrlComboBox_SetCurSel($cmbAccountNo[$Num], -1)
 				_GUICtrlComboBox_SetCurSel($cmbProfileType[$Num], -1)
 				btnUpdateProfile()
@@ -256,7 +256,7 @@ Func btnLocateAcc()
 	Local $wasRunState = $g_bRunState
 	$g_bRunState = True
 
-	SetLog(GetTranslated(109, 48, "Locating Y-Coordinate of CoC Account No. ") & $AccNo & GetTranslated(109, 49, ", please wait..."), $COLOR_BLUE)
+	SetLog(GetTranslated(109, 80, "Locating Y-Coordinate of CoC Account No. ") & $AccNo & GetTranslated(109, 81, ", please wait..."), $COLOR_BLUE)
 	WinGetAndroidHandle()
 
 	Zoomout()
@@ -266,21 +266,21 @@ Func btnLocateAcc()
 
 	While 1
 		_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x004080, 0xFFFF00, 12, "Comic Sans MS", 600)
-		$stext = GetTranslated(109, 50, "Click Connect/Disconnect on emulator to show the accout list") & @CRLF & @CRLF & _
-				GetTranslated(109, 51, "Click OK then click on your Account No. ") & $AccNo & @CRLF & @CRLF & _
-				GetTranslated(109, 52, "Do not move mouse quickly after clicking location") & @CRLF & @CRLF
-		$MsgBox = _ExtMsgBox(0, GetTranslated(109, 53, "Ok|Cancel"), GetTranslated(109, 54, "Locate CoC Account No. ") & $AccNo, $stext, 60, $g_hFrmBot)
+		$stext = GetTranslated(109, 82, "Click Connect/Disconnect on emulator to show the accout list") & @CRLF & @CRLF & _
+				GetTranslated(109, 83, "Click OK then click on your Account No. ") & $AccNo & @CRLF & @CRLF & _
+				GetTranslated(109, 84, "Do not move mouse quickly after clicking location") & @CRLF & @CRLF
+		$MsgBox = _ExtMsgBox(0, GetTranslated(109, 85, "Ok|Cancel"), GetTranslated(109, 86, "Locate CoC Account No. ") & $AccNo, $stext, 60, $g_hFrmBot)
 		If $MsgBox = 1 Then
 			WinGetAndroidHandle()
 			Local $aPos = FindPos()
 			$aLocateAccConfig[$AccNo - 1] = Int($aPos[1])
 			ClickP($aAway, 1, 0, "#0379")
 		Else
-			SetLog(GetTranslated(109, 55, "Locate CoC Account Cancelled"), $COLOR_BLUE)
+			SetLog(GetTranslated(109, 87, "Locate CoC Account Cancelled"), $COLOR_BLUE)
 			ClickP($aAway, 1, 0, "#0382")
 			Return
 		EndIf
-		SetLog(GetTranslated(109, 56, "Locate CoC Account Success: ") & "(383, " & $aLocateAccConfig[$AccNo - 1] & ")", $COLOR_GREEN)
+		SetLog(GetTranslated(109, 88, "Locate CoC Account Successfully: ") & "(383, " & $aLocateAccConfig[$AccNo - 1] & ")", $COLOR_GREEN)
 
 		ExitLoop
 	WEnd
@@ -296,7 +296,7 @@ Func btnClearAccLocation()
 		$aLocateAccConfig[$i - 1] = -1
 		$aAccPosY[$i - 1] = -1
 	Next
-	Setlog(GetTranslated(109, 57, "Position of all accounts cleared"))
+	Setlog(GetTranslated(109, 89, "Position of all accounts cleared"))
 	SaveConfig_SwitchAcc()
 EndFunc   ;==>btnClearAccLocation
 
@@ -320,3 +320,8 @@ Func cmbStandardDropSidesDB() ; avoid conflict between FourFinger and SmartAttac
 	EndIf
 	chkSmartAttackRedAreaDB()
 EndFunc   ;==>g_hCmbStandardDropSidesDB
+
+Func Bridge()
+    cmbDBMultiFinger()
+    cmbStandardDropSidesDB()
+EndFunc ;==>Bridge

@@ -108,6 +108,10 @@ Func DropTroopFromINI($vectors, $indexStart, $indexEnd, $indexArray, $qtaMin, $q
 			If $g_abAttackUseSkeletonSpell[$g_iMatchMode] = False Then $usespell = False
 	EndSwitch
 
+	; CVSDeploy Speed Mod
+   If $delayPointmin = 0 Then $delayPointmin = 100
+   If $delayPointmax = 0 Then $delayPointmax = 300
+
 	If $troopPosition = -1 Or $usespell = False Then
 		If $usespell = True Then
 			Setlog("No troop found in your attack troops list")

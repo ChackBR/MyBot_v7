@@ -505,7 +505,7 @@ Func SwitchCOCAcc()
 			$g_abNotNeedAllTime[1] = 1
 			$aAttackedCountSwitch[$nCurProfile - 1] = $aAttackedCountAcc[$nCurProfile - 1]
 
-			If IsMainPage(80) Then ExitLoop ; Waiting for fully load CoC in 8 sec
+			If IsMainPage(80) Then ExitLoop; Waiting for fully load CoC in 8 sec
 			ExitLoop
 
 		Else

@@ -22,6 +22,11 @@ Func checkObstacles() ;Checks if something is in the way for mainscreen
 		Return True
 	EndIf
 
+    If _ColorCheck(_GetPixelColor(383, 405), Hex(0xF0BE70, 6), 20) Then	; SwitchAcc - DEMEN
+		SetLog("Found SwitchAcc Dialog")
+		PureClick(383, 405, 1, 0, "Click Cancel")
+	EndIf
+
 	; prevent recursion
 	If $checkObstaclesActive = True Then Return True
 	Local $wasForce = OcrForceCaptureRegion(False)

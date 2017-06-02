@@ -16,9 +16,9 @@
 ; Set up the vectors to deploy troops
 Func fourFingerSpiralLeftVectors(ByRef $dropVectors, $listInfoDeploy)
 	If Not IsArray($dropVectors) Or Not IsArray($listInfoDeploy) Then Return
-	
+
 	ReDim $dropVectors[UBound($listInfoDeploy)][4]
-	
+
 	Local $kind, $waveNumber, $waveCount, $position, $remainingWaves, $waveDropAmount, $dropAmount, $barPosition
 	Local $startPoint[2] = [0, 0], $endPoint[2] = [0, 0]
 	Local $aDeployButtonPositions = getUnitLocationArray()

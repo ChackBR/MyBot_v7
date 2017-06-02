@@ -5,7 +5,7 @@
 ; Parameters ....:
 ; Return values .: None
 ; Author ........: LunaEclipse(January, 2016)
-; Modified ......:
+; Modified ......: Samkie (27 Nov 2016)
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2016
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
@@ -35,10 +35,10 @@ Func fourFingerDropOnEdge($dropVectors, $waveNumber, $kind, $dropAmount, $positi
 	Local $troopsPerEdge = Ceiling($dropAmount / 4)
 
 	If $dropAmount = 0 Or isProblemAffect(True) Then Return
-		
-	If _SleepAttack($DELAYDROPONEDGE1) Then Return
+
+	If _SleepAttack(100) Then Return
 	SelectDropTroop($kind) ; Select Troop
-	If _SleepAttack($DELAYDROPONEDGE2) Then Return
+	If _SleepAttack(300) Then Return
 
 	Switch $position
 		Case 1

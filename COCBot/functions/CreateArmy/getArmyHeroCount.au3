@@ -125,11 +125,13 @@ Func ArmyHeroStatus($i)
 		If StringInStr($aKeys[0], "xml", $STR_NOCASESENSEBASIC) Then
 			Local $aResult = StringSplit($aKeys[0], "_", $STR_NOCOUNT)
 			$sResult = $aResult[0]
+			ShowHeroStatusOnProfileStats($i, $sResult)	; Demen
 			Return $sResult
 		EndIf
 	EndIf
 
 	;return hero if there was a problem with the search
+	ShowHeroStatusOnProfileStats($i, $sResult)	; Demen
 	Switch $i
 		Case 0
 			Return "king"
@@ -140,3 +142,34 @@ Func ArmyHeroStatus($i)
 	EndSwitch
 
 EndFunc   ;==>ArmyHeroStatus
+
+Func ShowHeroStatusOnProfileStats($i, $Status);	Show on Profile Stats - Demen
+	Select
+		Case $i = 0 Or $i = $eKing
+			If StringInStr($Status, "heal", $STR_NOCASESENSEBASIC) <> 0 Then
+				GUICtrlSetState($g_lblKingStatus[$nCurProfile - 1], $GUI_SHOW)
+				GUICtrlSetBkColor($g_lblKingStatus[$nCurProfile - 1], $COLOR_YELLOW)
+				GUICtrlSetColor($g_lblKingStatus[$nCurProfile - 1], $COLOR_BLACK)
+			Else ; Hide lbl
+				GUICtrlSetState($g_lblKingStatus[$nCurProfile - 1], $GUI_HIDE)
+			EndIf
+
+		Case $i = 1 Or $i = $eQueen
+			If StringInStr($Status, "heal", $STR_NOCASESENSEBASIC) <> 0 Then
+				GUICtrlSetState($g_lblQueenStatus[$nCurProfile - 1], $GUI_SHOW)
+				GUICtrlSetBkColor($g_lblQueenStatus[$nCurProfile - 1], $COLOR_YELLOW)
+				GUICtrlSetColor($g_lblQueenStatus[$nCurProfile - 1], $COLOR_BLACK)
+			Else
+				GUICtrlSetState($g_lblQueenStatus[$nCurProfile - 1], $GUI_HIDE)
+			EndIf
+
+		Case $i = 2 Or $i = $eWarden
+			If StringInStr($Status, "heal", $STR_NOCASESENSEBASIC) <> 0 Then
+				GUICtrlSetState($g_lblWardenStatus[$nCurProfile - 1], $GUI_SHOW)
+				GUICtrlSetBkColor($g_lblWardenStatus[$nCurProfile - 1], $COLOR_YELLOW)
+				GUICtrlSetColor($g_lblWardenStatus[$nCurProfile - 1], $COLOR_BLACK)
+			Else
+				GUICtrlSetState($g_lblWardenStatus[$nCurProfile - 1], $GUI_HIDE)
+			EndIf
+	EndSelect
+EndFunc

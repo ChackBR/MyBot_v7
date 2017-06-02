@@ -16,9 +16,9 @@
 ; Set up the vectors to deploy troops
 Func eightFingerBlossomVectors(ByRef $dropVectors, $listInfoDeploy)
 	If Not IsArray($dropVectors) Or Not IsArray($listInfoDeploy) Then Return
-	
+
 	ReDim $dropVectors[UBound($listInfoDeploy)][8]
-	
+
 	Local $kind, $waveNumber, $waveCount, $position, $remainingWaves, $waveDropAmount, $dropAmount, $barPosition
 	Local $startPoint[2] = [0, 0], $endPoint[2] = [0, 0]
 	Local $aDeployButtonPositions = getUnitLocationArray()
@@ -104,7 +104,7 @@ Func eightFingerBlossomVectors(ByRef $dropVectors, $listInfoDeploy)
 			If $dropAmount > 0 Then
 				$startPoint = convertToPoint($g_aaiBottomLeftDropPoints[2][0], $g_aaiBottomLeftDropPoints[2][1])
 				$endPoint = convertToPoint($g_aaiBottomLeftDropPoints[4][0], $g_aaiBottomLeftDropPoints[4][1])
-				addVector($dropVectors, $i, 7, $startPoint, $endPoint, $dropAmount + 1)				
+				addVector($dropVectors, $i, 7, $startPoint, $endPoint, $dropAmount + 1)
 				$waveDropAmount -= $dropAmount
 			EndIf
 		EndIf

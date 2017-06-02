@@ -284,13 +284,10 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 			ExitLoop ;Check remaining quantities
 		EndIf
 		For $i = $eBarb To $eBowl ; lauch all remaining troops
-			;If $i = $eBarb Or $i = $eArch Then
-			LauchTroop($i, $nbSides, 0, 1)
-			If $g_iActivateKQCondition = "Auto" Then CheckHeroesHealth()
-			;Else
-			;	 LauchTroop($i, $nbSides, 0, 1, 2)
-			;EndIf
-			If _Sleep($DELAYALGORITHM_ALLTROOPS5) Then Return
+			If LauchTroop($i, $nbSides, 0, 1) = True Then
+				If $g_iActivateKQCondition = "Auto" Then CheckHeroesHealth()
+				If _Sleep($DELAYALGORITHM_ALLTROOPS5) Then Return
+			EndIf
 		Next
 	Next
 

@@ -120,13 +120,13 @@ Func CreateAttackSearchDeadBaseStandard()
 			GetTranslated(671,48, "* 4Fingers And 8Fingers Styles, Are Risky And Bot Like!")
 	GUICtrlSetTip(-1, $sTxtTip)
 	GUICtrlSetData(-1,  GetTranslated(671,49, "Random Mode") & "|" & _
-						GetTranslated(671,50, "4Fingers Standard") & "|" & _
-						GetTranslated(671,51, "4Fingers Spiral Left") & "|" & _
-						GetTranslated(671,52, "4Fingers Spiral Right") & "|" & _
-						GetTranslated(671,53, "8Fingers Blossom") & "|" & _
-						GetTranslated(671,54, "8Fingers Implosion") & "|" & _
-						GetTranslated(671,55, "8Fingers Spiral Left") & "|" & _
-						GetTranslated(671,56, "8Fingers Spiral Right"), GetTranslated(671,50, "4Fingers Standard"))
+						GetTranslated(671,50, "4 Finger Standard") & "|" & _
+						GetTranslated(671,51, "4 Finger Spiral Left") & "|" & _
+						GetTranslated(671,52, "4 Finger Spiral Right") & "|" & _
+						GetTranslated(671,53, "8 Finger Blossom") & "|" & _
+						GetTranslated(671,54, "8 Finger Implosion") & "|" & _
+						GetTranslated(671,55, "8 Finger Spiral Left") & "|" & _
+						GetTranslated(671,56, "8 Finger Spiral Right"), GetTranslated(671,50, "4 Finger Standard"))
 	GUICtrlSetOnEvent(-1, "cmbDBMultiFinger")
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
