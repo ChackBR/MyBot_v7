@@ -14,7 +14,7 @@
 ; ===============================================================================================================================
 
 ;
-; MOD Config - Save Data
+; MOD Config - Read Data
 ;
 Func ReadConfig_MOD()
 
@@ -35,11 +35,9 @@ Func ReadConfig_MOD()
 	; Multi Finger
 	IniReadS($iMultiFingerStyle, $g_sProfileConfigPath, "MultiFinger", "Select", 2, "int")
 
-#CS
 	; CSV Deployment Speed Mod
-	IniReadS($isldSelectedCSVSpeed[$DB], $config, "attack", "CSVSpeedDB", 4)
-	IniReadS($isldSelectedCSVSpeed[$LB], $config, "attack", "CSVSpeedAB", 4)
-#CE
+	IniReadS($isldSelectedCSVSpeed[$LB], $g_sProfileConfigPath, "attack", "CSVSpeedAB", 3)
+   IniReadS($isldSelectedCSVSpeed[$DB], $g_sProfileConfigPath, "attack", "CSVSpeedDB", 3)
 
 ;
 ; AwesomeGamer

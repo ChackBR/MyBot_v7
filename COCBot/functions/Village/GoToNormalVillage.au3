@@ -23,7 +23,7 @@ Func GoToNormalVillage()
 	Local $aButtonCoords = findButton("ReturnHomeBoat")
 	If IsArray($aButtonCoords) Then
 		SetLog("Returning Home from Builder Island", $COLOR_SUCCESS)
-		ClickP($aButtonCoords)
+		PureClickP($aButtonCoords)
 		Return True
 	Else
 		SetLog("Cannot find Return Home Boat on Coast!", $COLOR_ERROR)

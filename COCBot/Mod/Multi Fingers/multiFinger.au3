@@ -134,7 +134,7 @@ EndFunc
 Func cmbDeployDB()
 	$g_aiAttackStdDropSides[$DB] = _GUICtrlComboBox_GetCurSel($g_hCmbStandardDropSidesDB)
 	;SetLog("$g_aiAttackStdDropSides[$DB]: " & $g_aiAttackStdDropSides[$DB])
-	If $g_aiAttackStdDropSides[$DB] = 4 Then
+	If $g_aiAttackStdDropSides[$DB] = 5 Then
 		GUICtrlSetState($g_hChkSmartAttackRedAreaDB, $GUI_UNCHECKED)
 		GUICtrlSetState($g_hChkSmartAttackRedAreaDB, $GUI_DISABLE)
 		chkSmartAttackRedAreaDB()

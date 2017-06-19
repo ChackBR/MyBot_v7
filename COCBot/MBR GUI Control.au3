@@ -1355,7 +1355,7 @@ EndFunc   ;==>ControlRedraw
 Func SetTime($bForceUpdate = False)
 	If $g_hTimerSinceStarted = 0 Then Return ; GIGO, no setTime when timer hasn't started yet
 	Local $day = 0, $hour = 0, $min = 0, $sec = 0
-	Local $DisplayLoop = 0
+	Local Static $DisplayLoop = 0		; Showing troops time in ProfileStats - SwitchAcc - Demen
 
 	If GUICtrlRead($g_hGUI_STATS_TAB, 1) = $g_hGUI_STATS_TAB_ITEM2 Or $bForceUpdate = True Then
 		_TicksToDay(Int(__TimerDiff($g_hTimerSinceStarted) + $g_iTimePassed), $day, $hour, $min, $sec)
@@ -1387,6 +1387,29 @@ Func SetTime($bForceUpdate = False)
 							GUICtrlSetBkColor($g_lblTroopsTime[$i], $COLOR_YELLOW)
 							GUICtrlSetColor($g_lblTroopsTime[$i], $COLOR_BLACK)
 						EndIf
+					EndIf
+
+					If $i <> $nCurProfile - 1 And $g_aLabTimerStart[$i] <> 0 Then	; update lab time of all accounts on multi stats
+						Local $sLabtime = ""
+						Local $TimerEnd = Round(TimerDiff($g_aLabTimerStart[$i]) / 60 / 1000, 0)
+						Local $UpdateLabTime = $g_aLabTimeAcc[$i] - $TimerEnd
+						If $UpdateLabTime <= 0 Then
+							GUICtrlSetColor($g_ahLblLab[$i], $COLOR_GREEN)
+							GUICtrlSetColor($g_ahLblLabTime[$i], $COLOR_GREEN)
+						Else
+							Local $UpdateDay = Int($UpdateLabTime/1440)
+							Local $UpdateHour = Int(($UpdateLabTime- 1440*$UpdateDay)/60)
+							Local $UpdateMin = Int(($UpdateLabTime- 1440*$UpdateDay - 60 * $UpdateHour)/60)
+
+							If $UpdateDay > 0 Then
+								$sLabtime = $UpdateDay & "d " & $UpdateHour & "h"
+							ElseIf $UpdateHour > 0 Then
+								$sLabtime = $UpdateHour & "h " & $UpdateMin & "m"
+							ElseIf $UpdateMin > 0 Then
+								$sLabtime = $UpdateMin & "m"
+							EndIf
+						EndIf
+						GUICtrlSetData($g_ahLblLabTime[$i], $sLabtime)
 					EndIf
 				Next
 			EndIf

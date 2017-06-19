@@ -124,14 +124,14 @@ Func btnUpdateProfile($Config = True)
 					GUICtrlSetData($grpVillageAcc[$i], $ProfileList[$i + 1] & " (Active)")
 				Case 2
 					GUICtrlSetData($grpVillageAcc[$i], $ProfileList[$i + 1] & " (Donate)")
-					For $j = $aSecondHide[$i] To $aEndHide[$i]
-						GUICtrlSetState($j, $GUI_HIDE)
-					Next
+;~ 					For $j = $aSecondHide[$i] To $aEndHide[$i]
+;~ 						GUICtrlSetState($j, $GUI_HIDE)
+;~ 					Next
 				Case Else
 					GUICtrlSetData($grpVillageAcc[$i], $ProfileList[$i + 1] & " (Idle)")
-					For $j = $aSecondHide[$i] To $aEndHide[$i]
-						GUICtrlSetState($j, $GUI_HIDE)
-					Next
+;~ 					For $j = $aSecondHide[$i] To $aEndHide[$i]
+;~ 						GUICtrlSetState($j, $GUI_HIDE)
+;~ 					Next
 			EndSwitch
 		Else
 			GUICtrlSetData($lblProfileName[$i], "")
@@ -322,6 +322,21 @@ Func cmbStandardDropSidesDB() ; avoid conflict between FourFinger and SmartAttac
 EndFunc   ;==>g_hCmbStandardDropSidesDB
 
 Func Bridge()
-    cmbDBMultiFinger()
+    cmbDeployDB()
     cmbStandardDropSidesDB()
 EndFunc ;==>Bridge
+
+; CSV Deployment Speed Mod
+Func sldSelectedSpeedDB()
+	$isldSelectedCSVSpeed[$DB] = GUICtrlRead($sldSelectedSpeedDB)
+	Local $speedText = $iCSVSpeeds[$isldSelectedCSVSpeed[$DB]] & "x";
+	IF $isldSelectedCSVSpeed[$DB] = 3 Then $speedText = "Normal"
+	GUICtrlSetData($lbltxtSelectedSpeedDB, $speedText & " speed")
+EndFunc   ;==>sldSelectedSpeedDB
+
+Func sldSelectedSpeedAB()
+	$isldSelectedCSVSpeed[$LB] = GUICtrlRead($sldSelectedSpeedAB)
+	Local $speedText = $iCSVSpeeds[$isldSelectedCSVSpeed[$LB]] & "x";
+	IF $isldSelectedCSVSpeed[$LB] = 3 Then $speedText = "Normal"
+	GUICtrlSetData($lbltxtSelectedSpeedAB, $speedText & " speed")
+EndFunc   ;==>sldSelectedSpeedAB

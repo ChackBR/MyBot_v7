@@ -47,11 +47,14 @@ Func CreateAttackSearchDeadBaseStandard()
 								  GetTranslatedFileIni("MBR GUI Design Child Attack - Attack Standard", "CmbStandardDropSides_Info_03", "Attack on Classic Four Fingers"), _
 								  GetTranslatedFileIni("MBR GUI Design Child Attack - Attack Standard", "CmbStandardDropSides_Info_03", "Attack on Multi Finger"), _
 								  GetTranslatedFileIni("MBR GUI Design Child Attack - Attack Standard", "CmbStandardDropSides_Info_04", "Select the No. of sides to attack on."))
-			   GUICtrlSetData(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Attack Standard", "CmbStandardDropSides_Item_01", "one side") & "|" & GetTranslatedFileIni("MBR GUI Design Child Attack - Attack Standard", "CmbStandardDropSides_Item_02", "two sides") & "|" & _
-								  GetTranslatedFileIni("MBR GUI Design Child Attack - Attack Standard", "CmbStandardDropSides_Item_03", "three sides") & "|" & "Four Fingers" & "|" &  "Multi Fingers" & "|" & GetTranslatedFileIni("MBR GUI Design Child Attack - Attack Standard", "CmbStandardDropSides_Item_04", "all sides equally" ), _
+			   GUICtrlSetData(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Attack Standard", "CmbStandardDropSides_Item_01", "one side") & "|" & _
+								  GetTranslatedFileIni("MBR GUI Design Child Attack - Attack Standard", "CmbStandardDropSides_Item_02", "two sides") & "|" & _
+								  GetTranslatedFileIni("MBR GUI Design Child Attack - Attack Standard", "CmbStandardDropSides_Item_03", "three sides") & "|" & _
+								  "Four Fingers" & "|" & _
+								  "Multi Fingers", _
+								  GetTranslatedFileIni("MBR GUI Design Child Attack - Attack Standard", "CmbStandardDropSides_Item_04", "all sides equally" ) & "|" & _
 								  GetTranslatedFileIni("MBR GUI Design Child Attack - Attack Standard", "CmbStandardDropSides_Item_04", -1))
 				GUICtrlSetOnEvent(-1, "Bridge") ; Uncheck SmartAttack Red Area when enable FourFinger to avoid conflict
-;				GUICtrlSetOnEvent(-1,"cmbStandardDropSidesDB") ; Uncheck SmartAttack Red Area when enable FourFinger to avoid conflict - Demen
 
 		   $y += 25
 		   GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Attack - Attack Standard", "Lbl-CmbStandardUnitDelay", "Delay Unit") & ":", $x, $y + 5, -1, -1)
@@ -106,30 +109,28 @@ Func CreateAttackSearchDeadBaseStandard()
 			   _GUICtrlSetTip(-1, $sTxtTip)
 		   $g_hPicAttackNearDarkElixirDrillDB = GUICtrlCreateIcon($g_sLibIconPath, $eIcnDrill, $x + 20 , $y - 3, 24, 24)
 			   _GUICtrlSetTip(-1, $sTxtTip)
-	   GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 ; ================================================ COMBO MULTI FINGER ================================================
-	$x = 25
-	$y += 60
-	$LblDBMultiFinger = GUICtrlCreateLabel(GetTranslated(671,44, "Style:"), $x, $y + 3, 30, -1, $SS_RIGHT)
-	GUICtrlSetBkColor(-1, $GUI_BKCOLOR_TRANSPARENT)
-	$CmbDBMultiFinger = GUICtrlCreateCombo("", $x + 56, $y, 122, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-		$sTxtTip = GetTranslated(671,45, "Select a Multi-Fingers Attack Style.") & @CRLF & @CRLF & _
-			GetTranslated(671,46, "* Random Mode, Chooses One Of The Attack Styles By Random.") & @CRLF & _
-			GetTranslated(671,47, "* 4Fingers And 8Fingers Styles, Will Attack From All 4 Sides At Once.") & @CRLF & _
-			GetTranslated(671,48, "* 4Fingers And 8Fingers Styles, Are Risky And Bot Like!")
-	GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlSetData(-1,  GetTranslated(671,49, "Random Mode") & "|" & _
-						GetTranslated(671,50, "4 Finger Standard") & "|" & _
-						GetTranslated(671,51, "4 Finger Spiral Left") & "|" & _
-						GetTranslated(671,52, "4 Finger Spiral Right") & "|" & _
-						GetTranslated(671,53, "8 Finger Blossom") & "|" & _
-						GetTranslated(671,54, "8 Finger Implosion") & "|" & _
-						GetTranslated(671,55, "8 Finger Spiral Left") & "|" & _
-						GetTranslated(671,56, "8 Finger Spiral Right"), GetTranslated(671,50, "4 Finger Standard"))
-	GUICtrlSetOnEvent(-1, "cmbDBMultiFinger")
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
+		$x = 25
+		$y += 60
+		$LblDBMultiFinger = GUICtrlCreateLabel(GetTranslated(671,44, "Style:"), $x, $y + 3, 30, -1, $SS_RIGHT)
+		GUICtrlSetBkColor(-1, $GUI_BKCOLOR_TRANSPARENT)
+		$CmbDBMultiFinger = GUICtrlCreateCombo("", $x + 56, $y, 122, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+			$sTxtTip = GetTranslated(671,45, "Select a Multi-Fingers Attack Style.") & @CRLF & @CRLF & _
+				GetTranslated(671,46, "* Random Mode, Chooses One Of The Attack Styles By Random.") & @CRLF & _
+				GetTranslated(671,47, "* 4Fingers And 8Fingers Styles, Will Attack From All 4 Sides At Once.") & @CRLF & _
+				GetTranslated(671,48, "* 4Fingers And 8Fingers Styles, Are Risky And Bot Like!")
+		GUICtrlSetTip(-1, $sTxtTip)
+		GUICtrlSetData(-1,  GetTranslated(671,49, "Random Mode") & "|" & _
+							GetTranslated(671,50, "4 Finger Standard") & "|" & _
+							GetTranslated(671,51, "4 Finger Spiral Left") & "|" & _
+							GetTranslated(671,52, "4 Finger Spiral Right") & "|" & _
+							GetTranslated(671,53, "8 Finger Blossom") & "|" & _
+							GetTranslated(671,54, "8 Finger Implosion") & "|" & _
+							GetTranslated(671,55, "8 Finger Spiral Left") & "|" & _
+							GetTranslated(671,56, "8 Finger Spiral Right"), GetTranslated(671,50, "4 Finger Standard"))
+		GUICtrlSetOnEvent(-1, "cmbDBMultiFinger")
 
- GUICtrlCreateGroup("", -99, -99, 1, 1)
+	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 EndFunc

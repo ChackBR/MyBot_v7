@@ -56,7 +56,8 @@ Global $g_hFrmBot = 0 ; The main GUI window
 ; "2801" ; MyBot v7.1.3 + Demem SwitchAcc
 ; "2811" ; MyBot v7.1.4 + Demem SwitchAcc
 ; "2812" ; MyBot v7.1.4 + Add: Multi-Finger
-$g_sModversion = "2901" ; MyBot v7.2.0 + Demen SwitchAcc + MF
+; "2901" ; MyBot v7.2.0 + Demen SwitchAcc + MF
+$g_sModversion = "2902" ; MyBot v7.2.0 + SwitchAcc + MF + Speed Mod
 
 ; MBR includes
 #include "COCBot\MBR Global Variables.au3"
@@ -660,6 +661,7 @@ Func runBot() ;Bot that runs everything in order
 			If $g_bRestart = True Then ContinueLoop
 			If _Sleep($DELAYRUNBOT3) Then Return
 			VillageReport()
+			UpdateLabStatus() ; Demen
 			If $g_bOutOfGold = True And (Number($g_aiCurrentLoot[$eLootGold]) >= Number($g_iTxtRestartGold)) Then ; check if enough gold to begin searching again
 				$g_bOutOfGold = False ; reset out of gold flag
 				Setlog("Switching back to normal after no gold to search ...", $COLOR_SUCCESS)

@@ -72,6 +72,9 @@ Func InitiateSwitchAcc() ; Checking profiles setup in Mybot, First matching CoC 
 		$aTimerEnd[$i] = 0
 		$aRemainTrainTime[$i] = 0
 		$aUpdateRemainTrainTime[$i] = 0
+
+		$g_aLabTimeAcc[$i] = 0
+		$g_aLabTimerStart[$i] = 0
 	Next
 
 	If $aProfileType[$nCurProfile - 1] = $eActive Then
@@ -515,6 +518,8 @@ Func SwitchCOCAcc()
 
 		EndIf
 	WEnd
+
+	If isOnBuilderIsland(True) Then GoToNormalVillage()
 
 EndFunc   ;==>SwitchCOCAcc
 

@@ -21,7 +21,13 @@ Func UpdateStatsForSwitchAcc()
 		GUICtrlSetData($lblResultElixirNowAcc[$i], _NumberFormat($aElixirCurrentAcc[$i], True))
 		GUICtrlSetData($lblResultDeNowAcc[$i], _NumberFormat($aDarkCurrentAcc[$i], True))
 		GUICtrlSetData($lblResultTrophyNowAcc[$i], _NumberFormat($aTrophyCurrentAcc[$i], True))
-		GUICtrlSetData($lblResultGemNowAcc[$i], _NumberFormat($aGemAmountAcc[$i], True))
+
+		If $aGemAmountAcc[$i] < 10000 Then
+			GUICtrlSetData($lblResultGemNowAcc[$i], _NumberFormat($aGemAmountAcc[$i], True))
+		Else
+			GUICtrlSetData($lblResultGemNowAcc[$i], Round($aGemAmountAcc[$i]/1000,1) & " K")
+		EndIf
+
 		GUICtrlSetData($lblResultBuilderNowAcc[$i], $aFreeBuilderCountAcc[$i] & "/" & $aTotalBuilderCountAcc[$i])
 
 		; gain stats
@@ -29,7 +35,11 @@ Func UpdateStatsForSwitchAcc()
 		GUICtrlSetData($lblHourlyStatsElixirAcc[$i], _NumberFormat(Round($aElixirTotalAcc[$i] / (Int(__TimerDiff($g_hTimerSinceStarted) + $g_iTimePassed)) * 3600)) & "K / h")
 		GUICtrlSetData($lblHourlyStatsDarkAcc[$i], _NumberFormat(Round($aDarkTotalAcc[$i] / (Int(__TimerDiff($g_hTimerSinceStarted) + $g_iTimePassed)) * 3600 * 1000)) & " / h")
 		GUICtrlSetData($lblHourlyStatsTrophyAcc[$i], _NumberFormat(Round($aTrophyLootAcc[$i] / (Int(__TimerDiff($g_hTimerSinceStarted) + $g_iTimePassed)) * 3600 * 1000)) & " / h")
-		GUICtrlSetData($lblResultAttacked[$i], $aAttackedCountAcc[$i])
+		If $aAttackedCountAcc[$i] < 10000 Then
+			GUICtrlSetData($lblResultAttacked[$i], $aAttackedCountAcc[$i])
+		Else
+			GUICtrlSetData($lblResultAttacked[$i], Round($aAttackedCountAcc[$i]/1000,1) & " K")
+		EndIf
 	Next
 
 	GUICtrlSetData($g_hLblResultSkippedHourNow, $aSkippedVillageCountAcc[$nCurProfile - 1]) ;	Counting skipped village at Bottom GUI
@@ -52,6 +62,48 @@ Func ResetStatsForSwitchAcc()
 		$aTrophyLootAcc[$i] = 0
 		$aAttackedCountAcc[$i] = 0
 		$aSkippedVillageCountAcc[$i] = 0
+		For $j = 0 To 2
+			GUICtrlSetState($g_ahLblHeroStatus[$j][$i], $GUI_HIDE)
+		Next
+		GUICtrlSetColor($g_ahLblLab[$i], $COLOR_MEDGRAY)
+		GUICtrlSetData($g_ahLblLabTime[$i], "")
 	Next
 
 EndFunc   ;==>ResetStatsForSwitchAcc
+
+Func UpdateHeroStatus($i, $sHeroStatus) ;	Show on Profile Stats - Demen
+
+	Local $hHero = 0
+
+	If $ichkSwitchAcc = 1 Then $hHero = $g_ahLblHeroStatus[$i][$nCurProfile - 1]
+
+	Select
+		Case $sHeroStatus = "heal" ; Yellow
+			GUICtrlSetColor($g_ahLblHero[$i], "0xFFB41E") ; dark yellow, Bottom GUI
+			GUICtrlSetState($hHero, $GUI_SHOW)
+			GUICtrlSetBkColor($hHero, $COLOR_YELLOW)
+			GUICtrlSetColor($hHero, $COLOR_BLACK)
+		Case $sHeroStatus = "upgrade" ; Red
+			GUICtrlSetColor($g_ahLblHero[$i], $COLOR_RED) ; Bottom GUI
+			GUICtrlSetState($hHero, $GUI_SHOW)
+			GUICtrlSetBkColor($hHero, $COLOR_RED)
+			GUICtrlSetColor($hHero, $COLOR_WHITE)
+		Case $sHeroStatus = "king" Or $sHeroStatus = "queen" Or $sHeroStatus = "warden" ; Green
+			GUICtrlSetColor($g_ahLblHero[$i], $COLOR_GREEN) ; Bottom GUI
+			GUICtrlSetState($hHero, $GUI_SHOW)
+			GUICtrlSetBkColor($hHero, $COLOR_GREEN)
+			GUICtrlSetColor($hHero, $COLOR_WHITE)
+		Case Else ; Hide lbl
+			GUICtrlSetColor($g_ahLblHero[$i], $COLOR_MEDGRAY) ; Grey, Bottom GUI
+			GUICtrlSetState($hHero, $GUI_HIDE)
+	EndSelect
+
+EndFunc   ;==>UpdateHeroStatus
+
+Func ResetHeroLabStatus()
+	For $i = 0 To 2
+		GUICtrlSetColor($g_ahLblHero[$i], $COLOR_MEDGRAY) ; Grey, Bottom GUI
+	Next
+	GUICtrlSetColor($g_hLblLab, $COLOR_MEDGRAY)
+	GUICtrlSetData($g_hLblLabTime, "")
+EndFunc   ;==>ResetHeroLabStatus

@@ -31,11 +31,13 @@ Func ApplyConfig_MOD($TypeReadSave)
 			Bridge()
 			cmbStandardDropSidesAB()
 
-#CS
-			; CSV Deploy Speed
-			_GUICtrlComboBox_SetCurSel($g_hCmbCSVSpeed[$DB], $g_iCmbCSVSpeed[$DB])
-			_GUICtrlComboBox_SetCurSel($g_hCmbCSVSpeed[$LB], $g_iCmbCSVSpeed[$LB])
-#CE
+			; CSV Deployment Speed Mod
+         GUICtrlSetData($sldSelectedSpeedDB, $isldSelectedCSVSpeed[$DB])
+			GUICtrlSetData($sldSelectedSpeedAB, $isldSelectedCSVSpeed[$LB])
+
+			sldSelectedSpeedDB()
+	      sldSelectedSpeedAB()
+			cmbScriptRedlineImplDB()
 
 			;
 			; AwesomeGamer

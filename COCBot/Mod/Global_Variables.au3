@@ -47,28 +47,30 @@ Global $iMultiFingerStyle = 4
 Global Enum $eCCSpell = $eHaSpell + 1
 
 ; CSV Deployment Speed Mod
-Global $isldSelectedCSVSpeed[$g_iModeCount], $iCSVSpeeds[19]
-$isldSelectedCSVSpeed[$DB] = 4
-$isldSelectedCSVSpeed[$LB] = 4
-$iCSVSpeeds[0] = .1
-$iCSVSpeeds[1] = .25
-$iCSVSpeeds[2] = .5
-$iCSVSpeeds[3] = .75
-$iCSVSpeeds[4] = 1
-$iCSVSpeeds[5] = 1.25
-$iCSVSpeeds[6] = 1.5
-$iCSVSpeeds[7] = 1.75
-$iCSVSpeeds[8] = 2
-$iCSVSpeeds[9] = 2.25
-$iCSVSpeeds[10] = 2.5
-$iCSVSpeeds[11] = 2.75
-$iCSVSpeeds[12] = 3
-$iCSVSpeeds[13] = 5
-$iCSVSpeeds[14] = 8
-$iCSVSpeeds[15] = 10
-$iCSVSpeeds[16] = 20
-$iCSVSpeeds[17] = 50
-$iCSVSpeeds[18] = 99
+Global $isldSelectedCSVSpeed[$g_iModeCount], $iCSVSpeeds[21]
+$isldSelectedCSVSpeed[$DB] = 3
+$isldSelectedCSVSpeed[$LB] = 3
+$iCSVSpeeds[0] = .25
+$iCSVSpeeds[1] = .5
+$iCSVSpeeds[2] = .75
+$iCSVSpeeds[3] = 1
+$iCSVSpeeds[4] = 1.25
+$iCSVSpeeds[5] = 1.5
+$iCSVSpeeds[6] = 1.75
+$iCSVSpeeds[7] = 2
+$iCSVSpeeds[8] = 2.25
+$iCSVSpeeds[9] = 2.5
+$iCSVSpeeds[10] = 2.75
+$iCSVSpeeds[11] = 3
+$iCSVSpeeds[12] = 3.25
+$iCSVSpeeds[13] = 3.5
+$iCSVSpeeds[14] = 3.75
+$iCSVSpeeds[15] = 4
+$iCSVSpeeds[16] = 8
+$iCSVSpeeds[17] = 12
+$iCSVSpeeds[18] = 24
+$iCSVSpeeds[19] = 48
+$iCSVSpeeds[20] = 96
 Global $grpScriptSpeedDB, $lbltxtSelectedSpeedDB, $sldSelectedSpeedDB, $grpScriptSpeedAB, $lbltxtSelectedSpeedAB, $sldSelectedSpeedAB
 
 ;
@@ -121,3 +123,7 @@ Global $bReMatchAcc = False
 Global $aTimerStart[8], $aTimerEnd[8]
 Global $aRemainTrainTime[8], $aUpdateRemainTrainTime[8], $nMinRemainTrain
 Global $aLocateAccConfig[8], $aAccPosY[8]
+
+Global $g_bNeedLocateLab = True, $g_bLabReady[9]
+Global $g_aLabTimeAcc[8], $g_aLabTime[4] = [0, 0, 0, 0] ; day | hour | minute | time in minutes
+Global $g_aLabTimerStart[8], $g_aLabTimerEnd[8]

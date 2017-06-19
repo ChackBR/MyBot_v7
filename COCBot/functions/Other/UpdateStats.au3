@@ -246,7 +246,8 @@ Func UpdateStats()
 
 	If $iOldSkippedVillageCount <> $g_iSkippedVillageCount Then
 		GUICtrlSetData($g_hLblResultVillagesSkipped, _NumberFormat($g_iSkippedVillageCount, True))
-		If $ichkSwitchAcc <> 1 Then GUICtrlSetData($g_hLblResultSkippedHourNow, _NumberFormat($g_iSkippedVillageCount, True))		; ProfileStats SwitchAcc - Demen		$iOldSkippedVillageCount = $g_iSkippedVillageCount
+		If $ichkSwitchAcc <> 1 Then GUICtrlSetData($g_hLblResultSkippedHourNow, _NumberFormat($g_iSkippedVillageCount, True))		; ProfileStats SwitchAcc - Demen
+		$iOldSkippedVillageCount = $g_iSkippedVillageCount
 	EndIf
 
 	If $iOldDroppedTrophyCount <> $g_iDroppedTrophyCount Then
@@ -549,6 +550,7 @@ Func ResetStats()
 	$g_iTotalDonateStatsSpells = 0
 	$g_iTotalDonateStatsSpellsXP = 0
 	If $ichkSwitchAcc = 1 Then ResetStatsForSwitchAcc()		;	ProfileStats - SwitchAcc - Demen
+	ResetHeroLabStatus()	;	Demen
 
 	UpdateStats()
  EndFunc   ;==>ResetStats

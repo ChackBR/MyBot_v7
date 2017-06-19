@@ -51,3 +51,6 @@
 ; SwitchAcc
 #include "SwitchAcc.au3"
 #include "UpdateProfileStats.au3"
+
+; HeroLabStatus
+#include "UpdateLabStatus.au3"
