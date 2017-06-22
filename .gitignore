@@ -96,7 +96,7 @@
 ![Ii]mgxml/deadbase/elix/*.png
 ![Ii]mgxml/deadbase/elix/50/*.png
 ![Ii]mgxml/deadbase/elix/100/*.png
-
+![Ii]mgxml/trainwindow/herostatus/*.png
 
 # ignore test strategies
 [Ss]trategies/[Tt]est*.ini
@@ -124,3 +124,4 @@ ImgLocDebug.txt
 LastVersion*.txt
 TestVersion*.txt
 *_stripped.au3
+
