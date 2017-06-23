@@ -124,7 +124,7 @@ Func ArmyHeroStatus($i)
 	Local $Res = DllCall($g_hLibMyBot,"str", "SearchMultipleTilesBetweenLevels", "handle", $g_hHBitmap2, "str", $directory, "str", "FV", "Int", 0, "str", "FV", "Int", 0, "Int", 1000)
 
 	If $Res[0] = "" Or $Res[0] = "0" Then
-		$sResult = NameOfTroop($i+$eKing) ; "none"
+		$sResult = "none"
 		Setlog("some kind of error, no image file return: " & NameOfTroop($i+$eKing), $COLOR_RED)
 	ElseIf StringInStr($Res[0], "-1") <> 0 Then
 		SetLog("DLL Error", $COLOR_RED)
@@ -133,6 +133,8 @@ Func ArmyHeroStatus($i)
 		Local $aResult = StringSplit($aKeys[1], "_")
 		$sResult = $aResult[1]
 	EndIf
+
+	UpdateHeroStatus($i, $sResult)
 
 	Return $sResult
 ; check hero status by imgloc - Demen
