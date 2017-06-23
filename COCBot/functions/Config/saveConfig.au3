@@ -745,6 +745,7 @@ Func SaveConfig_600_29_DB_Scripted()
 	_Ini_Add("attack", "RedlineRoutineDB", $g_aiAttackScrRedlineRoutine[$DB])
 	_Ini_Add("attack", "DroplineEdgeDB", $g_aiAttackScrDroplineEdge[$DB])
 	_Ini_Add("attack", "ScriptDB", $g_sAttackScrScriptName[$DB])
+	_Ini_Add("attack", "CSVSpeedDB", $isldSelectedCSVSpeed[$DB])
 EndFunc   ;==>SaveConfig_600_29_DB_Scripted
 
 Func SaveConfig_600_29_DB_Milking()
@@ -844,6 +845,7 @@ Func SaveConfig_600_29_LB_Scripted()
 	_Ini_Add("attack", "RedlineRoutineAB", $g_aiAttackScrRedlineRoutine[$LB])
 	_Ini_Add("attack", "DroplineEdgeAB", $g_aiAttackScrDroplineEdge[$LB])
 	_Ini_Add("attack", "ScriptAB", $g_sAttackScrScriptName[$LB])
+	_Ini_Add("attack", "CSVSpeedAB", $isldSelectedCSVSpeed[$LB])
 EndFunc   ;==>SaveConfig_600_29_LB_Scripted
 
 Func SaveConfig_600_29_TS()

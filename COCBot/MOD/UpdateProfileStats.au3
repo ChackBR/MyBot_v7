@@ -71,32 +71,40 @@ Func ResetStatsForSwitchAcc()
 
 EndFunc   ;==>ResetStatsForSwitchAcc
 
-Func UpdateHeroStatus($i, $sHeroStatus) ;	Show on Profile Stats - Demen
+Func UpdateHeroStatus() ;	Show on Profile Stats - Demen
 
 	Local $hHero = 0
+    Local $sHeroStatus
+    If Not OpenArmyOverview() Then Return
+    If _Sleep($DELAYCHECKARMYCAMP5) Then Return
 
-	If $ichkSwitchAcc = 1 Then $hHero = $g_ahLblHeroStatus[$i][$nCurProfile - 1]
+    For $i = 0 to 2
+        $sHeroStatus = ArmyHeroStatus($i)
+		If $ichkSwitchAcc = 1 Then $hHero = $g_ahLblHeroStatus[$i][$nCurProfile - 1]
 
-	Select
-		Case $sHeroStatus = "heal" ; Yellow
-			GUICtrlSetColor($g_ahLblHero[$i], "0xFFB41E") ; dark yellow, Bottom GUI
-			GUICtrlSetState($hHero, $GUI_SHOW)
-			GUICtrlSetBkColor($hHero, $COLOR_YELLOW)
-			GUICtrlSetColor($hHero, $COLOR_BLACK)
-		Case $sHeroStatus = "upgrade" ; Red
-			GUICtrlSetColor($g_ahLblHero[$i], $COLOR_RED) ; Bottom GUI
-			GUICtrlSetState($hHero, $GUI_SHOW)
-			GUICtrlSetBkColor($hHero, $COLOR_RED)
-			GUICtrlSetColor($hHero, $COLOR_WHITE)
-		Case $sHeroStatus = "king" Or $sHeroStatus = "queen" Or $sHeroStatus = "warden" ; Green
-			GUICtrlSetColor($g_ahLblHero[$i], $COLOR_GREEN) ; Bottom GUI
-			GUICtrlSetState($hHero, $GUI_SHOW)
-			GUICtrlSetBkColor($hHero, $COLOR_GREEN)
-			GUICtrlSetColor($hHero, $COLOR_WHITE)
-		Case Else ; Hide lbl
-			GUICtrlSetColor($g_ahLblHero[$i], $COLOR_MEDGRAY) ; Grey, Bottom GUI
-			GUICtrlSetState($hHero, $GUI_HIDE)
-	EndSelect
+		Select
+			Case $sHeroStatus = "heal" ; Yellow
+				GUICtrlSetColor($g_ahLblHero[$i], "0xFFB41E") ; dark yellow, Bottom GUI
+				GUICtrlSetState($hHero, $GUI_SHOW)
+				GUICtrlSetBkColor($hHero, $COLOR_YELLOW)
+				GUICtrlSetColor($hHero, $COLOR_BLACK)
+			Case $sHeroStatus = "upgrade" ; Red
+				GUICtrlSetColor($g_ahLblHero[$i], $COLOR_RED) ; Bottom GUI
+				GUICtrlSetState($hHero, $GUI_SHOW)
+				GUICtrlSetBkColor($hHero, $COLOR_RED)
+				GUICtrlSetColor($hHero, $COLOR_WHITE)
+			Case $sHeroStatus = "king" Or $sHeroStatus = "queen" Or $sHeroStatus = "warden" ; Green
+				GUICtrlSetColor($g_ahLblHero[$i], $COLOR_GREEN) ; Bottom GUI
+				GUICtrlSetState($hHero, $GUI_SHOW)
+				GUICtrlSetBkColor($hHero, $COLOR_GREEN)
+				GUICtrlSetColor($hHero, $COLOR_WHITE)
+			Case Else ; Hide lbl
+				GUICtrlSetColor($g_ahLblHero[$i], $COLOR_MEDGRAY) ; Grey, Bottom GUI
+				GUICtrlSetState($hHero, $GUI_HIDE)
+		EndSelect
+	Next
+    ClickP($aAway, 1, 0, "#0000") ;Click Away
+    If _Sleep($DELAYCHECKARMYCAMP4) Then Return
 
 EndFunc   ;==>UpdateHeroStatus
 

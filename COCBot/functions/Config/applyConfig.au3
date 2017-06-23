@@ -1127,6 +1127,7 @@ Func ApplyConfig_600_29_DB($TypeReadSave)
 			GUICtrlSetData($g_hTxtTHSnipeBeforeDBTiles, $g_iTHSnipeBeforeTiles[$DB])
 			LoadDBSnipeAttacks() ; recreate combo box values
 			_GUICtrlComboBox_SetCurSel($g_hCmbTHSnipeBeforeDBScript, _GUICtrlComboBox_FindStringExact($g_hCmbTHSnipeBeforeDBScript, $g_iTHSnipeBeforeScript[$DB]))
+			cmbStandardDropSidesDB()	; FourFinger Classic - Demen
 		Case "Save"
 			$g_aiAttackAlgorithm[$DB] = _GUICtrlComboBox_GetCurSel($g_hCmbDBAlgorithm)
 			$g_aiAttackTroopSelection[$DB] = _GUICtrlComboBox_GetCurSel($g_hCmbDBSelectTroop)
@@ -1201,7 +1202,13 @@ Func ApplyConfig_600_29_DB_Scripted($TypeReadSave)
 			EndIf
 			_GUICtrlComboBox_SetCurSel($g_hCmbScriptNameDB, $tempindex)
 			cmbScriptNameDB()
-			cmbScriptRedlineImplDB()
+			; CSV Deployment Speed Mod
+	         GUICtrlSetData($sldSelectedSpeedDB, $isldSelectedCSVSpeed[$DB])
+			 GUICtrlSetData($sldSelectedSpeedAB, $isldSelectedCSVSpeed[$LB])
+
+			 sldSelectedSpeedDB()
+	         sldSelectedSpeedAB()
+			 cmbScriptRedlineImplDB()
 		Case "Save"
 			$g_aiAttackScrRedlineRoutine[$DB] = _GUICtrlComboBox_GetCurSel($g_hCmbScriptRedlineImplDB)
 			$g_aiAttackScrDroplineEdge[$DB] = _GUICtrlComboBox_GetCurSel($g_hCmbScriptDroplineDB)

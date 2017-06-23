@@ -287,7 +287,7 @@ Global Const $DELAYREQUESTCC1 = 1000/2
 
 ;_makerequest
 Global Const $DELAYMAKEREQUEST1 = 500
-Global Const $DELAYMAKEREQUEST2 = 1500/3
+Global Const $DELAYMAKEREQUEST2 = 1500
 
 ;Train
 Global Const $DELAYTRAIN4 = 200

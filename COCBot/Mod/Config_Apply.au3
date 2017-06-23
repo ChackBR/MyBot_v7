@@ -26,18 +26,11 @@ Func ApplyConfig_MOD($TypeReadSave)
 			; MJamal - FFC
 			;
 
+#CS
 			; Classic Four Finger & Multi Finger
 			_GUICtrlComboBox_SetCurSel($cmbDBMultiFinger, $iMultiFingerStyle)
 			Bridge()
-			cmbStandardDropSidesAB()
-
-			; CSV Deployment Speed Mod
-         GUICtrlSetData($sldSelectedSpeedDB, $isldSelectedCSVSpeed[$DB])
-			GUICtrlSetData($sldSelectedSpeedAB, $isldSelectedCSVSpeed[$LB])
-
-			sldSelectedSpeedDB()
-	      sldSelectedSpeedAB()
-			cmbScriptRedlineImplDB()
+#CE
 
 			;
 			; AwesomeGamer
@@ -75,6 +68,7 @@ Func ApplyConfig_MOD($TypeReadSave)
 			; CSV Deployment Speed Mod
 			GUICtrlSetData($sldSelectedSpeedDB, $isldSelectedCSVSpeed[$DB])
 			GUICtrlSetData($sldSelectedSpeedAB, $isldSelectedCSVSpeed[$LB])
+
 			sldSelectedSpeedDB()
 			sldSelectedSpeedAB()
 #CE

@@ -41,9 +41,11 @@ Func SaveConfig_MOD()
 	; Multi Finger
 	_Ini_Add("MultiFinger", "Select", $iMultiFingerStyle)
 
+#CS
 	; CSV Deploy Speed
-	_Ini_Add("attack", "CSVSpeedDB", $isldSelectedCSVSpeed[$DB])
-	_Ini_Add("attack", "CSVSpeedAB", $isldSelectedCSVSpeed[$LB])
+	_Ini_Add("Attack", "CSVSpeedDB", $isldSelectedCSVSpeed[$DB])
+	_Ini_Add("Attack", "CSVSpeedAB", $isldSelectedCSVSpeed[$LB])
+#CE
 
 ;
 ; AwesomeGamer

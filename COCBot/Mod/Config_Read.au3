@@ -35,9 +35,11 @@ Func ReadConfig_MOD()
 	; Multi Finger
 	IniReadS($iMultiFingerStyle, $g_sProfileConfigPath, "MultiFinger", "Select", 2, "int")
 
+#CS
 	; CSV Deployment Speed Mod
-	IniReadS($isldSelectedCSVSpeed[$LB], $g_sProfileConfigPath, "attack", "CSVSpeedAB", 3)
-   IniReadS($isldSelectedCSVSpeed[$DB], $g_sProfileConfigPath, "attack", "CSVSpeedDB", 3)
+	IniReadS($isldSelectedCSVSpeed[$DB], $g_sProfileConfigPath, "attack", "CSVSpeedDB", 3)
+	IniReadS($isldSelectedCSVSpeed[$LB], $g_sProfileConfigPath, "Attack", "CSVSpeedAB", 3)
+#CE
 
 ;
 ; AwesomeGamer

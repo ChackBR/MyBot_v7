@@ -326,7 +326,10 @@ Func CheckSwitchAcc() ; Switch CoC Account with or without sleep combo - DEMEN
 		EndIf
 
 		If $ichkCloseTraining >= 1 And $nMinRemainTrain > 3 And $SwitchCase <> $eDonate And $SwitchCase <> $eContinuous Then
+			checkMainScreen()
 			VillageReport()
+            UpdateLabStatus()
+            UpdateHeroStatus()
 			ReArm()
 			If $g_bRequestTroopsEnable = True And $g_bCanRequestCC = True Then
 				Setlog("Try Request troops before going to sleep", $COLOR_BLUE)
