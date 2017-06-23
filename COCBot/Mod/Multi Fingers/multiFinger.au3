@@ -110,7 +110,7 @@ Func launchMultiFinger($listInfoDeploy, $CC, $King, $Queen, $Warden, $overrideSm
 EndFunc   ;==>launchMultiFinger
 
 Func cmbDBMultiFinger()
-	If $g_aiAttackStdDropSides[$DB] = 4 Then
+	If $g_aiAttackStdDropSides[$DB] = 5 Then
 		GUICtrlSetState($lblDBMultiFinger, $GUI_SHOW)
 		GUICtrlSetState($cmbDBMultiFinger, $GUI_SHOW)
 		$iMultiFingerStyle = _GUICtrlComboBox_GetCurSel($cmbDBMultiFinger)
@@ -122,7 +122,7 @@ EndFunc   ;==>cmbDBMultiFinger
 
 Func cmbDeployAB()
 	$g_aiAttackStdDropSides[$LB] = _GUICtrlComboBox_GetCurSel($g_hCmbStandardDropOrderAB)
-	If $g_aiAttackStdDropSides[$LB] = 4 Then
+	If $g_aiAttackStdDropSides[$LB] = 5 Then
 		GUICtrlSetState($g_hChkSmartAttackRedAreaAB, $GUI_UNCHECKED)
 		GUICtrlSetState($g_hChkSmartAttackRedAreaAB, $GUI_DISABLE)
 		chkSmartAttackRedAreaAB()
