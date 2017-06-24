@@ -23,15 +23,15 @@
 #pragma compile(Icon, "Images\MyBot.ico")
 #pragma compile(FileDescription, Clash of Clans Bot - A Free Clash of Clans bot - https://mybot.run)
 #pragma compile(ProductName, My Bot)
-#pragma compile(ProductVersion, 7.2)
-#pragma compile(FileVersion, 7.2)
+#pragma compile(ProductVersion, 7.2.1)
+#pragma compile(FileVersion, 7.2.1
 #pragma compile(LegalCopyright, © https://mybot.run)
 #pragma compile(Out, MyBot.run.exe) ; Required
 
 ; Enforce variable declarations
 Opt("MustDeclareVars", 1)
 
-Global $g_sBotVersion = "v7.2" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it is also use on Checkversion()
+Global $g_sBotVersion = "v7.2.1" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it is also use on Checkversion()
 Global $g_sModversion
 Global $g_sBotTitle = "" ;~ Don't assign any title here, use Func UpdateBotTitle()
 Global $g_hFrmBot = 0 ; The main GUI window
@@ -58,7 +58,8 @@ Global $g_hFrmBot = 0 ; The main GUI window
 ; "2812" ; MyBot v7.1.4 + Add: Multi-Finger
 ; "2901" ; MyBot v7.2.0 + Demen SwitchAcc + MF
 ; "2902" ; MyBot v7.2.0 + SwitchAcc + MF + Speed Mod
-$g_sModversion = "2903" ; MyBot v7.2.0 + SwitchAcc + MF + Speed Mod + Fix Profile
+"2903" ; MyBot v7.2.0 + SwitchAcc + MF + Speed Mod + Fix Profile
+$g_sModversion = "2921" ; MyBot v7.2.1 + SwitchAcc + MF + Speed Mod
 
 ; MBR includes
 #include "COCBot\MBR Global Variables.au3"
@@ -717,7 +718,7 @@ Func runBot() ;Bot that runs everything in order
 					If Unbreakable() = True Then ContinueLoop
 				EndIf
 			EndIf
-			Local $aRndFuncList = ['Laboratory', 'UpgradeHeroes', 'UpgradeBuilding']
+			Local $aRndFuncList = ['Laboratory', 'UpgradeHeroes', 'UpgradeBuilding', 'BuilderBase']
 			While 1
 				If $g_bRunState = False Then Return
 				If $g_bRestart = True Then ContinueLoop 2 ; must be level 2 due to loop-in-loop
@@ -1136,6 +1137,14 @@ Func _RunFunction($action)
 			_Sleep($DELAYRUNBOT3)
 		Case "UpgradeBuilding"
 			UpgradeBuilding()
+			_Sleep($DELAYRUNBOT3)
+		Case "BuilderBase"
+			If isOnBuilderIsland() Or (($g_bChkCollectBuilderBase Or $g_bChkStartClockTowerBoost) And SwitchBetweenBases()) Then
+				CollectBuilderBase()
+				StartClockTowerBoost()
+				; switch back to normal village
+				SwitchBetweenBases()
+			EndIf
 			_Sleep($DELAYRUNBOT3)
 		Case ""
 			SetDebugLog("Function call doesn't support empty string, please review array size", $COLOR_ERROR)

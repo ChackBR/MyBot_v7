@@ -99,6 +99,7 @@ Func BotCommand()
 					$g_bDonationEnabled = False
 				EndIf
 		EndSwitch
+
 		If $g_bMeetCondStop Then
 			Switch $iCmbBotCommand
 				Case 0

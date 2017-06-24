@@ -15,9 +15,10 @@
 #include-once
 
 Global $g_hGUI_ACTIVEBASE_ATTACK_SCRIPTED = 0
-Global $g_hCmbScriptNameAB = 0, $g_hCmbScriptRedlineImplAB = 0, $g_hCmbScriptDroplineAB = 0, $sldSelectedSpeedAB, $lbltxtSelectedSpeedAB
-Global $g_hLblNotesScriptAB = 0, $grpScriptSpeedAB
-
+Global $g_hCmbScriptNameAB = 0, $g_hCmbScriptRedlineImplAB = 0, $g_hCmbScriptDroplineAB = 0
+Global $g_hLblNotesScriptAB = 0
+Global $sldSelectedSpeedAB, $lbltxtSelectedSpeedAB
+Global $grpScriptSpeedAB
 
 Func CreateAttackSearchActiveBaseScripted()
    $g_hGUI_ACTIVEBASE_ATTACK_SCRIPTED = _GUICreate("", $_GUI_MAIN_WIDTH - 195, $g_iSizeHGrpTab4, 150, 25, BitOR($WS_CHILD, $WS_TABSTOP), -1, $g_hGUI_ACTIVEBASE)
@@ -32,7 +33,7 @@ Func CreateAttackSearchActiveBaseScripted()
 			   _GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Attack Scripted", "CmbScriptName", -1))
 			   GUICtrlSetState(-1, $GUI_UNCHECKED)
 			   GUICtrlSetOnEvent(-1, "cmbScriptNameAB")
-		   GUICtrlCreateIcon($g_sLibIconPath, $eIcnReload, $x + 210, $y + 2, 16, 16)
+		   _GUICtrlCreateIcon($g_sLibIconPath, $eIcnReload, $x + 210, $y + 2, 16, 16)
 			   _GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Attack Scripted", "IconReload_Info_01", -1))
 			   GUICtrlSetOnEvent(-1, 'UpdateComboScriptNameAB') ; Run this function when the secondary GUI [X] is clicked
 
@@ -55,12 +56,12 @@ Func CreateAttackSearchActiveBaseScripted()
 			   GUICtrlSetOnEvent(-1, "EditScriptAB")
 
 		   $y +=20
-		   GUICtrlCreateIcon($g_sLibIconPath, $eIcnAddcvs, $x + 210, $y + 2, 16, 16)
+		   _GUICtrlCreateIcon($g_sLibIconPath, $eIcnAddcvs, $x + 210, $y + 2, 16, 16)
 			   _GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Attack Scripted", "IconCreate_Info_01", -1))
 			   GUICtrlSetOnEvent(-1, "NewScriptAB")
 
-		   $y +=35
-		   GUICtrlCreateIcon($g_sLibIconPath, $eIcnCopy, $x + 210, $y + 2, 16, 16)
+		   $y +=20
+		   _GUICtrlCreateIcon($g_sLibIconPath, $eIcnCopy, $x + 210, $y + 2, 16, 16)
 			   _GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Attack Scripted", "IconCopy_Info_01", -1))
 			   GUICtrlSetOnEvent(-1, "DuplicateScriptAB")
 
