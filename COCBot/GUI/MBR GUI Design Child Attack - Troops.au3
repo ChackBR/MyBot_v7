@@ -448,10 +448,6 @@ Func CreateTroopsSpellsSubTab()
 	  $x -= 195
 	  $Y += 35
 		  $g_hChkTotalCampForced = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "ChkTotalCampForced", "Force Total Army Camp") & ":", $x + 3, $y, -1, -1)
-;	Moved down
-	   GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "Btn_Remove_Army", "Remove Army"), $x + 200, $y + 4, -1, 15, $SS_LEFT)
-	   _GUICtrlCreateIcon($g_sLibIconPath, $eIcnResetButton, $x + 270, $y - 2, 24, 24)
-	   GUICtrlSetOnEvent(-1, "Removecamp")
 			 GUICtrlSetState(-1, $GUI_CHECKED)
 			 GUICtrlSetOnEvent(-1, "chkTotalCampForced")
 			 _GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "ChkTotalCampForced_Info_01", "If not detected set army camp values (instead ask)"))
@@ -463,6 +459,11 @@ Func CreateTroopsSpellsSubTab()
 		  $g_hLblTotalProgress = GUICtrlCreateLabel("", $x, $y + 22, 407, 10)
 			 GUICtrlSetBkColor(-1, $COLOR_RED)
 			 GUICtrlSetState(-1, BitOR($GUI_DISABLE, $GUI_HIDE))
+
+;	Moved down
+	   GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "Btn_Remove_Army", "Remove Army"), $x + 200, $y + 4, -1, 15, $SS_LEFT)
+	   _GUICtrlCreateIcon($g_sLibIconPath, $eIcnResetButton, $x + 270, $y - 2, 24, 24)
+	   GUICtrlSetOnEvent(-1, "Removecamp")
 
 	  $x += 38
 		  GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "LblCountTotal", "Total"), $x + 295, $y + 7, -1, -1, $SS_RIGHT)

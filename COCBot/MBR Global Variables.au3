@@ -1305,7 +1305,7 @@ Global Const $g_iQuickTrainButtonRetryDelay = 1000
 Global $g_avLabTroops[30][5]
 
 ; MOD
-#include "MOD\Global_Variables.au3"
+#include "MOD\Global_Vars.au3"
 
 Func TranslateTroopNames()
 	Dim $g_avLabTroops[30][5] = [ _

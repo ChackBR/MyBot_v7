@@ -117,30 +117,6 @@ Func getArmyHeroCount($bOpenArmyWindow = False, $bCloseArmyWindow = False, $bSet
 EndFunc   ;==>getArmyHeroCount
 
 Func ArmyHeroStatus($i)
-
-; check hero status by imgloc - Demen
-	Local Const $aHeroesRect[3][4] = [[606, 338, 682, 390], [681, 338, 756, 390], [755, 338, 833, 390]]
-	Local $directory = @ScriptDir & "\imgxml\trainwindow\herostatus"
-	Local $sResult = ""
-
-	_CaptureRegion2($aHeroesRect[$i][0], $aHeroesRect[$i][1], $aHeroesRect[$i][2], $aHeroesRect[$i][3])
-	Local $Res = DllCall($g_hLibMyBot,"str", "SearchMultipleTilesBetweenLevels", "handle", $g_hHBitmap2, "str", $directory, "str", "FV", "Int", 0, "str", "FV", "Int", 0, "Int", 1000)
-
-	If $Res[0] = "" Or $Res[0] = "0" Then
-		$sResult = NameOfTroop($i+$eKing) ; "none"
-		Setlog("some kind of error, no image file return: " & NameOfTroop($i+$eKing), $COLOR_RED)
-	ElseIf StringInStr($Res[0], "-1") <> 0 Then
-		SetLog("DLL Error", $COLOR_RED)
-	Else ; name of first file found
-		Local $aKeys = StringSplit($Res[0], "|")
-		Local $aResult = StringSplit($aKeys[1], "_")
-		$sResult = $aResult[1]
-	EndIf
-
-	Return $sResult
-; check hero status by imgloc - Demen
-
-#CS
 	Local $sImageDir = "trainwindow-HeroStatus-bundle", $sResult = ""
 	Local Const $aHeroesRect[3][4] = [[660, 349, 673, 361], [734, 349, 747, 361], [807, 349, 822, 361]]
 
@@ -165,5 +141,5 @@ Func ArmyHeroStatus($i)
 		Case 2
 			Return "none"
 	EndSwitch
-#CE
+
 EndFunc   ;==>ArmyHeroStatus

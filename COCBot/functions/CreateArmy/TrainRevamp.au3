@@ -2172,7 +2172,7 @@ Func GetOCRCurrent($x_start, $y_start)
 			If $g_iDebugSetlogTrain then Setlog("$g_iTotalCampSpace: " & $g_iTotalCampSpace, $COLOR_DEBUG)
 			$aResult[1] = $g_iTotalCampSpace
 			$aResult[2] = $g_iTotalCampSpace - $aResult[0]
-		EndIf														   
+		EndIf
 		$aResult[2] = $aResult[1] - $aResult[0]
 	Else
 		Setlog("DEBUG | ERROR on GetOCRCurrent", $COLOR_ERROR)

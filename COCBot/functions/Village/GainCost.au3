@@ -50,22 +50,26 @@ Func EndGainCost($Type)
 				$tempGoldCollected = $g_aiCurrentLoot[$eLootGold] - $g_aiTempGainCost[0]
 				$g_iGoldFromMines += $tempGoldCollected
 				$g_iStatsTotalGain[$eLootGold] += $tempGoldCollected
-				If $ichkSwitchAcc = 1 Then $aGoldTotalAcc[$nCurProfile -1] += $tempGoldCollected 		; SwitchAcc_Demen_Style
 			EndIf
 
 			If $g_aiTempGainCost[1] <> "" And $g_aiCurrentLoot[$eLootElixir] <> "" And $g_aiTempGainCost[1] <> $g_aiCurrentLoot[$eLootElixir] Then
 				$tempElixirCollected = $g_aiCurrentLoot[$eLootElixir] - $g_aiTempGainCost[1]
 				$g_iElixirFromCollectors += $tempElixirCollected
 				$g_iStatsTotalGain[$eLootElixir] += $tempElixirCollected
-				If $ichkSwitchAcc = 1 Then $aElixirTotalAcc[$nCurProfile -1] += $tempElixirCollected 	; SwitchAcc_Demen_Style
 			EndIf
 
 			If $g_aiTempGainCost[2] <> "" And $g_aiCurrentLoot[$eLootDarkElixir] <> "" And $g_aiTempGainCost[2] <> $g_aiCurrentLoot[$eLootDarkElixir] Then
 				$tempDElixirCollected = $g_aiCurrentLoot[$eLootDarkElixir] - $g_aiTempGainCost[2]
 				$g_iDElixirFromDrills += $tempDElixirCollected
 				$g_iStatsTotalGain[$eLootDarkElixir] += $tempDElixirCollected
-				If $ichkSwitchAcc = 1 Then $aDarkTotalAcc[$nCurProfile -1] += $tempDElixirCollected  	; SwitchAcc_Demen_Style
 			EndIf
+
+			If $ichkSwitchAcc = 1 Then		; Profile Stats for SwitchAcc - Demen
+				$aGoldTotalAcc[$nCurProfile -1] += $tempGoldCollected
+				$aElixirTotalAcc[$nCurProfile -1] += $tempElixirCollected
+				$aDarkTotalAcc[$nCurProfile -1] += $tempDElixirCollected
+			EndIf
+
 		Case "Train"
 			Local $tempElixirSpent = 0
 			Local $tempDElixirSpent = 0
@@ -73,15 +77,19 @@ Func EndGainCost($Type)
 				$tempElixirSpent = ($g_aiTempGainCost[1] - $g_aiCurrentLoot[$eLootElixir])
 				$g_iTrainCostElixir += $tempElixirSpent
 				$g_iStatsTotalGain[$eLootElixir] -= $tempElixirSpent
-				If $ichkSwitchAcc = 1 Then $aElixirTotalAcc[$nCurProfile-1] -= $tempElixirSpent 		; SwitchAcc_Demen_Style
 			EndIf
 
 			If $g_aiTempGainCost[2] <> "" And $g_aiCurrentLoot[$eLootDarkElixir] <> "" And $g_aiTempGainCost[2] <> $g_aiCurrentLoot[$eLootDarkElixir] Then
 				$tempDElixirSpent = ($g_aiTempGainCost[2] - $g_aiCurrentLoot[$eLootDarkElixir])
 				$g_iTrainCostDElixir += $tempDElixirSpent
 				$g_iStatsTotalGain[$eLootDarkElixir] -= $tempDElixirSpent
-				If $ichkSwitchAcc = 1 Then $aDarkTotalAcc[$nCurProfile - 1] -= $tempDElixirSpent 		; SwitchAcc_Demen_Style
 			EndIf
+
+			If $ichkSwitchAcc = 1 Then		; Profile Stats for SwitchAcc - Demen
+				$aElixirTotalAcc[$nCurProfile-1] -= $tempElixirSpent
+				$aDarkTotalAcc[$nCurProfile - 1] -= $tempDElixirSpent
+			EndIf
+
 	EndSwitch
 
 	UpdateStats()
