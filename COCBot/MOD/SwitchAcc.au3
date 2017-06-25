@@ -522,7 +522,9 @@ Func SwitchCOCAcc()
 		EndIf
 	WEnd
 
-	If isOnBuilderIsland(True) Then GoToNormalVillage()
+	If $bSwitchToBB Then
+		If isOnBuilderIsland(True) Then SwitchBetweenBases()
+	EndIf
 
 EndFunc   ;==>SwitchCOCAcc
 
