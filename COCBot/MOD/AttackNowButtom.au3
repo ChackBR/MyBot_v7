@@ -30,7 +30,7 @@ Func AttackNowLB()
 		Local $bMeasured
 		Do
 			$i += 1
-			If _Sleep($iDelayPrepareSearch3) Then Return 	; wait 500 ms
+			If _Sleep($DELAYPREPARESEARCH3) Then Return 	; wait 500 ms
 			ForceCaptureRegion()
 			$bMeasured = CheckZoomOut("VillageSearch", $i < 2, True)
 		Until $bMeasured = True Or $i >= 2
@@ -58,7 +58,7 @@ Func AttackNowDB()
 		Local $bMeasured
 		Do
 			$i += 1
-			If _Sleep($iDelayPrepareSearch3) Then Return 	; wait 500 ms
+			If _Sleep($DELAYPREPARESEARCH3) Then Return 	; wait 500 ms
 			ForceCaptureRegion()
 			$bMeasured = CheckZoomOut("VillageSearch", $i < 2, True)
 		Until $bMeasured = True Or $i >= 2
