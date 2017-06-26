@@ -523,10 +523,6 @@ Func SwitchCOCAcc()
 		EndIf
 	WEnd
 
-	If $bSwitchToBB Then
-		If isOnBuilderIsland(True) Then SwitchBetweenBases()
-	EndIf
-
 EndFunc   ;==>SwitchCOCAcc
 
 Func SwitchFail_runBot()
