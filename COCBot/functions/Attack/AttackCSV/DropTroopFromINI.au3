@@ -111,8 +111,10 @@ Func DropTroopFromINI($vectors, $indexStart, $indexEnd, $indexArray, $qtaMin, $q
 	EndSwitch
 
 	; CVSDeploy Speed Mod
-   If $delayPointmin = 0 Then $delayPointmin = 100
-   If $delayPointmax = 0 Then $delayPointmax = 300
+	If Not ( $isldSelectedCSVSpeed[$g_iMatchMode] = 3 ) Then
+	   If $delayPointmin = 0 Then $delayPointmin = 100
+	   If $delayPointmax = 0 Then $delayPointmax = 300
+	EndIf
 
 	If $troopPosition = -1 Or $usespell = False Then
 		If $usespell = True Then
@@ -168,7 +170,7 @@ Func DropTroopFromINI($vectors, $indexStart, $indexEnd, $indexArray, $qtaMin, $q
 						Local $delayPoint = $delayPointmin
 					EndIf
 					; CSV Deployment Speed Mod
-					If ( $isldSelectedCSVSpeed[$g_iMatchMode] <> 3 ) Then
+					If Not ( $isldSelectedCSVSpeed[$g_iMatchMode] = 3 ) Then
 						$delayPoint = $delayPoint / $isldSelectedCSVSpeed[$g_iMatchMode]
 						$delayDropLast = $delayDropLast / $isldSelectedCSVSpeed[$g_iMatchMode]
 					EndIf
@@ -229,7 +231,7 @@ Func DropTroopFromINI($vectors, $indexStart, $indexEnd, $indexArray, $qtaMin, $q
 			$sleepafter = Int($sleepafterMin)
 		EndIf
 		; CSV Deployment Speed Mod
-		If ( $isldSelectedCSVSpeed[$g_iMatchMode] <> 3 ) Then
+		If Not ( $isldSelectedCSVSpeed[$g_iMatchMode] = 3 ) Then
 			$sleepafter = $sleepafter / $isldSelectedCSVSpeed[$g_iMatchMode]
 		EndIf
 		If $sleepafter > 0 And IsKeepClicksActive() = False Then

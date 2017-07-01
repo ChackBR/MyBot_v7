@@ -58,8 +58,9 @@ Global $g_hFrmBot = 0 ; The main GUI window
 ; "2812" ; MyBot v7.1.4 + Add: Multi-Finger
 ; "2901" ; MyBot v7.2.0 + Demen SwitchAcc + MF
 ; "2902" ; MyBot v7.2.0 + SwitchAcc + MF + Speed Mod
-"2903" ; MyBot v7.2.0 + SwitchAcc + MF + Speed Mod + Fix Profile
-$g_sModversion = "2921" ; MyBot v7.2.1 + SwitchAcc + MF + Speed Mod
+; "2903" ; MyBot v7.2.0 + SwitchAcc + MF + Speed Mod + Fix Profile
+; "2921" ; MyBot v7.2.1 + SwitchAcc + MF + Speed Mod
+$g_sModversion = "2922" ; MyBot v7.2.1 + SwitchAcc + MF + Fix Speed Mod
 
 ; MBR includes
 #include "COCBot\MBR Global Variables.au3"
