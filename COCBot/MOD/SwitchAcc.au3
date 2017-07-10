@@ -111,7 +111,7 @@ Func CheckWaitHero() ; get hero regen time remaining if enabled
 		Return
 	EndIf
 
-	Setlog("Getting Hero's recover time, King: " & $aHeroResult[0] & " m, Queen: " & $aHeroResult[1] & " m, GW: " & $aHeroResult[2] & " m.")
+;	Setlog("Getting Hero's recover time, King: " & $aHeroResult[0] & " m, Queen: " & $aHeroResult[1] & " m, GW: " & $aHeroResult[2] & " m.")
 
 	If _Sleep($DELAYRESPOND) Then Return
 	If $aHeroResult[0] > 0 Or $aHeroResult[1] > 0 Or $aHeroResult[2] > 0 Then ; check if hero is enabled to use/wait and set wait time
@@ -133,7 +133,7 @@ Func CheckWaitHero() ; get hero regen time remaining if enabled
 		Next
 	EndIf
 
-	Setlog("Hero recover wait time: " & $g_aiTimeTrain[2] & " minute(s)", $COLOR_BLUE)
+;	Setlog("Hero recover wait time: " & $g_aiTimeTrain[2] & " minute(s)", $COLOR_BLUE)
 
 EndFunc   ;==>CheckWaitHero
 
@@ -253,7 +253,7 @@ Func CheckSwitchAcc() ; Switch CoC Account with or without sleep combo - DEMEN
 
 	Local $SwitchCase, $bReachAttackLimit
 
-	SetLog("Start SwitchAcc Mode")
+	SetLog("Start SwitchAcc")
 
 	If IsMainPage() = False Then ClickP($aAway, 2, 250, "#0335") ; Sometimes the bot cannot open Army Overview Window, trying to click away first
 	If IsMainPage() = False Then checkMainScreen() ; checkmainscreen (may restart CoC) if still fail to locate main page.

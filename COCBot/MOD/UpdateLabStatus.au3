@@ -18,19 +18,22 @@ Func LabStatusAndTime()
 	Local $directory = @ScriptDir & "\imgxml\lab button"
 	Local $bResearchButtonFound, $aResearchButtonCord[2]
 	Local $day = 0, $hour = 0, $min = 0
+	Static $bNeedLocateLab[8] = [True, True, True, True, True, True, True, True]
+	Local $Profile = 0
+
 
 	; locate lab
 	If $g_aiLaboratoryPos[0] <= 0 Or $g_aiLaboratoryPos[1] <= 0 Then
-		SetLog("Laboratory Location not found!", $COLOR_ERROR)
-		If $g_bNeedLocateLab Then
+		If $ichkSwitchAcc = 1 Then $Profile = $nCurProfile - 1
+		If $bNeedLocateLab[$Profile] Then
+			SetLog("Laboratory has not been located", $COLOR_ERROR)
 			LocateLab()
 			If $g_aiLaboratoryPos[0] = 0 Or $g_aiLaboratoryPos[1] = 0 Then
 				SetLog("Problem locating Laboratory", $COLOR_ERROR)
-				$g_bNeedLocateLab = False ; give only one chance to locate lab. If ignore, then skip it for good.
-				Return False
 			EndIf
+			$bNeedLocateLab[$Profile] = False ; give only one chance to locate lab. If ignore, then skip it for good.
 		Else
-			Return False
+			Return
 		EndIf
 	EndIf
 
@@ -70,9 +73,9 @@ Func LabStatusAndTime()
 
 	; check for upgrade in process
 	If _ColorCheck(_GetPixelColor(730, 200, True), Hex(0xA2CB6C, 6), 20) Then ; Look for light green in upper right corner of lab window.
-		SetLog("Laboratory research is in progress", $COLOR_INFO)
-		Local $LabTimeOCR = getRemainTLaboratory(282, 277) ; Try to read white text showing actual time left for upgrade
+		Local $LabTimeOCR = getRemainTLaboratory(282, 271) ; Try to read white text showing actual time left for upgrade
 		Local $aArray = StringSplit($LabTimeOCR, ' ', BitOR($STR_CHRSPLIT, $STR_NOCOUNT)) ;separate days, hours, minutes, seconds
+		SetLog("Laboratory research time: " & $LabTimeOCR, $COLOR_INFO)
 		If IsArray($aArray) Then
 			For $i = 0 To UBound($aArray) - 1 ; step through array and compute minutes remaining
 				Local $sTime = ""

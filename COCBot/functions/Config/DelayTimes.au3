@@ -283,7 +283,7 @@ Global Const $DELAYREPLAYSHARE3 = 1000
 Global Const $DELAYREPLAYSHARE4 = 2000
 
 ;RequestCC
-Global Const $DELAYREQUESTCC1 = 1000/2
+Global Const $DELAYREQUESTCC1 = 1000
 
 ;_makerequest
 Global Const $DELAYMAKEREQUEST1 = 500

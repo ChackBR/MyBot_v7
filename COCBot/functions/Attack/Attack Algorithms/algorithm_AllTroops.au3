@@ -14,7 +14,7 @@
 ; ===============================================================================================================================
 
 Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
-	If $g_iDebugSetlog = 1 Then Setlog("algorithm_AllTroops", $COLOR_DEBUG)
+	If $g_iDebugSetlog = 1 Then Setlog("algorithm_AllTroops()", $COLOR_DEBUG)
 	SetSlotSpecialTroops()
 
 	If _Sleep($DELAYALGORITHM_ALLTROOPS1) Then Return
@@ -27,9 +27,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 	; - detect matchmode TS
 	; - detect matchmode DB and enabled TH snipe before attack and th outside
 	; - detect matchmode LB and enabled TH snipe before attack and th outside
-	If ($g_iSearchTH = "-" And ($g_iMatchMode = $DB And $g_bTHSnipeBeforeEnable[$DB])) Or _
-			($g_iSearchTH = "-" And ($g_iMatchMode = $LB And $g_bTHSnipeBeforeEnable[$LB])) Then
-
+	If ($g_iSearchTH = "-" And ($g_iMatchMode = $DB And $g_bTHSnipeBeforeEnable[$DB])) Or ($g_iSearchTH = "-" And ($g_iMatchMode = $LB And $g_bTHSnipeBeforeEnable[$LB])) Then
 		FindTownHall(True) ;If no previous detect townhall search th position
 	EndIf
 
@@ -59,11 +57,6 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 		EndIf
 	EndIf
 
-
-
-	;############################################# LSpell Attack ############################################################
-	; DropLSpell()
-	;########################################################################################################################
 	Local $nbSides = 0
 	Switch $g_aiAttackStdDropSides[$g_iMatchMode]
 		Case 0 ;Single sides ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -283,8 +276,8 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 			If $g_iDebugSetlog = 1 Then Setlog("No Wast time... exit, no troops usable left", $COLOR_DEBUG)
 			ExitLoop ;Check remaining quantities
 		EndIf
-		For $i = $eBarb To $eBowl ; lauch all remaining troops
-			If LauchTroop($i, $nbSides, 0, 1) = True Then
+		For $i = $eBarb To $eBowl ; launch all remaining troops
+			If LaunchTroop($i, $nbSides, 0, 1) = True Then
 				If $g_iActivateKQCondition = "Auto" Then CheckHeroesHealth()
 				If _Sleep($DELAYALGORITHM_ALLTROOPS5) Then Return
 			EndIf
@@ -312,10 +305,14 @@ Func SetSlotSpecialTroops()
 			$g_iWardenSlot = $i
 		EndIf
 	Next
-	If $g_iDebugSetlog = 1 Then SetLog("Use king SLOT # " & $g_iKingSlot, $COLOR_DEBUG)
-	If $g_iDebugSetlog = 1 Then SetLog("Use queen SLOT # " & $g_iQueenSlot, $COLOR_DEBUG)
-	If $g_iDebugSetlog = 1 Then SetLog("Use CC SLOT # " & $g_iClanCastleSlot, $COLOR_DEBUG)
-	If $g_iDebugSetlog = 1 Then SetLog("Use Warden SLOT # " & $g_iWardenSlot, $COLOR_DEBUG)
+
+	If $g_iDebugSetlog = 1 Then
+		SetLog("SetSlotSpecialTroops() King Slot: " & $g_iKingSlot, $COLOR_DEBUG)
+		SetLog("SetSlotSpecialTroops() Queen Slot: " & $g_iQueenSlot, $COLOR_DEBUG)
+        SetLog("SetSlotSpecialTroops() Warden Slot: " & $g_iWardenSlot, $COLOR_DEBUG)
+		SetLog("SetSlotSpecialTroops() Clan Castle Slot: " & $g_iClanCastleSlot, $COLOR_DEBUG)
+	EndIf
+
 EndFunc   ;==>SetSlotSpecialTroops
 
 Func CloseBattle()
@@ -347,10 +344,6 @@ Func SmartAttackStrategy($imode)
 			_GetRedArea()
 
 			SetLog("Calculated  (in " & Round(__TimerDiff($hTimer) / 1000, 2) & " seconds) :")
-			;SetLog("	[" & UBound($g_aiPixelTopLeft) & "] pixels TopLeft")
-			;SetLog("	[" & UBound($g_aiPixelTopRight) & "] pixels TopRight")
-			;SetLog("	[" & UBound($g_aiPixelBottomLeft) & "] pixels BottomLeft")
-			;SetLog("	[" & UBound($g_aiPixelBottomRight) & "] pixels BottomRight")
 
 			If ($g_abAttackStdSmartNearCollectors[$imode][0] Or $g_abAttackStdSmartNearCollectors[$imode][1] Or $g_abAttackStdSmartNearCollectors[$imode][2]) Then
 				SetLog("Locating Mines, Collectors & Drills", $COLOR_INFO)

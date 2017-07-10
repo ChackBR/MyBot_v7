@@ -24,7 +24,7 @@ Global $g_hLblResultDENow = 0, $g_hLblResultDEHourNow = 0, $g_hPicResultDENow = 
 Global $g_hLblResultTrophyNow = 0, $g_hPicResultTrophyNow = 0, $g_hLblResultRuntimeNow = 0, $g_hPicResultRuntimeNow = 0, $g_hLblResultBuilderNow = 0, $g_hPicResultBuilderNow = 0
 Global $g_hLblResultAttackedHourNow = 0, $g_hPicResultAttackedHourNow = 0, $g_hLblResultGemNow = 0, $g_hPicResultGemNow = 0, $g_hLblResultSkippedHourNow = 0, $g_hPicResultSkippedHourNow = 0
 Global $g_hLblVillageReportTemp = 0, $g_hBtnTestVillage = 0
-Global $g_ahLblHero[3], $g_hLblLab, $g_hLblLabTime
+Global $g_ahLblHero[3], $g_hLblLab, $g_hLblLabTime	; Hero & Lab Status - Demen
 
 Func CreateBottomPanel()
    Local $sTxtTip = ""
@@ -71,13 +71,13 @@ Func CreateBottomPanel()
 		   If $g_bBtnColor Then GUICtrlSetBkColor(-1, 0x22C4F5)
 		   GUICtrlSetState(-1, $GUI_DISABLE)
 		   GUICtrlSetOnEvent(-1, "btnEmbed")
-	   $g_hChkBackgroundMode = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Bottom", "ChkBackgroundMode", "Background Mode"), $x + 1, $y + 72, 90, 24)
+	   $g_hChkBackgroundMode = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Bottom", "ChkBackgroundMode", "Background Mode"), $x + 1, $y + 72, 180, 24)
 		   GUICtrlSetFont(-1, 7)
 		   _GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Bottom", "ChkBackgroundMode_Info_01", "Check this to ENABLE the Background Mode of the Bot.") & @CRLF & _
 						      GetTranslatedFileIni("MBR GUI Design Bottom", "ChkBackgroundMode_Info_02", "With this you can also hide the Android Emulator window out of sight."))
 		   GUICtrlSetOnEvent(-1, "chkBackground")
 		   GUICtrlSetState(-1, (($g_bAndroidAdbScreencap = True) ? ($GUI_CHECKED) : ($GUI_UNCHECKED)))
-	   $g_hLblDonate = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Bottom", "LblDonate", "Support the development"), $x + 224, $y + 85, 220, 20, $SS_RIGHT) ; was y+80 x height 24. Sorry I have to move this down a little bit - Demen
+	   $g_hLblDonate = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Bottom", "LblDonate", "Support the development"), $x + 224, $y + 80, 220, 24, $SS_RIGHT)
 		   GUICtrlSetCursor(-1, 0) ; https://www.autoitscript.com/autoit3/docs/functions/MouseGetCursor.htm
 		   GUICtrlSetFont(-1, 8.5, $FW_BOLD) ;, $GUI_FONTITALIC + $GUI_FONTUNDER)
 		   _GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Bottom", "LblDonate_Info_01", "Paypal Donate?"))

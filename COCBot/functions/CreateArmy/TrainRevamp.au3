@@ -46,6 +46,7 @@ Func TrainRevamp()
 	
 	If ( $g_bQuickTrainEnable = True ) Then
 		Qt_SimpleQuickTrain( True, 2 )
+		ResetVariables("donated")
 	Else
 
 	If $g_bIsFullArmywithHeroesAndSpells Or ($g_CurrentCampUtilization = 0 And $g_bFirstStart) Then
@@ -1899,7 +1900,7 @@ Func OpenTrainTabNumber($iTabNumber, $sWhereFrom)
 
 	If IsTrainPage() Then
 		Click($aTabNumber[$iTabNumber][0], $aTabNumber[$iTabNumber][1], 2, 200)
-		If _Sleep(1500/2) Then Return
+		If _Sleep(1500) Then Return
 		If IsArmyWindow(False, $iTabNumber) Then Setlog("Opening " & $Message[$iTabNumber] & $g_iDebugSetlogTrain = 1 ? "(Called from " & $sWhereFrom & ")" : "", $COLOR_INFO)
 	Else
 		Setlog(" - Error Clicking On " & ($iTabNumber >= 0 And $iTabNumber < UBound($Message)) ? ($Message[$iTabNumber]) : ("Not selectable") & " Tab!", $COLOR_ERROR)
