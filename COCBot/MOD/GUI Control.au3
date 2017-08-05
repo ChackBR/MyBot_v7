@@ -14,56 +14,6 @@
 ; ===============================================================================================================================
 #include-once
 
-; QuickTrainCombo
-Func chkQuickTrainCombo()
-	If GUICtrlRead($g_ahChkArmy[0]) = $GUI_UNCHECKED And GUICtrlRead($g_ahChkArmy[1]) = $GUI_UNCHECKED And GUICtrlRead($g_ahChkArmy[2]) = $GUI_UNCHECKED Then
-		GUICtrlSetState($g_ahChkArmy[0], $GUI_CHECKED)
-		ToolTip("QuickTrainCombo: " & @CRLF & "At least 1 Army Check is required! Default Army1.")
-		Sleep(2000)
-		ToolTip('')
-	EndIf
-
-	If GUICtrlRead($g_ahChkArmy[2]) = $GUI_CHECKED And GUICtrlRead($g_hChkUseQuickTrain) = $GUI_CHECKED Then
-		_GUI_Value_STATE("HIDE", $g_hLblRemoveArmy & "#" & $g_hBtnRemoveArmy)
-		_GUI_Value_STATE("SHOW", $g_hChkMultiClick)
-	Else
-		_GUI_Value_STATE("HIDE", $g_hChkMultiClick)
-		_GUI_Value_STATE("SHOW", $g_hLblRemoveArmy & "#" & $g_hBtnRemoveArmy)
-	EndIf
-
-EndFunc   ;==>chkQuickTrainCombo
-
-; SmartTrain
-Func chkSmartTrain()
-	If GUICtrlRead($g_hchkSmartTrain) = $GUI_CHECKED Then
-		If GUICtrlRead($g_hChkUseQuickTrain) = $GUI_UNCHECKED Then _GUI_Value_STATE("ENABLE", $g_hchkPreciseTroops)
-		_GUI_Value_STATE("ENABLE", $g_hchkFillArcher & "#" & $g_hchkFillEQ)
-		chkPreciseTroops()
-		chkFillArcher()
-	Else
-		_GUI_Value_STATE("DISABLE", $g_hchkPreciseTroops & "#" & $g_hchkFillArcher & "#" & $g_htxtFillArcher & "#" & $g_hchkFillEQ)
-		_GUI_Value_STATE("UNCHECKED", $g_hchkPreciseTroops & "#" & $g_hchkFillArcher & "#" & $g_hchkFillEQ)
-	EndIf
-EndFunc   ;==>chkSmartTrain
-
-Func chkPreciseTroops()
-	If GUICtrlRead($g_hchkPreciseTroops) = $GUI_CHECKED Then
-		_GUI_Value_STATE("DISABLE", $g_hchkFillArcher & "#" & $g_hchkFillEQ)
-		_GUI_Value_STATE("UNCHECKED", $g_hchkFillArcher & "#" & $g_hchkFillEQ)
-		chkFillArcher()
-	Else
-		_GUI_Value_STATE("ENABLE", $g_hchkFillArcher & "#" & $g_hchkFillEQ)
-	EndIf
-EndFunc   ;==>chkPreciseTroops
-
-Func chkFillArcher()
-	If GUICtrlRead($g_hchkFillArcher) = $GUI_CHECKED Then
-		_GUI_Value_STATE("ENABLE", $g_htxtFillArcher)
-	Else
-		_GUI_Value_STATE("DISABLE", $g_htxtFillArcher)
-	EndIf
-EndFunc   ;==>chkFillArcher
-
 Func AddProfileToList()
 	Switch @GUI_CtrlId
 		Case $g_hBtnAddProfile
