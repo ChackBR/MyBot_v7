@@ -509,6 +509,8 @@ Func DonateCC($Check = False)
 
 	If _Sleep($DELAYDONATECC2) Then Return
 
+	If $g_bQuickTrainEnable = True Then Qt_SimpleQuickTrain( True, 2 )
+
 EndFunc   ;==>DonateCC
 
 Func CheckDonateTroop(Const $iTroopIndex, Const $sDonateTroopString, Const $sBlacklistTroopString, Const $sClanString)

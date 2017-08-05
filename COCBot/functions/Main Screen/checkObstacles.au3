@@ -14,7 +14,7 @@
 ; Example .......: No
 ; ===============================================================================================================================
 ;
-Func checkObstacles() ;Checks if something is in the way for mainscreen
+Func checkObstacles($bBuilderBase = False) ;Checks if something is in the way for mainscreen
 	Static $checkObstaclesActive = False
 
 	If TestCapture() = False And WinGetAndroidHandle() = 0 Then
@@ -22,29 +22,32 @@ Func checkObstacles() ;Checks if something is in the way for mainscreen
 		Return True
 	EndIf
 
-    If _ColorCheck(_GetPixelColor(383, 405), Hex(0xF0BE70, 6), 20) Then	; SwitchAcc - DEMEN
-		SetLog("Found SwitchAcc Dialog")
-		PureClick(383, 405, 1, 0, "Click Cancel")
-	EndIf
-
 	; prevent recursion
 	If $checkObstaclesActive = True Then Return True
 	Local $wasForce = OcrForceCaptureRegion(False)
 	$checkObstaclesActive = True
-	Local $Result = _checkObstacles()
+	Local $Result = _checkObstacles($bBuilderBase)
 	OcrForceCaptureRegion($wasForce)
 	$checkObstaclesActive = False
 	Return $Result
 EndFunc   ;==>checkObstacles
 
-Func _checkObstacles() ;Checks if something is in the way for mainscreen
+Func _checkObstacles($bBuilderBase = False) ;Checks if something is in the way for mainscreen
 	Local $msg, $x, $y, $Result
 	$g_bMinorObstacle = False
 
-	_CaptureRegion()
-	_CaptureRegion2Sync() ; share same image from _CaptureRegion()
+	_CaptureRegions()
 
 	If checkObstacles_Network() Then Return True
+	Local $bIsOnBuilderIsland = _CheckPixel($aIsOnBuilderIsland, $g_bNoCapturePixel)
+	If $bBuilderBase = False And $bIsOnBuilderIsland = True Then
+		SetLog("Detected Builder Base, trying to switch back to Main Village")
+		If SwitchBetweenBases(False) Then
+			$g_bMinorObstacle = True
+			If _Sleep($DELAYCHECKOBSTACLES1) Then Return
+			Return False
+		EndIf
+	EndIf
 
 	If $g_sAndroidGameDistributor <> $g_sGoogle Then ; close an ads window for non google apks
 		Local $aXButton = FindAdsXButton()
@@ -101,8 +104,6 @@ Func _checkObstacles() ;Checks if something is in the way for mainscreen
 			Case _CheckPixel($aIsInactive, $g_bNoCapturePixel) ; Inactive only
 				SetLog("Village was Inactive, Reloading CoC...", $COLOR_ERROR)
 				If $g_bForceSinglePBLogoff Then $g_bGForcePBTUpdate = True
-				PureClickP($aReloadButton, 1, 0, "#0131")			; Click for connection lost - DEMEN
-				Return True											; Click for connection lost - DEMEN
 			Case _CheckPixel($aIsConnectLost, $g_bNoCapturePixel) ; Connection Lost
 				;  Add check for banned account :(
 				$Result = getOcrMaintenanceTime(171, 358 + $g_iMidOffsetY, "Check Obstacles OCR 'policy at super'=") ; OCR text for "policy at super"
@@ -118,12 +119,8 @@ Func _checkObstacles() ;Checks if something is in the way for mainscreen
 					Return checkObstacles_StopBot($msg) ; stop bot
 				EndIf
 				SetLog("Connection lost, Reloading CoC...", $COLOR_ERROR)
-				PureClickP($aReloadButton, 1, 0, "#0131")			; Click for connection lost - DEMEN
-				Return True											; Click for connection lost - DEMEN
 			Case _CheckPixel($aIsCheckOOS, $g_bNoCapturePixel) ; Check OoS
 				SetLog("Out of Sync Error, Reloading CoC...", $COLOR_ERROR)
-				PureClickP($aReloadButton, 1, 0, "#0131")			; Click for connection lost - DEMEN
-				Return True											; Click for connection lost - DEMEN
 			Case _CheckPixel($aIsMaintenance, $g_bNoCapturePixel) ; Check Maintenance
 				$Result = getOcrMaintenanceTime(171, 345 + $g_iMidOffsetY, "Check Obstacles OCR Maintenance Break=") ; OCR text to find wait time
 				Local $iMaintenanceWaitTime = 0

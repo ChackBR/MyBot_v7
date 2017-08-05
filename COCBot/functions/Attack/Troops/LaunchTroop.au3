@@ -45,7 +45,7 @@ Func LaunchTroop($troopKind, $nbSides, $waveNb, $maxWaveNb, $slotsPerEdge = 0)
 	DropTroop($troop, $nbSides, $troopNb, $slotsPerEdge)
 
 	Return True
-EndFunc   ;==>LaunchTroop
+EndFunc   ;==>LauchTroop
 
 Func LaunchTroop2($listInfoDeploy, $iCC, $iKing, $iQueen, $iWarden)
 	If $g_iDebugSetlog = 1 Then SetLog("LaunchTroop2 with CC " & $iCC & ", K " & $iKing & ", Q " & $iQueen & ", W " & $iWarden, $COLOR_DEBUG)

@@ -22,19 +22,29 @@ Func chkQuickTrainCombo()
 		Sleep(2000)
 		ToolTip('')
 	EndIf
+
+	If GUICtrlRead($g_ahChkArmy[2]) = $GUI_CHECKED And GUICtrlRead($g_hChkUseQuickTrain) = $GUI_CHECKED Then
+		_GUI_Value_STATE("HIDE", $g_hLblRemoveArmy & "#" & $g_hBtnRemoveArmy)
+		_GUI_Value_STATE("SHOW", $g_hChkMultiClick)
+	Else
+		_GUI_Value_STATE("HIDE", $g_hChkMultiClick)
+		_GUI_Value_STATE("SHOW", $g_hLblRemoveArmy & "#" & $g_hBtnRemoveArmy)
+	EndIf
+
 EndFunc   ;==>chkQuickTrainCombo
 
-; SimpleTrain
-Func chkSimpleTrain()
-	If GUICtrlRead($g_hchkSimpleTrain) = $GUI_CHECKED Then
+; SmartTrain
+Func chkSmartTrain()
+	If GUICtrlRead($g_hchkSmartTrain) = $GUI_CHECKED Then
 		If GUICtrlRead($g_hChkUseQuickTrain) = $GUI_UNCHECKED Then _GUI_Value_STATE("ENABLE", $g_hchkPreciseTroops)
 		_GUI_Value_STATE("ENABLE", $g_hchkFillArcher & "#" & $g_hchkFillEQ)
+		chkPreciseTroops()
 		chkFillArcher()
 	Else
 		_GUI_Value_STATE("DISABLE", $g_hchkPreciseTroops & "#" & $g_hchkFillArcher & "#" & $g_htxtFillArcher & "#" & $g_hchkFillEQ)
 		_GUI_Value_STATE("UNCHECKED", $g_hchkPreciseTroops & "#" & $g_hchkFillArcher & "#" & $g_hchkFillEQ)
 	EndIf
-EndFunc   ;==>chkSimpleTrain
+EndFunc   ;==>chkSmartTrain
 
 Func chkPreciseTroops()
 	If GUICtrlRead($g_hchkPreciseTroops) = $GUI_CHECKED Then
