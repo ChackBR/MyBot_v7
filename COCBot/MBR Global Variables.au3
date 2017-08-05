@@ -581,24 +581,24 @@ Global Const $g_aiTroopTrainTime[$eTroopCount] = [ _
 ; Zero element contains number of levels, elements 1 thru n contain cost of that level troop
 Global Const $g_aiTroopCostPerLevel[$eTroopCount][9] = [ _
 		[7, 25, 40, 60, 100, 150, 200, 250], _ 				 ; Archer
-		[7, 50, 80, 120, 200, 300, 400, 500], _ 				 ;Barbarian
+		[7, 50, 80, 120, 200, 300, 400, 500], _ 			 ; Barbarian
 		[8, 250, 750, 1250, 1750, 2250, 3000, 3500, 4000], _ ; Giant
 		[7, 25, 40, 60, 80, 100, 150, 200], _ 				 ; Goblin
-		[6, 1000, 1500, 2000, 2500, 3000, 3500], _ 			 ; WallBreaker
+		[7, 1000, 1500, 2000, 2500, 3000, 3500, 4000], _	 ; WallBreaker
 		[7, 2000, 2500, 3000, 3500, 4000, 4500, 5000], _ 	 ; Balloon
-		[7, 1500, 2000, 2500, 3000, 3500, 4000, 4500], _ 	 ; Wizard
-		[4, 5000, 6000, 8000, 10000], _						 ;Healer
+		[8, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000], _ ; Wizard
+		[5, 5000, 6000, 8000, 10000, 15000], _				 ; Healer
 		[6, 25000, 29000, 33000, 37000, 42000, 46000], _ 	 ; Dragon
-		[5, 28000, 32000, 36000, 40000, 45000], _ 			 ; Pekka
+		[6, 28000, 32000, 36000, 40000, 45000, 50000], _	 ; Pekka
 		[5, 15000, 16000, 17000, 18000, 19000], _ 			 ; BabyDragon
-		[4, 4200, 4800, 5400, 6000], _  						 ; Miner
+		[5, 4200, 4800, 5200, 5600, 6000], _				 ; Miner
 		[7, 6, 7, 8, 9, 10, 11, 12], _ 						 ; Minion
 		[7, 40, 45, 52, 58, 65, 90, 115], _					 ; HogRider
-		[5, 70, 100, 130, 160, 190], _ 						 ;Valkyrie
+		[5, 70, 100, 130, 160, 190], _ 						 ; Valkyrie
 		[6, 450, 525, 600, 675, 750, 825], _ 				 ; Golem
 		[3, 250, 350, 450], _ 								 ; Witch
-		[4, 390, 450, 510, 570], _  							 ;Lavahound
-		[3, 130, 150, 170]] ; Bowler
+		[4, 390, 450, 510, 570], _ 							 ; Lavahound
+		[3, 130, 150, 170]]									 ; Bowler
 Global Const $g_aiTroopDonateXP[$eTroopCount] = [1, 1, 5, 1, 2, 5, 4, 14, 20, 25, 10, 5, 2, 5, 8, 30, 12, 30, 6]
 
 ; Spells
@@ -610,16 +610,16 @@ Global Const $g_aiSpellSpace[$eSpellCount] = [2, 2, 2, 2, 2, 4, 1, 1, 1, 1]
 Global Const $g_aiSpellTrainTime[$eSpellCount] = [360, 360, 360, 360, 360, 720, 180, 180, 180, 180]
 ; Zero element contains number of levels, elements 1 thru n contain cost of that level spell
 Global Const $g_aiSpellCostPerLevel[$eSpellCount][8] = [ _
-		[7, 15000, 16500, 18000, 20000, 22000, 24000, 26000], _ ;LightningSpell
-		[7, 15000, 16500, 18000, 19000, 21000, 23000, 25000], _ 	 ;HealSpell
-		[5, 23000, 25000, 27000, 30000, 33000], _     		 ;RageSpell
-		[3, 23000, 27000, 31000], _        					 ;JumpSpell
-		[6, 23000, 26000, 29000, 31000, 33000, 35000], _ ;FreezeSpell
-		[5, 38000, 39000, 41000, 43000, 45000], _					 ;CloneSpell
-		[5, 95, 110, 125, 140, 155], _         				 ;PoisonSpell
-		[4, 125, 140, 160, 180], _    						 ;EarthquakeSpell
-		[4, 80, 85, 60, 95], _								 ;HasteSpell
-		[4, 110, 120, 130, 140]] ;SkeletonSpell
+		[7, 15000, 16500, 18000, 20000, 22000, 24000, 26000], _	 ; LightningSpell
+		[7, 15000, 16500, 18000, 19000, 21000, 23000, 25000], _  ; HealSpell
+		[5, 23000, 25000, 27000, 30000, 33000], _				 ; RageSpell
+		[3, 23000, 27000, 31000], _        						 ; JumpSpell
+		[6, 23000, 26000, 29000, 31000, 33000, 35000], _		 ; FreezeSpell
+		[5, 38000, 39000, 41000, 43000, 45000], _				 ; CloneSpell
+		[5, 95, 110, 125, 140, 155], _         					 ; PoisonSpell
+		[4, 125, 140, 160, 180], _    							 ; EarthquakeSpell
+		[4, 80, 85, 90, 95], _									 ; HasteSpell
+		[4, 110, 120, 130, 140]]								 ; SkeletonSpell
 Global Const $g_aiSpellDonateXP[$eSpellCount] = [10, 10, 10, 10, 10, 0, 5, 5, 5, 5]
 
 ; Hero Bitmaped Values

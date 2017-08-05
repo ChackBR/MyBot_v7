@@ -62,7 +62,7 @@ Global $g_hFrmBot = 0 ; The main GUI window
 ; "2921" ; MyBot v7.2.1 + SwitchAcc + MF + Speed Mod
 ; MyBot v7.2.1 + SwitchAcc + MF + Fix Speed Mod
 ; "2923" ; MyBot v7.2.2 + SwitchAcc + MF + Fix Speed Mod
-$g_sModversion = "2930" ; MyBot v7.2.3 + SwitchAcc + MF + Fix Speed Mod
+$g_sModversion = "r01" ; MyBot v7.2.3 + SwitchAcc + MF + Fix Speed Mod
 
 ; MBR includes
 #include "COCBot\MBR Global Variables.au3"
@@ -98,7 +98,7 @@ InitializeBot()
 MainLoop()
 
 Func UpdateBotTitle()
-	Local $sTitle = "My Bot " & $g_sBotVersion & ".r" & $g_sModversion & " "
+	Local $sTitle = "My Bot " & $g_sBotVersion & "." & $g_sModversion & " "
 	If $g_sBotTitle = "" Then
 		$g_sBotTitle = $sTitle
 	Else
