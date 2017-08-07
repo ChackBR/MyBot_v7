@@ -1,0 +1,54 @@
+NOTE  |Author: NavySeals -Drasticly tweak by Cat Ver. 3
+NOTE  |Immortal Bowler Attack ,
+NOTE  |Make Troops: 22-28Bowlers," 4-6healers, 4-12Giants(opt), 2-JSpells (opt), 1PSpell, 3Rage"
+      |EXTR. GOLD |EXTR.ELIXIR|EXTR. DARK |DEPO. GOLD |DEPO.ELIXIR|DEPO. DARK |TOWNHALL   |FORCED SIDE|,
+SIDE  |0          |0          |0          |0          |0          |0          |10         |           |,
+      |VECTOR_____|SIDE_______|DROP_POINTS|ADDTILES___|VERSUS_____|RANDOMX_PX_|RANDOMY_PX_|___________|,
+MAKE  |H          |FRONT-LEFT |10         |0          |INT-EXT    |0          |1          |           |,1st Haste
+MAKE  |N          |FRONT-LEFT |10         |2          |INT-EXT    |0          |1          |           |,was 6
+MAKE  |A          |FRONT-RIGHT|10         |2          |INT-EXT    |0          |1          |           |,was 6
+MAKE  |V          |FRONT-LEFT |10         |5          |INT-EXT    |2          |1          |           |,
+MAKE  |Y          |FRONT-RIGHT|10         |5          |INT-EXT    |1          |2          |           |,
+MAKE  |F          |FRONT-LEFT |10         |2          |INT-EXT    |0          |1          |           |,
+MAKE  |G          |FRONT-RIGHT|10         |2          |INT-EXT    |0          |1          |           |,
+MAKE  |I          |FRONT-LEFT |10         |-7         |INT-EXT    |0          |0          |           |,
+MAKE  |J          |FRONT-RIGHT|10         |-8         |INT-EXT    |0          |0          |           |,
+MAKE  |S          |FRONT-LEFT |10         |-5         |INT-EXT    |0          |0          |           |,first jump
+MAKE  |E          |FRONT-LEFT |10         |-13        |INT-EXT    |0          |0          |           |,second jump
+MAKE  |K          |FRONT-LEFT |10         |-14        |INT-EXT    |0          |0          |           |,was -11 (move last rage deeper)
+MAKE  |L          |FRONT-LEFT |10         |-14        |INT-EXT    |0          |0          |           |,was -13
+      |VECTOR_____|INDEX______|QTY_X_VECT_|TROOPNAME__|DELAY_DROP_|DELAYCHANGE|SLEEPAFTER_|           |,
+DROP  |N          |1          |1          |Giant      |0          |0          |33-66      |           |,
+DROP  |S          |1          |1          |Jspell     |16         |0          |166-200    |           |,
+DROP  |E          |1          |1          |Jspell     |16         |0          |166-200    |           |,
+DROP  |N          |7-8        |3          |Bowl       |0          |0          |333-500    |           |,was 7-9
+DROP  |V          |7-8        |1          |Heal       |0          |0          |16-33      |           |,was 7-9
+DROP  |A          |7-8        |3          |Bowl       |0          |0          |333-500    |           |,was 7-9
+DROP  |Y          |7-8        |1          |Heal       |0          |0          |16-33      |           |,was 7-9
+WAIT  |1800-2200  |           |           |           |           |           |           |           |,
+DROP  |H          |1          |1          |HaSpell    |0          |0          |0          |           |,
+DROP  |N          |1          |1          |castle     |0          |0          |33-100     |           |,
+DROP  |N          |1-2        |12         |Giant      |0          |0          |33-66      |           |,
+DROP  |N-A        |1-3        |10         |Bowl       |0          |0          |3-16       |           |,
+DROP  |N-A        |1-3        |18         |Bowl       |0          |0          |16-33      |           |,
+DROP  |F-G        |1-2        |8          |Wall       |0          |0          |50         |           |,drop wall breaker
+DROP  |N          |1          |1          |King       |0          |0          |20         |           |,
+DROP  |N          |1          |1          |Queen      |0          |0          |20         |           |,
+DROP  |V-Y        |1-6        |4          |Heal       |0          |0          |16-33      |           |,
+DROP  |V-Y        |1-6        |8          |Heal       |0          |0          |16-33      |           |,
+DROP  |N          |1          |1          |Warden     |0          |0          |66-133     |           |,
+WAIT  |3000-3500  |           |           |           |           |           |           |           |,
+DROP  |I          |2-3        |1          |RSpell     |0          |0          |33-66      |           |,
+DROP  |J          |3-4        |1          |RSpell     |0          |0          |1000-1600  |           |,was 2-3
+DROP  |K          |1          |2          |PSpell     |0          |0          |66-100     |           |,was 1 (make sure to use all 2 poison)
+DROP  |K          |1          |1          |RSpell     |0          |0          |66-100     |           |,
+RECALC|           |           |           |           |           |           |           |           |,recalc to use CC spell
+DROP  |L          |4          |1          |RSpell     |0          |0          |66-100     |           |,drop CC rage
+DROP  |L          |4          |1          |HSpell     |0          |0          |66-100     |           |,drop CC heal (if any)
+RECALC|           |           |           |           |           |           |           |           |,recalc again
+DROP  |L          |4          |1          |RSpell     |0          |0          |66-100     |           |,drop CC rage
+WAIT  |4000-4500  |           |           |           |           |           |           |           |,wait 4" more to activate GW ability
+WAIT  |4000-6000  |           |           |           |           |           |           |           |,
+WAIT  |4000-5500  |           |           |           |           |           |           |           |,
+DROP  |N-A        |1-8        |40         |arch       |50         |0          |10-20      |           |,
+

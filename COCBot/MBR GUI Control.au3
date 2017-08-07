@@ -426,12 +426,12 @@ Func GUIControl_WM_COMMAND($hWind, $iMsg, $wParam, $lParam)
 		Case $GUI_EVENT_CLOSE, $g_hLblBotClose
 			; Clean up resources
 			BotCloseRequest()
-		Case $g_hLblCreditsBckGrnd
+        Case $g_hLblCreditsBckGrnd
 			; Handle open URL clicks when label of link is over another background label
 			Local $CursorInfo = GUIGetCursorInfo($g_hFrmBot)
 			If IsArray($CursorInfo) = 1 Then
 				Switch $CursorInfo[4]
-					Case $g_hLblMyBotURL, $g_hLblForumURL
+                    Case $g_hLblMyBotURL, $g_hLblForumURL
 						OpenURL_Label($CursorInfo[4])
 				EndSwitch
 			EndIf
@@ -1405,7 +1405,7 @@ Func SetTime($bForceUpdate = False)
 						ElseIf $UpdateLabTime >= 24 * 60 Then
 							$sLabtime = Int($UpdateLabTime/24/60) & "d " & Round(Mod($UpdateLabTime, 24*60)/60,0) & "h"
 						ElseIf $UpdateLabTime >= 60 Then
-							$sLabtime = Int($UpdateLabTime/60) & "h " & Round(Mod($UpdateTrainTime,60), 0) & "m"
+							$sLabtime = Int($UpdateLabTime/60) & "h " & Round(Mod($UpdateLabTime,60), 0) & "m"
 						Else
 							$sLabtime = Int($UpdateLabTime) & "m " & Round(Mod($UpdateLabTime,1) * 60, 0) & "s"
 						EndIf

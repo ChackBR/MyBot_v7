@@ -22,6 +22,11 @@ Func checkObstacles($bBuilderBase = False) ;Checks if something is in the way fo
 		Return True
 	EndIf
 
+    If _ColorCheck(_GetPixelColor(383, 405), Hex(0xF0BE70, 6), 20) Then	; SwitchAcc - DEMEN
+		SetLog("Found SwitchAcc Dialog")
+		PureClick(383, 405, 1, 0, "Click Cancel")
+	EndIf
+
 	; prevent recursion
 	If $checkObstaclesActive = True Then Return True
 	Local $wasForce = OcrForceCaptureRegion(False)
@@ -104,6 +109,8 @@ Func _checkObstacles($bBuilderBase = False) ;Checks if something is in the way f
 			Case _CheckPixel($aIsInactive, $g_bNoCapturePixel) ; Inactive only
 				SetLog("Village was Inactive, Reloading CoC...", $COLOR_ERROR)
 				If $g_bForceSinglePBLogoff Then $g_bGForcePBTUpdate = True
+				PureClickP($aReloadButton, 1, 0, "#0131")			; Click for connection lost - DEMEN
+				Return True											; Click for connection lost - DEMEN
 			Case _CheckPixel($aIsConnectLost, $g_bNoCapturePixel) ; Connection Lost
 				;  Add check for banned account :(
 				$Result = getOcrMaintenanceTime(171, 358 + $g_iMidOffsetY, "Check Obstacles OCR 'policy at super'=") ; OCR text for "policy at super"
@@ -119,8 +126,12 @@ Func _checkObstacles($bBuilderBase = False) ;Checks if something is in the way f
 					Return checkObstacles_StopBot($msg) ; stop bot
 				EndIf
 				SetLog("Connection lost, Reloading CoC...", $COLOR_ERROR)
+				PureClickP($aReloadButton, 1, 0, "#0131")			; Click for connection lost - DEMEN
+				Return True											; Click for connection lost - DEMEN
 			Case _CheckPixel($aIsCheckOOS, $g_bNoCapturePixel) ; Check OoS
 				SetLog("Out of Sync Error, Reloading CoC...", $COLOR_ERROR)
+				PureClickP($aReloadButton, 1, 0, "#0131")			; Click for connection lost - DEMEN
+				Return True											; Click for connection lost - DEMEN
 			Case _CheckPixel($aIsMaintenance, $g_bNoCapturePixel) ; Check Maintenance
 				$Result = getOcrMaintenanceTime(171, 345 + $g_iMidOffsetY, "Check Obstacles OCR Maintenance Break=") ; OCR text to find wait time
 				Local $iMaintenanceWaitTime = 0

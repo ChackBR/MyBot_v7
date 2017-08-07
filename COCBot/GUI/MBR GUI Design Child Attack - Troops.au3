@@ -461,8 +461,8 @@ Func CreateTroopsSpellsSubTab()
 			 GUICtrlSetState(-1, BitOR($GUI_DISABLE, $GUI_HIDE))
 
 ;	Moved down
-	   GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "Btn_Remove_Army", "Remove Army"), $x + 200, $y + 4, -1, 15, $SS_LEFT)
-	   _GUICtrlCreateIcon($g_sLibIconPath, $eIcnResetButton, $x + 270, $y - 2, 24, 24)
+	   $g_hLblRemoveArmy = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "Btn_Remove_Army", "Remove Army"), $x + 200, $y + 4, -1, 15, $SS_LEFT)
+	   $g_hBtnRemoveArmy = GUICtrlCreateIcon($g_sLibIconPath, $eIcnResetButton, $x + 270, $y - 2, 24, 24)
 	   GUICtrlSetOnEvent(-1, "Removecamp")
 
 	  $x += 38

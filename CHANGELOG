@@ -1064,7 +1064,7 @@
  * modified open BS to stop a random recursive loop event
  * village search not seeing OOS for 5 loops and going inactive and losing trophy
  * Zoom out not working if user has black pixels in same place as window check
- * Removed wall upgrade disable if code cannot find anymore walls to upgrade, keeps trying forever even if it’s hopeless
+ * Removed wall upgrade disable if code cannot find anymore walls to upgrade, keeps trying forever even if itâ€™s hopeless
  * Changed minimum troop requirements for unbreakable mode based on the attack dead base setting
  * Troop training and balancing code adjusted for fewer out of balance events during TH Snipe
  * Adjusted log messages for "out of Elixir" during training to show type of elixir
