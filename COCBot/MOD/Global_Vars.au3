@@ -17,13 +17,6 @@
 ; Global Variables
 ;
 
-; Fix drop on edge from Doc Octopus
-Global Const $g_aaiTopLeftDropPoints[5][2] = [[62, 306], [156, 238], [221, 188], [288, 142], [383, 76]]
-Global Const $g_aaiTopRightDropPoints[5][2] = [[486, 59], [586, 134], [652, 184], [720, 231], [817, 308]]
-Global Const $g_aaiBottomLeftDropPoints[5][2] = [[20, 373], [101, 430], [171, 481], [244, 535], [346, 615]]
-Global Const $g_aaiBottomRightDropPoints[5][2] = [[530, 615], [632, 535], [704, 481], [781, 430], [848, 373]]
-Global Const $g_aaiEdgeDropPoints[4] = [$g_aaiBottomRightDropPoints, $g_aaiTopLeftDropPoints, $g_aaiBottomLeftDropPoints, $g_aaiTopRightDropPoints]
-
 ;
 ; mandryd
 ;
@@ -123,6 +116,7 @@ Global $bReMatchAcc = False
 Global $aTimerStart[8], $aTimerEnd[8]
 Global $aRemainTrainTime[8], $aUpdateRemainTrainTime[8], $nMinRemainTrain
 Global $aLocateAccConfig[8], $aAccPosY[8]
+Global $g_iTrainTimeToSkip = 0
 
 Global $g_bNeedLocateLab = True, $g_bLabReady[9]
 Global $g_aLabTimeAcc[8], $g_aLabTime[4] = [0, 0, 0, 0] ; day | hour | minute | time in minutes

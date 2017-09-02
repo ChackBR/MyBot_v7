@@ -104,6 +104,8 @@ Func UpdateHeroStatus() ;	Show on Profile Stats - Demen
 				GUICtrlSetState($hHero, $GUI_HIDE)
 		EndSelect
 	Next
+
+	$g_bCanRequestCC = _ColorCheck(_GetPixelColor($aRequestTroopsAO[0], $aRequestTroopsAO[1], True), Hex($aRequestTroopsAO[2], 6), $aRequestTroopsAO[5])
     ClickP($aAway, 1, 0, "#0000") ;Click Away
     If _Sleep($DELAYCHECKARMYCAMP4) Then Return
 

@@ -15,7 +15,7 @@
 
 ; SwitchAcc_Demen
 Global $lblProfileNo[8], $lblProfileName[8], $cmbAccountNo[8], $cmbProfileType[8]
-Global $chkSwitchAcc = 0, $cmbTotalAccount = 0, $radNormalSwitch = 0, $radSmartSwitch = 0, $chkUseTrainingClose = 0, $radCloseCoC = 0, $radCloseAndroid = 0, $cmbLocateAcc = 0
+Global $chkSwitchAcc = 0, $cmbTotalAccount = 0, $radNormalSwitch = 0, $radSmartSwitch = 0, $chkUseTrainingClose = 0, $radCloseCoC = 0, $radCloseAndroid = 0, $cmbLocateAcc = 0, $g_hCmbTrainTimeToSkip = 0
 Global $g_hChkForceSwitch = 0, $g_txtForceSwitch = 0, $g_lblForceSwitch = 0, $g_hChkForceStayDonate = 0
 Global $g_StartHideSwitchAcc = 0, $g_SecondHideSwitchAcc, $g_EndHideSwitchAcc = 0
 
@@ -52,6 +52,11 @@ Func CreateBotSwitchAcc()
 	GUICtrlSetOnEvent(-1, "radNormalSwitch")
 
 	$y += 80
+	GUICtrlCreateLabel("Skip switch if train time < ", $x + 10, $y, -1, -1)
+	$g_hCmbTrainTimeToSkip = GUICtrlCreateCombo("", $x + 135, $y - 4, 40, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+		GUICtrlSetData(-1, "1 min|2 mins|3 mins|4 mins|5 mins|6 mins|7 mins|8 mins|9 mins", "1 min")
+
+	$y += 30
 	$g_hChkForceSwitch = GUICtrlCreateCheckbox(GetTranslated(109, 19, "Force switch after:"), $x - 5, $y, -1, -1)
 	GUICtrlSetTip(-1, GetTranslated(109, 20, "Force the Bot to switch account when searching for too long") & _
 			@CRLF & GetTranslated(109, 21, "First switch to all donate accounts") & _

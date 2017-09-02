@@ -275,8 +275,11 @@ Func CheckSwitchAcc() ; Switch CoC Account with or without sleep combo - DEMEN
 
 	$bReachAttackLimit = ($aAttackedCountSwitch[$nCurProfile - 1] <= $aAttackedCountAcc[$nCurProfile - 1] - 2)
 
-	If $aProfileType[$nCurProfile - 1] = $eActive And _ArrayMax($g_aiTimeTrain) <= 0 And Not ($bReachAttackLimit) Then
-		Setlog("Army is ready, skip switching account")
+	Local $iWaitTime = _ArrayMax($g_aiTimeTrain)
+	Local $sLogSkip = ""
+    If $aProfileType[$nCurProfile - 1] = $eActive And $iWaitTime <= $g_iTrainTimeToSkip And Not ($bReachAttackLimit) And Not $g_bWaitForCCTroopSpell Then
+		If $iWaitTime > 0 Then $sLogSkip = "in " & Round($iWaitTime, 2) & " m"
+		Setlog("Army is ready" & $sLogSkip & ", skip switching account")
 		If _Sleep(500) Then Return
 
 	Else

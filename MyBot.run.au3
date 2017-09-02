@@ -23,15 +23,15 @@
 #pragma compile(Icon, "Images\MyBot.ico")
 #pragma compile(FileDescription, Clash of Clans Bot - A Free Clash of Clans bot - https://mybot.run)
 #pragma compile(ProductName, My Bot)
-#pragma compile(ProductVersion, 7.2.3)
-#pragma compile(FileVersion, 7.2.3)
+#pragma compile(ProductVersion, 7.2.4)
+#pragma compile(FileVersion, 7.2.4)
 #pragma compile(LegalCopyright, © https://mybot.run)
 #pragma compile(Out, MyBot.run.exe) ; Required
 
 ; Enforce variable declarations
 Opt("MustDeclareVars", 1)
 
-Global $g_sBotVersion = "v7.2.3" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it is also use on Checkversion()
+Global $g_sBotVersion = "v7.2.4" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it is also use on Checkversion()
 Global $g_sModversion
 Global $g_sBotTitle = "" ;~ Don't assign any title here, use Func UpdateBotTitle()
 Global $g_hFrmBot = 0 ; The main GUI window
@@ -62,7 +62,8 @@ Global $g_hFrmBot = 0 ; The main GUI window
 ; "2921" ; MyBot v7.2.1 + SwitchAcc + MF + Speed Mod
 ; MyBot v7.2.1 + SwitchAcc + MF + Fix Speed Mod
 ; "2923" ; MyBot v7.2.2 + SwitchAcc + MF + Fix Speed Mod
-$g_sModversion = "r01" ; MyBot v7.2.3 + SwitchAcc + MF + Fix Speed Mod
+; MyBot v7.2.3 + SwitchAcc + MF + Fix Speed Mod
+$g_sModversion = "r01" ; MyBot v7.2.4 + SwitchAcc + MF + Speed Mod
 
 ; MBR includes
 #include "COCBot\MBR Global Variables.au3"
@@ -682,7 +683,7 @@ Func runBot() ;Bot that runs everything in order
 			If _Sleep($DELAYRUNBOT5) Then Return
 			checkMainScreen(False)
 			If $g_bRestart = True Then ContinueLoop
-			Local $aRndFuncList = ['Collect', 'CheckTombs', 'ReArm', 'CleanYard']
+			Local $aRndFuncList = ['Collect', 'CheckTombs', 'ReArm', 'CleanYard', 'RequestCC'] ; moving RequestCC earlier
 			While 1
 				If $g_bRunState = False Then Return
 				If $g_bRestart = True Then ContinueLoop 2 ; must be level 2 due to loop-in-loop
@@ -701,7 +702,7 @@ Func runBot() ;Bot that runs everything in order
 			If $g_bRunState = False Then Return
 			If $g_bRestart = True Then ContinueLoop
 			If IsSearchAttackEnabled() Then ; if attack is disabled skip reporting, requesting, donating, training, and boosting
-				Local $aRndFuncList = ['ReplayShare', 'NotifyReport', 'DonateCC,Train', 'BoostBarracks', 'BoostSpellFactory', 'BoostKing', 'BoostQueen', 'BoostWarden', 'RequestCC']
+				Local $aRndFuncList = ['ReplayShare', 'NotifyReport', 'DonateCC,Train', 'BoostBarracks', 'BoostSpellFactory', 'BoostKing', 'BoostQueen', 'BoostWarden']
 				While 1
 					If $g_bRunState = False Then Return
 					If $g_bRestart = True Then ContinueLoop 2 ; must be level 2 due to loop-in-loop
