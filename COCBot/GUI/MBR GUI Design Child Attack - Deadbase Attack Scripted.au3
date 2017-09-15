@@ -18,8 +18,8 @@
 Global $g_hGUI_DEADBASE_ATTACK_SCRIPTED = 0
 Global $g_hCmbScriptNameDB = 0, $g_hCmbScriptRedlineImplDB = 0, $g_hCmbScriptDroplineDB = 0
 Global $g_hLblNotesScriptDB = 0
-Global $lbltxtSelectedSpeedDB, $sldSelectedSpeedDB
 Global $grpScriptSpeedDB, $sTxtTip
+Global $lbltxtSelectedSpeedDB, $sldSelectedSpeedDB
 
 Func CreateAttackSearchDeadBaseScripted()
    $g_hGUI_DEADBASE_ATTACK_SCRIPTED = _GUICreate("", $_GUI_MAIN_WIDTH - 195, $g_iSizeHGrpTab4, 150, 25, BitOR($WS_CHILD, $WS_TABSTOP), -1, $g_hGUI_DEADBASE)

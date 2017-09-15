@@ -116,27 +116,30 @@ Func getArmyHeroCount($bOpenArmyWindow = False, $bCloseArmyWindow = False, $bSet
 
 EndFunc   ;==>getArmyHeroCount
 
- ; check hero status by imgloc - Demen
 Func ArmyHeroStatus($i)
+	Local $sImageDir = "trainwindow-HeroStatus-bundle", $sResult = ""
+	Local Const $aHeroesRect[3][4] = [[660, 349, 673, 361], [734, 349, 747, 361], [807, 349, 822, 361]]
 
-	Local Const $aHeroesRect[3][4] = [[606, 338, 682, 390], [681, 338, 756, 390], [755, 338, 833, 390]]
-	Local $directory = @ScriptDir & "\imgxml\trainwindow\herostatus"
-	Local $sResult = ""
-
+	; Perform the search
 	_CaptureRegion2($aHeroesRect[$i][0], $aHeroesRect[$i][1], $aHeroesRect[$i][2], $aHeroesRect[$i][3])
-	Local $Res = DllCall($g_hLibMyBot,"str", "SearchMultipleTilesBetweenLevels", "handle", $g_hHBitmap2, "str", $directory, "str", "FV", "Int", 0, "str", "FV", "Int", 0, "Int", 1000)
-
-	If $Res[0] = "" Or $Res[0] = "0" Then
-		$sResult = NameOfTroop($i+$eKing) ; "none"
-		Setlog("some kind of error, no image file return: " & NameOfTroop($i+$eKing), $COLOR_RED)
-	ElseIf StringInStr($Res[0], "-1") <> 0 Then
-		SetLog("DLL Error", $COLOR_RED)
-	Else ; name of first file found
-		Local $aKeys = StringSplit($Res[0], "|")
-		Local $aResult = StringSplit($aKeys[1], "_")
-		$sResult = $aResult[1]
+	Local $res = DllCallMyBot("SearchMultipleTilesBetweenLevels", "handle", $g_hHBitmap2, "str", $sImageDir, "str", "FV", "Int", 0, "str", "FV", "Int", 0, "Int", 1000)
+	If $res[0] <> "" Then
+		Local $aKeys = StringSplit($res[0], "|", $STR_NOCOUNT)
+		If StringInStr($aKeys[0], "xml", $STR_NOCASESENSEBASIC) Then
+			Local $aResult = StringSplit($aKeys[0], "_", $STR_NOCOUNT)
+			$sResult = $aResult[0]
+			Return $sResult
+		EndIf
 	EndIf
 
-	Return $sResult
+	;return 'none' if there was a problem with the search ; or no Hero slot
+	Switch $i
+		Case 0
+			Return "none"
+		Case 1
+			Return "none"
+		Case 2
+			Return "none"
+	EndSwitch
+
 EndFunc   ;==>ArmyHeroStatus
-; check hero status by imgloc - Demen

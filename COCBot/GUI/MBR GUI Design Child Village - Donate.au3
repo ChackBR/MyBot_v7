@@ -613,8 +613,6 @@ Func CreateDonateSubTab()
 
 		  GUICtrlCreateButton("", $x + 2, $y, $Offx - 2, $Offx - 2, $BS_ICON)
 			  GUICtrlSetState(-1, $GUI_DISABLE)
-	  ;		GUICtrlSetImage (-1, $g_sLibIconPath, $eIcnTroops, 0)
-	  ;		GUICtrlSetOnEvent(-1, "btnDonateCustomD")
       $x += $Offx
 	   GUICtrlCreateButton("", $x + 2, $y, $Offx - 2, $Offx - 2, $BS_ICON)
 		   _GUICtrlSetImage (-1, $g_sLibIconPath, $eIcnDonBlacklist, 1)
