@@ -195,7 +195,7 @@ Func LaunchTroop2($listInfoDeploy, $iCC, $iKing, $iQueen, $iWarden)
 									If ($g_bIsCCDropped = False And $infoTroopListArrPixel[0] = "CC") Then
 										dropCC($pixelRandomDropcc[0], $pixelRandomDropcc[1], $iCC)
 										$g_bIsCCDropped = True
-									ElseIf ($g_bIsHeroesDropped = False And $infoTroopListArrPixel[0] = "HEROES" And $i = $numberSidesDropTroop - 1) Then
+									ElseIf ($g_bIsHeroesDropped = False And $infoTroopListArrPixel[0] = "HEROES") Then
 										dropHeroes($pixelRandomDrop[0], $pixelRandomDrop[1], $iKing, $iQueen, $iWarden)
 										$g_bIsHeroesDropped = True
 									EndIf

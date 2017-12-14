@@ -169,7 +169,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 	; Classic Four Fingers
 	ElseIf $nbSides = 5 Then
 	   	CmbGiantSlot()
-		If $g_bCustomTrainDropOrderEnable = True Then
+		If $g_bCustomDropOrderEnable Then
 			Local $listInfoDeploy[21][5] = [[MatchTroopDropName(0), MatchSidesDrop(0), MatchTroopWaveNb(0), 1, MatchSlotsPerEdge(0)], _
 						[MatchTroopDropName(1), MatchSidesDrop(1), MatchTroopWaveNb(1), 1, MatchSlotsPerEdge(1)], _
 						[MatchTroopDropName(2), MatchSidesDrop(2), MatchTroopWaveNb(2), 1, MatchSlotsPerEdge(2)], _
