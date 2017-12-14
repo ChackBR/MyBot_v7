@@ -48,7 +48,7 @@ Func ReplayShare($bShareLastReplay)
 			$sRndMessage = $asReplayText[Random(1, $asReplayText[0], 1)] ; Get Random String from Array
 		EndIf
 
-		If _CheckPixel($aBlueShareReplayButton) Then ; Is the Share Button for the Replay available?
+		If _CheckPixel($aBlueShareReplayButton, True) Then ; Is the Share Button for the Replay available?
 			ClickP($aBlueShareReplayButton, 1, 0, "#0238") ; Click Share Button
 			If _Sleep($DELAYREPLAYSHARE1) Then Return
 			Click(300, 120, 1, 0, "#0239") ;Select Text Area to put in the Random Message from GUI
@@ -65,7 +65,7 @@ Func ReplayShare($bShareLastReplay)
 			If _Sleep($DELAYREPLAYSHARE1) Then Return
 			Click(530, 210 + $g_iMidOffsetY, 1, 0, "#0240") ;Click the Send Button
 			$sLastTimeShared = _NowCalc ; Update the Date where the last Replay got shared
-		ElseIf _CheckPixel($aGrayShareReplayButton) Then ; Is the Share Button for the Replay not available?
+		ElseIf _CheckPixel($aGrayShareReplayButton, True) Then ; Is the Share Button for the Replay not available?
 			SetLog("Sharing latest Attack is not enabled right now, storing it and share later!") ; Cooldown is not over yet! Probably User shared a Replay and started Bot afterwards
 			ClickP($aAway, 1, 0, "#0235")
 		Else ; Neither of Blue or Gray Button State got found? Maybe Replay got deleted or Button was not found
@@ -94,7 +94,7 @@ EndFunc   ;==>ReplayShare
 	ClickP($aAway, 1, 0, "#0235") ;Click Away
 	If _Sleep($DELAYREPLAYSHARE2) Then Return ;
 	SetLog("Share Replay: Opening Messages Page...", $COLOR_INFO)
-	If $g_iDebugSetlog = 1 Then Setlog("$last= " & $last, $COLOR_DEBUG)
+	If $g_bDebugSetlog Then Setlog("$last= " & $last, $COLOR_DEBUG)
 	ClickP($aMessageButton, 1, 0, "#0236") ;Click Messages Button
 	If _Sleep($DELAYREPLAYSHARE3) Then Return
 	Click(380, 94 + $g_iMidOffsetY, 1, 0, "#0237") ; Click Attack Log Tab, move down 30 pixels for 860x780
@@ -105,7 +105,7 @@ EndFunc   ;==>ReplayShare
 
 	; check if exist replay queue ----------------------------------------------------
 	Local $FileListQueueName = _FileListToArray($g_sProfileTempPath, "Village*.png", 1) ; list files to an array.
-	If $g_iDebugSetlog = 1 Then Setlog("Top share button pixel color 70D4E8 or BBBBBB: " & _GetPixelColor(500, 156 + $g_iMidOffsetY), $COLOR_DEBUG)
+	If $g_bDebugSetlog Then Setlog("Top share button pixel color 70D4E8 or BBBBBB: " & _GetPixelColor(500, 156 + $g_iMidOffsetY), $COLOR_DEBUG)
 	If _ColorCheck(_GetPixelColor(500, 156 + $g_iMidOffsetY), Hex(0x70D4E8, 6), 10) = True And Not (IsArray($FileListQueueName)) Then
 	;button replay blue, moved down 30 for 860x780
 	Setlog("Ok, sharing!")
@@ -184,13 +184,13 @@ EndFunc   ;==>ReplayShare
 	ClickP($aAway, 1, 0, "#0242") ;Click Away
 	If _Sleep($DELAYREPLAYSHARE2) Then Return ;
 	SetLog("Share Replay: Opening Messages Page...", $COLOR_INFO)
-	If $g_iDebugSetlog = 1 Then Setlog("$last= " & $last, $COLOR_DEBUG)
+	If $g_bDebugSetlog Then Setlog("$last= " & $last, $COLOR_DEBUG)
 	ClickP($aMessageButton, 1, 0, "#0243") ; Click Messages Button
 	If _Sleep($DELAYREPLAYSHARE3) Then Return
 	Click(380, 94 + $g_iMidOffsetY, 1, 0, "#0244") ; Click Attack Log Tab, moved down 30 for 860x780
 	If _Sleep($DELAYREPLAYSHARE3) Then Return
 	_CaptureRegion()
-	If $g_iDebugSetlog = 1 Then Setlog("Top share button pixel color 70D4E8 or BBBBBB: " & _GetPixelColor(500, 156 + $g_iMidOffsetY), $COLOR_DEBUG)
+	If $g_bDebugSetlog Then Setlog("Top share button pixel color 70D4E8 or BBBBBB: " & _GetPixelColor(500, 156 + $g_iMidOffsetY), $COLOR_DEBUG)
 	If _ColorCheck(_GetPixelColor(500, 156 + $g_iMidOffsetY), Hex(0x70D4E8, 6), 10) = True Then
 	;button replay blue,, moved down 30 for 860x780
 	Setlog("Ok, sharing!")

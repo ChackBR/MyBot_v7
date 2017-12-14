@@ -21,7 +21,7 @@ Func GetTranslated($iSection = -1, $iKey = -1, $sText = "", $var1 = Default, $va
 	Local $sDefaultText, $g_sLanguageText
 
 	;If GetTranslated was called without correct parameters return value -2 to show the coder there is a mistake made somewhere (debug)
-	If $g_iDebugMultilanguage = 1 Then Return ($iSection & "-" & $iKey)
+	If $g_bDebugMultilanguage Then Return ($iSection & "-" & $iKey)
 	If $iSection = -1 Or $iKey = -1 Or $sText = "" Then Return "-2"
 
 	Local $bOutBound = False
@@ -93,14 +93,14 @@ EndFunc   ;==>GetTranslatedParsedText
 
 ;DetectLanguage()
 Func DetectLanguage()
-	Local $decimalCode = "", $countryCode = "", $langName = ""
+    Local $decimalCode = "", $countryCode = "", $langName = ""
 	If $g_sLanguage = "" Then
 		$g_sLanguage = IniRead($g_sProfileConfigPath, "other", "language", "")
 		If Not FileExists(@ScriptDir & "\Languages\" & $g_sLanguage & ".ini") Then $g_sLanguage = ""
 	EndIf
 	If $g_sLanguage = "" Then
 		Local $OSLang = @OSLang
-		If $g_iDebugSetlog Then SetLog("Detected language code: " & $OSLang)
+		If $g_bDebugSetlog Then SetLog("Detected language code: " & $OSLang)
 		Switch $OSLang;get language
 
 			Case Hex(0x0004, 4)
@@ -1023,7 +1023,7 @@ Func DetectLanguage()
 		If FileExists($g_sDirLanguages & "/" & $langName & ".ini") Then;if language file found
 			SetLog("Language file " & $langName & ".ini found in " & $g_sDirLanguages)
 			$g_sLanguage = $langName
-			IniWrite($g_sProfileConfigPath, "other", "language", $g_sLanguage)
+			If FileExists($g_sProfileConfigPath) Then IniWrite($g_sProfileConfigPath, "other", "language", $g_sLanguage)
 		Else;otherwise, use english if the language isn't available yet
 			SetLog("Language file for " & $langName & " not found! Defaulting to English", $COLOR_ERROR)
 			$g_sLanguage = $g_sDefaultLanguage

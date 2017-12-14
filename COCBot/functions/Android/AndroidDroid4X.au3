@@ -120,7 +120,8 @@ Func InitDroid4X($bCheckOnly = False)
 		Return False
 	EndIf
 
-	If FileExists($__Droid4X_Path & "adb.exe") = False Then
+	Local $sPreferredADB = FindPreferredAdbPath()
+	If $sPreferredADB = "" And FileExists($__Droid4X_Path & "adb.exe") = False Then
 		If Not $bCheckOnly Then
 			SetLog("Serious error has occurred: Cannot find " & $g_sAndroidEmulator & ":", $COLOR_ERROR)
 			SetLog($__Droid4X_Path & "adb.exe", $COLOR_ERROR)
@@ -153,7 +154,7 @@ Func InitDroid4X($bCheckOnly = False)
 		$aRegExResult = StringRegExp($__VBoxVMinfo, "ADB_PORT.*host ip = ([^,]+),", $STR_REGEXPARRAYMATCH)
 		If Not @error Then
 			$g_sAndroidAdbDeviceHost = $aRegExResult[0]
-			If $g_iDebugSetlog = 1 Then Setlog("Func LaunchConsole: Read $g_sAndroidAdbDeviceHost = " & $g_sAndroidAdbDeviceHost, $COLOR_DEBUG)
+			If $g_bDebugAndroid Then Setlog("Func LaunchConsole: Read $g_sAndroidAdbDeviceHost = " & $g_sAndroidAdbDeviceHost, $COLOR_DEBUG)
 		Else
 			$oops = 1
 			SetLog("Cannot read " & $g_sAndroidEmulator & "(" & $g_sAndroidInstance & ") ADB Device Host", $COLOR_ERROR)
@@ -162,7 +163,7 @@ Func InitDroid4X($bCheckOnly = False)
 		$aRegExResult = StringRegExp($__VBoxVMinfo, "ADB_PORT.*host port = (\d{3,5}),", $STR_REGEXPARRAYMATCH)
 		If Not @error Then
 			$g_sAndroidAdbDevicePort = $aRegExResult[0]
-			If $g_iDebugSetlog = 1 Then Setlog("Func LaunchConsole: Read $g_sAndroidAdbDevicePort = " & $g_sAndroidAdbDevicePort, $COLOR_DEBUG)
+			If $g_bDebugAndroid Then Setlog("Func LaunchConsole: Read $g_sAndroidAdbDevicePort = " & $g_sAndroidAdbDevicePort, $COLOR_DEBUG)
 		Else
 			$oops = 1
 			SetLog("Cannot read " & $g_sAndroidEmulator & "(" & $g_sAndroidInstance & ") ADB Device Port", $COLOR_ERROR)
@@ -176,7 +177,7 @@ Func InitDroid4X($bCheckOnly = False)
 		; update global variables
 		$g_sAndroidProgramPath = $__Droid4X_Path & "Droid4X.exe"
 		$g_sAndroidPath = $__Droid4X_Path
-		$g_sAndroidAdbPath = FindPreferredAdbPath()
+		$g_sAndroidAdbPath = $sPreferredADB
 		If $g_sAndroidAdbPath = "" Then $g_sAndroidAdbPath = $__Droid4X_Path & "adb.exe"
 		$g_sAndroidVersion = $__Droid4X_Version
 		; Update Window Title if instance has been configured

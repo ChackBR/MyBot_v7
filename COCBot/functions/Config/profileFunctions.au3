@@ -29,6 +29,21 @@ Func setupProfileComboBox()
 	GUICtrlSetData($g_hCmbProfile, "", "")
 	; Set the new data of available profiles
 	GUICtrlSetData($g_hCmbProfile, $profileString, "<No Profiles>")
+
+	; SwitchAcc - Demen
+	For $i = 0 To 7
+		GUICtrlSetData($g_ahCmbProfile[$i], "")
+		GUICtrlSetData($g_ahCmbProfile[$i], $profileString)
+		_GUICtrlComboBox_SetCurSel($g_ahCmbProfile[$i], 0)
+	Next
+	; Switch Profile - Demen
+	For $i = 0 To 3
+		GUICtrlSetData($g_ahCmb_SwitchMax[$i], "")
+		GUICtrlSetData($g_ahCmb_SwitchMax[$i], $profileString, "<No Profiles>")
+		GUICtrlSetData($g_ahCmb_SwitchMin[$i], "")
+		GUICtrlSetData($g_ahCmb_SwitchMin[$i], $profileString, "<No Profiles>")
+	Next
+
 EndFunc   ;==>setupProfileComboBox
 
 Func renameProfile()
@@ -109,11 +124,13 @@ Func createProfile($bCreateNew = False)
 EndFunc   ;==>createProfile
 
 Func setupProfile()
-	If GUICtrlRead($g_hCmbProfile) = "<No Profiles>" Then
-		; Set profile name to the text box value if no profiles are found.
-		$g_sProfileCurrentName = StringRegExpReplace(GUICtrlRead($g_hTxtVillageName), '[/:*?"<>|]', '_')
-	Else
-		$g_sProfileCurrentName = GUICtrlRead($g_hCmbProfile)
+	If $g_iGuiMode = 1 Then
+		If GUICtrlRead($g_hCmbProfile) = "<No Profiles>" Then
+			; Set profile name to the text box value if no profiles are found.
+			$g_sProfileCurrentName = StringRegExpReplace(GUICtrlRead($g_hTxtVillageName), '[/:*?"<>|]', '_')
+		Else
+			$g_sProfileCurrentName = GUICtrlRead($g_hCmbProfile)
+		EndIf
 	EndIf
 
 	; Create the profile if needed, this also sets the variables if the profile exists.

@@ -28,12 +28,11 @@ Func CollectBuilderBase($bSwitchToBB = False, $bSwitchToNV = False)
 	If _Sleep($DELAYCOLLECT2) Then Return
 
 	; Collect function to Parallel Search , will run all pictures inside the directory
-	Local $sDirectory = @ScriptDir & "\imgxml\Resources\BuildersBase\Collect"
 	; Setup arrays, including default return values for $return
 	Local $sFilename = ""
 	Local $aCollectXY, $t
 
-	Local $aResult = multiMatches($sDirectory, 0, "FV", "FV")
+	Local $aResult = multiMatches($g_sImgCollectRessourcesBB, 0, "FV", "FV")
 
 	If UBound($aResult) > 1 Then ; we have an array with data of images found
 		For $i = 1 To UBound($aResult) - 1  ; loop through array rows
@@ -41,12 +40,13 @@ Func CollectBuilderBase($bSwitchToBB = False, $bSwitchToNV = False)
 			$aCollectXY = $aResult[$i][5] ; Coords
 			If IsArray($aCollectXY) Then ; found array of locations
 				$t = Random(0, UBound($aCollectXY) - 1, 1) ; SC May 2017 update only need to pick one of each to collect all
-				If $g_iDebugSetlog = 1  Then SetLog($sFilename & " found, random pick(" & $aCollectXY[$t][0] & "," & $aCollectXY[$t][1] & ")", $COLOR_SUCCESS)
+				If $g_bDebugSetlog Then SetLog($sFilename & " found, random pick(" & $aCollectXY[$t][0] & "," & $aCollectXY[$t][1] & ")", $COLOR_SUCCESS)
 				If IsMainPageBuilderBase() Then Click($aCollectXY[$t][0], $aCollectXY[$t][1], 1, 0, "#0430")
 				If _Sleep($DELAYCOLLECT2) Then Return
 			EndIf
 		Next
 	EndIf
 
+	If _Sleep($DELAYCOLLECT3) Then Return
 	If $bSwitchToNV Then SwitchBetweenBases() ; Switching back to the normal Village
 EndFunc

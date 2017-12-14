@@ -16,7 +16,9 @@
 #include-once
 #include "Synchronization.au3"
 #include "WmiAPI.au3"
+#include <WinAPI.au3>
 #include <WindowsConstants.au3>
+#include <APISysConstants.au3>
 #include <NamedPipes.au3>
 
 Global $g_RunPipe_StdIn = [0, 0] ; pipe read/write handles
@@ -26,7 +28,7 @@ Global $g_RunPipe_hThread = 0
 
 Func LaunchConsole($cmd, $param, ByRef $process_killed, $timeout = 10000, $bUseSemaphore = False)
 
-	If $bUseSemaphore = True Then
+	If $bUseSemaphore Then
 		Local $hSemaphore = LockSemaphore(StringReplace($cmd, "\", "/"), "Waiting to launch: " & $cmd)
 	EndIf
 
@@ -38,9 +40,9 @@ Func LaunchConsole($cmd, $param, ByRef $process_killed, $timeout = 10000, $bUseS
 	$hTimer = __TimerInit()
 	$process_killed = False
 
-	If $g_iDebugSetlog = 1 Then Setlog("Func LaunchConsole: " & $cmd, $COLOR_DEBUG) ; Debug Run
+	If $g_bDebugSetlog Then Setlog("Func LaunchConsole: " & $cmd, $COLOR_DEBUG) ; Debug Run
 	$pid = RunPipe($cmd, "", @SW_HIDE, $STDERR_MERGED, $hStdIn, $hStdOut, $hProcess, $hThread)
-	If $g_iDebugSetlog = 1 Then Setlog("Func LaunchConsole: command launched", $COLOR_DEBUG)
+	If $g_bDebugSetlog Then Setlog("Func LaunchConsole: command launched", $COLOR_DEBUG)
 	If $pid = 0 Then
 		SetLog("Launch faild: " & $cmd, $COLOR_ERROR)
 		If $bUseSemaphore = True Then UnlockSemaphore($hSemaphore)
@@ -57,7 +59,7 @@ Func LaunchConsole($cmd, $param, ByRef $process_killed, $timeout = 10000, $bUseS
 
 	If ProcessExists($pid) Then
 		If ClosePipe($pid, $hStdIn, $hStdOut, $hProcess, $hThread) = 1 Then
-			If $g_iDebugSetlog = 1 Then SetLog("Process killed: " & $cmd, $COLOR_ERROR)
+			If $g_bDebugSetlog Then SetLog("Process killed: " & $cmd, $COLOR_ERROR)
 			$process_killed = True
 		EndIf
 	Else
@@ -67,8 +69,8 @@ Func LaunchConsole($cmd, $param, ByRef $process_killed, $timeout = 10000, $bUseS
 	$g_RunPipe_hThread = 0
 	CleanLaunchOutput($data)
 
-	If $g_iDebugSetlog = 1 Then Setlog("Func LaunchConsole Output: " & $data, $COLOR_DEBUG) ; Debug Run Output
-	If $bUseSemaphore = True Then UnlockSemaphore($hSemaphore)
+	If $g_bDebugSetlog Then Setlog("Func LaunchConsole Output: " & $data, $COLOR_DEBUG) ; Debug Run Output
+	If $bUseSemaphore Then UnlockSemaphore($hSemaphore)
 	Return $data
 EndFunc   ;==>LaunchConsole
 
@@ -363,3 +365,51 @@ Func __WinAPI_CreateProcess($sAppName, $sCommand, $tSecurity, $tThread, $bInheri
 
 	Return $aResult[0]
 EndFunc   ;==>__WinAPI_CreateProcess
+
+Func _WinAPI_FreeConsole()
+	Local $aResult = DllCall("kernel32.dll", "bool", "FreeConsole")
+	If @error Then Return SetError(@error, @extended, False)
+	Return $aResult[0]
+EndFunc   ;==>_WinAPI_FreeConsole
+
+Func _WinAPI_AllocConsole()
+	Local $aResult = DllCall("kernel32.dll", "bool", "AllocConsole")
+	If @error Then Return SetError(@error, @extended, False)
+	Return $aResult[0]
+EndFunc   ;==>_WinAPI_AllocConsole
+
+Func _WinAPI_SetConsoleIcon($g_sLibIconPath, $nIconID, $hWnD = Default)
+	Local $hIcon = DllStructCreate("int")
+	Local $Result = DllCall("shell32.dll", "int", "ExtractIconEx", "str", $g_sLibIconPath, "int", $nIconID - 1, "hwnd", 0, "ptr", DllStructGetPtr($hIcon), "int", 1)
+	If UBound($Result) > 0 Then
+		$Result = $Result[0]
+		If $Result > 0 Then
+			Local $error = 0, $extended = 0
+			If $hWnD = Default Then
+				$Result = DllCall("kernel32.dll", "bool", "SetConsoleIcon", "ptr", DllStructGetData($hIcon, 1))
+				$Result = DllCall("kernel32.dll", "hwnd", "GetConsoleWindow")
+				$error = @error
+				$extended = @extended
+				If UBound($Result) > 0 Then	$hWnD = $Result[0]
+			EndIf
+			If IsHWnd($hWnD) Then
+				_SendMessage($hWnD, $WM_SETICON, 0, DllStructGetData($hIcon, 1)) ; SMALL_ICON
+				_SendMessage($hWnD, $WM_SETICON, 1, DllStructGetData($hIcon, 1)) ; BIG_ICON
+				Sleep(50) ; little wait before detroying icon
+			EndIf
+			DllCall("user32.dll", "int", "DestroyIcon", "hwnd", DllStructGetData($hIcon, 1))
+			If $error Then Return SetError($error, $extended, False)
+			Return True
+		EndIf
+	EndIf
+	If @error Then Return SetError(@error, @extended, False)
+EndFunc   ;==>_WinAPI_SetConsoleIcon
+
+Func _ConsoleWrite($Text)
+	Local $hFile, $pBuffer, $iToWrite, $iWritten, $tBuffer = DllStructCreate("char[" & StringLen($Text) & "]")
+	DllStructSetData($tBuffer, 1, $Text)
+	$hFile = _WinAPI_GetStdHandle(1)
+	_WinAPI_WriteFile($hFile, $tBuffer, StringLen($Text), $iWritten)
+	Return $iWritten
+EndFunc   ;==>_ConsoleWrite
+

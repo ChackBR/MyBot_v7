@@ -64,10 +64,11 @@ Func EndGainCost($Type)
 				$g_iStatsTotalGain[$eLootDarkElixir] += $tempDElixirCollected
 			EndIf
 
-			If $ichkSwitchAcc = 1 Then		; Profile Stats for SwitchAcc - Demen
-				$aGoldTotalAcc[$nCurProfile -1] += $tempGoldCollected
-				$aElixirTotalAcc[$nCurProfile -1] += $tempElixirCollected
-				$aDarkTotalAcc[$nCurProfile -1] += $tempDElixirCollected
+			; Switch Accounts - DEMEN
+			If $g_bChkSwitchAcc Then
+				$g_aiGoldTotalAcc[$g_iCurAccount] += $tempGoldCollected
+				$g_aiElixirTotalAcc[$g_iCurAccount] += $tempElixirCollected
+				$g_aiDarkTotalAcc[$g_iCurAccount] += $tempDElixirCollected
 			EndIf
 
 		Case "Train"
@@ -85,9 +86,10 @@ Func EndGainCost($Type)
 				$g_iStatsTotalGain[$eLootDarkElixir] -= $tempDElixirSpent
 			EndIf
 
-			If $ichkSwitchAcc = 1 Then		; Profile Stats for SwitchAcc - Demen
-				$aElixirTotalAcc[$nCurProfile-1] -= $tempElixirSpent
-				$aDarkTotalAcc[$nCurProfile - 1] -= $tempDElixirSpent
+			; Switch Accounts - DEMEN
+			If $g_bChkSwitchAcc Then
+				$g_aiElixirTotalAcc[$g_iCurAccount] -= $tempElixirSpent
+				$g_aiDarkTotalAcc[$g_iCurAccount] -= $tempDElixirSpent
 			EndIf
 
 	EndSwitch

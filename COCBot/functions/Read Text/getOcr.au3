@@ -19,8 +19,8 @@ Func getGoldVillageSearch($x_start, $y_start) ;48, 69 -> Gets complete value of 
 	Return getOcrAndCapture("coc-v-g", $x_start, $y_start, 90, 16, True)
 EndFunc   ;==>getGoldVillageSearch
 
-Func getRemainTrainTimer($x_start, $y_start) ;
-	Return getOcrAndCapture("coc-RemainTrain", $x_start, $y_start, 70, 12, True)
+Func getRemainTrainTimer($x_start, $y_start, $bNeedCapture = True) ;
+	Return getOcrAndCapture("coc-RemainTrain", $x_start, $y_start, 70, 12, True, False, $bNeedCapture)
 EndFunc   ;==>getRemainTrainTimer
 
 Func getElixirVillageSearch($x_start, $y_start) ;48, 69+29 -> Gets complete value of Elixir xxx,xxx, top left,  Getresources.au3
@@ -104,15 +104,15 @@ Func getBuilders($x_start, $y_start) ;  -> Gets Builders number - main screen --
 EndFunc   ;==>getBuilders
 
 Func getProfile($x_start, $y_start) ;  -> Gets Attack Win/Defense Win/Donated/Received values - profile screen --> getProfile(160,268)  troops donation
-	Return getOcrAndCapture("coc-profile", $x_start, $y_start, 46, 11, True)
+	Return getOcrAndCapture("coc-profile", $x_start, $y_start, 50, 12, True)
 EndFunc   ;==>getProfile
 
-Func getTroopCountSmall($x_start, $y_start) ;  -> Gets troop amount on Attack Screen for non-selected troop kind
-	Return getOcrAndCapture("coc-t-s", $x_start, $y_start, 53, 15, True)
+Func getTroopCountSmall($x_start, $y_start, $bNeedNewCapture = Default) ;  -> Gets troop amount on Attack Screen for non-selected troop kind
+	Return getOcrAndCapture("coc-t-s", $x_start, $y_start, 53, 15, True, Default, $bNeedNewCapture)
 EndFunc   ;==>getTroopCountSmall
 
-Func getTroopCountBig($x_start, $y_start) ;  -> Gets troop amount on Attack Screen for selected troop kind
-	Return getOcrAndCapture("coc-t-b", $x_start, $y_start, 53, 16, True)
+Func getTroopCountBig($x_start, $y_start, $bNeedNewCapture = Default) ;  -> Gets troop amount on Attack Screen for selected troop kind
+	Return getOcrAndCapture("coc-t-b", $x_start, $y_start, 53, 16, True, Default, $bNeedNewCapture)
 EndFunc   ;==>getTroopCountBig
 
 Func getTroopsSpellsLevel($x_start, $y_start) ;  -> Gets spell level on Attack Screen for selected spell kind (could be used for troops too)
@@ -127,8 +127,8 @@ Func getArmyTroopKind($x_start, $y_start) ;  -> Gets kind of troop on army camp 
 	Return getOcrAndCapture("coc-train-t-kind", $x_start, $y_start, 59, 11, True)
 EndFunc   ;==>getArmyTroopKind
 
-Func getArmyCampCap($x_start, $y_start) ;  -> Gets army camp capacity --> train.au3, and used to read CC request time remaining
-	Return getOcrAndCapture("coc-ms", $x_start, $y_start, 82, 16, True)
+Func getArmyCampCap($x_start, $y_start, $bNeedCapture = True) ;  -> Gets army camp capacity --> train.au3, and used to read CC request time remaining
+	Return getOcrAndCapture("coc-ms", $x_start, $y_start, 82, 16, True, False, $bNeedCapture)
 EndFunc   ;==>getArmyCampCap
 
 Func getCastleDonateCap($x_start, $y_start) ;  -> Gets clan castle capacity,  --> donatecc.au3
@@ -203,7 +203,7 @@ Func getOcrMaintenanceTime($x_start, $y_start, $sLogText = Default, $LogTextColo
 	Else
 		$String = $sLogText & " " & $result
 	EndIf
-	If $g_iDebugSetlog = 1 Then ; if enabled generate debug log message
+	If $g_bDebugSetlog Then ; if enabled generate debug log message
 		SetDebugLog($String, $LogTextColor, $bSilentSetLog)
 	ElseIf $result <> "" Then ;
 		SetDebugLog($String, $LogTextColor, True) ; if result found, add to log file
@@ -220,7 +220,7 @@ Func getOcrRateCoc($x_start, $y_start, $sLogText = Default, $LogTextColor = Defa
 	Else
 		$String = $sLogText & " " & $result
 	EndIf
-	If $g_iDebugSetlog = 1 Then ; if enabled generate debug log message
+	If $g_bDebugSetlog Then ; if enabled generate debug log message
 		SetDebugLog($String, $LogTextColor, $bSilentSetLog)
 	ElseIf $result <> "" Then ;
 		SetDebugLog($String, $LogTextColor, True) ; if result found, add to log file
@@ -232,23 +232,23 @@ Func getRemainTLaboratory($x_start, $y_start) ; read actual time remaining in La
 	Return getOcrAndCapture("coc-RemainLaboratory", $x_start, $y_start, 194, 25)
 EndFunc   ;==>getRemainTLaboratory
 
-Func getRemainTHero($x_start, $y_start) ; Get time remaining for hero to be ready for attack from train window, BK:443,504 AQ:504,504 GW:565:504
-	Return getOcrAndCapture("coc-remainhero", $x_start, $y_start, 55, 12, True)
+Func getRemainTHero($x_start, $y_start, $bNeedCapture = True) ; Get time remaining for hero to be ready for attack from train window, BK:443,504 AQ:504,504 GW:565:504
+	Return getOcrAndCapture("coc-remainhero", $x_start, $y_start, 55, 12, True, False, $bNeedCapture)
 EndFunc   ;==>getRemainTHero
 
 Func getHeroStatus($x_start, $y_start) ; Get status/type_of_Hero from Hero Slots in training overview window, Slot1:464,446 Slot2:526,446 Slot3:588:446
 	Return getOcrAndCapture("coc-herostatus", $x_start, $y_start, 20, 20)
 EndFunc   ;==>getHeroStatus
 
-Func getRequestRemainTime($x_start, $y_start) ; Get Remain Time To request Troops
-	Return getOcrAndCapture("coc-CCremainTime", $x_start, $y_start, 30, 14)
+Func getRequestRemainTime($x_start, $y_start, $bNeedCapture = True) ; Get Remain Time To request Troops
+	Return getOcrAndCapture("coc-CCremainTime", $x_start, $y_start, 30, 14, False, False, $bNeedCapture)
 EndFunc   ;==>getRequestRemainTime
 
 Func getCloudTextShort($x_start, $y_start, $sLogText = Default, $LogTextColor = Default, $bSilentSetLog = Default)
 	; Get 3 characters of yellow text in center of attack search window during extended cloud waiting (388,378)
 	; Full text length is 316 pixels, some is covered by chat window when open
 	Local $result = getOcrAndCapture("coc-cloudsearch", $x_start, $y_start, 51, 27)
-	If $g_iDebugSetlog = 1 And $sLogText <> Default And IsString($sLogText) Then ; if enabled generate debug log message
+	If $g_bDebugSetlog And $sLogText <> Default And IsString($sLogText) Then ; if enabled generate debug log message
 		Local $String = $sLogText & $result
 		SetDebugLog($String, $LogTextColor, $bSilentSetLog)
 	EndIf
@@ -259,19 +259,19 @@ Func getCloudFailShort($x_start, $y_start, $sLogText = Default, $LogTextColor = 
 	; Get 6 characters of pink text in center of attack search window during failed attack search (271, 381)
 	; Full text length is 318 pixels, on checking for 1st 6 characters
 	Local $result = getOcrAndCapture("coc-cloudfail", $x_start, $y_start, 72, 24)
-	If $g_iDebugSetlog = 1 And $sLogText <> Default And IsString($sLogText) Then ; if enabled generate debug log message
+	If $g_bDebugSetlog And $sLogText <> Default And IsString($sLogText) Then ; if enabled generate debug log message
 		Local $String = $sLogText & $result
 		SetDebugLog($String, $LogTextColor, $bSilentSetLog)
 	EndIf
 	Return $result
 EndFunc   ;==>getCloudFailShort
 
-Func getBarracksNewTroopQuantity($x_start, $y_start) ;  -> Gets quantity of troops in army Window
-	Return getOcrAndCapture("coc-newarmy", $x_start, $y_start, 45, 18, True)
+Func getBarracksNewTroopQuantity($x_start, $y_start, $bNeedCapture = True) ;  -> Gets quantity of troops in army Window
+	Return getOcrAndCapture("coc-newarmy", $x_start, $y_start, 45, 18, True, False, $bNeedCapture)
 EndFunc   ;==>getBarracksNewTroopQuantity
 
 Func getArmyCapacityOnTrainTroops($x_start, $y_start) ;  -> Gets quantity of troops in army Window
-	Return getOcrAndCapture("coc-NewCapacity", $x_start, $y_start, 72, 14, True)	; was 67x14, increase to read OCR Spells Tab. x_start = 43. SmartTrain Demen
+	Return getOcrAndCapture("coc-NewCapacity", $x_start, $y_start, 67, 14, True)
 EndFunc   ;==>getArmyCapacityOnTrainTroops
 
 Func getQueueTroopsQuantity($x_start, $y_start) ;  -> Gets quantity of troops in Queue in Train Tab
@@ -374,7 +374,7 @@ Func getOcrAndCapture($language, $x_start, $y_start, $width, $height, $removeSpa
 EndFunc   ;==>getOcrAndCapture
 
 Func getOcr(ByRef Const $_hHBitmap, $language)
-	Local $result = DllCallMyBot("ocr", "ptr", $_hHBitmap, "str", $language, "int", $g_iDebugOcr)
+	Local $result = DllCallMyBot("ocr", "ptr", $_hHBitmap, "str", $language, "int", $g_bDebugOcr ? 1 : 0)
 	If IsArray($result) Then
 		Return $result[0]
 	Else
@@ -389,10 +389,10 @@ Func getOcrImgLoc(ByRef Const $_hHBitmap, $sLanguage)
 	Local $extError = @extended
 	If $error Then
 		_logErrorDLLCall($g_hLibImgLoc, $error)
-		If $g_iDebugSetlog = 1 Then SetLog(" imgloc DLL Error : " & $error & " --- " & $extError)
+		If $g_bDebugSetlog Then SetLog(" imgloc DLL Error : " & $error & " --- " & $extError)
 		Return SetError(2, $extError, "") ; Set external error code = 2 for DLL error
 	EndIf
-	If $g_iDebugImageSave = 1 Then DebugImageSave($sLanguage, False)
+	If $g_bDebugImageSave Then DebugImageSave($sLanguage, False)
 
 	If IsArray($result) Then
 		Return $result[0]

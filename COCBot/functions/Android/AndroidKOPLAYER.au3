@@ -103,7 +103,8 @@ Func InitKOPLAYER($bCheckOnly = False)
 		Return False
 	EndIf
 
-	If FileExists(GetKOPLAYERAdbPath()) = False Then
+	Local $sPreferredADB = FindPreferredAdbPath()
+	If $sPreferredADB = "" And FileExists(GetKOPLAYERAdbPath()) = False Then
 		If Not $bCheckOnly Then
 			SetLog("Serious error has occurred: Cannot find " & $g_sAndroidEmulator & ":", $COLOR_RED)
 			SetLog($KOPLAYER_Path & "adb.exe", $COLOR_RED)
@@ -134,7 +135,7 @@ Func InitKOPLAYER($bCheckOnly = False)
 		EndIf
 		; update global variables
 		$g_sAndroidProgramPath = $KOPLAYER_Path & "KOPLAYER.exe"
-		$g_sAndroidAdbPath = FindPreferredAdbPath()
+		$g_sAndroidAdbPath = $sPreferredADB
 		If $g_sAndroidAdbPath = "" Then $g_sAndroidAdbPath = GetKOPLAYERAdbPath()
 		$g_sAndroidVersion = $KOPLAYERVersion
 		$__KOPLAYER_Path = $KOPLAYER_Path
@@ -144,7 +145,7 @@ Func InitKOPLAYER($bCheckOnly = False)
 		If Not @error Then
 			$g_sAndroidAdbDeviceHost = $aRegExResult[0]
 			If $g_sAndroidAdbDeviceHost = "" Then $g_sAndroidAdbDeviceHost = "127.0.0.1"
-			If $g_iDebugSetlog = 1 Then Setlog("Func LaunchConsole: Read $g_sAndroidAdbDeviceHost = " & $g_sAndroidAdbDeviceHost, $COLOR_PURPLE)
+			If $g_bDebugAndroid Then Setlog("Func LaunchConsole: Read $g_sAndroidAdbDeviceHost = " & $g_sAndroidAdbDeviceHost, $COLOR_PURPLE)
 		Else
 			$oops = 1
 			SetLog("Cannot read " & $g_sAndroidEmulator & "(" & $g_sAndroidInstance & ") ADB Device Host", $COLOR_RED)
@@ -153,7 +154,7 @@ Func InitKOPLAYER($bCheckOnly = False)
 		$aRegExResult = StringRegExp($__VBoxVMinfo, "name = .*host port = (\d{3,5}),.*guest port = 5555", $STR_REGEXPARRAYMATCH)
 		If Not @error Then
 			$g_sAndroidAdbDevicePort = $aRegExResult[0]
-			If $g_iDebugSetlog = 1 Then Setlog("Func LaunchConsole: Read $g_sAndroidAdbDevicePort = " & $g_sAndroidAdbDevicePort, $COLOR_PURPLE)
+			If $g_bDebugAndroid Then Setlog("Func LaunchConsole: Read $g_sAndroidAdbDevicePort = " & $g_sAndroidAdbDevicePort, $COLOR_PURPLE)
 		Else
 			$oops = 1
 			SetLog("Cannot read " & $g_sAndroidEmulator & "(" & $g_sAndroidInstance & ") ADB Device Port", $COLOR_RED)
@@ -260,25 +261,30 @@ Func CheckScreenKOPLAYER($bSetLog = True)
 
 EndFunc   ;==>CheckScreenKOPLAYER
 
-Func EmbedKOPLAYER($bEmbed = Default)
+Func HideKOPLAYERWindow($bHide = True, $hHWndAfter = Default)
+	Return EmbedKOPLAYER($bHide, $hHWndAfter)
+EndFunc   ;==>HideKOPLAYERWindow
+
+Func EmbedKOPLAYER($bEmbed = Default, $hHWndAfter = Default)
 
 	If $bEmbed = Default Then $bEmbed = $g_bAndroidEmbedded
+	If $hHWndAfter = Default Then $hHWndAfter = $HWND_TOPMOST
 
 	; Find Qt5QWindowToolSaveBits Window
 	Local $aWin = _WinAPI_EnumProcessWindows(GetAndroidPid(), False)
 	Local $i
-	Local $hTool = 0
+	Local $hToolbar = 0
 
 	For $i = 1 To UBound($aWin) - 1
 		Local $h = $aWin[$i][0]
 		Local $c = $aWin[$i][1]
 		If $c = "Qt5QWindowToolSaveBits" Then
-			$hTool = $h
+			$hToolbar = $h
 			ExitLoop
 		EndIf
 	Next
 
-	If $hTool = 0 Then
+	If $hToolbar = 0 Then
 		SetDebugLog("EmbedKOPLAYER(" & $bEmbed & "): Qt5QWindowToolSaveBits Window not found, list of windows:" & $c, Default, True)
 		For $i = 1 To UBound($aWin) - 1
 			Local $h = $aWin[$i][0]
@@ -286,9 +292,13 @@ Func EmbedKOPLAYER($bEmbed = Default)
 			SetDebugLog("EmbedKOPLAYER(" & $bEmbed & "): Handle = " & $h & ", Class = " & $c, Default, True)
 		Next
 	Else
-		SetDebugLog("EmbedKOPLAYER(" & $bEmbed & "): $hTool=" & $hTool, Default, True)
-		WinMove2($hTool, "", -1, -1, -1, -1, $HWND_NOTOPMOST, 0, False)
-		_WinAPI_ShowWindow($hTool, ($bEmbed ? @SW_HIDE : @SW_SHOWNOACTIVATE))
+		SetDebugLog("EmbedKOPLAYER(" & $bEmbed & "): $hToolbar=" & $hToolbar, Default, True)
+		If $bEmbed Then WinMove2($hToolbar, "", -1, -1, -1, -1, $HWND_NOTOPMOST, 0, False)
+		_WinAPI_ShowWindow($hToolbar, ($bEmbed ? @SW_HIDE : @SW_SHOWNOACTIVATE))
+		If Not $bEmbed Then
+			WinMove2($hToolbar, "", -1, -1, -1, -1, $hHWndAfter, 0, False)
+			If $hHWndAfter = $HWND_TOPMOST Then WinMove2($hToolbar, "", -1, -1, -1, -1, $HWND_NOTOPMOST, 0, False)
+		EndIf
 	EndIf
 
 EndFunc   ;==>EmbedKOPLAYER

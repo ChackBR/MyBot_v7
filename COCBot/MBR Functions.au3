@@ -14,14 +14,9 @@
 ; ===============================================================================================================================
 ;#include-once
 #include "functions\Other\SetLog.au3"
+#include "functions\Other\StopWatch.au3"
 ;#include "functions\Other\Synchronization.au3" ; now included in LaunchConsole.au3
 #include "functions\Other\OnAutoItErrorRegisterBot.au3"
-
-#include "functions\Config\profileFunctions.au3"
-#include "functions\Config\_Ini_Table.au3"
-#include "functions\Config\applyConfig.au3"
-#include "functions\Config\readConfig.au3"
-#include "functions\Config\saveConfig.au3"
 
 #include "functions\Attack\AttackReport.au3"
 #include "functions\Attack\BuildingSide.au3"
@@ -90,6 +85,7 @@
 #include "functions\Attack\Troops\dropHeroes.au3"
 #include "functions\Attack\Troops\DropOnEdge.au3"
 #include "functions\Attack\Troops\DropOnEdges.au3"
+#include "functions\Attack\Troops\DropOrderTroops.au3"
 #include "functions\Attack\Troops\GetXPosOfArmySlot.au3"
 #include "functions\Attack\Troops\GetSlotIndexFromXPos.au3"
 #include "functions\Attack\Troops\LaunchTroop.au3"
@@ -103,33 +99,40 @@
 #include "functions\Attack\SmartZap\easyPreySearch.au3"
 #include "functions\Attack\SmartZap\smartZap.au3"
 
+#Region CreateArmy / Train
 #include "functions\CreateArmy\CheckFullArmy.au3"
 #include "functions\CreateArmy\CheckArmyCamp.au3"
-#include "functions\CreateArmy\getArmyCapacity.au3"
-#include "functions\CreateArmy\getArmyCCStatus.au3"
-#include "functions\CreateArmy\getArmyHeroCount.au3"
-#include "functions\CreateArmy\getArmyHeroTime.au3"
-#include "functions\CreateArmy\getArmySpellCapacity.au3"
-#include "functions\CreateArmy\getArmyCCSpellCapacity.au3"
-#include "functions\CreateArmy\getArmySpellCount.au3"
-#include "functions\CreateArmy\getArmySpellTime.au3"
-#include "functions\CreateArmy\getArmyTroopTime.au3"
 #include "functions\CreateArmy\OpenArmyOverview.au3"
 #include "functions\CreateArmy\SmartWait4Train.au3"
 #include "functions\CreateArmy\TrainClick.au3"
 #include "functions\CreateArmy\TrainRevamp.au3"
 #include "functions\CreateArmy\TrainIt.au3"
 
+#include "functions\CreateArmy\getArmyTroops\getArmyTroopTime.au3"
+#include "functions\CreateArmy\getArmyTroops\getArmyCapacity.au3"
+#include "functions\CreateArmy\getArmyTroops\getArmyTroops.au3"
+
+#include "functions\CreateArmy\getArmyHeroes\getArmyHeroCount.au3"
+#include "functions\CreateArmy\getArmyHeroes\getArmyHeroTime.au3"
+#include "functions\CreateArmy\getArmySpells\getArmySpellTime.au3"
+#include "functions\CreateArmy\getArmySpells\getArmySpells.au3"
+#include "functions\CreateArmy\getArmySpells\getArmySpellCapacity.au3"
+#include "functions\CreateArmy\getArmySpells\getArmySpellCount.au3"
+#include "functions\CreateArmy\getArmyCCTroops\getArmyCCStatus.au3"
+;#include "functions\CreateArmy\getArmyCCTroops\getArmyCCTroops.au3" Not in use yet, soonish hopefully
+
+#include "functions\CreateArmy\getArmyCCSpells\getArmyCCSpellCapacity.au3"
+#include "functions\CreateArmy\getArmyCCSpells\getArmyCCSpell.au3"
+#EndRegion
+
 #include "functions\Image Search\ImageSearch.au3"
 #include "functions\Image Search\checkDeadBase.au3"
 #include "functions\Image Search\CheckTombs.au3"
 #include "functions\Image Search\imglocAuxiliary.au3"
-#include "functions\Image Search\imglocScreens.au3"
-#include "functions\Image Search\imglocTrainHelper.au3"
 #include "functions\Image Search\imglocCheckWall.au3"
 #include "functions\Image Search\imglocTHSearch.au3"
 #include "functions\Image Search\imglocAttackBar.au3"
-
+#include "functions\Image Search\QuickMIS.au3"
 
 #include "functions\Main Screen\checkMainScreen.au3"
 #include "functions\Main Screen\checkObstacles.au3"
@@ -146,8 +149,9 @@
 #include "functions\Android\AndroidMenuShortcuts.au3"
 #include "functions\Android\Close_OpenCoC.au3"
 #include "functions\Android\ZoomOut.au3"
-#include "functions\Android\checkAndroidTimeLag.au3"
-#include "functions\Android\checkAndroidPageError.au3"
+#include "functions\Android\CheckAndroidTimeLag.au3"
+#include "functions\Android\CheckAndroidPageError.au3"
+#include "functions\Android\CheckAndroidRebootCondition.au3"
 #include "functions\Android\AndroidBlueStacks.au3"
 #include "functions\Android\AndroidDroid4X.au3"
 #include "functions\Android\AndroidMEmu.au3"
@@ -172,7 +176,6 @@
 #include "functions\Other\ClickRemove.au3"
 #include "functions\Other\CreateLogFile.au3"
 #include "functions\Other\DebugImageSave.au3"
-#include "functions\Other\DebugSaveDesktopImage.au3"
 #include "functions\Other\ExtendedErrorInfo.au3"
 #include "functions\Other\FindPos.au3"
 #include "functions\Other\StringSize.au3"
@@ -257,6 +260,7 @@
 #include "functions\Village\RequestCC.au3"
 #include "functions\Village\VillageReport.au3"
 #include "functions\Village\UpgradeBuilding.au3"
+#include "functions\Village\Auto Upgrade.au3"
 #include "functions\Village\UpgradeWall.au3"
 #include "functions\Village\Notify.au3"
 #include "functions\Village\Laboratory.au3"
@@ -274,9 +278,18 @@
 
 #include "functions\Village\BuilderBase\Collect.au3"
 #include "functions\Village\BuilderBase\StartClockTowerBoost.au3"
+#include "functions\Village\BuilderBase\BuilderBaseReport.au3"
+#include "functions\Village\BuilderBase\SuggestedUpgrades.au3"
 
 #include "functions\Other\Api.au3"
 #include "functions\Other\ApiClient.au3"
 
-; Mod
-#include "MOD\Include_Files.au3"
+; moved to the end to avoid any global declare issues
+#include "functions\Config\profileFunctions.au3"
+#include "functions\Config\_Ini_Table.au3"
+#include "functions\Config\applyConfig.au3"
+#include "functions\Config\readConfig.au3"
+#include "functions\Config\saveConfig.au3"
+
+; AiO++ Team
+#include "Team__AiO__MOD++\Functions_Team__AiO__MOD++.au3"

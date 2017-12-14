@@ -1,3 +1,94 @@
+* **V7.3.4**
+* Fix redline detection freezing bot when computer doesn't have enough "free" CPUs
+* Fix image processing time for Train Window, SmartZap and ReArm
+* Fix King not activating when Warden was activated
+
+* **V7.3.3**
+* Add MEmu 3.6.7.0 DirectX+ support
+* Add Drop Order Troops
+* Fix ignoring collect DE drill
+* Fix Train Window identify Clan Castle Spells
+* Fix Battle exit "when percentage doesn't change" not working (did exit when damage is above percentage, thanks to @mhk2012)
+* Fix "Image Threads for this bot" setting using always "Image Threads for all bots" setting
+* Fix Treasury not honoring minimum collect values (thanks to @mhk2012)
+* Fix Android initialization variables introduced in prior release causing Android ADB Port error and general bot failure
+* Fix Nox OpenGL mode
+* Fix a bug not find the ReplayShare button
+* Improve thread handlng to better balance concurrent thread usage when multiple bots run
+* Update Italian language (by @quisazadrah)
+
+* **V7.3.2**
+ * Add BlueStacks 3.50.x support
+ * Add Nox 6.0.0 support
+ * Add Quick Train Combo System
+ * Add Unlimited Boost Option
+ * Add Android option to close Android when bot exists
+ * Add Android Lollipop support tested with Nox 6.0.0 and MEmu 3.6.2, support system messages are out of sync, other device connected, rate CoC and general error
+ * Add more options for Custom Donate
+ * Add notify Start button
+ * Fix army not yet ready when wait for CC Spell is used in disable search type and not used in enabled search type
+ * Fix Bot not removing wrong Spells when Custom Spell Brew Order is enabled (thanks to @Sjakie1987 for helping)
+ * Fix SmartWait4Train waiting for normal hero recovery when hero is boosted
+ * Fix Auto Upgrade not honoring the reserved builder for walls
+ * Fix Auto Upgrade not upgrading lower levels
+ * Fix Builder Base Auto Upgrade stop checking further upgrades when not enough resources
+ * Fix Builder Base Auto Upgrade not upgrading Battle Machine
+ * Fix bot z-order change when not docked and Android Window should stay in front of bot
+ * Fix update stats when switching bot from mini to normal GUI mode
+ * Fix Android Window positioning and force Android Window always on top when background mode disabled
+ * Fix ADB path favoring current Android Emulator, save path in profile.ini and allow to rename/delete Android ADB.EXE to improve multi-bot environments of different vendors
+ * Fix missing icon and version info on compiled bot files
+ * Add Builder Base rebuild Battle Machine support
+ * Add /HideAndroid command line option to hide Android automatically when bot auto-starts
+ * Add Android Emulator, Instance and Device information to ADB Shell Console Window
+ * Update Vietnamese language
+
+* **V7.3.1**
+ * Split Hero Ability Activation Methods for each Hero and add new Option
+ * Fix missing Valkyrie level 6
+ * Fix Custom Donate not working properly
+ * Fix logs not refresh after switching from Mini to Normal GUI Mode
+ * Fix Android Window hide/show and manual re-positioning
+ * Fix Builder Base having Problems zooming out sometimes
+ * Fix loading auto upgrade min resource configuration when using /mg command line options
+ * Fix enabled GUI Controls when switching from mini to normal mode in waiting run mode
+ * Improve CC Spell drop when same type exists in Army (CSV RECALC not required anymore)
+ * Improve hero upgrade detection
+ * Improve bot rebooting Android when Gfx Errors (missing objects) detected
+ * Improve window position of bot and Android window for new profile
+ * Add /console option to show console window with raw logs
+ * Update Italian Language File by @quisazadrah
+
+* **V7.3**
+ * Add Auto Update for Normal and Builder Base and Builder Base Stats (thx to DocOC team and ViperZ)
+ * Add MEmu 3.5.0.2 DirectX support
+ * Add Clash Of Magic support, https://www.clashofmagic.net/
+   Server 3: http://download825.mediafireuserdownload.com/g29mv74piaqg/jeab7w484b77n86/Magic-CoC_S3-9.105-R1.apk
+   http://www.tomzpot.com/android-games/clash-of-magic-9-105-10-private-server-september-2017/
+ * Add Mini GUI mode to run/launch more than 10 bots (can be also enabled with command line option /minigui or /mg)
+   New title bar icon to switch between normal and mini GUI mode
+ * Add automatic Android reboot after configured run-time hours (default is 24) to prevent severy Android issues like memory leak, graphics error etc.
+ * Add /? command line option to show help on additonal command line paramter and options
+ * Fix wall upgrade not saving resources for enabled non-repeated building upgrades when a builder is available
+ * Fix Wait For Clan Castle Spell not getting detected sometimes
+ * Fix Log Messages when Heroes are not enabled to auto Upgrade
+ * Fix Balloon Donation Issues
+ * Fix Wall Upgrade Ignoring Auto Warden Upgrade when checking if enough Elixir is available
+ * Fix Several Bugs and outdated values by @NguyenAnhHD
+ * Fix Clone Spell not getting brewed before going to Attack by @ViperZ
+ * Improve Weak Base Eagle Lvl 2 Detection
+ * Improve Dead Base Collector Lvl 11 Detection
+ * Improve village measuring with secondary images to fix zoom out loop when village cannot be measured
+ * Improve remaing attack time calculation
+ * Improve bot launch time when no Android Emulator command line parameter was specified
+ * Improve Android reboot on time lag after 2 detections
+ * Improve watchdog process restarting unresponsive bots after 3 Minutes (was 2 Minutes) and Bot API window communication
+ * Improve ADB Click&Drag for input drag mode (when not accurate Click&Drag script is used)
+ * Update ProfileReport Code & OCR
+ * Show bot window when Android Window activated (both ways)
+ * Bot start/stop/pause and resume added to tray menu
+ * New MyBot.run.MiniGui "reference app for modders/devs" controlling bot backend process using Window Messages
+
 * **V7.2.5**
  * Add Inferno Lvl 5 to Weak Base Images/GUI settings, add Lvl 4 tile and lowered tolerance
  * Lower Eagle Lvl 1 tolerance for better Weak Base detection

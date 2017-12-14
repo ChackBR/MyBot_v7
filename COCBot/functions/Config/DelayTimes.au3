@@ -291,6 +291,7 @@ Global Const $DELAYMAKEREQUEST1 = 500
 Global Const $DELAYMAKEREQUEST2 = 1500
 
 ;Train
+Global Const $DELAYTRAIN1 = 1000
 Global Const $DELAYTRAIN4 = 200
 Global Const $DELAYTRAIN6 = 20 ; click
 Global Const $DELAYTRAIN8 = 5000 ; wait for a while to desapear the 'received castle troops' msg
@@ -376,7 +377,14 @@ Global $DELAYSMARTZAP4 = 4000
 
 ;SwitchBetweenBases
 Global $DELAYSWITCHBASES1 = 1000
+Global $DELAYSWITCHBASES2 = 200
 
 ;ClockTower
 Global $DELAYCLOCKTOWER1 = 1000
-Global $DELAYCLOCKTOWER2 = 100
+Global $DELAYCLOCKTOWER2 = 200
+
+;SuperXP / GoblinXP
+Global Const $DELAYDROPSuperXP1= 500
+Global Const $DELAYDROPSuperXP2 = 1000
+Global Const $DELAYDROPSuperXP3 = 250
+Global Const $DELAYPREPARESearchSuperXP = 500

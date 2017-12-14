@@ -26,6 +26,7 @@ Func MBRFunc($Start = True)
 			SetDebugLog($g_sMBRLib & " opened.")
 			; set processing pool size immediately
 			setProcessingPoolSize($g_iGlobalThreads)
+			setMaxDegreeOfParallelism($g_iThreads)
 		Case False
 			DllClose($g_hLibMyBot)
 			;DllClose($g_hLibImgLoc)
@@ -53,6 +54,12 @@ EndFunc   ;==>_DllCallMyBot
 Func DllCallMyBot($sFunc, $sType1 = Default, $vParam1 = Default, $sType2 = Default, $vParam2 = Default, $sType3 = Default, $vParam3 = Default, $sType4 = Default, $vParam4 = Default, $sType5 = Default, $vParam5 = Default _
 		, $sType6 = Default, $vParam6 = Default, $sType7 = Default, $vParam7 = Default, $sType8 = Default, $vParam8 = Default, $sType9 = Default, $vParam9 = Default, $sType10 = Default, $vParam10 = Default)
 	If $g_bCloudsActive = False And ((BitAND($g_iAndroidSuspendModeFlags, 1) > 0 And ($g_bAttackActive Or $g_bVillageSearchActive)) Or BitAND($g_iAndroidSuspendModeFlags, 2) > 0) Then ; $g_bVillageSearchActive disabled as it would significantly increase re-connection error during search
+		Local $sFileOrFolder = Default
+		Switch $sFunc
+			Case "SearchMultipleTilesBetweenLevels", "FindTile"
+				$sFileOrFolder = $vParam2
+		EndSwitch
+		If $g_bDebugBetaVersion And $sFileOrFolder <> Default And StringInStr($sFileOrFolder, "\") And FileExists($sFileOrFolder) = 0 Then SetLog("Cannot access path: " & $sFileOrFolder, $COLOR_ERROR)
 		; suspend Android now
 		Local $bWasSuspended = SuspendAndroid()
 		Local $aResult = _DllCallMyBot($sFunc, $sType1, $vParam1, $sType2, $vParam2, $sType3, $vParam3, $sType4, $vParam4, $sType5, $vParam5, $sType6, $vParam6, $sType7, $vParam7, $sType8, $vParam8, $sType9, $vParam9, $sType10, $vParam10)
@@ -63,17 +70,17 @@ Func DllCallMyBot($sFunc, $sType1 = Default, $vParam1 = Default, $sType2 = Defau
 	Return _DllCallMyBot($sFunc, $sType1, $vParam1, $sType2, $vParam2, $sType3, $vParam3, $sType4, $vParam4, $sType5, $vParam5, $sType6, $vParam6, $sType7, $vParam7, $sType8, $vParam8, $sType9, $vParam9, $sType10, $vParam10)
 EndFunc   ;==>DllCallMyBot
 
-Func debugMBRFunctions($g_iDebugSearchArea = 0, $g_iDebugRedArea = 0, $g_iDebugOcr = 0)
-	SetDebugLog("debugMBRFunctions: $g_iDebugSearchArea=" & $g_iDebugSearchArea & ", $g_iDebugRedArea=" & $g_iDebugRedArea & ", $g_iDebugOcr=" & $g_iDebugOcr)
+Func debugMBRFunctions($iDebugSearchArea = 0, $iDebugRedArea = 0, $iDebugOcr = 0)
+	SetDebugLog("debugMBRFunctions: $iDebugSearchArea=" & $iDebugSearchArea & ", $iDebugRedArea=" & $iDebugRedArea & ", $giDebugOcr=" & $iDebugOcr)
 	Local $activeHWnD = WinGetHandle("")
-	Local $result = DllCall($g_hLibMyBot, "str", "setGlobalVar", "int", $g_iDebugSearchArea, "int", $g_iDebugRedArea, "int", $g_iDebugOcr)
+	Local $result = DllCall($g_hLibMyBot, "str", "setGlobalVar", "int", $iDebugSearchArea, "int", $iDebugRedArea, "int", $iDebugOcr)
 	If @error Then
 		_logErrorDLLCall($g_sLibMyBotPath & ", setGlobalVar:", @error)
 		Return SetError(@error)
 	EndIf
 	;dll return 0 on success, -1 on error
 	If IsArray($result) Then
-		If $g_iDebugSetlog = 1 And $result[0] = -1 Then SetLog($g_sMBRLib & " error setting Global vars.", $COLOR_DEBUG)
+		If $g_bDebugSetlog And $result[0] = -1 Then SetLog($g_sMBRLib & " error setting Global vars.", $COLOR_DEBUG)
 	Else
 		SetDebugLog($g_sMBRLib & " not found.", $COLOR_ERROR)
 	EndIf
@@ -94,7 +101,28 @@ Func setAndroidPID($pid = GetAndroidPid())
 			SetDebugLog($g_sMBRLib & " error setting Android PID.")
 		Else
 			SetDebugLog("Android PID=" & $pid & " initialized: " & $result[0])
-			debugMBRFunctions($g_iDebugSearchArea, $g_iDebugRedArea, $g_iDebugOcr) ; set debug levels
+			debugMBRFunctions(0, $g_bDebugRedArea ? 1 : 0, $g_bDebugOcr ? 1 : 0) ; set debug levels
+		EndIf
+	Else
+		SetDebugLog($g_sMBRLib & " not found.", $COLOR_ERROR)
+	EndIf
+EndFunc   ;==>setAndroidPID
+
+Func SetBotGuiPID($pid = $g_iGuiPID)
+	If $g_hLibMyBot = -1 Then Return ; Bot didn't finish launch yet
+	SetDebugLog("SetBotGuiPID: $pid=" & $pid)
+	Local $result = DllCall($g_hLibMyBot, "str", "SetBotGuiPID", "int", $pid)
+	If @error Then
+		_logErrorDLLCall($g_sLibMyBotPath & ", SetBotGuiPID:", @error)
+		Return SetError(@error)
+	EndIf
+	;dll return 0 on success, -1 on error
+	If IsArray($result) Then
+		If $result[0] = "" Then
+			SetDebugLog($g_sMBRLib & " error setting Android PID.")
+		Else
+			SetDebugLog("Bot GUI PID=" & $pid & " initialized: " & $result[0])
+			;debugMBRFunctions($g_iDebugSearchArea, $g_iDebugRedArea, $g_iDebugOcr) ; set debug levels
 		EndIf
 	Else
 		SetDebugLog($g_sMBRLib & " not found.", $COLOR_ERROR)
@@ -133,7 +161,7 @@ Func ConvertVillagePos(ByRef $x, ByRef $y, $zoomfactor = 0)
 	If $g_hLibMyBot = -1 Then Return ; Bot didn't finish launch yet
 	Local $result = DllCall($g_hLibMyBot, "str", "ConvertVillagePos", "int", $x, "int", $y, "float", $zoomfactor)
 	If IsArray($result) = False Then
-		If $g_iDebugSetlog = 1 Then Setlog("ConvertVillagePos result error", $COLOR_ERROR)
+		If $g_bDebugSetlog Then Setlog("ConvertVillagePos result error", $COLOR_ERROR)
 		Return ;exit if
 	EndIf
 	Local $a = StringSplit($result[0], "|")
@@ -146,7 +174,7 @@ Func ConvertToVillagePos(ByRef $x, ByRef $y, $zoomfactor = 0)
 	If $g_hLibMyBot = -1 Then Return ; Bot didn't finish launch yet
 	Local $result = DllCall($g_hLibMyBot, "str", "ConvertToVillagePos", "int", $x, "int", $y, "float", $zoomfactor)
 	If IsArray($result) = False Then
-		If $g_iDebugSetlog = 1 Then Setlog("ConvertToVillagePos result error", $COLOR_ERROR)
+		If $g_bDebugSetlog Then Setlog("ConvertToVillagePos result error", $COLOR_ERROR)
 		Return ;exit if
 	EndIf
 	Local $a = StringSplit($result[0], "|")
@@ -159,7 +187,7 @@ Func ConvertFromVillagePos(ByRef $x, ByRef $y)
 	If $g_hLibMyBot = -1 Then Return ; Bot didn't finish launch yet
 	Local $result = DllCall($g_hLibMyBot, "str", "ConvertFromVillagePos", "int", $x, "int", $y)
 	If IsArray($result) = False Then
-		If $g_iDebugSetlog = 1 Then Setlog("ConvertVillagePos result error", $COLOR_ERROR)
+		If $g_bDebugSetlog Then Setlog("ConvertVillagePos result error", $COLOR_ERROR)
 		Return ;exit if
 	EndIf
 	Local $a = StringSplit($result[0], "|")

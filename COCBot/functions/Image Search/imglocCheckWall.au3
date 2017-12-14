@@ -47,7 +47,7 @@ Func imglocCheckWall()
 						Return True
 					Else
 						ClickP($aAway, 1, 0, "#0931") ;Click Away
-						If $g_iDebugSetlog Then
+						If $g_bDebugSetlog Then
 							Setlog("Position : " & $aCoord[0] & ", " & $aCoord[1] & " is not a Wall Level: " & $levelWall & ". It was: " & $aResult[1] & ", " & $aResult[2] & " !", $COLOR_DEBUG) ;debug
 						Else
 							Setlog("Position : " & $aCoord[0] & ", " & $aCoord[1] & " is not a Wall Level: " & $levelWall & ".", $COLOR_ERROR)
@@ -70,7 +70,6 @@ Func imglocFindWalls($walllevel, $searcharea = "DCD", $redline = "", $maxreturn 
 	;name , level , coords
 	Local $FoundWalls[1] = [""] ;
 
-	Local $directory = @ScriptDir & "\imgxml\Walls"
 	Local $redLines = $redline
 	Local $minLevel = $walllevel
 	Local $maxLevel = $walllevel
@@ -80,7 +79,7 @@ Func imglocFindWalls($walllevel, $searcharea = "DCD", $redline = "", $maxreturn 
 	_CaptureRegion2()
 
 	; Perform the search
-	Local $result = DllCallMyBot("SearchMultipleTilesBetweenLevels", "handle", $g_hHBitmap2, "str", $directory, "str", $searcharea, "Int", $maxReturnPoints, "str", $redLines, "Int", $minLevel, "Int", $maxLevel)
+	Local $result = DllCallMyBot("SearchMultipleTilesBetweenLevels", "handle", $g_hHBitmap2, "str", $g_sImgCheckWallDir, "str", $searcharea, "Int", $maxReturnPoints, "str", $redLines, "Int", $minLevel, "Int", $maxLevel)
 	Local $error = @error ; Store error values as they reset at next function call
 	Local $extError = @extended
 
@@ -98,7 +97,7 @@ Func imglocFindWalls($walllevel, $searcharea = "DCD", $redline = "", $maxreturn 
 	; Process results
 	If $result[0] <> "" Then
 		; Get the keys for the dictionary item.
-		If $g_iDebugSetlog Then SetLog(" imglocFindMyWall search returned : " & $result[0])
+		If $g_bDebugSetlog Then SetLog(" imglocFindMyWall search returned : " & $result[0])
 		Local $aKeys = StringSplit($result[0], "|", $STR_NOCOUNT)
 		; Loop through the array
 		ReDim $FoundWalls[UBound($aKeys)]

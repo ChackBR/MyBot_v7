@@ -46,15 +46,16 @@ Func VillageReport($bBypass = False, $bSuppressLog = False)
 		If Not $bSuppressLog Then SetLog(" [G]: " & _NumberFormat($g_aiCurrentLoot[$eLootGold]) & " [E]: " & _NumberFormat($g_aiCurrentLoot[$eLootElixir]) & " [GEM]: " & _NumberFormat($g_iGemAmount), $COLOR_SUCCESS)
 	EndIf
 
-	If $ichkSwitchAcc = 1 Then										; SwitchAcc - Demen
-		$aFreeBuilderCountAcc[$nCurProfile -1] = $g_iFreeBuilderCount
-		$aTotalBuilderCountAcc[$nCurProfile -1] = $g_iTotalBuilderCount
-		$aTrophyCurrentAcc[$nCurProfile -1] = $g_aiCurrentLoot[$eLootTrophy]
-		$aGoldCurrentAcc[$nCurProfile -1] = $g_aiCurrentLoot[$eLootGold]
-		$aElixirCurrentAcc[$nCurProfile -1] = $g_aiCurrentLoot[$eLootElixir]
-		$aDarkCurrentAcc[$nCurProfile -1] = $g_aiCurrentLoot[$eLootDarkElixir]
-		$aGemAmountAcc[$nCurProfile -1] = $g_iGemAmount
-    EndIf															; SwitchAcc - Demen
+	; Switch Accounts - DEMEN
+	If $g_bChkSwitchAcc Then
+		$g_aiFreeBuilderCountAcc[$g_iCurAccount] = $g_iFreeBuilderCount
+		$g_aiTotalBuilderCountAcc[$g_iCurAccount] = $g_iTotalBuilderCount
+		$g_aiTrophyCurrentAcc[$g_iCurAccount] = $g_aiCurrentLoot[$eLootTrophy]
+		$g_aiGoldCurrentAcc[$g_iCurAccount] = $g_aiCurrentLoot[$eLootGold]
+		$g_aiElixirCurrentAcc[$g_iCurAccount] = $g_aiCurrentLoot[$eLootElixir]
+		$g_aiDarkCurrentAcc[$g_iCurAccount] = $g_aiCurrentLoot[$eLootDarkElixir]
+		$g_aiGemAmountAcc[$g_iCurAccount] = $g_iGemAmount
+    EndIf
 
 	If $bBypass = False Then ; update stats
 		UpdateStats()

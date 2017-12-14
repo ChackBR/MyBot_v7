@@ -29,7 +29,7 @@ Func OpenBlueStacks($bRestart = False)
 	$cmdPar = GetAndroidProgramParameter()
 	$PID = LaunchAndroid($g_sAndroidProgramPath, $cmdPar, $g_sAndroidPath)
 	$ErrorResult = ControlGetHandle("BlueStacks Error", "", "") ; Check for BS error window handle if it opens
-	If $g_iDebugSetlog = 1 Then Setlog("$PID= " & $PID & ", $ErrorResult = " & $ErrorResult, $COLOR_DEBUG)
+	If $g_bDebugAndroid Then Setlog("$PID= " & $PID & ", $ErrorResult = " & $ErrorResult, $COLOR_DEBUG)
 	If $PID = 0 Or $ErrorResult <> 0 Then ; IF ShellExecute failed or BS opens error window = STOP
 		SetError(1, 1, -1)
 		Return False
@@ -43,7 +43,6 @@ Func OpenBlueStacks($bRestart = False)
 		If __TimerDiff($hTimer) > $g_iAndroidLaunchWaitSec * 1000 Then ; if no BS position returned in 4 minutes, BS/PC has major issue so exit
 			SetLog("Serious error has occurred, please restart PC and try again", $COLOR_ERROR)
 			SetLog("BlueStacks refuses to load, waited " & Round(__TimerDiff($hTimer) / 1000, 2) & " seconds", $COLOR_ERROR)
-			DebugSaveDesktopImage("BSOpenError_") ; Save copy of user desktop for analysis
 			SetLog("Unable to continue........", $COLOR_WARNING)
 			btnstop()
 			SetError(1, 1, -1)
@@ -141,14 +140,30 @@ Func OpenBlueStacks2($bRestart = False)
 
 EndFunc   ;==>OpenBlueStacks2
 
+Func GetBlueStacksXAdbPath()
+	Local $adbPath = $__BlueStacks_Path & "HD-Adb.exe"
+	If FileExists($adbPath) Then Return $adbPath
+	Return ""
+EndFunc   ;==>GetBlueStacksXAdbPath
+
+Func GetBlueStacksAdbPath()
+	Return GetBlueStacksXAdbPath()
+EndFunc   ;==>GetBlueStacksAdbPath
+
+Func GetBlueStacks2AdbPath()
+	Return GetBlueStacksXAdbPath()
+EndFunc   ;==>GetBlueStacks2AdbPath
+
 Func InitBlueStacksX($bCheckOnly = False, $bAdjustResolution = False, $bLegacyMode = False)
 
 	; more recent BlueStacks 2 version install VirtualBox based "plus" mode by default
 	Local $plusMode = RegRead($g_sHKLM & "\SOFTWARE\BlueStacks\", "Engine") = "plus" And $bLegacyMode = False
-	Local $frontend_exe = "HD-Frontend.exe"
-	If $plusMode = True Then $frontend_exe = "HD-Plus-Frontend.exe"
+	Local $frontend_exe = ["HD-Frontend.exe", "HD-Player.exe"]
+	If $plusMode = True Then
+		Local $frontend_exe = "HD-Plus-Frontend.exe"
+	EndIf
 
-	Local $i, $aFiles[3] = [$frontend_exe, "HD-Adb.exe", "HD-Quit.exe"]
+	Local $i, $aFiles = [$frontend_exe, "HD-Adb.exe", "HD-Quit.exe"] ; first element can be $frontend_exe array!
 	Local $Values[4][3] = [ _
 			["Screen Width", $g_iAndroidClientWidth, $g_iAndroidClientWidth], _
 			["Screen Height", $g_iAndroidClientHeight, $g_iAndroidClientHeight], _
@@ -165,11 +180,25 @@ Func InitBlueStacksX($bCheckOnly = False, $bAdjustResolution = False, $bLegacyMo
 	EndIf
 	$__BlueStacks_Path = StringReplace($__BlueStacks_Path, "\\", "\")
 
-	For $i = 0 To UBound($aFiles) - 1
+	Local $sPreferredADB = FindPreferredAdbPath()
+	If $sPreferredADB Then _ArrayDelete($aFiles, 1)
 
-		Local $File = $__BlueStacks_Path & $aFiles[$i]
-		If Not FileExists($File) Then
-			If $plusMode And $aFiles[$i] = $frontend_exe Then
+	For $i = 0 To UBound($aFiles) - 1
+		Local $File
+		Local $bFileFound = False
+		Local $aFiles2 = $aFiles[$i]
+		If Not IsArray($aFiles2) Then Local $aFiles2 = [$aFiles[$i]]
+		For $j = 0 To UBound($aFiles2) - 1
+			$File = $__BlueStacks_Path & $aFiles2[$j]
+			$bFileFound = FileExists($File)
+			If $bFileFound Then
+				; check if $frontend_exe is array, then convert
+				If $i = 0 And IsArray($frontend_exe) Then $frontend_exe = $aFiles2[$j]
+				ExitLoop
+			EndIf
+		Next
+		If Not $bFileFound Then
+			If $plusMode And Not $bLegacyMode And $i = 0 Then
 				; try legacy mode
 				SetDebugLog("Cannot find " & $g_sAndroidEmulator & " file:" & $File, $COLOR_ACTION)
 				SetDebugLog("Try legacy mode", $COLOR_ACTION)
@@ -182,7 +211,6 @@ Func InitBlueStacksX($bCheckOnly = False, $bAdjustResolution = False, $bLegacyMo
 			EndIf
 			Return False
 		EndIf
-
 	Next
 
 	If Not $bCheckOnly Then
@@ -199,7 +227,7 @@ Func InitBlueStacksX($bCheckOnly = False, $bAdjustResolution = False, $bLegacyMo
 		; update global variables
 		$g_sAndroidPath = $__BlueStacks_Path
 		$g_sAndroidProgramPath = $__BlueStacks_Path & $frontend_exe
-		$g_sAndroidAdbPath = FindPreferredAdbPath()
+		$g_sAndroidAdbPath = $sPreferredADB
 		If $g_sAndroidAdbPath = "" Then $g_sAndroidAdbPath = $__BlueStacks_Path & "HD-Adb.exe"
 		$g_sAndroidVersion = $__BlueStacks_Version
 		For $i = 0 To 5
@@ -611,18 +639,18 @@ Func CloseBlueStacks()
 			ServiceStop($aServiceList[$iIndex])
 			If @error Then
 				$bOops = True
-				If $g_iDebugSetlog = 1 Then Setlog($aServiceList[$iIndex] & "errored trying to stop", $COLOR_WARNING)
+				If $g_bDebugAndroid Then Setlog($aServiceList[$iIndex] & "errored trying to stop", $COLOR_WARNING)
 			EndIf
 		Next
 		If $bOops Then
-			If $g_iDebugSetlog = 1 Then Setlog("Service Stop issues, Stopping BS 2nd time", $COLOR_WARNING)
+			If $g_bDebugAndroid Then Setlog("Service Stop issues, Stopping BS 2nd time", $COLOR_WARNING)
 			KillBSProcess()
 			If _SleepStatus(5000) Then Return
 		EndIf
 	EndIf
 
 
-	If $g_iDebugSetlog = 1 And $bOops Then
+	If $g_bDebugAndroid And $bOops Then
 		SetLog("BS Kill Failed to stop service", $COLOR_ERROR)
 	EndIf
 
@@ -684,13 +712,13 @@ Func KillBSProcess()
 
 	For $iIndex = 0 To UBound($aBS_FileNames) - 1
 		$aBS_FileNames[$iIndex][1] = ProcessExists($aBS_FileNames[$iIndex][0]) ; Find the PID for each BS file name that is running
-		If $g_iDebugSetlog = 1 Then Setlog($aBS_FileNames[$iIndex][0] & " PID = " & $aBS_FileNames[$iIndex][1], $COLOR_DEBUG)
+		If $g_bDebugAndroid Then Setlog($aBS_FileNames[$iIndex][0] & " PID = " & $aBS_FileNames[$iIndex][1], $COLOR_DEBUG)
 		If $aBS_FileNames[$iIndex][1] > 0 Then ; If it is running, then kill it
 			ShellExecute(@WindowsDir & "\System32\taskkill.exe", " -t -pid " & $aBS_FileNames[$iIndex][1], "", Default, @SW_HIDE)
 			If _Sleep(1000) Then Return ; Give OS time to work
 		EndIf
 		If ProcessExists($aBS_FileNames[$iIndex][1]) Then ; If it is still running, then force kill it
-			If $g_iDebugSetlog = 1 Then Setlog($aBS_FileNames[$iIndex][0] & " 1st Kill failed, trying again", $COLOR_DEBUG)
+			If $g_bDebugAndroid Then Setlog($aBS_FileNames[$iIndex][0] & " 1st Kill failed, trying again", $COLOR_DEBUG)
 			ShellExecute(@WindowsDir & "\System32\taskkill.exe", "-f -t -pid " & $aBS_FileNames[$iIndex][1], "", Default, @SW_HIDE)
 			If _Sleep(500) Then Return ; Give OS time to work
 		EndIf
@@ -725,7 +753,7 @@ Func ServiceStop($sServiceName)
 		StdioClose($PID)
 		$Result = StringInStr($data, "stopped")
 		$bFailed = StringInStr($data, "failed")
-		;		If $g_iDebugSetlog = 1 Then
+		;		If $g_bDebugAndroid Then
 		;			SetLog($sServiceName & " stop status= " & $Result, $COLOR_DEBUG)
 		;			SetLog("StdOutRead= " & $data, $COLOR_DEBUG)
 		;		EndIf
@@ -739,10 +767,10 @@ Func ServiceStop($sServiceName)
 		EndIf
 		If _Sleep(1000) Then Return ; Loop delay check for close every 1 second
 	WEnd
-	If $g_iDebugSetlog = 1 And $svcWaitIterations > 15 Then
+	If $g_bDebugAndroid And $svcWaitIterations > 15 Then
 		SetLog("Failed to stop service " & $sServiceName, $COLOR_ERROR)
 	Else
-		If $g_iDebugSetlog = 1 Then SetLog($sServiceName & "Service stopped successfully", $COLOR_SUCCESS)
+		If $g_bDebugAndroid Then SetLog($sServiceName & "Service stopped successfully", $COLOR_SUCCESS)
 	EndIf
 EndFunc   ;==>ServiceStop
 
@@ -752,7 +780,8 @@ EndFunc   ;==>CloseUnsupportedBlueStacks2
 
 Func CloseUnsupportedBlueStacksX($bClose = True)
 	Local $WinTitleMatchMode = Opt("WinTitleMatchMode", -3) ; in recent 2.3.x can be also "BlueStacks App Player"
-	If IsArray(ControlGetPos("Bluestacks App Player", "", "")) Or ProcessExists2(RegRead($g_sHKLM & "\SOFTWARE\BlueStacks\Config\", "PartnerExePath")) Then ; $g_avAndroidAppConfig[1][4]
+	Local $sPartnerExePath = RegRead($g_sHKLM & "\SOFTWARE\BlueStacks\Config\", "PartnerExePath")
+	If IsArray(ControlGetPos("Bluestacks App Player", "", "")) Or ($sPartnerExePath And ProcessExists2($sPartnerExePath)) Then ; $g_avAndroidAppConfig[1][4]
 		Opt("WinTitleMatchMode", $WinTitleMatchMode)
 		; Offical "Bluestacks App Player" v2.0 not supported because it changes the Android Screen!!!
 		If $bClose = True Then

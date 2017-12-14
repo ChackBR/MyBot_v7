@@ -61,7 +61,7 @@ Func DropOnEdges($troop, $nbSides, $number, $slotsPerEdge = 0)
 		KeepClicks()
 		If $nbSides = 1 Or ($nbSides = 3 And $i = 2) Then
 			Local $nbTroopsPerEdge = Round($nbTroopsLeft / ($nbSides - $i))
-			If $g_iMatchMode = $LB And $g_aiAttackStdDropSides[$LB] >= 5 Then ; Used for DE or TH side attack	; FourFingers
+			If $g_iMatchMode = $LB And $g_aiAttackStdDropSides[$LB] >= 5 Then ; Used for DE or TH side attack
 				DropOnEdge($troop, $g_aaiEdgeDropPoints[$g_iBuildingEdge], $nbTroopsPerEdge, $slotsPerEdge)
 			Else
 				DropOnEdge($troop, $g_aaiEdgeDropPoints[$i], $nbTroopsPerEdge, $slotsPerEdge)

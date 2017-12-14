@@ -38,7 +38,7 @@ Func BoostStructure($sName, $sOcrName, $aPos, ByRef $icmbBoostValue, $cmbBoostCt
 	If $ok = True Then
 		Local $Boost = findButton("BoostOne")
 		If IsArray($Boost) Then
-			If $g_iDebugSetlog = 1 Then Setlog("Boost Button X|Y = " & $Boost[0] & "|" & $Boost[1], $COLOR_DEBUG)
+			If $g_bDebugSetlog Then Setlog("Boost Button X|Y = " & $Boost[0] & "|" & $Boost[1], $COLOR_DEBUG)
 			Click($Boost[0], $Boost[1], 1, 0, "#0463")
 			If _Sleep($DELAYBOOSTHEROES1) Then Return
 			$Boost = findButton("GEM")
@@ -48,9 +48,13 @@ Func BoostStructure($sName, $sOcrName, $aPos, ByRef $icmbBoostValue, $cmbBoostCt
 				If IsArray(findButton("EnterShop")) Then
 					SetLog("Not enough gems to boost " & $sName, $COLOR_ERROR)
 				Else
-					$icmbBoostValue -= 1
-					SetLog($sName & ' Boost completed. Remaining iterations: ' & $icmbBoostValue, $COLOR_SUCCESS)
-					_GUICtrlComboBox_SetCurSel($cmbBoostCtrl, $icmbBoostValue)
+					If $icmbBoostValue <= 24 Then
+						$icmbBoostValue -= 1
+						SetLog($sName & ' Boost completed. Remaining iterations: ' & $icmbBoostValue, $COLOR_SUCCESS)
+						_GUICtrlComboBox_SetCurSel($cmbBoostCtrl, $icmbBoostValue)
+					Else
+						SetLog($sName & ' Boost completed. Remaining iterations: Unlimited', $COLOR_SUCCESS)
+					EndIf
 					$boosted = True
 				EndIf
 			Else

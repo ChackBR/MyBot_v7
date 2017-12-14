@@ -101,6 +101,36 @@ Func GetLeapDroidAdbPath()
 	Return ""
 EndFunc   ;==>GetLeapDroidAdbPath
 
+Func GetLeapDroidBackgroundMode()
+	; Only OpenGL is supported up to version 3.1.2.5
+
+	Local $files[2] = [@MyDocumentsDir & "\Leapdroid\Leapdroid Emulator\leapdroid.settings", GetLeapDroidPath() & "Leapdroid Emulator\leapdroid.settings"]
+	Local $f, $p, $h
+
+	; Set width and height
+	For $f In $files
+		$p = StringMid($f, 1, StringInStr($f, "\", 0, -1))
+		If FileExists($p) Then
+			If FileExists($f) Then
+				Local $sSettings = FileRead($f)
+				Local $aRegExResult = StringRegExp($sSettings, "RENDERER=(\d+)", $STR_REGEXPARRAYMATCH)
+				If Not @error Then
+					Local $graphics_render_mode = $aRegExResult[0]
+					Switch $graphics_render_mode
+						Case "1"
+							Return $g_iAndroidBackgroundModeDirectX
+						Case Else
+							Return $g_iAndroidBackgroundModeOpenGL
+					EndSwitch
+				EndIf
+				ExitLoop
+			EndIf
+		EndIf
+	Next
+
+	Return $g_iAndroidBackgroundModeOpenGL
+EndFunc   ;==>GetLeapDroidBackgroundMode
+
 Func InitLeapDroid($bCheckOnly = False)
 	Local $process_killed, $aRegExResult, $g_sAndroidAdbDeviceHost, $g_sAndroidAdbDevicePort, $oops = 0
 	Local $LeapDroidVersion = RegRead($g_sHKLM & "\SOFTWARE" & $g_sWow6432Node & "\Microsoft\Windows\CurrentVersion\Uninstall\LeapDroid\", "DisplayVersion")
@@ -131,7 +161,8 @@ Func InitLeapDroid($bCheckOnly = False)
 		Return False
 	EndIf
 
-	If FileExists($LeapDroid_Path & "adb.exe") = 0 Then
+	Local $sPreferredADB = FindPreferredAdbPath()
+	If $sPreferredADB = "" And FileExists($LeapDroid_Path & "adb.exe") = 0 Then
 		If Not $bCheckOnly Then
 			SetLog("Serious error has occurred: Cannot find " & $g_sAndroidEmulator & ":", $COLOR_ERROR)
 			SetLog($LeapDroid_Path & "adb.exe", $COLOR_ERROR)
@@ -169,7 +200,7 @@ Func InitLeapDroid($bCheckOnly = False)
 
 		; update global variables
 		$g_sAndroidProgramPath = $LeapDroid_Path & "LeapdroidVM.exe"
-		$g_sAndroidAdbPath = FindPreferredAdbPath()
+		$g_sAndroidAdbPath = $sPreferredADB
 		If $g_sAndroidAdbPath = "" Then $g_sAndroidAdbPath = $LeapDroid_Path & "adb.exe"
 		$g_sAndroidVersion = $LeapDroidVersion
 		$__LeapDroid_Path = $LeapDroid_Path
@@ -180,7 +211,7 @@ Func InitLeapDroid($bCheckOnly = False)
 		If Not @error Then
 			$g_sAndroidAdbDeviceHost = "127.0.0.1"
 			$g_sAndroidAdbDevicePort = $aRegExResult[0]
-			If $g_iDebugSetlog = 1 Then Setlog("InitLeapDroid: Read $g_sAndroidAdbDevicePort = " & $g_sAndroidAdbDevicePort, $COLOR_DEBUG)
+			If $g_bDebugAndroid Then Setlog("InitLeapDroid: Read $g_sAndroidAdbDevicePort = " & $g_sAndroidAdbDevicePort, $COLOR_DEBUG)
 		Else
 			$oops = 1
 			SetLog("Cannot read " & $g_sAndroidEmulator & "(" & $g_sAndroidInstance & ") ADB Device Port", $COLOR_ERROR)
@@ -343,25 +374,30 @@ Func CheckScreenLeapDroid($bSetLog = True)
 
 EndFunc   ;==>CheckScreenLeapDroid
 
-Func EmbedLeapDroid($bEmbed = Default)
+Func HideLeapDroidWindow($bHide = True, $hHWndAfter = Default)
+	Return EmbedLeapDroid($bHide, $hHWndAfter)
+EndFunc   ;==>HideLeapDroidWindow
+
+Func EmbedLeapDroid($bEmbed = Default, $hHWndAfter = Default)
 
 	If $bEmbed = Default Then $bEmbed = $g_bAndroidEmbedded
+	If $hHWndAfter = Default Then $hHWndAfter = $HWND_TOPMOST
 
 	; Find QTool Parent Window
 	Local $aWin = _WinAPI_EnumProcessWindows(GetAndroidPid(), False)
 	Local $i
-	Local $hQTool = 0
+	Local $hToolbar = 0
 
 	For $i = 1 To UBound($aWin) - 1
 		Local $h = $aWin[$i][0]
 		Local $c = $aWin[$i][1]
 		If $c = "QTool" Then
-			$hQTool = $h
+			$hToolbar = $h
 			ExitLoop
 		EndIf
 	Next
 
-	If $hQTool = 0 Then
+	If $hToolbar = 0 Then
 		SetDebugLog("EmbedLeapDroid(" & $bEmbed & "): QTool Window not found, list of windows:" & $c, Default, True)
 		For $i = 1 To UBound($aWin) - 1
 			Local $h = $aWin[$i][0]
@@ -369,9 +405,13 @@ Func EmbedLeapDroid($bEmbed = Default)
 			SetDebugLog("EmbedLeapDroid(" & $bEmbed & "): Handle = " & $h & ", Class = " & $c, Default, True)
 		Next
 	Else
-		SetDebugLog("EmbedLeapDroid(" & $bEmbed & "): $hQTool=" & $hQTool, Default, True)
-		WinMove2($hQTool, "", -1, -1, -1, -1, $HWND_NOTOPMOST, 0, False)
-		_WinAPI_ShowWindow($hQTool, ($bEmbed ? @SW_HIDE : @SW_SHOWNOACTIVATE))
+		SetDebugLog("EmbedLeapDroid(" & $bEmbed & "): $hToolbar=" & $hToolbar, Default, True)
+		If $bEmbed Then WinMove2($hToolbar, "", -1, -1, -1, -1, $HWND_NOTOPMOST, 0, False)
+		_WinAPI_ShowWindow($hToolbar, ($bEmbed ? @SW_HIDE : @SW_SHOWNOACTIVATE))
+		If Not $bEmbed Then
+			WinMove2($hToolbar, "", -1, -1, -1, -1, $hHWndAfter, 0, False)
+			If $hHWndAfter = $HWND_TOPMOST Then WinMove2($hToolbar, "", -1, -1, -1, -1, $HWND_NOTOPMOST, 0, False)
+		EndIf
 	EndIf
 
 EndFunc   ;==>EmbedLeapDroid

@@ -14,61 +14,97 @@
 ; ===============================================================================================================================
 
 Func checkArmyCamp($bOpenArmyWindow = False, $bCloseArmyWindow = False, $bGetHeroesTime = False, $bSetLog = True)
+	Local $iStopWatchLevel = StopWatchLevel()
+	Local $Result = _checkArmyCamp($bOpenArmyWindow, $bCloseArmyWindow, $bGetHeroesTime, $bSetLog)
+	StopWatchReturn($iStopWatchLevel)
+	Return $Result
+EndFunc
 
-	If $g_iDebugSetlogTrain = 1 Then SETLOG("Begin checkArmyCamp:", $COLOR_DEBUG1)
+Func _checkArmyCamp($bOpenArmyWindow, $bCloseArmyWindow, $bGetHeroesTime, $bSetLog)
+	If $g_bDebugFuncTime Then StopWatchStart("checkArmyCamp")
 
+	If $g_bDebugSetlogTrain Then SetLog("Begin checkArmyCamp:", $COLOR_DEBUG1)
+
+	If $g_bDebugFuncTime Then StopWatchStart("IsTrainPage/openArmyOverview")
 	If $bOpenArmyWindow = False And IsTrainPage() = False Then ; check for train page
 		SetError(1)
-		Return ; not open, not requested to be open - error.
+		Return; not open, not requested to be open - error.
 	ElseIf $bOpenArmyWindow = True Then
 		If openArmyOverview() = False Then
 			SetError(2)
-			Return ; not open, requested to be open - error.
+			Return; not open, requested to be open - error.
 		EndIf
 		If _Sleep($DELAYCHECKARMYCAMP5) Then Return
 	EndIf
+	If $g_bDebugFuncTime Then StopWatchStopLog()
 
-	GetArmyCapacity(False, False, $bSetLog, False) ; Last parameter is to check the Army Window
+	If $g_bDebugFuncTime Then StopWatchStart("getArmyCapacity")
+	getArmyCapacity(False, False, $bSetLog, False) ; Last parameter is to check the Army Window
+	If $g_bDebugFuncTime Then StopWatchStopLog()
 	If _Sleep($DELAYCHECKARMYCAMP6) Then Return ; 10ms improve pause button response
 
-	;getArmyTroopCount() ; OLD METTHOD to detect troops on army over view window
-
-	CheckExistentArmy("Troops", $bSetLog)
+	If $g_bDebugFuncTime Then StopWatchStart("getArmyTroops")
+	getArmyTroops(False, False, False, $bSetLog)
+	If $g_bDebugFuncTime Then StopWatchStopLog()
 	If _Sleep($DELAYCHECKARMYCAMP6) Then Return ; 10ms improve pause button response
 
+	If $g_bDebugFuncTime Then StopWatchStart("getArmyTroopTime")
 	getArmyTroopTime(False, False, $bSetLog, False) ; Last parameter is to check the Army Window
+	If $g_bDebugFuncTime Then StopWatchStopLog()
 	If _Sleep($DELAYCHECKARMYCAMP6) Then Return ; 10ms improve pause button response
 
 	Local $HeroesRegenTime
+	If $g_bDebugFuncTime Then StopWatchStart("getArmyHeroCount")
 	getArmyHeroCount(False, False, $bSetLog, False) ; Last parameter is to check the Army Window
-	If _Sleep($DELAYCHECKARMYCAMP6) Then Return ; 10ms improve pause button response
-	If $bGetHeroesTime = True Then $HeroesRegenTime = getArmyHeroTime("all", $bSetLog)
+	If $g_bDebugFuncTime Then StopWatchStopLog()
 	If _Sleep($DELAYCHECKARMYCAMP6) Then Return ; 10ms improve pause button response
 
+	If $bGetHeroesTime = True Then
+		If $g_bDebugFuncTime Then StopWatchStart("getArmyHeroTime")
+		$HeroesRegenTime = getArmyHeroTime("all", $bSetLog)
+		If $g_bDebugFuncTime Then StopWatchStopLog()
+		If _Sleep($DELAYCHECKARMYCAMP6) Then Return ; 10ms improve pause button response
+	EndIf
+
+	If $g_bDebugFuncTime Then StopWatchStart("getArmySpellCapacity")
 	getArmySpellCapacity(False, False, $bSetLog, False) ; Last parameter is to check the Army Window
+	If $g_bDebugFuncTime Then StopWatchStopLog()
 	If _Sleep($DELAYCHECKARMYCAMP6) Then Return ; 10ms improve pause button response
 
-	CheckExistentArmy("Spells", $bSetLog) ; Imgloc Method
+	If $g_bDebugFuncTime Then StopWatchStart("getArmySpells")
+	getArmySpells(False,False, False, $bSetLog)
+	If $g_bDebugFuncTime Then StopWatchStopLog()
 	If _Sleep($DELAYCHECKARMYCAMP6) Then Return ; 10ms improve pause button response
 
+	If $g_bDebugFuncTime Then StopWatchStart("getArmySpellTime")
 	getArmySpellTime(False, False, $bSetLog, False) ; Last parameter is to check the Army Window
+	If $g_bDebugFuncTime Then StopWatchStopLog()
 	If _Sleep($DELAYCHECKARMYCAMP6) Then Return ; 10ms improve pause button response
 
+	If $g_bDebugFuncTime Then StopWatchStart("getArmyCCSpellCapacity")
 	getArmyCCSpellCapacity(False, False, $bSetLog, False) ; Last parameter is to check the Army Window
+	If $g_bDebugFuncTime Then StopWatchStopLog()
 	If _Sleep($DELAYCHECKARMYCAMP6) Then Return ; 10ms improve pause button response
 
+	If $g_bDebugFuncTime Then StopWatchStart("getArmyCCStatus")
 	getArmyCCStatus(False, False, $bSetLog, False) ; Last parameter is to check the Army Window
+	If $g_bDebugFuncTime Then StopWatchStopLog()
 	If _Sleep($DELAYCHECKARMYCAMP6) Then Return ; 10ms improve pause button response
 
-	If Not $g_bFullArmy Then DeleteExcessTroops()
+	If Not $g_bFullArmy Then
+		If $g_bDebugFuncTime Then StopWatchStart("DeleteExcessTroops")
+		DeleteExcessTroops()
+		If $g_bDebugFuncTime Then StopWatchStopLog()
+	EndIf
 
 	If $bCloseArmyWindow Then
 		ClickP($aAway, 1, 0, "#0000") ;Click Away
 		If _Sleep($DELAYCHECKARMYCAMP4) Then Return
 	EndIf
 
-	If $g_iDebugSetlogTrain = 1 Then SETLOG("End checkArmyCamp: canRequestCC= " & $g_bCanRequestCC & ", fullArmy= " & $g_bFullArmy, $COLOR_DEBUG)
+	If $g_bDebugSetlogTrain Then SetLog("End checkArmyCamp: canRequestCC= " & $g_bCanRequestCC & ", fullArmy= " & $g_bFullArmy, $COLOR_DEBUG)
 
+	If $g_bDebugFuncTime Then StopWatchStopLog()
 	Return $HeroesRegenTime
 
 EndFunc   ;==>checkArmyCamp
@@ -127,16 +163,16 @@ Func DeleteExcessTroops()
 	EndIf
 
 	SetLog("Troops in excess!...")
-	If $g_iDebugSetlogTrain = 1 Then SetLog("Start-Loop Regular Troops Only To Donate ")
+	If $g_bDebugSetlogTrain Then SetLog("Start-Loop Regular Troops Only To Donate ")
 	For $i = 0 To $eTroopCount - 1
 		If IsTroopToDonateOnly($i) Then ; Will delete ONLY the Excess quantity of troop for donations , the rest is to use in Attack
-			If $g_iDebugSetlogTrain = 1 Then SetLog("Troop :" & $g_asTroopNames[$i])
+			If $g_bDebugSetlogTrain Then SetLog("Troop :" & $g_asTroopNames[$i])
 			If ($g_aiCurrentTroops[$i] * -1) > $g_aiArmyCompTroops[$i] Then ; verify if the exist excess of troops
 
 				$Delete = ($g_aiCurrentTroops[$i] * -1) - $g_aiArmyCompTroops[$i] ; existent troops - troops selected in GUI
-				If $g_iDebugSetlogTrain = 1 Then SetLog("$Delete :" & $Delete)
+				If $g_bDebugSetlogTrain Then SetLog("$Delete :" & $Delete)
 				$SlotTemp = $g_aiSlotInArmy[$i]
-				If $g_iDebugSetlogTrain = 1 Then SetLog("$SlotTemp :" & $SlotTemp)
+				If $g_bDebugSetlogTrain Then SetLog("$SlotTemp :" & $SlotTemp)
 
 				If _Sleep(250) Then Return
 				If _ColorCheck(_GetPixelColor(170 + (62 * $SlotTemp), 235 + $g_iMidOffsetY, True), Hex(0xD40003, 6), 10) Then ; Verify if existe the RED [-] button
@@ -148,7 +184,7 @@ Func DeleteExcessTroops()
 		EndIf
 	Next
 
-	If $g_iDebugSetlogTrain = 1 Then SetLog("Start-Loop Dark Troops Only To Donate ")
+	If $g_bDebugSetlogTrain Then SetLog("Start-Loop Dark Troops Only To Donate ")
 
 	If _ColorCheck(_GetPixelColor(674, 436 + $g_iMidOffsetY, True), Hex(0x60B010, 6), 5) Then
 		Click(674, 436 + $g_iMidOffsetY) ; click CONFIRM EDIT
