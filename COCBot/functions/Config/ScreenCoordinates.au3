@@ -133,7 +133,7 @@ Global $NextBtn[4] = [780, 546 + $g_iBottomOffsetY, 0xD34300, 20] ;  Next Button
 ; Someone asking troops : Color 0xD0E978 in x = 121
 
 ; 1 - Green : available | 2 - Dark gray : request already made | 3 - Light gray : Castle filled/No Castle
-Global $aRequestTroopsAO[6] = [737, 565, 0xAEE056, 0x818181, 0xC2C2C2, 15] ; Button Request Troops in Army Overview  (x,y,can request, request already made, army full/no clan)
+Global $aRequestTroopsAO[6] = [758, 584, 0xAEE056, 0x818181, 0xC2C2C2, 15] ; Button Request Troops in Army Overview  (x,y,can request, request already made, army full/no clan)
 
 Global Const $aOpenChatTab[4] = [19, 335 + $g_iMidOffsetY, 0xE88D27, 20]
 Global Const $aCloseChat[4] = [331, 330 + $g_iMidOffsetY, 0xF0951D, 20] ; duplicate with $aChatTab above, need to rename and fix all code to use one?
