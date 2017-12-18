@@ -64,7 +64,7 @@ Func EndGainCost($Type)
 				$g_iStatsTotalGain[$eLootDarkElixir] += $tempDElixirCollected
 			EndIf
 
-			; Switch Accounts - DEMEN
+			; Switch Accounts - Demen - AiO++ Team
 			If $g_bChkSwitchAcc Then
 				$g_aiGoldTotalAcc[$g_iCurAccount] += $tempGoldCollected
 				$g_aiElixirTotalAcc[$g_iCurAccount] += $tempElixirCollected
@@ -86,7 +86,7 @@ Func EndGainCost($Type)
 				$g_iStatsTotalGain[$eLootDarkElixir] -= $tempDElixirSpent
 			EndIf
 
-			; Switch Accounts - DEMEN
+			; Switch Accounts - Demen - AiO++ Team
 			If $g_bChkSwitchAcc Then
 				$g_aiElixirTotalAcc[$g_iCurAccount] -= $tempElixirSpent
 				$g_aiDarkTotalAcc[$g_iCurAccount] -= $tempDElixirSpent

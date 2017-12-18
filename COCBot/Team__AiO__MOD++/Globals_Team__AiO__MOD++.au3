@@ -1,5 +1,5 @@
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: Globals Team AiO MOD++
+; Name ..........: Globals - AiO++ Team
 ; Description ...: This file Includes several files in the current script and all Declared variables, constant, or create an array.
 ; Syntax ........: #include , Global
 ; Parameters ....: None
@@ -14,9 +14,9 @@
 ; ===============================================================================================================================
 
 ; «»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»
-; «»«»«»«»«»«»«»«» AiO++ Team «»«»«»«»«»«»«»«»
+; AiO++ Team
 ; «»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»
-; Unit/Wave Factor - Team AiO MOD++ (#-04)
+; Unit/Wave Factor - AiO++ Team
 Global $g_iChkGiantSlot = 0, $g_iChkUnitFactor = 0, $g_iChkWaveFactor = 0
 Global $g_iCmbGiantSlot = 0, $g_iTxtUnitFactor = 10, $g_iTxtWaveFactor = 100
 Global $g_iSlotsGiants = 1, $g_aiSlotsGiants = 1
@@ -44,7 +44,7 @@ Global $cmbCSVSpeed[2] = [$LB, $DB]
 Global $icmbCSVSpeed[2] = [2, 2]
 Global $g_CSVSpeedDivider[2] = [1, 1] ; default CSVSpeed for DB & LB
 
-; Switch Accounts - Demen
+; Switch Accounts - Demen - AiO++ Team
 Global $g_bInitiateSwitchAcc = True, $g_bChkSwitchAcc, $g_bChkSmartSwitch, $g_bReMatchAcc = False
 Global $g_iTotalAcc, $g_iNextAccount, $g_iCurAccount
 Global $g_iTrainTimeToSkip = 0
@@ -56,9 +56,10 @@ Global $g_hSwitchLogFile = 0
 Global $g_aiGoldTotalAcc[8], $g_aiElixirTotalAcc[8], $g_aiDarkTotalAcc[8], $g_aiTrophyLootAcc[8], $g_aiAttackedCountAcc[8], $g_aiSkippedVillageCountAcc[8] ; Total Gain
 Global $g_aiGoldCurrentAcc[8], $g_aiElixirCurrentAcc[8], $g_aiDarkCurrentAcc[8], $g_aiTrophyCurrentAcc[8], $g_aiGemAmountAcc[8], $g_aiFreeBuilderCountAcc[8], $g_aiTotalBuilderCountAcc[8] ; village report
 
-; Smart Train - Demen
+; Smart Train - Demen - AiO++ Team
 Global $ichkSmartTrain, $ichkPreciseTroops, $ichkFillArcher, $iFillArcher, $ichkFillEQ
-Global $g_bWaitForCCTroopSpell = False	; ForceSwitch while waiting for CC troops - Demen
+; ForceSwitch while waiting for CC troops - Demen - AiO++ Team
+Global $g_bWaitForCCTroopSpell = False
 Global Enum $g_eFull, $g_eRemained, $g_eNoTrain
 Global $g_abRCheckWrongTroops[2] = [False, False] ; Result of checking wrong troops & spells
 Global $g_bChkMultiClick, $g_iMultiClick = 1
@@ -89,7 +90,7 @@ Global $g_bOnReplayWindow, $g_iReplayToPause
 
 Global $g_iLastLayout = 0
 
-; Request CC Troops at first - Demen
+; Request CC Troops at first - Demen - AiO++ Team
 Global $g_bReqCCFirst = False
 Global $chkReqCCFirst = 0
 
@@ -109,7 +110,7 @@ Global $g_bChkClanHop = False
 ; Max Logout Time - TeAiO++ Team
 Global $g_bTrainLogoutMaxTime = False, $g_iTrainLogoutMaxTime = 4
 
-; ExtendedAttackBar - Demen
+; ExtendedAttackBar - Demen - AiO++ Team
 Global $g_hChkExtendedAttackBarLB, $g_hChkExtendedAttackBarDB, $g_abChkExtendedAttackBar[2]
 Global $g_iTotalAttackSlot = 10, $g_bDraggedAttackBar = False ; flag if AttackBar is dragged or not
 
@@ -122,7 +123,7 @@ Global $g_iClanChat = False, $g_iRusLang = 0, $g_iUseResponses = False, $g_iUseG
 Global $ChatbotStartTime
 Global $ChatbotQueuedChats[0], $ChatbotReadQueued = False, $ChatbotReadInterval = 0, $ChatbotIsOnInterval = False
 
-; CheckCC Troops - Demen
+; CheckCC Troops - Demen - AiO++ Team
 Global $g_aiCCTroops[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_aiCCSpells[$eSpellCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_aiCCTroopsExpected[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -131,7 +132,7 @@ Global $g_bChkCC, $g_bChkCCTroops
 Global $g_aiCmbCCSlot[5], $g_aiTxtCCSlot[5]
 Global $g_iCmbCastleCapacityT, $g_iCmbCastleCapacityS
 
-; Switch Profile - Demen
+; Switch Profile - Demen - AiO++ Team
 Global $g_abChkSwitchMax[4], $g_abChkSwitchMin[4], $g_aiCmbSwitchMax[4], $g_aiCmbSwitchMin[4]
 Global $g_abChkBotTypeMax[4], $g_abChkBotTypeMin[4], $g_aiCmbBotTypeMax[4], $g_aiCmbBotTypeMin[4]
 Global $g_aiConditionMax[4], $g_aiConditionMin[4]
@@ -139,7 +140,7 @@ Global $g_aiConditionMax[4], $g_aiConditionMin[4]
 ; Check Grand Warden Mode - AiO++ Team
 Global $g_bCheckWardenMode = False, $g_iCheckWardenMode = 0
 
-; Farm Schedule - Demen
+; Farm Schedule - Demen - AiO++ Team
 Global $g_abChkSetFarm[8]
 Global $g_aiCmbAction1[8], $g_aiCmbCriteria1[8], $g_aiTxtResource1[8], $g_aiCmbTime1[8]
 Global $g_aiCmbAction2[8], $g_aiCmbCriteria2[8], $g_aiTxtResource2[8], $g_aiCmbTime2[8]

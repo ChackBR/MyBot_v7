@@ -587,7 +587,7 @@ Func DonateCC($Check = False, $Train = True)
 
 	If _Sleep($DELAYDONATECC2) Then Return
 
-	; Smart Train - Demen
+	; Smart Train - Demen - AiO++ Team
 	If $ichkSmartTrain = 1 And $Train Then
 		OpenArmyOverview()
 		MakingDonatedTroops()

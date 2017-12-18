@@ -49,8 +49,8 @@ Global $g_hFrmBot = 0 ; The main GUI window
 ; "2614" ; MyBot v6.5.3 + Doc Octopus v3.5.5 + Collectors Outside
 ; "2701" ; MyBot v7.0.1
 ; "2702" ; MyBot v7.0.1 + Add CSV Test Button
-; "2801" ; MyBot v7.1.3 + Demem SwitchAcc
-; "2811" ; MyBot v7.1.4 + Demem SwitchAcc
+; "2801" ; MyBot v7.1.3 + Demen SwitchAcc
+; "2811" ; MyBot v7.1.4 + Demen SwitchAcc
 ; "2812" ; MyBot v7.1.4 + Add: Multi-Finger
 ; "2901" ; MyBot v7.2.0 + Demen SwitchAcc + MF
 ; "2902" ; MyBot v7.2.0 + SwitchAcc + MF + Speed Mod
@@ -127,7 +127,7 @@ Func InitializeBot()
 
 	SetLogCentered(" BOT LOG ") ; Initial text for log
 
-	; Switch Accounts - Demen
+	; Switch Accounts - Demen - AiO++ Team
 	SetSwitchAccLog(_PadStringCenter(" SwitchAcc Log ", 25, "="), $COLOR_BLACK, "Lucida Console", 8, False)
 
 	; Debug Output of launch parameter
@@ -623,7 +623,7 @@ Func FinalInitialization(Const $sAI)
 	SetLog("          » " & "Please Set The Bot Language To ENGLISH" & " «", $COLOR_TEAL, "Segoe UI Semibold", 10)
 	SetLog("            » " & "Make a Fresh Configuration, Don't Use Old Profile" & " «", $COLOR_TEAL, "Segoe UI Semibold", 9)
 	SetLog("-----------------------------------------------------------------------", $COLOR_MONEYGREEN)
-	SetLog("         » " & "Thanks To NguyenAnhHD, Demen, Eloy" & " «", $COLOR_TEAL, "Segoe Print", 9)
+	SetLog("         » " & "Thanks To Demen, Eloy", NguyenAnhHD & " «", $COLOR_TEAL, "Segoe Print", 9)
 	SetLog("            » " & "and MHK2012 for last MOD Code" & " «", $COLOR_TEAL, "Segoe Print", 9)
 	SetLog("-----------------------------------------------------------------------", $COLOR_MONEYGREEN)
 	SetLog("                       » " & "Based On: MyBot" & " " & $g_sBotVersion & " «", $COLOR_TEAL, "Segoe UI Semibold", 10)
@@ -636,7 +636,7 @@ Func FinalInitialization(Const $sAI)
 	; Stop on Low Battery - AiO++ Team
 	If $g_bStopOnBatt Then _BatteryStatus()
 
-	; Switch Acc - Demen
+	; Switch Acc - Demen - AiO++ Team
 	UpdateMultiStats()
 
 	If $g_bAndroidShieldEnabled = False Then
@@ -708,7 +708,7 @@ EndFunc   ;==>MainLoop
 
 Func runBot() ;Bot that runs everything in order
 
-	; Switch Accounts - Demen
+	; Switch Accounts - Demen - AiO++ Team
 	InitiateSwitchAcc()
 	If $g_bChkSwitchAcc And $g_bReMatchAcc Then
 		Setlog("Rematching Account [" & $g_iNextAccount + 1 & "] with Profile [" & GUICtrlRead($g_ahCmbProfile[$g_iNextAccount]) & "]")
@@ -767,9 +767,9 @@ Func runBot() ;Bot that runs everything in order
 			UpdateHeroStatus() 
 			; Hero and Lab Status - AiO++ Team
 			UpdateLabStatus() 
-			; Switch Profile - Demen
+			; Switch Profile - Demen - AiO++ Team
 			ProfileSwitch() 
-			; Farm Schedule - Demen
+			; Farm Schedule - Demen - AiO++ Team
 			CheckFarmSchedule()
 
 			If $g_bOutOfGold = True And (Number($g_aiCurrentLoot[$eLootGold]) >= Number($g_iTxtRestartGold)) Then ; check if enough gold to begin searching again
@@ -790,7 +790,7 @@ Func runBot() ;Bot that runs everything in order
 			$g_bcanRequestCC = True
 			; Request CC Troops at first - AiO++ Team
 			If ($g_bReqCCFirst) Then
-				CheckCC() ; CheckCC Troops - Demen
+				CheckCC() ; CheckCC Troops - Demen - AiO++ Team
 				RequestCC()
 				If _Sleep($DELAYRUNBOT1) = False Then checkMainScreen(False)
 			EndIf
@@ -862,7 +862,7 @@ Func runBot() ;Bot that runs everything in order
 				If _Sleep($DELAYRUNBOT3) Then Return
 				If $g_bRestart = True Then ContinueLoop
 
-				; Switch Accounts - Demen
+				; Switch Accounts - Demen - AiO++ Team
 				If $g_bChkSwitchAcc And $g_abDonateOnly[$g_iCurAccount] Then checkSwitchAcc()
 
 				Idle()
@@ -1072,7 +1072,7 @@ Func _Idle() ;Sequence that runs until Full Army
 
 		If $g_iCommandStop = -1 Then ; Check if closing bot/emulator while training and not in halt mode
 
-			; SwitchAcc Demen
+			; SwitchAcc Demen - AiO++ Team
 			If $g_bChkSwitchAcc Then checkSwitchAcc()
 
 			SmartWait4Train()
@@ -1094,7 +1094,7 @@ Func AttackMain() ;Main control for attack functions
 	If IsSearchAttackEnabled() Then
 		If (IsSearchModeActive($DB) And checkCollectors(True, False)) Or IsSearchModeActive($LB) Or IsSearchModeActive($TS) Then
 
-			; SwitchAcc Demen
+			; SwitchAcc Demen - AiO++ Team
 			If $g_bChkSwitchAcc And ($g_aiAttackedCountSwitch[$g_iCurAccount] <= $g_aiAttackedCountAcc[$g_iCurAccount] - 2) Then checkSwitchAcc()
 
 			If $g_bUseCCBalanced = True Then ;launch profilereport() only if option balance D/R it's activated
@@ -1132,7 +1132,7 @@ Func AttackMain() ;Main control for attack functions
 			If _Sleep($DELAYATTACKMAIN2) Then Return
 			Return True
 		Else
-			; ClanHop - Team AiO MOD++ (#-20)
+			; ClanHop - AiO++ Team
 			If $g_bChkClanHop Then
 				SetLog("Skipping Attack because Clan Hop is enabled!", $COLOR_INFO)
 			Else
@@ -1141,7 +1141,7 @@ Func AttackMain() ;Main control for attack functions
 				$g_bIsSearchLimit = False
 				$g_bIsClientSyncError = False
 				$g_bQuickAttack = False
-				; SwitchAcc Demen_SA_#9001
+				; SwitchAcc - Demen - AiO++ Team
 				If $g_bChkSwitchAcc Then checkSwitchAcc()
 				SmartWait4Train()
 			EndIf
@@ -1287,8 +1287,9 @@ Func _RunFunction($action)
 		Case "RequestCC"
 			; ClanHop - AiO++ Team
 			If $g_bChkClanHop Then Return
+			; CheckCC Troops - AiO++ Team
 			If Not ($g_bReqCCFirst) Then
-				CheckCC() ; CheckCC Troops - AiO++ Team
+				CheckCC()
 				RequestCC()
 			EndIf
 			If _Sleep($DELAYRUNBOT1) = False Then checkMainScreen(False)

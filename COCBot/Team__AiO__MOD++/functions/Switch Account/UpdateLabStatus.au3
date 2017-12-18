@@ -24,7 +24,10 @@ Func LabStatusAndTime()
 
 	; locate lab
 	If $g_aiLaboratoryPos[0] <= 0 Or $g_aiLaboratoryPos[1] <= 0 Then
-		If $g_bChkSwitchAcc Then $Account = $g_iCurAccount	; SwitchAcc Demen_SA_#9001
+
+		; SwitchAcc - Demen - AiO++ Team
+		If $g_bChkSwitchAcc Then $Account = $g_iCurAccount	
+
 		If $bNeedLocateLab[$Account] Then
 			SetLog("Laboratory has not been located", $COLOR_ERROR)
 			LocateLab()
@@ -128,7 +131,10 @@ EndFunc   ;==>LabStatusAndTime
 Func UpdateLabStatus()
 
 	Local $sLabTime = ""
-	Local $hLab = 0, $hLabTime = 0	; SwitchAcc Demen_SA_#9001
+	; SwitchAcc - Demen - AiO++ Team
+	Local $hLab = 0
+	$Local hLabTime = 0	
+	; end - Demen - AiO++ Team
 
 	If $g_bChkSwitchAcc Then
 		$hLab = $g_ahLblLab[$g_iCurAccount]
@@ -140,7 +146,7 @@ Func UpdateLabStatus()
 			$sLabTime = "Ready"
 			GUICtrlSetColor($g_hLblLab, $COLOR_GREEN)
 			GUICtrlSetColor($g_hLblLabTime, $COLOR_GREEN)
-			GUICtrlSetColor($hLab, $COLOR_GREEN) 		; profile stats tab - SwitchAcc Demen_SA_#9001
+			GUICtrlSetColor($hLab, $COLOR_GREEN) 		; profile stats tab
 			GUICtrlSetColor($hLabTime, $COLOR_GREEN) 	; profile stats tab
 		ElseIf $g_aLabTime[3] > 0 Then
 			GUICtrlSetColor($g_hLblLab, $COLOR_BLACK)

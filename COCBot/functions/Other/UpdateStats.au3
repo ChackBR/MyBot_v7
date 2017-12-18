@@ -335,7 +335,7 @@ Func UpdateStats($bForceUpdate = False)
 	If $iOldSkippedVillageCount <> $g_iSkippedVillageCount Then
 		$bStatsUpdated = True
 		GUICtrlSetData($g_hLblResultVillagesSkipped, _NumberFormat($g_iSkippedVillageCount, True))
-		; MultiStats SwitchAcc - Demen
+		; MultiStats SwitchAcc - Demen - AiO++ Team
 		If Not $g_bChkSwitchAcc Then GUICtrlSetData($g_hLblResultSkippedHourNow, _NumberFormat($g_iSkippedVillageCount, True))
 		$iOldSkippedVillageCount = $g_iSkippedVillageCount
 	EndIf
@@ -526,7 +526,7 @@ Func UpdateStats($bForceUpdate = False)
 	If $iOldAttackedCount <> $g_aiAttackedCount Then
 		$bStatsUpdated = True
 		GUICtrlSetData($g_hLblResultVillagesAttacked, _NumberFormat($g_aiAttackedCount, True))
-		; MultiStats - SwitchAcc - Demen
+		; MultiStats - SwitchAcc - Demen - AiO++ Team
 		If Not $g_bChkSwitchAcc Then GUICtrlSetData($g_hLblResultAttackedHourNow, _NumberFormat($g_aiAttackedCount, True))
 		$iOldAttackedCount = $g_aiAttackedCount
 	EndIf
@@ -564,7 +564,7 @@ Func UpdateStats($bForceUpdate = False)
 		EndIf
 		GUICtrlSetData($g_ahLblStatsGainPerHour[$eLootTrophy], _NumberFormat(Round($g_iStatsTotalGain[$eLootTrophy] / (Int(__TimerDiff($g_hTimerSinceStarted) + $g_iTimePassed)) * 3600 * 1000)) & " / h")
 
-		; MultiStats - SwitchAcc - Demen
+		; MultiStats - SwitchAcc - Demen - AiO++ Team
 		If Not $g_bChkSwitchAcc Then
 			GUICtrlSetData($g_hLblResultGoldHourNow, _NumberFormat(Round($g_iStatsTotalGain[$eLootGold] / (Int(__TimerDiff($g_hTimerSinceStarted) + $g_iTimePassed)) * 3600)) & "k / h") ;GUI BOTTOM
 			GUICtrlSetData($g_hLblResultElixirHourNow, _NumberFormat(Round($g_iStatsTotalGain[$eLootElixir] / (Int(__TimerDiff($g_hTimerSinceStarted) + $g_iTimePassed)) * 3600)) & "k / h") ;GUI BOTTOM
@@ -607,7 +607,7 @@ Func UpdateStats($bForceUpdate = False)
 		EndIf
 	Next
 
-	; MultiStats - SwitchAcc - Demen
+	; MultiStats - SwitchAcc - Demen - AiO++ Team
 	If $g_bChkSwitchAcc Then UpdateStatsForSwitchAcc()
 
 	If $ResetStats = 1 Then
@@ -693,13 +693,13 @@ Func ResetStats()
 	$g_iTotalDonateStatsSpells = 0
 	$g_iTotalDonateStatsSpellsXP = 0
 
-	; MultiStats - SwitchAcc - Demen
+	; MultiStats - SwitchAcc - Demen - AiO++ Team
 	If $g_bChkSwitchAcc Then ResetStatsForSwitchAcc()
 
-	;	Hero and Lab Status - Demen
+	;	Hero and Lab Status - Demen - AiO++ Team
 	ResetHeroLabStatus()	
 
-	; === Goblin XP - AiO++ Team
+	; Goblin XP - AiO++ Team
 	ResetGoblinsXP()
 
 	UpdateStats()

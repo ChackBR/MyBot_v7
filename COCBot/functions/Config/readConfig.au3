@@ -242,7 +242,7 @@ Func ReadRegularConfig()
 	; <><><> Attack Plan / Train Army / Options <><><>
 	ReadConfig_641_1()
 
-	; === AiO++ Team
+	; AiO++ Team
 	ReadConfig_MOD()
 
 	; <><><><> Attack Plan / Strategies <><><><>

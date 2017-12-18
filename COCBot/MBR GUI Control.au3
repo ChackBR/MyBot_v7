@@ -49,7 +49,7 @@ Global $g_hFrmBot_WNDPROC_ptr = 0
 #include "GUI\MBR GUI Control Android.au3"
 #include "MBR GUI Action.au3"
 
-; === AiO++ Team
+; AiO++ Team
 #include "Team__AiO__MOD++\GUI\MOD GUI Control.au3"
 
 Func InitializeMainGUI($bGuiModeUpdate = False)
@@ -1603,7 +1603,7 @@ Func SetTime($bForceUpdate = False)
 		GUICtrlSetData($g_hLblResultRuntimeNow, StringFormat("%02i:%02i:%02i", $hour, $min, $sec))
 	EndIf
 
-; Showing troops time in MultiStats - Switch Accounts - Demen
+	; Showing troops time in MultiStats - Switch Accounts - Demen - AiO++ Team
 	Local Static $DisplayLoop = 0
 	If $DisplayLoop >= 3 Then ; Conserve Clock Cycles on Updating times
 		$DisplayLoop = 0
@@ -1655,7 +1655,7 @@ Func SetTime($bForceUpdate = False)
 		EndIf
 	EndIf
 	$DisplayLoop += 1
-; Showing troops time in MultiStats - Switch Acc - Demen
+; end - Demen - AiO++ Team
 
 EndFunc   ;==>SetTime
 
@@ -1940,7 +1940,7 @@ Func tabBot()
 	EndSelect
 EndFunc   ;==>tabBot
 
-; === AiO++ Team ========================================
+; AiO++ Team
 Func tabMod()
 	Local $tabidx = GUICtrlRead($g_hGUI_MOD_TAB)
 	Select
@@ -1972,7 +1972,7 @@ Func tabModProfiles()
 			GUISetState(@SW_HIDE, $g_hGUI_LOG_SA)
 	EndSelect
 EndFunc   ;==>tabModSwitch
-; === AiO++ Team ========================================
+; AiO++ Team
 
 Func tabDeadbase()
 	Local $tabidx = GUICtrlRead($g_hGUI_DEADBASE_TAB)

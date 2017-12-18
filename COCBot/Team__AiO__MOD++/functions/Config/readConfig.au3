@@ -13,13 +13,13 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
-      ;  «»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»
-      ;  «»«»«»«»«»«»«»«» AiO++ Team «»«»«»«»«»«»«»«» AiO++ Team «»«»«»«»«»«»«»«»
-      ;  «»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»
+;  «»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»
+;  AiO++ Team
+;  «»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»
 
 Func ReadConfig_MOD()
 
-	; Unit/Wave Factor - Team AiO MOD++ (#-05)
+	; Unit/Wave Factor - AiO++ Team
 	IniReadS($g_iChkGiantSlot, $g_sProfileConfigPath, "SetSleep", "EnableGiantSlot", $g_iChkGiantSlot, "int")
 	IniReadS($g_iCmbGiantSlot, $g_sProfileConfigPath, "SetSleep", "CmbGiantSlot", $g_iCmbGiantSlot ,"int")
 
@@ -29,7 +29,7 @@ Func ReadConfig_MOD()
 	IniReadS($g_iChkWaveFactor, $g_sProfileConfigPath, "SetSleep", "EnableWaveFactor", $g_iChkWaveFactor, "int")
 	IniReadS($g_iTxtWaveFactor, $g_sProfileConfigPath, "SetSleep", "WaveFactor", $g_iTxtWaveFactor, "int")
 
-	; Auto Dock, Hide Emulator & Bot - Team AiO MOD++ (#-07)
+	; Auto Dock, Hide Emulator & Bot - AiO++ Team
 	IniReadS($g_bEnableAuto, $g_sProfileConfigPath, "general", "EnableAuto", $g_bEnableAuto, "Bool")
 	IniReadS($g_iChkAutoDock, $g_sProfileConfigPath, "general", "AutoDock", $g_iChkAutoDock, "Bool")
 	IniReadS($g_iChkAutoHideEmulator, $g_sProfileConfigPath, "general", "AutoHide", $g_iChkAutoHideEmulator, "Bool")
@@ -108,11 +108,11 @@ Func ReadConfig_MOD()
 	IniReadS($g_bTrainLogoutMaxTime, $g_sProfileConfigPath, "TrainLogout", "TrainLogoutMaxTime", False, "Bool")
 	IniReadS($g_iTrainLogoutMaxTime, $g_sProfileConfigPath, "TrainLogout", "TrainLogoutMaxTimeTXT", 4, "int")
 
-	; ExtendedAttackBar - DEMEN
+	; ExtendedAttackBar - Demen - AiO++ Team
 	IniReadS($g_abChkExtendedAttackBar[$DB], $g_sProfileConfigPath, "attack", "ExtendedAttackBarDB", False, "Bool")
 	IniReadS($g_abChkExtendedAttackBar[$LB], $g_sProfileConfigPath, "attack", "ExtendedAttackBarLB", False, "Bool")
 
-	; CheckCC Troops - DEMEN
+	; CheckCC Troops - Demen - AiO++ Team
 	IniReadS($g_bChkCC, $g_sProfileConfigPath, "CheckCC", "Enable", False, "Bool")
 	IniReadS($g_iCmbCastleCapacityT, $g_sProfileConfigPath, "CheckCC", "Troop Capacity", 5, "int")
 	IniReadS($g_iCmbCastleCapacityS, $g_sProfileConfigPath, "CheckCC", "Spell Capacity", 1, "int")
@@ -141,7 +141,7 @@ Func ReadConfig_MOD()
 		EndIf
 	Next
 
-	; Switch Profile - DEMEN
+	; Switch Profile - Demen - AiO++ Team
 	Local $aiDefaultMax[4] = ["6000000", "6000000", "180000", "5000"]
 	Local $aiDefaultMin[4] = ["1000000", "1000000", "20000", "3000"]
 	For $i = 0 To 3
@@ -163,10 +163,10 @@ Func ReadConfig_MOD()
 	IniReadS($g_bCheckWardenMode, $g_sProfileConfigPath, "other", "chkCheckWardenMode", False, "Bool")
 	IniReadS($g_iCheckWardenMode, $g_sProfileConfigPath, "other", "cmbCheckWardenMode", 0, "int")
 
-	; Switch Accounts - DEMEN
+	; Switch Accounts - Demen - AiO++ Team
 	ReadConfig_SwitchAcc()
 
-	; Farm Schedule - DEMEN
+	; Farm Schedule - Demen - AiO++ Team
 	For $i = 0 To 7
 		IniReadS($g_abChkSetFarm[$i], $g_sProfilePath & "\Profile.ini", "FarmStrategy", "ChkSetFarm" & $i, False, "Bool")
 
@@ -191,7 +191,7 @@ Func ReadConfig_MOD()
 
 EndFunc   ;==>ReadConfig_MOD
 
-; Switch Accounts - DEMEN
+; Switch Accounts - Demen - AiO++ Team
 Func ReadConfig_SwitchAcc()
 	IniReadS($g_bChkSwitchAcc, $g_sProfilePath & "\Profile.ini", "SwitchAcc", "Enable", False, "Bool")
 	IniReadS($g_bChkSmartSwitch, $g_sProfilePath & "\Profile.ini", "SwitchAcc", "SmartSwitch", False, "Bool")

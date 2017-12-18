@@ -30,13 +30,13 @@ Func setupProfileComboBox()
 	; Set the new data of available profiles
 	GUICtrlSetData($g_hCmbProfile, $profileString, "<No Profiles>")
 
-	; SwitchAcc - Demen
+	; SwitchAcc - Demen - AiO++ Team
 	For $i = 0 To 7
 		GUICtrlSetData($g_ahCmbProfile[$i], "")
 		GUICtrlSetData($g_ahCmbProfile[$i], $profileString)
 		_GUICtrlComboBox_SetCurSel($g_ahCmbProfile[$i], 0)
 	Next
-	; Switch Profile - Demen
+	; Switch Profile - Demen - AiO++ Team
 	For $i = 0 To 3
 		GUICtrlSetData($g_ahCmb_SwitchMax[$i], "")
 		GUICtrlSetData($g_ahCmb_SwitchMax[$i], $profileString, "<No Profiles>")

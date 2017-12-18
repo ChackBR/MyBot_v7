@@ -20,7 +20,7 @@ Global $g_hCmbStandardDropOrderAB = 0, $g_hCmbStandardDropSidesAB = 0, $g_hCmbSt
 
 Global $g_hLblSmartDeployAB = 0, $g_hPicAttackNearDarkElixirDrillAB = 0
 
-; Drop Order Troops - Team AiO MOD++ (#-06)
+; Drop Order Troops - AiO++ Team
 Global $g_hBtnCustomDropOrderAB = 0
 
 Func CreateAttackSearchActiveBaseStandard()

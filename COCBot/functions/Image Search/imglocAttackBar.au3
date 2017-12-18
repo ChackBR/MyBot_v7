@@ -37,7 +37,7 @@ Func AttackBarCheck($Remaining = False)
 		$CheckSlotwHero = False
 	EndIf
 
-	 ; Return Drag For The 2nd Recalc - ExtendedAttackBar - Demen
+	 ; Return Drag For The 2nd Recalc - ExtendedAttackBar - Demen - AiO++ Team
 	If $g_bDraggedAttackBar Then DragAttackBar($g_iTotalAttackSlot, True)
 
 	; Reset to level one the Spells level
@@ -168,9 +168,11 @@ Func AttackBarCheck($Remaining = False)
 						$aResult[$i][3] = -1
 						$aResult[$i][4] = -1
 					EndIf
-					If $aResult[$i][4] <= 10 Or Not $g_abChkExtendedAttackBar[$g_iMatchMode] Then ; ExtendedAttackBar - Demen
+					; ExtendedAttackBar - Demen - AiO++ Team
+					If $aResult[$i][4] <= 10 Or Not $g_abChkExtendedAttackBar[$g_iMatchMode] Then
 						$strinToReturn &= "|" & TroopIndexLookup($aResult[$i][0]) & "#" & $aResult[$i][4] & "#" & $aResult[$i][3]
 					EndIf
+					; end - Demen - AiO++ Team
 				EndIf
 			Next
 		EndIf
@@ -199,7 +201,7 @@ Func AttackBarCheck($Remaining = False)
 		_GDIPlus_BitmapDispose($editedImage)
 	EndIf
 
-	; === Drag & checking ExtendedAttackBar - Demen
+	; Drag & checking ExtendedAttackBar - Demen - AiO++ Team
 	If $g_iMatchMode <= $LB Then
 		If $g_abChkExtendedAttackBar[$g_iMatchMode] And $CheckSlot12 And IsArray($aResult) Then
 			If $g_bDebugSetlog Then Setlog("$strinToReturn 1st page = " & $strinToReturn)
@@ -213,7 +215,7 @@ Func AttackBarCheck($Remaining = False)
 			If Not $Remaining Then DragAttackBar($g_iTotalAttackSlot, True) ; return drag
 		EndIf
 	EndIf
-	; === Drag & checking ExtendedAttackBar - Demen
+	; end - Demen - AiO++ Team
 
 	$strinToReturn = StringTrimLeft($strinToReturn, 1)
 

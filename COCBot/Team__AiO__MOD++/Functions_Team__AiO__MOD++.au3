@@ -1,5 +1,5 @@
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: Functions_Team__AiO__MOD++
+; Name ..........: Functions_- AiO++ Team
 ; Description ...: This file Includes several files in the current script.
 ; Syntax ........: #include
 ; Parameters ....: None
@@ -13,7 +13,9 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
-; «»«»«»«»«»«»«»«»«»«»«»«»«»«» AiO++ Team «»«»«»«»«»«»«»«»«»«»«»«»«»«»
+; «»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»
+; AiO++ Team
+; «»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»
 
 #include "functions\Config\saveConfig.au3"
 #include "functions\Config\readConfig.au3"
@@ -25,11 +27,11 @@
 ; Attack Now - AiO++ Team
 #include "functions\Mod's\Attack Now.au3"
 
-; Switch Accounts - DEMEN
+; Switch Accounts - Demen - AiO++ Team
 #include "functions\Switch Account\SwitchAcc.au3"
 #include "functions\Switch Account\UpdateMultiStats.au3"
 
-; Smart Train - DEMEN
+; Smart Train - Demen - AiO++ Team
 #include "functions\Smart Train\SmartTrain.au3"
 #include "functions\Smart Train\CheckQueue.au3"
 #include "functions\Smart Train\CheckTrainingTab.au3"
@@ -54,21 +56,21 @@
 ; ClanHop - AiO++ Team
 #include "functions\Mod's\ClanHop.au3"
 
-; ExtendedAttackBar - DEMEN
+; ExtendedAttackBar - Demen - AiO++ Team
 #include "functions\Mod's\ExtendedAttackBarCheck.au3"
 
 ; Chatbot - AiO++ Team
 #include "functions\Chatbot\Chatbot.au3"
 #include "functions\Chatbot\Multy Lang.au3"
 
-; CheckCC Troops - DEMEN
+; CheckCC Troops - Demen - AiO++ Team
 #include "functions\Mod's\CheckCC.au3"
 
-; Switch Profile - DEMEN
+; Switch Profile - Demen - AiO++ Team
 #include "functions\Mod's\ProfileSwitch.au3"
 
 ; Check Grand Warden Mode - AiO++ Team
 #include "functions\Mod's\CheckWardenMode.au3"
 
-; Farm Schedule - DEMEN
+; Farm Schedule - Demen - AiO++ Team
 #include "functions\Mod's\FarmSchedule.au3"

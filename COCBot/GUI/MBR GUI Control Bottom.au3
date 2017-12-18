@@ -30,7 +30,7 @@ Func Initiate()
 			SetLogCentered(" Search Mode Start ", Default, $COLOR_SUCCESS)
 		EndIf
 		SetLogCentered("  Current Profile: " & $g_sProfileCurrentName & " ", "-", $COLOR_INFO)
-		If $g_bDebugSetlog Or $g_bDebugOcr Or $g_bDebugRedArea Or $g_bDevMode Or $g_bDebugImageSave Or $g_bDebugBuildingPos Or $g_bDebugOCRdonate Or $g_bDebugAttackCSV Or $g_bDebugAndroid Then
+		If $g_bDebugSetlog Or $g_bDebugOcr Or $g_bDebugRedArea Or $g_bDebugImageSave Or $g_bDebugBuildingPos Or $g_bDebugOCRdonate Or $g_bDebugAttackCSV Or $g_bDebugAndroid Then ; $g_bDevMode Or 
 			SetLogCentered(" Warning Debug Mode Enabled! ", "-", $COLOR_ERROR)
 			SetLog("      SetLog : " & $g_bDebugSetlog, $COLOR_ERROR, "Lucida Console", 8)
 			SetLog("     Android : " & $g_bDebugAndroid, $COLOR_ERROR, "Lucida Console", 8)
@@ -44,7 +44,9 @@ Func Initiate()
 		EndIf
 
 		$g_bFirstStart = True
-		$g_bInitiateSwitchAcc = True ; SwitchAcc - Demen
+
+		; SwitchAcc - Demen - AiO++ Team
+		$g_bInitiateSwitchAcc = True
 
 		If $g_bNotifyDeleteAllPushesOnStart Then _DeletePush()
 
@@ -195,24 +197,27 @@ EndFunc   ;==>btnSearchMode
 
 Func btnPause($bRunNow = True)
 	TogglePause()
-	GUICtrlSetState($g_hBtnDisableGUI, $GUI_HIDE) ; Manually Enable/Disable GUI While Botting - DEMEN
-	GUICtrlSetState($g_hBtnEnableGUI, $GUI_SHOW)  ; Manually Enable/Disable GUI While Botting - DEMEN
+	; Manually Enable/Disable GUI While Botting - Demen - AiO++ Team
+	GUICtrlSetState($g_hBtnDisableGUI, $GUI_HIDE)
+	GUICtrlSetState($g_hBtnEnableGUI, $GUI_SHOW)
+	; end - Demen - AiO++ Team
 
-	; === Stop on Low Battery - AiO++ Team
+	; Stop on Low Battery - AiO++ Team
 	GUICtrlSetState($g_hLblBatteryAC, $GUI_HIDE)
 	GUICtrlSetState($g_hLblBatteryStatus, $GUI_HIDE)
 EndFunc   ;==>btnPause
 
 Func btnResume()
 	TogglePause()
-	GUICtrlSetState($g_hBtnDisableGUI, $GUI_HIDE) ; Manually Enable/Disable GUI While Botting - DEMEN
-	GUICtrlSetState($g_hBtnEnableGUI, $GUI_HIDE)  ; Manually Enable/Disable GUI While Botting - DEMEN
-	; === Stop on Low Battery - AiO++ Team
+	; Manually Enable/Disable GUI While Botting - Demen - AiO++ Team
+	GUICtrlSetState($g_hBtnDisableGUI, $GUI_HIDE)
+	GUICtrlSetState($g_hBtnEnableGUI, $GUI_HIDE)
+	; Stop on Low Battery - AiO++ Team
 	GUICtrlSetState($g_hLblBatteryAC, $GUI_SHOW)
 	GUICtrlSetState($g_hLblBatteryStatus, $GUI_SHOW)
 EndFunc   ;==>btnResume
 
-; === Enable/Disable GUI While Botting - AiO++ Team
+; Enable/Disable GUI While Botting - AiO++ Team
 Func btnEnableGUI()
 	GUICtrlSetState($g_hBtnEnableGUI, $GUI_HIDE)
 	GUICtrlSetState($g_hBtnDisableGUI, $GUI_SHOW)
@@ -233,7 +238,7 @@ Func btnDisableGUI()
 	applyConfig()
 	DisableGuiControls()
 EndFunc   ;==>btnDisableGUI
-; === Enable/Disable GUI While Botting - AiO++ Team
+; Enable/Disable GUI While Botting - AiO++ Team
 
 Func btnAttackNowDB()
 	If $g_bRunState Then

@@ -416,7 +416,7 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 	;_CaptureRegion()
 
 	;reset variables
-	; === Collector Outside - AiO++ Team
+	; Collector Outside - AiO++ Team
 	If $g_bScanMineAndElixir = False Then
 		Global $g_aiPixelMine[0]
 		Global $g_aiPixelElixir[0]
@@ -432,7 +432,7 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 	If $g_bCSVLocateMine = True Then
 		;SetLog("Locating mines")
 		$hTimer = __timerinit()
-		; === Collector Outside - AiO++ Team
+		; Collector Outside - AiO++ Team
 		If $g_bScanMineAndElixir = False Then
 			SuspendAndroid()
 			$g_aiPixelMine = GetLocationMine()
@@ -476,7 +476,7 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 	If $g_bCSVLocateElixir = True Then
 		;SetLog("Locating elixir")
 		$hTimer = __timerinit()
-		; === Collector Outside - AiO++ Team
+		; Collector Outside - AiO++ Team
 		If $g_bScanMineAndElixir = False Then
 			SuspendAndroid()
 			$g_aiPixelElixir = GetLocationElixir()
@@ -516,7 +516,7 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 	EndIf
 	If _Sleep($DELAYRESPOND) Then Return
 
-	; === Collector Outside - AiO++ Team
+	; Collector Outside - AiO++ Team
 	$g_bScanMineAndElixir = False
 
 	;04.03 If drop troop near drill

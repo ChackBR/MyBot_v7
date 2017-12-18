@@ -170,7 +170,8 @@ Func AttackReport()
 	SetLog("Stars earned: " & $starsearned)
 
 	Local $AtkLogTxt
-	If $g_bChkSwitchAcc Then	; SwitchAcc - Demen
+	; SwitchAcc - Demen - AiO++ Team
+	If $g_bChkSwitchAcc Then
 		$AtkLogTxt = String($g_iCurAccount + 1) & "|" & _NowTime(4) & "|"
 	Else
 		$AtkLogTxt = "" & _NowTime(4) & "|"
@@ -232,7 +233,7 @@ Func AttackReport()
 	EndIf
 	$g_aiAttackedVillageCount[$g_iMatchMode] += 1
 
-	; SwitchAcc - Demen
+	; SwitchAcc - Demen - AiO++ Team
 	If $g_bChkSwitchAcc Then
 		$g_aiGoldTotalAcc[$g_iCurAccount] += $g_iStatsLastAttack[$eLootGold] + $g_iStatsBonusLast[$eLootGold]
 		$g_aiElixirTotalAcc[$g_iCurAccount] += $g_iStatsLastAttack[$eLootElixir] + $g_iStatsBonusLast[$eLootElixir]

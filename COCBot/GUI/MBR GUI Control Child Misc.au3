@@ -46,7 +46,9 @@ Func btnAddConfirm()
 			GUICtrlSetState($g_hBtnCancelProfileChange, $GUI_SHOW)
 			GUICtrlSetState($g_hBtnConfirmRenameProfile, $GUI_HIDE)
 			GUICtrlSetState($g_hBtnRenameProfile, $GUI_HIDE)
-			GUICtrlSetState($g_hBtnRecycle, $GUI_HIDE)	; IceCube
+			; IceCube (Misc v1.0)
+			GUICtrlSetState($g_hBtnRecycle, $GUI_HIDE)
+			; IceCube (Misc v1.0)
 
 		Case $g_hBtnConfirmAddProfile
 			Local $newProfileName = StringRegExpReplace(GUICtrlRead($g_hTxtVillageName), '[/:*?"<>|]', '_')
@@ -68,11 +70,15 @@ Func btnAddConfirm()
 			GUICtrlSetState($g_hBtnCancelProfileChange, $GUI_HIDE)
 			GUICtrlSetState($g_hBtnConfirmRenameProfile, $GUI_HIDE)
 			GUICtrlSetState($g_hBtnRenameProfile, $GUI_SHOW)
-			GUICtrlSetState($g_hBtnRecycle, $GUI_SHOW)	; IceCube
+			; IceCube (Misc v1.0)
+			GUICtrlSetState($g_hBtnRecycle, $GUI_SHOW)
+			; IceCube (Misc v1.0)
 
 			If GUICtrlGetState($g_hBtnDeleteProfile) <> $GUI_ENABLE Then GUICtrlSetState($g_hBtnDeleteProfile, $GUI_ENABLE)
 			If GUICtrlGetState($g_hBtnRenameProfile) <> $GUI_ENABLE Then GUICtrlSetState($g_hBtnRenameProfile, $GUI_ENABLE)
-			If GUICtrlGetState($g_hBtnRecycle) <> $GUI_ENABLE Then GUICtrlSetState($g_hBtnRecycle, $GUI_ENABLE)	; IceCube
+			; IceCube (Misc v1.0)
+			If GUICtrlGetState($g_hBtnRecycle) <> $GUI_ENABLE Then GUICtrlSetState($g_hBtnRecycle, $GUI_ENABLE)
+			; IceCube (Misc v1.0)
 
 		Case Else
 			SetLog("If you are seeing this log message there is something wrong.", $COLOR_ERROR)
@@ -107,7 +113,9 @@ Func btnDeleteCancel()
 			GUICtrlSetState($g_hBtnDeleteProfile, $GUI_SHOW)
 			GUICtrlSetState($g_hBtnConfirmRenameProfile, $GUI_HIDE)
 			GUICtrlSetState($g_hBtnRenameProfile, $GUI_SHOW)
-			GUICtrlSetState($g_hBtnRecycle, $GUI_SHOW)	; IceCube
+			; IceCube (Misc v1.0)
+			GUICtrlSetState($g_hBtnRecycle, $GUI_SHOW)
+			; IceCube (Misc v1.0)
 
 		Case Else
 			SetLog("If you are seeing this log message there is something wrong.", $COLOR_ERROR)
@@ -131,7 +139,9 @@ Func btnRenameConfirm()
 			GUICtrlSetState($g_hBtnCancelProfileChange, $GUI_SHOW)
 			GUICtrlSetState($g_hBtnRenameProfile, $GUI_HIDE)
 			GUICtrlSetState($g_hBtnConfirmRenameProfile, $GUI_SHOW)
-			GUICtrlSetState($g_hBtnRecycle, $GUI_HIDE)	; IceCube
+			; IceCube (Misc v1.0)
+			GUICtrlSetState($g_hBtnRecycle, $GUI_HIDE)
+			; IceCube (Misc v1.0)
 
 		Case $g_hBtnConfirmRenameProfile
 			Local $newProfileName = StringRegExpReplace(GUICtrlRead($g_hTxtVillageName), '[/:*?"<>|]', '_')
@@ -154,7 +164,9 @@ Func btnRenameConfirm()
 			GUICtrlSetState($g_hBtnDeleteProfile, $GUI_SHOW)
 			GUICtrlSetState($g_hBtnConfirmRenameProfile, $GUI_HIDE)
 			GUICtrlSetState($g_hBtnRenameProfile, $GUI_SHOW)
-			GUICtrlSetState($g_hBtnRecycle, $GUI_SHOW)	; IceCube
+			; IceCube (Misc v1.0)
+			GUICtrlSetState($g_hBtnRecycle, $GUI_SHOW)
+			; IceCube (Misc v1.0)
 
 		Case Else
 			SetLog("If you are seeing this log message there is something wrong.", $COLOR_ERROR)

@@ -224,7 +224,7 @@ Func SaveRegularConfig()
 	; <><><><> Bot / Debug <><><><>
 	SaveConfig_Debug()
 
-	; === AiO++ Team
+	; AiO++ Team
 	SaveConfig_MOD()
 
 	; <><><><> Attack Plan / Strategies <><><><>

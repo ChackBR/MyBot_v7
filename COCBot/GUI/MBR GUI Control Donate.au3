@@ -46,13 +46,23 @@ Func btnDonateBlacklist()
 	EndIf
 EndFunc   ;==>btnDonateBlacklist
 
-; === ClanHop - AiO++ MOD
+; ClanHop - AiO++ Team
 Func btnDonateOptions()
 	If GUICtrlGetState($g_hGrpDonateOptions) = BitOR($GUI_HIDE, $GUI_ENABLE) Then
 		_DonateBtn($g_hGrpDonateOptions, $g_hChkClanHop)
+		_DonateBtn($g_hGrpDonateOptions, $g_ahTxtCheckingtrain)
 	EndIf
 EndFunc
-; === ClanHop - AiO++ MOD
+
+; ClanHop - Persian MOD (#-20)
+Func ChkClanHop()
+	If GUICtrlRead($g_hChkClanHop) = $GUI_CHECKED Then
+		GUICtrlSetState($g_ahTxtCheckingtrain, $GUI_ENABLE)
+	Else
+		GUICtrlSetState($g_ahTxtCheckingtrain, $GUI_DISABLE)
+	EndIf
+EndFunc
+
 Func chkDonateTroop()
 	For $i = 0 To $eTroopCount-1 + $g_iCustomDonateConfigs
 		If @GUI_CtrlId = $g_ahChkDonateTroop[$i] Then
@@ -286,4 +296,3 @@ EndFunc   ;==>cmbBalanceDR
 Func Doncheck()
 	tabDONATE() ; just call tabDONATE()
 EndFunc   ;==>Doncheck
-

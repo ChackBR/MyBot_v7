@@ -54,7 +54,7 @@ Func RequestCC($ClickPAtEnd = True, $specifyText = "")
 
 	Local $color = _GetPixelColor($aRequestTroopsAO[0], $aRequestTroopsAO[1], True)
 
-	If _ColorCheck($color, Hex($aRequestTroopsAO[2], 6), $aRequestTroopsAO[5]) Then
+	If _ColorCheck($color, Hex($aRequestTroopsAO[2], 6), $aRequestTroopsAO[5]) OR $color = 'C3EA90' Then
 		;can make a request
 		Local $x = _makerequest()
 	ElseIf _ColorCheck($color, Hex($aRequestTroopsAO[3], 6), $aRequestTroopsAO[5]) Then

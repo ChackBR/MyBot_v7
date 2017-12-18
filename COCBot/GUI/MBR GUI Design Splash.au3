@@ -31,7 +31,7 @@ Func CreateSplashScreen($iSteps = Default)
 	Local $bDisableSplash = $g_bDisableSplash
 
 	If $iSteps = Default Then
-		$g_iSplashTotalSteps = 17
+		$g_iSplashTotalSteps = 10
 	Else
 		$iGuiState = @SW_SHOW
 		$bDisableSplash = False

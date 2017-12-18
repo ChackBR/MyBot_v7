@@ -216,7 +216,7 @@ Func chkDebugClick()
 EndFunc   ;==>chkDebugClick
 
 Func chkDebugSetlog()
-	$g_bDebugSetlog = (GUICtrlRead($g_hChkDebugSetlog) = $GUI_CHECKED);
+	$g_bDebugSetlog = (GUICtrlRead($g_hChkDebugSetlog) = $GUI_CHECKED)
 	SetDebugLog("DebugSetlog " & ($g_bDebugSetlog ? "enabled" : "disabled"))
 EndFunc   ;==>chkDebugSetlog
 

@@ -85,7 +85,8 @@ Func CheckTrainingTab($sText = "troop")
 			Local $bSkipTraining = $g_bFullArmy
 			If $sText = "spell" Then $bSkipTraining = $g_bFullArmySpells Or $g_bForceBrewSpells
 			If Not $bSkipTraining And _ColorCheck(_GetPixelColor(824, 243, True), Hex(0x949522, 6), 20) Then ; the green check symbol [bottom right] at slot 0 troop
-				If $g_bChkSwitchAcc And $g_abDonateOnly[$g_iCurAccount] Then ; SwitchAcc - Demen_SA_#9001
+				; SwitchAcc - Demen - AiO++ Team
+				If $g_bChkSwitchAcc And $g_abDonateOnly[$g_iCurAccount] Then
 					SetLog("  » A big guy is blocking our camp, but you are in donate account, so just leave it")
 				Else
 					SetLog("  » A big guy is blocking in queue, try delete queued troops")

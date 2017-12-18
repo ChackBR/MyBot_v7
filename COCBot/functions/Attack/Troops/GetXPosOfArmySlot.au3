@@ -29,7 +29,7 @@ Func GetXPosOfArmySlot($slotNumber, $xOffsetFor11Slot, $bNeedNewCapture = Defaul
 
 	If $slotNumber = $g_iKingSlot Or $slotNumber = $g_iQueenSlot Or $slotNumber = $g_iWardenSlot Then $xOffsetFor11Slot += 8
 
-	; Extended AttackBar - Demen
+	; Extended AttackBar - Demen - AiO++ Team
 	If $g_bDraggedAttackBar Then Return $xOffsetFor11Slot + $SlotComp + ($slotNumber * 72) + 14
 
 	Local $oldBitmap = _GDIPlus_BitmapCreateFromHBITMAP($g_hHBitmap2)

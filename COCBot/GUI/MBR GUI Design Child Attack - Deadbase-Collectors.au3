@@ -19,7 +19,7 @@ Global $g_ahChkDBCollectorLevel[13] = [-1, -1, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0,
 Global $g_ahCmbDBCollectorLevel[13] = [-1, -1, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0] ; elements 0 thru 5 are never referenced
 Global $g_hCmbMinCollectorMatches = 0, $g_hSldCollectorTolerance = 0, $g_hLblCollectorWarning = 0
 
-; === Collector Outside - AiO++ Team
+; Collector Outside - AiO++ Team
 Global $g_hChkDBMeetCollOutside = 0, $g_hChkDBCollectorsNearRedline = 0, $g_hChkSkipCollectorCheck = 0, $g_hChkSkipCollectorCheckTH = 0
 Global $g_hCmbRedlineTiles = 0, $g_hCmbSkipCollectorCheckTH = 0
 Global $g_hLblDBMinCollOutsideText = 0, $g_hLblDBMinCollOutsideText1 = 0, $g_hLblRedlineTiles = 0, $g_hLblSkipCollectorCheck = 0
@@ -188,7 +188,7 @@ Func CreateAttackSearchDeadBaseCollectors()
 			GUICtrlSetColor(-1, $COLOR_ERROR)
 			GUICtrlSetState(-1, $GUI_HIDE)
 
-		; === Collector Outside - AiO++ Team
+		; Collector Outside - AiO++ Team
 		$y -= 215
 		$x += 240
 		$g_hChkDBMeetCollOutside = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Deadbase-Collectors", "ChkMeetCollOutside", "Check Collectors Outside"), $x, $y, -1, -1)

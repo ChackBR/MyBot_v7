@@ -1614,7 +1614,7 @@ $g_oBldgImages.add($eBldgWizTower & "_" & "1", @ScriptDir & "\imgxml\Buildings\W
 $g_oBldgImages.add($eBldgMortar & "_" & "0", @ScriptDir & "\imgxml\Buildings\Mortars")
 $g_oBldgImages.add($eBldgAirDefense & "_" & "0", @ScriptDir & "\imgxml\Buildings\ADefense")
 
-; Team AiO MOD++ (2017)
+; AiO++ Team
 #include "Team__AiO__MOD++\Globals_Team__AiO__MOD++.au3"
 
 ; EOF

@@ -51,7 +51,8 @@ Global $g_hLblDonateTroopTBD1 = 0, $g_hLblDonateTroopTBD2 = 0, $g_hLblDonateTroo
 	   $g_hLblDonateTroopCustomI = 0, $g_hLblDonateTroopCustomJ = 0, $g_hLblDonateSpellTBD1 = 0
 
 Global $g_hGrpDonateGeneralBlacklist = 0, $g_hTxtGeneralBlacklist = 0
-Global $g_hGrpDonateOptions = 0, $g_hChkClanHop = 0 ; ClanHop - AiO++ Team
+; ClanHop - AiO++ Team
+Global $g_hGrpDonateOptions = 0, $g_hChkClanHop = 0
 Global $lblBtnCustomE = 0
 
 ; Schedule
@@ -111,13 +112,13 @@ Func CreateRequestSubTab()
 		$g_hTxtRequestCC = GUICtrlCreateInput(GetTranslatedFileIni("MBR GUI Design Child Village - Donate-CC", "TxtRequestCC", "Anything please"), $x + 40 + 30, $y + 15, 214, 20, BitOR($SS_CENTER, $ES_AUTOHSCROLL))
 			GUICtrlSetState(-1, $GUI_DISABLE)
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Donate-CC", "TxtRequestCC_Info_01", "This text is used on your request for troops in the Clan chat."))
-		$y += 20
+	$y += 20
 		$chkReqCCFirst = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Donate-CC", "chkReqCCFirst", "Early"), $x + 294, $y - 4, -1, -1)
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Donate-CC", "chkReqCCFirst_Info_01", "Request troops at the beginning of the run loop"))
      		GUICtrlSetState(-1, $GUI_DISABLE)
 			GUICtrlSetOnEvent(-1, "chkReqCCFirst")
 
-	; CheckCC Troops - Team AiO MOD++ (#-24)
+	; CheckCC Troops - AiO++ Team
 	CreateGUICheckCC()
 	$y += 180
 
@@ -625,7 +626,7 @@ Func CreateDonateSubTab()
 			GUICtrlSetBkColor(-1, $GUI_BKCOLOR_TRANSPARENT)
 			GUICtrlSetState(-1, $GUI_DISABLE)
 
-		  ; ClanHop - AiO++ Team
+		; ClanHop - AiO++ Team
 		GUICtrlCreateButton("", $x + 2, $y, $Offx - 2, $Offx - 2, $BS_ICON)
 			_GUICtrlSetImage(-1, $g_sLibIconPath, $eIcnClanHop, 1)
 			GUICtrlSetOnEvent(-1, "btnDonateOptions")
@@ -1832,7 +1833,7 @@ Func CreateDonateSubTab()
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Donate", "TxtGeneralBlacklist_Info_01", "General Blacklist for donation requests"))
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
-	; ClanHop - Team AiO MOD++ (#-20)
+	; ClanHop - AiO++ Team
 	$x = $xStart
 	$y = $Offy
 	$g_hGrpDonateOptions = GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Donate", "GrpDonateOptions", "Donate Options"), $x - 20, $y - 20, $g_iSizeWGrpTab3, 169)

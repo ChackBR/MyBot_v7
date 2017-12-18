@@ -407,7 +407,7 @@ Func CreateWallsSubTab()
 EndFunc   ;==>CreateWallsSubTab
 
 ; Author ........: Roro-Titi
-; Modified ......: Team AiO MOD++ (2017)
+; Modified ......: AiO++ Team
 Func CreateAutoUpgradeSubTab()
 
 	Local $x = 25, $y = 45

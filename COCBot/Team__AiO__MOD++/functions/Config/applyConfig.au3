@@ -13,9 +13,9 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
-      ;  «»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»
-      ;  «»«»«»«»«»«»«»«» AiO++ Team «»«»«»«»«»«»«»«» AiO++ Team «»«»«»«»«»«»«»«»
-      ;  «»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»
+;  «»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»
+;  AiO++ Team
+;  «»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»
 
 Func ApplyConfig_MOD($TypeReadSave)
 	Switch $TypeReadSave
@@ -73,7 +73,7 @@ Func ApplyConfig_MOD($TypeReadSave)
 			_GUICtrlComboBox_SetCurSel($cmbCSVSpeed[$LB], $icmbCSVSpeed[$LB])
 			_GUICtrlComboBox_SetCurSel($cmbCSVSpeed[$DB], $icmbCSVSpeed[$DB])
 
-			; Switch Accounts - Demen
+			; Switch Accounts - Demen - AiO++ Team
 			GUICtrlSetState($g_hChkSwitchAcc, $g_bChkSwitchAcc ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkSmartSwitch, $g_bChkSmartSwitch ? $GUI_CHECKED : $GUI_UNCHECKED)
 			_GUICtrlComboBox_SetCurSel($g_hCmbTotalAccount, $g_iTotalAcc - 1)
@@ -85,7 +85,7 @@ Func ApplyConfig_MOD($TypeReadSave)
 			_GUICtrlComboBox_SetCurSel($g_hCmbTrainTimeToSkip, $g_iTrainTimeToSkip)
 			chkSwitchAcc()
 
-			; Smart Train - Demen
+			; Smart Train - Demen - AiO++ Team
 			GUICtrlSetState($g_hchkSmartTrain, $ichkSmartTrain = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hchkPreciseTroops, $ichkPreciseTroops = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hchkFillArcher, $ichkFillArcher = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
@@ -144,11 +144,11 @@ Func ApplyConfig_MOD($TypeReadSave)
 			chkTrainLogoutMaxTime()
 			GUICtrlSetData($g_hTxtTrainLogoutMaxTime, $g_iTrainLogoutMaxTime)
 
-			; ExtendedAttackBar - Demen
+			; ExtendedAttackBar - Demen - AiO++ Team
 			GUICtrlSetState($g_hChkExtendedAttackBarDB, $g_abChkExtendedAttackBar[$DB] ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkExtendedAttackBarLB, $g_abChkExtendedAttackBar[$LB] ? $GUI_CHECKED : $GUI_UNCHECKED)
 
-			; CheckCC Troops - Demen
+			; CheckCC Troops - Demen - AiO++ Team
 			GUICtrlSetState($g_hChkTroopsCC, $g_bChkCC ? $GUI_CHECKED : $GUI_UNCHECKED)
 			_GUICtrlComboBox_SetCurSel($g_hCmbCastleCapacityT, $g_iCmbCastleCapacityT)
 			_GUICtrlComboBox_SetCurSel($g_hCmbCastleCapacityS, $g_iCmbCastleCapacityS)
@@ -158,7 +158,7 @@ Func ApplyConfig_MOD($TypeReadSave)
 			Next
 			GUIControlCheckCC()
 
-			; Switch Profile - Demen
+			; Switch Profile - Demen - AiO++ Team
 			For $i = 0 To 3
 				GUICtrlSetState($g_ahChk_SwitchMax[$i], $g_abChkSwitchMax[$i] ? $GUI_CHECKED : $GUI_UNCHECKED)
 				GUICtrlSetState($g_ahChk_SwitchMin[$i], $g_abChkSwitchMin[$i] ? $GUI_CHECKED : $GUI_UNCHECKED)
@@ -181,7 +181,7 @@ Func ApplyConfig_MOD($TypeReadSave)
 			chkCheckWardenMode()
 			_GUICtrlComboBox_SetCurSel($g_hCmbCheckWardenMode, $g_iCheckWardenMode)
 
-			; Farm Schedule - Demen
+			; Farm Schedule - Demen - AiO++ Team
 			For $i = 0 To 7
 				GUICtrlSetState($g_ahChkSetFarm[$i], $g_abChkSetFarm[$i] ? $GUI_CHECKED : $GUI_UNCHECKED)
 
@@ -196,7 +196,7 @@ Func ApplyConfig_MOD($TypeReadSave)
 				_GUICtrlComboBox_SetCurSel($g_ahCmbTime2[$i], $g_aiCmbTime2[$i])
 			Next
 
-			; Switch Accounts - Demen
+			; Switch Accounts - Demen - AiO++ Team
 			ApplyConfig_SwitchAcc("Read")
 
 			; Restart Search Legend league - AiO++ Team
@@ -274,7 +274,7 @@ Func ApplyConfig_MOD($TypeReadSave)
 			$g_icmbMaxActionsNumber = _GUICtrlComboBox_GetCurSel($g_icmbMaxActionsNumber)
 			$g_ichallengeMessage = GUICtrlRead($g_challengeMessage)
 
-			; Request CC Troops at first - Demen
+			; Request CC Troops at first - Demen - AiO++ Team
 			$g_bReqCCFirst = GUICtrlRead($chkReqCCFirst) = $GUI_CHECKED ? 1 : 0
 
 			; Goblin XP - AiO++ Team
@@ -293,11 +293,11 @@ Func ApplyConfig_MOD($TypeReadSave)
 			$g_bTrainLogoutMaxTime = GUICtrlRead($g_hChkTrainLogoutMaxTime) = $GUI_CHECKED ? True : False
 			$g_iTrainLogoutMaxTime = GUICtrlRead($g_hTxtTrainLogoutMaxTime)
 
-			; ExtendedAttackBar - Demen
+			; ExtendedAttackBar - Demen - AiO++ Team
 			$g_abChkExtendedAttackBar[$DB] = GUICtrlRead($g_hChkExtendedAttackBarDB) = $GUI_CHECKED ? True : False
 			$g_abChkExtendedAttackBar[$LB] = GUICtrlRead($g_hChkExtendedAttackBarLB) = $GUI_CHECKED ? True : False
 
-			; CheckCC Troops - Demen
+			; CheckCC Troops - Demen - AiO++ Team
 			$g_bChkCC = GUICtrlRead($g_hChkTroopsCC) = $GUI_CHECKED ? True : False
 			$g_iCmbCastleCapacityT = _GUICtrlComboBox_GetCurSel($g_hCmbCastleCapacityT)
 			$g_iCmbCastleCapacityS = _GUICtrlComboBox_GetCurSel($g_hCmbCastleCapacityS)
@@ -306,7 +306,7 @@ Func ApplyConfig_MOD($TypeReadSave)
 				$g_aiTxtCCSlot[$i] = GUICtrlRead($g_ahTxtCCSlot[$i])
 			Next
 
-			; Switch Profile - Demen
+			; Switch Profile - Demen - AiO++ Team
 			For $i = 0 To 3
 				$g_abChkSwitchMax[$i] = GUICtrlRead($g_ahChk_SwitchMax[$i]) = $GUI_CHECKED
 				$g_abChkSwitchMin[$i] = GUICtrlRead($g_ahChk_SwitchMin[$i]) = $GUI_CHECKED
@@ -326,7 +326,7 @@ Func ApplyConfig_MOD($TypeReadSave)
 			$g_bCheckWardenMode = (GUICtrlRead($g_hChkCheckWardenMode) = $GUI_CHECKED)
 			$g_iCheckWardenMode = _GUICtrlComboBox_GetCurSel($g_hCmbCheckWardenMode)
 
-			; Farm Schedule - Demen
+			; Farm Schedule - Demen - AiO++ Team
 			For $i = 0 To 7
 				$g_abChkSetFarm[$i] = GUICtrlRead($g_ahChkSetFarm[$i]) = $GUI_CHECKED
 
@@ -341,7 +341,7 @@ Func ApplyConfig_MOD($TypeReadSave)
 				$g_aiCmbTime2[$i] = _GUICtrlComboBox_GetCurSel($g_ahCmbTime2[$i])
 			Next
 
-			; Switch Accounts - Demen
+			; Switch Accounts - Demen - AiO++ Team
 			ApplyConfig_SwitchAcc("Save")
 
 			; Restart Search Legend league - AiO++ Team
@@ -355,7 +355,7 @@ Func ApplyConfig_MOD($TypeReadSave)
 	EndSwitch
 EndFunc   ;==>ApplyConfig_MOD
 
-; Switch Accounts - Demen
+; Switch Accounts - Demen - AiO++ Team
 Func ApplyConfig_SwitchAcc($TypeReadSave)
 	Switch $TypeReadSave
 		Case "Read"

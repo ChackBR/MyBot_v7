@@ -20,15 +20,14 @@ Global $g_hChkDisableSplash = 0, $g_hChkForMBRUpdates = 0, $g_hChkDeleteLogs = 0
 Global $g_hChkAutostart = 0, $g_hTxtAutostartDelay = 0, $g_hChkCheckGameLanguage = 0, $g_hChkAutoAlign = 0, $g_hTxtAlignOffsetX = 0, $g_hTxtAlignOffsetY = 0, _
 	   $g_hCmbAlignmentOptions = 0
 Global $g_hTxtGlobalActiveBotsAllowed = 0, $g_hTxtGlobalThreads = 0, $g_hTxtThreads = 0
-;Global $g_hChkUpdatingWhenMinimized = 0
 Global $g_hChkBotCustomTitleBarClick = 0, $g_hChkBotAutoSlideClick = 0, $g_hChkHideWhenMinimized = 0, $g_hChkUseRandomClick = 0, $g_hChkScreenshotType = 0, _
 	   $g_hChkScreenshotHideName = 0, $g_hTxtTimeAnotherDevice = 0
 Global $g_hChkSinglePBTForced = 0, $g_hTxtSinglePBTimeForced = 0, $g_hTxtPBTimeForcedExit = 0, $g_hChkFixClanCastle = 0, $g_hChkAutoResume = 0, $g_hTxtAutoResumeTime = 0, $g_hChkDisableNotifications = 0
 
-; Auto Dock, Hide Emulator & Bot - Team AiO MOD++ (#-07)
+; Auto Dock, Hide Emulator & Bot - AiO++ Team
 Global $g_hChkEnableAuto = 0, $g_hChkAutoDock = 0, $g_hChkAutoHideEmulator = 0, $g_hChkAutoMinimizeBot = 0
 
-; Stop on Low battery - Team AiO MOD++ (#-30)
+; Stop on Low battery - AiO++ Team
 Global $g_hChkStopOnBatt = 0, $g_hTxtStopOnBatt = 0, $g_hLblStopOnBatt = 0
 
 Func CreateBotOptions()
@@ -221,7 +220,7 @@ Func CreateBotOptions()
 		$g_hChkUseRandomClick = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkUseRandomClick", "Random Click"), $x - 10, $y, -1, -1)
 			GUICtrlSetOnEvent(-1, "chkUseRandomClick")
 
-	; Stop on Low battery - Team AiO MOD++ (#-30)
+	; Stop on Low battery - AiO++ Team
 	$y += 19
 		$g_hChkStopOnBatt = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkStopOnBatt", "Stop IF Battery below"), $x-10, $y, -1, -1)
 			_GUICtrlSetTip(-1,GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkStopOnBatt_Info_01", "Will stop bot and emulator if battery status below % value"))

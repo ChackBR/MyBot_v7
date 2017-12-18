@@ -286,7 +286,7 @@ Func SetAtkLog($String1, $String2 = "", $Color = $COLOR_BLACK, $Font = "Lucida C
 EndFunc   ;==>SetAtkLog
 
 Func AtkLogHead()
-	; SwitchAcc Demen
+	; SwitchAcc Demen - AiO++ Team
 	Local $Text = "", $Text2 = ""
 	If $g_bChkSwitchAcc Then
 		$Text = "Sw"

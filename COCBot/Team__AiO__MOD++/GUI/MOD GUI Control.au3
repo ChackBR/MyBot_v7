@@ -49,7 +49,7 @@ Func Bridge()
 
 EndFunc   ;==>Bridge
 
-; Unit/Wave Factor - Team AiO MOD++ (#-05)
+; Unit/Wave Factor - AiO++ Team
 Func cmbGiantSlot()
 	If $g_iChkGiantSlot = 1 Then
 		Switch _GUICtrlComboBox_GetCurSel($g_hCmbGiantSlot)

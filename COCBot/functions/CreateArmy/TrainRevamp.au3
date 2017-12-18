@@ -31,7 +31,7 @@ Func TrainRevamp()
 		Return
 	EndIf
 
-	; SmartTrain - Demen
+	; SmartTrain - Demen - AiO++ Team
 	If Not $g_bQuickTrainEnable And $ichkSmartTrain = 0 Then
 		TrainRevampOldStyle()
 		Return
@@ -45,7 +45,7 @@ Func TrainRevamp()
 
 	If Not $g_bRunState Then Return
 
-	;	SmartTrain - Demen
+	;	SmartTrain - Demen - AiO++ Team
 	If $ichkSmartTrain = 1 Then
 		SmartTrain()
 		ResetVariables("donated")
@@ -217,7 +217,7 @@ Func CheckIfArmyIsReady()
 	Local $bFullArmyCCSpells = False, $bFullArmyCCTroops = False
 	Local $iTotalSpellsToBrew = 0
 	Local $bFullArmyHero = False
-	; reset for Waiting CC in SwitchAcc - Demen
+	; reset for Waiting CC in SwitchAcc - Demen - AiO++ Team
 	$g_bWaitForCCTroopSpell = False
 
 	If Not OpenArmyOverview(False) Then Return
@@ -273,7 +273,8 @@ Func CheckIfArmyIsReady()
 			EndIf
 			$g_bIsFullArmywithHeroesAndSpells = False
 		EndIf
-		If $g_bFullArmy And $g_bCheckSpells And $bFullArmyHero Then ; ForceSwitch while waiting for CC in SwitchAcc - Demen_SA_#9001
+		; ForceSwitch while waiting for CC in SwitchAcc - Demen - AiO++ Team
+		If $g_bFullArmy And $g_bCheckSpells And $bFullArmyHero Then 
 			If Not $bFullArmyCCSpells Or Not $bFullArmyCCTroops Then $g_bWaitForCCTroopSpell = True
 		EndIf
 	Else
@@ -334,7 +335,7 @@ Func IsFullClanCastleTroops()
 		Return True
 	EndIf
 
-	; CheckCC Troops - Demen
+	; CheckCC Troops - Demen - AiO++ Team
 	CheckCC(False)
 
 	Local $bColCheck = _ColorCheck(_GetPixelColor(24, 470, True), Hex(0x93C230, 6), 30)
@@ -1723,7 +1724,7 @@ Func ResetVariables($sArmyType = "")
 			$g_aiDonateTroops[$i] = 0
 			If _Sleep($DELAYTRAIN6) Then Return ; '20' just to Pause action
 		Next
-		; fixed making wrong donated spells - Demen
+		; fixed making wrong donated spells - Demen - AiO++ Team
 		For $i = 0 To $eSpellCount - 1
 			If Not $g_bRunState Then Return
 			$g_aiDonateSpells[$i] = 0
@@ -1731,7 +1732,7 @@ Func ResetVariables($sArmyType = "")
 		Next
 	EndIf
 
-	; CheckCC Troops - Demen
+	; CheckCC Troops - Demen - AiO++ Team
 	If $sArmyType = "CCTroops" Or $sArmyType = "all" Then
 		For $i = 0 To $eTroopCount - 1
 			If Not $g_bRunState Then Return
@@ -1847,7 +1848,7 @@ Func MakingDonatedTroops()
 			$Plural = 0
 			If $avDefaultTroopGroup[$i][4] > 0 Then
 				$RemainTrainSpace = GetOCRCurrent(48, 160)
-				; SmartTrain - Demen
+				; SmartTrain - Demen - AiO++ Team
 				If $RemainTrainSpace[0] = $RemainTrainSpace[1] And $ichkSmartTrain <> 1 Then ; army camps full
 					;Camps Full All Donate Counters should be zero!!!!
 					For $j = 0 To UBound($avDefaultTroopGroup, 1) - 1
@@ -1858,7 +1859,7 @@ Func MakingDonatedTroops()
 
 				Local $iTroopIndex = TroopIndexLookup($avDefaultTroopGroup[$i][0], "MakingDonatedTroops")
 
-				; SmartTrain - Demen
+				; SmartTrain - Demen - AiO++ Team
 				If $avDefaultTroopGroup[$i][2] * $avDefaultTroopGroup[$i][4] <= $RemainTrainSpace[2] Or $ichkSmartTrain = 1 Then ; Troopheight x donate troop qty <= avaible train space
 					;Local $pos = GetTrainPos(TroopIndexLookup($avDefaultTroopGroup[$i][0]))
 					Local $howMuch = $avDefaultTroopGroup[$i][4]

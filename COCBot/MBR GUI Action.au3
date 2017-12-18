@@ -184,7 +184,7 @@ Func BotStop()
 	GUICtrlSetState($g_hBtnSearchMode, $GUI_SHOW)
 	;GUICtrlSetState($g_hBtnMakeScreenshot, $GUI_ENABLE)
 
-	; Enable/Disable GUI while botting - DEMEN
+	; Enable/Disable GUI while botting - Demen - AiO++ Team
 	GUICtrlSetState($g_hBtnEnableGUI, $GUI_HIDE)
 	GUICtrlSetState($g_hBtnDisableGUI, $GUI_HIDE)
 

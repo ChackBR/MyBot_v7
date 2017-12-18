@@ -18,8 +18,11 @@ Global $g_hGUI_TRAINARMY = 0
 Global $g_hGUI_TRAINARMY_TAB = 0, $g_hGUI_TRAINARMY_TAB_ITEM1 = 0, $g_hGUI_TRAINARMY_TAB_ITEM2 = 0, $g_hGUI_TRAINARMY_TAB_ITEM3 = 0, $g_hGUI_TRAINARMY_TAB_ITEM4 = 0
 
 ; Troops/Spells sub-tab
-Global $g_hChkUseQuickTrain = 0, $g_ahChkArmy[3] = [0,0,0], $g_hChkMultiClick, $g_hLblRemoveArmy, $g_hBtnRemoveArmy			; QuickTrainCombo (check box) - Demen
-Global $g_hchkSmartTrain = 0, $g_hchkPreciseTroops = 0, $g_hchkFillArcher = 0, $g_htxtFillArcher = 0, $g_hchkFillEQ = 0		; SmartTrain - Demen
+Global $g_hChkUseQuickTrain = 0, $g_ahChkArmy[3] = [0,0,0]
+; QuickTrainCombo (check box) - Demen
+Global  $g_hChkMultiClick, $g_hLblRemoveArmy, $g_hBtnRemoveArmy
+; SmartTrain - Demen - AiO++ Team
+Global $g_hchkSmartTrain = 0, $g_hchkPreciseTroops = 0, $g_hchkFillArcher = 0, $g_htxtFillArcher = 0, $g_hchkFillEQ = 0
 Global $g_ahTxtTrainArmyTroopCount[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_ahLblTrainArmyTroopLevel[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_ahTxtTrainArmySpellCount[$eSpellCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -132,12 +135,14 @@ Func CreateTroopsSpellsSubTab()
 		$g_hChkUseQuickTrain = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "ChkUseQuickTrain", "Use Quick Train"), $x + 15, $y + 19, -1, 15)
 			GUICtrlSetState(-1, $GUI_UNCHECKED)
 			GUICtrlSetOnEvent(-1, "chkUseQTrain")
-	For $i = 0 To 2												; QuickTrainCombo (check box) - Demen
+	; QuickTrainCombo (check box) - Demen - AiO++ Team
+	For $i = 0 To 2
 		$g_ahChkArmy[$i] = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "ChkArmy", "Army ") & $i + 1, $x + 136 + $i*60, $y + 21, 50, 15)
 			GUICtrlSetState(-1, $GUI_DISABLE)
 			If $i = 0 Then GUICtrlSetState(-1, $GUI_CHECKED)
 			GUICtrlSetOnEvent(-1, "chkQuickTrainCombo")
-		Next															; QuickTrainCombo (check box) - Demen
+		Next
+		; end - Demen - AiO++ Team
 		$g_hChkMultiClick = GUICtrlCreateCheckbox("Multi-click Army3", $x + 136 + 3*60, $y + 21, -1, 15)
 		GUICtrlSetState(-1, $GUI_UNCHECKED)
 		GUICtrlSetState(-1, $GUI_HIDE)
@@ -676,7 +681,7 @@ Func CreateTroopsSpellsSubTab()
 		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnDark, $x + 146, $y + 14, 16, 16)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
-	; Smart Train - Demen
+	; Smart Train - Demen - AiO++ Team
 	$x = 10
 	$y = 363
 	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "Group_03", "Smart Train (do not empty barracks)"), $x - 5, $y, $g_iSizeWGrpTab3, 38)
@@ -705,7 +710,7 @@ Func CreateTroopsSpellsSubTab()
 				GUICtrlSetState(-1, $GUI_DISABLE)
 				_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "chkFillEQ_Info_01", "Brew 1 EarthQuake Spell to top-up the spell camp or queue"))
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
-	; Smart Train - Demen
+	; Smart Train - Demen - AiO++ Team
 
 EndFunc   ;==>CreateTroopsSpellsSubTab
 
@@ -1068,7 +1073,7 @@ Func CreateOptionsSubTab()
 		$g_hLblWaitingInMinutes = GUICtrlCreateLabel(GetTranslatedFileIni("MBR Global GUI Design", "min.", "min."), $x + 84, $y + 3, -1, -1)
 			_GUICtrlSetTip(-1, $sTxtTip)
 
-	; Max logout time - Team AiO MOD++ (#-21)
+	; Max logout time - AiO++ Team
 	$y += 28
 		$g_hChkTrainLogoutMaxTime = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops_Options", "TrainLogoutMaxTime", "Max Logout Time") & ": ", $x - 14, $y, -1, -1)
 			$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Troops_Options", "TrainLogoutMaxTime_Info_01", "Only allow logout for a maximum amount of time")
@@ -1122,7 +1127,7 @@ Func CreateOptionsSubTab()
 		$g_hLblAddDelayIdlePhaseSec = GUICtrlCreateLabel(GetTranslatedFileIni("MBR Global GUI Design", "sec.", "sec."), $x + 110, $y, 20, 30)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
-	; Check Grand Warden Mode - Team AiO MOD++ (#-26)
+	; Check Grand Warden Mode - AiO++ Team
 	$x = 55 + 151 + 5
 	$y = 130
 	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops_Options", "Group_04", "Check Grand Warden Mode"), $x - 20, $y - 20, 173, 50)

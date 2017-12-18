@@ -13,9 +13,9 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
-      ;  «»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»
-      ;  «»«»«»«»«»«»«»«» AiO++ Team «»«»«»«»«»«»«»«» AiO++ Team «»«»«»«»«»«»«»«»
-      ;  «»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»
+;  «»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»
+;  AiO++ Team
+;  «»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»
 
 Func SaveConfig_MOD()
 	ApplyConfig_MOD(GetApplyConfigSaveAction())
@@ -30,7 +30,7 @@ Func SaveConfig_MOD()
 	_Ini_Add("SetSleep", "EnableWaveFactor", $g_iChkWaveFactor)
 	_Ini_Add("SetSleep", "WaveFactor", GUICtrlRead($g_hTxtWaveFactor))
 
-	; Auto Dock, Hide Emulator & Bot - Team AiO MOD++ (#-07)
+	; Auto Dock, Hide Emulator & Bot - AiO++ Team
 	_Ini_Add("general", "EnableAuto", $g_bEnableAuto ? 1 : 0)
 	_Ini_Add("general", "AutoDock", $g_iChkAutoDock ? 1 : 0)
 	_Ini_Add("general", "AutoHide", $g_iChkAutoHideEmulator ? 1 : 0)
@@ -102,11 +102,11 @@ Func SaveConfig_MOD()
 	_Ini_Add("TrainLogout", "TrainLogoutMaxTime", $g_bTrainLogoutMaxTime)
 	_Ini_Add("TrainLogout", "TrainLogoutMaxTimeTXT", $g_iTrainLogoutMaxTime)
 
-	; ExtendedAttackBar - DEMEN
+	; ExtendedAttackBar - Demen - AiO++ Team
 	_Ini_Add("attack", "ExtendedAttackBarDB", $g_abChkExtendedAttackBar[$DB] ? 1 : 0)
 	_Ini_Add("attack", "ExtendedAttackBarLB", $g_abChkExtendedAttackBar[$LB] ? 1 : 0)
 
-	; CheckCC Troops - DEMEN
+	; CheckCC Troops - Demen - AiO++ Team
 	_Ini_Add("CheckCC", "Enable", $g_bChkCC ? 1 : 0)
 	_Ini_Add("CheckCC", "Troop Capacity", $g_iCmbCastleCapacityT)
 	_Ini_Add("CheckCC", "Spell Capacity", $g_iCmbCastleCapacityS)
@@ -115,7 +115,7 @@ Func SaveConfig_MOD()
 		_Ini_Add("CheckCC", "ExpectQty" & $i, $g_aiTxtCCSlot[$i])
 	Next
 
-	; Switch Profile - DEMEN
+	; Switch Profile - Demen - AiO++ Team
 	For $i = 0 To 3
 		_Ini_Add("SwitchProfile", "SwitchProfileMax" & $i, $g_abChkSwitchMax[$i] ? 1 : 0)
 		_Ini_Add("SwitchProfile", "SwitchProfileMin" & $i, $g_abChkSwitchMin[$i] ? 1 : 0)
@@ -135,10 +135,10 @@ Func SaveConfig_MOD()
 	_Ini_Add("other", "chkCheckWardenMode", $g_bCheckWardenMode ? 1 : 0)
 	_Ini_Add("other", "cmbCheckWardenMode", $g_iCheckWardenMode)
 
-	; Switch Accounts - DEMEN
+	; Switch Accounts - Demen - AiO++ Team
 	SaveConfig_SwitchAcc(False)
 
-	; Farm Schedule - DEMEN
+	; Farm Schedule - Demen - AiO++ Team
 	For $i = 0 To 7
 		IniWriteS($g_sProfilePath & "\Profile.ini", "FarmStrategy", "ChkSetFarm" & $i, $g_abChkSetFarm[$i])
 
@@ -163,7 +163,7 @@ Func SaveConfig_MOD()
 
 EndFunc   ;==>SaveConfig_MOD
 
-; Switch Accounts - DEMEN
+; Switch Accounts - Demen - AiO++ Team
 Func SaveConfig_SwitchAcc($config = True)
 	If $config = True Then ApplyConfig_SwitchAcc(GetApplyConfigSaveAction())
 

@@ -25,13 +25,13 @@ Global $g_hLblResultTrophyNow = 0, $g_hPicResultTrophyNow = 0, $g_hLblResultRunt
 Global $g_hLblResultAttackedHourNow = 0, $g_hPicResultAttackedHourNow = 0, $g_hLblResultGemNow = 0, $g_hPicResultGemNow = 0, $g_hLblResultSkippedHourNow = 0, $g_hPicResultSkippedHourNow = 0
 Global $g_hLblVillageReportTemp = 0
 
-; Enable/Disable GUI while botting - Team AiO MOD++ (#-01)
+; Enable/Disable GUI while botting - AiO++ Team (#-01)
 Global $g_hBtnEnableGUI = 0, $g_hBtnDisableGUI = 0
 
-; Hero and Lab Status - Team AiO MOD++ (#-14)
+; Hero and Lab Status - AiO++ Team (#-14)
 Global $g_ahLblHero[3], $g_hLblLab, $g_hLblLabTime
 
-; Stop on Low battery - Team AiO MOD++ (#-30)
+; Stop on Low battery - AiO++ Team
 Global $g_hLblBatteryAC = 0, $g_hLblBatteryStatus = 0
 
 Func CreateBottomPanel()
@@ -132,9 +132,9 @@ Func CreateBottomPanel()
 		_GUICtrlSetTip(-1, $sTxtTip)
 
 	;~ Village
-	Local $x = 295, $y = $y_bottom + 20	; y was +20 - Demen
+	Local $x = 295, $y = $y_bottom + 20
 	$g_hGrpVillage = GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Bottom", "GrpVillage", "Village") & ": " & $g_sProfileCurrentName, $x - 20, $y - 20, 180, 95) ; y height was 85
-		$y = $y_bottom + 17	; Move up a little bit - Demen
+		$y = $y_bottom + 17
 		$g_hLblResultGoldNow = GUICtrlCreateLabel("", $x - 5, $y + 2, 60, 15, $SS_RIGHT)
 		$g_hLblResultGoldHourNow = GUICtrlCreateLabel("", $x, $y + 2, 60, 15, $SS_RIGHT)
 			GUICtrlSetState(-1, $GUI_HIDE)
@@ -154,7 +154,7 @@ Func CreateBottomPanel()
 			GUICtrlSetState(-1, $GUI_HIDE)
 		$g_hPicResultDETemp = _GUICtrlCreateIcon ($g_sLibIconPath, $eIcnDark, $x - 5, $y + 40, 16, 16)
 
-	   ; Hero & Lab status - Demen
+		; Hero and Lab Status - AiO++ Team (#-14)
 	    $g_ahLblHero[0] = GUICtrlCreateLabel("K", $x - 5, $y + 60, 12, 14, $SS_CENTER)
 	    GUICtrlSetFont(-1, 8.5)
 	    GUICtrlSetColor(-1, $COLOR_MEDGRAY)

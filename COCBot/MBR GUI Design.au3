@@ -122,7 +122,7 @@ Global $g_oGuiNotInMini = ObjCreate("Scripting.Dictionary")
 #include "GUI\MBR GUI Design Bot.au3"
 #include "GUI\MBR GUI Design About.au3"
 
-; Team AiO MOD++ (2017)
+; AiO++ Team
 #include "Team__AiO__MOD++\GUI\MOD GUI Design.au3"
 
 Func CreateMainGUI()
@@ -260,7 +260,7 @@ Func CreateMainGUIControls($bGuiModeUpdate = False)
 
 			; buttons, positions are adjusted also in BotShrinkExpandToggle()
 			GUISwitch($g_hFrmBotButtons)
-			; ◄ ► docked shrink/expand
+			; ? ? docked shrink/expand
 			$g_hLblBotShrink = GUICtrlCreateLabel(ChrW(0x25C4), 0, 0, $aBtnSize[0], $aBtnSize[1], $SS_CENTER)
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Title", "LblBotShrink", "Shrink Bot when docked"))
 			GUICtrlSetFont(-1, 10)
@@ -272,7 +272,7 @@ Func CreateMainGUIControls($bGuiModeUpdate = False)
 			GUICtrlSetFont(-1, 10)
 			GUICtrlSetBkColor(-1, 0xF0F0F0)
 			GUICtrlSetColor(-1, 0xB8B8B8)
-			; ▄ █ Mini/Normal GUI mode switch
+			; ? ? Mini/Normal GUI mode switch
 			$g_hLblBotMiniGUI = GUICtrlCreateLabel(ChrW(0x2584), $aBtnSize[0] * ($_GUI_MAIN_BUTTON_COUNT - 3), 0, $aBtnSize[0], $aBtnSize[1], $SS_CENTER)
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Title", "LblBotMiniGUI", "Switch to Mini Mode"))
 			GUICtrlSetState(-1, $g_iGuiMode = 1 ? $GUI_SHOW : $GUI_HIDE)
@@ -286,7 +286,7 @@ Func CreateMainGUIControls($bGuiModeUpdate = False)
 			GUICtrlSetBkColor(-1, 0xF0F0F0)
 			GUICtrlSetColor(-1, 0xB8B8B8)
 			; minimize button
-			$g_hLblBotMinimize = GUICtrlCreateLabel("̶", $aBtnSize[0] * ($_GUI_MAIN_BUTTON_COUNT - 2), 0, $aBtnSize[0], $aBtnSize[1], $SS_CENTER)
+			$g_hLblBotMinimize = GUICtrlCreateLabel("?", $aBtnSize[0] * ($_GUI_MAIN_BUTTON_COUNT - 2), 0, $aBtnSize[0], $aBtnSize[1], $SS_CENTER)
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Title", "LblBotMinimize", "Minimize"))
 			GUICtrlSetFont(-1, 10)
 			GUICtrlSetBkColor(-1, 0xF0F0F0)

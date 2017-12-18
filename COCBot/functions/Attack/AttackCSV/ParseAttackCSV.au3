@@ -456,7 +456,8 @@ Func ParseAttackCSV($debug = False)
 					Case "RECALC"
 						ReleaseClicks()
 						PrepareAttack($g_iMatchMode, True)
-					; === Swipe Command - Samm0d
+
+					; Swipe Command - Samm0d - AiO++ Team
 					Case "SWIPE"
 						ReleaseClicks()
 						$value1 = StringStripWS($value1, $STR_STRIPALL)
@@ -487,7 +488,8 @@ Func ParseAttackCSV($debug = False)
 								If _Sleep($value3) Then Return
 								PrepareAttack($g_iMatchMode, True)
 						EndSelect
-					; === Swipe Command - Samm0d
+					; Swipe Command - Samm0d - AiO++ Team
+
 					Case "SIDE"
 						ReleaseClicks()
 						Setlog("Calculate main side... ")

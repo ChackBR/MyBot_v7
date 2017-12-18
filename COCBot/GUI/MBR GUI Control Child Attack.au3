@@ -55,25 +55,29 @@ Func cmbDBAlgorithm()
 				GUISetState(@SW_SHOWNOACTIVATE, $g_hGUI_DEADBASE_ATTACK_STANDARD)
 				GUISetState(@SW_HIDE, $g_hGUI_DEADBASE_ATTACK_SCRIPTED)
 				GUISetState(@SW_HIDE, $g_hGUI_DEADBASE_ATTACK_MILKING)
-				GUICtrlSetState($g_hChkExtendedAttackBarDB, $GUI_UNCHECKED)	; ExtendedAttackBar Demen
-				GUICtrlSetState($g_hChkExtendedAttackBarDB, $GUI_DISABLE)	; ExtendedAttackBar Demen
+				; ExtendedAttackBar - Demen - AiO++ Team
+				GUICtrlSetState($g_hChkExtendedAttackBarDB, $GUI_UNCHECKED)
+				GUICtrlSetState($g_hChkExtendedAttackBarDB, $GUI_DISABLE)
 			Case $iCmbValue = 1 ; Scripted Attack
 				GUISetState(@SW_HIDE, $g_hGUI_DEADBASE_ATTACK_STANDARD)
 				GUISetState(@SW_SHOWNOACTIVATE, $g_hGUI_DEADBASE_ATTACK_SCRIPTED)
 				GUISetState(@SW_HIDE, $g_hGUI_DEADBASE_ATTACK_MILKING)
-				GUICtrlSetState($g_hChkExtendedAttackBarDB, $GUI_ENABLE)	; ExtendedAttackBar Demen
+				; ExtendedAttackBar - Demen - AiO++ Team
+				GUICtrlSetState($g_hChkExtendedAttackBarDB, $GUI_ENABLE)
 			Case $iCmbValue = 2 ; Milking Attack
 				GUISetState(@SW_HIDE, $g_hGUI_DEADBASE_ATTACK_STANDARD)
 				GUISetState(@SW_HIDE, $g_hGUI_DEADBASE_ATTACK_SCRIPTED)
 				GUISetState(@SW_SHOWNOACTIVATE, $g_hGUI_DEADBASE_ATTACK_MILKING)
-				GUICtrlSetState($g_hChkExtendedAttackBarDB, $GUI_UNCHECKED)	; ExtendedAttackBar Demen
-				GUICtrlSetState($g_hChkExtendedAttackBarDB, $GUI_DISABLE)	; ExtendedAttackBar Demen
+				; ExtendedAttackBar - Demen - AiO++ Team
+				GUICtrlSetState($g_hChkExtendedAttackBarDB, $GUI_UNCHECKED)
+				GUICtrlSetState($g_hChkExtendedAttackBarDB, $GUI_DISABLE)
 			Case Else
 				GUISetState(@SW_HIDE, $g_hGUI_DEADBASE_ATTACK_STANDARD)
 				GUISetState(@SW_HIDE, $g_hGUI_DEADBASE_ATTACK_SCRIPTED)
 				GUISetState(@SW_HIDE, $g_hGUI_DEADBASE_ATTACK_MILKING)
-				GUICtrlSetState($g_hChkExtendedAttackBarDB, $GUI_UNCHECKED)	; ExtendedAttackBar Demen
-				GUICtrlSetState($g_hChkExtendedAttackBarDB, $GUI_DISABLE)	; ExtendedAttackBar Demen
+				; ExtendedAttackBar - Demen - AiO++ Team
+				GUICtrlSetState($g_hChkExtendedAttackBarDB, $GUI_UNCHECKED)
+				GUICtrlSetState($g_hChkExtendedAttackBarDB, $GUI_DISABLE)
 		EndSelect
 	EndIf
 EndFunc   ;==>cmbDBAlgorithm
@@ -87,17 +91,20 @@ Func cmbABAlgorithm()
 			Case $iCmbValue = 0 ; Standard Attack
 				GUISetState(@SW_SHOWNOACTIVATE, $g_hGUI_ACTIVEBASE_ATTACK_STANDARD)
 				GUISetState(@SW_HIDE, $g_hGUI_ACTIVEBASE_ATTACK_SCRIPTED)
-				GUICtrlSetState($g_hChkExtendedAttackBarLB, $GUI_UNCHECKED)	; ExtendedAttackBar - Demen
-				GUICtrlSetState($g_hChkExtendedAttackBarLB, $GUI_DISABLE)	; ExtendedAttackBar - Demen
+				; ExtendedAttackBar - Demen - AiO++ Team
+				GUICtrlSetState($g_hChkExtendedAttackBarLB, $GUI_UNCHECKED)
+				GUICtrlSetState($g_hChkExtendedAttackBarLB, $GUI_DISABLE)
 			Case $iCmbValue = 1 ; Scripted Attack
 				GUISetState(@SW_HIDE, $g_hGUI_ACTIVEBASE_ATTACK_STANDARD)
 				GUISetState(@SW_SHOWNOACTIVATE, $g_hGUI_ACTIVEBASE_ATTACK_SCRIPTED)
-				GUICtrlSetState($g_hChkExtendedAttackBarLB, $GUI_ENABLE)	; ExtendedAttackBar - Demen
+				; ExtendedAttackBar - Demen - AiO++ Team
+				GUICtrlSetState($g_hChkExtendedAttackBarLB, $GUI_ENABLE)
 			Case Else
 				GUISetState(@SW_HIDE, $g_hGUI_ACTIVEBASE_ATTACK_STANDARD)
 				GUISetState(@SW_HIDE, $g_hGUI_ACTIVEBASE_ATTACK_SCRIPTED)
-				GUICtrlSetState($g_hChkExtendedAttackBarLB, $GUI_UNCHECKED)	; ExtendedAttackBar - Demen
-				GUICtrlSetState($g_hChkExtendedAttackBarLB, $GUI_DISABLE)	; ExtendedAttackBar - Demen
+				; ExtendedAttackBar - Demen - AiO++ Team
+				GUICtrlSetState($g_hChkExtendedAttackBarLB, $GUI_UNCHECKED)
+				GUICtrlSetState($g_hChkExtendedAttackBarLB, $GUI_DISABLE)
 		EndSelect
 	EndIf
 EndFunc   ;==>cmbABAlgorithm

@@ -46,7 +46,7 @@ Func VillageReport($bBypass = False, $bSuppressLog = False)
 		If Not $bSuppressLog Then SetLog(" [G]: " & _NumberFormat($g_aiCurrentLoot[$eLootGold]) & " [E]: " & _NumberFormat($g_aiCurrentLoot[$eLootElixir]) & " [GEM]: " & _NumberFormat($g_iGemAmount), $COLOR_SUCCESS)
 	EndIf
 
-	; Switch Accounts - DEMEN
+	; Switch Accounts - Demen - AiO++ Team
 	If $g_bChkSwitchAcc Then
 		$g_aiFreeBuilderCountAcc[$g_iCurAccount] = $g_iFreeBuilderCount
 		$g_aiTotalBuilderCountAcc[$g_iCurAccount] = $g_iTotalBuilderCount

@@ -88,7 +88,7 @@ Func DropTroopFromINI($vectors, $indexStart, $indexEnd, $indexArray, $qtaMin, $q
 		EndIf
 	Next
 
-	; ExtendedAttackBar - Demen
+	; ExtendedAttackBar - Demen - AiO++ Team
 	debugAttackCSV("Troop position / Total slots: " & $troopPosition & " / " & $g_iTotalAttackSlot)
 	If $troopPosition >= 0 And $troopPosition < $g_iTotalAttackSlot - 10 Then ; can only be selected when in 1st page of troopbar
 		If $g_bDraggedAttackBar Then DragAttackBar($g_iTotalAttackSlot, True) ; return drag
@@ -99,7 +99,7 @@ Func DropTroopFromINI($vectors, $indexStart, $indexEnd, $indexArray, $qtaMin, $q
 		$troopPosition -= $g_iTotalAttackSlot - 10
 		debugAttackCSV("New troop position: " & $troopPosition)
 	EndIf
-	; ExtendedAttackBar - Demen
+	; end - Demen - AiO++ Team
 
 	Local $usespell = True
 	Switch $iTroopIndex

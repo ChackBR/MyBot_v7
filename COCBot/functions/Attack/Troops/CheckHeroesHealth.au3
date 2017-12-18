@@ -17,7 +17,7 @@ Func CheckHeroesHealth()
 	If $g_bCheckKingPower Or $g_bCheckQueenPower Or $g_bCheckWardenPower Then
 		ForceCaptureRegion() ; ensure no screenshot caching kicks in
 
-		; === Extended AttackBar - Demen
+		; Extended AttackBar - Demen - AiO++ Team
 		Local $TempKingSlot = $g_iKingSlot
 		Local $TempQueenSlot = $g_iQueenSlot
 		Local $TempWardenSlot = $g_iWardenSlot
@@ -31,7 +31,7 @@ Func CheckHeroesHealth()
 			$TempQueenSlot -= $g_iTotalAttackSlot - 10
 			$TempWardenSlot -= $g_iTotalAttackSlot - 10
 		EndIf
-		; === Extended AttackBar - Demen
+		; Extended AttackBar - Demen - AiO++ Team
 
 		Local $aDisplayTime[$eHeroCount] = [0, 0, 0] ; array to hold converted timerdiff into seconds
 
