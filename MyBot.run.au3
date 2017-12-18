@@ -60,7 +60,8 @@ Global $g_hFrmBot = 0 ; The main GUI window
 ; MyBot v7.2.3 + SwitchAcc + MF + Fix Speed Mod
 ; MyBot v7.2.4 + SwitchAcc + MF + Speed Mod
 ; MyBot v7.2.5 + SwitchAcc + MF + Speed Mod
-$g_sModversion = "r01" ; MyBot v7.3.4 + SwitchAcc + FF
+; MyBot v7.3.4 + SwitchAcc + FF
+$g_sModversion = "r02" ; MyBot v7.3.4 + SwitchAcc + FF + HotFix
 
 ; MBR includes
 #include "COCBot\MBR Global Variables.au3"
