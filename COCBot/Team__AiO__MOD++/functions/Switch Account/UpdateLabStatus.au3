@@ -133,7 +133,7 @@ Func UpdateLabStatus()
 	Local $sLabTime = ""
 	; SwitchAcc - Demen - AiO++ Team
 	Local $hLab = 0
-	$Local hLabTime = 0	
+	Local hLabTime = 0	
 	; end - Demen - AiO++ Team
 
 	If $g_bChkSwitchAcc Then
