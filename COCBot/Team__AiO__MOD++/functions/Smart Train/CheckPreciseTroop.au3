@@ -121,12 +121,12 @@ Func RemoveWrongTroops($Troop, $Spell, $toRemove)
 		Local $rGetSlotNumber = GetSlotNumber() ; Get all available Slot numbers with troops assigned on them
 		Local $rGetSlotNumberSpells = GetSlotNumber(True) ; Get all available Slot numbers with Spells assigned on them
 
-		If _ColorCheck(_GetPixelColor(806, 472, True), Hex(0xD0E878, 6), 25) = False Then ; If no 'Edit Army' Button found in army tab to edit troops
+		If _ColorCheck(_GetPixelColor(806, 509, True), Hex(0xD0E878, 6), 25) = False Then ; If no 'Edit Army' Button found in army tab to edit troops
 			SetLog("Cannot find/verify 'Edit Army' Button in Army tab", $COLOR_ORANGE)
 			Return ; Exit function
 		EndIf
 
-		Click(Random(723, 812, 1), Random(469, 513, 1)) ; Click on Edit Army Button
+		Click(Random(730, 812, 1), Random(509, 525, 1)) ; Click on Edit Army Button
 
 		; Loop through troops needed to get removed
 		Local $CounterToRemove = 0
