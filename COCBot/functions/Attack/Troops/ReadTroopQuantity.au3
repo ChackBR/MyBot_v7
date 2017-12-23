@@ -22,20 +22,20 @@ Func ReadTroopQuantity($Troop, $CheckSelectedSlot = False, $bNeedNewCapture = Tr
 				$iAmount = getTroopCountBig(GetXPosOfArmySlot($Troop, 40), 636)
 			EndIf
 		Case Else
-			Local $rGetXPosOfArmySlot = GetXPosOfArmySlot($Troop, 40, $bNeedNewCapture)
+			Local $rGetXPosOfArmySlot = GetXPosOfArmySlot($Troop, 40)
 			Local $isTheSlotSelected = IsSlotSelected($Troop, $bNeedNewCapture)
-			If $isTheSlotSelected = False Then
-				$iAmount = Number(getTroopCountSmall($rGetXPosOfArmySlot, 641, $bNeedNewCapture))
+			If Not $isTheSlotSelected Then
+				$iAmount = Number(getTroopCountSmall($rGetXPosOfArmySlot, 641))
 			Else
-				$iAmount = Number(getTroopCountBig($rGetXPosOfArmySlot, 636, $bNeedNewCapture))
+				$iAmount = Number(getTroopCountBig($rGetXPosOfArmySlot, 636))
 			EndIf
 	EndSwitch
 	Return Number($iAmount)
 EndFunc   ;==>ReadTroopQuantity
 
 Func UpdateTroopQuantity($sTroop, $bNeedNewCapture = Default)
-	If $bNeedNewCapture = Default Then $bNeedNewCapture = True
-	If $bNeedNewCapture = True Then
+	If Not $bNeedNewCapture Then $bNeedNewCapture = True
+	If $bNeedNewCapture Then
 		_CaptureRegion2()
 	EndIf
 
@@ -55,7 +55,7 @@ Func UpdateTroopQuantity($sTroop, $bNeedNewCapture = Default)
 		EndIf
 	Next
 
-	If $g_bRunState = False Then Return
+	If Not $g_bRunState Then Return
 	If $troopPosition <> -1 Then
 		Local $iQuantity = ReadTroopQuantity($troopPosition, True, Not $bNeedNewCapture)
 		$g_avAttackTroops[$troopPosition][1] = $iQuantity
@@ -65,15 +65,15 @@ EndFunc   ;==>UpdateTroopQuantity
 
 Func IsSlotSelected($iSlotIndex, $bNeedNewCapture = Default)
 	; $iSlotIndex Starts from 0
-	If $bNeedNewCapture = Default Then $bNeedNewCapture = True
-	If $bNeedNewCapture = True Then
+	If Not $bNeedNewCapture Then $bNeedNewCapture = True
+	If $bNeedNewCapture Then
 		ForceCaptureRegion()
 		_CaptureRegion()
 	EndIf
 	Local $iOffset = 73
 	Local $iStartX = 75
 	Local $iY = 724
-	If $bNeedNewCapture = True Then
+	If $bNeedNewCapture Then
 		Return _ColorCheck( _
 				_GetPixelColor($iStartX + ($iOffset * $iSlotIndex), $iY, False), _ ; capture color #1
 				Hex(0xFFFFFF, 6), _ ; compare to Color #2 from screencode

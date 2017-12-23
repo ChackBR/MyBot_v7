@@ -39,11 +39,6 @@ Global $g_iCmbRedlineTiles = 1, $g_iCmbSkipCollectorCheckTH = 1
 Global $g_iTxtSkipCollectorGold = 400000, $g_iTxtSkipCollectorElixir = 400000, $g_iTxtSkipCollectorDark = 0
 #endregion
 
-; CSV Speed Deployment - AiO++ Team
-Global $cmbCSVSpeed[2] = [$LB, $DB]
-Global $icmbCSVSpeed[2] = [2, 2]
-Global $g_CSVSpeedDivider[2] = [1, 1] ; default CSVSpeed for DB & LB
-
 ; Switch Accounts - Demen - AiO++ Team
 Global $g_bInitiateSwitchAcc = True, $g_bChkSwitchAcc, $g_bChkSmartSwitch, $g_bReMatchAcc = False
 Global $g_iTotalAcc, $g_iNextAccount, $g_iCurAccount

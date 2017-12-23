@@ -63,7 +63,8 @@ Global $g_hFrmBot = 0 ; The main GUI window
 ; MyBot v7.3.4 + SwitchAcc + FF
 ; MyBot v7.3.4 + SwitchAcc + FF + HotFix
 ; MyBot v7.3.4 + SwitchAcc + FF + HotFix + Fix MOD Coordinates
-$g_sModversion = "r04" ; MyBot v7.3.4 + SwitchAcc + FF + HotFix + MOD Coordinates + SmartZap Fix
+; MyBot v7.3.4 + SwitchAcc + FF + HotFix + MOD Coordinates + SmartZap Fix
+$g_sModversion = "r01" ; MyBot v7.3.5 + S&E MOD
 
 ; MBR includes
 #include "COCBot\MBR Global Variables.au3"
@@ -376,6 +377,7 @@ Func SetupProfileFolder()
 	$g_sProfileConfigPath = $g_sProfilePath & "\" & $g_sProfileCurrentName & "\config.ini"
 	; ChatBot - AiO++ Team
 	$chatIni = $g_sProfilePath & "\" & $g_sProfileCurrentName &  "\chat.ini"
+	; ChatBot - end
 	$g_sProfileBuildingStatsPath = $g_sProfilePath & "\" & $g_sProfileCurrentName & "\stats_buildings.ini"
 	$g_sProfileBuildingPath = $g_sProfilePath & "\" & $g_sProfileCurrentName & "\building.ini"
 	$g_sProfileLogsPath = $g_sProfilePath & "\" & $g_sProfileCurrentName & "\Logs\"
@@ -620,8 +622,9 @@ Func FinalInitialization(Const $sAI)
 	; destroy splash screen here (so we witness the 100% ;)
 	DestroySplashScreen()
 
+	; Message - AiO++ Team
 	SetLog(" ", $COLOR_SUCCESS)
-	SetLog("_____________" & " S&E MOD" & "_____________", $COLOR_MONEYGREEN, "Impact", 14)
+	SetLog("____________" & " [S&E] MOD" & "______________", $COLOR_MONEYGREEN, "Impact", 14)
 	SetLog("                                 » " & "Warning" & " «", $COLOR_TEAL, "Segoe UI Semibold", 12)
 	SetLog("          » " & "Please Set The Bot Language To ENGLISH" & " «", $COLOR_TEAL, "Segoe UI Semibold", 10)
 	SetLog("            » " & "Make a Fresh Configuration, Don't Use Old Profile" & " «", $COLOR_TEAL, "Segoe UI Semibold", 9)
@@ -630,8 +633,10 @@ Func FinalInitialization(Const $sAI)
 	SetLog("            » " & "and MHK2012 for last MOD Code" & " «", $COLOR_TEAL, "Segoe Print", 9)
 	SetLog("-----------------------------------------------------------------------", $COLOR_MONEYGREEN)
 	SetLog("                       » " & "Based On: MyBot" & " " & $g_sBotVersion & " «", $COLOR_TEAL, "Segoe UI Semibold", 10)
+	SetLog("________" & " Merry Christmas MBR " & "________", $COLOR_MONEYGREEN, "Impact", 14)
 	SetLog("-----------------------------------------------------------------------", $COLOR_MONEYGREEN)
 	SetLog(" ", $COLOR_MEDGRAY)
+	; Message - end
 
 	SetDebugLog("Maximum of " & $g_iGlobalActiveBotsAllowed & " bots running at same time configured")
 	SetDebugLog("MyBot.run launch time " & Round($g_iBotLaunchTime) & " ms.")
@@ -861,6 +866,7 @@ Func runBot() ;Bot that runs everything in order
 			If $g_bRestart = True Then ContinueLoop
 			If IsSearchAttackEnabled() Then ; If attack scheduled has attack disabled now, stop wall upgrades, and attack.
 				$g_iNbrOfWallsUpped = 0
+				; ClanHop - AiO++ Team
 				If Not $g_bChkClanHop Then UpgradeWall()
 				If _Sleep($DELAYRUNBOT3) Then Return
 				If $g_bRestart = True Then ContinueLoop
@@ -956,12 +962,10 @@ Func _Idle() ;Sequence that runs until Full Army
 
 		Local $hTimer = __TimerInit()
 		Local $iReHere = 0
-		;PrepareDonateCC()
 
 		; Bot Humanization - AiO++ Team
 		If $g_ichkUseBotHumanization = 1 Then BotHumanization()
 
-		;If $g_bDonateSkipNearFullEnable = True Then getArmyCapacity(true,true)
 		If $g_iActiveDonate And $g_bChkDonate Then
 			Local $aHeroResult = CheckArmyCamp(True, True, True, False)
 			While $iReHere < 7
@@ -1079,7 +1083,6 @@ Func _Idle() ;Sequence that runs until Full Army
 			If $g_bChkSwitchAcc Then checkSwitchAcc()
 
 			SmartWait4Train()
-
 			If $g_bRestart = True Then ExitLoop ; if smart wait activated, exit to runbot in case user adjusted GUI or left emulator/bot in bad state
 		EndIf
 
@@ -1093,7 +1096,7 @@ Func AttackMain() ;Main control for attack functions
 		MainSuperXPHandler()
 		Return
 	EndIf
-	getArmyCapacity(True, True)
+	getArmyTroopCapacity(True, True)
 	If IsSearchAttackEnabled() Then
 		If (IsSearchModeActive($DB) And checkCollectors(True, False)) Or IsSearchModeActive($LB) Or IsSearchModeActive($TS) Then
 
@@ -1176,7 +1179,7 @@ Func QuickAttack()
 	Local $quicklymilking = 0
 	Local $quicklythsnipe = 0
 
-	getArmyCapacity(True, True)
+	getArmyTroopCapacity(True, True)
 
 	If ($g_aiAttackAlgorithm[$DB] = 2 And IsSearchModeActive($DB)) Or (IsSearchModeActive($TS)) Then
 		VillageReport()
@@ -1238,7 +1241,7 @@ Func _RunFunction($action)
 			; ClanHop - AiO++ Team
 			If $g_bChkClanHop Then Return
 			If $g_iActiveDonate And $g_bChkDonate Then
-				;If $g_bDonateSkipNearFullEnable = True and $g_bFirstStart = False Then getArmyCapacity(True, True)
+				;If $g_bDonateSkipNearFullEnable = True and $g_bFirstStart = False Then getArmyTroopCapacity(True, True)
 				If SkipDonateNearFullTroops(True) = False And BalanceDonRec(True) Then DonateCC()
 				If _Sleep($DELAYRUNBOT1) = False Then checkMainScreen(False)
 			EndIf
@@ -1247,7 +1250,7 @@ Func _RunFunction($action)
 			If $g_bChkClanHop Then Return
 			If $g_iActiveDonate And $g_bChkDonate Then
 				If $g_bFirstStart Then
-					getArmyCapacity(True, False)
+					getArmyTroopCapacity(True, False)
 					getArmySpellCapacity(False, True)
 				EndIf
 				If SkipDonateNearFullTroops(True) = False And BalanceDonRec(True) Then DonateCC()
@@ -1259,7 +1262,7 @@ Func _RunFunction($action)
 					TrainRevamp()
 					_Sleep($DELAYRUNBOT1)
 				Else
-					Setlog("Humanize bot, prevent to delete and recreate troops " & $g_iActualTrainSkip + 1 & "/" & $g_iMaxTrainSkip, $COLOR_BLUE)
+					Setlog("Humanize bot, prevent to delete and recreate troops " & $g_iActualTrainSkip + 1 & "/" & $g_iMaxTrainSkip, $color_blue)
 					$g_iActualTrainSkip = $g_iActualTrainSkip + 1
 					If $g_iActualTrainSkip >= $g_iMaxTrainSkip Then
 						$g_iActualTrainSkip = 0

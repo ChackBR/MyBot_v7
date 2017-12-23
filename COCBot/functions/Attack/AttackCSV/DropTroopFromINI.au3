@@ -126,6 +126,7 @@ Func DropTroopFromINI($vectors, $indexStart, $indexEnd, $indexArray, $qtaMin, $q
 	EndSwitch
 
 	If $troopPosition = -1 Or $usespell = False Then
+
 		If $usespell = True Then
 			Setlog("No troop found in your attack troops list")
 			debugAttackCSV("No troop found in your attack troops list")

@@ -149,11 +149,11 @@ Global Const $COLOR_INFO = $COLOR_BLUE ; Information or Status updates for user
 Global Const $COLOR_SUCCESS = 0x006600 ; Dark Green, Action, method, or process completed successfully
 Global Const $COLOR_SUCCESS1 = 0x009900 ; Med green, optional success message for users
 Global Const $COLOR_DEBUG = $COLOR_PURPLE ; Purple, basic debug color
-Global Const $COLOR_DEBUG1 = 0x7a00cc ; Dark Purple, Debug for successful status checks
-Global Const $COLOR_DEBUG2 = 0xaa80ff ; lt Purple, secondary debug color
+Global Const $COLOR_DEBUG1 = 0x7A00CC ; Dark Purple, Debug for successful status checks
+Global Const $COLOR_DEBUG2 = 0xAA80FF ; lt Purple, secondary debug color
 Global Const $COLOR_DEBUGS = $COLOR_MEDGRAY ; Med Grey, debug color for less important but needed supporting data points in multiple messages
 Global Const $COLOR_ACTION = 0xFF8000 ; Med Orange, debug color for individual actions, clicks, etc
-Global Const $COLOR_ACTION1 = 0xcc80ff ; Light Purple, debug color for pixel/window checks
+Global Const $COLOR_ACTION1 = 0xCC80FF ; Light Purple, debug color for pixel/window checks
 
 Global Const $g_bCapturePixel = True, $g_bNoCapturePixel = False
 Global $g_bWinMove2_Compatible = True ; If enabled, WinMove is used by WinMove2 for moving and resizing Windows that can fix resize problems on some systems
@@ -265,7 +265,7 @@ Global $__Nox_Config[1][2] = _ ; Alternative Nox Control ID (array must be order
 ;                 |          |                        |                                  |                |                      |                       |                      |                       |              |                    |128 = ADB use input swipe and not script            |                                    |                                     |
 Global $g_avAndroidAppConfig[8][16] = [ _ ;           |                                  |                |                      |                       |                      |                       |              |                    |256 = Update $g_sAppClassInstance with Window Handle|                                    |                                     |
 	["Nox",        "nox",     "No",                   "[CLASS:subWin; INSTANCE:1]",       "",              $g_iDEFAULT_WIDTH,     $g_iDEFAULT_HEIGHT - 48,$g_iDEFAULT_WIDTH + 4, $g_iDEFAULT_HEIGHT - 10,0,             "127.0.0.1:62001",   1 + 2 + 4 + 8 + 16 + 32 + 256,'# ',                  '(nox Virtual Input|Android Input|Android_Input)', 0,                      2], _ ; Nox
-    ["MEmu",       "MEmu",    "MEmu ",                "[CLASS:subWin; INSTANCE:1]",       "",              $g_iDEFAULT_WIDTH,     $g_iDEFAULT_HEIGHT - 48,$g_iDEFAULT_WIDTH + 51,$g_iDEFAULT_HEIGHT - 12,0,             "127.0.0.1:21503",       2 + 4 + 8 + 16 + 32,      '# ',                  'Microvirt Virtual Input',           0,                                    2], _ ; MEmu
+	["MEmu",       "MEmu",    "MEmu ",                "[CLASS:subWin; INSTANCE:1]",       "",              $g_iDEFAULT_WIDTH,     $g_iDEFAULT_HEIGHT - 48,$g_iDEFAULT_WIDTH + 51,$g_iDEFAULT_HEIGHT - 12,0,             "127.0.0.1:21503",       2 + 4 + 8 + 16 + 32,      '# ',                  'Microvirt Virtual Input',           0,                                    2], _ ; MEmu
 	["BlueStacks2","Android", "BlueStacks ",          "[CLASS:BlueStacksApp; INSTANCE:1]","_ctl.Window",   $g_iDEFAULT_WIDTH,     $g_iDEFAULT_HEIGHT - 48,$g_iDEFAULT_WIDTH,     $g_iDEFAULT_HEIGHT - 48,0,             "127.0.0.1:5555",    1 + 2     + 8 + 16 + 32 + 128,'$ ',                  'BlueStacks Virtual Touch',          0,                                    1], _ ; BlueStacks2
 	["BlueStacks", "Android", "BlueStacks App Player","[CLASS:BlueStacksApp; INSTANCE:1]","_ctl.Window",   $g_iDEFAULT_WIDTH,     $g_iDEFAULT_HEIGHT - 48,$g_iDEFAULT_WIDTH,     $g_iDEFAULT_HEIGHT - 48,0,             "127.0.0.1:5555",    1         + 8 + 16 + 32 + 128,'$ ',                  'BlueStacks Virtual Touch',          0,                                    1], _ ; BlueStacks
 	["iTools",     "iToolsVM","iTools ",              "[CLASS:subWin; INSTANCE:1]",       "",              $g_iDEFAULT_WIDTH,     $g_iDEFAULT_HEIGHT - 48,$g_iDEFAULT_WIDTH + 2, $g_iDEFAULT_HEIGHT - 13,0,             "127.0.0.1:54001",   1 + 2     + 8 + 16 + 32 + 64, '# ',                  'iTools Virtual PassThrough Input',  0,                                    1], _ ; iTools
@@ -279,7 +279,7 @@ Global $__MEmu_Idx = _ArraySearch($g_avAndroidAppConfig, "MEmu", 0, 0, 0, 0, 1, 
 Global $__BS2_Idx = _ArraySearch($g_avAndroidAppConfig, "BlueStacks2", 0, 0, 0, 0, 1, 0) ; BlueStacks 3.50.63.2536, 3.7.x, 2.7.x, 2.6.x, 2.5.x, 2.4.x, 2.3.x, 2.2.x, 2.1.x, 2.0.x
 Global $__BS_Idx = _ArraySearch($g_avAndroidAppConfig, "BlueStacks", 0, 0, 0, 0, 1, 0) ; BlueStacks 0.11.x, 0.10.x, 0.9.x, 0.8.x
 Global $__KOPLAYER_Idx = _ArraySearch($g_avAndroidAppConfig, "KOPLAYER", 0, 0, 0, 0, 1, 0) ; KOPLAYER 1.4.1055, 1.4.1049
-Global $__LeapDroid_IDx = _ArraySearch($g_avAndroidAppConfig, "LeapDroid", 0, 0, 0, 0, 1, 0) ; LeapDroid 1.8.0, 1.7.0, 1.6.1, 1.5.0, 1.4.0, 1.3.1
+Global $__LeapDroid_Idx = _ArraySearch($g_avAndroidAppConfig, "LeapDroid", 0, 0, 0, 0, 1, 0) ; LeapDroid 1.8.0, 1.7.0, 1.6.1, 1.5.0, 1.4.0, 1.3.1
 Global $__iTools_Idx = _ArraySearch($g_avAndroidAppConfig, "iTools", 0, 0, 0, 0, 1, 0) ; iTools AVM 2.0.8.9, 2.0.7.9, 2.0.6.8
 Global $__Droid4X_Idx = _ArraySearch($g_avAndroidAppConfig, "Droid4X", 0, 0, 0, 0, 1, 0) ; Droid4X 0.10.6 Beta, Droid4X 0.10.5 Beta, 0.10.4 Beta, 0.10.3 Beta, 0.10.2 Beta, 0.10.1 Beta, 0.10.0 Beta, 0.9.0 Beta, 0.8.7 Beta, 0.8.6 Beta
 Global $__Nox_Idx = _ArraySearch($g_avAndroidAppConfig, "Nox", 0, 0, 0, 0, 1, 0) ; Nox 6.0.0, 5.2.1.0, 5.1.0.0, 5.0.0.1, 5.0.0.0, 3.8.1.3, 3.8.0.x, 3.7.6.x, 3.7.5.1, 3.7.5, 3.7.3, 3.7.1, 3.7.0, 3.6.0, 3.5.1, 3.3.0, 3.1.0, 3.0.0
@@ -603,7 +603,7 @@ Global Const $g_asTroopShortNames[$eTroopCount] = [ _
 		"Mini", "Hogs", "Valk", "Gole", "Witc", "Lava", "Bowl"]
 
 Global Const $g_aiTroopSpace[$eTroopCount] = [ _
-		1, 1, 5, 1, 2, 5, 4, 14, 20, 25, 10, 5, _
+		1, 1, 5, 1, 2, 5, 4, 14, 20, 25, 10, 6, _
 		2, 5, 8, 30, 12, 30, 6]
 Global Const $g_aiTroopTrainTime[$eTroopCount] = [ _
 		20, 24, 120, 28, 60, 120, 120, 480, 720, 720, 360, 120, _
@@ -1222,7 +1222,8 @@ Global $g_aiCurrentLootBB[$eLootCountBB] = [0, 0, 0] ; current stats on builders
 ; Army camps
 Global $g_iArmyCapacity = 0 ; Calculated percentage of troops currently in camp / total camp space, expressed as an integer from 0 to 100
 Global $g_iTotalTrainSpaceSpell = 0
-Global $g_iCurrentSpells = 0, $g_iTotalSpells = 0 ; Current Spells / Total Spells
+Global $g_iCurrentSpells = 0 ; Current Spells
+Global $g_iTotalSpells = 0 ; Total Spells - AiO MOD++
 Global $g_iCurrentCCSpells = 0, $g_iTotalCCSpells = 0
 Global $g_bFullArmySpells = False ; true when $g_iTotalTrainSpaceSpell = $iTotalSpellSpace in getArmySpellCount
 Global $g_CurrentCampUtilization = 0, $g_iTotalCampSpace = 0

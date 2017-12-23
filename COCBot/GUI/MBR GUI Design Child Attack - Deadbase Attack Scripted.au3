@@ -67,14 +67,6 @@ Func CreateAttackSearchDeadBaseScripted()
 		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnCopy, $x + 210, $y + 2, 16, 16)
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Attack Scripted", "IconCopy_Info_01", "Copy current Attack Script to a new name"))
 			GUICtrlSetOnEvent(-1, "DuplicateScriptDB")
-
-		; CSV Speed Deployment - AiO++ Team
-		Local $Group = GUICtrlCreateGroup("", $x, $y + 189, 230, 38)
-		Local $x = 55, $y = 318
-		GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Attack - Attack Scripted", "CSVSpeed", "CSV Deployment Speed"), $x - 5, $y - 4, -1, -1)
-			$cmbCSVSpeed[$DB] = GUICtrlCreateCombo("", $x + 122, $y - 8, 53, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-			GUICtrlSetData(-1, "0.5x|0.75x|1x|1.25x|1.5x|2x|3x|4x|5x", "1x")
-
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	;------------------------------------------------------------------------------------------

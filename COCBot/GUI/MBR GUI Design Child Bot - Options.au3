@@ -88,7 +88,7 @@ Func CreateBotOptions()
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	$y += 44
-	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "Group_03", "When Bot Starts"), $x - 20, $y - 20, 210, 162)
+	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "Group_03", "When Bot Starts"), $x - 20, $y - 20, 210, 112)
 	$y -= 5
 		$g_hChkAutostart = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkAutostart", "Auto START after") & ":", $x - 10, $y, -1, -1)
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkAutostart_Info_01", "Auto START the Bot after this No. of seconds."))
@@ -189,7 +189,14 @@ Func CreateBotOptions()
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	Local $x = 240, $y = 45, $yGroup = $y
-	Local $hGroup = GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "Group_04", "Advanced"), $x - 20, $y - 20, 225, 160)
+	Local $hGroup = GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "Group_04", "Advanced"), $x - 20, $y - 20, 225, 140)
+		#cs
+		$g_hChkUpdatingWhenMinimized = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkUpdatingWhenMinimized", "Updating when minimized"), $x, $y, -1, -1)
+			GUICtrlSetState(-1, $GUI_DISABLE) ; must be always enabled
+			GUICtrlSetOnEvent(-1, "chkUpdatingWhenMinimized")
+			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkUpdatingWhenMinimized_Info_01", "Enable different minimize routine for bot window.\r\nWhen bot is minimized, screen updates are shown in taskbar preview."))
+		$y += 19
+		#ce
 		$g_hChkBotCustomTitleBarClick = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkBotCustomTitleBarClick", "My Bot design Title Bar"), $x - 10, $y, -1, -1)
 			If BitAND($g_iBotDesignFlags, 1) Then GUICtrlSetState(-1, $GUI_CHECKED)
 			GUICtrlSetOnEvent(-1, "chkBotCustomTitleBarClick")
@@ -202,7 +209,6 @@ Func CreateBotOptions()
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkBotAutoSlideClick_Info_01", "Enable auto sliding when Android is docked\r\non bot window activation/deactivation"))
 	$y += 19
 		$g_hChkHideWhenMinimized = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkHideWhenMinimized", "Hide when minimized"), $x - 10, $y, -1, -1)
-			GUICtrlSetState(-1, $GUI_CHECKED)
 			GUICtrlSetOnEvent(-1, "chkHideWhenMinimized")
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkHideWhenMinimized_Info_01", "Hide bot window in taskbar when minimized.\r\nUse trayicon 'Show bot' to display bot window again."))
 	$y += 19

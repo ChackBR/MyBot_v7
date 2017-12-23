@@ -1122,5 +1122,6 @@ Func GetApplyConfigSaveAction()
 	If $g_iGuiMode <> 1 Then
 		Return "Save(disabled)"
 	EndIf
+
 	Return "Save"
 EndFunc   ;==>GetApplyConfigSaveAction

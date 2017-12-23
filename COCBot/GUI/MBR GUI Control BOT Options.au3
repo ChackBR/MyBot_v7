@@ -95,12 +95,7 @@ EndFunc   ;==>chkUseRandomClick
 	EndFunc   ;==>chkUpdatingWhenMinimized
 #ce
 Func chkHideWhenMinimized()
-	If GUICtrlRead($g_hChkHideWhenMinimized) = $GUI_CHECKED Then
-		GUICtrlSetState($g_hChkAutoMinimizeBot, $GUI_ENABLE)
-	Else
-		GUICtrlSetState($g_hChkAutoMinimizeBot, $GUI_UNCHECKED)
-		GUICtrlSetState($g_hChkAutoMinimizeBot, $GUI_DISABLE)
-	EndIf
+	$g_bHideWhenMinimized = (GUICtrlRead($g_hChkHideWhenMinimized) = $GUI_CHECKED)
 	TrayItemSetState($g_hTiHide, ($g_bHideWhenMinimized = 1 ? $TRAY_CHECKED : $TRAY_UNCHECKED))
 EndFunc   ;==>chkHideWhenMinimized
 

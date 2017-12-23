@@ -51,10 +51,6 @@ Func SaveConfig_MOD()
 	_Ini_Add("search", "SkipCollectorCheckTH", $g_bSkipCollectorCheckTH ? 1 : 0)
 	_Ini_Add("search", "CmbSkipCollectorCheckTH", _GUICtrlComboBox_GetCurSel($g_hCmbSkipCollectorCheckTH))
 
-	; CSV Speed Deployment - AiO++ Team
-	_Ini_Add("CSV Speed", "cmbCSVSpeed[LB]", _GUICtrlComboBox_GetCurSel($cmbCSVSpeed[$LB]))
-	_Ini_Add("CSV Speed", "cmbCSVSpeed[DB]", _GUICtrlComboBox_GetCurSel($cmbCSVSpeed[$DB]))
-
 	; Smart Train - AiO++ Team
 	_Ini_Add("SmartTrain", "Enable", $ichkSmartTrain)
 	_Ini_Add("SmartTrain", "PreciseTroops", $ichkPreciseTroops)

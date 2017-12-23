@@ -121,9 +121,8 @@ Func CreateBottomPanel()
 
 	$g_hPicTwoArrowShield = _GUICtrlCreateIcon($g_sLibIconPath, $eIcn2Arrow, $x + 190, $y + 10, 48, 48)
 
-	$g_hLblVersion = GUICtrlCreateLabel($g_sBotVersion, 202, $y + 66, 60, 17, $SS_CENTER)
-		GUICtrlSetColor(-1, 0X008080)
-		GUICtrlSetFont(-1, 8)
+	$g_hLblVersion = GUICtrlCreateLabel($g_sBotVersion & "." & $g_sModversion, 202, $y + 60, 60, 17, $SS_CENTER)
+		GUICtrlSetColor(-1, $COLOR_MEDGRAY)
 
 	$g_hPicArrowLeft = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnArrowLeft, $x + 249, $y + 30, 16, 16)
 		$sTxtTip = GetTranslatedFileIni("MBR GUI Design Bottom", "GrpVillage_Info_01", "Switch between village info and stats")

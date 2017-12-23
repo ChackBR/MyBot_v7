@@ -58,6 +58,7 @@ Func TreasuryCollect()
 		SetLog("Treasury not full yet", $COLOR_INFO)
 	EndIf
 
+	; bForceCollect - AiO++ Team
 	$bForceCollect = True
 
 	; Treasury window open, user msg logged, time to collect loot!

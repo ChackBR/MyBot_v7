@@ -88,7 +88,6 @@ EndFunc   ;==>btnAddConfirm
 Func btnDeleteCancel()
 	Switch @GUI_CtrlId
 		Case $g_hBtnDeleteProfile
-
 			Local $msgboxAnswer = MsgBox($MB_ICONWARNING + $MB_OKCANCEL, GetTranslatedFileIni("MBR Popups", "Delete_Profile_01", "Delete Profile"), GetTranslatedFileIni("MBR Popups", "Delete_Profile_02", "Are you sure you really want to delete the profile?\r\nThis action can not be undone."))
 			If $msgboxAnswer = $IDOK Then
 				; Confirmed profile deletion so delete it.

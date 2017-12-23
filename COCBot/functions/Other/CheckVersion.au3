@@ -37,11 +37,10 @@ Func CheckVersion()
 		Else
 			SetLog("WELCOME CHIEF, YOU HAVE THE LATEST VERSION OF THE BOT", $COLOR_SUCCESS)
 			SetLog(" ")
-			;_PrintLogVersion($g_sLastMessage)
+			_PrintLogVersion($g_sLastMessage)
 		EndIf
 	EndIf
 EndFunc   ;==>CheckVersion
-
 
 Func CheckVersionHTML()
 	Local $versionfile = @ScriptDir & "\LastVersion.txt"

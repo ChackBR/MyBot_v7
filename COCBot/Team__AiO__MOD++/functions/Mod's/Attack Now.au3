@@ -19,12 +19,6 @@ Func AttackNowAB()
 
 	$g_iMatchMode = $LB ; Select Live Base As Attack Type
 
-	If _GUICtrlComboBox_GetCurSel($cmbCSVSpeed[$LB]) < 5 Then
-		$g_CSVSpeedDivider[$LB] = 0.5 + _GUICtrlComboBox_GetCurSel($cmbCSVSpeed[$LB]) * 0.25
-	Else
-		$g_CSVSpeedDivider[$LB] = 2 + _GUICtrlComboBox_GetCurSel($cmbCSVSpeed[$LB]) - 5
-	EndIf
-
 	$g_aiAttackAlgorithm[$LB] = 1 ; Select Scripted Attack
 
 	; Lets read the Scriptname and populate the variables
@@ -76,12 +70,6 @@ Func AttackNowDB()
 	Setlog("[TEST]Starting Dead Base Scripted Attack.", $COLOR_INFO)
 
 	$g_iMatchMode = $DB ; Select Dead Base As Attack Type
-
-	If _GUICtrlComboBox_GetCurSel($cmbCSVSpeed[$DB]) < 5 Then
-		$g_CSVSpeedDivider[$DB] = 0.5 + _GUICtrlComboBox_GetCurSel($cmbCSVSpeed[$DB]) * 0.25
-	Else
-		$g_CSVSpeedDivider[$DB] = 2 + _GUICtrlComboBox_GetCurSel($cmbCSVSpeed[$DB]) - 5
-	EndIf
 
 	$g_aiAttackAlgorithm[$DB] = 1 ; Select Scripted Attack
 

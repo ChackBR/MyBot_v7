@@ -130,6 +130,7 @@ Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
 		If _Sleep($DELAYRETURNHOME3) Then Return ; wait for all report details
 		_CaptureRegion()
 		AttackReport()
+		; Aio++ Team
 		$g_iTotalSearchTime = 0
 	EndIf
 	If $TakeSS = 1 And $GoldChangeCheck Then

@@ -109,7 +109,7 @@
 #include "functions\CreateArmy\TrainIt.au3"
 
 #include "functions\CreateArmy\getArmyTroops\getArmyTroopTime.au3"
-#include "functions\CreateArmy\getArmyTroops\getArmyCapacity.au3"
+#include "functions\CreateArmy\getArmyTroops\getArmyTroopCapacity.au3"
 #include "functions\CreateArmy\getArmyTroops\getArmyTroops.au3"
 
 #include "functions\CreateArmy\getArmyHeroes\getArmyHeroCount.au3"
@@ -293,3 +293,5 @@
 
 ; AiO++ Team
 #include "Team__AiO__MOD++\Functions_Team__AiO__MOD++.au3"
+
+; EOF

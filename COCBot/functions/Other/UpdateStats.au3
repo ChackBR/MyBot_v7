@@ -572,6 +572,7 @@ Func UpdateStats($bForceUpdate = False)
 				GUICtrlSetData($g_hLblResultDEHourNow, _NumberFormat(Round($g_iStatsTotalGain[$eLootDarkElixir] / (Int(__TimerDiff($g_hTimerSinceStarted) + $g_iTimePassed)) * 3600 * 1000)) & " / h") ;GUI BOTTOM
 			EndIf
 		EndIf
+
 	EndIf
 
 	If Number($g_iStatsLastAttack[$eLootGold]) > Number($topgoldloot) Then
