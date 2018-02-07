@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: MMHK (11-2016)
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2017
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -50,11 +50,12 @@ Func InitializeCOCDistributors() ;initialized in InitializeMBR() after language 
 EndFunc   ;==>InitializeCOCDistributors
 
 Func GetCOCDistributors()
+	FuncEnter(GetCOCDistributors)
 	Static $s_asDistributorsLoaded = -1
-	If $s_asDistributorsLoaded <> -1 And $g_iBotLaunchTime = 0 Then Return $s_asDistributorsLoaded ; retutn cached list only during bot launch to prevent rare freeze due to CTRITICAL_SECTION deack lock
+	If $s_asDistributorsLoaded <> -1 And Not IsBotLaunched() Then Return FuncReturn($s_asDistributorsLoaded) ; retutn cached list only during bot launch to prevent rare freeze due to CTRITICAL_SECTION deack lock
 	SetDebugLog("Retrieving CoC distributors")
-	Local $sPkgList = StringReplace(_AndroidAdbSendShellCommand("pm list packages clashofclans;pm list packages clashofmagic"), "package:", "")
-	If @error <> 0 Or $sPkgList = "" Then Return SetError(1, 0, "") ; ADB error or No COC installed error
+	Local $sPkgList = StringReplace(AndroidAdbSendShellCommand("pm list packages clashofclans;pm list packages clashofmagic"), "package:", "")
+	If @error <> 0 Or $sPkgList = "" Then Return FuncReturn(SetError(1, 0, "")) ; ADB error or No COC installed error
 
 	Local $aPkgList = StringSplit($sPkgList, @LF, $STR_ENTIRESPLIT)
 	Local $aDList[0]
@@ -81,9 +82,9 @@ Func GetCOCDistributors()
 			EndIf
 		EndIf
 	Next
-	If $g_iBotLaunchTime = 0 Then $s_asDistributorsLoaded = $aDList
-	If UBound($aDList) = 0 Then Return SetError(2, 0, "") ; All are unrecognized COC packages error
-	Return SetError(0, 0, $aDList)
+	If Not IsBotLaunched() Then $s_asDistributorsLoaded = $aDList
+	If UBound($aDList) = 0 Then Return FuncReturn(SetError(2, 0, "")) ; All are unrecognized COC packages error
+	Return FuncReturn(SetError(0, 0, $aDList))
 EndFunc   ;==>GetCOCDistributors
 
 Func GetCOCPackage($sDistributor)

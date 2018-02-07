@@ -7,7 +7,7 @@
 ; Return values .: None
 ; Author ........: Code Monkey #17
 ; Modified ......: MonkeyHunter (2016-2), CodeSlinger69 (2017), MonkeyHunter (2017-3)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2017
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -101,11 +101,6 @@ Func BotCommand()
 		If $g_bMeetCondStop Then
 			Switch $iCmbBotCommand
 				Case 0
-					; ChatBot - AiO++ Team
-					If $g_iGlobalChat Or $g_iClanChat Then
-						ChatbotMessage()
-					EndIf
-					; ChatBot - AiO++ Team
 					If $g_bDonationEnabled = False Then
 						SetLog("Halt Attack, Stay Online/Collect...", $COLOR_INFO)
 					ElseIf $g_bTrainEnabled = False Then
@@ -160,7 +155,7 @@ EndFunc   ;==>BotCommand
 ; Return values .: None
 ; Author ........: MonkeyHunter (2017-3)
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2017
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki

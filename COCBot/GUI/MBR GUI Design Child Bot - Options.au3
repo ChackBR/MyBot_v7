@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........:
 ; Modified ......: CodeSlinger69 (01-2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2017
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -20,15 +20,10 @@ Global $g_hChkDisableSplash = 0, $g_hChkForMBRUpdates = 0, $g_hChkDeleteLogs = 0
 Global $g_hChkAutostart = 0, $g_hTxtAutostartDelay = 0, $g_hChkCheckGameLanguage = 0, $g_hChkAutoAlign = 0, $g_hTxtAlignOffsetX = 0, $g_hTxtAlignOffsetY = 0, _
 	   $g_hCmbAlignmentOptions = 0
 Global $g_hTxtGlobalActiveBotsAllowed = 0, $g_hTxtGlobalThreads = 0, $g_hTxtThreads = 0
+;Global $g_hChkUpdatingWhenMinimized = 0
 Global $g_hChkBotCustomTitleBarClick = 0, $g_hChkBotAutoSlideClick = 0, $g_hChkHideWhenMinimized = 0, $g_hChkUseRandomClick = 0, $g_hChkScreenshotType = 0, _
 	   $g_hChkScreenshotHideName = 0, $g_hTxtTimeAnotherDevice = 0
 Global $g_hChkSinglePBTForced = 0, $g_hTxtSinglePBTimeForced = 0, $g_hTxtPBTimeForcedExit = 0, $g_hChkFixClanCastle = 0, $g_hChkAutoResume = 0, $g_hTxtAutoResumeTime = 0, $g_hChkDisableNotifications = 0
-
-; Auto Dock, Hide Emulator & Bot - AiO++ Team
-Global $g_hChkEnableAuto = 0, $g_hChkAutoDock = 0, $g_hChkAutoHideEmulator = 0, $g_hChkAutoMinimizeBot = 0
-
-; Stop on Low battery - AiO++ Team
-Global $g_hChkStopOnBatt = 0, $g_hTxtStopOnBatt = 0, $g_hLblStopOnBatt = 0
 
 Func CreateBotOptions()
 
@@ -42,17 +37,17 @@ Func CreateBotOptions()
 		LoadLanguagesComboBox() ; full combo box languages reading from languages folders
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
-	$y += 50
+	$y += 54
 	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "Group_02", "When Bot Loads"), $x - 20, $y - 20, 210, 120)
 	$y -= 4
-		$g_hChkDisableSplash = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkDisableSplash", "Disable Splash Screen"), $x - 10, $y, -1, -1)
+		$g_hChkDisableSplash = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkDisableSplash", "Disable Splash Screen"), $x, $y, -1, -1)
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkDisableSplash_Info_01", "Disables the splash screen on startup."))
 			GUICtrlSetState(-1, $GUI_UNCHECKED)
 
 	$y += 20
 		$g_hChkForMBRUpdates = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkForMBRUpdates", "Check for Updates"), $x, $y, -1, -1)
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkForMBRUpdates_Info_01", "Check if you are running the latest version of the bot."))
-			GUICtrlSetState(-1, $GUI_UNCHECKED)
+			GUICtrlSetState(-1, $GUI_CHECKED)
 
 	$y += 20
 		$g_hChkDeleteLogs = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkDeleteLogs", "Delete Log Files")& ":", $x, $y, -1, -1)
@@ -87,48 +82,23 @@ Func CreateBotOptions()
 		GUICtrlCreateLabel(GetTranslatedFileIni("MBR Global GUI Design", "days", -1), $x + 150, $y + 4, 27, 15)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
-	$y += 44
+	$y += 48
 	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "Group_03", "When Bot Starts"), $x - 20, $y - 20, 210, 112)
 	$y -= 5
-		$g_hChkAutostart = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkAutostart", "Auto START after") & ":", $x - 10, $y, -1, -1)
+		$g_hChkAutostart = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkAutostart", "Auto START after") & ":", $x, $y, -1, -1)
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkAutostart_Info_01", "Auto START the Bot after this No. of seconds."))
 			GUICtrlSetOnEvent(-1, "chkAutostart")
 		$g_hTxtAutostartDelay = GUICtrlCreateInput("10", $x + 120, $y + 2, 25, 16, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 			GUICtrlSetState(-1, $GUI_DISABLE)
 		GUICtrlCreateLabel(GetTranslatedFileIni("MBR Global GUI Design", "sec.", -1), $x + 150, $y + 4, 27, 18)
 
-	; Auto Dock, Hide Emulator & Bot - AiO++ Team 
-	$y += 20
-		$g_hChkEnableAuto = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkEnableAuto", "Enable Auto for Emulator after Start") & ":", $x - 10, $y, -1, -1)
-		   _GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkEnableAuto_Info_01", "Check it to Enable Auto Hide & Dock for Emulator after Start"))
-		   GUICtrlSetState(-1, $GUI_UNCHECKED)
-		   GUICtrlSetOnEvent(-1, "chkEnableAuto")
-
-	$y += 20
-	   $g_hChkAutoDock = GUICtrlCreateRadio(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkAutoDock", "Auto Dock"), $x + 10, $y, -1, -1)
-		   _GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkAutoDock_Info_01", "Auto Dock to Emulator after Start"))
-		   GUICtrlSetState(-1, $GUI_DISABLE)
-		   GUICtrlSetOnEvent(-1, "btnEnableAuto")
-
-	   $g_hChkAutoHideEmulator = GUICtrlCreateRadio(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkAutoHideEmulator", "Auto HIDE"), $x + 90, $y, -1, -1)
-		   _GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkAutoHideEmulator_Info_01", "Auto Hide Emulator after Start"))
-		   GUICtrlSetState(-1, $GUI_CHECKED)
-		   GUICtrlSetState(-1, $GUI_DISABLE)
-		   GUICtrlSetOnEvent(-1, "btnEnableAuto")
-
-	$y += 20
-	   $g_hChkAutoMinimizeBot = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkAutoMinimizeBot", "Auto Minimize Bot after Start"), $x - 10, $y, -1, -1)
-		   _GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkAutoMinimizeBot_Info_01", "Check it to enable Auto Minimize Bot after Start"))
-		   GUICtrlSetState(-1, $GUI_UNCHECKED)
-		   GUICtrlSetOnEvent(-1, "chkHideWhenMinimized")
-
-	$y += 20
-		$g_hChkCheckGameLanguage = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkCheckGameLanguage", "Check Game Language (EN)"), $x - 10, $y, -1, -1)
+	$y += 22
+		$g_hChkCheckGameLanguage = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkCheckGameLanguage", "Check Game Language (EN)"), $x, $y, -1, -1)
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkCheckGameLanguage_Info_01", "Check if the Game is set to the correct language (Must be set to English)."))
 			GUICtrlSetState(-1, $GUI_CHECKED)
 
-	$y += 20
-		$g_hChkAutoAlign = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkAutoAlign", "Auto Align"), $x - 10, $y, -1, -1)
+	$y += 22
+		$g_hChkAutoAlign = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkAutoAlign", "Auto Align"), $x, $y, -1, -1)
 			$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkAutoAlign_Info_01", "Reposition/Align Android Emulator and BOT windows on the screen.")
 			GUICtrlSetOnEvent(-1, "chkDisposeWindows")
 			_GUICtrlSetTip(-1, $sTxtTip)
@@ -143,8 +113,8 @@ Func CreateBotOptions()
 			GUICtrlSetLimit(-1, 2)
 			$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "TxtAlignOffsetY_Info_01", "Offset vertical pixels between Android Emulator and BOT windows.")
 
-	$y += 20
-		$g_hCmbAlignmentOptions = GUICtrlCreateCombo("", $x - 10, $y, 185, 20, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+	$y += 23
+		$g_hCmbAlignmentOptions = GUICtrlCreateCombo("", $x, $y, 175, 20, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			GUICtrlSetData(-1, GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "CmbAlignmentOptions_Item_01", "0,0: Android Emulator-Bot") & "|" & _
 							   GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "CmbAlignmentOptions_Item_02", "0,0: Bot-Android Emulator") & "|" & _
 							   GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "CmbAlignmentOptions_Item_03", "SNAP: Bot TopRight to Android") &"|" & _
@@ -158,19 +128,19 @@ Func CreateBotOptions()
 			GUICtrlSetState(-1, $GUI_DISABLE)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
-	$y += 47
-	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "Group_08", "Processor/Thread Advanced"), $x - 20, $y - 20, 210, 80)
+	$y += 52
+	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "Group_08", "Processor/Thread Advanced"), $x - 20, $y - 20, 210, 85)
 	$y -= 2
-		$g_hTxtGlobalActiveBotsAllowed = GUICtrlCreateInput($g_iGlobalActiveBotsAllowed, $x - 10, $y + 2, 25, 16, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+		$g_hTxtGlobalActiveBotsAllowed = GUICtrlCreateInput($g_iGlobalActiveBotsAllowed, $x, $y + 2, 25, 16, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 			$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "TxtGlobalActiveBotsAllowed_Info_01", "When running multiple bots, specify how many can run at the same time.\r\nThis reduces your CPU utilization significantly.\r\nHalf of available logical processors is a good number.\r\nThis configuration is shared across all profiles/instances and a restart of all bots is required (close all, wait, and start all again!).")
 			GUICtrlSetOnEvent(-1, "txtGlobalActiveBotsAllowed")
 			GUICtrlSetLimit(-1, 2)
 			_GUICtrlSetTip(-1, $sTxtTip)
-		GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "LblGlobalActiveBotsAllowed_Info_01", "Bots can run at the same time"), $x + 20, $y + 3)
+		GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "LblGlobalActiveBotsAllowed_Info_01", "Bots can run at the same time"), $x + 30, $y + 3)
 			_GUICtrlSetTip(-1, $sTxtTip)
 
 	$y += 20
-		$g_hTxtGlobalThreads = GUICtrlCreateInput($g_iGlobalThreads, $x - 10, $y + 2, 25, 16, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+		$g_hTxtGlobalThreads = GUICtrlCreateInput($g_iGlobalThreads, $x, $y + 2, 25, 16, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 			$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "TxtGlobalThreads_Info_01", "When running multiple bots, specify how many global threads for image processing tasks can run at the same time.\r\nThis reduces your CPU utilization significantly.\r\nHalf of available logical processors is a good number.\r\nThis configuration is shared across all profiles/instances and a restart of all bots is required (close all, wait, and start all again!).")
 			GUICtrlSetOnEvent(-1, "txtGlobalThreads")
 			GUICtrlSetLimit(-1, 2)
@@ -179,7 +149,7 @@ Func CreateBotOptions()
 			_GUICtrlSetTip(-1, $sTxtTip)
 
 	$y += 20
-		$g_hTxtThreads = GUICtrlCreateInput($g_iThreads, $x - 10, $y + 2, 25, 16, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+		$g_hTxtThreads = GUICtrlCreateInput($g_iThreads, $x, $y + 2, 25, 16, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 			$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "TxtThreads_Info_01", "When images are processed, multiple threads are used. Here you specifiy how many threads this bot can use.\r\nLess threads reduce your CPU utilization significantly.\r\nHalf of available logical processors is a good number. Use 0 for all available. Global threads setting has priority.")
 			GUICtrlSetOnEvent(-1, "txtThreads")
 			GUICtrlSetLimit(-1, 2)
@@ -197,51 +167,43 @@ Func CreateBotOptions()
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkUpdatingWhenMinimized_Info_01", "Enable different minimize routine for bot window.\r\nWhen bot is minimized, screen updates are shown in taskbar preview."))
 		$y += 19
 		#ce
-		$g_hChkBotCustomTitleBarClick = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkBotCustomTitleBarClick", "My Bot design Title Bar"), $x - 10, $y, -1, -1)
+		$g_hChkBotCustomTitleBarClick = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkBotCustomTitleBarClick", "My Bot design Title Bar"), $x, $y, -1, -1)
 			If BitAND($g_iBotDesignFlags, 1) Then GUICtrlSetState(-1, $GUI_CHECKED)
 			GUICtrlSetOnEvent(-1, "chkBotCustomTitleBarClick")
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkBotCustomTitleBarClick_Info_01", "Enable optimized My Bot Window Title Bar and\r\nthin Window Border (restart of bot is required)"))
 	$y += 19
-		$g_hChkBotAutoSlideClick = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkBotAutoSlideClick", "Auto Slide when docked"), $x - 10, $y, -1, -1)
+		$g_hChkBotAutoSlideClick = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkBotAutoSlideClick", "Auto Slide when docked"), $x, $y, -1, -1)
 			If BitAND($g_iBotDesignFlags, 1) = 0 Then GUICtrlSetState(-1, $GUI_DISABLE)
 			If BitAND($g_iBotDesignFlags, 2) Then GUICtrlSetState(-1, $GUI_CHECKED)
 			GUICtrlSetOnEvent(-1, "chkBotAutoSlideClick")
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkBotAutoSlideClick_Info_01", "Enable auto sliding when Android is docked\r\non bot window activation/deactivation"))
 	$y += 19
-		$g_hChkHideWhenMinimized = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkHideWhenMinimized", "Hide when minimized"), $x - 10, $y, -1, -1)
+		$g_hChkHideWhenMinimized = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkHideWhenMinimized", "Hide when minimized"), $x, $y, -1, -1)
 			GUICtrlSetOnEvent(-1, "chkHideWhenMinimized")
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkHideWhenMinimized_Info_01", "Hide bot window in taskbar when minimized.\r\nUse trayicon 'Show bot' to display bot window again."))
 	$y += 19
-		$g_hChkAutoResume = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkAutoResume", "Auto resume Bot after") & ":", $x - 10, $y, -1, -1)
+		$g_hChkAutoResume = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkAutoResume", "Auto resume Bot after") & ":", $x, $y, -1, -1)
 			_GUICtrlSetTip(-1,GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkAutoResume_Info_01", "This will auto resume your bot after x minutes"))
 			GUICtrlSetOnEvent(-1, "chkAutoResume")
 		$g_hTxtAutoResumeTime = GUICtrlCreateInput("5",$x + 132, $y + 2, 30, 16, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 			GUICtrlSetState(-1, $GUI_DISABLE)
-		GUICtrlCreateLabel(GetTranslatedFileIni("MBR Global GUI Design", "min.", -1), $x + 167, $y + 3, -1, -1)
+		GUICtrlCreateLabel(GetTranslatedFileIni("MBR Global GUI Design", "min.", -1), $x + 167, $y + 4, -1, -1)
 	$y += 19
-		$g_hChkDisableNotifications = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkDisableNotifications", "Disable Notifications"), $x - 10, $y, -1, -1)
+		$g_hChkDisableNotifications = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkDisableNotifications", "Disable Notifications"), $x, $y, -1, -1)
 			_GUICtrlSetTip(-1,GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkDisableNotifications_Info_01", "Disable Notifications sent by the Bot"))
 			GUICtrlSetOnEvent(-1, "chkDisableNotifications")
 	$y += 19
-		$g_hChkUseRandomClick = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkUseRandomClick", "Random Click"), $x - 10, $y, -1, -1)
+		$g_hChkUseRandomClick = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkUseRandomClick", "Random Click"), $x, $y, -1, -1)
 			GUICtrlSetOnEvent(-1, "chkUseRandomClick")
-
-	; Stop on Low battery - AiO++ Team
-	$y += 19
-		$g_hChkStopOnBatt = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkStopOnBatt", "Stop IF Battery below"), $x-10, $y, -1, -1)
-			_GUICtrlSetTip(-1,GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkStopOnBatt_Info_01", "Will stop bot and emulator if battery status below % value"))
-			GUICtrlSetOnEvent(-1, "ChkStopOnBatt")
-		$g_hTxtStopOnBatt = GUICtrlCreateInput("15", $x + 132, $y + 2, 30, 16, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
-		$g_hLblStopOnBatt = GUICtrlCreateLabel("%", $x + 166, $y + 4, -1, -1)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	$y += 45
 	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "Group_05", "Photo Screenshot Options"), $x - 20, $y - 17, 225, 60)
-		$g_hChkScreenshotType = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkScreenshotType", "Make in PNG format"), $x - 10, $y, -1, -1)
+		$g_hChkScreenshotType = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkScreenshotType", "Make in PNG format"), $x, $y, -1, -1)
 			GUICtrlSetState(-1, $GUI_CHECKED)
 			GUICtrlSetOnEvent(-1, "chkScreenshotType")
 	$y += 19
-		$g_hChkScreenshotHideName = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkScreenshotHideName", "Hide Village and Clan Castle Name"), $x - 10, $y, -1, -1)
+		$g_hChkScreenshotHideName = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkScreenshotHideName", "Hide Village and Clan Castle Name"), $x, $y, -1, -1)
 			GUICtrlSetState(-1, $GUI_CHECKED)
 			GUICtrlSetOnEvent(-1, "chkScreenshotHideName")
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
@@ -259,8 +221,8 @@ Func CreateBotOptions()
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	$y += 51
-	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "Group_07", "Other Options"), $x - 20, $y - 20, 225, 83)
-		$g_hChkSinglePBTForced = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkSinglePBTForced", "Force Single PB logoff"), $x - 10, $y, -1, -1)
+	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "Group_07", "Other Options"), $x - 20, $y - 20, 225, 85)
+		$g_hChkSinglePBTForced = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkSinglePBTForced", "Force Single PB logoff"), $x, $y, -1, -1)
 			GUICtrlSetOnEvent(-1, "chkSinglePBTForced")
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkSinglePBTForced_Info_01", "This forces bot to exit CoC only one time prior to normal start of PB"))
 		$g_hTxtSinglePBTimeForced = GUICtrlCreateInput("18", $x + 132, $y + 2, 30, 16, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
@@ -281,11 +243,10 @@ Func CreateBotOptions()
 			GUICtrlSetState(-1, $GUI_DISABLE)
 		GUICtrlCreateLabel(GetTranslatedFileIni("MBR Global GUI Design", "min.", -1), $x + 167, $y + 3, -1, -1)
 
-	$y += 18
-		$g_hChkFixClanCastle = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkFixClanCastle", "Force Clan Castle Detection"), $x - 10, $y + 2, -1, -1)
+	$y += 20
+		$g_hChkFixClanCastle = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkFixClanCastle", "Force Clan Castle Detection"), $x, $y + 2, -1, -1)
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkFixClanCastle_Info_01", "If clan Castle it is undetected and it is NOT placed in the last slot, force bot to consider the undetected slot as Clan Castle"))
 			GUICtrlSetState(-1, $GUI_UNCHECKED)
-
-   GUICtrlCreateGroup("", -99, -99, 1, 1)
+	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 EndFunc   ;==>CreateBotOptions

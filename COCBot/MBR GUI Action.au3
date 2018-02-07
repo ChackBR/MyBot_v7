@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: cosote (2016)
 ; Modified ......: CodeSlinger69 (2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2017
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -14,7 +14,7 @@
 ; ===============================================================================================================================
 
 Func BotStart($bAutostartDelay = 0)
-
+	FuncEnter(BotStart)
 	ResumeAndroid()
 	CalCostCamp()
 	CalCostSpell()
@@ -85,7 +85,7 @@ Func BotStart($bAutostartDelay = 0)
 
 	; wait for slot
 	LockBotSlot(True)
-	If $g_bRunState = False Then Return
+	If $g_bRunState = False Then Return FuncReturn()
 
 	Local $Result = False
 	If WinGetAndroidHandle() = 0 Then
@@ -93,7 +93,7 @@ Func BotStart($bAutostartDelay = 0)
 	EndIf
 	SetDebugLog("Android Window Handle: " & WinGetAndroidHandle())
 	If $g_hAndroidWindow <> 0 Then ;Is Android open?
-		If Not $g_bRunState Then Return
+		If Not $g_bRunState Then Return FuncReturn()
 		If $g_bAndroidBackgroundLaunched = True Or AndroidControlAvailable() Then ; Really?
 			If Not $Result Then
 				$Result = InitiateLayout()
@@ -103,7 +103,7 @@ Func BotStart($bAutostartDelay = 0)
 			SetLog("Current " & $g_sAndroidEmulator & " Window not supported by MyBot", $COLOR_ERROR)
 			$Result = RebootAndroid(False)
 		EndIf
-		If Not $g_bRunState Then Return
+		If Not $g_bRunState Then Return FuncReturn()
 		Local $hWndActive = $g_hAndroidWindow
 		; check if window can be activated
 		If $g_bNoFocusTampering = False And $g_bAndroidBackgroundLaunched = False And $g_bAndroidEmbedded = False Then
@@ -115,30 +115,8 @@ Func BotStart($bAutostartDelay = 0)
 			WEnd
 			WinActivate($activeHWnD) ; restore current active window
 		EndIf
-		If Not $g_bRunState Then Return
+		If Not $g_bRunState Then Return FuncReturn()
 		If $hWndActive = $g_hAndroidWindow And ($g_bAndroidBackgroundLaunched = True Or AndroidControlAvailable())  Then ; Really?
-
-			; Auto Dock, Hide Emulator & Bot - AiO++ Team
-			If $g_iChkAutoDock Then
-				If Not $g_bAndroidEmbedded Then
-					SetLog("Bot Auto Dock to Emulator", $COLOR_ERROR)
-					btnEmbed()
-				EndIf
-			ElseIf $g_iChkAutoHideEmulator Then
-				If Not $g_bIsHidden Then
-					SetLog("Bot Auto Hide Emulator", $COLOR_ERROR)
-					btnHide()
-					$g_bIsHidden = True
-				EndIf
-			EndIf
-
-			If $g_iChkAutoMinimizeBot Then
-				SetLog("Bot Auto Minimize Bot", $COLOR_ERROR)
-				If $g_bHideWhenMinimized Then
-					WinSetState($g_hFrmBot, "", @SW_MINIMIZE)
-				EndIf
-			EndIf
-
 			Initiate() ; Initiate and run bot
 		Else
 			SetLog("Cannot use " & $g_sAndroidEmulator & ", please check log", $COLOR_ERROR)
@@ -148,13 +126,17 @@ Func BotStart($bAutostartDelay = 0)
 		SetLog("Cannot start " & $g_sAndroidEmulator & ", please check log", $COLOR_ERROR)
 		btnStop()
 	EndIf
+	FuncReturn()
 EndFunc   ;==>BotStart
 
 Func BotStop()
-
+	FuncEnter(BotStop)
 	; release bot slot
 	LockBotSlot(False)
 
+	; release other switch accounts
+	releaseProfilesMutex()
+	
 	ResumeAndroid()
 
 	$g_bRunState = False
@@ -168,7 +150,7 @@ Func BotStop()
 
 	EnableGuiControls()
 
-	DistributorsBotStopEvent()
+	DistributorsUpdateGUI()
 	AndroidBotStopEvent() ; signal android that bot is now stopping
 	AndroidShield("btnStop", Default)
 
@@ -183,10 +165,6 @@ Func BotStop()
 	If $g_iTownHallLevel > 2 Then GUICtrlSetState($g_hBtnSearchMode, $GUI_ENABLE)
 	GUICtrlSetState($g_hBtnSearchMode, $GUI_SHOW)
 	;GUICtrlSetState($g_hBtnMakeScreenshot, $GUI_ENABLE)
-
-	; Enable/Disable GUI while botting - Demen - AiO++ Team
-	GUICtrlSetState($g_hBtnEnableGUI, $GUI_HIDE)
-	GUICtrlSetState($g_hBtnDisableGUI, $GUI_HIDE)
 
 	; hide attack buttons if show
 	GUICtrlSetState($g_hBtnAttackNowDB, $GUI_HIDE)
@@ -222,29 +200,32 @@ Func BotStop()
 	__ObjEventEnds()
 
 	ReduceBotMemory()
+	FuncReturn()
 EndFunc   ;==>BotStop
 
 Func BotSearchMode()
+	FuncEnter(BotSearchMode)
 	$g_bSearchMode = True
 	$g_bRestart = False
 	$g_bIsClientSyncError = False
 	If $g_iFirstRun = 1 Then $g_iFirstRun = -1
 	btnStart()
 	checkMainScreen(False)
-	If _Sleep(100) Then Return
+	If _Sleep(100) Then Return FuncReturn()
 	$g_aiCurrentLoot[$eLootTrophy] = getTrophyMainScreen($aTrophies[0], $aTrophies[1]) ; get OCR to read current Village Trophies
-	If _Sleep(100) Then Return
+	If _Sleep(100) Then Return FuncReturn()
 	CheckIfArmyIsReady()
 	ClickP($aAway, 2, 0, "") ;Click Away
-	If _Sleep(100) Then Return
+	If _Sleep(100) Then Return FuncReturn()
 	If (IsSearchModeActive($DB) And checkCollectors(True, False)) Or IsSearchModeActive($LB) Or IsSearchModeActive($TS) Then
-		If _Sleep(100) Then Return
+		If _Sleep(100) Then Return FuncReturn()
 		PrepareSearch()
-		If _Sleep(1000) Then Return
+		If _Sleep(1000) Then Return FuncReturn()
 		VillageSearch()
-		If _Sleep(100) Then Return
+		If _Sleep(100) Then Return FuncReturn()
 	Else
-		Setlog("Your Army is not prepared, check the Attack/train options")
+		SetLog("Your Army is not prepared, check the Attack/train options")
 	EndIf
 	btnStop()
+	FuncReturn()
 EndFunc   ;==>BotSearchMode

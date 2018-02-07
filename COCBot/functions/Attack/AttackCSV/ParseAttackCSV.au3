@@ -5,8 +5,8 @@
 ; Parameters ....: $debug               - [optional]
 ; Return values .: None
 ; Author ........: Sardo (2016)
-; Modified ......: MMHK (07-2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2017
+; Modified ......: MMHK (07-2017)(01-2018)
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -29,7 +29,7 @@ Func ParseAttackCSV($debug = False)
 	Else
 		Local $filename = $g_sAttackScrScriptName[$LB]
 	EndIf
-	Setlog("execute " & $filename)
+	SetLog("execute " & $filename)
 
 	Local $f, $line, $acommand, $command
 	Local $value1 = "", $value2 = "", $value3 = "", $value4 = "", $value5 = "", $value6 = "", $value7 = "", $value8 = "", $value9 = ""
@@ -42,11 +42,12 @@ Func ParseAttackCSV($debug = False)
 			$sErrorText = "" ; empty error text each row
 			debugAttackCSV("line: " & $iLine + 1)
 			If @error = -1 Then ExitLoop
-			If $debug = True Then Setlog("parse line:<<" & $line & ">>")
+			If $debug = True Then SetLog("parse line:<<" & $line & ">>")
 			debugAttackCSV("line content: " & $line)
 			$acommand = StringSplit($line, "|")
 			If $acommand[0] >= 8 Then
 				$command = StringStripWS(StringUpper($acommand[1]), $STR_STRIPTRAILING)
+				If $command = "TRAIN" Or $command = "REDLN" Or $command = "DRPLN" Or $command = "CCREQ" Then ContinueLoop ; discard setting commands
 				; Set values
 				For $i = 2 To (UBound($acommand) - 1)
 					Assign("value" & Number($i - 1), StringStripWS(StringUpper($acommand[$i]), $STR_STRIPTRAILING))
@@ -123,7 +124,7 @@ Func ParseAttackCSV($debug = False)
 							$sErrorText = "value2"
 						EndIf
 						If $sErrorText <> "" Then ; log error message
-							Setlog("Discard row, bad " & $sErrorText & " parameter: row " & $iLine + 1)
+							SetLog("Discard row, bad " & $sErrorText & " parameter: row " & $iLine + 1)
 							debugAttackCSV("Discard row, bad " & $sErrorText & " parameter: row " & $iLine + 1)
 						Else ; debuglog vectors
 							For $i = 0 To UBound(Execute("$ATTACKVECTOR_" & $value1)) - 1
@@ -161,75 +162,24 @@ Func ParseAttackCSV($debug = False)
 								EndIf
 							EndIf
 						EndIf
-						;quatities : with %
-						Local $qty1, $qty2, $qtyvect, $bUpdateQuantity = False
-						If StringInStr($value3, "%") > 0 Then
-							$qtyvect = StringSplit($value3, "%", 2)
-							If UBound($qtyvect) > 0 Then
-								Local $iPercentage = $qtyvect[0]
-								If UBound($qtyvect) > 1 Then $bUpdateQuantity = (($qtyvect[1] = "U") ? True : False)
-								Local $theTroopPosition = -2
-
-								; Get the integer index of the troop name specified
-								Local $troopName = $value4
-								Local $iTroopIndex = TroopIndexLookup($troopName)
-								If $iTroopIndex = -1 Then
-									Setlog("CSV CMD '%' troop name '" & $troopName & "' is unrecognized.")
-									Return
-								EndIf
-
-								For $i = 0 To UBound($g_avAttackTroops) - 1
-									If $g_avAttackTroops[$i][0] = $iTroopIndex Then
-										$theTroopPosition = $i
-										ExitLoop
-									EndIf
-								Next
-								If $bUpdateQuantity = True Then
-									If $theTroopPosition >= 0 Then
-										SetLog("Updating Available " & NameOfTroop($iTroopIndex, 1) & " Quantities", $COLOR_INFO)
-										$theTroopPosition = UpdateTroopQuantity($troopName)
-									EndIf
-								EndIf
-								If $theTroopPosition >= 0 And UBound($g_avAttackTroops) > $theTroopPosition Then
-									If Int($qtyvect[0]) > 0 Then
-										$qty1 = Round((Number($qtyvect[0]) / 100) * Number($g_avAttackTroops[Number($theTroopPosition)][1]))
-										$qty2 = $qty1
-										SetLog($qtyvect[0] & "% Of x" & Number($g_avAttackTroops[$theTroopPosition][1]) & " " & NameOfTroop($g_avAttackTroops[$theTroopPosition][0], 1) & " = " & $qty1, $COLOR_INFO)
-									Else
-										$index1 = 1
-										$qty2 = 1
-									EndIf
-								Else
-									$qty1 = 0
-									$qty2 = 0
-								EndIf
+						;qty...
+						Local $qty1, $qty2, $qtyvect
+						$qtyvect = StringSplit($value3, "-", 2)
+						If UBound($qtyvect) > 1 Then
+							If Int($qtyvect[0]) > 0 And Int($qtyvect[1]) > 0 Then
+								$qty1 = Int($qtyvect[0])
+								$qty2 = Int($qtyvect[1])
 							Else
-								If Int($value3) > 0 Then
-									$qty1 = Int($value3)
-									$qty2 = Int($value3)
-								Else
-									$qty1 = 1
-									$qty2 = 1
-								EndIf
+								$index1 = 1
+								$qty2 = 1
 							EndIf
 						Else
-							$qtyvect = StringSplit($value3, "-", 2)
-							If UBound($qtyvect) > 1 Then
-								If Int($qtyvect[0]) > 0 And Int($qtyvect[1]) > 0 Then
-									$qty1 = Int($qtyvect[0])
-									$qty2 = Int($qtyvect[1])
-								Else
-									$index1 = 1
-									$qty2 = 1
-								EndIf
+							If Int($value3) > 0 Then
+								$qty1 = Int($value3)
+								$qty2 = Int($value3)
 							Else
-								If Int($value3) > 0 Then
-									$qty1 = Int($value3)
-									$qty2 = Int($value3)
-								Else
-									$qty1 = 1
-									$qty2 = 1
-								EndIf
+								$qty1 = 1
+								$qty2 = 1
 							EndIf
 						EndIf
 						;delay between points
@@ -292,26 +242,6 @@ Func ParseAttackCSV($debug = False)
 								$sleepdrop2 = 1
 							EndIf
 						EndIf
-						;sleep time before drop
-						Local $sleepbeforedrop1 = 0, $sleepbeforedrop2 = 0, $sleepbeforedroppvect
-						$sleepbeforedroppvect = StringSplit($value8, "-", 2)
-						If UBound($sleepbeforedroppvect) > 1 Then
-							If Int($sleepbeforedroppvect[0]) > 0 And Int($sleepbeforedroppvect[1]) > 0 Then
-								$sleepbeforedrop1 = Int($sleepbeforedroppvect[0])
-								$sleepbeforedrop2 = Int($sleepbeforedroppvect[1])
-							Else
-								$sleepbeforedrop1 = 0
-								$sleepbeforedrop2 = 0
-							EndIf
-						Else
-							If Int($value3) > 0 Then
-								$sleepbeforedrop1 = Int($value8)
-								$sleepbeforedrop2 = Int($value8)
-							Else
-								$sleepbeforedrop1 = 0
-								$sleepbeforedrop2 = 0
-							EndIf
-						EndIf
 						; check for targeted vectors and validate index numbers, need too many values for check logic to use CheckCSVValues()
 						Local $tmpVectorList = StringSplit($value1, "-", $STR_NOCOUNT) ; get array with all vector(s) used
 						For $v = 0 To UBound($tmpVectorList) - 1 ; loop thru each vector in target list
@@ -340,35 +270,10 @@ Func ParseAttackCSV($debug = False)
 							EndIf
 						Next
 						If $sErrorText <> "" Then
-							Setlog("Discard row, " & $sErrorText & ": row " & $iLine + 1)
+							SetLog("Discard row, " & $sErrorText & ": row " & $iLine + 1)
 							debugAttackCSV("Discard row, " & $sErrorText & ": row " & $iLine + 1)
 						Else
-							; REMAIN CMD from @chalicucu
-							If $value4 = "REMAIN" Then
-								SetLog("Drop|Remain:  Dropping left over troops", $COLOR_BLUE)
-								; Let's get the troops again and quantities
-								If PrepareAttack($g_iMatchMode, True) > 0 Then
-									; a Loop from all troops
-									For $ii = $eBarb To $eBowl ; lauch all remaining troops
-										; Loop on all detected troops
-										For $x = 0 To UBound($g_avAttackTroops) - 1
-											; If the Name exist and haves more than zero is deploy it
-											If $g_avAttackTroops[$x][0] = $ii and $g_avAttackTroops[$x][1] > 0 Then
-												Local $plural = 0
-												If $g_avAttackTroops[$x][1] > 1 Then $plural = 1
-												Local $name = NameOfTroop($g_avAttackTroops[$x][0], $plural)
-												Setlog("Name: " & $name, $COLOR_DEBUG)
-												Setlog("Qty: " & $g_avAttackTroops[$x][1], $COLOR_DEBUG)
-												DropTroopFromINI($value1, $index1, $index2, $indexArray, $g_avAttackTroops[$x][1], $g_avAttackTroops[$x][1], $g_asTroopShortNames[$ii], $delaypoints1, $delaypoints2, $delaydrop1, $delaydrop2, $sleepdrop1, $sleepdrop2, $sleepbeforedrop1, $sleepbeforedrop2, $debug)
-												CheckHeroesHealth()
-												If _Sleep($DELAYALGORITHM_ALLTROOPS5) Then Return
-											EndIf
-										Next
-									Next
-								EndIf
-							Else
-								DropTroopFromINI($value1, $index1, $index2, $indexArray, $qty1, $qty2, $value4, $delaypoints1, $delaypoints2, $delaydrop1, $delaydrop2, $sleepdrop1, $sleepdrop2, $sleepbeforedrop1, $sleepbeforedrop2, $debug)
-							EndIf
+							DropTroopFromINI($value1, $index1, $index2, $indexArray, $qty1, $qty2, $value4, $delaypoints1, $delaypoints2, $delaydrop1, $delaydrop2, $sleepdrop1, $sleepdrop2, $debug)
 						EndIf
 						ReleaseClicks($g_iAndroidAdbClicksTroopDeploySize)
 						If _Sleep($DELAYRESPOND) Then Return ; check for pause/stop
@@ -426,10 +331,10 @@ Func ParseAttackCSV($debug = False)
 								$Trophies = getTrophyVillageSearch(48, 69 + 69)
 							EndIf
 							CheckHeroesHealth()
-							If $g_bDebugSetlog Then SetLog("detected [G]: " & $Gold & " [E]: " & $Elixir & " [DE]: " & $DarkElixir, $COLOR_INFO)
+							If $g_bDebugSetlog Then SetDebugLog("detected [G]: " & $Gold & " [E]: " & $Elixir & " [DE]: " & $DarkElixir, $COLOR_INFO)
 							;EXIT IF RESOURCES = 0
 							If $g_abStopAtkNoResources[$g_iMatchMode] And Number($Gold) = 0 And Number($Elixir) = 0 And Number($DarkElixir) = 0 Then
-								If Not $g_bDebugSetlog Then SetDebugLog("detected [G]: " & $Gold & " [E]: " & $Elixir & " [DE]: " & $DarkElixir, $COLOR_INFO) ; log if not down above
+								If NOT $g_bDebugSetlog Then SetDebugLog("detected [G]: " & $Gold & " [E]: " & $Elixir & " [DE]: " & $DarkElixir, $COLOR_INFO) ; log if not down above
 								SetDebugLog("From Attackcsv: Gold & Elixir & DE = 0, end battle ", $COLOR_DEBUG)
 								$exitNoResources = 1
 								ExitLoop
@@ -456,47 +361,13 @@ Func ParseAttackCSV($debug = False)
 					Case "RECALC"
 						ReleaseClicks()
 						PrepareAttack($g_iMatchMode, True)
-
-					; Swipe Command - Samm0d - AiO++ Team
-					Case "SWIPE"
-						ReleaseClicks()
-						$value1 = StringStripWS($value1, $STR_STRIPALL)
-						$value2 = Int(StringStripWS($value2, $STR_STRIPALL))
-						$value3 = Int(StringStripWS($value3, $STR_STRIPALL))
-						$value4 = Int(StringStripWS($value4, $STR_STRIPALL))
-
-						If $value3 = 0 Then $value3 = 400
-						If $value4 = 0 Then $value4 = 250
-
-						Local $iDragPixelDistance = 700
-						If $value2 <> 0 Then
-							$iDragPixelDistance	= Random($value2 - 5, $value2 + 5, 1)
-						Else
-							$iDragPixelDistance = Random(695 - 5, 705, 1)
-						EndIf
-						Select
-							Case $value1 = "RIGHT"
-								SetLog("SWIPE RIGHT")
-								Local $iStartX = Random(770,780,1)
-								ClickDrag($iStartX,Random(680,690,1),$iStartX - $iDragPixelDistance,Random(680,690,1),$value4)
-								If _Sleep($value3) Then Return
-								PrepareAttack($g_iMatchMode, True)
-							Case $value1 = "LEFT"
-								SetLog("SWIPE LEFT")
-								Local $iStartX = Random(35,45,1)
-								ClickDrag($iStartX,Random(680,690,1),$iStartX + $iDragPixelDistance,Random(680,690,1),$value4)
-								If _Sleep($value3) Then Return
-								PrepareAttack($g_iMatchMode, True)
-						EndSelect
-					; Swipe Command - Samm0d - AiO++ Team
-
 					Case "SIDE"
 						ReleaseClicks()
-						Setlog("Calculate main side... ")
+						SetLog("Calculate main side... ")
 						Local $heightTopLeft = 0, $heightTopRight = 0, $heightBottomLeft = 0, $heightBottomRight = 0
 						If StringUpper($value8) = "TOP-LEFT" Or StringUpper($value8) = "TOP-RIGHT" Or StringUpper($value8) = "BOTTOM-LEFT" Or StringUpper($value8) = "BOTTOM-RIGHT" Then
 							$MAINSIDE = StringUpper($value8)
-							Setlog("Forced side: " & StringUpper($value8), $COLOR_INFO)
+							SetLog("Forced side: " & StringUpper($value8), $COLOR_INFO)
 							$bForceSideExist = True
 						Else
 
@@ -631,7 +502,7 @@ Func ParseAttackCSV($debug = False)
 								$sidename = "BOTTOM-LEFT"
 							EndIf
 
-							Setlog("Mainside: " & $sidename & " (top-left:" & $heightTopLeft & " top-right:" & $heightTopRight & " bottom-left:" & $heightBottomLeft & " bottom-right:" & $heightBottomRight)
+							SetLog("Mainside: " & $sidename & " (top-left:" & $heightTopLeft & " top-right:" & $heightTopRight & " bottom-left:" & $heightBottomLeft & " bottom-right:" & $heightBottomRight)
 							$MAINSIDE = $sidename
 						EndIf
 
@@ -677,7 +548,7 @@ Func ParseAttackCSV($debug = False)
 					Case "SIDEB"
 						ReleaseClicks()
 						If $bForceSideExist = False Then
-							Setlog("Recalculate main side for additional defense buildings... ", $COLOR_INFO)
+							SetLog("Recalculate main side for additional defense buildings... ", $COLOR_INFO)
 
 							Switch StringLeft(Slice8($g_aiCSVEagleArtilleryPos), 1)
 								Case 1, 2
@@ -798,7 +669,7 @@ Func ParseAttackCSV($debug = False)
 								$sidename = "BOTTOM-LEFT"
 							EndIf
 
-							Setlog("New Mainside: " & $sidename & " (top-left:" & $heightTopLeft & " top-right:" & $heightTopRight & " bottom-left:" & $heightBottomLeft & " bottom-right:" & $heightBottomRight, $COLOR_INFO)
+							SetLog("New Mainside: " & $sidename & " (top-left:" & $heightTopLeft & " top-right:" & $heightTopRight & " bottom-left:" & $heightBottomLeft & " bottom-right:" & $heightBottomRight, $COLOR_INFO)
 							$MAINSIDE = $sidename
 						EndIf
 						Switch $MAINSIDE
@@ -846,11 +717,11 @@ Func ParseAttackCSV($debug = False)
 								; also comment
 								debugAttackCSV("comment line")
 							Case Else
-							Setlog("attack row bad, discard: row " & $iLine + 1, $COLOR_ERROR)
+							SetLog("attack row bad, discard: row " & $iLine + 1, $COLOR_ERROR)
 						EndSwitch
 				EndSwitch
 			Else
-				If StringLeft($line, 7) <> "NOTE  |" And StringLeft($line, 7) <> "      |" And StringStripWS(StringUpper($line), 2) <> "" Then Setlog("attack row error, discard: row " & $iLine + 1, $COLOR_ERROR)
+				If StringLeft($line, 7) <> "NOTE  |" And StringLeft($line, 7) <> "      |" And StringStripWS(StringUpper($line), 2) <> "" Then SetLog("attack row error, discard: row " & $iLine + 1, $COLOR_ERROR)
 			EndIf
 			If $bWardenDrop = True Then  ;Check hero, but skip Warden if was dropped with sleepafter to short to allow icon update
 				Local $bHold = $g_bCheckWardenPower ; store existing flag state, should be true?

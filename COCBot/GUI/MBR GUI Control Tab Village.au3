@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: Sardo (2016)
 ; Modified ......: CodeSlinger69 (2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2017
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -33,17 +33,12 @@ Func chkRequestCCHours()
 
 	If GUICtrlRead($g_hChkRequestTroopsEnable) = $GUI_CHECKED Then
 		GUICtrlSetState($g_hTxtRequestCC, $GUI_SHOW + $GUI_ENABLE)
-		; CheckCC Troops - Demen - AiO++ Team
-		For $i = $chkReqCCFirst To $g_hLblRequestCCHoursPM
+		For $i = $g_hLblRequestCChour To $g_hLblRequestCCHoursPM
 			GUICtrlSetState($i, $GUI_ENABLE)
 		Next
 	Else
 		GUICtrlSetState($g_hTxtRequestCC, $GUI_SHOW + $GUI_DISABLE)
-		; CheckCC Troops - Demen - AiO++ Team
-		GUICtrlSetState($g_hChkTroopsCC, $GUI_UNCHECKED)
-		; CheckCC Troops - Demen - AiO++ Team
-		GUIControlCheckCC()
-		For $i = $chkReqCCFirst To $g_hLblRequestCCHoursPM
+		For $i = $g_hLblRequestCChour To $g_hLblRequestCCHoursPM
 			GUICtrlSetState($i, $GUI_DISABLE)
 		Next
 	EndIf
@@ -123,11 +118,3 @@ Func chkDonateHoursE2()
 	Sleep(300)
 	GUICtrlSetState($g_ahChkDonateHoursE2, $GUI_UNCHECKED)
 EndFunc   ;==>chkDonateHoursE2
-
-Func chkReqCCFirst()
-	If GUICtrlRead($chkReqCCFirst) = $GUI_CHECKED Then
-		$g_bReqCCFirst = True
-	Else
-		$g_bReqCCFirst = False
-	EndIf
-EndFunc   ;==>chkReqCCFirst

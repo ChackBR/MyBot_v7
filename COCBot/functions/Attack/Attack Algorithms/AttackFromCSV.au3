@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: Sardo (2016)
 ; Modified ......: CodeSlinger69 (01-2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2017
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -217,7 +217,7 @@ EndFunc   ;==>GetMaxPoint
 ; Return values .: None
 ; Author ........: Sardo (2016)
 ; Modified ......: CodeSlinger69 (2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2017
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2018
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -393,7 +393,7 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 	If StringLen($tempvectstr2) > 0 Then $tempvectstr2 = StringLeft($tempvectstr2, StringLen($tempvectstr2) - 1)
 	$g_aiPixelBottomRightDOWNDropLine = GetListPixel($tempvectstr1, ",", "BR-DOWN")
 	$g_aiPixelBottomRightUPDropLine = GetListPixel($tempvectstr2, ",", "BR-UP")
-	Setlog("> Drop Lines located in  " & Round(__timerdiff($hTimer) / 1000, 2) & " seconds", $COLOR_INFO)
+	SetLog("> Drop Lines located in  " & Round(__timerdiff($hTimer) / 1000, 2) & " seconds", $COLOR_INFO)
 	If _Sleep($DELAYRESPOND) Then Return
 
 	; 03 - TOWNHALL ------------------------------------------------------------------------
@@ -402,10 +402,10 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 		If $g_iSearchTH = "-" Or $g_oBldgAttackInfo.Exists($eBldgTownHall & "_LOCATION") = False Then ; If TH is unknown, try again to find as it is needed by script
 			imglocTHSearch(True, False, False)
 		Else
-			Setlog("> Townhall has already been located in while searching for an image", $COLOR_INFO)
+			SetLog("> Townhall has already been located in while searching for an image", $COLOR_INFO)
 		EndIf
 	Else
-		Setlog("> Townhall search not needed, skip")
+		SetLog("> Townhall search not needed, skip")
 	EndIf
 	If _Sleep($DELAYRESPOND) Then Return
 
@@ -416,11 +416,8 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 	;_CaptureRegion()
 
 	;reset variables
-	; Collector Outside - AiO++ Team
-	If $g_bScanMineAndElixir = False Then
-		Global $g_aiPixelMine[0]
-		Global $g_aiPixelElixir[0]
-	EndIf
+	Global $g_aiPixelMine[0]
+	Global $g_aiPixelElixir[0]
 	Global $g_aiPixelDarkElixir[0]
 	Local $g_aiPixelNearCollectorTopLeftSTR = ""
 	Local $g_aiPixelNearCollectorBottomLeftSTR = ""
@@ -432,12 +429,9 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 	If $g_bCSVLocateMine = True Then
 		;SetLog("Locating mines")
 		$hTimer = __timerinit()
-		; Collector Outside - AiO++ Team
-		If $g_bScanMineAndElixir = False Then
-			SuspendAndroid()
-			$g_aiPixelMine = GetLocationMine()
-			ResumeAndroid()
-		EndIf
+		SuspendAndroid()
+		$g_aiPixelMine = GetLocationMine()
+		ResumeAndroid()
 		If _Sleep($DELAYRESPOND) Then Return
 		CleanRedArea($g_aiPixelMine)
 		Local $htimerMine = Round(__timerdiff($hTimer) / 1000, 2)
@@ -448,27 +442,27 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 				If isInsideDiamond($pixel) Then
 					If $pixel[0] <= $InternalArea[2][0] Then
 						If $pixel[1] <= $InternalArea[0][1] Then
-							;Setlog($str & " :  TOP LEFT SIDE")
+							;SetLog($str & " :  TOP LEFT SIDE")
 							$g_aiPixelNearCollectorTopLeftSTR &= $str & "|"
 						Else
-							;Setlog($str & " :  BOTTOM LEFT SIDE")
+							;SetLog($str & " :  BOTTOM LEFT SIDE")
 							$g_aiPixelNearCollectorBottomLeftSTR &= $str & "|"
 						EndIf
 					Else
 						If $pixel[1] <= $InternalArea[0][1] Then
-							;Setlog($str & " :  TOP RIGHT SIDE")
+							;SetLog($str & " :  TOP RIGHT SIDE")
 							$g_aiPixelNearCollectorTopRightSTR &= $str & "|"
 						Else
-							;Setlog($str & " :  BOTTOM RIGHT SIDE")
+							;SetLog($str & " :  BOTTOM RIGHT SIDE")
 							$g_aiPixelNearCollectorBottomRightSTR &= $str & "|"
 						EndIf
 					EndIf
 				EndIf
 			Next
 		EndIf
-		Setlog("> Mines located in " & Round(__timerdiff($hTimer) / 1000, 2) & " seconds", $COLOR_INFO)
+		SetLog("> Mines located in " & Round(__timerdiff($hTimer) / 1000, 2) & " seconds", $COLOR_INFO)
 	Else
-		Setlog("> Mines detection not needed, skip", $COLOR_INFO)
+		SetLog("> Mines detection not needed, skip", $COLOR_INFO)
 	EndIf
 	If _Sleep($DELAYRESPOND) Then Return
 
@@ -476,12 +470,9 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 	If $g_bCSVLocateElixir = True Then
 		;SetLog("Locating elixir")
 		$hTimer = __timerinit()
-		; Collector Outside - AiO++ Team
-		If $g_bScanMineAndElixir = False Then
-			SuspendAndroid()
-			$g_aiPixelElixir = GetLocationElixir()
-			ResumeAndroid()
-		EndIf
+		SuspendAndroid()
+		$g_aiPixelElixir = GetLocationElixir()
+		ResumeAndroid()
 		If _Sleep($DELAYRESPOND) Then Return
 		CleanRedArea($g_aiPixelElixir)
 		Local $htimerMine = Round(__timerdiff($hTimer) / 1000, 2)
@@ -492,32 +483,29 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 				If isInsideDiamond($pixel) Then
 					If $pixel[0] <= $InternalArea[2][0] Then
 						If $pixel[1] <= $InternalArea[0][1] Then
-							;Setlog($str & " :  TOP LEFT SIDE")
+							;SetLog($str & " :  TOP LEFT SIDE")
 							$g_aiPixelNearCollectorTopLeftSTR &= $str & "|"
 						Else
-							;Setlog($str & " :  BOTTOM LEFT SIDE")
+							;SetLog($str & " :  BOTTOM LEFT SIDE")
 							$g_aiPixelNearCollectorBottomLeftSTR &= $str & "|"
 						EndIf
 					Else
 						If $pixel[1] <= $InternalArea[0][1] Then
-							;Setlog($str & " :  TOP RIGHT SIDE")
+							;SetLog($str & " :  TOP RIGHT SIDE")
 							$g_aiPixelNearCollectorTopRightSTR &= $str & "|"
 						Else
-							;Setlog($str & " :  BOTTOM RIGHT SIDE")
+							;SetLog($str & " :  BOTTOM RIGHT SIDE")
 							$g_aiPixelNearCollectorBottomRightSTR &= $str & "|"
 						EndIf
 					EndIf
 				EndIf
 			Next
 		EndIf
-		Setlog("> Elixir collectors located in " & Round(__timerdiff($hTimer) / 1000, 2) & " seconds", $COLOR_INFO)
+		SetLog("> Elixir collectors located in " & Round(__timerdiff($hTimer) / 1000, 2) & " seconds", $COLOR_INFO)
 	Else
-		Setlog("> Elixir collectors detection not needed, skip", $COLOR_INFO)
+		SetLog("> Elixir collectors detection not needed, skip", $COLOR_INFO)
 	EndIf
 	If _Sleep($DELAYRESPOND) Then Return
-
-	; Collector Outside - AiO++ Team
-	$g_bScanMineAndElixir = False
 
 	;04.03 If drop troop near drill
 	If $g_bCSVLocateDrill = True Then
@@ -536,27 +524,27 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 				If isInsideDiamond($pixel) Then
 					If $pixel[0] <= $InternalArea[2][0] Then
 						If $pixel[1] <= $InternalArea[0][1] Then
-							;Setlog($str & " :  TOP LEFT SIDE")
+							;SetLog($str & " :  TOP LEFT SIDE")
 							$g_aiPixelNearCollectorTopLeftSTR &= $str & "|"
 						Else
-							;Setlog($str & " :  BOTTOM LEFT SIDE")
+							;SetLog($str & " :  BOTTOM LEFT SIDE")
 							$g_aiPixelNearCollectorBottomLeftSTR &= $str & "|"
 						EndIf
 					Else
 						If $pixel[1] <= $InternalArea[0][1] Then
-							;Setlog($str & " :  TOP RIGHT SIDE")
+							;SetLog($str & " :  TOP RIGHT SIDE")
 							$g_aiPixelNearCollectorTopRightSTR &= $str & "|"
 						Else
-							;Setlog($str & " :  BOTTOM RIGHT SIDE")
+							;SetLog($str & " :  BOTTOM RIGHT SIDE")
 							$g_aiPixelNearCollectorBottomRightSTR &= $str & "|"
 						EndIf
 					EndIf
 				EndIf
 			Next
 		EndIf
-		Setlog("> Drills located in " & Round(__timerdiff($hTimer) / 1000, 2) & " seconds", $COLOR_INFO)
+		SetLog("> Drills located in " & Round(__timerdiff($hTimer) / 1000, 2) & " seconds", $COLOR_INFO)
 	Else
-		Setlog("> Drills detection not needed, skip", $COLOR_INFO)
+		SetLog("> Drills detection not needed, skip", $COLOR_INFO)
 	EndIf
 	If _Sleep($DELAYRESPOND) Then Return
 
@@ -576,18 +564,18 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 		$aResult = GetLocationBuilding($eBldgGoldS, $g_iSearchTH, False)
 		If $aResult <> -1 Then ; check if Monkey ate bad banana
 			If $aResult = 1 Then
-				Setlog("> " & $g_sBldgNames[$eBldgGoldS] & " Not found", $COLOR_WARNING)
+				SetLog("> " & $g_sBldgNames[$eBldgGoldS] & " Not found", $COLOR_WARNING)
 			Else
 				$aResult = _ObjGetValue($g_oBldgAttackInfo, $eBldgGoldS & "_LOCATION")
 				If @error Then
 					_ObjErrMsg("_ObjGetValue " & $g_sBldgNames[$eBldgGoldS] & " _LOCATION", @error) ; Log errors
-					Setlog("> " & $g_sBldgNames[$eBldgGoldS] & " location not in dictionary", $COLOR_WARNING)
+					SetLog("> " & $g_sBldgNames[$eBldgGoldS] & " location not in dictionary", $COLOR_WARNING)
 				Else
 					If IsArray($aResult) Then $g_aiCSVGoldStoragePos = $aResult
 				EndIf
 			EndIf
 		Else
-			Setlog("Monkey ate bad banana: " & "GetLocationBuilding " & $g_sBldgNames[$eBldgGoldS], $COLOR_ERROR)
+			SetLog("Monkey ate bad banana: " & "GetLocationBuilding " & $g_sBldgNames[$eBldgGoldS], $COLOR_ERROR)
 		EndIf
 	EndIf
 
@@ -596,18 +584,18 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 		If @error And $g_bDebugSetlog Then _logErrorGetBuilding(@error)
 		If $aResult <> -1 Then ; check if Monkey ate bad banana
 			If $aResult = 1 Then
-				Setlog("> " & $g_sBldgNames[$eBldgElixirS] & " Not found", $COLOR_WARNING)
+				SetLog("> " & $g_sBldgNames[$eBldgElixirS] & " Not found", $COLOR_WARNING)
 			Else
 				$aResult = _ObjGetValue($g_oBldgAttackInfo, $eBldgElixirS & "_LOCATION")
 				If @error Then
 					_ObjErrMsg("_ObjGetValue " & $g_sBldgNames[$eBldgElixirS] & " _LOCATION", @error) ; Log errors
-					Setlog("> " & $g_sBldgNames[$eBldgElixirS] & " location not in dictionary", $COLOR_WARNING)
+					SetLog("> " & $g_sBldgNames[$eBldgElixirS] & " location not in dictionary", $COLOR_WARNING)
 				Else
 					If IsArray($aResult) Then $g_aiCSVElixirStoragePos = $aResult
 				EndIf
 			EndIf
 		Else
-			Setlog("Monkey ate bad banana: " & "GetLocationBuilding " & $g_sBldgNames[$eBldgElixirS], $COLOR_ERROR)
+			SetLog("Monkey ate bad banana: " & "GetLocationBuilding " & $g_sBldgNames[$eBldgElixirS], $COLOR_ERROR)
 		EndIf
 	EndIf
 
@@ -627,9 +615,9 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 				$g_aiCSVDarkElixirStoragePos = $temp
 			EndIf
 		EndIf
-		Setlog("> Dark Elixir Storage located in " & Round(__timerdiff($hTimer) / 1000, 2) & " seconds", $COLOR_INFO)
+		SetLog("> Dark Elixir Storage located in " & Round(__timerdiff($hTimer) / 1000, 2) & " seconds", $COLOR_INFO)
 	Else
-		Setlog("> Dark Elixir Storage detection not need, skip", $COLOR_INFO)
+		SetLog("> Dark Elixir Storage detection not need, skip", $COLOR_INFO)
 	EndIf
 
 	; 06 - EAGLE ARTILLERY ------------------------------------------------------------------------
@@ -640,20 +628,20 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 		If $g_iSearchTH = "-" Or $g_iSearchTH > 10 Then ; TH level where eagle exists?
 			If _ObjSearch($g_oBldgAttackInfo, $eBldgEagle & "_LOCATION") = False Then ; get data if not already exist?
 				$aResult = GetLocationBuilding($eBldgEagle, $g_iSearchTH, False)
-				If $aResult = -1 Then Setlog("Monkey ate bad banana: " & "GetLocationBuilding " & $g_sBldgNames[$eBldgEagle], $COLOR_ERROR)
+				If $aResult = -1 Then SetLog("Monkey ate bad banana: " & "GetLocationBuilding " & $g_sBldgNames[$eBldgEagle], $COLOR_ERROR)
 			EndIf
 			$aResult = _ObjGetValue($g_oBldgAttackInfo, $eBldgEagle & "_LOCATION")
 			If @error Then
 				_ObjErrMsg("_ObjGetValue " & $g_sBldgNames[$eBldgEagle] & " _LOCATION", @error) ; Log errors
-				Setlog("> " & $g_sBldgNames[$eBldgEagle] & " location not in dictionary", $COLOR_WARNING)
+				SetLog("> " & $g_sBldgNames[$eBldgEagle] & " location not in dictionary", $COLOR_WARNING)
 			Else
 				If IsArray($aResult[0]) Then $g_aiCSVEagleArtilleryPos = $aResult[0]
 			EndIf
 		Else
-			Setlog("> TH Level to low for Eagle, skip detection", $COLOR_INFO)
+			SetLog("> TH Level to low for Eagle, skip detection", $COLOR_INFO)
 		EndIf
 	Else
-		SetDebuglog("> Eagle Artillery detection not need, skipping", $COLOR_DEBUG)
+		SetDebugLog("> Eagle Artillery detection not need, skipping", $COLOR_DEBUG)
 	EndIf
 
 	; 07 - Inferno ------------------------------------------------------------------------
@@ -664,20 +652,20 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 		If $g_iSearchTH = "-" Or $g_iSearchTH > 9 Then
 			If _ObjSearch($g_oBldgAttackInfo, $eBldgInferno & "_LOCATION") = False Then
 				$aResult = GetLocationBuilding($eBldgInferno, $g_iSearchTH, False)
-				If $aResult = -1 Then Setlog("Monkey ate bad banana: " & "GetLocationBuilding " & $g_sBldgNames[$eBldgInferno], $COLOR_ERROR)
+				If $aResult = -1 Then SetLog("Monkey ate bad banana: " & "GetLocationBuilding " & $g_sBldgNames[$eBldgInferno], $COLOR_ERROR)
 			EndIf
 			$aResult = _ObjGetValue($g_oBldgAttackInfo, $eBldgInferno & "_LOCATION")
 			If @error Then
 				_ObjErrMsg("_ObjGetValue " & $g_sBldgNames[$eBldgInferno] & " _LOCATION", @error) ; Log errors
-				Setlog("> " & $g_sBldgNames[$eBldgInferno] & " location not in dictionary", $COLOR_WARNING)
+				SetLog("> " & $g_sBldgNames[$eBldgInferno] & " location not in dictionary", $COLOR_WARNING)
 			Else
 				If IsArray($aResult) Then $g_aiCSVInfernoPos = $aResult
 			EndIf
 		Else
-			Setlog("> TH Level to low for Inferno, ignore location", $COLOR_INFO)
+			SetLog("> TH Level to low for Inferno, ignore location", $COLOR_INFO)
 		EndIf
 	Else
-		SetDebuglog("> Inferno detection not need, skipping", $COLOR_DEBUG)
+		SetDebugLog("> Inferno detection not need, skipping", $COLOR_DEBUG)
 	EndIf
 
 	; 08 - X-Bow ------------------------------------------------------------------------
@@ -688,20 +676,20 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 		If $g_iSearchTH = "-" Or $g_iSearchTH > 8 Then
 			If _ObjSearch($g_oBldgAttackInfo, $eBldgXBow & "_LOCATION") = False Then
 				$aResult = GetLocationBuilding($eBldgXBow, $g_iSearchTH, False)
-				If $aResult = -1 Then Setlog("Monkey ate bad banana: " & "GetLocationBuilding " & $g_sBldgNames[$eBldgXBow], $COLOR_ERROR)
+				If $aResult = -1 Then SetLog("Monkey ate bad banana: " & "GetLocationBuilding " & $g_sBldgNames[$eBldgXBow], $COLOR_ERROR)
 			EndIf
 			$aResult = _ObjGetValue($g_oBldgAttackInfo, $eBldgXBow & "_LOCATION")
 			If @error Then
 				_ObjErrMsg("_ObjGetValue " & $g_sBldgNames[$eBldgXBow] & " _LOCATION", @error) ; Log errors
-				Setlog("> " & $g_sBldgNames[$eBldgXBow] & " location not in dictionary", $COLOR_WARNING)
+				SetLog("> " & $g_sBldgNames[$eBldgXBow] & " location not in dictionary", $COLOR_WARNING)
 			Else
 				If IsArray($aResult) Then $g_aiCSVXBowPos = $aResult
 			EndIf
 		Else
-			Setlog("> TH Level to low for " & $g_sBldgNames[$eBldgXBow] & " , ignore location", $COLOR_INFO)
+			SetLog("> TH Level to low for " & $g_sBldgNames[$eBldgXBow] & " , ignore location", $COLOR_INFO)
 		EndIf
 	Else
-		SetDebuglog("> " & $g_sBldgNames[$eBldgXBow] & " detection not need, skipping", $COLOR_DEBUG)
+		SetDebugLog("> " & $g_sBldgNames[$eBldgXBow] & " detection not need, skipping", $COLOR_DEBUG)
 	EndIf
 
 
@@ -712,17 +700,17 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 	If $g_bCSVLocateWizTower = True Then
 		If _ObjSearch($g_oBldgAttackInfo, $eBldgWizTower & "_LOCATION") = False Then
 			$aResult = GetLocationBuilding($eBldgWizTower, $g_iSearchTH, False)
-			If $aResult = -1 Then Setlog("Monkey ate bad banana: " & "GetLocationBuilding " & $g_sBldgNames[$eBldgWizTower], $COLOR_ERROR)
+			If $aResult = -1 Then SetLog("Monkey ate bad banana: " & "GetLocationBuilding " & $g_sBldgNames[$eBldgWizTower], $COLOR_ERROR)
 		EndIf
 		$aResult = _ObjGetValue($g_oBldgAttackInfo, $eBldgWizTower & "_LOCATION")
 		If @error Then
 			_ObjErrMsg("_ObjGetValue " & $g_sBldgNames[$eBldgWizTower] & " _LOCATION", @error) ; Log errors
-			Setlog("> " & $g_sBldgNames[$eBldgWizTower] & " location not in dictionary", $COLOR_WARNING)
+			SetLog("> " & $g_sBldgNames[$eBldgWizTower] & " location not in dictionary", $COLOR_WARNING)
 		Else
 			If IsArray($aResult) Then $g_aiCSVWizTowerPos = $aResult
 		EndIf
 	Else
-		SetDebuglog("> " & $g_sBldgNames[$eBldgWizTower] & " detection not need, skipping", $COLOR_DEBUG)
+		SetDebugLog("> " & $g_sBldgNames[$eBldgWizTower] & " detection not need, skipping", $COLOR_DEBUG)
 	EndIf
 
 	; 10 - Mortar ------------------------------------------------------------------------
@@ -732,17 +720,17 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 	If $g_bCSVLocateMortar = True Then
 		If _ObjSearch($g_oBldgAttackInfo, $eBldgMortar & "_LOCATION") = False Then
 			$aResult = GetLocationBuilding($eBldgMortar, $g_iSearchTH, False)
-			If $aResult = -1 Then Setlog("Monkey ate bad banana: " & "GetLocationBuilding " & $g_sBldgNames[$eBldgMortar], $COLOR_ERROR)
+			If $aResult = -1 Then SetLog("Monkey ate bad banana: " & "GetLocationBuilding " & $g_sBldgNames[$eBldgMortar], $COLOR_ERROR)
 		EndIf
 		$aResult = _ObjGetValue($g_oBldgAttackInfo, $eBldgMortar & "_LOCATION")
 		If @error Then
 			_ObjErrMsg("_ObjGetValue " & $g_sBldgNames[$eBldgMortar] & " _LOCATION", @error) ; Log errors
-			Setlog("> " & $g_sBldgNames[$eBldgMortar] & " location not in dictionary", $COLOR_WARNING)
+			SetLog("> " & $g_sBldgNames[$eBldgMortar] & " location not in dictionary", $COLOR_WARNING)
 		Else
 			If IsArray($aResult) Then $g_aiCSVMortarPos = $aResult
 		EndIf
 	Else
-		SetDebuglog("> " & $g_sBldgNames[$eBldgMortar] & " detection not need, skipping", $COLOR_DEBUG)
+		SetDebugLog("> " & $g_sBldgNames[$eBldgMortar] & " detection not need, skipping", $COLOR_DEBUG)
 	EndIf
 
 	; 11 - Air Defense ------------------------------------------------------------------------
@@ -752,21 +740,21 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 	If $g_bCSVLocateAirDefense = True Then
 		If _ObjSearch($g_oBldgAttackInfo, $eBldgAirDefense & "_LOCATION") = False Then
 			$aResult = GetLocationBuilding($eBldgAirDefense, $g_iSearchTH, False)
-			If $aResult = -1 Then Setlog("Monkey ate bad banana: " & "GetLocationBuilding " & $g_sBldgNames[$eBldgAirDefense], $COLOR_ERROR)
+			If $aResult = -1 Then SetLog("Monkey ate bad banana: " & "GetLocationBuilding " & $g_sBldgNames[$eBldgAirDefense], $COLOR_ERROR)
 		EndIf
 		$aResult = _ObjGetValue($g_oBldgAttackInfo, $eBldgAirDefense & "_LOCATION")
 		If @error Then
 			_ObjErrMsg("_ObjGetValue " & $g_sBldgNames[$eBldgAirDefense] & " _LOCATION", @error) ; Log errors
-			Setlog("> " & $g_sBldgNames[$eBldgAirDefense] & " location not in dictionary", $COLOR_WARNING)
+			SetLog("> " & $g_sBldgNames[$eBldgAirDefense] & " location not in dictionary", $COLOR_WARNING)
 		Else
 			If IsArray($aResult) Then $g_aiCSVAirDefensePos = $aResult
 		EndIf
 	Else
-		SetDebuglog("> " & $g_sBldgNames[$eBldgAirDefense] & " detection not need, skipping", $COLOR_DEBUG)
+		SetDebugLog("> " & $g_sBldgNames[$eBldgAirDefense] & " detection not need, skipping", $COLOR_DEBUG)
 	EndIf
 
 	; Log total CSV prep time
-	Setlog(">> Total time: " & Round(__timerdiff($hTimerTOTAL) / 1000, 2) & " seconds", $COLOR_INFO)
+	SetLog(">> Total time: " & Round(__timerdiff($hTimerTOTAL) / 1000, 2) & " seconds", $COLOR_INFO)
 
 	; 12 - DEBUGIMAGE ------------------------------------------------------------------------
 	If $g_bDebugMakeIMGCSV Then AttackCSVDEBUGIMAGE() ;make IMG debug
@@ -782,10 +770,10 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 				$g_bTHSnipeUsedQueen = False
 				AttackTHParseCSV()
 			Else
-				If $g_bDebugSetlog Then Setlog("TH snipe before scripted attack skip, th internal village", $COLOR_DEBUG)
+				If $g_bDebugSetlog Then SetDebugLog("TH snipe before scripted attack skip, th internal village", $COLOR_DEBUG)
 			EndIf
 		Else
-			If $g_bDebugSetlog Then Setlog("TH snipe before scripted attack skip, no th found", $COLOR_DEBUG)
+			If $g_bDebugSetlog Then SetDebugLog("TH snipe before scripted attack skip, no th found", $COLOR_DEBUG)
 		EndIf
 	EndIf
 

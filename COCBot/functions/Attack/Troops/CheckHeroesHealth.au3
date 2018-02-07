@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........:
 ; Modified ......: MonkeyHunter(03-2017), Fliegerfaust (11-2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2017
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -17,26 +17,10 @@ Func CheckHeroesHealth()
 	If $g_bCheckKingPower Or $g_bCheckQueenPower Or $g_bCheckWardenPower Then
 		ForceCaptureRegion() ; ensure no screenshot caching kicks in
 
-		; Extended AttackBar - Demen - AiO++ Team
-		Local $TempKingSlot = $g_iKingSlot
-		Local $TempQueenSlot = $g_iQueenSlot
-		Local $TempWardenSlot = $g_iWardenSlot
-		If $g_iKingSlot >= 11 Or $g_iQueenSlot >= 11 Or $g_iWardenSlot >= 11 Then
-			If $g_bDraggedAttackBar = False Then DragAttackBar($g_iTotalAttackSlot, False) ; drag forward
-		ElseIf $g_iKingSlot >= 0 And $g_iQueenSlot >= 0 And $g_iWardenSlot >= 0 And ($g_iKingSlot < $g_iTotalAttackSlot - 10 Or $g_iQueenSlot < $g_iTotalAttackSlot - 10 Or $g_iWardenSlot < $g_iTotalAttackSlot - 10) Then
-			If $g_bDraggedAttackBar Then DragAttackBar($g_iTotalAttackSlot, True) ; return drag
-		EndIf
-		If $g_bDraggedAttackBar Then
-			$TempKingSlot -= $g_iTotalAttackSlot - 10
-			$TempQueenSlot -= $g_iTotalAttackSlot - 10
-			$TempWardenSlot -= $g_iTotalAttackSlot - 10
-		EndIf
-		; Extended AttackBar - Demen - AiO++ Team
-
 		Local $aDisplayTime[$eHeroCount] = [0, 0, 0] ; array to hold converted timerdiff into seconds
 
 		If $g_bDebugSetlog Then
-			Setlog("CheckHeroesHealth() for Queen started ")
+			SetDebugLog("CheckHeroesHealth() for Queen started ")
 			If _Sleep($DELAYRESPOND) Then Return ; improve pause button response
 		EndIf
 
@@ -46,7 +30,7 @@ Func CheckHeroesHealth()
 
 			If $g_bCheckQueenPower Then
 				Local $QueenPixelColor = _GetPixelColor($aQueenHealthCopy[0], $aQueenHealthCopy[1], $g_bCapturePixel)
-				If $g_bDebugSetlog Then Setlog(" Queen _GetPixelColor(" & $aQueenHealthCopy[0] & "," & $aQueenHealthCopy[1] & "): " & $QueenPixelColor, $COLOR_DEBUG)
+				If $g_bDebugSetlog Then SetDebugLog(" Queen _GetPixelColor(" & $aQueenHealthCopy[0] & "," & $aQueenHealthCopy[1] & "): " & $QueenPixelColor, $COLOR_DEBUG)
 				If Not _CheckPixel2($aQueenHealthCopy, $QueenPixelColor, "Red+Blue") Then
 					SetLog("Queen is getting weak, Activating Queen's ability", $COLOR_INFO)
 					SelectDropTroop($g_iQueenSlot)
@@ -69,7 +53,7 @@ Func CheckHeroesHealth()
 		EndIf
 
 		If $g_bDebugSetlog Then
-			Setlog("CheckHeroesHealth() for King started ")
+			SetDebugLog("CheckHeroesHealth() for King started ")
 			If _Sleep($DELAYRESPOND) Then Return ; improve pause button response
 		EndIf
 
@@ -79,7 +63,7 @@ Func CheckHeroesHealth()
 
 			If $g_bCheckKingPower Then
 				Local $KingPixelColor = _GetPixelColor($aKingHealthCopy[0], $aKingHealthCopy[1], $g_bCapturePixel)
-				If $g_bDebugSetlog Then Setlog(" King _GetPixelColor(" & $aKingHealthCopy[0] & "," & $aKingHealthCopy[1] & "): " & $KingPixelColor, $COLOR_DEBUG)
+				If $g_bDebugSetlog Then SetDebugLog(" King _GetPixelColor(" & $aKingHealthCopy[0] & "," & $aKingHealthCopy[1] & "): " & $KingPixelColor, $COLOR_DEBUG)
 				If Not _CheckPixel2($aKingHealthCopy, $KingPixelColor, "Red+Blue") Then
 					SetLog("King is getting weak, Activating King's ability", $COLOR_INFO)
 					SelectDropTroop($g_iKingSlot)
@@ -102,7 +86,7 @@ Func CheckHeroesHealth()
 		EndIf
 
 		If $g_bDebugSetlog Then
-			Setlog("CheckHeroesHealth() for Warden started ")
+			SetDebugLog("CheckHeroesHealth() for Warden started ")
 			If _Sleep($DELAYRESPOND) Then Return ; improve pause button response
 		EndIf
 
@@ -112,7 +96,7 @@ Func CheckHeroesHealth()
 
 			If $g_bCheckWardenPower Then
 				Local $WardenPixelColor = _GetPixelColor($aWardenHealthCopy[0], $aWardenHealthCopy[1], $g_bCapturePixel)
-				If $g_bDebugSetlog Then Setlog(" Grand Warden _GetPixelColor(" & $aWardenHealthCopy[0] & "," & $aWardenHealthCopy[1] & "): " & $WardenPixelColor, $COLOR_DEBUG)
+				If $g_bDebugSetlog Then SetDebugLog(" Grand Warden _GetPixelColor(" & $aWardenHealthCopy[0] & "," & $aWardenHealthCopy[1] & "): " & $WardenPixelColor, $COLOR_DEBUG)
 				If Not _CheckPixel2($aWardenHealthCopy, $WardenPixelColor, "Red+Blue") Then
 					SetLog("Grand Warden is getting weak, Activating Warden's ability", $COLOR_INFO)
 					SelectDropTroop($g_iWardenSlot)

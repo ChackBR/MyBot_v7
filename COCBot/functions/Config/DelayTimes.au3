@@ -4,7 +4,7 @@
 ; Syntax ........: $iDelayXXXXXXYYY  : XXXX = function name using the delay, YYY = delay value or position of delay in file
 ; Author ........: Sardo (08-2015)
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2017
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -252,6 +252,7 @@ Global Const $DELAYUPGRADEVALUE1 = 200
 Global Const $DELAYUPGRADEVALUE2 = 800
 Global Const $DELAYUPGRADEVALUE3 = 750
 Global Const $DELAYUPGRADEVALUE4 = 1000
+Global Const $DELAYUPGRADEVALUE5 = 1250
 
 ;DebugImageSave
 Global Const $DELAYDEBUGIMAGESAVE1 = 200
@@ -302,6 +303,9 @@ Global Const $g_iQuickTrainButtonRetryDelay = 1000
 ;IsTrainPage
 Global Const $DELAYISTRAINPAGE1 = 100
 Global Const $DELAYISTRAINPAGE2 = 1000
+
+;AutoUpgradeBuilding
+Global Const $DELAYAUTOUPGRADEBUILDING1 = 1000
 
 ;UpgradeBuilding
 Global Const $DELAYUPGRADEBUILDING1 = 200
@@ -375,17 +379,11 @@ Global Const $DELAYCLOSEOPEN3000 = 3000
 ;Smart Zap
 Global $DELAYSMARTZAP1 = 1000
 Global $DELAYSMARTZAP4 = 4000
+Global $DELAYSMARTZAP10 = 10000
 
 ;SwitchBetweenBases
 Global $DELAYSWITCHBASES1 = 1000
-Global $DELAYSWITCHBASES2 = 200
 
 ;ClockTower
 Global $DELAYCLOCKTOWER1 = 1000
 Global $DELAYCLOCKTOWER2 = 200
-
-;SuperXP / GoblinXP
-Global Const $DELAYDROPSuperXP1= 500
-Global Const $DELAYDROPSuperXP2 = 1000
-Global Const $DELAYDROPSuperXP3 = 250
-Global Const $DELAYPREPARESearchSuperXP = 500

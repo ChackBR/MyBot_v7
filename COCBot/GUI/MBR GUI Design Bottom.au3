@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: GKevinOD (2014)
 ; Modified ......: DkEd, Hervidero (2015), CodeSlinger69 (2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2017
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -24,15 +24,6 @@ Global $g_hLblResultDENow = 0, $g_hLblResultDEHourNow = 0, $g_hPicResultDENow = 
 Global $g_hLblResultTrophyNow = 0, $g_hPicResultTrophyNow = 0, $g_hLblResultRuntimeNow = 0, $g_hPicResultRuntimeNow = 0, $g_hLblResultBuilderNow = 0, $g_hPicResultBuilderNow = 0
 Global $g_hLblResultAttackedHourNow = 0, $g_hPicResultAttackedHourNow = 0, $g_hLblResultGemNow = 0, $g_hPicResultGemNow = 0, $g_hLblResultSkippedHourNow = 0, $g_hPicResultSkippedHourNow = 0
 Global $g_hLblVillageReportTemp = 0
-
-; Enable/Disable GUI while botting - AiO++ Team (#-01)
-Global $g_hBtnEnableGUI = 0, $g_hBtnDisableGUI = 0
-
-; Hero and Lab Status - AiO++ Team (#-14)
-Global $g_ahLblHero[3], $g_hLblLab, $g_hLblLabTime
-
-; Stop on Low battery - AiO++ Team
-Global $g_hLblBatteryAC = 0, $g_hLblBatteryStatus = 0
 
 Func CreateBottomPanel()
 	Local $sTxtTip = ""
@@ -79,8 +70,8 @@ Func CreateBottomPanel()
 			If $g_bBtnColor Then GUICtrlSetBkColor(-1, 0x22C4F5)
 			GUICtrlSetState(-1, $GUI_DISABLE)
 			GUICtrlSetOnEvent(-1, "btnEmbed")
-		$g_hChkBackgroundMode = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Bottom", "ChkBackgroundMode", "Background"), $x + 1, $y + 72, 75, 24)
-			GUICtrlSetFont(-1, 8.5)
+		$g_hChkBackgroundMode = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Bottom", "ChkBackgroundMode", "Background Mode"), $x + 1, $y + 72, 180, 24)
+			GUICtrlSetFont(-1, 7)
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Bottom", "ChkBackgroundMode_Info_01", "Check this to ENABLE the Background Mode of the Bot.") & @CRLF & _
 							   GetTranslatedFileIni("MBR GUI Design Bottom", "ChkBackgroundMode_Info_02", "With this you can also hide the Android Emulator window out of sight."))
 			If $g_bGuiRemote Then GUICtrlSetState(-1, $GUI_DISABLE)
@@ -92,36 +83,17 @@ Func CreateBottomPanel()
 			GUICtrlSetState(-1, $GUI_HIDE)
 		$g_hBtnAttackNowTS = GUICtrlCreateButton(GetTranslatedFileIni("MBR GUI Design Bottom", "BtnAttackNowTS", "TH Snipe!"), $x + 190, $y + 50, 60, -1)
 			GUICtrlSetState(-1, $GUI_HIDE)
-
-	    ; Stop on Low Battery - AiO++ Team
-	    $g_hLblBatteryAC = GUICtrlCreateLabel("", $x + 102, $y + 75, 50, 15)
-	    $g_hLblBatteryStatus = GUICtrlCreateLabel("", $x + 154, $y + 75, 30, 15)
-
-		$g_hLblDonate = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Bottom", "LblDonate", "Support the development"), $x + 224, $y + 85, 220, 24, $SS_RIGHT)
+		$g_hLblDonate = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Bottom", "LblDonate", "Support the development"), $x + 224, $y + 80, 220, 24, $SS_RIGHT)
 			GUICtrlSetCursor(-1, 0) ; https://www.autoitscript.com/autoit3/docs/functions/MouseGetCursor.htm
 			GUICtrlSetFont(-1, 8.5, $FW_BOLD) ;, $GUI_FONTITALIC + $GUI_FONTUNDER)
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Bottom", "LblDonate_Info_01", "Paypal Donate?"))
-
-		; Enable/Disable GUI While Botting - AiO++ Team
-		$g_hBtnEnableGUI = GUICtrlCreateButton(GetTranslatedFileIni("MBR GUI Design Bottom", "BtnEnableGUI", "Enable GUI"), $x + 90, $y + 72, 90, 22)
-		    _GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Bottom", "BtnEnableGUI_Info_01", "Enable GUI control while botting") & @CRLF & _
-			 				  GetTranslatedFileIni("MBR GUI Design Bottom", "BtnEnableGUI_Info_02", "Warning: USE THIS WITH CAUTION!") & @CRLF & _
-			 				  GetTranslatedFileIni("MBR GUI Design Bottom", "BtnEnableGUI_Info_03", "This function may create errors that require bot/PC restart") & @CRLF & _
-			 				  GetTranslatedFileIni("MBR GUI Design Bottom", "BtnEnableGUI_Info_04", "Better to stop the Bot completely if you need to change the setting"))
-		    GUICtrlSetOnEvent(-1, "btnEnableGUI")
-		    GUICtrlSetState(-1, $GUI_HIDE)
-	    $g_hBtnDisableGUI = GUICtrlCreateButton(GetTranslatedFileIni("MBR GUI Design Bottom", "BtnDisableGUI", "Disable GUI"), $x + 100, $y + 72, 80, 22)
-		    _GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Bottom", "BtnDisableGUI_Info_01", "Disable GUI control to continue botting"))
-		    GUICtrlSetOnEvent(-1, "btnDisableGUI")
-		    GUICtrlSetState(-1, $GUI_HIDE)
-
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	If $g_bAndroidAdbScreencap Then chkBackground() ; update background mode GUI
 
 	$g_hPicTwoArrowShield = _GUICtrlCreateIcon($g_sLibIconPath, $eIcn2Arrow, $x + 190, $y + 10, 48, 48)
 
-	$g_hLblVersion = GUICtrlCreateLabel($g_sBotVersion & "." & $g_sModversion, 202, $y + 60, 60, 17, $SS_CENTER)
+	$g_hLblVersion = GUICtrlCreateLabel($g_sBotVersion, 200, $y + 60, 60, 17, $SS_CENTER)
 		GUICtrlSetColor(-1, $COLOR_MEDGRAY)
 
 	$g_hPicArrowLeft = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnArrowLeft, $x + 249, $y + 30, 16, 16)
@@ -132,8 +104,7 @@ Func CreateBottomPanel()
 
 	;~ Village
 	Local $x = 295, $y = $y_bottom + 20
-	$g_hGrpVillage = GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Bottom", "GrpVillage", "Village") & ": " & $g_sProfileCurrentName, $x - 20, $y - 20, 180, 95) ; y height was 85
-		$y = $y_bottom + 17
+	$g_hGrpVillage = GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Bottom", "GrpVillage", "Village") & ": " & $g_sProfileCurrentName, $x - 20, $y - 20, 180, 85)
 		$g_hLblResultGoldNow = GUICtrlCreateLabel("", $x - 5, $y + 2, 60, 15, $SS_RIGHT)
 		$g_hLblResultGoldHourNow = GUICtrlCreateLabel("", $x, $y + 2, 60, 15, $SS_RIGHT)
 			GUICtrlSetState(-1, $GUI_HIDE)
@@ -152,23 +123,6 @@ Func CreateBottomPanel()
 		$g_hPicResultDENow = _GUICtrlCreateIcon ($g_sLibIconPath, $eIcnDark, $x + 60, $y + 40, 16, 16)
 			GUICtrlSetState(-1, $GUI_HIDE)
 		$g_hPicResultDETemp = _GUICtrlCreateIcon ($g_sLibIconPath, $eIcnDark, $x - 5, $y + 40, 16, 16)
-
-		; Hero and Lab Status - AiO++ Team (#-14)
-	    $g_ahLblHero[0] = GUICtrlCreateLabel("K", $x - 5, $y + 60, 12, 14, $SS_CENTER)
-	    GUICtrlSetFont(-1, 8.5)
-	    GUICtrlSetColor(-1, $COLOR_MEDGRAY)
-	    $g_ahLblHero[1] = GUICtrlCreateLabel("Q", $x + 25, $y + 60, 12, 14, $SS_CENTER)
- 	    GUICtrlSetFont(-1, 8.5)
- 	    GUICtrlSetColor(-1, $COLOR_MEDGRAY)
-	    $g_ahLblHero[2] = GUICtrlCreateLabel("W", $x + 55, $y + 60, 12, 14, $SS_CENTER)
-	    GUICtrlSetFont(-1, 8.5)
-	    GUICtrlSetColor(-1, $COLOR_MEDGRAY)
-	    $g_hLblLab = GUICtrlCreateLabel("Lab:", $x + 85, $y + 60, 22, 14, $SS_CENTER)
-	    GUICtrlSetFont(-1, 8.5)
-	    GUICtrlSetColor(-1, $COLOR_MEDGRAY)
-	    $g_hlblLabTime = GUICtrlCreateLabel("", $x + 108, $y + 60, 45, 14, $SS_LEFT)
-	    GUICtrlSetFont(-1, 8.5)
-	    GUICtrlSetColor(-1, $COLOR_MEDGRAY)
 
 		$x += 75
 		;trophy / runtime

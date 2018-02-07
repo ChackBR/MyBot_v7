@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: Full revamp of Notify by IceCube (2016-09)
 ; Modified ......: IceCube (2016-12) v1.5.1, CodeSLinger69 (2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2017
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -166,7 +166,7 @@ Func NotifylPushBulletMessage($pMessage = "")
 		$oHTTP.WaitForResponse
 		Local $Result = $oHTTP.ResponseText
 		If $oHTTP.Status <> 200 Then
-			Setlog("PushBullet status is: " & $oHTTP.Status, $COLOR_RED)
+			SetLog("PushBullet status is: " & $oHTTP.Status, $COLOR_RED)
 			Return
 		EndIf
 		Local $g_sAnotherDevice_iden = _StringBetween($Result, 'iden":"', '"')
@@ -196,7 +196,7 @@ Func NotifylPushBulletMessage($pMessage = "")
 		$oHTTP.WaitForResponse
 		Local $Result = $oHTTP.ResponseText
 		If $oHTTP.Status <> 200 Then
-			Setlog("Telegram status is: " & $oHTTP.Status, $COLOR_RED)
+			SetLog("Telegram status is: " & $oHTTP.Status, $COLOR_RED)
 			Return
 		EndIf
 		Local $chat_id = _StringBetween($Result, 'm":{"id":', ',"f')
@@ -293,7 +293,7 @@ Func NotifyDeleteOldPushesFromPushBullet()
 	$oHTTP.WaitForResponse
 	Local $Result = $oHTTP.ResponseText
 	If $oHTTP.Status <> 200 Then
-		Setlog("PushBullet status is: " & $oHTTP.Status, $COLOR_RED)
+		SetLog("PushBullet status is: " & $oHTTP.Status, $COLOR_RED)
 		Return
 	EndIf
 	Local $findstr = StringRegExp($Result, ',"created":')
@@ -342,7 +342,7 @@ Func NotifyPushFileToPushBullet($File, $Folder, $FileType, $body)
 			$oHTTP.WaitForResponse
 			Local $Result = $oHTTP.ResponseText
 			If $oHTTP.Status <> 200 Then
-				Setlog("PushBullet status is: " & $oHTTP.Status, $COLOR_RED)
+				SetLog("PushBullet status is: " & $oHTTP.Status, $COLOR_RED)
 				Return
 			EndIf
 			Local $upload_url = _StringBetween($Result, 'upload_url":"', '"')
@@ -454,13 +454,13 @@ Func NotifyGetLastMessageFromTelegram()
 	$oHTTP.WaitForResponse
 	Local $Result = $oHTTP.ResponseText
 	If $oHTTP.Status <> 200 Then
-		Setlog("Telegram status is: " & $oHTTP.Status, $COLOR_RED)
+		SetLog("Telegram status is: " & $oHTTP.Status, $COLOR_RED)
 		Return
 	EndIf
 
 	Local $chat_id = _StringBetween($Result, 'm":{"id":', ',"f')
 	$g_sTGChatID = _ArrayPop($chat_id)
-	If $g_bDebugSetlog Then Setlog("Telegram $g_sTGChatID:" & $g_sTGChatID)
+	If $g_bDebugSetlog Then SetDebugLog("Telegram $g_sTGChatID:" & $g_sTGChatID)
 
 	Local $uid = _StringBetween($Result, 'update_id":', '"message"') ;take update id
 	$g_sTGLast_UID = StringTrimRight(_ArrayPop($uid), 2)
@@ -469,19 +469,19 @@ Func NotifyGetLastMessageFromTelegram()
 	If $findstr2 = 1 Then
 		Local $rmessage = _StringBetween($Result, 'text":"', '"}}') ;take message
 		$TGLastMessage = _ArrayPop($rmessage) ;take last message
-		If $g_bDebugSetlog Then Setlog("Telegram $TGLastMessage:" & $TGLastMessage)
+		If $g_bDebugSetlog Then SetDebugLog("Telegram $TGLastMessage:" & $TGLastMessage)
 	EndIf
 
 	;If $g_bFirstStart then $g_iTGLastRemote = $g_sTGLast_UID
 
-	If $g_bDebugSetlog Then Setlog("Telegram $g_sTGLast_UID:" & $g_sTGLast_UID)
+	If $g_bDebugSetlog Then SetDebugLog("Telegram $g_sTGLast_UID:" & $g_sTGLast_UID)
 
 	$oHTTP.Open("Get", "https://api.telegram.org/bot" & $g_sNotifyTGToken & "/getupdates?offset=" & $g_sTGLast_UID, False)
 	$oHTTP.Send()
 	$oHTTP.WaitForResponse
 	Local $Result2 = $oHTTP.ResponseText
 	If $oHTTP.Status <> 200 Then
-		Setlog("Telegram status is: " & $oHTTP.Status, $COLOR_RED)
+		SetLog("Telegram status is: " & $oHTTP.Status, $COLOR_RED)
 		Return
 	EndIf
 	Local $findstr2 = StringRegExp(StringUpper($Result2), '"TEXT":"')
@@ -492,7 +492,7 @@ Func NotifyGetLastMessageFromTelegram()
 			Local $rmessage = _StringBetween($Result2, 'text":"', '","entities"') ;take message
 			$TGLastMessage = _ArrayPop($rmessage) ;take last message
 		EndIf
-		If $g_bDebugSetlog Then Setlog("Telegram - $TGLastMessage:" & $TGLastMessage)
+		If $g_bDebugSetlog Then SetDebugLog("Telegram - $TGLastMessage:" & $TGLastMessage)
 		Return $TGLastMessage
 	EndIf
 
@@ -525,7 +525,7 @@ Func NotifyGetLastMessageFromTelegramBtnStart()
 	Local $Result = Execute('$oHTTP.ResponseText')
 	Local $chat_id = _StringBetween($Result, 'm":{"id":', ',"f')
 	$g_sTGChatID = _ArrayPop($chat_id)
-	If $g_bDebugSetlog Then Setlog("Telegram $g_sTGChatID:" & $g_sTGChatID)
+	If $g_bDebugSetlog Then SetDebugLog("Telegram $g_sTGChatID:" & $g_sTGChatID)
 
 	Local $uid = _StringBetween($Result, 'update_id":', '"message"') ;take update id
 	$g_sTGLast_UID = StringTrimRight(_ArrayPop($uid), 2)
@@ -534,10 +534,10 @@ Func NotifyGetLastMessageFromTelegramBtnStart()
 	If $findstr2 = 1 Then
 		Local $rmessage = _StringBetween($Result, 'text":"', '"}}') ;take message
 		$TGLastMessage = _ArrayPop($rmessage) ;take last message
-		If $g_bDebugSetlog Then Setlog("Telegram $TGLastMessage:" & $TGLastMessage)
+		If $g_bDebugSetlog Then SetDebugLog("Telegram $TGLastMessage:" & $TGLastMessage)
 	EndIf
 
-	If $g_bDebugSetlog Then Setlog("Telegram $g_sTGLast_UID:" & $g_sTGLast_UID)
+	If $g_bDebugSetlog Then SetDebugLog("Telegram $g_sTGLast_UID:" & $g_sTGLast_UID)
 
 	$oHTTP.Open("Get", "https://api.telegram.org/bot" & $g_sNotifyTGToken & "/getupdates?offset=" & $g_sTGLast_UID, False)
 	Execute('$oHTTP.Send()')
@@ -545,7 +545,7 @@ Func NotifyGetLastMessageFromTelegramBtnStart()
 	Local $Result2 = Execute('$oHTTP.ResponseText')
 
 	If _IsInternet() < 1 Then
-	     Setlog("Telegram: Check your internet connection! No Connection..", $COLOR_ERROR)
+	     SetLog("Telegram: Check your internet connection! No Connection..", $COLOR_ERROR)
 		 Return
 	EndIf
 
@@ -557,7 +557,7 @@ Func NotifyGetLastMessageFromTelegramBtnStart()
 			Local $rmessage = _StringBetween($Result2, 'text":"', '","entities"') ;take message
 			$TGLastMessage = _ArrayPop($rmessage) ;take last message
 		EndIf
-		If $g_bDebugSetlog Then Setlog("Telegram - $TGLastMessage:" & $TGLastMessage)
+		If $g_bDebugSetlog Then SetDebugLog("Telegram - $TGLastMessage:" & $TGLastMessage)
 		Return $TGLastMessage
 	EndIf
 
@@ -602,12 +602,13 @@ Func NotifyActivateKeyboardOnTelegram($TGMsg)
 EndFunc   ;==>NotifyActivateKeyboardOnTelegram
 
 Func NotifyRemoteControlProcBtnStart()
+	Local $bWasSilent = SetDebugLogSilent()
 	If $g_bNotifyTGEnable And $g_sNotifyTGToken <> "" Then
 		$g_sTGLastMessage = NotifyGetLastMessageFromTelegramBtnStart()
 		Local $TGActionMSG = StringUpper(StringStripWS($g_sTGLastMessage, $STR_STRIPLEADING + $STR_STRIPTRAILING + $STR_STRIPSPACES)) ;upercase & remove space laset message
-		If $g_bDebugSetlog Then Setlog("Telegram | NotifyRemoteControlProcBtnStart $TGActionMSG : " & $TGActionMSG)
-		If $g_bDebugSetlog Then Setlog("Telegram | NotifyRemoteControlProcBtnStart $g_iTGLastRemote : " & $g_iTGLastRemote)
-		If $g_bDebugSetlog Then Setlog("Telegram | NotifyRemoteControlProcBtnStart $g_sTGLast_UID : " & $g_sTGLast_UID)
+		If $g_bDebugSetlog Then SetDebugLog("Telegram | NotifyRemoteControlProcBtnStart $TGActionMSG : " & $TGActionMSG)
+		If $g_bDebugSetlog Then SetDebugLog("Telegram | NotifyRemoteControlProcBtnStart $g_iTGLastRemote : " & $g_iTGLastRemote)
+		If $g_bDebugSetlog Then SetDebugLog("Telegram | NotifyRemoteControlProcBtnStart $g_sTGLast_UID : " & $g_sTGLast_UID)
 		If $g_iTGLastRemote <> $g_sTGLast_UID Then
 			$g_iTGLastRemote = $g_sTGLast_UID
 
@@ -618,6 +619,7 @@ Func NotifyRemoteControlProcBtnStart()
 				EndSwitch
 		EndIf
     EndIf
+	SetDebugLogSilent($bWasSilent)
 EndFunc   ;==>NotifyRemoteControlProcBtnStart
 ; Telegram ---------------------------------
 
@@ -650,7 +652,7 @@ Func NotifyRemoteControlProc()
 		$oHTTP.WaitForResponse
 		Local $Result = $oHTTP.ResponseText
 		If $oHTTP.Status <> 200 Then
-			Setlog("PushBullet status is: " & $oHTTP.Status, $COLOR_RED)
+			SetLog("PushBullet status is: " & $oHTTP.Status, $COLOR_RED)
 			Return
 		EndIf
 
@@ -685,11 +687,6 @@ Func NotifyRemoteControlProc()
 							$txtHelp &= '\n' & GetTranslatedFileIni("MBR Func_Notify", "Bot", -1) & " <" & $g_sNotifyOrigin & "> " & GetTranslatedFileIni("MBR Func_Notify", "LASTRAID", "LASTRAID") & GetTranslatedFileIni("MBR Func_Notify", "LASTRAID_Info_01", "- send the last raid loot screenshot of") & " <" & $g_sNotifyOrigin & ">"
 							$txtHelp &= '\n' & GetTranslatedFileIni("MBR Func_Notify", "Bot", -1) & " <" & $g_sNotifyOrigin & "> " & GetTranslatedFileIni("MBR Func_Notify", "LASTRAIDTXT", "LASTRAIDTXT") & " " & GetTranslatedFileIni("MBR Func_Notify", "LASTRAIDTXT_Info_01", "- send the last raid loot values of") & " <" & $g_sNotifyOrigin & ">"
 							$txtHelp &= '\n' & GetTranslatedFileIni("MBR Func_Notify", "Bot", -1) & " <" & $g_sNotifyOrigin & "> " & GetTranslatedFileIni("MBR Func_Notify", "SCREENSHOT", "SCREENSHOT") & " " & GetTranslatedFileIni("MBR Func_Notify", "SCREENSHOT_Info_01", "- send a screenshot of") & " <" & $g_sNotifyOrigin & ">"
-
-							; ChatBot - AiO++ Team
-							$txtHelp &= '\n' & GetTranslatedFileIni("MBR Func_Notify", "Bot", -1) & " <" & $g_sNotifyOrigin & "> " & GetTranslatedFileIni("MBR Func_Notify", "SENDCHAT", "SENDCHAT <TEXT>") & " " & GetTranslatedFileIni("MBR Func_Notify", "SENDCHAT_Info_01", "- send TEXT in clan chat of <Village Name>") & " <" & $g_sNotifyOrigin & ">"
-							$txtHelp &= '\n' & GetTranslatedFileIni("MBR Func_Notify", "Bot", -1) & " <" & $g_sNotifyOrigin & "> " & GetTranslatedFileIni("MBR Func_Notify", "GETCHATS", "GETCHATS <STOP|NOW|INTERVAL>") & " " & GetTranslatedFileIni("MBR Func_Notify", "GETCHATS_Info_01", "- select any of this three option to do") & " <" & $g_sNotifyOrigin & ">"
-
 							$txtHelp &= '\n' & GetTranslatedFileIni("MBR Func_Notify", "Bot", -1) & " <" & $g_sNotifyOrigin & "> " & GetTranslatedFileIni("MBR Func_Notify", "SCREENSHOTHD", "SCREENSHOTHD") & " " & GetTranslatedFileIni("MBR Func_Notify", "SCREENSHOTHD_Info_01", "- send a screenshot in high resolution of") & " <" & $g_sNotifyOrigin & ">"
 							$txtHelp &= '\n' & GetTranslatedFileIni("MBR Func_Notify", "Bot", -1) & " <" & $g_sNotifyOrigin & "> " & GetTranslatedFileIni("MBR Func_Notify", "BUILDER", "BUILDER") & " " & GetTranslatedFileIni("MBR Func_Notify", "BUILDER_Info_01", "- send a screenshot of builder status of") & " <" & $g_sNotifyOrigin & ">"
 							$txtHelp &= '\n' & GetTranslatedFileIni("MBR Func_Notify", "Bot", -1) & " <" & $g_sNotifyOrigin & "> " & GetTranslatedFileIni("MBR Func_Notify", "SHIELD", "SHIELD") & " " & GetTranslatedFileIni("MBR Func_Notify", "SHIELD_Info_01", "- send a screenshot of shield status of") & " <" & $g_sNotifyOrigin & ">"
@@ -848,42 +845,6 @@ Func NotifyRemoteControlProc()
 								NotifyPushToPushBullet($g_sNotifyOrigin & " | " & GetTranslatedFileIni("MBR Func_Notify", "Command-Not-Recognized", "Command not recognized") & "\n" & GetTranslatedFileIni("MBR Func_Notify", "Request-For-Help_Info_01", "Please push BOT HELP to obtain a complete command list."))
 								NotifyDeleteMessageFromPushBullet($iden[$x])
 							EndIf
-
-							; ChatBot - AiO++ Team
-							If StringInStr($body[$x], StringUpper($g_sNotifyOrigin) & " SENDCHAT ") Then
-							Local $chatMessage = StringRight($body[$x], StringLen($body[$x]) - StringLen("BOT " & StringUpper($g_sNotifyOrigin) & " SENDCHAT "))
-								$chatMessage = StringLower($chatMessage)
-								ChatbotPushbulletQueueChat($chatMessage)
-								NotifyPushToPushBullet($g_sNotifyOrigin & " | " & "Chat queued, will send on next idle")
-								NotifyDeleteMessageFromPushBullet($iden[$x])
-							ElseIf StringInStr($body[$x], StringUpper($g_sNotifyOrigin) & " GETCHATS ") Then
-							Local $Interval = StringRight($body[$x], StringLen($body[$x]) - StringLen("BOT " & StringUpper($g_sNotifyOrigin) & " GETCHATS "))
-								If $Interval = "STOP" Then
-									ChatbotPushbulletStopChatRead()
-									NotifyPushToPushBullet($g_sNotifyOrigin & " | " & "Stopping interval sending")
-								ElseIf $Interval = "NOW" Then
-									ChatbotPushbulletQueueChatRead()
-									NotifyPushToPushBullet($g_sNotifyOrigin & " | " & "Command queued, will send clan chat image on next idle")
-								Else
-									If Number($Interval) <> 0 Then
-										ChatbotPushbulletIntervalChatRead(Number($Interval))
-										NotifyPushToPushBullet($g_sNotifyOrigin & " | " & "Command queued, will send clan chat image on interval")
-									Else
-										SetLog("Chatbot: incorrect command syntax, Example: BOT <VillageName> GETCHATS NOW|STOP|INTERVAL", $COLOR_ERROR)
-										NotifyPushToPushBullet($g_sNotifyOrigin & " | " & "Command not recognized" & "\n" & "Example: BOT <VillageName> GETCHATS NOW|STOP|INTERVAL")
-									EndIf
-								EndIf
-									NotifyDeleteMessageFromPushBullet($iden[$x])
-							Else
-								Local $lenstr = StringLen(GetTranslatedFileIni("MBR Func_Notify", "Bot", -1) & " " & StringUpper($g_sNotifyOrigin) & " " & "")
-								Local $teststr = StringLeft($body[$x], $lenstr)
-								If $teststr = (GetTranslatedFileIni("MBR Func_Notify", "Bot", -1) & " " & StringUpper($g_sNotifyOrigin) & " " & "") Then
-								SetLog("Pushbullet: received command syntax wrong, command ignored.", $COLOR_ERROR)
-									NotifyPushToPushBullet($g_sNotifyOrigin & " | " & "Command not recognized" & "\n" & "Please push BOT HELP to obtain a complete command list.")
-									NotifyDeleteMessageFromPushBullet($iden[$x])
-								EndIf
-							EndIf
-
 					EndSwitch
 					$body[$x] = ""
 					$iden[$x] = ""
@@ -900,9 +861,9 @@ Func NotifyRemoteControlProc()
 	If $g_bNotifyTGEnable And $g_sNotifyTGToken <> "" And $g_bRunState Then
 		$g_sTGLastMessage = NotifyGetLastMessageFromTelegram()
 		Local $TGActionMSG = StringUpper(StringStripWS($g_sTGLastMessage, $STR_STRIPLEADING + $STR_STRIPTRAILING + $STR_STRIPSPACES)) ;upercase & remove space laset message
-		If $g_bDebugSetlog Then Setlog("Telegram | NotifyRemoteControlProc $TGActionMSG : " & $TGActionMSG)
-		If $g_bDebugSetlog Then Setlog("Telegram | NotifyRemoteControlProc $g_iTGLastRemote : " & $g_iTGLastRemote)
-		If $g_bDebugSetlog Then Setlog("Telegram | NotifyRemoteControlProc $g_sTGLast_UID : " & $g_sTGLast_UID)
+		If $g_bDebugSetlog Then SetDebugLog("Telegram | NotifyRemoteControlProc $TGActionMSG : " & $TGActionMSG)
+		If $g_bDebugSetlog Then SetDebugLog("Telegram | NotifyRemoteControlProc $g_iTGLastRemote : " & $g_iTGLastRemote)
+		If $g_bDebugSetlog Then SetDebugLog("Telegram | NotifyRemoteControlProc $g_sTGLast_UID : " & $g_sTGLast_UID)
 		If ($TGActionMSG = "/START" Or $TGActionMSG = "KEYB") And $g_iTGLastRemote <> $g_sTGLast_UID Then
 			$g_iTGLastRemote = $g_sTGLast_UID
 			NotifyActivateKeyboardOnTelegram($g_sBotTitle & " | Notify " & $g_sNotifyVersion)
@@ -934,10 +895,6 @@ Func NotifyRemoteControlProc()
 						$txtHelp &= "\n" & GetTranslatedFileIni("MBR Func_Notify", "SHUTDOWN", "SHUTDOWN") & " " & GetTranslatedFileIni("MBR Func_Notify", "SHUTDOWN_Info_01", "- Shut down host PC")
 						$txtHelp &= "\n" & GetTranslatedFileIni("MBR Func_Notify", "STANDBY", "STANDBY") & " " & GetTranslatedFileIni("MBR Func_Notify", "STANDBY_Info_01", "- Standby host PC")
 
-						; ChatBot - AiO++ Team
-						$txtHelp &= "\n" & GetTranslatedFileIni("MBR Func_Notify", "GETCHATS", "GETCHATS <INTERVAL|NOW|STOP>") & " " & GetTranslatedFileIni("MBR Func_Notify", "GETCHATS_Info_01", "- to get the latest clan chat as an image")
-						$txtHelp &= "\n" & GetTranslatedFileIni("MBR Func_Notify", "SENDCHAT", "SENDCHAT <chat message>") & " " & GetTranslatedFileIni("MBR Func_Notify", "SENDCHAT_Info_01", "- to send a chat to your clan")
-
 						NotifyPushToTelegram($g_sNotifyOrigin & " | " & GetTranslatedFileIni("MBR Func_Notify", "Request-For-Help_Info_02", "Request for Help") & "\n" & $txtHelp)
 						SetLog("Notify Telegram: Your request has been received from " & $g_sNotifyOrigin & ". Help has been sent", $COLOR_GREEN)
 					Case GetTranslatedFileIni("MBR Func_Notify", "RESTART", "RESTART"), '\UD83D\UDD01 ' & GetTranslatedFileIni("MBR Func_Notify", "RESTART", "RESTART")
@@ -957,11 +914,6 @@ Func NotifyRemoteControlProc()
 							btnStop()
 						Else
 							NotifyPushToTelegram($g_sNotifyOrigin & " | " & GetTranslatedFileIni("MBR Func_Notify", "Request-Stop_Info_02", "Request to Stop...") & "\n" & GetTranslatedFileIni("MBR Func_Notify", "Request-Stop_Info_04", "Your bot is currently stopped, no action was taken"))
-						EndIf
-					Case GetTranslatedFileIni("MBR Func_Notify", "START", "START"), '\u25b6 ' & GetTranslatedFileIni("MBR Func_Notify", "START", "START")
-						If $g_bRunState = True Then
-							SetLog("Notify Telegram" & ": " & "Your bot is currently started, no action was taken", $COLOR_SUCCESS)
-							NotifyPushToTelegram($g_sNotifyOrigin & " | " & GetTranslatedFileIni("MBR Func_Notify", "Request-Start_Info_01", "Request to Start...") & "\n" & GetTranslatedFileIni("MBR Func_Notify", "Request-Start_Info_03", "Your bot is currently started, no action was taken"))
 						EndIf
 					Case GetTranslatedFileIni("MBR Func_Notify", "PAUSE", "PAUSE"), '\UD83D\UDD00 ' & GetTranslatedFileIni("MBR Func_Notify", "PAUSE", "PAUSE")
 						If $g_bBotPaused = False And $g_bRunState = True Then
@@ -1014,12 +966,6 @@ Func NotifyRemoteControlProc()
 						$txtStats &= $g_iNbrOfWallsUppedGold & "/ [" & GetTranslatedFileIni("MBR Func_Notify", "Stats-E_Info_01", "E") & "]: " & $g_iNbrOfWallsUppedElixir & "\n\n" & GetTranslatedFileIni("MBR Func_Notify", "Attack_Info_01", "Attacked") & ": "
 						$txtStats &= $g_aiAttackedCount & "\n" & GetTranslatedFileIni("MBR Func_Notify", "Skip_Info_02", "Skipped") & ": " & $g_iSkippedVillageCount
 						$txtStats &= "\n" & GetTranslatedFileIni("MBR Func_Notify", "LOG_Info_07", "Run Time") & ": " & GUICtrlRead($g_hLblResultRuntime)
-						$txtStats &= "\n\n" & "Stats Smart zap:"
-						$txtStats &= "\n" & " "
-						$txtStats &= "\n" & "[D]: " & GUICtrlRead($g_hLblSmartZap) & "[L]: " & GUICtrlRead($g_hLblSmartLightningUsed) & "[Q]: " & GUICtrlRead($g_hLblSmartEarthQuakeUsed)
-						$txtStats &= "\n\n" & "Stats Top Loot:"
-						$txtStats &= "\n" & " "
-                        $txtStats &= "\n" & "[G]: " & GUICtrlRead($g_ahLblStatsTop[$eLootGold]) & "[E]: " & GUICtrlRead($g_ahLblStatsTop[$eLootElixir]) & "[D]: " & GUICtrlRead($g_ahLblStatsTop[$eLootDarkElixir]) & "[T]: " & GUICtrlRead($g_ahLblStatsTop[$eLootTrophy])
 						NotifyPushToTelegram($g_sNotifyOrigin & $txtStats)
 					Case GetTranslatedFileIni("MBR Func_Notify", "LOG", "LOG"), '\UD83D\UDCCB ' & GetTranslatedFileIni("MBR Func_Notify", "LOG", "LOG")
 						SetLog("Notify Telegram: Your request has been received from " & $g_sNotifyOrigin & ". Log is now sent", $COLOR_GREEN)
@@ -1099,33 +1045,6 @@ Func NotifyRemoteControlProc()
 						SetLog("Notify Telegram: Your request has been received from " & $g_sNotifyOrigin & ". Standby PC", $COLOR_GREEN)
 						NotifyPushToTelegram(GetTranslatedFileIni("MBR Func_Notify", "STANDBY_Info_02", "PC Standby sequence initiated"))
 						Shutdown(32)
-
-					; Chatbot - AiO++ Team (#-23)
-					Case Else
-						If StringInStr($TGActionMSG, "SENDCHAT") Then
-						local $chatMessage = StringRight($TGActionMSG, StringLen($TGActionMSG) - StringLen("SENDCHAT "))
-							$chatMessage = StringLower($chatMessage)
-							ChatbotPushbulletQueueChat($chatMessage)
-							NotifyPushToTelegram($g_sNotifyOrigin & " | " & "Chat queued, will send on next idle")
-						ElseIf StringInStr($TGActionMSG, "GETCHATS") Then
-							Local $Interval = StringRight($TGActionMSG, StringLen($TGActionMSG) - StringLen("GETCHATS "))
-							If $Interval = "STOP" Then
-								ChatbotPushbulletStopChatRead()
-								NotifyPushToTelegram($g_sNotifyOrigin & " | " & "Stopping interval sending")
-							ElseIf $Interval = "NOW" Then
-								ChatbotPushbulletQueueChatRead()
-								NotifyPushToTelegram($g_sNotifyOrigin & " | " & "Command queued, will send clan chat image on next idle")
-							Else
-								If Number($Interval) <> 0 Then
-									ChatbotPushbulletIntervalChatRead(Number($Interval))
-									NotifyPushToTelegram($g_sNotifyOrigin & " | " & "Command queued, will send clan chat image on interval")
-								Else
-									SetLog("Telegram: received command syntax wrong, command ignored.", $COLOR_ERROR)
-									NotifyPushToTelegram($g_sNotifyOrigin & " | " & "Command not recognized" & "\n" & "Please push BOT HELP to obtain a complete command list.")
-								EndIf
-							EndIf
-						EndIf
-
 				EndSwitch
 			EndIf
 		EndIf
@@ -1305,12 +1224,12 @@ Func NotifyPushMessageToBoth($Message, $Source = "")
 			Local $Screnshotfilename = "Screenshot_" & $Date & "_" & $Time & ".jpg"
 			_GDIPlus_ImageSaveToFile($hBitmap_Scaled, $g_sProfileTempPath & $Screnshotfilename)
 			_GDIPlus_ImageDispose($hBitmap_Scaled)
-			If $g_bPBRequestScreenshot Or $g_bTGRequestScreenshot Then
-				If $g_bPBRequestScreenshot And $g_bNotifyPBEnable Then
+			If $g_bPBRequestScreenshot = True Or $g_bTGRequestScreenshot = True Then
+				If $g_bPBRequestScreenshot = True And $g_bNotifyPBEnable = True Then
 					NotifyPushFileToPushBullet($Screnshotfilename, "Temp", "image/jpeg", $g_sNotifyOrigin & " | " & GetTranslatedFileIni("MBR Func_Notify", "SCREENSHOT_Info_04", "Screenshot of your village") & " " & "\n" & $Screnshotfilename)
 					SetLog("Notify PushBullet: Screenshot sent!", $COLOR_GREEN)
 				EndIf
-				If $g_bTGRequestScreenshot And $g_bNotifyTGEnable Then
+				If $g_bTGRequestScreenshot = True And $g_bNotifyTGEnable = True Then
 					NotifyPushFileToTelegram($Screnshotfilename, "Temp", "image/jpeg", $g_sNotifyOrigin & " | " & GetTranslatedFileIni("MBR Func_Notify", "SCREENSHOT_Info_04", "Screenshot of your village") & " " & "\n" & $Screnshotfilename)
 					SetLog("Notify Telegram: Screenshot sent!", $COLOR_GREEN)
 				EndIf
@@ -1335,12 +1254,12 @@ Func NotifyPushMessageToBoth($Message, $Source = "")
 			_CaptureRegion(224, 74, 446, 262)
 			Local $Screnshotfilename = "Screenshot_" & $Date & "_" & $Time & ".jpg"
 			_GDIPlus_ImageSaveToFile($g_hBitmap, $g_sProfileTempPath & $Screnshotfilename)
-			If $g_bPBRequestBuilderInfo Or $g_bTGRequestBuilderInfo Then
-				If $g_bPBRequestBuilderInfo And $g_bNotifyPBEnable Then
+			If $g_bPBRequestBuilderInfo = True Or $g_bTGRequestBuilderInfo = True Then
+				If $g_bPBRequestBuilderInfo = True And $g_bNotifyPBEnable = True Then
 					NotifyPushFileToPushBullet($Screnshotfilename, "Temp", "image/jpeg", $g_sNotifyOrigin & " | " & "Builder Information" & "\n" & $Screnshotfilename)
 					SetLog("Notify PushBullet: Builder Information sent!", $COLOR_GREEN)
 				EndIf
-				If $g_bTGRequestBuilderInfo And $g_bNotifyTGEnable Then
+				If $g_bTGRequestBuilderInfo = True And $g_bNotifyTGEnable = True Then
 					NotifyPushFileToTelegram($Screnshotfilename, "Temp", "image/jpeg", $g_sNotifyOrigin & " | " & "Builder Information" & "\n" & $Screnshotfilename)
 					SetLog("Notify Telegram: Builder Information sent!", $COLOR_GREEN)
 				EndIf
@@ -1423,7 +1342,7 @@ Func NotifyPushFileToBoth($File, $Folder, $FileType, $body)
 			$oHTTP.WaitForResponse
 			Local $Result = $oHTTP.ResponseText
 			If $oHTTP.Status <> 200 Then
-				Setlog("PushBullet status is: " & $oHTTP.Status, $COLOR_RED)
+				SetLog("PushBullet status is: " & $oHTTP.Status, $COLOR_RED)
 				Return
 			EndIf
 			Local $upload_url = _StringBetween($Result, 'upload_url":"', '"')

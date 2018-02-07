@@ -3,7 +3,7 @@
 ; Description ...: This file contains the initialization and main loop sequences f0r the MBR Bot
 ; Author ........:  (2014)
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2017
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -107,8 +107,8 @@ Global $g_hFrmBotEmbeddedMouse = 0
 #include "COCBot\functions\Other\UpdateStats.Mini.au3"
 #include "COCBot\functions\Other\_NumberFormat.au3"
 
-; AiO++ Team
-#include "COCBot\Team__AiO__MOD++\functions\Config\readConfig.au3"
+; MOD
+#include "COCBot\MOD\functions\Config\readConfig.au3"
 
 Global Enum $eBotUpdateStats = $eBotClose + 1
 
@@ -885,14 +885,6 @@ EndFunc   ;==>btnPause
 Func btnResume()
 	TogglePause()
 EndFunc   ;==>btnResume
-
-; Enable/Disable GUI while botting - AiO++ Team
-Func btnEnableGUI()
-EndFunc   ;==>btnEnableGUI
-
-Func btnDisableGUI()
-EndFunc   ;==>btnDisableGUI
-; Enable/Disable GUI while botting - AiO++ Team
 
 Func btnVillageStat($source = "")
 

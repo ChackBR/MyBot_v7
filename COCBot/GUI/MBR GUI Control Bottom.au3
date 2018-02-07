@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: GkevinOD (2014)
 ; Modified ......: Hervidero (2015), KnowJack(July 2015), CodeSlinger69 (2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2017
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -30,7 +30,7 @@ Func Initiate()
 			SetLogCentered(" Search Mode Start ", Default, $COLOR_SUCCESS)
 		EndIf
 		SetLogCentered("  Current Profile: " & $g_sProfileCurrentName & " ", "-", $COLOR_INFO)
-		If $g_bDebugSetlog Or $g_bDebugOcr Or $g_bDebugRedArea Or $g_bDebugImageSave Or $g_bDebugBuildingPos Or $g_bDebugOCRdonate Or $g_bDebugAttackCSV Or $g_bDebugAndroid Then ; $g_bDevMode Or 
+		If $g_bDebugSetlog Or $g_bDebugOcr Or $g_bDebugRedArea Or $g_bDevMode Or $g_bDebugImageSave Or $g_bDebugBuildingPos Or $g_bDebugOCRdonate Or $g_bDebugAttackCSV Or $g_bDebugAndroid Then
 			SetLogCentered(" Warning Debug Mode Enabled! ", "-", $COLOR_ERROR)
 			SetLog("      SetLog : " & $g_bDebugSetlog, $COLOR_ERROR, "Lucida Console", 8)
 			SetLog("     Android : " & $g_bDebugAndroid, $COLOR_ERROR, "Lucida Console", 8)
@@ -44,8 +44,6 @@ Func Initiate()
 		EndIf
 
 		$g_bFirstStart = True
-
-		; SwitchAcc - Demen - AiO++ Team
 		$g_bInitiateSwitchAcc = True
 
 		If $g_bNotifyDeleteAllPushesOnStart Then _DeletePush()
@@ -197,48 +195,11 @@ EndFunc   ;==>btnSearchMode
 
 Func btnPause($bRunNow = True)
 	TogglePause()
-	; Manually Enable/Disable GUI While Botting - Demen - AiO++ Team
-	GUICtrlSetState($g_hBtnDisableGUI, $GUI_HIDE)
-	GUICtrlSetState($g_hBtnEnableGUI, $GUI_SHOW)
-	; end - Demen - AiO++ Team
-
-	; Stop on Low Battery - AiO++ Team
-	GUICtrlSetState($g_hLblBatteryAC, $GUI_HIDE)
-	GUICtrlSetState($g_hLblBatteryStatus, $GUI_HIDE)
 EndFunc   ;==>btnPause
 
 Func btnResume()
 	TogglePause()
-	; Manually Enable/Disable GUI While Botting - Demen - AiO++ Team
-	GUICtrlSetState($g_hBtnDisableGUI, $GUI_HIDE)
-	GUICtrlSetState($g_hBtnEnableGUI, $GUI_HIDE)
-	; Stop on Low Battery - AiO++ Team
-	GUICtrlSetState($g_hLblBatteryAC, $GUI_SHOW)
-	GUICtrlSetState($g_hLblBatteryStatus, $GUI_SHOW)
 EndFunc   ;==>btnResume
-
-; Enable/Disable GUI While Botting - AiO++ Team
-Func btnEnableGUI()
-	GUICtrlSetState($g_hBtnEnableGUI, $GUI_HIDE)
-	GUICtrlSetState($g_hBtnDisableGUI, $GUI_SHOW)
-	GUICtrlSetState($g_hBtnResume, $GUI_DISABLE)
-	AndroidShieldForceDown(True)
-	EnableGuiControls() ; enable emulator menu controls
-	SetLog("Enabled bot controls as you wished", $COLOR_SUCCESS)
-EndFunc   ;==>btnEnableGUI
-
-Func btnDisableGUI()
-	GUICtrlSetState($g_hBtnDisableGUI, $GUI_HIDE)
-	GUICtrlSetState($g_hBtnEnableGUI, $GUI_SHOW)
-	GUICtrlSetState($g_hBtnResume, $GUI_ENABLE)
-	SetLog("Save config and disable bot controls manually", $COLOR_SUCCESS)
-	AndroidShieldForceDown(False)
-	SaveConfig()
-	readConfig()
-	applyConfig()
-	DisableGuiControls()
-EndFunc   ;==>btnDisableGUI
-; Enable/Disable GUI While Botting - AiO++ Team
 
 Func btnAttackNowDB()
 	If $g_bRunState Then
@@ -348,7 +309,7 @@ Func GetFont()
 	For $i = 0 To UBound($DefaultFont) - 1
 		$sText &= " $DefaultFont[" & $i & "]= " & $DefaultFont[$i] & ", "
 	Next
-	Setlog($sText, $COLOR_DEBUG)
+	SetLog($sText, $COLOR_DEBUG)
 EndFunc   ;==>GetFont
 
 Func btnVillageStat($source = "")

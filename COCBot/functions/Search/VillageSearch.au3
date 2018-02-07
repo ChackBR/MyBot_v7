@@ -7,7 +7,7 @@
 ; Author ........: Code Monkey #6
 ; Modified ......: kaganus (Jun/Aug 2015), Sardo 2015-07, KnowJack(Aug 2015) , The Master (2015), MonkeyHunter (02/08-2016),
 ;				   CodeSlinger69 (2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2017
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -85,12 +85,6 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 	While 1 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;### Main Search Loop ###;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 		; cleanup some vars used by imgloc just in case. usend in TH and DeadBase ( imgloc functions)
-
-		;--- show buttons attacknow ----
-		If $g_bBtnAttackNowPressed Then
-			SetLogCentered(" Attack Now Pressed! ", "~", $COLOR_SUCCESS)
-		EndIf
-
 		ResetTHsearch()
 
 		_ObjDeleteKey($g_oBldgAttackInfo, "") ; Remove all keys from building dictionary
@@ -254,87 +248,8 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 			SetLog($GetResourcesTXT, $COLOR_SUCCESS, "Lucida Console", 7.5)
 			SetLog("      " & "Dead Base Found!", $COLOR_SUCCESS, "Lucida Console", 7.5)
 			$logwrited = True
-
-			; Collector Outside - AiO++ Team
-			Local $g_bFlagSearchAnotherBase = False
-			If Not $g_bFlagSearchAnotherBase Then
-				If $g_bDBMeetCollOutside Then ; check is that collector  near outside
-					$g_bScanMineAndElixir = False
-
-					If AreCollectorsOutside($g_iTxtDBMinCollOutsidePercent) Then
-						SetLog("Collectors are outside, match found !", $COLOR_GREEN, "Lucida Console", 7.5)
-						$g_bFlagSearchAnotherBase = False
-					Else
-						$g_bFlagSearchAnotherBase = True
-						If $g_bSkipCollectorCheck = 1 Then
-							If Number($g_iTxtSkipCollectorGold) <> 0 And Number($g_iTxtSkipCollectorElixir) <> 0 And Number($g_iTxtSkipCollectorDark) <> 0 Then
-								If Number($g_iSearchGold) >= Number($g_iTxtSkipCollectorGold) And Number($g_iSearchElixir) >= Number($g_iTxtSkipCollectorElixir) And Number($g_iSearchDark) >= Number($g_iTxtSkipCollectorDark) Then
-									SetLog("Target Resource(G,E,D) over for skip collectors check, Prepare for attack...", $COLOR_GREEN, "Lucida Console", 7.5)
-									$g_bFlagSearchAnotherBase = False
-								EndIf
-							ElseIf Number($g_iTxtSkipCollectorGold) <> 0 And Number($g_iTxtSkipCollectorElixir) <> 0 Then
-								If Number($g_iSearchGold) >= Number($g_iTxtSkipCollectorGold) And Number($g_iSearchElixir) >= Number($g_iTxtSkipCollectorElixir) Then
-									SetLog("Target Resource(G,E) over for skip collectors check, Prepare for attack...", $COLOR_GREEN, "Lucida Console", 7.5)
-									$g_bFlagSearchAnotherBase = False
-								EndIf
-							ElseIf Number($g_iTxtSkipCollectorGold) <> 0 And Number($g_iTxtSkipCollectorDark) <> 0 Then
-								If Number($g_iSearchGold) >= Number($g_iTxtSkipCollectorGold) And Number($g_iSearchDark) >= Number($g_iTxtSkipCollectorDark) Then
-									SetLog("Target Resource(G,D) over for skip collectors check, Prepare for attack...", $COLOR_GREEN, "Lucida Console", 7.5)
-									$g_bFlagSearchAnotherBase = False
-								EndIf
-							ElseIf Number($g_iTxtSkipCollectorElixir) <> 0 And Number($g_iTxtSkipCollectorDark) <> 0 Then
-								If Number($g_iSearchElixir) >= Number($g_iTxtSkipCollectorElixir) And Number($g_iSearchDark) >= Number($g_iTxtSkipCollectorDark) Then
-									SetLog("Target Resource(E,D) over for skip collectors check, Prepare for attack...", $COLOR_GREEN, "Lucida Console", 7.5)
-									$g_bFlagSearchAnotherBase = False
-								EndIf
-							ElseIf Number($g_iTxtSkipCollectorGold) <> 0 Then
-								If Number($g_iSearchGold) >= Number($g_iTxtSkipCollectorGold) Then
-									SetLog("Target Resource(G) over for skip collectors check, Prepare for attack...", $COLOR_GREEN, "Lucida Console", 7.5)
-									$g_bFlagSearchAnotherBase = False
-								EndIf
-							ElseIf Number($g_iTxtSkipCollectorElixir) <> 0 Then
-								If Number($g_iSearchElixir) >= Number($g_iTxtSkipCollectorElixir) Then
-									SetLog("Target Resource(E) over for skip collectors check, Prepare for attack...", $COLOR_GREEN, "Lucida Console", 7.5)
-									$g_bFlagSearchAnotherBase = False
-								EndIf
-							ElseIf Number($g_iTxtSkipCollectorDark) <> 0 Then
-								If Number($g_iSearchDark) >= Number($g_iTxtSkipCollectorDark) Then
-									SetLog("Target Resource(D) over for skip collectors check, Prepare for attack...", $COLOR_GREEN, "Lucida Console", 7.5)
-									$g_bFlagSearchAnotherBase = False
-								EndIf
-							EndIf
-							If $g_bFlagSearchAnotherBase Then
-								SetLog("Collectors are not outside AND Target Resource not match for attack, skipping search !", $COLOR_RED, "Lucida Console", 7.5)
-							EndIf
-						Else
-							SetLog("Collectors are not outside, skipping search !", $COLOR_RED, "Lucida Console", 7.5)
-						EndIf
-						If $g_bSkipCollectorCheckTH Then
-							If $g_bFlagSearchAnotherBase Then
-								If $g_iSearchTH <> "-" Then
-									If Number($g_iSearchTH) <= $g_iCmbSkipCollectorCheckTH Then
-										SetLog("Target TownHall Level is " & $g_iSearchTH & ", lower than or equal my setting " & $g_iCmbSkipCollectorCheckTH & ", Prepare for attack...", $COLOR_GREEN, "Lucida Console", 7.5)
-										$g_bFlagSearchAnotherBase = False
-									Else
-										SetLog("Collectors are not outside, and TownHall Level is " & $g_iSearchTH & " Over " & $g_iCmbSkipCollectorCheckTH & ", skipping search !", $COLOR_RED, "Lucida Console", 7.5)
-									EndIf
-								Else
-									SetLog("Collectors are not outside, and failded to get townhall level, skipping search !", $COLOR_RED, "Lucida Console", 7.5)
-								EndIf
-							EndIf
-						EndIf
-					EndIf
-					$g_iSearchTH = ""
-				Else
-					$g_bFlagSearchAnotherBase = False
-				EndIf
-				If Not $g_bFlagSearchAnotherBase Then
-					$g_iMatchMode = $DB
-					ExitLoop
-				EndIf
-			EndIf
-			; Collector Outside - AiO++ Team
-
+			$g_iMatchMode = $DB
+			ExitLoop
 		ElseIf $match[$LB] And Not $dbBase Then
 			SetLog($GetResourcesTXT, $COLOR_SUCCESS, "Lucida Console", 7.5)
 			SetLog("      " & "Live Base Found!", $COLOR_SUCCESS, "Lucida Console", 7.5)
@@ -435,7 +350,7 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 				EndIf
 				ExitLoop
 			Else
-				If $g_bDebugSetlog Then SetLog("Wait to see Next Button... " & $i, $COLOR_DEBUG)
+				If $g_bDebugSetlog Then SetDebugLog("Wait to see Next Button... " & $i, $COLOR_DEBUG)
 			EndIf
 			If $i >= 99 Or isProblemAffect() Or (Mod($i, 10) = 0 And checkObstacles_Network(False, False)) Then ; if we can't find the next button or there is an error, then restart
 				$g_bIsClientSyncError = True
@@ -460,7 +375,7 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 		If $g_bRestart = True Then Return ; exit func
 
 		If isGemOpen(True) = True Then
-			Setlog(" Not enough gold to keep searching.....", $COLOR_ERROR)
+			SetLog(" Not enough gold to keep searching.....", $COLOR_ERROR)
 			Click(585, 252, 1, 0, "#0156") ; Click close gem window "X"
 			If _Sleep($DELAYVILLAGESEARCH3) Then Return
 			$g_bOutOfGold = True ; Set flag for out of gold to search for attack
@@ -474,13 +389,10 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 			$g_iSearchCost += $g_aiSearchCost[$g_iTownHallLevel - 1]
 			$g_iStatsTotalGain[$eLootGold] -= $g_aiSearchCost[$g_iTownHallLevel - 1]
 		EndIf
-
-		; Switch Acc - AiO++ Team
-		If $g_bChkSwitchAcc Then
+		If ProfileSwitchAccountEnabled() Then
 			$g_aiSkippedVillageCountAcc[$g_iCurAccount] += 1
 			If $g_iTownHallLevel <> "" And $g_iTownHallLevel > 0 Then $g_aiGoldTotalAcc[$g_iCurAccount] -= $g_aiSearchCost[$g_iTownHallLevel - 1]
 		EndIf
-
 		UpdateStats()
 
 	WEnd ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;### Main Search Loop End ###;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -527,7 +439,7 @@ Func SearchLimit($iSkipped)
 		While _CheckPixel($aSurrenderButton, $g_bCapturePixel) = False
 			If _Sleep($DELAYSEARCHLIMIT) Then Return
 			$Wcount += 1
-			If $g_bDebugSetlog Then setlog("wait surrender button " & $Wcount, $COLOR_DEBUG)
+			If $g_bDebugSetlog Then SetDebugLog("wait surrender button " & $Wcount, $COLOR_DEBUG)
 			If $Wcount >= 50 Or isProblemAffect(True) Then
 				checkMainScreen()
 				$g_bIsClientSyncError = False ; reset OOS flag for long restart
@@ -568,19 +480,19 @@ Func WriteLogVillageSearch($x)
 	If IsWeakBaseActive($x) Then $MeetWeakBasetext = "- Weak Base"
 	If Not ($g_bIsSearchLimit) And $g_bDebugSetlog Then
 		SetLogCentered(" Searching For " & $g_asModeText[$x] & " ", Default, $COLOR_INFO)
-		Setlog("Enable " & $g_asModeText[$x] & " search IF ", $COLOR_INFO)
-		If $g_abSearchSearchesEnable[$x] Then Setlog("- Numbers of searches range " & $g_aiSearchSearchesMin[$x] & " - " & $g_aiSearchSearchesMax[$x], $COLOR_INFO)
-		If $g_abSearchTropiesEnable[$x] Then Setlog("- Search tropies range " & $g_aiSearchTrophiesMin[$x] & " - " & $g_aiSearchTrophiesMax[$x], $COLOR_INFO)
-		If $g_abSearchCampsEnable[$x] Then Setlog("- Army Camps % >  " & $g_aiSearchCampsPct[$x], $COLOR_INFO)
-		Setlog("Match " & $g_asModeText[$x] & "  village IF ", $COLOR_INFO)
-		If $MeetGxEtext <> "" Then Setlog($MeetGxEtext, $COLOR_INFO)
-		If $MeetGorEtext <> "" Then Setlog($MeetGorEtext, $COLOR_INFO)
-		If $MeetGplusEtext <> "" Then Setlog($MeetGplusEtext, $COLOR_INFO)
-		If $MeetDEtext <> "" Then Setlog($MeetDEtext, $COLOR_INFO)
-		If $MeetTrophytext <> "" Then Setlog($MeetTrophytext, $COLOR_INFO)
-		If $MeetTHtext <> "" Then Setlog($MeetTHtext, $COLOR_INFO)
-		If $MeetTHOtext <> "" Then Setlog($MeetTHOtext, $COLOR_INFO)
-		If $MeetWeakBasetext <> "" Then Setlog($MeetWeakBasetext, $COLOR_INFO)
+		SetLog("Enable " & $g_asModeText[$x] & " search IF ", $COLOR_INFO)
+		If $g_abSearchSearchesEnable[$x] Then SetLog("- Numbers of searches range " & $g_aiSearchSearchesMin[$x] & " - " & $g_aiSearchSearchesMax[$x], $COLOR_INFO)
+		If $g_abSearchTropiesEnable[$x] Then SetLog("- Search tropies range " & $g_aiSearchTrophiesMin[$x] & " - " & $g_aiSearchTrophiesMax[$x], $COLOR_INFO)
+		If $g_abSearchCampsEnable[$x] Then SetLog("- Army Camps % >  " & $g_aiSearchCampsPct[$x], $COLOR_INFO)
+		SetLog("Match " & $g_asModeText[$x] & "  village IF ", $COLOR_INFO)
+		If $MeetGxEtext <> "" Then SetLog($MeetGxEtext, $COLOR_INFO)
+		If $MeetGorEtext <> "" Then SetLog($MeetGorEtext, $COLOR_INFO)
+		If $MeetGplusEtext <> "" Then SetLog($MeetGplusEtext, $COLOR_INFO)
+		If $MeetDEtext <> "" Then SetLog($MeetDEtext, $COLOR_INFO)
+		If $MeetTrophytext <> "" Then SetLog($MeetTrophytext, $COLOR_INFO)
+		If $MeetTHtext <> "" Then SetLog($MeetTHtext, $COLOR_INFO)
+		If $MeetTHOtext <> "" Then SetLog($MeetTHOtext, $COLOR_INFO)
+		If $MeetWeakBasetext <> "" Then SetLog($MeetWeakBasetext, $COLOR_INFO)
 		If $g_abFilterMeetOneConditionEnable[$x] Then SetLog("Meet One and Attack!")
 		SetLogCentered(" RESOURCE CONDITIONS ", "~", $COLOR_INFO)
 	EndIf

@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........:
 ; Modified ......: CodeSlinger69 (2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2017
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -19,14 +19,6 @@ Global $g_hCmbStandardDropOrderDB = 0, $g_hCmbStandardDropSidesDB = 0, $g_hCmbSt
 	   $g_hChkSmartAttackRedAreaDB = 0, $g_hCmbSmartDeployDB = 0, $g_hChkAttackNearGoldMineDB = 0, $g_hChkAttackNearElixirCollectorDB = 0, $g_hChkAttackNearDarkElixirDrillDB = 0
 
 Global $g_hLblSmartDeployDB = 0, $g_hPicAttackNearDarkElixirDrillDB = 0
-
-; Unit/Wave Factor - AiO++ Team
-Global $g_hGrpSettings = 0
-Global $g_hChkGiantSlot = 0, $g_hCmbGiantSlot = 0
-Global $g_hChkUnitFactor = 0, $g_hTxtUnitFactor = 0
-Global $g_hChkWaveFactor = 0, $g_hTxtWaveFactor = 0
-
-; Drop Order Troops - AiO++ Team
 Global $g_hBtnCustomDropOrderDB = 0
 
 Func CreateAttackSearchDeadBaseStandard()
@@ -122,50 +114,9 @@ Func CreateAttackSearchDeadBaseStandard()
 				_GUICtrlSetTip(-1, $sTxtTip)
 		GUICtrlCreateGroup("", -99, -99, 1, 1)
 
-		   ; Unit/Wave Factor - AiO++ Team
-		   $x = 23
-		   $y = 110
-		   $g_hGrpSettings = GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Attack - Attack Standard", "Group_02", "Settings"), $x, $y, 180, 105)
-
-		   $y += 5
-		   $g_hChkGiantSlot = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Attack Standard", "ChkGiantSlot", "GiantSlot"), $x+10, $y + 10, 89, 25)
-			   _GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Attack Standard", "ChkGiantSlot_Info_01", "perimeter (> = 12, recommended)") & @CRLF & _
-								  GetTranslatedFileIni("MBR GUI Design Child Attack - Attack Standard", "ChkGiantSlot_Info_02", "two points on each side (> = 8, recommended)"))
-			   GUICtrlSetOnEvent(-1, "chkGiantSlot")
-			   GUICtrlSetState(-1, $GUI_UNCHECKED)
-		   $g_hCmbGiantSlot = GUICtrlCreateCombo("", $x + 99, $y + 12, 73, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-			   GUICtrlSetData(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Attack Standard", "CmbGiantSlot_Info_01", "Perimeter") & "|" & _
-								  GetTranslatedFileIni("MBR GUI Design Child Attack - Attack Standard", "CmbGiantSlot_Info_02", "TwoPoints"), GetTranslatedFileIni("MBR GUI Design Child Attack - Attack Standard", "CmbGiantSlot_Info_01", -1))
-			   GUICtrlSetOnEvent(-1, "cmbGiantSlot")
-
-		   $y += 34
-		   $g_hChkUnitFactor = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Attack Standard", "ChkUnitFactor", "Modify Unit Factor"), $x + 10, $y + 4, 130, 25)
-			   _GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Attack Standard", "ChkUnitFactor_Info_01", "Unit deploy delay = Unit setting x Unit Factor (millisecond)"))
-			   GUICtrlSetOnEvent(-1, "chkUnitFactor")
-			   GUICtrlSetState(-1, $GUI_UNCHECKED)
-		   $g_hTxtUnitFactor = GUICtrlCreateInput("10", $x + 140, $y + 6, 31, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
-			   _GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Attack Standard", "ChkUnitFactor_Info_02", "Unit deploy delay = Unit setting x Unit Factor (millisecond)"))
-			   GUICtrlSetState(-1, $GUI_DISABLE)
-			   GUICtrlSetData(-1, 10)
-
-		   $y += 30
-		   $g_hChkWaveFactor = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Attack Standard", "ChkWaveFactor", "Modify Wave Factor"), $x + 10, $y + 2, 130, 25)
-			   _GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Attack Standard", "ChkWaveFactor_Info_01", "Switch troop delay = Wave setting x Wave Factor (millisecond)"))
-			   GUICtrlSetOnEvent(-1, "chkWaveFactor")
-			   GUICtrlSetState(-1, $GUI_UNCHECKED)
-		   $g_hTxtWaveFactor = GUICtrlCreateInput("100", $x + 140, $y + 4, 31, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
-			   _GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Attack Standard", "ChkWaveFactor_Info_02", "Switch troop delay = Wave setting x Wave Factor (millisecond)"))
-			   GUICtrlSetState(-1, $GUI_DISABLE)
-			   GUICtrlSetData(-1, 100)
-
-		   For $i = $g_hGrpSettings To $g_hTxtWaveFactor
-			   GUICtrlSetState($i, $GUI_HIDE)
-		   Next
-
-		   ; Drop Order Troops - AiO++ Team
-		   $y += 40
-		   $x = 98
-				$g_hBtnCustomDropOrderDB = GUICtrlCreateButton(GetTranslatedFileIni("MBR GUI Design Child Attack - Attack", "BtnCustomDropOrder", "Drop Order"), $x, $y, 85, 25)
+		$y += 40
+		$x = 98
+			$g_hBtnCustomDropOrderDB = GUICtrlCreateButton(GetTranslatedFileIni("MBR GUI Design Child Attack - Attack", "BtnCustomDropOrder", "Drop Order"), $x, $y, 85, 25)
 				_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Attack", "BtnCustomDropOrder_Info_01", "Select Custom Troops Dropping Order"))
 				GUICtrlSetOnEvent(-1, "CustomDropOrder")
 		GUICtrlCreateGroup("", -99, -99, 1, 1)

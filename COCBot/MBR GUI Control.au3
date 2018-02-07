@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: GkevinOD (2014)
 ; Modified ......: Hervidero (2015), kaganus (08-2015), CodeSlinger69 (01-2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2017
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -49,9 +49,6 @@ Global $g_hFrmBot_WNDPROC_ptr = 0
 #include "GUI\MBR GUI Control Android.au3"
 #include "MBR GUI Action.au3"
 
-; AiO++ Team
-#include "Team__AiO__MOD++\GUI\MOD GUI Control.au3"
-
 Func InitializeMainGUI($bGuiModeUpdate = False)
 	InitializeControlVariables()
 
@@ -68,6 +65,9 @@ Func InitializeMainGUI($bGuiModeUpdate = False)
 		saveConfig()
 		;applyConfig()
 		setupProfileComboBox()
+	ElseIf $g_iGuiMode <> 1 Then
+		; not in normal GUI mode, initialize profiles (even though profile combobox doesn't exist)
+		setupProfileComboBox()
 	EndIf
 
 	selectProfile() ; Choose the profile
@@ -80,7 +80,7 @@ Func InitializeMainGUI($bGuiModeUpdate = False)
 
 	; Developer mode controls
 	If $g_bDevMode Then
-		GUICtrlSetState($g_hChkDebugSetlog, $GUI_SHOW + $GUI_ENABLE)
+		GUICtrlSetState($g_hChkDebugFunc, $GUI_SHOW + $GUI_ENABLE)
 		GUICtrlSetState($g_hChkDebugDisableZoomout, $GUI_SHOW + $GUI_ENABLE)
 		GUICtrlSetState($g_hChkDebugDisableVillageCentering, $GUI_SHOW + $GUI_ENABLE)
 		GUICtrlSetState($g_hChkDebugDeadbaseImage, $GUI_SHOW + $GUI_ENABLE)
@@ -202,12 +202,6 @@ Func GUIControl_WM_SHELLHOOK($hWin, $iMsg, $wParam, $lParam)
 				;BotToFront($lParam)
 				BotMinimizeRestore(False, "GUIControl_WM_SHELLHOOK", False, 0, $g_hAndroidWindow)
 				;If Not $g_bIsHidden Then HideAndroidWindow(False, False, Default, "GUIControl_WM_SHELLHOOK") ; Android can be hidden
-			#cs moved to GUIControl_WM_ACTIVATEAPP as it enters here without activating the bot
-			Case Not $g_bIsHidden And $lParam = $g_hFrmBot ;And WinActive($g_hFrmBot)
-				; show Android without activating
-				HideAndroidWindow(False, False)
-				;AndroidToFront()
-			#ce
 		EndSelect
 	EndIf
 EndFunc   ;==>GUIControl_WM_SHELLHOOK
@@ -511,10 +505,14 @@ Func GUIControl_WM_COMMAND($hWind, $iMsg, $wParam, $lParam)
 			btnVillageStat()
 
 			; debug checkboxes and buttons
-		Case $g_hChkDebugClick
-			chkDebugClick()
 		Case $g_hChkDebugSetlog
 			chkDebugSetlog()
+		Case $g_hChkDebugAndroid
+			chkDebugAndroid()
+		Case $g_hChkDebugClick
+			chkDebugClick()
+		Case $g_hChkDebugFunc
+			chkDebugFunc()
 		Case $g_hChkDebugDisableZoomout
 			chkDebugDisableZoomout()
 		Case $g_hChkDebugDisableVillageCentering
@@ -583,6 +581,10 @@ Func GUIControl_WM_COMMAND($hWind, $iMsg, $wParam, $lParam)
 			AutoUpgrade(True)
 		Case $g_hBtnTestUpgradeWindow
 			btnTestUpgradeWindow()
+		Case $g_hBtnTestSmartWait
+			btnTestSmartWait()
+		Case $g_hBtnConsoleWindow
+			btnConsoleWindow()
 	EndSwitch
 
 	If $lParam = $g_hCmbGUILanguage Then
@@ -706,23 +708,6 @@ Func GUIControl_WM_NOTIFY($hWind, $iMsg, $wParam, $lParam)
 			tabTHSnipe()
 		Case $g_hGUI_BOT_TAB
 			tabBot()
-		Case $g_hGUI_MOD_TAB
-			tabMod()
-			tabMain()
-
-			If GUICtrlRead($g_hGUI_MOD_TAB, 1) = $g_hGUI_MOD_TAB_ITEM6 Then
-				Local $tTag  = DllStructCreate("hwnd;int;int;int;int;int;int;ptr;int;int;int;int;int;int;int;int;int;int;int;int", $lParam)
-				Local $hFrom = DllStructGetData($tTag, 1)
-				Local $iID   = DllStructGetData($tTag, 2)
-				Local $iCode = DllStructGetData($tTag, 3)
-				Local $iPos  = DllStructGetData($tTag, 4)
-
-				If $iCode = -551 Then ;tab selected
-					GUICtrlSetState($g_hGUI_MOD_TAB_ITEM6, $GUI_SHOW)
-				EndIf
-			EndIf
-		Case $g_hGUI_MOD_PROFILES_TAB
-			tabModProfiles()
 		Case Else
 			$bCheckEmbeddedShield = False
 	EndSwitch
@@ -1053,18 +1038,19 @@ Func BotShrinkExpandToggleExecute()
 EndFunc   ;==>BotShrinkExpandToggleExecute
 
 Func BotGuiModeToggleRequest()
-	If Not $g_bRunState Then
+	If Not $g_bRunState And Not IsConfigActive() And Not DllCallMyBotIsActive() Then
 		BotGuiModeToggle()
 		Return False
 	EndIf
 	$g_bBotGuiModeToggleRequested = True
 	Return True
-EndFunc
+EndFunc   ;==>BotGuiModeToggleRequest
 
 Func BotGuiModeToggle()
+	Static $bIsActive = False
+	If $g_iBotAction = $eBotClose Or $g_iGuiMode = 0 Or $bIsActive Or IsConfigActive() Or DllCallMyBotIsActive() Then Return False
+	$bIsActive = True
 	$g_bBotGuiModeToggleRequested = False
-	If $g_iGuiMode = 0 Then Return False
-	If $g_iBotAction = $eBotClose Then Return False
 
 	If $g_bAndroidEmbedded Then AndroidEmbed(False)
 
@@ -1103,7 +1089,6 @@ Func BotGuiModeToggle()
 			GUICtrlDelete($g_hTabVillage)
 			GUICtrlDelete($g_hTabAttack)
 			GUICtrlDelete($g_hTabBot)
-			GUICtrlDelete($g_hTabMOD)
 			GUICtrlDelete($g_hTabAbout)
 
 			GUICtrlDelete($g_hGUI_VILLAGE_TAB)
@@ -1121,8 +1106,7 @@ Func BotGuiModeToggle()
 			GUICtrlDelete($g_hGUI_ATTACKOPTION_TAB)
 			GUICtrlDelete($g_hGUI_STRATEGIES_TAB)
 			GUICtrlDelete($g_hGUI_BOT_TAB)
-			GUICtrlDelete($g_hGUI_MOD_TAB)
-			GUICtrlDelete($g_hGUI_MOD_PROFILES_TAB)
+			GUICtrlDelete($g_hGUI_LOG_SA)
 			GUICtrlDelete($g_hGUI_STATS_TAB)
 
 			For $i = $g_hFirstControlToHide To $g_hLastControlToHide
@@ -1158,8 +1142,6 @@ Func BotGuiModeToggle()
 
 			; refresh tab states
 			tabBot()
-			tabMod()
-			tabModProfiles()
 			tabDONATE()
 			tabSEARCH()
 			tabAttack()
@@ -1169,6 +1151,9 @@ Func BotGuiModeToggle()
 
 			; update stats
 			UpdateStats(True)
+			UpdateMultiStats()
+
+			DistributorsUpdateGUI() ; Now loading Distributors (during GUI switch it must be called outside CreateMainGUIControls()!)
 
 			DestroySplashScreen()
 
@@ -1209,6 +1194,7 @@ Func BotGuiModeToggle()
 	SetRedrawBotWindow(True, Default, Default, Default, "BotGuiModeToggle")
 
 	ShowMainGUI()
+	$bIsActive = False
 
 	Return True
 EndFunc   ;==>BotGuiModeToggle
@@ -1258,7 +1244,7 @@ Func BotCloseRequestProcessed()
 EndFunc   ;==>BotCloseRequestProcessed
 
 Func BotClose($SaveConfig = Default, $bExit = True)
-	If $SaveConfig = Default Then $SaveConfig = $g_iBotLaunchTime > 0
+	If $SaveConfig = Default Then $SaveConfig = IsBotLaunched()
 	$g_bRunState = False
 	$g_bBotPaused = False
 	ResumeAndroid()
@@ -1288,7 +1274,7 @@ Func BotClose($SaveConfig = Default, $bExit = True)
 
 	; Close Mutexes
 	If $g_hMutex_BotTitle <> 0 Then ReleaseMutex($g_hMutex_BotTitle)
-	If $g_hMutex_Profile <> 0 Then ReleaseMutex($g_hMutex_Profile)
+	ReleaseProfilesMutex(True)
 	If $g_hMutex_MyBot <> 0 Then ReleaseMutex($g_hMutex_MyBot)
 	; Clean up resources
 	__GDIPlus_Shutdown()
@@ -1465,7 +1451,7 @@ EndFunc   ;==>tiExit
 ; Return values .: Boolean of former redraw state
 ; Author ........: Cosote (2015)
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2017
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -1602,22 +1588,20 @@ Func SetTime($bForceUpdate = False)
 		_TicksToTime(Int(__TimerDiff($g_hTimerSinceStarted) + $g_iTimePassed), $hour, $min, $sec)
 		GUICtrlSetData($g_hLblResultRuntimeNow, StringFormat("%02i:%02i:%02i", $hour, $min, $sec))
 	EndIf
-
-	; Showing troops time in MultiStats - Switch Accounts - Demen - AiO++ Team
 	Local Static $DisplayLoop = 0
 	If $DisplayLoop >= 3 Then ; Conserve Clock Cycles on Updating times
 		$DisplayLoop = 0
-		If $g_bChkSwitchAcc Then
-			If GUICtrlRead($g_hGUI_MOD_TAB, 1) = $g_hGUI_MOD_TAB_ITEM5 Then
-				For $i = 0 To $g_iTotalAcc;  Update time for all Accounts
-					; Troop Time (include spell and hero if needed)
-					If $g_abAccountNo[$i] And Not $g_abDonateOnly[$i] And $g_aiTimerStart[$i] <> 0 Then
+		If ProfileSwitchAccountEnabled() Then
+			If GUICtrlRead($g_hGUI_STATS_TAB, 1) = $g_hGUI_STATS_TAB_ITEM5 Then
+				Local $abAccountNo = AccountNoActive()
+				For $i = 0 To $g_iTotalAcc ; Update time for all Accounts
+					If $abAccountNo[$i] And Not $g_abDonateOnly[$i] And $g_aiTimerStart[$i] <> 0 Then
 						Local $UpdateTrainTime = $g_aiRemainTrainTime[$i] - TimerDiff($g_aiTimerStart[$i]) / 60 / 1000 ; in minutes
 						Local $sReadyTime = ""
 						If Abs($UpdateTrainTime) >= 60 Then
-						   $sReadyTime &= Int($UpdateTrainTime/60) & "h " & Abs(Round(Mod($UpdateTrainTime,60),0)) & "m"
+							$sReadyTime &= Int($UpdateTrainTime / 60) & "h " & Abs(Round(Mod($UpdateTrainTime, 60), 0)) & "m"
 						Else
-						   $sReadyTime &= Int($UpdateTrainTime) & "m " & Abs(Round(Mod($UpdateTrainTime,1) * 60, 0)) & "s"
+							$sReadyTime &= Int($UpdateTrainTime) & "m " & Abs(Round(Mod($UpdateTrainTime, 1) * 60, 0)) & "s"
 						EndIf
 
 						If $i = $g_iCurAccount Then
@@ -1632,31 +1616,11 @@ Func SetTime($bForceUpdate = False)
 						EndIf
 						GUICtrlSetData($g_ahLblTroopsTime[$i], $sReadyTime)
 					EndIf
-
-					; Lab time
-					If $i <> $g_iCurAccount And $g_aLabTimerStart[$i] <> 0 Then
-						Local $sLabtime = ""
-						Local $UpdateLabTime = $g_aLabTimeAcc[$i] - TimerDiff($g_aLabTimerStart[$i]) / 60 / 1000 ; in minutes
-						If $UpdateLabTime <= 0 Then
-							GUICtrlSetColor($g_ahLblLab[$i], $COLOR_GREEN)
-							GUICtrlSetColor($g_ahLblLabTime[$i], $COLOR_GREEN)
-							$sLabtime = "Ready"
-						ElseIf $UpdateLabTime >= 24 * 60 Then
-							$sLabtime = Int($UpdateLabTime/24/60) & "d " & Round(Mod($UpdateLabTime, 24*60)/60,0) & "h"
-						ElseIf $UpdateLabTime >= 60 Then
-							$sLabtime = Int($UpdateLabTime/60) & "h " & Round(Mod($UpdateLabTime,60), 0) & "m"
-						Else
-							$sLabtime = Int($UpdateLabTime) & "m " & Round(Mod($UpdateLabTime,1) * 60, 0) & "s"
-						EndIf
-						GUICtrlSetData($g_ahLblLabTime[$i], $sLabtime)
-					EndIf
 				Next
 			EndIf
 		EndIf
 	EndIf
 	$DisplayLoop += 1
-; end - Demen - AiO++ Team
-
 EndFunc   ;==>SetTime
 
 Func tabMain()
@@ -1668,7 +1632,6 @@ Func tabMain()
 			GUISetState(@SW_HIDE, $g_hGUI_ATTACK)
 			GUISetState(@SW_HIDE, $g_hGUI_BOT)
 			GUISetState(@SW_HIDE, $g_hGUI_ABOUT)
-			GUISetState(@SW_HIDE, $g_hGUI_MOD)
 			GUISetState(@SW_SHOWNOACTIVATE, $g_hGUI_LOG)
 
 		Case $tabidx = 1 ; Village
@@ -1676,7 +1639,6 @@ Func tabMain()
 			GUISetState(@SW_HIDE, $g_hGUI_ATTACK)
 			GUISetState(@SW_HIDE, $g_hGUI_BOT)
 			GUISetState(@SW_HIDE, $g_hGUI_ABOUT)
-			GUISetState(@SW_HIDE, $g_hGUI_MOD)
 			GUISetState(@SW_SHOWNOACTIVATE, $g_hGUI_VILLAGE)
 			tabVillage()
 
@@ -1685,7 +1647,6 @@ Func tabMain()
 			GUISetState(@SW_HIDE, $g_hGUI_VILLAGE)
 			GUISetState(@SW_HIDE, $g_hGUI_BOT)
 			GUISetState(@SW_HIDE, $g_hGUI_ABOUT)
-			GUISetState(@SW_HIDE, $g_hGUI_MOD)
 			GUISetState(@SW_SHOWNOACTIVATE, $g_hGUI_ATTACK)
 			tabAttack()
 
@@ -1694,25 +1655,14 @@ Func tabMain()
 			GUISetState(@SW_HIDE, $g_hGUI_VILLAGE)
 			GUISetState(@SW_HIDE, $g_hGUI_ATTACK)
 			GUISetState(@SW_HIDE, $g_hGUI_ABOUT)
-			GUISetState(@SW_HIDE, $g_hGUI_MOD)
 			GUISetState(@SW_SHOWNOACTIVATE, $g_hGUI_BOT)
 			tabBot()
 
-		Case $tabidx = 4 ; Mods
+		Case $tabidx = 4 ; About
 			GUISetState(@SW_HIDE, $g_hGUI_LOG)
 			GUISetState(@SW_HIDE, $g_hGUI_VILLAGE)
 			GUISetState(@SW_HIDE, $g_hGUI_ATTACK)
 			GUISetState(@SW_HIDE, $g_hGUI_BOT)
-			GUISetState(@SW_HIDE, $g_hGUI_ABOUT)
-			GUISetState(@SW_SHOWNOACTIVATE, $g_hGUI_MOD)
-			tabMod()
-
-		Case $tabidx = 5 ; About
-			GUISetState(@SW_HIDE, $g_hGUI_LOG)
-			GUISetState(@SW_HIDE, $g_hGUI_VILLAGE)
-			GUISetState(@SW_HIDE, $g_hGUI_ATTACK)
-			GUISetState(@SW_HIDE, $g_hGUI_BOT)
-			GUISetState(@SW_HIDE, $g_hGUI_MOD)
 			GUISetState(@SW_SHOWNOACTIVATE, $g_hGUI_ABOUT)
 
 		Case Else
@@ -1720,7 +1670,6 @@ Func tabMain()
 			GUISetState(@SW_HIDE, $g_hGUI_VILLAGE)
 			GUISetState(@SW_HIDE, $g_hGUI_ATTACK)
 			GUISetState(@SW_HIDE, $g_hGUI_BOT)
-			GUISetState(@SW_HIDE, $g_hGUI_MOD)
 	EndSelect
 
 EndFunc   ;==>tabMain
@@ -1924,55 +1873,27 @@ Func tabBot()
 	Select
 		Case $tabidx = 0 ; Options tab
 			GUISetState(@SW_HIDE, $g_hGUI_STATS)
+			GUISetState(@SW_HIDE, $g_hGUI_LOG_SA)
 			ControlShow("", "", $g_hCmbGUILanguage)
-		Case $tabidx = 1 ; Debug tab
+		Case $tabidx = 1 ; Android tab
 			GUISetState(@SW_HIDE, $g_hGUI_STATS)
+			GUISetState(@SW_HIDE, $g_hGUI_LOG_SA)
 			ControlHide("", "", $g_hCmbGUILanguage)
-;~		Case $tabidx = 2 ; Profiles tab
-;~			GUISetState(@SW_HIDE, $g_hGUI_STATS)
-;~			ControlHide("", "", $g_hCmbGUILanguage)
-		Case $tabidx = 2 ; Android tab
+		Case $tabidx = 2 ; Debug tab
 			GUISetState(@SW_HIDE, $g_hGUI_STATS)
+			GUISetState(@SW_HIDE, $g_hGUI_LOG_SA)
 			ControlHide("", "", $g_hCmbGUILanguage)
-		Case $tabidx = 3 ; Stats tab
+		Case $tabidx = 3 ; Profiles tab
+			GUISetState(@SW_HIDE, $g_hGUI_STATS)
+			GUISetState(@SW_SHOWNOACTIVATE, $g_hGUI_LOG_SA)
+			ControlHide("", "", $g_hCmbGUILanguage)
+		Case $tabidx = 4 ; Stats tab
 			GUISetState(@SW_SHOWNOACTIVATE, $g_hGUI_STATS)
+			GUISetState(@SW_HIDE, $g_hGUI_LOG_SA)
+			If Not $g_bRunState Then UpdateMultiStats()
 			ControlHide("", "", $g_hCmbGUILanguage)
 	EndSelect
 EndFunc   ;==>tabBot
-
-; AiO++ Team
-Func tabMod()
-	Local $tabidx = GUICtrlRead($g_hGUI_MOD_TAB)
-	Select
-		Case $tabidx = 0 ; Profile tab
-			GUISetState(@SW_SHOWNOACTIVATE, $g_hGUI_MOD_PROFILES)
-			tabModProfiles()
-		Case $tabidx = 1 ; GoblinXP tab
-			GUISetState(@SW_HIDE, $g_hGUI_MOD_PROFILES)
-		Case $tabidx = 2 ; Humanization tab
-			GUISetState(@SW_HIDE, $g_hGUI_MOD_PROFILES)
-		Case $tabidx = 3 ; Chatbot tab
-			GUISetState(@SW_HIDE, $g_hGUI_MOD_PROFILES)
-		Case $tabidx = 4 ; Stats tab
-			GUISetState(@SW_HIDE, $g_hGUI_MOD_PROFILES)
-			If $g_bRunState = False Then UpdateMultiStats()
-		Case $tabidx = 5 ; Forecast tab
-			GUISetState(@SW_HIDE, $g_hGUI_MOD_PROFILES)
-		Case Else
-			GUISetState(@SW_HIDE, $g_hGUI_MOD_PROFILES)
-	EndSelect
-EndFunc   ;==>tabMod
-
-Func tabModProfiles()
-	Local $tabidx = GUICtrlRead($g_hGUI_MOD_PROFILES_TAB)
-	Select
-		Case $tabidx = 0
-			GUISetState(@SW_SHOWNOACTIVATE, $g_hGUI_LOG_SA)
-		Case Else
-			GUISetState(@SW_HIDE, $g_hGUI_LOG_SA)
-	EndSelect
-EndFunc   ;==>tabModSwitch
-; AiO++ Team
 
 Func tabDeadbase()
 	Local $tabidx = GUICtrlRead($g_hGUI_DEADBASE_TAB)
@@ -2043,7 +1964,7 @@ Func Bind_ImageList($nCtrl, ByRef $hImageList)
 	Switch $nCtrl
 		Case $g_hTabMain
 			; the icons for main tab
-			Local $aIconIndex = [$eIcnHourGlass, $eIcnTH11, $eIcnAttack, $eIcnGUI, $eIcnMods, $eIcnInfo]
+			Local $aIconIndex = [$eIcnHourGlass, $eIcnTH11, $eIcnAttack, $eIcnGUI, $eIcnInfo]
 
 		Case $g_hGUI_VILLAGE_TAB
 			; the icons for village tab
@@ -2094,17 +2015,8 @@ Func Bind_ImageList($nCtrl, ByRef $hImageList)
 
 		Case $g_hGUI_BOT_TAB
 			; the icons for Bot tab
-			Local $aIconIndex = [$eIcnOptions, $eIcnAndroid, $eIcnDebug, $eIcnGold]
+			Local $aIconIndex = [$eIcnOptions, $eIcnAndroid, $eIcnProfile, $eIcnProfile, $eIcnGold]
 			; The Android Robot is a Google Trademark and follows Creative Common Attribution 3.0
-
-		; AiO++ Team
-		Case $g_hGUI_MOD_TAB
-			; the icons for Mods tab
-			Local $aIconIndex = [$eIcnSwitchOptions, $eIcnHumanization, $eIcnGoblinXP, $eIcnChatbot, $eIcnStats, $eIcnForecast]
-
-		Case $g_hGUI_MOD_PROFILES_TAB
-			; the icons for Profiles tab
-			Local $aIconIndex = [$eIcnSwitchAcc, $eIcnSwitchProfiles, $eIcnFarmSchedule]
 
 		Case $g_hGUI_STRATEGIES_TAB
 			; the icons for strategies tab
@@ -2112,7 +2024,7 @@ Func Bind_ImageList($nCtrl, ByRef $hImageList)
 
 		Case $g_hGUI_STATS_TAB
 			; the icons for stats tab
-			Local $aIconIndex = [$eIcnGoldElixir, $eIcnOptions, $eIcnCamp, $eIcnCCRequest]
+			Local $aIconIndex = [$eIcnGoldElixir, $eIcnOptions, $eIcnCamp, $eIcnCCRequest, $eIcnGoldElixir]
 
 		Case Else
 			;do nothing
@@ -2265,3 +2177,26 @@ Func IsGUICtrlHidden($hGUICtrl)
 	If BitAND(WinGetState(GUICtrlGetHandle($hGUICtrl), ""), 2) = 0 Then Return True
 	Return False
 EndFunc   ;==>IsGUICtrlHidden
+
+Func IsConfigActive()
+	Return $g_bReadConfigIsActive Or $g_bSaveConfigIsActive Or $g_bApplyConfigIsActive
+EndFunc   ;==>IsConfigActive
+
+Func IsBotLaunched()
+	Return $g_iBotLaunchTime > 0
+EndFunc   ;==>IsBotLaunched
+
+Func ConsoleWindow($bShow = Default)
+	Static $bConsoleAllocated = False
+	If $bShow = Default Then $bShow = Not $bConsoleAllocated
+	If $bShow Then
+		_WinAPI_AllocConsole()
+		_WinAPI_SetConsoleIcon($g_sLibIconPath, $eIcnGUI)
+		$bConsoleAllocated = True
+		SetDebugLog("Allocate Console Window")
+	Else
+		SetDebugLog("Free Console Window")
+		_WinAPI_FreeConsole()
+		$bConsoleAllocated = False
+	EndIf
+EndFunc

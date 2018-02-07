@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: MyBot.run team
 ; Modified ......: MonkeyHunter (07-2016), CodeSlinger69 (2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2017
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -45,23 +45,6 @@ Func btnDonateBlacklist()
 		_DonateBtn($g_hGrpDonateGeneralBlacklist, $g_hTxtGeneralBlacklist)
 	EndIf
 EndFunc   ;==>btnDonateBlacklist
-
-; ClanHop - AiO++ Team
-Func btnDonateOptions()
-	If GUICtrlGetState($g_hGrpDonateOptions) = BitOR($GUI_HIDE, $GUI_ENABLE) Then
-		_DonateBtn($g_hGrpDonateOptions, $g_hChkClanHop)
-		_DonateBtn($g_hGrpDonateOptions, $g_ahTxtCheckingtrain)
-	EndIf
-EndFunc
-
-; ClanHop - Persian MOD (#-20)
-Func ChkClanHop()
-	If GUICtrlRead($g_hChkClanHop) = $GUI_CHECKED Then
-		GUICtrlSetState($g_ahTxtCheckingtrain, $GUI_ENABLE)
-	Else
-		GUICtrlSetState($g_ahTxtCheckingtrain, $GUI_DISABLE)
-	EndIf
-EndFunc
 
 Func chkDonateTroop()
 	For $i = 0 To $eTroopCount-1 + $g_iCustomDonateConfigs
@@ -296,3 +279,4 @@ EndFunc   ;==>cmbBalanceDR
 Func Doncheck()
 	tabDONATE() ; just call tabDONATE()
 EndFunc   ;==>Doncheck
+

@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........:
 ; Modified ......: CodeSlinger69 (2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2017
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -186,14 +186,5 @@ Func CreateAttackSearchActiveBaseAttack()
 		LoadABSnipeAttacks()
 		_GUICtrlComboBox_SetCurSel($g_hCmbTHSnipeBeforeLBScript, _GUICtrlComboBox_FindStringExact($g_hCmbTHSnipeBeforeLBScript, "Bam"))
 		GUICtrlCreateGroup("", -99, -99, 1, 1)
-
-		; ExtendedAttackBar - Demen - AiO++ Team
-		Local $x = 10, $y = 352
-		GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Attack - Attack", "Group_03", -1), $x - 5, $y - 20, 145, 40,$SS_CENTER)
-			$g_hChkExtendedAttackBarLB = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Attack", "ChkExtendedAttackBar", -1), $x, $y - 5, -1, -1)
-				_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Attack", "ChkExtendedAttackBar_Info_01", -1))
-				GUICtrlSetState(-1, $GUI_DISABLE)
-		GUICtrlCreateGroup("", -99, -99, 1, 1)
-		; ExtendedAttackBar - Demen - AiO++ Team
 
 EndFunc   ;==>CreateAttackSearchActiveBaseAttack
