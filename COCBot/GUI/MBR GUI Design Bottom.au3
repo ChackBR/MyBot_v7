@@ -93,7 +93,7 @@ Func CreateBottomPanel()
 
 	$g_hPicTwoArrowShield = _GUICtrlCreateIcon($g_sLibIconPath, $eIcn2Arrow, $x + 190, $y + 10, 48, 48)
 
-	$g_hLblVersion = GUICtrlCreateLabel($g_sBotVersion, 200, $y + 60, 60, 17, $SS_CENTER)
+	$g_hLblVersion = GUICtrlCreateLabel($g_sBotVersion & "." & $g_sModversion, 200, $y + 60, 60, 17, $SS_CENTER)
 		GUICtrlSetColor(-1, $COLOR_MEDGRAY)
 
 	$g_hPicArrowLeft = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnArrowLeft, $x + 249, $y + 30, 16, 16)

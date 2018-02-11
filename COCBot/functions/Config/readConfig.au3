@@ -1132,7 +1132,7 @@ EndFunc   ;==>ReadConfig_600_33
 Func ReadConfig_600_35_1()
 	; <><><><> Bot / Options <><><><>
 	$g_bDisableSplash = (IniRead($g_sProfileConfigPath, "General", "ChkDisableSplash", "0") = "1")
-	$g_bCheckVersion = (IniRead($g_sProfileConfigPath, "General", "ChkVersion", "1") = "1")
+	$g_bCheckVersion = (IniRead($g_sProfileConfigPath, "General", "ChkVersion", "0") = "1")
 	IniReadS($g_bDeleteLogs, $g_sProfileConfigPath, "deletefiles", "DeleteLogs", True, "Bool")
 	IniReadS($g_iDeleteLogsDays, $g_sProfileConfigPath, "deletefiles", "DeleteLogsDays", 2, "int")
 	IniReadS($g_bDeleteTemp, $g_sProfileConfigPath, "deletefiles", "DeleteTemp", True, "Bool")

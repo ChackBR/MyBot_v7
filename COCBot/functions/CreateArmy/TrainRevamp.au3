@@ -44,6 +44,14 @@ Func TrainRevamp()
 
 	If Not $g_bRunState Then Return
 
+	; --------------------------------------------
+	; Simple Quick Train ( with DEB )
+	; --------------------------------------------
+	If ( $g_bQuickTrainEnable = True ) Then
+		Qt_SimpleQuickTrain( True, 2 )
+		ResetVariables("donated")
+	Else
+
 	If $g_bIsFullArmywithHeroesAndSpells Or ($g_CurrentCampUtilization = 0 And $g_bFirstStart) Then
 
 		If $g_bIsFullArmywithHeroesAndSpells Then SetLog(" - Your Army is Full, let's make troops before Attack!", $COLOR_INFO)
@@ -76,6 +84,11 @@ Func TrainRevamp()
 		If _Sleep($DELAYRESPOND) Then Return ; add 5ms delay to catch TrainIt errors, and force return to back to main loop, plus improve pause response
 		If $g_bFirstStart Then $g_bFirstStart = False
 	EndIf
+
+	; --------------------------------------------
+	; Simple Quick Train ( with DEB )
+	; --------------------------------------------
+	EndIf ; Qt_SimpleQuickTrain
 
 	ClickP($aAway, 2, 0, "#0346") ;Click Away
 	If _Sleep(1000) Then Return ; Delay AFTER the click Away Prevents lots of coc restarts
@@ -1722,8 +1735,7 @@ Func TrainArmyNumber($Army)
 					SetLog(" - Making the Army " & $Num + 1, $COLOR_INFO)
 					If _Sleep(500) Then Return
 				Else
-					SetLog(" - Error Clicking On Army: " & $Num + 1 & "| Pixel was :" & _GetPixelColor($a_TrainArmy[$Num][0], $a_TrainArmy[$Num][1], True), $COLOR_ACTION)
-					SetLog(" - Please 'edit' the Army " & $Num + 1 & " before start the BOT!!!", $COLOR_ERROR)
+					SetLog(" - No Click needed On Army: " & $Num + 1 & "| Pixel was :" & _GetPixelColor($a_TrainArmy[$Num][0], $a_TrainArmy[$Num][1], True), $COLOR_ACTION)
 				EndIf
 			EndIf
 		Next

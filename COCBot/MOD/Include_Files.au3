@@ -24,3 +24,8 @@
 ; Four fingers
 ; --------------------------------------------
 #include "functions\Classic 4Fingers.au3"
+
+; --------------------------------------------
+; Simple Quick Train ( with DEB )
+; --------------------------------------------
+#include "functions\SimpleQuickTrain.au3"

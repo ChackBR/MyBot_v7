@@ -64,7 +64,8 @@ Global $g_hFrmBot = 0 ; The main GUI window
 ; "r01" - MyBot v7.3.5 + S&E MOD
 ; "r01" - MyBot v7.4.1 + S&E MOD 
 ; "r01" - MyBot v7.4.2 + S&E MOD 
-$g_sModversion = "r01" ; MyBot v7.4.3 + S&E MOD 
+; "r01" ; MyBot v7.4.3 + S&E MOD 
+$g_sModversion = "r02" ; MyBot v7.4.3 + S&E MOD with DEB
 
 ; MBR includes
 #include "COCBot\MBR Global Variables.au3"

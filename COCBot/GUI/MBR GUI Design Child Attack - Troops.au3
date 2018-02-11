@@ -122,11 +122,11 @@ Func CreateTroopsSpellsSubTab()
 
 	Local $x = 0
 	Local $y = 8
-		$g_hChkUseQuickTrain = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "ChkUseQuickTrain", "Use Quick Train"), $x + 15, $y + 19, -1, 15)
+		$g_hChkUseQuickTrain = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "ChkUseQuickTrain", "Quick Train + DEB"), $x + 15, $y + 19, -1, 15)
 			GUICtrlSetState(-1, $GUI_UNCHECKED)
 			GUICtrlSetOnEvent(-1, "chkUseQTrain")
 		For $i = 0 To 2
-		$g_ahChkArmy[$i] = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "ChkArmy", "Army ") & $i + 1, $x + 120 + $i * 60, $y + 20, 50, 15)
+		$g_ahChkArmy[$i] = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "ChkArmy", "Army ") & $i + 1, $x + 132 + $i * 60, $y + 20, 50, 15)
 			GUICtrlSetState(-1, $GUI_DISABLE)
 			If $i = 0 Then GUICtrlSetState(-1, $GUI_CHECKED)
 			GUICtrlSetOnEvent(-1, "chkQuickTrainCombo")
