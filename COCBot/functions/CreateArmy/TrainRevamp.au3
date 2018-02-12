@@ -47,8 +47,8 @@ Func TrainRevamp()
 	; --------------------------------------------
 	; Simple Quick Train ( with DEB )
 	; --------------------------------------------
-	If ( $g_bQuickTrainEnable = True ) Then
-		Qt_SimpleQuickTrain( True, 2 )
+	If ( $g_bQuickTrainEnable ) Then
+		Qt_SimpleQuickTrain( False, 2 )
 		ResetVariables("donated")
 	Else
 

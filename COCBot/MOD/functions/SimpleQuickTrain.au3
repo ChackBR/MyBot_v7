@@ -22,7 +22,7 @@ Func Qt_SimpleQuickTrain( $bOpenArmyWindow = False, $nLoop = 2 )
 		If _Sleep(500) Then Return
 	EndIf
 
-	If $g_bCanRequestCC = True Then RequestCC(True)
+	; If $g_bCanRequestCC = True Then RequestCC(True)
 
 	If Not OpenQuickTrainTab(True, "CheckCamp()") Then Return
 	For $i = 1 TO $nLoop
