@@ -32,8 +32,13 @@ Func TrainRevamp()
 	EndIf
 
 	If Not $g_bQuickTrainEnable Then
-		TrainRevampOldStyle()
-		Return
+		; --------------------------------------------
+		; Not using Smart Train 
+		; --------------------------------------------
+		If $ichkSmartTrain = 0 Then
+			TrainRevampOldStyle()
+			Return
+		EndIf
 	EndIf
 
 	If $g_bDebugSetlogTrain Then SetLog(" - Initial Quick train Function")
@@ -50,7 +55,18 @@ Func TrainRevamp()
 	If ( $g_bQuickTrainEnable ) Then
 		Qt_SimpleQuickTrain( False, 2 )
 		ResetVariables("donated")
+		Return
 	Else
+		; --------------------------------------------
+		; Smart Train - AiO++
+		; --------------------------------------------
+		If $ichkSmartTrain = 1 Then
+			SmartTrain()
+			ResetVariables("donated")
+			EndGainCost("Train")
+			Return
+		EndIf
+	EndIf
 
 	If $g_bIsFullArmywithHeroesAndSpells Or ($g_CurrentCampUtilization = 0 And $g_bFirstStart) Then
 
@@ -84,11 +100,6 @@ Func TrainRevamp()
 		If _Sleep($DELAYRESPOND) Then Return ; add 5ms delay to catch TrainIt errors, and force return to back to main loop, plus improve pause response
 		If $g_bFirstStart Then $g_bFirstStart = False
 	EndIf
-
-	; --------------------------------------------
-	; Simple Quick Train ( with DEB )
-	; --------------------------------------------
-	EndIf ; Qt_SimpleQuickTrain
 
 	ClickP($aAway, 2, 0, "#0346") ;Click Away
 	If _Sleep(1000) Then Return ; Delay AFTER the click Away Prevents lots of coc restarts

@@ -49,6 +49,9 @@ Global $g_hFrmBot_WNDPROC_ptr = 0
 #include "GUI\MBR GUI Control Android.au3"
 #include "MBR GUI Action.au3"
 
+; AiO++
+#include "MOD\GUI\MOD GUI Control.au3"
+
 Func InitializeMainGUI($bGuiModeUpdate = False)
 	InitializeControlVariables()
 

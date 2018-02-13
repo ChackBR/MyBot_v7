@@ -21,4 +21,11 @@ Func SaveConfig_MOD()
 
 	ApplyConfig_MOD(GetApplyConfigSaveAction())
 
+	; Smart Train - Persian MOD (#-13)
+	_Ini_Add("SmartTrain", "Enable", $ichkSmartTrain)
+	_Ini_Add("SmartTrain", "PreciseTroops", $ichkPreciseTroops)
+	_Ini_Add("SmartTrain", "ChkFillArcher", $ichkFillArcher)
+	_Ini_Add("SmartTrain", "FillArcher", $iFillArcher)
+	_Ini_Add("SmartTrain", "FillEQ", $ichkFillEQ)
+
 EndFunc   ;==>SaveConfig_MOD

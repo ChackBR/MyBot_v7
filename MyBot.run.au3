@@ -66,7 +66,8 @@ Global $g_hFrmBot = 0 ; The main GUI window
 ; "r01" - MyBot v7.4.2 + S&E MOD 
 ; "r01" ; MyBot v7.4.3 + S&E MOD 
 ; "r02" ; MyBot v7.4.3 + S&E MOD with DEB
-$g_sModversion = "r03" ; MyBot v7.4.3 + S&E: FFC + DEB + Fast Click Donate ( while using QuickTrain )
+; "r03" ; MyBot v7.4.3 + S&E: FFC + DEB + Fast Click Donate ( while using QuickTrain )
+$g_sModversion = "r04" ; MyBot v7.4.3 + S&E: FFC + DEB + SartTrain + Fast Click Donate ( while using QuickTrain )
 
 ; MBR includes
 #include "COCBot\MBR Global Variables.au3"

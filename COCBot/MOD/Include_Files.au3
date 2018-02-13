@@ -29,3 +29,11 @@
 ; Simple Quick Train ( with DEB )
 ; --------------------------------------------
 #include "functions\SimpleQuickTrain.au3"
+
+; --------------------------------------------
+; Smart Train
+; --------------------------------------------
+#include "functions\Smart Train\SmartTrain.au3"
+#include "functions\Smart Train\CheckQueue.au3"
+#include "functions\Smart Train\CheckTrainingTab.au3"
+#include "functions\Smart Train\CheckPreciseTroop.au3"
