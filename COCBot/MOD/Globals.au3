@@ -34,3 +34,21 @@ Global $g_abRCheckWrongTroops[2] = [False, False] ; Result of checking wrong tro
 Global $g_bChkMultiClick, $g_iMultiClick = 1
 Global $g_aiQueueTroops[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_aiQueueSpells[$eSpellCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+; --------------------------------------------
+; Request CC Troops at first
+; --------------------------------------------
+Global $g_bReqCCFirst = True
+Global $chkReqCCFirst = 1
+
+; --------------------------------------------
+; CheckCC Troops
+; --------------------------------------------
+Global $g_aiCCTroops[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_aiCCSpells[$eSpellCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_aiCCTroopsExpected[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_aiCCSpellsExpected[$eSpellCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_bChkCC = True
+Global $g_bChkCCTroops = False
+Global $g_aiCmbCCSlot[5], $g_aiTxtCCSlot[5]
+Global $g_iCmbCastleCapacityT, $g_iCmbCastleCapacityS

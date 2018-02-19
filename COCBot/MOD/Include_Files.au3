@@ -37,3 +37,9 @@
 #include "functions\Smart Train\CheckQueue.au3"
 #include "functions\Smart Train\CheckTrainingTab.au3"
 #include "functions\Smart Train\CheckPreciseTroop.au3"
+
+; --------------------------------------------
+; CheckCC Troops
+; --------------------------------------------
+
+#include "functions\CheckCC.au3"

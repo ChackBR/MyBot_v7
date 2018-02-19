@@ -67,7 +67,8 @@ Global $g_hFrmBot = 0 ; The main GUI window
 ; "r01" ; MyBot v7.4.3 + S&E MOD 
 ; "r02" ; MyBot v7.4.3 + S&E MOD with DEB
 ; "r03" ; MyBot v7.4.3 + S&E: FFC + DEB + Fast Click Donate ( while using QuickTrain )
-$g_sModversion = "r04" ; MyBot v7.4.3 + S&E: FFC + DEB + SartTrain + Fast Click Donate ( while using QuickTrain )
+; "r04" ; MyBot v7.4.3 + S&E: FFC + DEB + SartTrain + Fast Click Donate ( while using QuickTrain )
+$g_sModversion = "r01" ; MyBot v7.4.4 + S&E: FFC + DEB + SartTrain + Fast Click Donate ( while using QuickTrain )
 
 ; MBR includes
 #include "COCBot\MBR Global Variables.au3"
@@ -350,7 +351,7 @@ Func InitializeAndroid($bConfigRead)
 
 	CleanSecureFiles()
 
-	GetCOCDistributors() ; realy load of distributors to prevent rare bot freeze during boot
+	GetCOCDistributors() ; load of distributors to prevent rare bot freeze during boot
 
 EndFunc   ;==>InitializeAndroid
 
@@ -513,6 +514,7 @@ Func SetupFilesAndFolders()
 
 	;DirCreate($sTemplates)
 	DirCreate($g_sProfilePresetPath)
+	DirCreate($g_sPrivateProfilePath & "\" & $g_sProfileCurrentName)
 	DirCreate($g_sProfilePath & "\" & $g_sProfileCurrentName)
 	DirCreate($g_sProfileLogsPath)
 	DirCreate($g_sProfileLootsPath)
@@ -762,6 +764,15 @@ Func runBot() ;Bot that runs everything in order
 			If _Sleep($DELAYRUNBOT5) Then Return
 			checkMainScreen(False)
 			If $g_bRestart = True Then ContinueLoop
+
+			$g_bcanRequestCC = True
+			; Request CC Troops at first - Persian MOD (#-18)
+			If ($g_bReqCCFirst) Then
+				CheckCC() ; CheckCC Troops - Persian MOD (#-24)
+				RequestCC()
+				If _Sleep($DELAYRUNBOT1) = False Then checkMainScreen(False)
+			EndIf
+
 			Local $aRndFuncList = ['Collect', 'CheckTombs', 'ReArm', 'CleanYard']
 			While 1
 				If $g_bRunState = False Then Return
@@ -1190,7 +1201,10 @@ Func _RunFunction($action)
 		Case "BoostWarden"
 			BoostWarden()
 		Case "RequestCC"
-			RequestCC()
+			If Not ($g_bReqCCFirst) Then
+				CheckCC() ; CheckCC Troops - Persian MOD (#-24)
+				RequestCC()
+			EndIf
 			If _Sleep($DELAYRUNBOT1) = False Then checkMainScreen(False)
 		Case "Laboratory"
 			Laboratory()

@@ -31,14 +31,12 @@ Func TrainRevamp()
 		Return
 	EndIf
 
-	If Not $g_bQuickTrainEnable Then
-		; --------------------------------------------
-		; Not using Smart Train 
-		; --------------------------------------------
-		If $ichkSmartTrain = 0 Then
-			TrainRevampOldStyle()
-			Return
-		EndIf
+	; --------------------------------------------
+	; Smart Train - AiO++
+	; --------------------------------------------
+	If Not $g_bQuickTrainEnable And $ichkSmartTrain = 0 Then
+		TrainRevampOldStyle()
+		Return
 	EndIf
 
 	If $g_bDebugSetlogTrain Then SetLog(" - Initial Quick train Function")
@@ -346,7 +344,10 @@ Func IsFullClanCastleTroops()
 		Return True
 	EndIf
 
-	Local $bColCheck = _ColorCheck(_GetPixelColor(24, 470, True), Hex(0x93C230, 6), 30)
+	; --------------------------------------------
+	; CheckCC Troops
+	; --------------------------------------------
+	CheckCC(False)
 
 	If ($g_abAttackTypeEnable[$DB] And $g_abSearchCastleTroopsWaitEnable[$DB]) Or ($g_abAttackTypeEnable[$LB] And $g_abSearchCastleTroopsWaitEnable[$LB]) Then
 		Return $bColCheck

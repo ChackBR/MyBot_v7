@@ -22,6 +22,7 @@ Func chkUseQTrain()
 			GUICtrlSetState($g_hchkPreciseTroops, $GUI_UNCHECKED)
 			GUICtrlSetState($g_hchkPreciseTroops, $GUI_DISABLE)
 		EndIf
+		chkQuickTrainCombo()
 		_GUI_Value_STATE("DISABLE", $grpTrainTroops)
 		_GUI_Value_STATE("DISABLE", $grpCookSpell)
 		GUICtrlSetData($g_hLblTotalTimeCamp, " 0s")
@@ -33,6 +34,7 @@ Func chkUseQTrain()
 	Else
 		; Smart Train - AiO++
 		chkSmartTrain()																					; Smart Train - Persian MOD (#-13)
+		_GUI_Value_STATE("DISABLE", $g_ahChkArmy[0] & "#" & $g_ahChkArmy[1] & "#" & $g_ahChkArmy[2])
 		_GUI_Value_STATE("ENABLE", $grpTrainTroops)
 		_GUI_Value_STATE("ENABLE", $grpCookSpell)
 		lblTotalCountTroop1()

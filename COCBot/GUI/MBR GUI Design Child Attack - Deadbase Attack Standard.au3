@@ -112,7 +112,6 @@ Func CreateAttackSearchDeadBaseStandard()
 				_GUICtrlSetTip(-1, $sTxtTip)
 			$g_hPicAttackNearDarkElixirDrillDB = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnDrill, $x + 20 , $y - 3, 24, 24)
 				_GUICtrlSetTip(-1, $sTxtTip)
-		GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 		$y += 40
 		$x = 98
