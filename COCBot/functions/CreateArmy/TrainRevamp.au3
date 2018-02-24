@@ -349,6 +349,8 @@ Func IsFullClanCastleTroops()
 	; --------------------------------------------
 	CheckCC(False)
 
+	Local $bColCheck = _ColorCheck(_GetPixelColor(24, 470, True), Hex(0x93C230, 6), 30)
+
 	If ($g_abAttackTypeEnable[$DB] And $g_abSearchCastleTroopsWaitEnable[$DB]) Or ($g_abAttackTypeEnable[$LB] And $g_abSearchCastleTroopsWaitEnable[$LB]) Then
 		Return $bColCheck
 	Else
