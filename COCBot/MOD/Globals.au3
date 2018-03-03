@@ -26,6 +26,22 @@ Global $g_iCmbGiantSlot = 0, $g_iTxtUnitFactor = 10, $g_iTxtWaveFactor = 100
 Global $g_iSlotsGiants = 1, $g_aiSlotsGiants = 1
 
 ; --------------------------------------------
+; Check Collector Outside - Persian MOD (#-08)
+; --------------------------------------------
+Global $g_bScanMineAndElixir = False
+#region Check Collectors Outside
+; Collectors Outside Filter
+Global $g_bDBMeetCollOutside = False, $g_iTxtDBMinCollOutsidePercent = 80
+; constants
+Global Const $THEllipseWidth = 200, $THEllipseHeigth = 150, $CollectorsEllipseWidth = 130, $CollectorsEllipseHeigth = 97.5
+Global Const $centerX = 430, $centerY = 335
+Global $hBitmapFirst
+Global $g_bDBCollectorsNearRedline = 1, $g_bSkipCollectorCheck = 1, $g_bSkipCollectorCheckTH = 1
+Global $g_iCmbRedlineTiles = 1, $g_iCmbSkipCollectorCheckTH = 1
+Global $g_iTxtSkipCollectorGold = 400000, $g_iTxtSkipCollectorElixir = 400000, $g_iTxtSkipCollectorDark = 0
+#endregion
+
+; --------------------------------------------
 ; Smart Train
 ; --------------------------------------------
 Global $ichkSmartTrain, $ichkPreciseTroops, $ichkFillArcher, $iFillArcher, $ichkFillEQ

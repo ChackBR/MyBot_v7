@@ -31,6 +31,11 @@
 #include "functions\SimpleQuickTrain.au3"
 
 ; --------------------------------------------
+; Check Collector Outside - Persian MOD (#-08)
+; --------------------------------------------
+#include "functions\AreCollectorsOutside.au3"
+
+; --------------------------------------------
 ; Smart Train
 ; --------------------------------------------
 #include "functions\Smart Train\SmartTrain.au3"

@@ -76,69 +76,15 @@ Func BotCommand()
 				If Round(__TimerDiff($g_hTimerSinceStarted)) > $TimeToStop Then $g_bMeetCondStop = True
 			Case 16 ; Train/Donate Only
 				$g_bMeetCondStop = True
-
-				; --------------------------------------------
-				; Simple Quick Train ( with DEB )
-				; --------------------------------------------
-				If ( $g_bQuickTrainEnable ) Then 
-					Qt_SimpleQuickTrain( True, 2 )
-				Else
-					; --------------------------------------------
-					; Smart Train - AiO++
-					; --------------------------------------------
-					If $ichkSmartTrain = 1 Then
-						OpenArmyOverview()
-						MakingDonatedTroops()
-						ClickP($aAway, 1, 0, "#0176")
-						If _Sleep($DELAYDONATECC2) Then Return
-					EndIf
-				EndIf
-
 			Case 17 ; Donate Only
 				$g_bMeetCondStop = True
 				$g_bTrainEnabled = False
-
-				; --------------------------------------------
-				; Simple Quick Train ( with DEB )
-				; --------------------------------------------
-				If ( $g_bQuickTrainEnable ) Then 
-					Qt_SimpleQuickTrain( True, 2 )
-				Else
-					; --------------------------------------------
-					; Smart Train - AiO++
-					; --------------------------------------------
-					If $ichkSmartTrain = 1 Then
-						OpenArmyOverview()
-						MakingDonatedTroops()
-						ClickP($aAway, 1, 0, "#0176")
-						If _Sleep($DELAYDONATECC2) Then Return
-					EndIf
-				EndIf
-
 			Case 18 ; Only stay online
 				$g_bMeetCondStop = True
 				$g_bTrainEnabled = False
 				$g_bDonationEnabled = False
 			Case 19 ; Have shield - Online/Train/Collect/Donate
 				If $g_bWaitShield = True Then $g_bMeetCondStop = True
-
-				; --------------------------------------------
-				; Simple Quick Train ( with DEB )
-				; --------------------------------------------
-				If ( $g_bQuickTrainEnable ) Then 
-					Qt_SimpleQuickTrain( True, 2 )
-				Else
-					; --------------------------------------------
-					; Smart Train - AiO++
-					; --------------------------------------------
-					If $ichkSmartTrain = 1 Then
-						OpenArmyOverview()
-						MakingDonatedTroops()
-						ClickP($aAway, 1, 0, "#0176")
-						If _Sleep($DELAYDONATECC2) Then Return
-					EndIf
-				EndIf
-
 			Case 20 ; Have shield - Online/Collect/Donate
 				If $g_bWaitShield = True Then
 					$g_bMeetCondStop = True
@@ -161,24 +107,6 @@ Func BotCommand()
 						SetLog("Halt Attack, Stay Online/Collect/Donate...", $COLOR_INFO)
 					Else
 						SetLog("Halt Attack, Stay Online/Train/Collect/Donate...", $COLOR_INFO)
-
-					; --------------------------------------------
-					; Simple Quick Train ( with DEB )
-					; --------------------------------------------
-					If ( $g_bQuickTrainEnable ) Then 
-						Qt_SimpleQuickTrain( True, 2 )
-					Else
-						; --------------------------------------------
-						; Smart Train - AiO++
-						; --------------------------------------------
-						If $ichkSmartTrain = 1 Then
-							OpenArmyOverview()
-							MakingDonatedTroops()
-							ClickP($aAway, 1, 0, "#0176")
-							If _Sleep($DELAYDONATECC2) Then Return
-						EndIf
-					EndIf
-
 					EndIf
 					$g_iCommandStop = 0 ; Halt Attack
 					If _Sleep($DELAYBOTCOMMAND1) Then Return
