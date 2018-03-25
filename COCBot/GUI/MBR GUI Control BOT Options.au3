@@ -362,9 +362,25 @@ Func cmbSwitchAccProfileX()
 	Next
 EndFunc   ;==>cmbSwitchAccProfileX
 
-Func chkSharedPrefs()
-	$g_bChkSharedPrefs = GUICtrlRead($g_hChkSharedPrefs) = $GUI_CHECKED
-EndFunc   ;==>chkSharedPrefs
+Func chkAccSwitchMode()
+	If GUICtrlRead($g_hRadSwitchGooglePlay) = $GUI_CHECKED Then
+		$g_bChkGooglePlay = True
+		$g_bChkSuperCellID = False
+		$g_bChkSharedPrefs = False
+	ElseIf GUICtrlRead($g_hRadSwitchSuperCellID) = $GUI_CHECKED Then
+		$g_bChkGooglePlay = False
+		$g_bChkSuperCellID = True
+		$g_bChkSharedPrefs = False
+	ElseIf GUICtrlRead($g_hRadSwitchSharedPrefs) = $GUI_CHECKED Then
+		$g_bChkGooglePlay = False
+		$g_bChkSuperCellID = False
+		$g_bChkSharedPrefs = True
+	Else
+		$g_bChkGooglePlay = False
+		$g_bChkSuperCellID = False
+		$g_bChkSharedPrefs = False
+	EndIf
+EndFunc   ;==>chkAccSwitchMode
 
 ; #DEBUG FUNCTION# ==============================================================================================================
 

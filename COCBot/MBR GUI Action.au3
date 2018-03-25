@@ -16,6 +16,7 @@
 Func BotStart($bAutostartDelay = 0)
 	FuncEnter(BotStart)
 	ResumeAndroid()
+	CleanSecureFiles()
 	CalCostCamp()
 	CalCostSpell()
 
@@ -150,7 +151,7 @@ Func BotStop()
 
 	EnableGuiControls()
 
-	DistributorsUpdateGUI()
+	;DistributorsUpdateGUI()
 	AndroidBotStopEvent() ; signal android that bot is now stopping
 	AndroidAdbTerminateShellInstance() ; terminate shell instance
 	AndroidShield("btnStop", Default)

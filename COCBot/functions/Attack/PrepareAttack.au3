@@ -209,3 +209,5 @@ Func AttackRemainingTime($bInitialze = Default)
 	Return $iRemaining
 
 EndFunc   ;==>AttackRemainingTime
+
+

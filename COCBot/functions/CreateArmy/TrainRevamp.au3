@@ -596,7 +596,9 @@ Func CompareCCSpellWithGUI($CCSpell1, $CCSpell2, $CastleCapacity)
 
 				Case 2 ; Two Spells on Slot 1
 
-					If ($sCCSpell <> $CCSpell1[0][0] And $sCCSpell <> "Any") And ($sCCSpell2 <> $CCSpell1[0][0] And $sCCSpell2 <> "Any") Then
+					If $g_aiSearchCastleSpellsWaitRegular[$Mode] <= 5 And $g_aiSearchCastleSpellsWaitRegular[$Mode] > 0 Then ; Should be a Regular Spell not a Dark Spell
+						$aShouldRemove[0] = $CCSpell1[0][3]
+					ElseIf ($sCCSpell <> $CCSpell1[0][0] And $sCCSpell <> "Any") And ($sCCSpell2 <> $CCSpell1[0][0] And $sCCSpell2 <> "Any") Then
 						$aShouldRemove[0] = $CCSpell1[0][3]
 					ElseIf ($sCCSpell <> $CCSpell1[0][0] And $sCCSpell <> "Any") Or ($sCCSpell2 <> $CCSpell1[0][0] And $sCCSpell2 <> "Any") Then
 						$aShouldRemove[0] = 1
@@ -660,7 +662,7 @@ Func TrainUsingWhatToTrain($rWTT, $bSpellsOnly = False)
 				If Not $g_bRunState Then Return
 				If $rWTT[$i][1] > 0 Then ; If Count to Train Was Higher Than ZERO
 					If IsSpellToBrew($rWTT[$i][0]) Then
-						BrewUsingWhatToTrain($rWTT[$i][0], $rWTT[$i][1])
+						If $bSpellsOnly Then BrewUsingWhatToTrain($rWTT[$i][0], $rWTT[$i][1])
 						ContinueLoop
 					Else
 						If $bSpellsOnly Then ContinueLoop
@@ -719,7 +721,7 @@ Func TrainUsingWhatToTrain($rWTT, $bSpellsOnly = False)
 				If Not $g_bRunState Then Return
 				If $rWTT[$i][1] > 0 Then ; If Count to Train Was Higher Than ZERO
 					If IsSpellToBrew($rWTT[$i][0]) Then
-						BrewUsingWhatToTrain($rWTT[$i][0], $rWTT[$i][1])
+						If $bSpellsOnly Then BrewUsingWhatToTrain($rWTT[$i][0], $rWTT[$i][1])
 						ContinueLoop
 					Else
 						If $bSpellsOnly Then ContinueLoop
@@ -1832,7 +1834,7 @@ Func MakingDonatedTroops()
 			$Plural = 0
 			If $avDefaultTroopGroup[$i][4] > 0 Then
 				$RemainTrainSpace = GetOCRCurrent(48, 160)
-				If $RemainTrainSpace[0] = $RemainTrainSpace[1] And $ichkSmartTrain <> 1 Then ; army camps full	;; SmartTrain - Demen_ST_#9002
+				If $RemainTrainSpace[0] = $RemainTrainSpace[1] Then ; army camps full
 					;Camps Full All Donate Counters should be zero!!!!
 					For $j = 0 To UBound($avDefaultTroopGroup, 1) - 1
 						$avDefaultTroopGroup[$j][4] = 0
@@ -1842,7 +1844,7 @@ Func MakingDonatedTroops()
 
 				Local $iTroopIndex = TroopIndexLookup($avDefaultTroopGroup[$i][0], "MakingDonatedTroops")
 
-				If $avDefaultTroopGroup[$i][2] * $avDefaultTroopGroup[$i][4] <= $RemainTrainSpace[2] Or $ichkSmartTrain = 1 Then ; Troopheight x donate troop qty <= avaible train space ;; SmartTrain - Demen_ST_#9002
+				If $avDefaultTroopGroup[$i][2] * $avDefaultTroopGroup[$i][4] <= $RemainTrainSpace[2] Then ; Troopheight x donate troop qty <= avaible train space
 					;Local $pos = GetTrainPos(TroopIndexLookup($avDefaultTroopGroup[$i][0]))
 					Local $howMuch = $avDefaultTroopGroup[$i][4]
 					If $avDefaultTroopGroup[$i][5] = "e" Then
