@@ -58,7 +58,7 @@ Func TrainRevamp()
 		; --------------------------------------------
 		; Smart Train - AiO++
 		; --------------------------------------------
-		If $ichkSmartTrain = 1 Then
+		If $ichkSmartTrain Then
 			SmartTrain()
 			ResetVariables("donated")
 			EndGainCost("Train")
