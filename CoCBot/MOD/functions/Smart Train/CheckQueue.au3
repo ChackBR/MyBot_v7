@@ -11,7 +11,7 @@
 ; ===============================================================================================================================
 
 Func CheckQueue($sText = "troop")
-	Local $CheckTroop[4] = [810, 186, 0xCFCFC8, 15] ; the gray background
+	Local $CheckTroop[4] = [825, 204, 0xCFCFC8, 15] ; the gray background
 	Local $directory = @ScriptDir & "\imgxml\Train\Queue_" & $sText
 	Local $aeResult[2] = [$g_eNoTrain, $g_eNoTrain]
 	Local $iTotalQueue = 0
@@ -35,10 +35,10 @@ Func CheckQueue($sText = "troop")
 		Local $x = 0
 		While Not _ColorCheck(_GetPixelColor($CheckTroop[0] - 11 * 70, $CheckTroop[1], True), Hex($CheckTroop[2], 6), $CheckTroop[3])
 			If _Sleep(20) Then Return
-			If $g_bRunState = False Then Return
+			If Not $g_bRunState Then Return
 			PureClick($CheckTroop[0] - 11 * 70, 202, 2, 50)
 			$x += 1
-			If $x = 250 Then ExitLoop
+			If $x = 260 Then ExitLoop
 		WEnd
 	EndIf
 
@@ -127,7 +127,7 @@ Func CheckQueue($sText = "troop")
 EndFunc   ;==>CheckQueue
 
 Func DeleteQueue($sText = "troop")
-	Local $CheckTroop[4] = [810, 186, 0xCFCFC8, 15] ; the gray background
+	Local $CheckTroop[4] = [825, 204, 0xCFCFC8, 15] ; the gray background
 	SetLog("  » Removing all queue " & $sText)
 	For $i = 0 To 11
 		If Not _ColorCheck(_GetPixelColor($CheckTroop[0] - $i * 70, $CheckTroop[1], True), Hex($CheckTroop[2], 6), $CheckTroop[3]) Then
@@ -138,7 +138,7 @@ Func DeleteQueue($sText = "troop")
 				PureClick($CheckTroop[0] - $i * 70, 202, 2, 50)
 				$x += 1
 				If $sText = "troop" Then
-					If $x = 250 Then ExitLoop
+					If $x = 260 Then ExitLoop
 				ElseIf $sText = "spell" Then
 					If $x = 22 Then ExitLoop
 				EndIf

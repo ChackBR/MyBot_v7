@@ -68,7 +68,8 @@ Global $g_hFrmBot = 0 ; The main GUI window
 ; "r01" ; MyBot v7.4.3 + S&E: FFC + DEB + SartTrain + Fast Click Donate ( while using QuickTrain )
 ; "r01" ; MyBot v7.4.4 + S&E: FFC + DEB + SartTrain + Fast Click Donate ( while using QuickTrain )
 ; "r01" ; MyBot v7.4.4 + S&E: FFC + DEB + SartTrain + Fast Click Donate ( while using QuickTrain ) + CCO
-$g_sModversion = "r01" ; MyBot v7.5.0 + S&E: FFC + DEB + SartTrain + Fast Click Donate ( while using QuickTrain ) + CCO
+; "r01" ; MyBot v7.5.0 + S&E: FFC + DEB + SartTrain + Fast Click Donate ( while using QuickTrain ) + CCO
+$g_sModversion = "r01" ; MyBot v7.5.1 + S&E: FFC + DEB + SartTrain + Fast Click Donate ( while using QuickTrain ) + CCO
 
 ; MBR includes
 #include "COCBot\MBR Global Variables.au3"
@@ -765,10 +766,10 @@ Func runBot() ;Bot that runs everything in order
 			checkMainScreen(False)
 			If $g_bRestart = True Then ContinueLoop
 
+			; Request CC Troops at first - Team AiO++
 			$g_bcanRequestCC = True
-			; Request CC Troops at first - Persian MOD (#-18)
-			If ($g_bReqCCFirst) Then
-				CheckCC() ; CheckCC Troops - Persian MOD (#-24)
+			If $g_bReqCCFirst Then
+				CheckCC()
 				RequestCC()
 				If _Sleep($DELAYRUNBOT1) = False Then checkMainScreen(False)
 			EndIf
@@ -1033,7 +1034,7 @@ Func _Idle() ;Sequence that runs until Full Army
 EndFunc   ;==>_Idle
 
 Func AttackMain() ;Main control for attack functions
-	;LoadAmountOfResourcesImages() ; for debug
+	If ProfileSwitchAccountEnabled() And $g_abDonateOnly[$g_iCurAccount] Then Return
 	getArmyTroopCapacity(True, True)
 	ClickP($aAway, 1, 0, "#0000") ;Click Away to prevent any pages on top
 	If IsSearchAttackEnabled() Then
@@ -1205,7 +1206,7 @@ Func _RunFunction($action)
 			BoostWarden()
 		Case "RequestCC"
 			If Not ($g_bReqCCFirst) Then
-				CheckCC() ; CheckCC Troops - Persian MOD (#-24)
+				CheckCC() ; CheckCC Troops - AIO++ MOD
 				RequestCC()
 			EndIf
 			If _Sleep($DELAYRUNBOT1) = False Then checkMainScreen(False)
@@ -1221,7 +1222,7 @@ Func _RunFunction($action)
  			AutoUpgrade()
 			_Sleep($DELAYRUNBOT3)
 		Case "BuilderBase"
-			If isOnBuilderIsland() Or (($g_bChkCollectBuilderBase Or $g_bChkStartClockTowerBoost Or $g_iChkBBSuggestedUpgrades) And SwitchBetweenBases()) Then
+			If isOnBuilderBase() Or (($g_bChkCollectBuilderBase Or $g_bChkStartClockTowerBoost Or $g_iChkBBSuggestedUpgrades) And SwitchBetweenBases()) Then
 				CollectBuilderBase()
 				BuilderBaseReport()
 				StartClockTowerBoost()

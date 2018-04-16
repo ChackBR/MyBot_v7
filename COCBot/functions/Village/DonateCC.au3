@@ -656,15 +656,15 @@ Func DonateTroopType(Const $iTroopIndex, $Quant = 0, Const $Custom = False, Cons
 					EndIf
 				EndIf
 
-				; Adjust Values for donated troops to prevent a Double ghost donate to stats and train
-				If $iTroopIndex >= $eTroopBarbarian And $iTroopIndex <= $eTroopBowler Then
-					;Reduce iTotalDonateCapacity by troops donated
-					$g_iTotalDonateCapacity -= ($Quant * $g_aiTroopSpace[$iTroopIndex])
-					;If donated max allowed troop qty set $g_bSkipDonTroops = True
-					If $g_iDonTroopsLimit = $Quant Then
-						$g_bSkipDonTroops = True
-					EndIf
+			; Adjust Values for donated troops to prevent a Double ghost donate to stats and train
+			If $iTroopIndex >= $eTroopBarbarian And $iTroopIndex <= $eTroopBowler Then
+				;Reduce iTotalDonateCapacity by troops donated
+				$g_iTotalDonateCapacity -= ($Quant * $g_aiTroopSpace[$iTroopIndex])
+				;If donated max allowed troop qty set $g_bSkipDonTroops = True
+				If $g_iDonTroopsLimit = $Quant Then
+					$g_bSkipDonTroops = True
 				EndIf
+			EndIf
 
 		Else
 			If $g_bDebugOCRdonate Then
@@ -674,16 +674,17 @@ Func DonateTroopType(Const $iTroopIndex, $Quant = 0, Const $Custom = False, Cons
 				SetLog("coordinate: " & 365 + ($Slot * 68) & "," & $g_iDonationWindowY + 100 + $YComp, $COLOR_ERROR)
 				debugimagesave("LiveDonateCC-r" & $donaterow & "-c" & $donateposinrow & "-" & $g_asTroopNames[$iTroopIndex] & "_")
 			EndIf
-			If _ColorCheck(_GetPixelColor(350 + ($Slot * 68), $g_iDonationWindowY + 105 + $YComp, True), Hex(0x306ca8, 6), 20) Or _
-					_ColorCheck(_GetPixelColor(355 + ($Slot * 68), $g_iDonationWindowY + 106 + $YComp, True), Hex(0x306ca8, 6), 20) Or _
-					_ColorCheck(_GetPixelColor(360 + ($Slot * 68), $g_iDonationWindowY + 107 + $YComp, True), Hex(0x306ca8, 6), 20) Then ; check for 'blue'
-				Click(365 + ($Slot * 68), $g_iDonationWindowY + 100 + $YComp, $g_iDonTroopsQuantity, $DELAYDONATECC3, "#0175")
-				$g_aiDonateStatsTroops[$iTroopIndex][0] += $g_iDonTroopsQuantity
-				If $g_iCommandStop = 3 Then
-					$g_iCommandStop = 0
-					$g_bFullArmy = False
+				If _ColorCheck(_GetPixelColor(350 + ($Slot * 68), $g_iDonationWindowY + 105 + $YComp, True), Hex(0x306ca8, 6), 20) Or _
+						_ColorCheck(_GetPixelColor(355 + ($Slot * 68), $g_iDonationWindowY + 106 + $YComp, True), Hex(0x306ca8, 6), 20) Or _
+						_ColorCheck(_GetPixelColor(360 + ($Slot * 68), $g_iDonationWindowY + 107 + $YComp, True), Hex(0x306ca8, 6), 20) Then ; check for 'blue'
+
+					Click(365 + ($Slot * 68), $g_iDonationWindowY + 100 + $YComp, $g_iDonTroopsQuantity, $DELAYDONATECC3, "#0175")
+					$g_aiDonateStatsTroops[$iTroopIndex][0] += $g_iDonTroopsQuantity
+					If $g_iCommandStop = 3 Then
+						$g_iCommandStop = 0
+						$g_bFullArmy = False
+					EndIf
 				EndIf
-			EndIf
 
 			If $bDonateAll Then $sTextToAll = " (to all requests)"
 			SetLog("Donating " & $g_iDonTroopsQuantity & " " & ($g_iDonTroopsQuantity > 1 ? $g_asTroopNamesPlural[$iTroopIndex] : $g_asTroopNames[$iTroopIndex]) & _

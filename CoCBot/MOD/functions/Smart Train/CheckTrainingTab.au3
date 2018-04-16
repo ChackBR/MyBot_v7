@@ -114,7 +114,8 @@ Func ClearTrainingTroops($eOpenTrainTab = -1)
 	If _ColorCheck(_GetPixelColor(820, 220, True), Hex(0xCFCFC8, 6), 15) Then Return False ; Gray background found, no troop is training
 
 	Local $x = 0
-	While _ColorCheck(_GetPixelColor(820, 220, True), Hex(0xCFCFC8, 6), 15) = False ; the gray background at slot 0 troop
+	While Not _ColorCheck(_GetPixelColor(820, 220, True), Hex(0xCFCFC8, 6), 15) ; the gray background at slot 0 troop
+		If _Sleep(20) Then Return
 		PureClick(820, 202, 2, 50)
 		$x += 1
 		If $x = 480 Then ExitLoop
