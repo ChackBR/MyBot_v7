@@ -70,7 +70,8 @@ Global $g_hFrmBot = 0 ; The main GUI window
 ; "r01" ; MyBot v7.4.4 + S&E: FFC + DEB + SartTrain + Fast Click Donate ( while using QuickTrain ) + CCO
 ; "r01" ; MyBot v7.5.0 + S&E: FFC + DEB + SartTrain + Fast Click Donate ( while using QuickTrain ) + CCO
 ; "r01" ; MyBot v7.5.1 + S&E: FFC + DEB + SartTrain + Fast Click Donate ( while using QuickTrain ) + CCO
-$g_sModversion = "r02" ; MyBot v7.5.1 + S&E: FFC + DEB + SartTrain + Fast Click Donate ( while using QuickTrain ) + CCO + Jun/2018 upd cv12
+; "r02" ; MyBot v7.5.1 + S&E: FFC + DEB + SartTrain + Fast Click Donate ( while using QuickTrain ) + CCO + Jun/2018 upd cv12
+$g_sModversion = "r01" ; MyBot v7.5.2 + S&E: FFC + DEB + SamrtTrain + Fast Click Donate ( while using QuickTrain ) + CCO
 
 ; MBR includes
 #include "COCBot\MBR Global Variables.au3"
@@ -775,7 +776,7 @@ Func runBot() ;Bot that runs everything in order
 				If _Sleep($DELAYRUNBOT1) = False Then checkMainScreen(False)
 			EndIf
 
-			Local $aRndFuncList = ['Collect', 'CheckTombs', 'ReArm', 'CleanYard']
+			Local $aRndFuncList = ['LabCheck', 'Collect', 'CheckTombs', 'ReArm', 'CleanYard']
 			While 1
 				If $g_bRunState = False Then Return
 				If $g_bRestart = True Then ContinueLoop 2 ; must be level 2 due to loop-in-loop
@@ -1205,6 +1206,10 @@ Func _RunFunction($action)
 			BoostQueen()
 		Case "BoostWarden"
 			BoostWarden()
+		Case "LabCheck"
+			Setlog("Checking Lab Status", $COLOR_INFO)
+			LabGuiDisplay()
+			_Sleep($DELAYRUNBOT3)	
 		Case "RequestCC"
 			If Not ($g_bReqCCFirst) Then
 				CheckCC() ; CheckCC Troops - AIO++ MOD

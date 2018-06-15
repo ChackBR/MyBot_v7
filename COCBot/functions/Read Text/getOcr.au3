@@ -108,11 +108,11 @@ Func getProfile($x_start, $y_start) ;  -> Gets Attack Win/Defense Win/Donated/Re
 EndFunc   ;==>getProfile
 
 Func getTroopCountSmall($x_start, $y_start, $bNeedNewCapture = Default) ;  -> Gets troop amount on Attack Screen for non-selected troop kind
-	Return getOcrAndCapture("coc-t-s", $x_start, $y_start, 53, 15, True, Default, $bNeedNewCapture)
+	Return getOcrAndCapture("coc-t-s", $x_start, $y_start, 53, 16, True, Default, $bNeedNewCapture)
 EndFunc   ;==>getTroopCountSmall
 
 Func getTroopCountBig($x_start, $y_start, $bNeedNewCapture = Default) ;  -> Gets troop amount on Attack Screen for selected troop kind
-	Return getOcrAndCapture("coc-t-b", $x_start, $y_start, 53, 16, True, Default, $bNeedNewCapture)
+	Return getOcrAndCapture("coc-t-b", $x_start, $y_start, 53, 17, True, Default, $bNeedNewCapture)
 EndFunc   ;==>getTroopCountBig
 
 Func getTroopsSpellsLevel($x_start, $y_start) ;  -> Gets spell level on Attack Screen for selected spell kind (could be used for troops too)
@@ -271,7 +271,7 @@ Func getBarracksNewTroopQuantity($x_start, $y_start, $bNeedCapture = True) ;  ->
 EndFunc   ;==>getBarracksNewTroopQuantity
 
 Func getArmyCapacityOnTrainTroops($x_start, $y_start) ;  -> Gets quantity of troops in army Window
-	Return getOcrAndCapture("coc-NewCapacity", $x_start, $y_start, 75, 14, True)
+	Return getOcrAndCapture("coc-NewCapacity", $x_start, $y_start, 67, 14, True)
 EndFunc   ;==>getArmyCapacityOnTrainTroops
 
 Func getQueueTroopsQuantity($x_start, $y_start) ;  -> Gets quantity of troops in Queue in Train Tab

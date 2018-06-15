@@ -183,7 +183,7 @@ Func CreateAttackSearchDeadBaseCollectors()
 		;EndIf
 
 	$y += 25
-		$g_hLblCollectorWarning = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Attack - Deadbase-Collectors", "LblCollectorWarning", "Warning: no collecters are selected. The bot will never find a dead base."), $x, $y, 255, 30)
+		$g_hLblCollectorWarning = GUICtrlCreateLabel("Warning: no collecters are selected. The bot will never find a dead base.", $x, $y, 255, 30)
 			GUICtrlSetFont(-1, 10, $FW_BOLD)
 			GUICtrlSetColor(-1, $COLOR_ERROR)
 			GUICtrlSetState(-1, $GUI_HIDE)

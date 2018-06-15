@@ -95,6 +95,7 @@ Func InitializeMainGUI($bGuiModeUpdate = False)
 		GUICtrlSetState($g_hChkMakeIMGCSV, $GUI_SHOW + $GUI_ENABLE)
 		GUICtrlSetState($g_hChkdebugAttackCSV, $GUI_SHOW + $GUI_ENABLE)
 		GUICtrlSetState($g_hChkDebugSmartZap, $GUI_SHOW + $GUI_ENABLE)
+		GUICtrlSetState($g_hbtnAttNow, $GUI_SHOW + $GUI_ENABLE)
 	EndIf
 
 	; GUI events and messages
@@ -1967,7 +1968,7 @@ Func Bind_ImageList($nCtrl, ByRef $hImageList)
 	Switch $nCtrl
 		Case $g_hTabMain
 			; the icons for main tab
-			Local $aIconIndex = [$eIcnHourGlass, $eIcnTH11, $eIcnAttack, $eIcnGUI, $eIcnInfo]
+			Local $aIconIndex = [$eIcnHourGlass, $eIcnTH12, $eIcnAttack, $eIcnGUI, $eIcnInfo]
 
 		Case $g_hGUI_VILLAGE_TAB
 			; the icons for village tab
