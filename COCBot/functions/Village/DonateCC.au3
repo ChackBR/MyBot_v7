@@ -945,8 +945,8 @@ Func RemainingCCcapacity()
 
 	; Verify with OCR the Donation Clan Castle capacity
 	If $g_bDebugSetlog Then SetDebugLog("Started dual getOcrSpaceCastleDonate", $COLOR_DEBUG)
-	$aCapTroops = getOcrSpaceCastleDonate(49, $g_aiDonatePixel[1]) ; when the request is troops+spell
-	$aCapSpells = getOcrSpaceCastleDonate(154, $g_aiDonatePixel[1]) ; when the request is troops+spell
+	$aCapTroops = getOcrSpaceCastleDonate(31, $g_aiDonatePixel[1]) ; when the request is troops+spell
+	$aCapSpells = getOcrSpaceCastleDonate(108, $g_aiDonatePixel[1]) ; when the request is troops+spell
 
 	If $g_bDebugSetlog Then SetDebugLog("$aCapTroops :" & $aCapTroops, $COLOR_DEBUG)
 	If $g_bDebugSetlog Then SetDebugLog("$aCapSpells :" & $aCapSpells, $COLOR_DEBUG)

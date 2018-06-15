@@ -1508,7 +1508,7 @@ EndFunc   ;==>LeftSpace
 Func IsArmyWindow($bSetLog = False, $iTabNumber = 0)
 
 	Local $i = 0
-	Local $_TabNumber[4][4] = [[114, 115, 0xF8F8F8, 5], [284, 115, 0xF8F8F8, 5], [505, 115, 0xF8F8F8, 5], [702, 115, 0xF8F8F8, 5]] ; Grey pixel on the tab name when is selected
+	Local $_TabNumber[4][4] = [[114, 115, 0xF8F8F8, 5], [284, 115, 0xF8F8F8, 5], [440, 115, 0xF8F8F8, 5], [600, 115, 0xF8F8F8, 5]] ; Grey pixel on the tab name when is selected
 	Local $CheckIT[4] = [$_TabNumber[$iTabNumber][0], $_TabNumber[$iTabNumber][1], $_TabNumber[$iTabNumber][2], $_TabNumber[$iTabNumber][3]]
 
 	Local $txt = ""

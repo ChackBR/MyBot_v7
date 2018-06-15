@@ -272,6 +272,10 @@ Func DropTrophy()
 							Click($aRandomEdge[$iRandomXY][0], $aRandomEdge[$iRandomXY][1], 1, 0, "#0186") ;Drop one troop
 							$g_aiCurrentTroops[$eTroopMinion] += 1
 							SetLog("Deploying 1 Minion", $COLOR_INFO)
+						Case $g_avAttackTroops[0][0] = $eBall
+							Click($aRandomEdge[$iRandomXY][0], $aRandomEdge[$iRandomXY][1], 1, 0, "#0186") ;Drop one troop
+							$g_aiCurrentTroops[$eTroopBalloon] += 1
+							SetLog("Deploying 1 Balloon", $COLOR_INFO)
 						Case Else
 							SetLog("You don't have Tier 1/2 Troops, Stop dropping trophies.", $COLOR_INFO) ; preventing of deploying Tier 2/3 expensive troops
 							$g_bDisableDropTrophy = True

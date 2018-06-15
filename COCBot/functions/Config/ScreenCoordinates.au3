@@ -95,7 +95,7 @@ Global $aDetectLang[2] = [16, 634 + $g_iBottomOffsetY] ; Detect Language, bottom
 Global $aGreenArrowTrainTroops[2] = [389, 125]
 Global $aGreenArrowBrewSpells[2] = [585, 125]
 Global $g_aShopWindowOpen[4] = [804, 54, 0xC00508, 15] ; Red pixel in lower right corner of RED X to close shop window
-Global $aTreasuryWindow[4] = [689, 138 + $g_iMidOffsetY, 0xFF8D95, 20] ; Redish pixel above X to close treasury window
+Global $aTreasuryWindow[4] = [689, 172 + $g_iMidOffsetY, 0xFF8D95, 20] ; Redish pixel above X to close treasury window
 Global $aAttackForTreasury[4] = [88, 619 + $g_iMidOffsetY, 0xF0EBE8, 5] ; Red pixel below X to close treasury window
 Global $aAtkHasDarkElixir[4]  = [ 31, 144, 0x282020, 10] ; Attack Page, Check for DE icon
 Global $aVillageHasDarkElixir[4] = [837, 134, 0x3D2D3D, 10] ; Main Page, Base has dark elixir storage
@@ -106,10 +106,10 @@ Global $aVillageHasDarkElixir[4] = [837, 134, 0x3D2D3D, 10] ; Main Page, Base ha
 Global $aCheckTopProfile[4] = [200, 166, 0x868CAC, 5]
 Global $aCheckTopProfile2[4] = [220, 355, 0x4E4D79, 5]
 
-Global $aArmyTab[4] = [170, 120, 0xFAFAF8, 20] ; Army Tab, right from text, white
-Global $aTroopsTab[4] = [380, 120, 0xFAFAF8, 20] ; Troops Tab, right from text, white
-Global $aSpellsTab[4] = [565, 120, 0xFAFAF8, 20] ; Spells Tab, right from text, white
-Global $aQuickTrainTab[4] = [770, 120, 0xFAFAF8, 20] ; Quick Train Tab, right from text, white
+Global $aArmyTab[4] = [150, 120, 0xFAFAF8, 20] ; Army Tab, right from text, white
+Global $aTroopsTab[4] = [300, 120, 0xFAFAF8, 20] ; Troops Tab, right from text, white
+Global $aSpellsTab[4] = [460, 120, 0xFAFAF8, 20] ; Spells Tab, right from text, white
+Global $aQuickTrainTab[4] = [625, 120, 0xFAFAF8, 20] ; Quick Train Tab, right from text, white
 Global $aRecievedTroops[4] = [200 ,215 ,0xFFFFFF, 20] ; Y of You have recieved blabla from xx!
 
 ; Check healthy color RGB ( 220,255,19~27) ; the king and queen haves the same Y , but warden is a little lower ...
@@ -130,7 +130,7 @@ Global $NextBtn[4] = [780, 546 + $g_iBottomOffsetY, 0xD34300, 20] ;  Next Button
 ; Someone asking troops : Color 0xD0E978 in x = 121
 
 ; 1 - Dark Gray : Castle filled/No Castle | 2 - Dark Green : Available or Already made | 3 - White : Available or Castle filled/No Castle
-Global $aRequestTroopsAO[6] = [754, 580, 0x919191, 0x6DB630, 0xFFFFFE, 15] ; Button Request Troops in Army Overview  (x,y, Gray - Full/No Castle, Green - Available or Already, White - Available or Full)
+Global $aRequestTroopsAO[6] = [765, 580, 0x919191, 0x6DB630, 0xFFFFFE, 15] ; Button Request Troops in Army Overview  (x,y, Gray - Full/No Castle, Green - Available or Already, White - Available or Full)
 
 Global Const $aOpenChatTab[4] = [19, 335 + $g_iMidOffsetY, 0xE88D27, 20]
 Global Const $aCloseChat[4] = [331, 330 + $g_iMidOffsetY, 0xF0951D, 20] ; duplicate with $aChatTab above, need to rename and fix all code to use one?
@@ -171,7 +171,7 @@ Global $aFindMatchButtonRND[4] = [200, 510 + $g_iMidOffsetY, 300, 530 + $g_iMidO
 Global $NextBtnRND[4] = [710, 530 + $g_iMidOffsetY, 830, 570 + $g_iMidOffsetY] ;  Next Button
 
 ;Switch Account
-Global $aLoginWithSupercellID[4] = [305, 600 + $g_iMidOffsetY, 0xB1E25A, 20] ; Upper green button section "Log in with Supercell ID" 0xB1E25A
+Global $aLoginWithSupercellID[4] = [285, 647, 0xCDEF75, 20] ; Upper green button section "Log in with Supercell ID" 0xCDEF75 Supercell ID" 0xB1E25A
 Global $aButtonSetting[4] = [820, 550 + $g_iMidOffsetY, 0xFFFFFF, 10] ; Setting button, Main Screen
 ;Google Play
 Global $aButtonConnected[4] = [430, 380 + $g_iMidOffsetY, 0xD8F480, 20] ; Setting screen, Connected button
@@ -182,7 +182,7 @@ Global $aTextBox[4] = [320, 160 + $g_iMidOffsetY, 0xFFFFFF, 10] ; Text box, Whit
 Global $aButtonVillageOkay[4] = [500, 170 + $g_iMidOffsetY, 0x81CA2D, 20] ; Okay button, Green
 ;SuperCell ID
 Global $aButtonConnectedSCID[4] = [430, 205 + $g_iMidOffsetY, 0x6EB730, 20] ; Setting creen, Supercell ID Connected button
-Global $aButtonLogOutSCID[4] = [700,  285 + $g_iMidOffsetY, 0x308AFB, 20] ; Supercell ID, Log Out button
+Global $aButtonLogOutSCID[4] = [700, 285 + $g_iMidOffsetY, 0x308AFB, 20] ; Supercell ID, Log Out button
 Global $aButtonConfirmSCID[4] = [460, 410 + $g_iMidOffsetY, 0x328AFB, 20] ; Supercell ID, Confirm button
 Global $aListAccountSCID[4] = [490, 185 + $g_iMidOffsetY, 0x000000, 10] ; Supercell ID, Black check in word "ID"
 Global $aCloseTabSCID[4] = [732, 145] ; Button Close Supercell ID tab

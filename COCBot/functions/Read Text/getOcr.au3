@@ -271,7 +271,7 @@ Func getBarracksNewTroopQuantity($x_start, $y_start, $bNeedCapture = True) ;  ->
 EndFunc   ;==>getBarracksNewTroopQuantity
 
 Func getArmyCapacityOnTrainTroops($x_start, $y_start) ;  -> Gets quantity of troops in army Window
-	Return getOcrAndCapture("coc-NewCapacity", $x_start, $y_start, 67, 14, True)
+	Return getOcrAndCapture("coc-NewCapacity", $x_start, $y_start, 75, 14, True)
 EndFunc   ;==>getArmyCapacityOnTrainTroops
 
 Func getQueueTroopsQuantity($x_start, $y_start) ;  -> Gets quantity of troops in Queue in Train Tab

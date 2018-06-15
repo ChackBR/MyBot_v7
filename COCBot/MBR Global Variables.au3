@@ -647,8 +647,8 @@ Global Enum $eSpellLightning, $eSpellHeal, $eSpellRage, $eSpellJump, $eSpellFree
 		$eSpellPoison, $eSpellEarthquake, $eSpellHaste, $eSpellSkeleton, $eSpellCount
 Global Const $g_asSpellNames[$eSpellCount] = ["Lightning", "Heal", "Rage", "Jump", "Freeze", "Clone", "Poison", "Earthquake", "Haste", "Skeleton"]
 Global Const $g_asSpellShortNames[$eSpellCount] = ["LSpell", "HSpell", "RSpell", "JSpell", "FSpell", "CSpell", "PSpell", "ESpell", "HaSpell", "SkSpell"]
-Global Const $g_aiSpellSpace[$eSpellCount] = [2, 2, 2, 2, 2, 4, 1, 1, 1, 1]
-Global Const $g_aiSpellTrainTime[$eSpellCount] = [360, 360, 360, 360, 360, 720, 180, 180, 180, 180]
+Global Const $g_aiSpellSpace[$eSpellCount] = [2, 2, 2, 2, 2, 3, 1, 1, 1, 1]
+Global Const $g_aiSpellTrainTime[$eSpellCount] = [360, 360, 360, 360, 360, 540, 180, 180, 180, 180]
 ; Zero element contains number of levels, elements 1 thru n contain cost of that level spell
 Global Const $g_aiSpellCostPerLevel[$eSpellCount][8] = [ _
 		[7, 15000, 16500, 18000, 20000, 22000, 24000, 26000], _  ;LightningSpell
@@ -656,7 +656,7 @@ Global Const $g_aiSpellCostPerLevel[$eSpellCount][8] = [ _
 		[5, 23000, 25000, 27000, 30000, 33000], _     			 ;RageSpell
 		[3, 23000, 27000, 31000], _        						 ;JumpSpell
 		[6, 23000, 26000, 29000, 31000, 33000, 35000], _ 		 ;FreezeSpell
-		[5, 38000, 39000, 41000, 43000, 45000], _				 ;CloneSpell
+		[5, 28000, 29500, 31000, 32500, 34000], _				 ;CloneSpell
 		[5, 95, 110, 125, 140, 155], _         					 ;PoisonSpell
 		[4, 125, 140, 160, 180], _    							 ;EarthquakeSpell
 		[4, 80, 85, 90, 95], _									 ;HasteSpell
@@ -1475,7 +1475,7 @@ Global $g_iDonationWindowY = 0
 
 ; Drop trophy
 Global $g_bDisableDropTrophy = False ; this will be True if you tried to use Drop Throphy and did not have Tier 1 or 2 Troops to protect you expensive troops from being dropped.
-Global $g_avDTtroopsToBeUsed[6][2] = [["Barb", 0], ["Arch", 0], ["Giant", 0], ["Wall", 0], ["Gobl", 0], ["Mini", 0]] ; DT available troops [type, qty]
+Global $g_avDTtroopsToBeUsed[7][2] = [["Barb", 0], ["Arch", 0], ["Giant", 0], ["Wall", 0], ["Gobl", 0], ["Mini", 0], ["Ball", 0]] ; DT available troops [type, qty]
 
 ; Obstacles
 Global $g_bMinorObstacle = False
