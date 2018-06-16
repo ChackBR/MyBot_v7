@@ -419,7 +419,15 @@ Func SwitchCOCAcc_DisconnectConnect(ByRef $bResult, $bDisconnectOnly = $g_bChkSh
 			;ExitLoop
 			Return "OK"
 		ElseIf _ColorCheck(_GetPixelColor($aButtonConnectedSCID[0], $aButtonConnectedSCID[1], True), Hex($aButtonConnectedSCID[2], 6), $aButtonConnectedSCID[3]) Then ; Green
-			SetLog("Account connected to SuperCell ID")
+			If $bDisconnectOnly = False Then
+				SetLog("   1. Click Connect & Disconnect")
+				Click($aButtonConnected[0], $aButtonConnected[1], 2, 1000) ; Click Connect & Disconnect
+				If _Sleep(200) Then Return "Exit"
+			Else
+				SetLog("   1. Click Connected")
+				Click($aButtonConnected[0], $aButtonConnected[1], 1, 1000) ; Click Disconnect
+				If _Sleep(200) Then Return "Exit"
+			EndIf
 			;ExitLoop
 			Return "OK"
 		EndIf
