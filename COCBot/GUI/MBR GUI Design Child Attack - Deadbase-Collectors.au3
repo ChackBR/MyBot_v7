@@ -19,7 +19,7 @@ Global $g_ahChkDBCollectorLevel[13] = [-1, -1, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0,
 Global $g_ahCmbDBCollectorLevel[13] = [-1, -1, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0] ; elements 0 thru 5 are never referenced
 Global $g_hCmbMinCollectorMatches = 0, $g_hSldCollectorTolerance = 0, $g_hLblCollectorWarning = 0
 
-; Check Collector Outside - Persian MOD (#-08)
+; Check Collector Outside - Team AiO MOD++
 Global $g_hChkDBMeetCollOutside = 0, $g_hChkDBCollectorsNearRedline = 0, $g_hChkSkipCollectorCheck = 0, $g_hChkSkipCollectorCheckTH = 0
 Global $g_hCmbRedlineTiles = 0, $g_hCmbSkipCollectorCheckTH = 0
 Global $g_hLblDBMinCollOutsideText = 0, $g_hLblDBMinCollOutsideText1 = 0, $g_hLblRedlineTiles = 0, $g_hLblSkipCollectorCheck = 0

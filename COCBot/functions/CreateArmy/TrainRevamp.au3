@@ -147,7 +147,7 @@ Func TestMaxCamp()
 			$ToReturn = 1
 		Else
 			; The number of troops is not correct
-			If $ArmyCamp[1] > 520 Then SetLog(" Your CoC is outdated!!! ", $COLOR_ERROR)
+			If $ArmyCamp[1] > 540 Then SetLog(" Your CoC is outdated!!! ", $COLOR_ERROR)
 			SetLog(" - Your army is: " & $ArmyCamp[0], $COLOR_ACTION)
 			$ToReturn = 0
 		EndIf
@@ -1775,7 +1775,7 @@ Func DeleteQueued($sArmyTypeQueued, $iOffsetQueued = 802)
 		If Not $g_bRunState Then Return
 		Click($iOffsetQueued + 24, 202, 2, 50)
 		$x += 1
-		If $x = 270 Then ExitLoop
+		If $x = 290 Then ExitLoop
 	WEnd
 EndFunc   ;==>DeleteQueued
 
