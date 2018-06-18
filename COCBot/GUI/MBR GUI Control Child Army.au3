@@ -20,8 +20,8 @@ Func chkUseQTrain()
 		chkQuickTrainCombo()
 		; Smart Train - AiO++
 		If GUICtrlRead($g_hChkSmartTrain) = $GUI_CHECKED Then
-			GUICtrlSetState($g_hChkPreciseArmyCamp, $GUI_UNCHECKED)
-			GUICtrlSetState($g_hChkPreciseArmyCamp, $GUI_DISABLE)
+			GUICtrlSetState($g_hChkPreciseTroops, $GUI_UNCHECKED)
+			GUICtrlSetState($g_hChkPreciseTroops, $GUI_DISABLE)
 		EndIf
 		_GUI_Value_STATE("DISABLE", $grpTrainTroops)
 		_GUI_Value_STATE("DISABLE", $grpCookSpell)
