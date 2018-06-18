@@ -869,8 +869,6 @@ Func runBot() ;Bot that runs everything in order
 			Else
 				If $g_bIsSearchLimit = True Then
 					SetLog("Restarted due search limit", $COLOR_INFO)
-				ElseIf $g_bIsSearchTimeout = True Then
-					SetLog("[Legend League] Restarted due search timeout", $COLOR_INFO)
 				Else
 					SetLog("Restarted after Out of Sync Error: Attack Now", $COLOR_INFO)
 				EndIf
