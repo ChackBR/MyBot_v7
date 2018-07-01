@@ -33,12 +33,10 @@
 ![Ii]mages/logo.jpg
 ![Ii]mages/2arrow.jpg
 ![Ii]mages/MyBot.ico
-![Ii]mages/Button/Traps.png
-![Ii]mages/Button/Xbow.png
-![Ii]mages/Button/Inferno.png
-![Ii]mages/Button/BoostBarrack.png
-![Ii]mages/Button/BoostAllBarracks.png
-![Ii]mages/Button/BarrackBoosted.png
+![Ii]mages/ClanGames.bmp
+![Ii]mages/Potion.bmp
+![Ii]mages/Button/*.png
+![Ii]mages/Button/*.bmp
 ![Ii]mages/imglocbuttons/*.png
 ![Ii]mages/Resources/Collect/*.png
 ![Ii]mages/Resources/Collect/*.bmp
@@ -54,7 +52,9 @@
 ![Ii]mages/WeakBase/Xbow/*.png
 ![Ii]mages/Walls/*.jpg
 ![Ii]mages/*.png
+![Ii]mages/*.jpg
 ![Ss]trategies/*.ini
+![Ii]mages/Treasury.jpg
 
 #imgloc transition
 ![Ii]mgxml/boostbarracks/*.png
@@ -96,7 +96,17 @@
 ![Ii]mgxml/deadbase/elix/*.png
 ![Ii]mgxml/deadbase/elix/50/*.png
 ![Ii]mgxml/deadbase/elix/100/*.png
-![Ii]mgxml/trainwindow/herostatus/*.png
+![Ii]mgxml/Resources/RKBuildersBase/Boat/*.png
+![Ii]mgxml/Resources/RKBuildersBase/Resources/*/*.png
+![Ii]mgxml/Resources/RKBuildersBase/SuggestedUpdates/*.png
+![Ii]mgxml/Resources/RKBuildersBase/ConfirmBoost/*.png
+![Ii]mgxml/Resources/RKBuildersBase/ClockTower/*.png
+![Ii]mgxml/Resources/RKBuildersBase/BoostButton/*.png
+![Ii]mgxml/Resources/RKBuildersBase/AutoUpgrade/*/*.png
+![Ii]mgxml/Resources/RKBuildersBase/AutoUpgrade/*/*/*.png
+![Ii]mgxml/Resources/RKBuildersBase/Laboratory/*/*.png
+![Ii]mgxml/ArmySpells/*.png
+![Ii]mgxml/Clouds/*.png
 
 # ignore test strategies
 [Ss]trategies/[Tt]est*.ini
@@ -124,3 +134,4 @@ ImgLocDebug.txt
 LastVersion*.txt
 TestVersion*.txt
 *_stripped.au3
+lib/*.html

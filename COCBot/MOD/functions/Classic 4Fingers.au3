@@ -41,19 +41,3 @@ Func Bridge()
 	EndIf
 
 EndFunc   ;==>Bridge
-
-Func cmbGiantSlot()
-	If $g_iChkGiantSlot = 1 Then
-		Switch _GUICtrlComboBox_GetCurSel($g_hCmbGiantSlot)
-			Case 0
-				$g_aiSlotsGiants = 0
-			Case 1
-				$g_aiSlotsGiants = 2
-		EndSwitch
-	Else
-	LocaL $GiantComp = $g_ahTxtTrainArmyTroopCount[$eTroopGiant]
-		If Number($GiantComp) >= 1 And Number($GiantComp) <= 7 Then $g_aiSlotsGiants = 1
-		If Number($GiantComp) >= 8 Then $g_aiSlotsGiants = 2 ; will be split in 2 slots, when >16 or >=8 with FF
-		If Number($GiantComp) >= 12 Then $g_aiSlotsGiants = 0 ; spread on vector, when >20 or >=12 with FF
-	EndIf
-EndFunc   ;==>cmbGiantSlot

@@ -147,7 +147,7 @@ Func TestMaxCamp()
 			$ToReturn = 1
 		Else
 			; The number of troops is not correct
-			If $ArmyCamp[1] > 540 Then SetLog(" Your CoC is outdated!!! ", $COLOR_ERROR)
+			If $ArmyCamp[1] > 520 Then SetLog(" Your CoC is outdated!!! ", $COLOR_ERROR)
 			SetLog(" - Your army is: " & $ArmyCamp[0], $COLOR_ACTION)
 			$ToReturn = 0
 		EndIf
@@ -343,11 +343,6 @@ Func IsFullClanCastleTroops()
 	If Not $g_abSearchCastleTroopsWaitEnable[$DB] And Not $g_abSearchCastleTroopsWaitEnable[$LB] Then
 		Return True
 	EndIf
-
-	; --------------------------------------------
-	; CheckCC Troops
-	; --------------------------------------------
-	CheckCC(False)
 
 	Local $bColCheck = _ColorCheck(_GetPixelColor(24, 470, True), Hex(0x93C230, 6), 30)
 
@@ -793,7 +788,7 @@ Func BrewUsingWhatToTrain($Spell, $Quantity) ; it's job is a bit different with 
 		Return True
 	EndIf
 	If Not $g_bRunState Then Return
-	If Not OpenSpellsTab(True, "BrewUsingWhatToTrain()") Then Return
+	If Not OpenSpellsTab(False, "BrewUsingWhatToTrain()") Then Return
 
 	Select
 		Case $g_bIsFullArmywithHeroesAndSpells = False
@@ -1213,7 +1208,7 @@ Func RemoveExtraTroopsQueue() ; Will remove All Extra troops in queue If there's
 	;Local $x = 834
 	If $g_bIsFullArmywithHeroesAndSpells Then Return True
 
-	Local Const $y = 259, $yRemoveBtn = 200, $xDecreaseRemoveBtn = 10
+	Local Const $y = 180, $yRemoveBtn = 200, $xDecreaseRemoveBtn = 10
 	Local $bColorCheck = False, $bGotRemoved = False
 	For $x = 834 To 58 Step -70
 		If Not $g_bRunState Then Return
@@ -1775,17 +1770,17 @@ Func DeleteQueued($sArmyTypeQueued, $iOffsetQueued = 802)
 		If Not $g_bRunState Then Return
 		Click($iOffsetQueued + 24, 202, 2, 50)
 		$x += 1
-		If $x = 290 Then ExitLoop
+		If $x = 270 Then ExitLoop
 	WEnd
 EndFunc   ;==>DeleteQueued
 
 Func MakingDonatedTroops()
 	; notes $avDefaultTroopGroup[19][0] = TroopName | [1] = TroopNamePosition | [2] = TroopHeight | [3] = Times | [4] = qty | [5] = marker for DarkTroop or ElixerTroop]
-	Local $avDefaultTroopGroup[19][6] = [ _
-			["Arch", 1, 1, 25, 0, "e"], ["Giant", 2, 5, 120, 0, "e"], ["Wall", 4, 2, 60, 0, "e"], ["Barb", 0, 1, 20, 0, "e"], ["Gobl", 3, 1, 30, 0, "e"], ["Heal", 7, 14, 600, 0, "e"], _
-			["Pekk", 9, 25, 900, 0, "e"], ["Ball", 5, 5, 300, 0, "e"], ["Wiza", 6, 4, 300, 0, "e"], ["Drag", 8, 20, 900, 0, "e"], ["BabyD", 10, 10, 600, 0, "e"], ["Mine", 11, 6, 300, 0, "e"], _
-			["Mini", 0, 2, 45, 0, "d"], ["Hogs", 1, 5, 120, 0, "d"], ["Valk", 2, 8, 300, 0, "d"], ["Gole", 3, 30, 900, 0, "d"], ["Witc", 4, 12, 600, 0, "d"], ["Lava", 5, 30, 900, 0, "d"], _
-			["Bowl", 6, 6, 300, 0, "d"]]
+	Local $avDefaultTroopGroup[20][6] = [ _
+			["Arch", 1, 1, 24, 0, "e"], ["Giant", 2, 5, 120, 0, "e"], ["Wall", 4, 2, 60, 0, "e"], ["Barb", 0, 1, 20, 0, "e"], ["Gobl", 3, 1, 28, 0, "e"], ["Heal", 7, 14, 480, 0, "e"], _
+			["Pekk", 9, 25, 720, 0, "e"], ["Ball", 5, 5, 120, 0, "e"], ["Wiza", 6, 4, 120, 0, "e"], ["Drag", 8, 20, 720, 0, "e"], ["BabyD", 10, 10, 360, 0, "e"], ["Mine", 11, 6, 120, 0, "e"], ["EDrag", 12, 30, 1440, 0, "e"], _
+			["Mini", 0, 2, 36, 0, "d"], ["Hogs", 1, 5, 90, 0, "d"], ["Valk", 2, 8, 180, 0, "d"], ["Gole", 3, 30, 600, 0, "d"], ["Witc", 4, 12, 360, 0, "d"], ["Lava", 5, 30, 600, 0, "d"], _
+			["Bowl", 6, 6, 120, 0, "d"]]
 
 	; notes $avDefaultTroopGroup[19][5]
 	; notes $avDefaultTroopGroup[19][0] = TroopName | [1] = TroopNamePosition | [2] = TroopHeight | [3] = Times | [4] = qty | [5] = marker for DarkTroop or ElixerTroop]
@@ -1830,7 +1825,7 @@ Func MakingDonatedTroops()
 			$Plural = 0
 			If $avDefaultTroopGroup[$i][4] > 0 Then
 				$RemainTrainSpace = GetOCRCurrent(48, 160)
-				If $RemainTrainSpace[0] = $RemainTrainSpace[1] Then ; army camps full
+				If $RemainTrainSpace[0] = $RemainTrainSpace[1] And Not $g_bChkSmartTrain Then ; army camps full
 					;Camps Full All Donate Counters should be zero!!!!
 					For $j = 0 To UBound($avDefaultTroopGroup, 1) - 1
 						$avDefaultTroopGroup[$j][4] = 0
@@ -1840,7 +1835,7 @@ Func MakingDonatedTroops()
 
 				Local $iTroopIndex = TroopIndexLookup($avDefaultTroopGroup[$i][0], "MakingDonatedTroops")
 
-				If $avDefaultTroopGroup[$i][2] * $avDefaultTroopGroup[$i][4] <= $RemainTrainSpace[2] Then ; Troopheight x donate troop qty <= avaible train space
+				If $avDefaultTroopGroup[$i][2] * $avDefaultTroopGroup[$i][4] <= $RemainTrainSpace[2] Or $g_bChkSmartTrain Then ; Troopheight x donate troop qty <= avaible train space
 					;Local $pos = GetTrainPos(TroopIndexLookup($avDefaultTroopGroup[$i][0]))
 					Local $howMuch = $avDefaultTroopGroup[$i][4]
 					If $avDefaultTroopGroup[$i][5] = "e" Then

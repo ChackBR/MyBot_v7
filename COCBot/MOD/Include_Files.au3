@@ -36,7 +36,7 @@
 #include "functions\AreCollectorsOutside.au3"
 
 ; --------------------------------------------
-; Smart Train
+; Smart Train ( Demen )
 ; --------------------------------------------
 #include "functions\Smart Train\SmartTrain.au3"
 #include "functions\Smart Train\CheckQueue.au3"

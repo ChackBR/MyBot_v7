@@ -180,7 +180,7 @@ Func BotStop()
 	GUICtrlSetState($g_hLblVersion, $GUI_SHOW)
 	For $i = $g_hlblKing to $g_hPicLabRed
 		GUICtrlSetState($i, $GUI_SHOW)
-	NExt
+	Next
 
 	; update try items
 	TrayItemSetText($g_hTiStartStop, GetTranslatedFileIni("MBR GUI Design - Loading", "StatusBar_Item_Start", "Start bot"))

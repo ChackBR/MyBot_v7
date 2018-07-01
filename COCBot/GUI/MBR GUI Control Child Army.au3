@@ -18,11 +18,6 @@ Func chkUseQTrain()
 	If GUICtrlRead($g_hChkUseQuickTrain) = $GUI_CHECKED Then
 		_GUI_Value_STATE("ENABLE", $g_ahChkArmy[0] & "#" & $g_ahChkArmy[1] & "#" & $g_ahChkArmy[2])
 		chkQuickTrainCombo()
-		; Smart Train - AiO++
-		; If GUICtrlRead($g_hChkSmartTrain) = $GUI_CHECKED Then
-		; 	GUICtrlSetState($g_hChkPreciseArmyCamp, $GUI_UNCHECKED)
-		; 	GUICtrlSetState($g_hChkPreciseArmyCamp, $GUI_DISABLE)
-		; EndIf
 		_GUI_Value_STATE("DISABLE", $grpTrainTroops)
 		_GUI_Value_STATE("DISABLE", $grpCookSpell)
 		GUICtrlSetData($g_hLblTotalTimeCamp, " 0s")
@@ -50,6 +45,29 @@ Func chkQuickTrainCombo()
 		ToolTip('')
 	EndIf
 EndFunc   ;==>chkQuickTrainCombo
+
+Func chkSmartTrain()
+	If GUICtrlRead($g_hChkSmartTrain) = $GUI_CHECKED Then
+		_GUI_Value_STATE("ENABLE", $g_hChkFillArcher & "#" & $g_hChkFillEQ)
+		chkPreciseTroops()
+		chkFillArcher()
+	Else
+		_GUI_Value_STATE("DISABLE", $g_hChkFillArcher & "#" & $g_hTxtFillArcher & "#" & $g_hChkFillEQ)
+		_GUI_Value_STATE("UNCHECKED", $g_hChkFillArcher & "#" & $g_hChkFillEQ)
+	EndIf
+EndFunc   ;==>chkSmartTrain
+
+Func chkPreciseTroops()
+	GUI_Value_STATE("ENABLE", $g_hChkFillArcher & "#" & $g_hChkFillEQ)
+EndFunc   ;==>chkPreciseTroops
+
+Func chkFillArcher()
+	If GUICtrlRead($g_hChkFillArcher) = $GUI_CHECKED Then
+		_GUI_Value_STATE("ENABLE", $g_hTxtFillArcher)
+	Else
+		_GUI_Value_STATE("DISABLE", $g_hTxtFillArcher)
+	EndIf
+EndFunc   ;==>chkFillArcher
 
 Func SetComboTroopComp()
 	Local $bWasRedraw = SetRedrawBotWindow(False, Default, Default, Default, "SetComboTroopComp")

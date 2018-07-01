@@ -1,4 +1,4 @@
-﻿; #FUNCTION# ====================================================================================================================
+; #FUNCTION# ====================================================================================================================
 ; Name ..........: MBR Bot
 ; Description ...: This file contains the initialization and main loop sequences f0r the MBR Bot
 ; Author ........:  (2014)
@@ -71,7 +71,8 @@ Global $g_hFrmBot = 0 ; The main GUI window
 ; "r01" ; MyBot v7.5.0 + S&E: FFC + DEB + SartTrain + Fast Click Donate ( while using QuickTrain ) + CCO
 ; "r01" ; MyBot v7.5.1 + S&E: FFC + DEB + SartTrain + Fast Click Donate ( while using QuickTrain ) + CCO
 ; "r01" ; MyBot v7.5.2 + S&E: FFC + DEB + SamrtTrain + Fast Click Donate ( while using QuickTrain ) + CCO
-$g_sModversion = "r01" ; MyBot v7.5.3 + S&E: FFC + DEB + SamrtTrain + Fast Click Donate ( while using QuickTrain ) + CCO
+; "r01" ; MyBot v7.5.3 + S&E: FFC + DEB + SamrtTrain + Fast Click Donate ( while using QuickTrain ) + CCO
+$g_sModversion = "r02" ; MyBot v7.5.3 + S&E: FFC + DEB + SamrtTrain + Fast Click Donate ( while using QuickTrain ) + CCO + Bug Fix
 
 ; MBR includes
 #include "COCBot\MBR Global Variables.au3"
@@ -711,7 +712,7 @@ Func runBot() ;Bot that runs everything in order
 	Local $iWaitTime
 
 	InitiateSwitchAcc()
-	If ProfileSwitchAccountEnabled() And $g_bReMatchAcc Then
+	If ProfileSwitchAccountEnabled() And $g_bReMatchAcc And $g_bRunState Then
 		SetLog("Rematching Account [" & $g_iNextAccount + 1 & "] with Profile [" & GUICtrlRead($g_ahCmbProfile[$g_iNextAccount]) & "]")
 		SwitchCoCAcc($g_iNextAccount)
 	EndIf
@@ -771,7 +772,6 @@ Func runBot() ;Bot that runs everything in order
 			; Request CC Troops at first - Team AiO++
 			$g_bcanRequestCC = True
 			If $g_bReqCCFirst Then
-				CheckCC()
 				RequestCC()
 				If _Sleep($DELAYRUNBOT1) = False Then checkMainScreen(False)
 			EndIf
@@ -1211,7 +1211,6 @@ Func _RunFunction($action)
 			_Sleep($DELAYRUNBOT3)
 		Case "RequestCC"
 			If Not ($g_bReqCCFirst) Then
-				CheckCC() ; CheckCC Troops - AIO++ MOD
 				RequestCC()
 			EndIf
 			If _Sleep($DELAYRUNBOT1) = False Then checkMainScreen(False)

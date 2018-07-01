@@ -136,9 +136,6 @@ Func applyConfig($bRedrawAtExit = True, $TypeReadSave = "Read") ;Applies the dat
 	; <><><> Attack Plan / Train Army / Options <><><>
 	ApplyConfig_641_1($TypeReadSave)
 
-	; AiO++ Team
-	ApplyConfig_MOD($TypeReadSave)
-
 	; <><><><> Attack Plan / Strategies <><><><>
 	; <<< nothing here >>>
 
@@ -153,8 +150,10 @@ Func applyConfig($bRedrawAtExit = True, $TypeReadSave = "Read") ;Applies the dat
 	GUICtrlSetState($g_hChkDeleteConf, $GUI_HIDE)
 
 	; <><><><> Bot / Stats <><><><>
-	; <<< nothing here >>>
+	; AiO++ Team
+	ApplyConfig_MOD($TypeReadSave)
 
+	; <<< nothing here >>>
 	; <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 
 
