@@ -77,7 +77,7 @@ Global $hTimeoutAutoClose = 0 ; Timer Handle for $iTimeoutAutoClose
 Global $g_iMainLoopSleep = 50 ;
 ;Global $g_bBotLaunchOption_NoBotSlot = True
 
-Global $g_sBotTitle = "My Bot Mini " & $g_sBotVersion & " " ;~ Don't use any non file name supported characters like \ / : * ? " < > |
+Global $g_sBotTitle = "My Bot Mini " & $g_sBotVersion & " " & $g_sModversion & " -" ;~ Don't use any non file name supported characters like \ / : * ? " < > |
 Global $g_hFrmBot = 0
 Global $g_hFrmBotBackend = 0
 Global $g_bBotLaunched = False
@@ -886,6 +886,14 @@ EndFunc   ;==>btnPause
 Func btnResume()
 	TogglePause()
 EndFunc   ;==>btnResume
+
+; Enable/Disable GUI while botting - Team AiO MOD++
+Func btnEnableGUI()
+EndFunc   ;==>btnEnableGUI
+
+Func btnDisableGUI()
+EndFunc   ;==>btnDisableGUI
+; Enable/Disable GUI while botting - Team AiO MOD++
 
 Func btnVillageStat($source = "")
 

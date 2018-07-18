@@ -1,0 +1,81 @@
+﻿NOTE  |              •• [ Town Hall 11-12 ] ••
+NOTE  |                    4 Rage + 1 Clone
+NOTE  |           12 -16Loon 14BabyD 2Lava
+NOTE  |           - -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+NOTE  |           CC: Balloons + Rage/Haste
+NOTE  |           - -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+NOTE  |          Set External Edge for Redline
+NOTE  |           - -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+NOTE  |           Victory: 99% ☆ ☆ ☆ ☆ ★
+NOTE  |
+NOTE  |                E l o y     E d i T i o N
+
+      |_TROOPNAME_|__FLEXIBLE_|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|
+TRAIN |Ball       |0          |0          |0          |0          |0          |12         |12         |16         |
+TRAIN |BabyD      |0          |0          |0          |0          |0          |12         |14         |14         |
+TRAIN |Lava       |0          |0          |0          |0          |0          |2          |2          |2          |
+
+TRAIN |RSpell     |0          |0          |0          |0          |0          |3          |3          |3          |
+TRAIN |CSpell     |0          |0          |0          |0          |0          |1          |1          |1          |
+TRAIN |HaSpell    |0          |0          |0          |0          |0          |1          |1          |1          |
+
+      |_TROOPNAME_|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|Hero Abilities: 1.Auto 2.Timed 3.Both
+TRAIN |King       |0          |0          |0          |0          |0          |1          |1          |1          |Auto
+TRAIN |Queen      |0          |0          |0          |0          |0          |1          |1          |1          |Auto
+TRAIN |Warden     |0          |0          |0          |0          |0          |0          |315        |315        |Both: Auto or Timed After 15 sec.
+
+      |___________|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|
+REDLN |0          |0          |0          |0          |0          |0          |4          |4          |4          |1.RAW 2.POINTS 3.ORIGINAL 4.EDGES
+DRPLN |0          |0          |0          |0          |0          |0          |0          |0          |0          |1.CORNER 2.POINT 3.FULLCORNER 4.FULLPOINT 5.NONE
+      |___________|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|
+CCREQ |           |           |           |           |           |       |balloon haste|balloon rage|balloon rage|Request Donation.
+
+	  |EXTR. GOLD |EXTR.ELIXIR|EXTR. DARK |DEPO. GOLD |DEPO.ELIXIR|DEPO. DARK |TOWNHALL   |FORCED SIDE|
+SIDE  |0          |0          |0          |0          |0          |0          |10         |           |
+      |EAGLE      |INFERNO    |XBOW       |WIZTOWER   |MORTAR     |AIRDEFENSE |GEMBOX     |GEMBOX     |
+SIDEB |10         |5          |0          |0          |0          |0          |0          |0          |
+
+      |VECTOR_____|SIDE_______|DROP_POINTS|ADDTILES___|VERSUS_____|RANDOMX_PX_|RANDOMY_PX_|BUILDING___|
+MAKE  |A          |FRONT-LEFT |10         |2          |EXT-INT    |1          |5          |           | Baby Dragon .........
+MAKE  |B          |FRONT-RIGHT|10         |2          |INT-EXT    |1          |5          |           | Baby Dragon .........
+MAKE  |C          |FRONT-RIGHT|10         |2          |EXT-INT    |1          |5          |           | Baby Dragon .........
+MAKE  |D          |FRONT-LEFT |10         |2          |INT-EXT    |1          |5          |           | Baby Dragon .........
+MAKE  |E          |FRONT-LEFT |10         |0          |EXT-INT    |1          |5          |           | Warden, CC, Balloon .
+MAKE  |F          |FRONT-RIGHT|10         |0          |INT-EXT    |1          |5          |           | LavaH, Balloon ......
+MAKE  |G          |FRONT-RIGHT|10         |0          |EXT-INT    |1          |5          |           | Balloon .............
+MAKE  |H          |FRONT-LEFT |10         |0          |INT-EXT    |1          |5          |           | Balloon .............
+MAKE  |I          |LEFT-FRONT |10         |0          |EXT-INT    |1          |5          |           | BA.King, Remain .....
+MAKE  |J          |RIGHT-FRONT|10         |0          |EXT-INT    |1          |5          |           | AR.Queen, Remain ....
+MAKE  |K          |FRONT-LEFT |10         |-8         |INT-EXT    |0          |5          |           | 2nd Rage ............
+MAKE  |L          |FRONT-RIGHT|10         |-8         |INT-EXT    |0          |5          |           | 1st Rage, Haste .....
+MAKE  |M          |FRONT-LEFT |10         |-5         |EXT-INT    |0          |5          |           | Clone Spell .........
+MAKE  |N          |FRONT-LEFT |10         |-17        |INT-EXT    |0          |5          |           | 3rd Rage ............
+MAKE  |O          |FRONT-RIGHT|10         |-18        |INT-EXT    |0          |5          |           | 4th Rage, 2nd Haste .
+MAKE  |P          |FRONT-RIGHT|10         |-23        |INT-EXT    |0          |5          |           | 3rd Haste ...........
+
+      |VECTOR_____|INDEX_________|QTY_X_VECT_|TROOPNAME__|DELAY_DROP_|DELAYCHANGE|SLEEPAFTER_|___________|
+DROP  |D-F        |5             |1          |Lava       |90-120     |750-950    |250        |           |
+DROP  |A          |4,5,6,7,8,9,10|7          |BabyD      |50-70      |40-60      |0          |           |
+DROP  |B          |1,2,3,4,5,7,8 |7          |BabyD      |50-70      |40-60      |250        |           |
+DROP  |E          |10            |1          |Warden     |40-60      |30-50      |200        |           |
+DROP  |E          |4,6,9         |3          |Ball       |60-80      |50-70      |0          |           |
+DROP  |F          |1,3,5         |3          |Ball       |60-80      |50-70      |40         |           |
+DROP  |H          |1,4,2         |3          |Ball       |60-80      |60-80      |40         |           |
+DROP  |G          |9,10,8        |3          |Ball       |60-80      |70-80      |150        |           |
+DROP  |H          |2,5,3,1       |4          |Ball       |60-80      |40-60      |250        |           |
+DROP  |E          |10            |1          |Castle     |0          |0          |200        |           |
+DROP  |M          |10            |1          |CSpell     |0          |0          |250        |           |
+DROP  |K          |5             |1          |RSpell     |60-80      |70-90      |200        |           |
+DROP  |K          |1             |1          |RSpell     |60-80      |70-90      |200        |           |
+DROP  |L          |4             |1          |RSpell     |70-90      |80-95      |4000       |           |
+WAIT  |6000       |              |           |           |           |           |           |           |
+DROP  |N          |3             |1          |RSpell     |70-90      |80-95      |300        |           |
+DROP  |O          |2             |1          |RSpell     |70-90      |80-95      |200        |           |
+DROP  |O          |2             |1          |HaSpell    |50-80      |30-50      |300        |           |
+WAIT  |350        |              |           |           |           |           |           |           |
+DROP  |P          |3             |1          |HaSpell    |0          |0          |150        |           |
+DROP  |I          |5             |1          |King       |0          |0          |100        |           |
+DROP  |J          |5             |1          |Queen      |0          |0          |0          |           |
+WAIT  |10000      |              |           |           |           |           |           |           |
+DROP  |E          |10            |1          |Warden     |0          |           |0          |           |
+DROP  |E          |5-10          |5          |REMAIN     |50-70      |30-50      |30         |           |

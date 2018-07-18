@@ -62,7 +62,36 @@ Func RequestCC($ClickPAtEnd = True, $specifyText = "")
 	ElseIf _ColorCheck($color1, Hex($aRequestTroopsAO[3], 6), $aRequestTroopsAO[5]) Then
 		If _ColorCheck($color2, Hex($aRequestTroopsAO[4], 6), $aRequestTroopsAO[5]) Then
 			;can make a request
-			Local $x = _makerequest()
+			; === Skip Request-CC ~ Light Version
+			Local $bNeedRequestCC = False
+			If $g_bSkipRequestCC Then
+				Local $aiSkipRequestCC[2] = [Number($g_iSkipRequestCCTroop), Number($g_iSkipRequestCCSpell)]
+				For $i = 0 To 1
+					If $aiSkipRequestCC[$i] = 0 Then ContinueLoop
+					If $aiSkipRequestCC[$i] >= 40 - $i * 38 Then
+						$bNeedRequestCC = _ColorCheck(_GetPixelColor(24 + 455 * $i, 470, True), Hex(0xDC363A , 6), 30) ; Red symbol (Not full CC)
+						If Not $bNeedRequestCC Then SetLog(($i = 0 ? " CC Troop is full." : " CC Spell is full or unavailable"))
+					Else
+						Local $sCCReceived = getOcrAndCapture("coc-ms", 289 + $i * 183, 468, 60, 16, True, False, True) ; read CC (troops 0/40 or spells 0/2)
+						SetDebugLog("Read CC " & ($i = 0 ? "Troops: " : "Spells: ") & $sCCReceived)
+						Local $aCCReceived = StringSplit($sCCReceived, "#", $STR_NOCOUNT) ; split the trained troop number from the total troop number
+						If IsArray($aCCReceived) Then
+							If Number($aCCReceived[0]) < $aiSkipRequestCC[$i] Then $bNeedRequestCC = True
+							If Not $bNeedRequestCC Or $g_bDebugSetlog Then SetLog("Already received " & Number($aCCReceived[0]) & ($i = 0 ? " CC Troops." : " CC Spells."))
+						EndIf
+					EndIf
+					If $bNeedRequestCC Then ExitLoop
+				Next
+			Else
+				$bNeedRequestCC = True
+			EndIf
+
+			If $bNeedRequestCC Then
+				Local $x = _makerequest()
+			Else
+				$g_bCanRequestCC = False
+			EndIf
+
 		Else
 			;request has already been made
 			SetLog("Request has already been made")

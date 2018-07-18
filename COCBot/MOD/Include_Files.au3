@@ -1,5 +1,5 @@
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: Functions_- AiO++ Team
+; Name ..........: Functions_- AiO++
 ; Description ...: This file Includes several files in the current script.
 ; Syntax ........: #include
 ; Parameters ....: None
@@ -21,9 +21,19 @@
 #include "functions\Config\applyConfig.au3"
 
 ; --------------------------------------------
-; Four fingers
+; Check Collector Outside - AiO++
 ; --------------------------------------------
-#include "functions\Classic 4Fingers.au3"
+#include "functions\AreCollectorsOutside.au3"
+
+; --------------------------------------------
+; CheckCC Troops - AiO++
+; --------------------------------------------
+#include "functions\CheckCC.au3"
+
+; --------------------------------------------
+; Check Grand Warden Mode - AiO++
+; --------------------------------------------
+#include "functions\CheckWardenMode.au3"
 
 ; --------------------------------------------
 ; Simple Quick Train ( with DEB )
@@ -31,20 +41,9 @@
 #include "functions\SimpleQuickTrain.au3"
 
 ; --------------------------------------------
-; Check Collector Outside - Persian MOD (#-08)
-; --------------------------------------------
-#include "functions\AreCollectorsOutside.au3"
-
-; --------------------------------------------
 ; Smart Train ( Demen )
 ; --------------------------------------------
 #include "functions\Smart Train\SmartTrain.au3"
 #include "functions\Smart Train\CheckQueue.au3"
 #include "functions\Smart Train\CheckTrainingTab.au3"
-#include "functions\Smart Train\CheckPreciseTroop.au3"
-
-; --------------------------------------------
-; CheckCC Troops
-; --------------------------------------------
-
-#include "functions\CheckCC.au3"
+#include "functions\Smart Train\CheckPreciseArmyCamp.au3"

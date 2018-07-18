@@ -22,6 +22,7 @@ Global $g_hChkRequestCCHoursE1 = 0, $g_hChkRequestCCHoursE2 = 0
 Global $g_hGrpRequestCC = 0, $g_hLblRequestCCHoursAM = 0, $g_hLblRequestCCHoursPM = 0
 Global $g_hLblRequestCChour = 0, $g_ahLblRequestCChoursE = 0
 GLobal $g_hLblRequestCChours[12] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_hChkSkipRequestCC, $g_hTxtSkipRequestCCTroop, $g_hTxtSkipRequestCCSpell, $g_hLblSkipRequestCCTroop, $g_hLblSkipRequestCCSpell
 
 ; Donate
 Global $g_hChkExtraAlphabets = 0, $g_hChkExtraChinese = 0, $g_hChkExtraKorean = 0, $g_hChkExtraPersian = 0
@@ -107,9 +108,31 @@ Func CreateRequestSubTab()
 		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnCCRequest, $x - 5, $y, 64, 64, $BS_ICON)
 		$g_hChkRequestTroopsEnable = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Donate-CC", "ChkRequestTroopsEnable", "Request Troops / Spells"), $x + 40 + 30, $y - 6)
 			GUICtrlSetOnEvent(-1, "chkRequestCCHours")
-		$g_hTxtRequestCC = GUICtrlCreateInput(GetTranslatedFileIni("MBR GUI Design Child Village - Donate-CC", "TxtRequestCC", "Anything please"), $x + 40 + 30, $y + 15, 214, 20, BitOR($SS_CENTER, $ES_AUTOHSCROLL))
+		$g_hTxtRequestCC = GUICtrlCreateInput(GetTranslatedFileIni("MBR GUI Design Child Village - Donate-CC", "TxtRequestCC", "Anything please"), $x + 40 + 34, $y + 15, 214, 20, BitOR($SS_CENTER, $ES_AUTOHSCROLL))
 			GUICtrlSetState(-1, $GUI_DISABLE)
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Donate-CC", "TxtRequestCC_Info_01", "This text is used on your request for troops in the Clan chat."))
+
+	; === Skip Request-CC ~ Light Version
+	$y += 25
+		$g_hChkSkipRequestCC = GUICtrlCreateCheckbox("Skip Request When:", $x + 70, $y + 13)
+			GUICtrlSetState(-1, $GUI_UNCHECKED)
+			_GUICtrlSetTip(-1, "Stop sending request when CC Troop and/or Spell is full." & @CRLF & "or when CC Troop and/or Spell reaches certain amount received." & @CRLF & "Enable this option to ignore CC Siege Machine")
+			GUICtrlSetOnEvent(-1, "chkSkipRequestCC")
+		$g_hTxtSkipRequestCCTroop = GUICtrlCreateInput("40", $x + 263, $y + 15, 25, 16, BitOR($SS_RIGHT, $ES_NUMBER))
+			GUICtrlSetLimit(-1, 2)
+			GUICtrlSetBkColor(-1, $COLOR_MONEYGREEN)
+			_GUICtrlSetTip(-1, "Stop sending request when received this number of CC Troops" & @CRLF & "Set to ""40+"" means when CC Troop is full" & @CRLF & "Set to ""0"" means to always ignore CC Troop")
+			GUICtrlSetOnEvent(-1, "chkSkipRequestCC")
+		$g_hLblSkipRequestCCTroop = GUICtrlCreateLabel("CC Troops >=", $x + 190, $y + 17)
+		GUICtrlCreateLabel("x", $x + 290, $y + 17, -1, 14)
+
+		$g_hLblSkipRequestCCSpell = GUICtrlCreateLabel("CC Spells   >=", $x + 190, $y + 35)
+		GUICtrlCreateLabel("x", $x + 290, $y + 35, -1, 15)
+		$g_hTxtSkipRequestCCSpell = GUICtrlCreateInput("2", $x + 263, $y + 33, 25, 16, BitOR($SS_RIGHT, $ES_NUMBER))
+			GUICtrlSetLimit(-1, 1)
+			GUICtrlSetBkColor(-1, $COLOR_MONEYGREEN)
+			_GUICtrlSetTip(-1, "Stop sending request when received this number of CC Spells" & @CRLF & "Set to ""2+"" means when CC Spell is full" & @CRLF & "Set to ""0"" means to always ignore CC Spell")
+			GUICtrlSetOnEvent(-1, "chkSkipRequestCC")
 
 	$x += 29 + 30
 	$y += 60
@@ -331,7 +354,7 @@ Func CreateDonateSubTab()
 		$g_ahBtnDonateTroop[$eTroopElectroDragon] = GUICtrlCreateButton("", $x + 2, $y, $Offx - 2, $Offx - 2, $BS_ICON)
 			_GUICtrlSetImage(-1, $g_sLibIconPath, $eIcnElectroDragon, 1)
 			GUICtrlSetOnEvent(-1, "btnDonateTroop")
-	$x += $Offx		
+	$x += $Offx
 		$g_ahLblDonateTroop[$eTroopMinion] = GUICtrlCreateLabel("", $x, $y - 2, $Offx + 2, $Offx + 2)
 			GUICtrlSetBkColor(-1, $GUI_BKCOLOR_TRANSPARENT)
 			GUICtrlSetState(-1, $GUI_DISABLE)
@@ -412,7 +435,7 @@ Func CreateDonateSubTab()
 		$g_ahBtnDonateTroop[$eTroopWitch] = GUICtrlCreateButton("", $x + 2, $y, $Offx - 2, $Offx - 2, $BS_ICON)
 			_GUICtrlSetImage(-1, $g_sLibIconPath, $eIcnWitch, 1)
 			GUICtrlSetOnEvent(-1, "btnDonateTroop")
-	$x += $Offx		
+	$x += $Offx
 		$g_ahLblDonateTroop[$eTroopLavaHound] = GUICtrlCreateLabel("", $x, $y - 2, $Offx + 2, $Offx + 2)
 			GUICtrlSetBkColor(-1, $GUI_BKCOLOR_TRANSPARENT)
 			GUICtrlSetState(-1, $GUI_DISABLE)
@@ -1211,7 +1234,7 @@ Func CreateDonateSubTab()
 			GUICtrlSetData(-1, StringFormat(GetTranslatedFileIni("MBR GUI Design Child Village - Donate", "TxtBlacklistTroop_Item_31", "no electro dragon\r\nelectrodrag no\r\nedrag no")))
 			_GUICtrlSetTip(-1, $sTxtKeywordsNoTip & " " & $sTxtElectroDragons)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
-	
+
 	$x = $xStart
 	$y = $Offy
 	$g_ahGrpDonateTroop[$eTroopMinion] = GUICtrlCreateGroup($sTxtMinions, $x - 20, $y - 20, $g_iSizeWGrpTab3, 169)
@@ -1371,7 +1394,7 @@ Func CreateDonateSubTab()
 			GUICtrlSetData(-1, StringFormat(GetTranslatedFileIni("MBR GUI Design Child Village - Donate", "TxtBlacklistTroop_Item_22", "no witches\r\nwitch no")))
 			_GUICtrlSetTip(-1, $sTxtKeywordsNoTip & " " & $sTxtWitches)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
-	
+
 	$x = $xStart
 	$y = $Offy
 	$g_ahGrpDonateTroop[$eTroopLavaHound] = GUICtrlCreateGroup($SetLog, $x - 20, $y - 20, $g_iSizeWGrpTab3, 169)

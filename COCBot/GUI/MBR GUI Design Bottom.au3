@@ -30,6 +30,7 @@ Global $g_hlblKing = 0, $g_hPicKingGray = 0, $g_hPicKingBlue = 0, $g_hPicKingRed
 Global $g_hlblQueen = 0, $g_hPicQueenGray = 0, $g_hPicQueenBlue = 0, $g_hPicQueenRed = 0, $g_hPicQueenGreen = 0
 Global $g_hlblWarden = 0, $g_hPicWardenGray = 0, $g_hPicWardenBlue = 0, $g_hPicWardenRed = 0, $g_hPicWardenGreen = 0
 Global $g_hlblLab = 0, $g_hPicLabGray = 0, $g_hPicLabRed = 0, $g_hPicLabGreen = 0
+
 ; Enable/Disable GUI while botting - Team AiO MOD++
 Global $g_hBtnEnableGUI = 0, $g_hBtnDisableGUI = 0
 
@@ -100,11 +101,25 @@ Func CreateBottomPanel()
 			GUICtrlSetCursor(-1, 0) ; https://www.autoitscript.com/autoit3/docs/functions/MouseGetCursor.htm
 			GUICtrlSetFont(-1, 8.5, $FW_BOLD) ;, $GUI_FONTITALIC + $GUI_FONTUNDER)
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Bottom", "LblDonate_Info_01", "Paypal Donate?"))
+
+		; Enable/Disable GUI while botting - Team AiO MOD++
+	    $g_hBtnEnableGUI = GUICtrlCreateButton(GetTranslatedFileIni("MBR GUI Design Bottom", "BtnEnableGUI", "Enable GUI"), $x + 100, $y + 72, 80, 22)
+		    _GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Bottom", "BtnEnableGUI_Info_01", "Enable GUI control while botting") & @CRLF & _
+			 				  GetTranslatedFileIni("MBR GUI Design Bottom", "BtnEnableGUI_Info_02", "Warning: USE THIS WITH CAUTION!") & @CRLF & _
+			 				  GetTranslatedFileIni("MBR GUI Design Bottom", "BtnEnableGUI_Info_03", "This function may create errors that require bot/PC restart") & @CRLF & _
+			 				  GetTranslatedFileIni("MBR GUI Design Bottom", "BtnEnableGUI_Info_04", "Better to stop the Bot completely if you need to change the setting"))
+		    GUICtrlSetOnEvent(-1, "btnEnableGUI")
+		    GUICtrlSetState(-1, $GUI_HIDE)
+	    $g_hBtnDisableGUI = GUICtrlCreateButton(GetTranslatedFileIni("MBR GUI Design Bottom", "BtnDisableGUI", "Disable GUI"), $x + 100, $y + 72, 80, 22)
+		    _GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Bottom", "BtnDisableGUI_Info_01", "Disable GUI control to continue botting"))
+		    GUICtrlSetOnEvent(-1, "btnDisableGUI")
+		    GUICtrlSetState(-1, $GUI_HIDE)
+
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	If $g_bAndroidAdbScreencap Then chkBackground() ; update background mode GUI
 
-	;$g_hPicTwoArrowShield = _GUICtrlCreateIcon($g_sLibIconPath, $eIcn2Arrow, $x + 190, $y + 10, 48, 48)
+;	$g_hPicTwoArrowShield = _GUICtrlCreateIcon($g_sLibIconPath, $eIcn2Arrow, $x + 190, $y + 10, 48, 48)
 ;	$g_hLblVersion = GUICtrlCreateLabel($g_sBotVersion, 200, $y + 60, 60, 17, $SS_CENTER)
 ;		GUICtrlSetColor(-1, $COLOR_MEDGRAY)
 
@@ -114,15 +129,12 @@ Func CreateBottomPanel()
 ;	$g_hPicArrowRight = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnArrowRight, $x + 247 + 198, $y + 30, 16, 16)
 ;		_GUICtrlSetTip(-1, $sTxtTip)
 
-;	$g_hLblVersion = GUICtrlCreateLabel($g_sBotVersion, 195, $y + 72, 35, 17, $SS_LEFT)
-;	   GUICtrlSetColor(-1, $COLOR_MEDGRAY)
-    $g_hPicArrowLeft = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnArrowLeft, $x + 269, $y + 30, 16, 16)
-	  $sTxtTip = GetTranslatedFileIni("MBR GUI Design Bottom", "GrpVillage_Info_01", "Switch between village info and stats")
-	  _GUICtrlSetTip(-1, $sTxtTip)
-    $g_hPicArrowRight = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnArrowRight, $x + 247 + 198, $y + 30, 16, 16)
-	  _GUICtrlSetTip(-1, $sTxtTip)
-	  GUICtrlSetState(-1, $GUI_SHOW)
-
+	$g_hPicArrowLeft = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnArrowLeft, $x + 269, $y + 30, 16, 16)
+		$sTxtTip = GetTranslatedFileIni("MBR GUI Design Bottom", "GrpVillage_Info_01", "Switch between village info and stats")
+		_GUICtrlSetTip(-1, $sTxtTip)
+	$g_hPicArrowRight = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnArrowRight, $x + 247 + 198, $y + 30, 16, 16)
+		_GUICtrlSetTip(-1, $sTxtTip)
+		GUICtrlSetState(-1, $GUI_SHOW)
 
 
 ;New section for royal and lab status
@@ -242,6 +254,6 @@ Func CreateBottomPanel()
 	   $x = 335
 	   $g_hLblVillageReportTemp = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Bottom", "LblVillageReportTemp_01", "Village Report") & @CRLF & GetTranslatedFileIni("MBR GUI Design Bottom", "LblVillageReportTemp_02", "will appear here") & @CRLF & GetTranslatedFileIni("MBR GUI Design Bottom", "LblVillageReportTemp_03", "on first run."), $x , $y + 5, 80, 45, BITOR($SS_CENTER, $BS_MULTILINE))
 
-   GUICtrlCreateGroup("", -99, -99, 1, 1)
+	   GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 EndFunc   ;==>CreateBottomPanel

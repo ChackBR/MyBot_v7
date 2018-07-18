@@ -20,7 +20,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 	If _Sleep($DELAYALGORITHM_ALLTROOPS1) Then Return
 
 	; Classic Four Finger
-	If $g_aiAttackStdDropSides[$g_iMatchMode] <> 4 Then	; ! FourFinger
+	If $g_aiAttackStdDropSides[$g_iMatchMode] <> 4 Then
 		SmartAttackStrategy($g_iMatchMode) ; detect redarea first to drop any troops
 	EndIf
 
@@ -58,22 +58,22 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 		EndIf
 	EndIf
 
-	Local $nbSides = 0
+	Global $nbSides = 0
 	Switch $g_aiAttackStdDropSides[$g_iMatchMode]
-		Case 0 ;Single sides ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		Case 0 ;Single sides ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			SetLog("Attacking on a single side", $COLOR_INFO)
 			$nbSides = 1
 		Case 1 ;Two sides ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			SetLog("Attacking on two sides", $COLOR_INFO)
 			$nbSides = 2
-		Case 2 ;Three sides ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		Case 2 ;Three sides ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			SetLog("Attacking on three sides", $COLOR_INFO)
 			$nbSides = 3
 		Case 3 ;All sides ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			SetLog("Attacking on all sides", $COLOR_INFO)
 			$nbSides = 4
 		Case 4 ;Classic Four Finger ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			SetLog("Attacking four finger fight style", $COLOR_INFO)
+			SetLog("Attacking 4 Fingers fight style", $COLOR_INFO)
 			$nbSides = 5
 		Case 5 ;DE Side - Live Base only ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			SetLog("Attacking on Dark Elixir Side.", $COLOR_INFO)
@@ -171,7 +171,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 	; Classic Four Fingers
 	ElseIf $nbSides = 5 Then
 		If $g_bCustomDropOrderEnable Then
-			Local $listInfoDeploy[21][5] = [[MatchTroopDropName(0), MatchSidesDrop(0), MatchTroopWaveNb(0), 1, MatchSlotsPerEdge(0)], _
+			Local $listInfoDeploy[22][5] = [[MatchTroopDropName(0), MatchSidesDrop(0), MatchTroopWaveNb(0), 1, MatchSlotsPerEdge(0)], _
 						[MatchTroopDropName(1), MatchSidesDrop(1), MatchTroopWaveNb(1), 1, MatchSlotsPerEdge(1)], _
 						[MatchTroopDropName(2), MatchSidesDrop(2), MatchTroopWaveNb(2), 1, MatchSlotsPerEdge(2)], _
 						[MatchTroopDropName(3), MatchSidesDrop(3), MatchTroopWaveNb(3), 1, MatchSlotsPerEdge(3)], _
@@ -191,11 +191,14 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 						[MatchTroopDropName(17), MatchSidesDrop(17), MatchTroopWaveNb(17), 1, MatchSlotsPerEdge(17)], _
 						[MatchTroopDropName(18), MatchSidesDrop(18), MatchTroopWaveNb(18), 1, MatchSlotsPerEdge(18)], _
 						[MatchTroopDropName(19), MatchSidesDrop(19), MatchTroopWaveNb(19), 1, MatchSlotsPerEdge(19)], _
-						[MatchTroopDropName(20), MatchSidesDrop(20), MatchTroopWaveNb(20), 1, MatchSlotsPerEdge(20)]]
+						[MatchTroopDropName(20), MatchSidesDrop(20), MatchTroopWaveNb(20), 1, MatchSlotsPerEdge(20)], _
+						[MatchTroopDropName(21), MatchSidesDrop(21), MatchTroopWaveNb(21), 1, MatchSlotsPerEdge(21)]]
 		Else
-			Local $listInfoDeploy[21][5] = [[$eGiant, $nbSides, 1, 1, $g_iSlotsGiants], _
+			Local $listInfoDeploy[22][5] = [[$eGiant, $nbSides, 1, 1, $g_aiSlotsGiants], _
+						["CC", 1, 1, 1, 1], _
 						[$eGole, $nbSides, 1, 1, 2], _
 						[$eLava, $nbSides, 1, 1, 2], _
+						[$eEDrag, $nbSides, 1, 1, 0], _
 						[$eBarb, $nbSides, 1, 1, 0], _
 						[$eWall, $nbSides, 1, 1, 2], _
 						[$eHogs, $nbSides, 1, 1, 2], _
@@ -214,7 +217,6 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 						["CC", 1, 1, 1, 1], _
 						["HEROES", 1, 2, 1, 1]]
 		EndIf
-
 	Else
 		If $g_bDebugSetlog Then SetDebugLog("listdeploy standard for attack", $COLOR_DEBUG)
 		Switch $g_aiAttackStdDropOrder[$g_iMatchMode]

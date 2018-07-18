@@ -255,8 +255,9 @@ Func LabGuiDisplay() ; called from main loop to get an early status for indictor
 			Return
 		EndIf
 	EndIf
+	If _Sleep(500) Then Return ; sometimes do not open lab for check
 	BuildingClickP($g_aiLaboratoryPos, "#0197") ;Click Laboratory
-	If _Sleep(1500) Then Return ; Wait for window to open
+	If _Sleep(1000) Then Return ; Wait for window to open
 	; Find Research Button
 
 	If QuickMIS("BC1", @ScriptDir & "\imgxml\Lab\Research", 200, 620, 700, 700) Then

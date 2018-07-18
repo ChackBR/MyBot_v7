@@ -32,9 +32,14 @@ Func getArmyTroopTime($bOpenArmyWindow = False, $bCloseArmyWindow = False, $bChe
 		EndIf
 	EndIf
 
-
 	Local $sResultTroops = getRemainTrainTimer(495, 169, $bNeedCapture) ;Get time via OCR.
 	$g_aiTimeTrain[0] = ConvertOCRTime("Troops", $sResultTroops, $bSetLog) ; update global array
+
+	; === Used in Donate/Train only Mode - Ezeck 06.14.17
+	; Set the Timer to be used in train donate only, durring the donate cycle
+	If ($g_iCommandStop = 3 Or $g_iCommandStop = 0) Then
+		$g_hTrainTimeLeft = TimerInit()
+	EndIf
 
 	If $bCloseArmyWindow Then
 		ClickP($aAway, 1, 0, "#0000") ;Click Away

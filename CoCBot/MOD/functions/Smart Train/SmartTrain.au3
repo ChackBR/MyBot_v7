@@ -1,8 +1,8 @@
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: SmartTrain (#-13)
+; Name ..........: SmartTrain
 ; Description ...: This file contains the Sequence that runs all MBR Bot
-; Author ........: DEMEN
-; Modified ......: Team AiO MOD++ (2017)
+; Author ........: Demen
+; Modified ......: Team AiO MOD++ (2018)
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
@@ -14,7 +14,7 @@ Func SmartTrain()
 
 	Local $bRemoveUnpreciseTroops = False
 	Local $aeTrainMethod[2] = [$g_eNoTrain, $g_eNoTrain], $aeBrewMethod[2] = [$g_eNoTrain, $g_eNoTrain]
-	Local $bCheckWrongTroops = False, $bCheckWrongSpells = False
+	Local $bCheckWrongArmyCamp = False, $bCheckWrongSpells = False
 
 	If Not $g_bQuickTrainEnable Then
 		SetLog("Start Smart Custom Train")
@@ -22,60 +22,82 @@ Func SmartTrain()
 		SetLog("Start Smart Quick Train")
 	EndIf
 
-	$bRemoveUnpreciseTroops = CheckPreciseTroop() ; checking troop precision. remove wrong troop if any.
-	If $bRemoveUnpreciseTroops Then SetLog("Continue Smart Train...")
+	While 1
+		$bRemoveUnpreciseTroops = CheckPreciseArmyCamp() ; checking troop precision. remove wrong troop if any.
+		If @error Then ExitLoop
 
-	If Not $g_bRunState Then Return
+		If $bRemoveUnpreciseTroops Then SetLog("Continue Smart Train...!")
 
-	; Troops tab
-	$aeTrainMethod = CheckTrainingTab("troop")
-	If IsArray($aeTrainMethod) Then
-		If $aeTrainMethod[0] = $g_eRemained And Not $bRemoveUnpreciseTroops Then
-			$bCheckWrongTroops = True
-		ElseIf Not $g_bQuickTrainEnable Then
-			MakeCustomTrain("troop", $aeTrainMethod)
-			$aeTrainMethod[0] = $g_eNoTrain
-			$aeTrainMethod[1] = $g_eNoTrain
+		; Troops tab
+		If $g_iTotalCampSpace <> 0 Then
+			$aeTrainMethod = CheckTrainingTab("Troops")
+			If @error Then ExitLoop
+			If IsArray($aeTrainMethod) Then
+				If $aeTrainMethod[0] = $g_eRemained And Not $bRemoveUnpreciseTroops Then
+					$bCheckWrongArmyCamp = True
+				ElseIf Not $g_bQuickTrainEnable Then
+					MakeCustomTrain("Troops", $aeTrainMethod)
+					If @error Then ExitLoop
+					$aeTrainMethod[0] = $g_eNoTrain
+					$aeTrainMethod[1] = $g_eNoTrain
+				EndIf
+			EndIf
 		EndIf
-	EndIf
 
-	; Spells tab
-	$aeBrewMethod = CheckTrainingTab("spell")
-	If IsArray($aeBrewMethod) Then
-		If $aeBrewMethod[0] = $g_eRemained And Not $bRemoveUnpreciseTroops Then
-			$bCheckWrongSpells = True
-		ElseIf Not $g_bQuickTrainEnable Then
-			MakeCustomTrain("spell", $aeBrewMethod)
-			$aeBrewMethod[0] = $g_eNoTrain
-			$aeBrewMethod[1] = $g_eNoTrain
+		; Spells tab
+		If $g_iTotalSpellValue <> 0 Then
+			$aeBrewMethod = CheckTrainingTab("Spells")
+			If @error Then ExitLoop
+			If IsArray($aeBrewMethod) Then
+				If $aeBrewMethod[0] = $g_eRemained And Not $bRemoveUnpreciseTroops Then
+					$bCheckWrongSpells = True
+				ElseIf Not $g_bQuickTrainEnable Then
+					MakeCustomTrain("Spells", $aeBrewMethod)
+					If @error Then ExitLoop
+					$aeBrewMethod[0] = $g_eNoTrain
+					$aeBrewMethod[1] = $g_eNoTrain
+				EndIf
+			EndIf
 		EndIf
-	EndIf
 
-	; Train
-	If Not IsArray($aeTrainMethod) Or Not IsArray($aeBrewMethod) Then
-		SetLog("Some kinds of error. Quit training", $COLOR_ERROR)
-	Else
-		If Not $g_bQuickTrainEnable Then ; Custom Train
-			If _Sleep(500) Then Return
-			If $bCheckWrongTroops Or $bCheckWrongSpells Then RemoveWrongTroops($bCheckWrongTroops, $bCheckWrongSpells, False)
-			If _Sleep(1000) Then Return
-			Local $aeTB_Method = $aeTrainMethod
-			_ArrayConcatenate($aeTB_Method, $aeBrewMethod)
-			MakeCustomTrain("all", $aeTB_Method)
-		ElseIf $aeTrainMethod[1] <> $g_eNoTrain Or $aeBrewMethod[1] <> $g_eNoTrain Then ; Quick Train
-			OpenQuickTrainTab()
-			If _Sleep(500) Then Return
-			Local $iMultiClick = 1
-			If $g_bChkMultiClick Then $iMultiClick = $g_iMultiClick
-			TrainArmyNumber($g_bQuickTrainArmy, $iMultiClick)
+		; Train
+		If Not IsArray($aeTrainMethod) Or Not IsArray($aeBrewMethod) Then
+			SetLog("Some kinds of error. Quit training", $COLOR_ERROR)
 		Else
-			SetLog("  Full queue, skip Quick Train")
+			If Not $g_bQuickTrainEnable Then ; Custom Train
+				If _Sleep(500) Then Return
+				If $bCheckWrongArmyCamp Or $bCheckWrongSpells Then
+					Local $toRemove = CheckWrongArmyCamp()
+					If @error Then ExitLoop
+					RemoveWrongArmyCamp($toRemove)
+					If @error Then ExitLoop
+				EndIf
+
+				If _Sleep(1000) Then Return
+				Local $aeTB_Method = $aeTrainMethod
+				_ArrayConcatenate($aeTB_Method, $aeBrewMethod)
+				MakeCustomTrain("All", $aeTB_Method)
+				If @error Then ExitLoop
+			ElseIf $aeTrainMethod[1] <> $g_eNoTrain Or $aeBrewMethod[1] <> $g_eNoTrain Then ; Quick Train
+				If Not OpenQuickTrainTab() Then $g_sSmartTrainError = SetError(1, 0, "Error OpenQuickTrainTab called from SmartTrain")
+				If @error Then ExitLoop
+				If _Sleep(500) Then Return
+				Local $iMultiClick = 1
+				If $g_bChkMultiClick Then $iMultiClick = $g_iMultiClick
+				TrainArmyNumber($g_bQuickTrainArmy, $iMultiClick)
+			Else
+				SetLog("Full queue, skip Quick Train", $COLOR_INFO)
+			EndIf
+			SetLog("Smart Train accomplished")
 		EndIf
-		SetLog("Smart Train accomplished")
-	EndIf
+
+		ExitLoop
+
+	WEnd
+
+	If @error Then SetLog("Quit training. " & $g_sSmartTrainError, $COLOR_ERROR)
 
 	ClickP($aAway, 2, 0, "#0000") ;Click Away
-
 	If $bRemoveUnpreciseTroops Then CheckIfArmyIsReady()
 
 EndFunc   ;==>SmartTrain
@@ -90,28 +112,29 @@ Func MakeCustomTrain($sText, $aeMethod)
 	Next
 
 	Local $aArmy, $bTrainQueue = False
+	If $sText <> "Spells" Then
+		If Not OpenTroopsTab() Then $g_sSmartTrainError = SetError(2, 0, "Error OpenTroopsTab called from MakeCustomTrain")
+		If @error Then Return ; quit SmartTrain
 
-	If $sText <> "spell" Then
-		OpenTroopsTab()
-		If Not ISArmyWindow(False, $TrainTroopsTAB) Then OpenTroopsTab()
-		If Not $g_bRunState Then Return
 		For $i = 0 To 1
-			If $i = 1 Then $bTrainQueue = True
-			$aArmy = DefineWhatToTrain("troop", $aeMethod[$i], $bTrainQueue)
-			TrainNow("troop", $aArmy)
+			$bTrainQueue = Mod($i, 2) = 1
+			$aArmy = DefineWhatToTrain("Troops", $aeMethod[$i], $bTrainQueue)
+			TrainNow("Troops", $aArmy)
+			If @error Then SetError(2)
 		Next
 	EndIf
 
-	If $sText <> "troop" Then
-		OpenSpellsTab()
-		If Not ISArmyWindow(False, $BrewSpellsTAB) Then OpenSpellsTab()
-		If Not $g_bRunState Then Return
+	If $sText <> "Troops" Then
+		If Not OpenSpellsTab() Then $g_sSmartTrainError = SetError(2, 0, "Error OpenSpellsTab called from MakeCustomTrain")
+		If @error Then Return ; quit SmartTrain
+
 		Local $x = 0
-		If $sText = "all" Then $x = 2
+		If $sText = "All" Then $x = 2
 		For $i = $x To $x + 1
-			If $i = 1 Or $i = 3 Then $bTrainQueue = True
-			$aArmy = DefineWhatToTrain("spell", $aeMethod[$i], $bTrainQueue)
-			TrainNow("spell", $aArmy)
+			$bTrainQueue = Mod($i, 2) = 1
+			$aArmy = DefineWhatToTrain("Spells", $aeMethod[$i], $bTrainQueue)
+			TrainNow("Spells", $aArmy)
+			If @error Then SetError(2)
 		Next
 	EndIf
 	Return True
@@ -123,12 +146,12 @@ Func TrainNow($sText, $aArmy)
 
 	; Train it
 	For $i = 0 To (UBound($aArmy) - 1)
-		If Not $g_bRunState Then Return
 		If $aArmy[$i][1] > 0 Then
-			If Not DragIfNeeded($aArmy[$i][0]) Then Return False
+			If Not DragIfNeeded($aArmy[$i][0]) Then $g_sSmartTrainError = SetError(3, 0, "Error DragIfNeeded called from TrainNow")
+			If @error Then Return ; quit SmartTrain
 
 			Local $sAction = "Training "
-			If $sText = "spell" Then
+			If $sText = "Spells" Then
 				$sAction = "Brewing "
 			EndIf
 			Local $iTS_Index = TroopIndexLookup($aArmy[$i][0])
@@ -136,22 +159,23 @@ Func TrainNow($sText, $aArmy)
 
 
 			If CheckValuesCost($aArmy[$i][0], $aArmy[$i][1]) Then
-				SetLog("    " & $sAction & $aArmy[$i][1] & "x " & $sTS_Name, $COLOR_GREEN)
-				TrainIt($iTS_Index, $aArmy[$i][1], $g_iTrainClickDelay)
+				SetLog(" - " & $sAction & $aArmy[$i][1] & "x " & $sTS_Name, $COLOR_SUCCESS)
+				If Not TrainIt($iTS_Index, $aArmy[$i][1], $g_iTrainClickDelay) Then $g_sSmartTrainError = SetError(3, 0, "Error TrainIt called from TrainNow")
+				If @error Then Return ; quit SmartTrain
 			Else
-				SetLog("No resources for " & $sAction & $aArmy[$i][1] & "x " & $sTS_Name, $COLOR_ORANGE)
+				SetLog("No resources for " & $sAction & $aArmy[$i][1] & "x " & $sTS_Name, $COLOR_ACTION)
 			EndIf
 		EndIf
 	Next
 EndFunc   ;==>TrainNow
 
-Func DefineWhatToTrain($sText = "troop", $TrainMethod = $g_eFull, $bTrainQueue = False)
+Func DefineWhatToTrain($sText = "Troops", $TrainMethod = $g_eFull, $bTrainQueue = False)
 
 	Local $rWTT[1][2] = [["Arch", 0]] ; result of what to train
-	If $sText = "spell" Then $rWTT[0][0] = "LSpell"
+	If $sText = "Spells" Then $rWTT[0][0] = "LSpell"
 
 	Local $eCount = $eTroopCount
-	If $sText = "spell" Then $eCount = $eSpellCount
+	If $sText = "Spells" Then $eCount = $eSpellCount
 
 	Local $aCurrent[$eCount], $iIndex, $aiArmyComp[$eCount], $asShortNames[$eCount]
 	Local $aiCurrentQty[$eCount], $aiQueueQty[$eCount]
@@ -162,19 +186,18 @@ Func DefineWhatToTrain($sText = "troop", $TrainMethod = $g_eFull, $bTrainQueue =
 
 		Case $g_eFull
 			If Not $bTrainQueue Then
-				SetLog("  » Custom train full set of " & $sText)
+				SetLog("Custom train full set of " & $sText, $COLOR_INFO)
 			Else
-				SetLog("  » Custom train full set of queue " & $sText)
+				SetLog("Custom train full set of queue " & $sText, $COLOR_INFO)
 			EndIf
 
 			For $i = 0 To (UBound($aCurrent) - 1)
-				If Not $g_bRunState Then Return
-				If $sText = "troop" Then
+				If $sText = "Troops" Then
 					$iIndex = $g_aiTrainOrder[$i]
 					$aiArmyComp[$iIndex] = $g_aiArmyCompTroops[$iIndex]
 					$asShortNames[$iIndex] = $g_asTroopShortNames[$iIndex]
 
-				ElseIf $sText = "spell" Then
+				ElseIf $sText = "Spells" Then
 					$iIndex = $g_aiBrewOrder[$i]
 					$aiArmyComp[$iIndex] = $g_aiArmyCompSpells[$iIndex]
 					$asShortNames[$iIndex] = $g_asSpellShortNames[$iIndex]
@@ -185,28 +208,26 @@ Func DefineWhatToTrain($sText = "troop", $TrainMethod = $g_eFull, $bTrainQueue =
 					$rWTT[UBound($rWTT) - 1][1] = $aiArmyComp[$iIndex]
 					Local $iTS_Index = TroopIndexLookup($rWTT[UBound($rWTT) - 1][0])
 					Local $sTS_Name = NameOfTroop($iTS_Index, $rWTT[UBound($rWTT) - 1][1] > 1 ? 1 : 0)
-;~ 					SetLog("    " & UBound($rWTT) & ". " & $sTS_Name & " x " & $rWTT[UBound($rWTT) - 1][1])
 					ReDim $rWTT[UBound($rWTT) + 1][2]
 				EndIf
 			Next
 
 		Case $g_eRemained
 			If Not $bTrainQueue Then
-				SetLog("  » Custom train remaining " & $sText)
+				SetLog("Custom train remaining " & $sText, $COLOR_INFO)
 			Else
-				SetLog("  » Custom train remaining queue " & $sText)
+				SetLog("Custom train remaining queue " & $sText, $COLOR_INFO)
 			EndIf
 
 			For $i = 0 To (UBound($aCurrent) - 1)
-				If Not $g_bRunState Then Return
-				If $sText = "troop" Then
+				If $sText = "Troops" Then
 					$iIndex = $g_aiTrainOrder[$i]
 					$aiCurrentQty[$iIndex] = $g_aiCurrentTroops[$iIndex]
 					$aiQueueQty[$iIndex] = $g_aiQueueTroops[$iIndex]
 					$aiArmyComp[$iIndex] = $g_aiArmyCompTroops[$iIndex]
 					$asShortNames[$iIndex] = $g_asTroopShortNames[$iIndex]
 
-				ElseIf $sText = "spell" Then
+				ElseIf $sText = "Spells" Then
 					$iIndex = $g_aiBrewOrder[$i]
 					$aiCurrentQty[$iIndex] = $g_aiCurrentSpells[$iIndex]
 					$aiQueueQty[$iIndex] = $g_aiQueueSpells[$iIndex]
@@ -225,12 +246,10 @@ Func DefineWhatToTrain($sText = "troop", $TrainMethod = $g_eFull, $bTrainQueue =
 					$rWTT[UBound($rWTT) - 1][1] = Abs($aiArmyComp[$iIndex] - $aCurrent[$iIndex])
 					Local $iTS_Index = TroopIndexLookup($rWTT[UBound($rWTT) - 1][0])
 					Local $sTS_Name = NameOfTroop($iTS_Index, $rWTT[UBound($rWTT) - 1][1] > 1 ? 1 : 0)
-;~ 					SetLog("    " & UBound($rWTT) & ". " & $sTS_Name & " x " & $rWTT[UBound($rWTT) - 1][1])
 					ReDim $rWTT[UBound($rWTT) + 1][2]
 				EndIf
 			Next
 	EndSwitch
-
 	Return $rWTT
 
 EndFunc   ;==>DefineWhatToTrain

@@ -27,9 +27,8 @@ Func chkUseQTrain()
 		GUICtrlSetData($g_hLblElixirCostSpell, "0")
 		GUICtrlSetData($g_hLblDarkCostSpell, "0")
 	Else
+        chkQuickTrainCombo()
 		_GUI_Value_STATE("DISABLE", $g_ahChkArmy[0] & "#" & $g_ahChkArmy[1] & "#" & $g_ahChkArmy[2])
-		; Smart Train - AiO++
-		chkSmartTrain()
 		_GUI_Value_STATE("ENABLE", $grpTrainTroops)
 		_GUI_Value_STATE("ENABLE", $grpCookSpell)
 		lblTotalCountTroop1()
@@ -46,19 +45,14 @@ Func chkQuickTrainCombo()
 	EndIf
 EndFunc   ;==>chkQuickTrainCombo
 
-Func chkSmartTrain()
-	If GUICtrlRead($g_hChkSmartTrain) = $GUI_CHECKED Then
-		_GUI_Value_STATE("ENABLE", $g_hChkFillArcher & "#" & $g_hChkFillEQ)
-		chkPreciseTroops()
+Func chkPreciseTroops()
+	If GUICtrlRead($g_hChkPreciseArmyCamp) = $GUI_CHECKED Then
+		_GUI_Value_STATE("DISABLE", $g_hChkFillArcher & "#" & $g_hChkFillEQ)
+		_GUI_Value_STATE("UNCHECKED", $g_hChkFillArcher & "#" & $g_hChkFillEQ)
 		chkFillArcher()
 	Else
-		_GUI_Value_STATE("DISABLE", $g_hChkFillArcher & "#" & $g_hTxtFillArcher & "#" & $g_hChkFillEQ)
-		_GUI_Value_STATE("UNCHECKED", $g_hChkFillArcher & "#" & $g_hChkFillEQ)
+		_GUI_Value_STATE("ENABLE", $g_hChkFillArcher & "#" & $g_hChkFillEQ)
 	EndIf
-EndFunc   ;==>chkSmartTrain
-
-Func chkPreciseTroops()
-	GUI_Value_STATE("ENABLE", $g_hChkFillArcher & "#" & $g_hChkFillEQ)
 EndFunc   ;==>chkPreciseTroops
 
 Func chkFillArcher()
@@ -298,11 +292,15 @@ Func chkCloseWaitEnable()
 	If GUICtrlRead($g_hChkCloseWhileTraining) = $GUI_CHECKED Then
 		$g_bCloseWhileTrainingEnable = True
 		_GUI_Value_STATE("ENABLE", $groupCloseWhileTraining)
-		_GUI_Value_STATE("ENABLE", $g_hLblCloseWaitingTroops & "#" & $g_hCmbMinimumTimeClose & "#" & $g_hLblSymbolWaiting & "#" & $g_hLblWaitingInMinutes)
+		; === Max Logout Time ~ Light Version
+		_GUI_Value_STATE("ENABLE", $g_hLblCloseWaitingTroops & "#" & $g_hCmbMinimumTimeClose & "#" & $g_hLblSymbolWaiting & "#" & $g_hLblWaitingInMinutes & "#" & $g_hChkTrainLogoutMaxTime)
+		chkTrainLogoutMaxTime()
 	Else
 		$g_bCloseWhileTrainingEnable = False
 		_GUI_Value_STATE("DISABLE", $groupCloseWhileTraining)
-		_GUI_Value_STATE("DISABLE", $g_hLblCloseWaitingTroops & "#" & $g_hCmbMinimumTimeClose & "#" & $g_hLblSymbolWaiting & "#" & $g_hLblWaitingInMinutes)
+		; === Max Logout Time ~ Light Version
+		_GUI_Value_STATE("DISABLE", $g_hLblCloseWaitingTroops & "#" & $g_hCmbMinimumTimeClose & "#" & $g_hLblSymbolWaiting & "#" & $g_hLblWaitingInMinutes & "#" & $g_hChkTrainLogoutMaxTime & "#" & $g_hTxtTrainLogoutMaxTime & "#" & $g_hLblTrainLogoutMaxTime)
+		_GUI_Value_STATE("UNCHECKED", $g_hChkTrainLogoutMaxTime)
 	EndIf
 	If GUICtrlRead($g_hChkRandomClose) = $GUI_CHECKED Then
 		GUICtrlSetState($g_hChkCloseEmulator, BitOR($GUI_DISABLE, $GUI_UNCHECKED))
@@ -314,6 +312,15 @@ Func chkCloseWaitEnable()
 		EndIf
 	EndIf
 EndFunc   ;==>chkCloseWaitEnable
+
+; === Max Logout Time ~ Light Version
+Func chkTrainLogoutMaxTime()
+	If GUICtrlRead($g_hChkTrainLogoutMaxTime) = $GUI_CHECKED Then
+		_GUI_Value_STATE("ENABLE", $g_hTxtTrainLogoutMaxTime & "#" & $g_hLblTrainLogoutMaxTime)
+	Else
+		_GUI_Value_STATE("DISABLE", $g_hTxtTrainLogoutMaxTime & "#" & $g_hLblTrainLogoutMaxTime)
+	EndIf
+EndFunc   ;==>chkTrainLogoutMaxTime
 
 Func chkCloseWaitTrain()
 	$g_bCloseWithoutShield = (GUICtrlRead($g_hChkCloseWithoutShield) = $GUI_CHECKED)

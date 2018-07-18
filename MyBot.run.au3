@@ -1,4 +1,4 @@
-; #FUNCTION# ====================================================================================================================
+﻿; #FUNCTION# ====================================================================================================================
 ; Name ..........: MBR Bot
 ; Description ...: This file contains the initialization and main loop sequences f0r the MBR Bot
 ; Author ........:  (2014)
@@ -72,7 +72,7 @@ Global $g_hFrmBot = 0 ; The main GUI window
 ; "r01" ; MyBot v7.5.1 + S&E: FFC + DEB + SartTrain + Fast Click Donate ( while using QuickTrain ) + CCO
 ; "r01" ; MyBot v7.5.2 + S&E: FFC + DEB + SamrtTrain + Fast Click Donate ( while using QuickTrain ) + CCO
 ; "r01" ; MyBot v7.5.3 + S&E: FFC + DEB + SamrtTrain + Fast Click Donate ( while using QuickTrain ) + CCO
-$g_sModversion = "r02" ; MyBot v7.5.3 + S&E: FFC + DEB + SamrtTrain + Fast Click Donate ( while using QuickTrain ) + CCO + Bug Fix
+$g_sModversion = "r02" ; MyBot v7.5.3 + S&E: FFC + DEB + SamrtTrain + Fast Click Donate ( while using QuickTrain ) + CCO
 
 ; MBR includes
 #include "COCBot\MBR Global Variables.au3"
@@ -109,7 +109,7 @@ InitializeBot()
 MainLoop(CheckPrerequisites())
 
 Func UpdateBotTitle()
-	Local $sTitle = "My Bot " & $g_sBotVersion & "." & $g_sModversion
+	Local $sTitle = "My Bot " & $g_sBotVersion & "." & $g_sModversion & " -"
 	Local $sConsoleTitle ; Console title has also Android Emulator Name
 	If $g_sBotTitle = "" Then
 		$g_sBotTitle = $sTitle
@@ -621,13 +621,13 @@ Func FinalInitialization(Const $sAI)
 	; Message - AiO++ Team
 	SetLog(" ", $COLOR_SUCCESS)
 	SetLog("____________" & " [  S&E MOD  ]" & "____________", $COLOR_MONEYGREEN, "Impact", 14)
-	SetLog("                                  Â» " & "Warning" & " Â«", $COLOR_TEAL, "Segoe UI Semibold", 12)
-	SetLog("           Â» " & "Please set the BOT Language to ENGLISH" & " Â«", $COLOR_TEAL, "Segoe UI Semibold", 10)
-	SetLog("                                   Â» " & "Make a Fresh Config" & " Â«", $COLOR_TEAL, "Segoe UI Semibold", 9)
-	SetLog("                                   Â» " & "Don't Use Old Profile" & " Â«", $COLOR_TEAL, "Segoe UI Semibold", 9)
+	SetLog("                                  » " & "Warning" & " «", $COLOR_TEAL, "Segoe UI Semibold", 12)
+	SetLog("           » " & "Please set the BOT Language to ENGLISH" & " «", $COLOR_TEAL, "Segoe UI Semibold", 10)
+	SetLog("                                   » " & "Make a Fresh Config" & " «", $COLOR_TEAL, "Segoe UI Semibold", 9)
+	SetLog("                                   » " & "Don't Use Old Profile" & " «", $COLOR_TEAL, "Segoe UI Semibold", 9)
 	SetLog("-----------------------------------------------------------------------", $COLOR_MONEYGREEN)
-	SetLog("            Â» " & "Thanks To ALL MyBot Developer's" & " Â«", $COLOR_TEAL, "Segoe Print", 9)
-	SetLog("                        Â» " & "Based On: MyBot" & " " & $g_sBotVersion & " Â«", $COLOR_TEAL, "Segoe UI Semibold", 10)
+	SetLog("            » " & "Thanks To ALL MyBot Developer's" & " «", $COLOR_TEAL, "Segoe Print", 9)
+	SetLog("                        » " & "Based On: MyBot" & " " & $g_sBotVersion & " «", $COLOR_TEAL, "Segoe UI Semibold", 10)
 	SetLog("-----------------------------------------------------------------------", $COLOR_MONEYGREEN)
 	SetLog(" ", $COLOR_MEDGRAY)
 	; Message - end
@@ -712,7 +712,7 @@ Func runBot() ;Bot that runs everything in order
 	Local $iWaitTime
 
 	InitiateSwitchAcc()
-	If ProfileSwitchAccountEnabled() And $g_bReMatchAcc And $g_bRunState Then
+	If ProfileSwitchAccountEnabled() And $g_bReMatchAcc Then
 		SetLog("Rematching Account [" & $g_iNextAccount + 1 & "] with Profile [" & GUICtrlRead($g_ahCmbProfile[$g_iNextAccount]) & "]")
 		SwitchCoCAcc($g_iNextAccount)
 	EndIf
@@ -772,6 +772,7 @@ Func runBot() ;Bot that runs everything in order
 			; Request CC Troops at first - Team AiO++
 			$g_bcanRequestCC = True
 			If $g_bReqCCFirst Then
+				CheckCC() ; CheckCC Troops - Team AiO MOD++
 				RequestCC()
 				If _Sleep($DELAYRUNBOT1) = False Then checkMainScreen(False)
 			EndIf
@@ -1210,7 +1211,8 @@ Func _RunFunction($action)
 			LabGuiDisplay()
 			_Sleep($DELAYRUNBOT3)
 		Case "RequestCC"
-			If Not ($g_bReqCCFirst) Then
+			If Not $g_bReqCCFirst Then
+				CheckCC()
 				RequestCC()
 			EndIf
 			If _Sleep($DELAYRUNBOT1) = False Then checkMainScreen(False)

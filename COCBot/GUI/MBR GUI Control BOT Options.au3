@@ -209,7 +209,6 @@ Func chkSwitchAcc()
 		For $i = $g_hCmbTotalAccount To $g_ahChkDonate[7]
 			GUICtrlSetState($i, $GUI_ENABLE)
 		Next
-		chkSmartSwitch()
 	Else
 		releaseSwitchAccountMutex()
 		For $i = $g_hCmbTotalAccount To $g_ahChkDonate[7]
@@ -281,7 +280,6 @@ Func _cmbSwitchAcc($bReadSaveConfig = True)
 		GUICtrlSetState($i, (($bEnable) ? $GUI_ENABLE : $GUI_DISABLE))
 	Next
 	cmbTotalAcc()
-	chkSmartSwitch()
 	$s_bActive = False
 EndFunc   ;==>_cmbSwitchAcc
 
@@ -1153,3 +1151,11 @@ EndFunc   ;==>btnTestSmartWait
 Func btnConsoleWindow()
 	ConsoleWindow()
 EndFunc   ;==>btnConsoleWindow
+
+Func chkLabCheck()
+	If GUICtrlRead($g_hChkLabCheck) = $GUI_CHECKED Then
+	$g_iChkLabCheck = 1		
+	Else
+	$g_iChkLabCheck = 0		
+	EndIf
+EndFunc ;==>chkLabCheck

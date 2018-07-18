@@ -42,33 +42,6 @@ Func CheckVersion()
 	EndIf
 EndFunc   ;==>CheckVersion
 
-;~ Func CheckVersionTXT()
-;~ 	;download page from site contains last bot version
-;~ 	$hLastVersion = InetGet("https://mybot.run/lastversion.txt", @ScriptDir & "\LastVersion.txt")
-;~ 	InetClose($hLastVersion)
-
-;~ 	;search version into downloaded page
-;~ 	Local $f, $line, $Casesense = 0
-;~ 	$g_sLastVersion = ""
-;~ 	If FileExists(@ScriptDir & "\LastVersion.txt") Then
-;~ 		$f = FileOpen(@ScriptDir & "\LastVersion.txt", 0)
-;~ 		; Read in lines of text until the EOF is reached
-;~ 		While 1
-;~ 			$line = FileReadLine($f)
-;~ 			If @error = -1 Then ExitLoop
-;~ 			If StringInStr($line, "version=", $Casesense) Then
-;~ 				$g_sLastVersion = StringMid($line, 9, -1)
-;~ 			EndIf
-;~ 			If StringInStr($line, "message=", $Casesense) Then
-;~ 				$g_sLastMessage = StringMid($line, 9, -1)
-;~ 			EndIf
-;~ 		WEnd
-;~ 		FileClose($f)
-;~ 		FileDelete(@ScriptDir & "\LastVersion.txt")
-;~ 	EndIf
-;~ EndFunc   ;==>CheckVersionTXT
-
-
 Func CheckVersionHTML()
 	Local $versionfile = @ScriptDir & "\LastVersion.txt"
 	If FileExists(@ScriptDir & "\TestVersion.txt") Then

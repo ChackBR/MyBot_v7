@@ -587,7 +587,7 @@ Func SwitchCOCAcc_ConnectedSCID(ByRef $bResult)
 		If _ColorCheck(_GetPixelColor($aButtonConnectedSCID[0], $aButtonConnectedSCID[1], True), Hex($aButtonConnectedSCID[2], 6), $aButtonConnectedSCID[3]) Then
 			Click($aButtonConnectedSCID[0], $aButtonConnectedSCID[1], 1, 0, "Click Connected SC_ID")
 			Setlog("   1. Click Connected Supercell ID")
-			If _Sleep(2500) Then Return "Exit"
+			If _Sleep(1000) Then Return "Exit"
 			;ExitLoop
 			Return "OK"
 		EndIf
