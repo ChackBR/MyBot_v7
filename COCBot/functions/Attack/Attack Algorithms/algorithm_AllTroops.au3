@@ -73,7 +73,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 			SetLog("Attacking on all sides", $COLOR_INFO)
 			$nbSides = 4
 		Case 4 ;Classic Four Finger ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			SetLog("Attacking 4 Fingers fight style", $COLOR_INFO)
+			SetLog("Attacking Four Fingers fight style", $COLOR_INFO)
 			$nbSides = 5
 		Case 5 ;DE Side - Live Base only ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			SetLog("Attacking on Dark Elixir Side.", $COLOR_INFO)
@@ -170,6 +170,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 
 	; Classic Four Fingers
 	ElseIf $nbSides = 5 Then
+		CmbGiantSlot()
 		If $g_bCustomDropOrderEnable Then
 			Local $listInfoDeploy[22][5] = [[MatchTroopDropName(0), MatchSidesDrop(0), MatchTroopWaveNb(0), 1, MatchSlotsPerEdge(0)], _
 						[MatchTroopDropName(1), MatchSidesDrop(1), MatchTroopWaveNb(1), 1, MatchSlotsPerEdge(1)], _
@@ -195,7 +196,6 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 						[MatchTroopDropName(21), MatchSidesDrop(21), MatchTroopWaveNb(21), 1, MatchSlotsPerEdge(21)]]
 		Else
 			Local $listInfoDeploy[22][5] = [[$eGiant, $nbSides, 1, 1, $g_aiSlotsGiants], _
-						["CC", 1, 1, 1, 1], _
 						[$eGole, $nbSides, 1, 1, 2], _
 						[$eLava, $nbSides, 1, 1, 2], _
 						[$eEDrag, $nbSides, 1, 1, 0], _

@@ -237,6 +237,7 @@ Func AttackReport()
 		$g_aiAttackedCountAcc[$g_iCurAccount] += 1
 		SetSwitchAccLog(" - Acc. " & $g_iCurAccount + 1 & ", Attack: " & $g_aiAttackedCountAcc[$g_iCurAccount])
 	EndIf
+
 	UpdateStats()
 	$g_iActualTrainSkip = 0
 
