@@ -505,7 +505,7 @@ Func DonateCC($bCheckForNewMsg = False)
 		; --------------------------------------------
 		; Smart Train - AiO++
 		; --------------------------------------------
-		If $ichkSmartTrain Then
+		If $g_bChkSmartTrain Then
 			OpenArmyOverview()
 			MakingDonatedTroops()
 			ClickP($aAway, 1, 0, "#0176")

@@ -34,7 +34,7 @@ Func TrainRevamp()
 	; --------------------------------------------
 	; Smart Train - AiO++
 	; --------------------------------------------
-	If Not $g_bQuickTrainEnable And $ichkSmartTrain = 0 Then
+	If Not $g_bQuickTrainEnable And $g_bChkSmartTrain = 0 Then
 		TrainRevampOldStyle()
 		Return
 	EndIf
@@ -58,7 +58,7 @@ Func TrainRevamp()
 		; --------------------------------------------
 		; Smart Train - AiO++
 		; --------------------------------------------
-		If $ichkSmartTrain Then
+		If $g_bChkSmartTrain Then
 			SmartTrain()
 			ResetVariables("donated")
 			EndGainCost("Train")
