@@ -39,14 +39,6 @@ Func ApplyConfig_MOD($TypeReadSave)
 			chkTrainLogoutMaxTime()
 			GUICtrlSetData($g_hTxtTrainLogoutMaxTime, $g_iTrainLogoutMaxTime)
 
-			; === Skip Request-CC ~ Light Version
-			GUICtrlSetState($g_hChkSkipRequestCC, $g_bSkipRequestCC ? $GUI_CHECKED : $GUI_UNCHECKED)
-			GUICtrlSetData($g_hTxtSkipRequestCCTroop, $g_iSkipRequestCCTroop)
-			GUICtrlSetData($g_hTxtSkipRequestCCSpell, $g_iSkipRequestCCSpell)
-
-			GUICtrlSetState($g_hChkLabCheck, $g_iChkLabCheck = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
-   		        chkLabCheck()
-
 		Case "Save"
 
 			; Check Collector Outside - Team AiO MOD++
@@ -64,13 +56,6 @@ Func ApplyConfig_MOD($TypeReadSave)
 			; Max logout time - Light__Version
 			$g_bTrainLogoutMaxTime = (GUICtrlRead($g_hChkTrainLogoutMaxTime) = $GUI_CHECKED)
 			$g_iTrainLogoutMaxTime = GUICtrlRead($g_hTxtTrainLogoutMaxTime)
-
-			; === Skip Request-CC ~ Light Version
-			$g_bSkipRequestCC = (GUICtrlRead($g_hChkSkipRequestCC) = $GUI_CHECKED)
-			$g_iSkipRequestCCTroop = GUICtrlRead($g_hTxtSkipRequestCCTroop)
-			$g_iSkipRequestCCSpell = GUICtrlRead($g_hTxtSkipRequestCCSpell)
-
-			$g_iChkLabCheck = GUICtrlRead($g_hChkLabCheck) = $GUI_CHECKED ? 1 : 0
 
 	EndSwitch
 EndFunc   ;==>ApplyConfig_MOD

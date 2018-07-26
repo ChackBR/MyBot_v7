@@ -95,13 +95,3 @@ Global $g_bIsSearchTimeout = False, $g_iSearchTimeout = 10, $g_iTotalSearchTime 
 ; Request troops for defense - AiO++
 ; --------------------------------------------
 Global $g_bRequestTroopsEnableDefense = False, $g_sRequestTroopsTextDefense = "", $g_iRequestDefenseEarly = 0
-
-; --------------------------------------------
-; Skip Request CC - Team AiO MOD++
-; --------------------------------------------
-Global $g_bSkipRequestCC = False, $g_iSkipRequestCCTroop = 40, $g_iSkipRequestCCSpell = 2
-
-; --------------------------------------------
-; Disable Check Lab Option
-; --------------------------------------------
-Global $g_iChkLabCheck = 0

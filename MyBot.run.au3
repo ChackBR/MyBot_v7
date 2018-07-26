@@ -72,8 +72,7 @@ Global $g_hFrmBot = 0 ; The main GUI window
 ; "r01" ; MyBot v7.5.1 + S&E: FFC + DEB + SartTrain + Fast Click Donate ( while using QuickTrain ) + CCO
 ; "r01" ; MyBot v7.5.2 + S&E: FFC + DEB + SamrtTrain + Fast Click Donate ( while using QuickTrain ) + CCO
 ; "r01" ; MyBot v7.5.3 + S&E: FFC + DEB + SamrtTrain + Fast Click Donate ( while using QuickTrain ) + CCO
-; "r02" ; MyBot v7.5.3 + S&E: FFC + DEB + SamrtTrain + Fast Click Donate ( while using QuickTrain ) + CCO
-$g_sModversion = "r03" ; MyBot v7.5.3 + S&E: FFC + DEB + SamrtTrain + Fast Click Donate ( while using QuickTrain ) + CCO + ...
+$g_sModversion = "r01" ; MyBot v7.5.4 + S&E: FFC + DEB + SamrtTrain + Fast Click Donate ( while using QuickTrain ) + CCO + ...
 
 ; MBR includes
 #include "COCBot\MBR Global Variables.au3"
@@ -622,13 +621,13 @@ Func FinalInitialization(Const $sAI)
 	; Message - AiO++ Team
 	SetLog(" ", $COLOR_SUCCESS)
 	SetLog("____________" & " [  S&E MOD  ]" & "____________", $COLOR_MONEYGREEN, "Impact", 14)
-	SetLog("                                  Â» " & "Warning" & " Â«", $COLOR_TEAL, "Segoe UI Semibold", 12)
-	SetLog("           Â» " & "Please set the BOT Language to ENGLISH" & " Â«", $COLOR_TEAL, "Segoe UI Semibold", 10)
-	SetLog("                                   Â» " & "Make a Fresh Config" & " Â«", $COLOR_TEAL, "Segoe UI Semibold", 9)
-	SetLog("                                   Â» " & "Don't Use Old Profile" & " Â«", $COLOR_TEAL, "Segoe UI Semibold", 9)
+	SetLog("                                  » " & "Warning" & " «", $COLOR_TEAL, "Segoe UI Semibold", 12)
+	SetLog("           » " & "Please set the BOT Language to ENGLISH" & " «", $COLOR_TEAL, "Segoe UI Semibold", 10)
+	SetLog("                                   » " & "Make a Fresh Config" & " «", $COLOR_TEAL, "Segoe UI Semibold", 9)
+	SetLog("                                   » " & "Don't Use Old Profile" & " «", $COLOR_TEAL, "Segoe UI Semibold", 9)
 	SetLog("-----------------------------------------------------------------------", $COLOR_MONEYGREEN)
-	SetLog("            Â» " & "Thanks To ALL MyBot Developer's" & " Â«", $COLOR_TEAL, "Segoe Print", 9)
-	SetLog("                        Â» " & "Based On: MyBot" & " " & $g_sBotVersion & " Â«", $COLOR_TEAL, "Segoe UI Semibold", 10)
+	SetLog("            » " & "Thanks To ALL MyBot Developer's" & " «", $COLOR_TEAL, "Segoe Print", 9)
+	SetLog("                        » " & "Based On: MyBot" & " " & $g_sBotVersion & " «", $COLOR_TEAL, "Segoe UI Semibold", 10)
 	SetLog("-----------------------------------------------------------------------", $COLOR_MONEYGREEN)
 	SetLog(" ", $COLOR_MEDGRAY)
 	; Message - end
@@ -649,6 +648,9 @@ Func FinalInitialization(Const $sAI)
 	DisableProcessWindowsGhosting()
 
 	UpdateMainGUI()
+
+	; temporary solution for the most recent MEmu versions
+	CheckClickAdbNewVersions()
 
 EndFunc   ;==>FinalInitialization
 
@@ -752,6 +754,7 @@ Func runBot() ;Bot that runs everything in order
 		If $g_bIsClientSyncError = False And $g_bIsSearchLimit = False And ($g_bQuickAttack = False) Then
 			If BotCommand() Then btnStop()
 			If _Sleep($DELAYRUNBOT2) Then Return
+
 			checkMainScreen(False)
 			If $g_bRestart = True Then ContinueLoop
 			If _Sleep($DELAYRUNBOT3) Then Return
@@ -793,6 +796,9 @@ Func runBot() ;Bot that runs everything in order
 				EndIf
 				If $g_bRestart = True Then ContinueLoop 2 ; must be level 2 due to loop-in-loop
 			WEnd
+
+			If ($g_iCommandStop = 0 Or $g_iCommandStop = 3) And ProfileSwitchAccountEnabled() And Not $g_abDonateOnly[$g_iCurAccount] Then checkSwitchAcc()
+
 			AddIdleTime()
 			If $g_bRunState = False Then Return
 			If $g_bRestart = True Then ContinueLoop
@@ -977,9 +983,9 @@ Func _Idle() ;Sequence that runs until Full Army
 				If $g_bRestart = True Then ExitLoop
 				If _Sleep($DELAYIDLE1) Then ExitLoop
 				checkMainScreen(False)
+				$g_iActualTrainSkip = $g_iActualTrainSkip + 1
 			Else
 				SetLog("Humanize bot, prevent to delete and recreate troops " & $g_iActualTrainSkip + 1 & "/" & $g_iMaxTrainSkip, $color_blue)
-				$g_iActualTrainSkip = $g_iActualTrainSkip + 1
 				If $g_iActualTrainSkip >= $g_iMaxTrainSkip Then
 					$g_iActualTrainSkip = 0
 				EndIf
@@ -994,8 +1000,8 @@ Func _Idle() ;Sequence that runs until Full Army
 					If $g_bRestart = True Then ExitLoop
 					If _Sleep($DELAYIDLE1) Then ExitLoop
 					checkMainScreen(False)
-				Else
 					$g_iActualTrainSkip = $g_iActualTrainSkip + 1
+				Else
 					If $g_iActualTrainSkip >= $g_iMaxTrainSkip Then
 						$g_iActualTrainSkip = 0
 					EndIf
@@ -1212,10 +1218,7 @@ Func _RunFunction($action)
 			LabGuiDisplay()
 			_Sleep($DELAYRUNBOT3)
 		Case "RequestCC"
-			If Not $g_bReqCCFirst Then
-				CheckCC()
-				RequestCC()
-			EndIf
+			RequestCC()
 			If _Sleep($DELAYRUNBOT1) = False Then checkMainScreen(False)
 		Case "Laboratory"
 			Laboratory()

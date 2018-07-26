@@ -60,13 +60,13 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 
 	Global $nbSides = 0
 	Switch $g_aiAttackStdDropSides[$g_iMatchMode]
-		Case 0 ;Single sides ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		Case 0 ;Single sides ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			SetLog("Attacking on a single side", $COLOR_INFO)
 			$nbSides = 1
 		Case 1 ;Two sides ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			SetLog("Attacking on two sides", $COLOR_INFO)
 			$nbSides = 2
-		Case 2 ;Three sides ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		Case 2 ;Three sides ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			SetLog("Attacking on three sides", $COLOR_INFO)
 			$nbSides = 3
 		Case 3 ;All sides ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -87,7 +87,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 	If ($nbSides = 0) Then Return
 	If _Sleep($DELAYALGORITHM_ALLTROOPS2) Then Return
 
-	Local $GiantComp = $g_ahTxtTrainArmyTroopCount[$eTroopGiant]
+	Local $GiantComp = $g_aiArmyCompTroops[$eTroopGiant]
 	If Number($GiantComp) > 16 Or (Number($GiantComp) >= 8 And $nbSides = 5) Then $g_iSlotsGiants = 2
 	If Number($GiantComp) > 20 Or (Number($GiantComp) >= 12 And $nbSides = 5) Then $g_iSlotsGiants = 0
 

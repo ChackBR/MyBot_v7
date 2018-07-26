@@ -207,6 +207,7 @@ Global $g_iAndroidInactiveTransparency = 24
 Global $g_bAndroidShieldEnabled = True
 Global $g_bAndroidEmbedEnabled = True
 Global $g_bAndroidEmbedded = False
+Global $g_bAndroidEmbeddedWindowZeroPosition = True ; If true, the parent Android Window is not positioned in bot at the bottom but at offset 0,0 (fixes Nox 6.2.0.0 clicks not working)
 Global $g_aiAndroidEmbeddedCtrlTarget[10] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_avAndroidShieldStatus[5] = [Default, 0, 0, Default, Default] ; Current Android Shield status (0: True = Shield Up, False = Shield Down, Default only for init; 1: Color; 2: Transparency = 0-255; 3: Invisible Shield; 4: Detached Shield)
 
@@ -265,14 +266,14 @@ Global $__Nox_Config[1][2] = _ ; Alternative Nox Control ID (array must be order
 ;                 |          |                        |                                  |                |                      |                       |                      |                       |              |                    |64 = Make DPI Aware (if avaliable)                  |                                    |                                     |
 ;                 |          |                        |                                  |                |                      |                       |                      |                       |              |                    |128 = ADB use input swipe and not script            |                                    |                                     |
 Global $g_avAndroidAppConfig[8][16] = [ _ ;           |                                  |                |                      |                       |                      |                       |              |                    |256 = Update $g_sAppClassInstance with Window Handle|                                    |                                     |
+	["LeapDroid",  "vm1",     "Leapd",                "[CLASS:subWin; INSTANCE:1]",       "",              $g_iDEFAULT_WIDTH,     $g_iDEFAULT_HEIGHT - 48,$g_iDEFAULT_WIDTH,     $g_iDEFAULT_HEIGHT - 48,0,             "emulator-5554",     1         + 8 + 16 + 32,      '# ',                  'qwerty2',                           1,                                    1], _ ; LeapDroid
 	["Nox",        "nox",     "No",                   "[CLASS:subWin; INSTANCE:1]",       "",              $g_iDEFAULT_WIDTH,     $g_iDEFAULT_HEIGHT - 48,$g_iDEFAULT_WIDTH + 4, $g_iDEFAULT_HEIGHT - 10,0,             "127.0.0.1:62001",   1 + 2 + 4 + 8 + 16 + 32 + 256,'# ',                  '(nox Virtual Input|Android Input|Android_Input)', 0,                      2], _ ; Nox
 	["MEmu",       "MEmu",    "MEmu ",                "[CLASS:subWin; INSTANCE:1]",       "",              $g_iDEFAULT_WIDTH,     $g_iDEFAULT_HEIGHT - 48,$g_iDEFAULT_WIDTH + 51,$g_iDEFAULT_HEIGHT - 12,0,             "127.0.0.1:21503",       2 + 4 + 8 + 16 + 32,      '# ',                  '(Microvirt Virtual Input|User Input)', 0,                                 2], _ ; MEmu
 	["BlueStacks2","Android", "BlueStacks ",          "[CLASS:BlueStacksApp; INSTANCE:1]","_ctl.Window",   $g_iDEFAULT_WIDTH,     $g_iDEFAULT_HEIGHT - 48,$g_iDEFAULT_WIDTH,     $g_iDEFAULT_HEIGHT - 48,0,             "127.0.0.1:5555",    1 + 2     + 8 + 16 + 32 + 128,'$ ',                  'BlueStacks Virtual Touch',          0,                                    1], _ ; BlueStacks2
 	["BlueStacks", "Android", "BlueStacks App Player","[CLASS:BlueStacksApp; INSTANCE:1]","_ctl.Window",   $g_iDEFAULT_WIDTH,     $g_iDEFAULT_HEIGHT - 48,$g_iDEFAULT_WIDTH,     $g_iDEFAULT_HEIGHT - 48,0,             "127.0.0.1:5555",    1         + 8 + 16 + 32 + 128,'$ ',                  'BlueStacks Virtual Touch',          0,                                    1], _ ; BlueStacks
 	["iTools",     "iToolsVM","iTools ",              "[CLASS:subWin; INSTANCE:1]",       "",              $g_iDEFAULT_WIDTH,     $g_iDEFAULT_HEIGHT - 48,$g_iDEFAULT_WIDTH + 2, $g_iDEFAULT_HEIGHT - 13,0,             "127.0.0.1:54001",   1 + 2     + 8 + 16 + 32 + 64, '# ',                  'iTools Virtual PassThrough Input',  0,                                    1], _ ; iTools
 	["KOPLAYER",   "KOPLAYER","KOPLAYER",             "[CLASS:subWin; INSTANCE:1]",       "",              $g_iDEFAULT_WIDTH,     $g_iDEFAULT_HEIGHT - 48,$g_iDEFAULT_WIDTH + 64,$g_iDEFAULT_HEIGHT - 8, 0,             "127.0.0.1:6555",    1 + 2 + 4 + 8 + 16 + 32,      '# ',                  'ttVM Virtual Input',                0,                                    2], _ ; KOPLAYER
-	["Droid4X",    "droid4x", "Droid4X ",             "[CLASS:subWin; INSTANCE:1]",       "",              $g_iDEFAULT_WIDTH,     $g_iDEFAULT_HEIGHT - 48,$g_iDEFAULT_WIDTH + 10,$g_iDEFAULT_HEIGHT + 50,0,             "127.0.0.1:26944",       2 + 4 + 8 + 16 + 32,      '# ',                  'droid4x Virtual Input',             0,                                    2], _ ; Droid4X
-	["LeapDroid",  "vm1",     "Leapd",                "[CLASS:subWin; INSTANCE:1]",       "",              $g_iDEFAULT_WIDTH,     $g_iDEFAULT_HEIGHT - 48,$g_iDEFAULT_WIDTH,     $g_iDEFAULT_HEIGHT - 48,0,             "emulator-5554",     1         + 8 + 16 + 32,      '# ',                  'qwerty2',                           1,                                    1]  _ ; LeapDroid
+	["Droid4X",    "droid4x", "Droid4X ",             "[CLASS:subWin; INSTANCE:1]",       "",              $g_iDEFAULT_WIDTH,     $g_iDEFAULT_HEIGHT - 48,$g_iDEFAULT_WIDTH + 10,$g_iDEFAULT_HEIGHT + 50,0,             "127.0.0.1:26944",       2 + 4 + 8 + 16 + 32,      '# ',                  'droid4x Virtual Input',             0,                                    2]  _; Droid4X
 ]
 
 ; Android Configutions
@@ -786,6 +787,8 @@ Global $g_bChkCollectBuilderBase = False, $g_bChkStartClockTowerBoost = False, $
 Global $g_bRequestTroopsEnable = False
 Global $g_sRequestTroopsText = ""
 Global $g_abRequestCCHours[24] = [False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
+Global $g_abRequestType[3] = [True, True, False] ; (0 = Troop, 1 = Spell, 2 = Siege Machine)
+Global $g_iRequestCountCCTroop = 0, $g_iRequestCountCCSpell = 0
 
 ; <><><><> Village / Donate - Donate <><><><>
 Global $g_bChkDonate = True
@@ -1099,7 +1102,8 @@ Global $g_iAtkTBEnableCount = 150, $g_iAtkTBMaxTHLevel = 0, $g_iAtkTBMode = 0
 Global $g_bSearchReductionEnable = False, $g_iSearchReductionCount = 20, $g_iSearchReductionGold = 2000, $g_iSearchReductionElixir = 2000, $g_iSearchReductionGoldPlusElixir = 4000, _
 		$g_iSearchReductionDark = 100, $g_iSearchReductionTrophy = 2
 Global $g_iSearchDelayMin = 0, $g_iSearchDelayMax = 0
-Global $g_bSearchAttackNowEnable = False, $g_iSearchAttackNowDelay = 0, $g_bSearchRestartEnable = False, $g_iSearchRestartLimit = 25, $g_bSearchAlertMe = True
+Global $g_bSearchAttackNowEnable = False, $g_iSearchAttackNowDelay = 0, $g_bSearchRestartEnable = False, $g_iSearchRestartLimit = 25, $g_bSearchAlertMe = True, $g_bSearchRestartPickupHero = False
+Global $g_asHeroHealTime[3] = ["", "", ""] 
 
 ; <><><><> Attack Plan / Search & Attack / Options / Attack <><><><>
 Global $g_iActivateQueen = 0, $g_iActivateKing = 0, $g_iActivateWarden = 0
@@ -1417,41 +1421,43 @@ Global Enum $ArmyTAB, $TrainTroopsTAB, $BrewSpellsTAB, $QuickTrainTAB
 Global $g_bCheckSpells = False
 Global $g_bCheckClanCastleTroops = False
 ; Array to hold Laboratory Troop information [LocX of upper left corner of image, LocY of upper left corner of image, PageLocation, Troop "name", Icon # in DLL file]
-Global $g_avLabTroops[31][5]
+Global $g_avLabTroops[33][5]
 
 Func TranslateTroopNames()
-	Dim $g_avLabTroops[31][5] = [ _
+	Dim $g_avLabTroops[33][5] = [ _
 			[-1, -1, -1, GetTranslatedFileIni("MBR Global GUI Design", "None", "None"), $eIcnBlank], _
-			[123, 340 + $g_iMidOffsetY, 0, GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBarbarians", "Barbarians"), $eIcnBarbarian], _
-			[123, 447 + $g_iMidOffsetY, 0, GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtArchers", "Archers"), $eIcnArcher], _
-			[230, 340 + $g_iMidOffsetY, 0, GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtGiants", "Giants"), $eIcnGiant], _
-			[230, 447 + $g_iMidOffsetY, 0, GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtGoblins", "Goblins"), $eIcnGoblin], _
-			[337, 340 + $g_iMidOffsetY, 0, GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtWallBreakers", "Wall Breakers"), $eIcnWallBreaker], _
-			[337, 447 + $g_iMidOffsetY, 0, GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBalloons", "Balloons"), $eIcnBalloon], _
-			[443, 340 + $g_iMidOffsetY, 0, GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtWizards", "Wizards"), $eIcnWizard], _
-			[443, 447 + $g_iMidOffsetY, 0, GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtHealers", "Healers"), $eIcnHealer], _
-			[550, 340 + $g_iMidOffsetY, 0, GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtDragons", "Dragons"), $eIcnDragon], _
-			[550, 447 + $g_iMidOffsetY, 0, GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtPekkas", "Pekkas"), $eIcnPekka], _
-			[123, 340 + $g_iMidOffsetY, 1, GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBabyDragons", "Baby Dragons"), $eIcnBabyDragon], _
-			[123, 447 + $g_iMidOffsetY, 1, GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtMiners", "Miners"), $eIcnMiner], _
-			[230, 340 + $g_iMidOffsetY, 1, GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtElectroDragons", "Electro Dragons"), $eIcnElectroDragon], _
-			[230, 447 + $g_iMidOffsetY, 1, GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtLightningSpells", "Lightning Spell"), $eIcnLightSpell], _
-			[337, 340 + $g_iMidOffsetY, 1, GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtHealingSpells", "Healing Spell"), $eIcnHealSpell], _
-			[337, 447 + $g_iMidOffsetY, 1, GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtRageSpells", "Rage Spell"), $eIcnRageSpell], _
-			[443, 340 + $g_iMidOffsetY, 1, GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtJumpSpells", "Jump Spell"), $eIcnJumpSpell], _
-			[443, 447 + $g_iMidOffsetY, 1, GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtFreezeSpells", "Freeze Spell"), $eIcnFreezeSpell], _
-			[550, 340 + $g_iMidOffsetY, 1, GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtCloneSpells", "Clone Spell"), $eIcnCloneSpell], _
-			[550, 447 + $g_iMidOffsetY, 2, GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtPoisonSpells", "Poison Spell"), $eIcnPoisonSpell], _
-			[123, 340 + $g_iMidOffsetY, 2, GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtEarthQuakeSpells", "EarthQuake Spell"), $eIcnEarthQuakeSpell], _
-			[123, 447 + $g_iMidOffsetY, 2, GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtHasteSpells", "Haste Spell"), $eIcnHasteSpell], _
-			[230, 340 + $g_iMidOffsetY, 2, GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtSkeletonSpells", "Skeleton Spell"), $eIcnSkeletonSpell], _
-			[230, 447 + $g_iMidOffsetY, 2, GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtMinions", "Minions"), $eIcnMinion], _
-			[337, 340 + $g_iMidOffsetY, 2, GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtHogRiders", "Hog Riders"), $eIcnHogRider], _
-			[337, 447 + $g_iMidOffsetY, 2, GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtValkyries", "Valkyries"), $eIcnValkyrie], _
-			[443, 340 + $g_iMidOffsetY, 2, GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtGolems", "Golems"), $eIcnGolem], _
-			[443, 447 + $g_iMidOffsetY, 2, GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtWitches", "Witches"), $eIcnWitch], _
-			[550, 340 + $g_iMidOffsetY, 2, GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtLavaHounds", "Lava Hounds"), $eIcnLavaHound], _
-			[550, 447 + $g_iMidOffsetY, 2, GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBowlers", "Bowlers"), $eIcnBowler]]
+			[120, 337 + $g_iMidOffsetY, 0, GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBarbarians", "Barbarians"), $eIcnBarbarian], _
+			[120, 444 + $g_iMidOffsetY, 0, GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtArchers", "Archers"), $eIcnArcher], _
+			[227, 337 + $g_iMidOffsetY, 0, GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtGiants", "Giants"), $eIcnGiant], _
+			[227, 444 + $g_iMidOffsetY, 0, GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtGoblins", "Goblins"), $eIcnGoblin], _
+			[334, 337 + $g_iMidOffsetY, 0, GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtWallBreakers", "Wall Breakers"), $eIcnWallBreaker], _
+			[334, 444 + $g_iMidOffsetY, 0, GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBalloons", "Balloons"), $eIcnBalloon], _
+			[440, 337 + $g_iMidOffsetY, 0, GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtWizards", "Wizards"), $eIcnWizard], _
+			[440, 444 + $g_iMidOffsetY, 0, GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtHealers", "Healers"), $eIcnHealer], _
+			[547, 337 + $g_iMidOffsetY, 0, GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtDragons", "Dragons"), $eIcnDragon], _
+			[547, 444 + $g_iMidOffsetY, 0, GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtPekkas", "Pekkas"), $eIcnPekka], _
+			[654, 337 + $g_iMidOffsetY, 0, GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBabyDragons", "Baby Dragons"), $eIcnBabyDragon], _
+			[654, 444 + $g_iMidOffsetY, 0, GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtMiners", "Miners"), $eIcnMiner], _
+			[220, 337 + $g_iMidOffsetY, 1, GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtElectroDragons", "Electro Dragons"), $eIcnElectroDragon], _
+			[220, 444 + $g_iMidOffsetY, 1, GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtLightningSpells", "Lightning Spell"), $eIcnLightSpell], _
+			[327, 337 + $g_iMidOffsetY, 1, GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtHealingSpells", "Healing Spell"), $eIcnHealSpell], _
+			[327, 444 + $g_iMidOffsetY, 1, GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtRageSpells", "Rage Spell"), $eIcnRageSpell], _
+			[433, 337 + $g_iMidOffsetY, 1, GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtJumpSpells", "Jump Spell"), $eIcnJumpSpell], _
+			[433, 444 + $g_iMidOffsetY, 1, GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtFreezeSpells", "Freeze Spell"), $eIcnFreezeSpell], _
+			[540, 337 + $g_iMidOffsetY, 1, GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtCloneSpells", "Clone Spell"), $eIcnCloneSpell], _
+			[540, 444 + $g_iMidOffsetY, 1, GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtPoisonSpells", "Poison Spell"), $eIcnPoisonSpell], _
+			[113, 337 + $g_iMidOffsetY, 2, GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtEarthQuakeSpells", "EarthQuake Spell"), $eIcnEarthQuakeSpell], _
+			[113, 444 + $g_iMidOffsetY, 2, GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtHasteSpells", "Haste Spell"), $eIcnHasteSpell], _
+			[220, 337 + $g_iMidOffsetY, 2, GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtSkeletonSpells", "Skeleton Spell"), $eIcnSkeletonSpell], _
+			[220, 444 + $g_iMidOffsetY, 2, GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtMinions", "Minions"), $eIcnMinion], _
+			[327, 337 + $g_iMidOffsetY, 2, GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtHogRiders", "Hog Riders"), $eIcnHogRider], _
+			[327, 444 + $g_iMidOffsetY, 2, GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtValkyries", "Valkyries"), $eIcnValkyrie], _
+			[433, 337 + $g_iMidOffsetY, 2, GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtGolems", "Golems"), $eIcnGolem], _
+			[433, 444 + $g_iMidOffsetY, 2, GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtWitches", "Witches"), $eIcnWitch], _
+			[540, 337 + $g_iMidOffsetY, 2, GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtLavaHounds", "Lava Hounds"), $eIcnLavaHound], _
+			[540, 444 + $g_iMidOffsetY, 2, GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBowlers", "Bowlers"), $eIcnBowler], _
+			[647, 337 + $g_iMidOffsetY, 2, GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtWallWreckers", "Wall Wreckers"), $eIcnBowler], _
+			[647, 444 + $g_iMidOffsetY, 2, GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBattleBlimps", "Battle Blimps"), $eIcnBowler]]
 EndFunc   ;==>TranslateTroopNames
 
 ; Donate
@@ -1638,7 +1644,6 @@ $g_oBldgImages.add($eBldgWizTower & "_" & "0", @ScriptDir & "\imgxml\Buildings\W
 $g_oBldgImages.add($eBldgWizTower & "_" & "1", @ScriptDir & "\imgxml\Buildings\WTowerSnow")
 $g_oBldgImages.add($eBldgMortar & "_" & "0", @ScriptDir & "\imgxml\Buildings\Mortars")
 $g_oBldgImages.add($eBldgAirDefense & "_" & "0", @ScriptDir & "\imgxml\Buildings\ADefense")
-; EOF
 
 ; Clan Games v3
 Global $g_bChkClanGamesAir = 0, $g_bChkClanGamesGround = 0, $g_bChkClanGamesMisc = 0
@@ -1657,6 +1662,10 @@ Global $g_iPurgeJobCount[8] = [0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_iPurgeMax = 5 ; [0] is unlimited , 1-10
 
 Global $g_bChkCollectFreeMagicItems = True
+
+; SC_ID without shared_prefs
+GloBal $g_bOnlySCIDAccounts =  False
+Global $g_iWhatSCIDAccount2Use = 0
 
 ; AiO++ Team
 #include "MOD\Globals.au3"

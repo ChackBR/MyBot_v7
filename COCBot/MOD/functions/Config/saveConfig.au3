@@ -36,9 +36,4 @@ Func SaveConfig_MOD()
 	_Ini_Add("TrainLogout", "TrainLogoutMaxTime", $g_bTrainLogoutMaxTime)
 	_Ini_Add("TrainLogout", "TrainLogoutMaxTimeTXT", $g_iTrainLogoutMaxTime)
 
-	; === Skip Request-CC ~ Light Version
-	_Ini_Add("donate", "SkipRequestCC", $g_bSkipRequestCC ? 1 : 0)
-	_Ini_Add("donate", "SkipRequestCC_Troop", $g_iSkipRequestCCTroop)
-	_Ini_Add("donate", "SkipRequestCC_Spell", $g_iSkipRequestCCSpell)
-
 EndFunc   ;==>SaveConfig_MOD

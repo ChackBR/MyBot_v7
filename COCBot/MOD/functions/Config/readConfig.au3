@@ -35,11 +35,4 @@ Func ReadConfig_MOD()
 	IniReadS($g_bTrainLogoutMaxTime, $g_sProfileConfigPath, "TrainLogout", "TrainLogoutMaxTime", $g_bTrainLogoutMaxTime, "Bool")
 	IniReadS($g_iTrainLogoutMaxTime, $g_sProfileConfigPath, "TrainLogout", "TrainLogoutMaxTimeTXT", $g_iTrainLogoutMaxTime, "int")
 
-	; === Skip Request-CC ~ Light Version
-	$g_bSkipRequestCC = (IniRead($g_sProfileConfigPath, "donate", "SkipRequestCC", "0") = "1")
-	$g_iSkipRequestCCTroop = Int(IniRead($g_sProfileConfigPath, "donate", "SkipRequestCC_Troop", "0"))
-	$g_iSkipRequestCCSpell = Int(IniRead($g_sProfileConfigPath, "donate", "SkipRequestCC_Spell", "0"))
-
-	IniReadS($g_iChkLabCheck, $g_sProfileConfigPath, "other", "ChkLabCheck", $g_iChkLabCheck, "Int")
-
 EndFunc   ;==>ReadConfig_MOD
