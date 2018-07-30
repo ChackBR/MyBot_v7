@@ -16,24 +16,14 @@
 ; --------------------------------------------
 ; CONFIG
 ; --------------------------------------------
-#include "functions\Config\saveConfig.au3"
-#include "functions\Config\readConfig.au3"
-#include "functions\Config\applyConfig.au3"
+#include "Config\saveConfig.au3"
+#include "Config\readConfig.au3"
+#include "Config\applyConfig.au3"
 
 ; --------------------------------------------
 ; Check Collector Outside - AiO++
 ; --------------------------------------------
 #include "functions\AreCollectorsOutside.au3"
-
-; --------------------------------------------
-; CheckCC Troops - AiO++
-; --------------------------------------------
-#include "functions\CheckCC.au3"
-
-; --------------------------------------------
-; Check Grand Warden Mode - AiO++
-; --------------------------------------------
-#include "functions\CheckWardenMode.au3"
 
 ; --------------------------------------------
 ; Simple Quick Train ( with DEB )
@@ -43,7 +33,7 @@
 ; --------------------------------------------
 ; Smart Train ( Demen )
 ; --------------------------------------------
-#include "functions\Smart Train\SmartTrain.au3"
-#include "functions\Smart Train\CheckQueue.au3"
-#include "functions\Smart Train\CheckTrainingTab.au3"
-#include "functions\Smart Train\CheckPreciseArmyCamp.au3"
+#include "Smart Train\SmartTrain.au3"
+#include "Smart Train\CheckQueue.au3"
+#include "Smart Train\CheckTrainingTab.au3"
+#include "Smart Train\CheckPreciseArmyCamp.au3"

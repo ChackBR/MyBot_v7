@@ -12,6 +12,24 @@
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
 ; Example .......: No
 ; ===============================================================================================================================
+
+Func Bridge()
+    If _GUICtrlComboBox_GetCurSel($g_hCmbStandardDropSidesDB) = 4 Then
+            GUICtrlSetState($g_hChkSmartAttackRedAreaDB, $GUI_UNCHECKED)
+		    GUICtrlSetState($g_hChkRandomSpeedAtkDB, $GUI_UNCHECKED)
+		    chkRandomSpeedAtkDB()
+		For $i = $g_hChkRandomSpeedAtkDB To $g_hPicAttackNearDarkElixirDrillDB
+			GUICtrlSetState($i, $GUI_DISABLE + $GUI_HIDE)
+		Next
+	Else
+		For $i = $g_hChkRandomSpeedAtkDB To $g_hPicAttackNearDarkElixirDrillDB
+			GUICtrlSetState($i, $GUI_ENABLE + $GUI_SHOW)
+		Next
+      chkSmartAttackRedAreaDB()
+	EndIf
+
+EndFunc   ;==>Bridge
+
 ; Unit/Wave Factor - Team AiO MOD++
 Func cmbGiantSlot()
 	If $g_iChkGiantSlot = 1 Then

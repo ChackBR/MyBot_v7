@@ -140,7 +140,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 						, ["CC", 1, 1, 1, 1] _
 						, [$eHeal, $nbSides, 1, 1, 1] _
 						, [$ePekk, $nbSides, 1, 1, 1] _
-						, ["HEROES", 1, 2, 1, 1] _
+						, ["HEROES", 1, 1, 1, 1] _
 						]
 				EndIf
 			Case 1
@@ -149,7 +149,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 						, [$eGobl, $nbSides, 1, 1, 0] _
 						, [$eMini, $nbSides, 1, 1, 0] _
 						, ["CC", 1, 1, 1, 1] _
-						, ["HEROES", 1, 2, 1, 1] _
+						, ["HEROES", 1, 1, 1, 1] _
 						]
 			Case 2
 				Local $listInfoDeploy[13][5] = [[$eGiant, $nbSides, 1, 1, $g_iSlotsGiants] _
@@ -159,7 +159,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 						, [$eBarb, $nbSides, 2, 2, 2] _
 						, [$eArch, $nbSides, 2, 3, 3] _
 						, ["CC", 1, 1, 1, 1] _
-						, ["HEROES", 1, 2, 1, 0] _
+						, ["HEROES", 1, 1, 1, 0] _
 						, [$eHogs, $nbSides, 1, 1, 1] _
 						, [$eWiza, $nbSides, 1, 1, 0] _
 						, [$eMini, $nbSides, 1, 1, 0] _
@@ -215,7 +215,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 						[$eWitc, $nbSides, 1, 1, 2], _
 						[$eMini, $nbSides, 1, 1, 0], _
 						["CC", 1, 1, 1, 1], _
-						["HEROES", 1, 2, 1, 1]]
+						["HEROES", 1, 1, 1, 1]]
 		EndIf
 	Else
 		If $g_bDebugSetlog Then SetDebugLog("listdeploy standard for attack", $COLOR_DEBUG)
@@ -266,7 +266,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 						, ["CC", 1, 1, 1, 1] _
 						, [$eHeal, $nbSides, 1, 1, 1] _
 						, [$ePekk, $nbSides, 1, 1, 1] _
-						, ["HEROES", 1, 2, 1, 1] _
+						, ["HEROES", 1, 1, 1, 1] _
 						]
 				EndIf
 			Case 1
@@ -275,7 +275,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 						, [$eGobl, $nbSides, 1, 1, 0] _
 						, [$eMini, $nbSides, 1, 1, 0] _
 						, ["CC", 1, 1, 1, 1] _
-						, ["HEROES", 1, 2, 1, 1] _
+						, ["HEROES", 1, 1, 1, 1] _
 						]
 			Case 2
 				Local $listInfoDeploy[13][5] = [[$eGiant, $nbSides, 1, 1, $g_iSlotsGiants] _
@@ -290,7 +290,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 						, [$eMini, $nbSides, 1, 1, 0] _
 						, [$eArch, $nbSides, 2, 2, 0] _
 						, [$eGobl, $nbSides, 2, 2, 0] _
-						, ["HEROES", 1, 2, 1, 1] _
+						, ["HEROES", 1, 1, 1, 1] _
 						]
 			Case Else
 				SetLog("Algorithm type unavailable, defaulting to regular", $COLOR_ERROR)
@@ -306,7 +306,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 						, [$eMini, $nbSides, 1, 1, 0] _
 						, [$eArch, $nbSides, 2, 2, 0] _
 						, [$eGobl, $nbSides, 2, 2, 0] _
-						, ["HEROES", 1, 2, 1, 1] _
+						, ["HEROES", 1, 1, 1, 1] _
 						]
 		EndSwitch
 	EndIf

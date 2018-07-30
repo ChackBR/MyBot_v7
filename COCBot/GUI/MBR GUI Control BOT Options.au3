@@ -1156,11 +1156,3 @@ EndFunc   ;==>btnTestSmartWait
 Func btnConsoleWindow()
 	ConsoleWindow()
 EndFunc   ;==>btnConsoleWindow
-
-Func chkLabCheck()
-	If GUICtrlRead($g_hChkLabCheck) = $GUI_CHECKED Then
-	$g_iChkLabCheck = 1		
-	Else
-	$g_iChkLabCheck = 0		
-	EndIf
-EndFunc ;==>chkLabCheck

@@ -24,7 +24,7 @@ Global $g_hTxtGlobalActiveBotsAllowed = 0, $g_hTxtGlobalThreads = 0, $g_hTxtThre
 Global $g_hChkBotCustomTitleBarClick = 0, $g_hChkBotAutoSlideClick = 0, $g_hChkHideWhenMinimized = 0, $g_hChkUseRandomClick = 0, $g_hChkScreenshotType = 0, _
 	   $g_hChkScreenshotHideName = 0, $g_hTxtTimeAnotherDevice = 0
 Global $g_hChkSinglePBTForced = 0, $g_hTxtSinglePBTimeForced = 0, $g_hTxtPBTimeForcedExit = 0, $g_hChkFixClanCastle = 0, $g_hChkAutoResume = 0, $g_hTxtAutoResumeTime = 0, $g_hChkDisableNotifications = 0
-Global $g_hChkLabCheck = 0
+
 Func CreateBotOptions()
 
 	Local $sTxtTip = ""
@@ -195,10 +195,6 @@ Func CreateBotOptions()
 	$y += 19
 		$g_hChkUseRandomClick = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkUseRandomClick", "Random Click"), $x, $y, -1, -1)
 			GUICtrlSetOnEvent(-1, "chkUseRandomClick")
-	$y += 19
-	   $g_hChkLabCheck = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkLabCheck", "Disable Lab Check"), $x, $y + 2, -1, -1)
-	       GUICtrlSetState(-1, $GUI_UNCHECKED)
-		   GUICtrlSetOnEvent(-1, "ChkLabCheck")
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	$y += 45

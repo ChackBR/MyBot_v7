@@ -211,7 +211,7 @@ Func CheckSwitchAcc()
 			For $i = 0 To $g_iTotalAcc
 				If $g_abDonateOnly[$i] Then SetSwitchAccLog(" - Donate Acc [" & $i + 1 & "]")
 				If $g_abPBActive[$i] Then SetSwitchAccLog(" - PBT Acc [" & $i + 1 & "]")
-			NExt
+			Next
 		EndIf
 
 		If $g_iNextAccount <> $g_iCurAccount Then

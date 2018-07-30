@@ -776,7 +776,6 @@ Func runBot() ;Bot that runs everything in order
 			; Request CC Troops at first - Team AiO++
 			$g_bcanRequestCC = True
 			If $g_bReqCCFirst Then
-				CheckCC() ; CheckCC Troops - Team AiO MOD++
 				RequestCC()
 				If _Sleep($DELAYRUNBOT1) = False Then checkMainScreen(False)
 			EndIf
@@ -929,12 +928,12 @@ Func _Idle() ;Sequence that runs until Full Army
 			Local $aHeroResult = CheckArmyCamp(True, True, True, False)
 			While $iReHere < 7
 				$iReHere += 1
-				If $iReHere = 1 And SkipDonateNearFullTroops(True, $aHeroResult) = False And BalanceDonRec(True) Then
+				If $iReHere = 1 And SkipDonateNearFullTroops(True, $aHeroResult) = False Then
 					DonateCC(True)
-				ElseIf SkipDonateNearFullTroops(False, $aHeroResult) = False And BalanceDonRec(False) Then
+				ElseIf SkipDonateNearFullTroops(False, $aHeroResult) = False Then
 					DonateCC(True)
 				EndIf
-				If _Sleep($DELAYIDLE2) Then ExitLoop
+				If _Sleep($DELAYIDLE1) Then ExitLoop
 				If $g_bRestart = True Then ExitLoop
 				If CheckAndroidReboot() Then ContinueLoop 2
 			WEnd
@@ -1183,7 +1182,7 @@ Func _RunFunction($action)
 					getArmyTroopCapacity(True, False)
 					getArmySpellCapacity(False, True)
 				EndIf
-				If SkipDonateNearFullTroops(True) = False And BalanceDonRec(True) Then DonateCC()
+				If SkipDonateNearFullTroops(True) = False Then DonateCC()
 			EndIf
 			If _Sleep($DELAYRUNBOT1) = False Then checkMainScreen(False)
 			If $g_bTrainEnabled Then ; check for training enabled in halt mode

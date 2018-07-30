@@ -19,6 +19,7 @@ Global $g_hGUI_TRAINARMY_TAB = 0, $g_hGUI_TRAINARMY_TAB_ITEM1 = 0, $g_hGUI_TRAIN
 
 ; Troops/Spells sub-tab
 Global $g_hChkUseQuickTrain = 0, $g_ahChkArmy[3] = [0, 0, 0]
+Global $g_hChkSmartTrain = 0, $g_hChkPreciseArmyCamp = 0, $g_hChkFillArcher = 0, $g_hTxtFillArcher = 0, $g_hChkFillEQ = 0
 Global $g_ahTxtTrainArmyTroopCount[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_ahLblTrainArmyTroopLevel[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_ahTxtTrainArmySpellCount[$eSpellCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -684,6 +685,35 @@ Func CreateTroopsSpellsSubTab()
 		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnDark, $x + 146, $y + 14, 16, 16)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
+	$x = 10
+	$y = 363
+	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "Group_03", "Smart Train"), $x - 5, $y, $g_iSizeWGrpTab3, 38)
+	$x += 7
+	$y += 16
+		$g_hChkSmartTrain = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "chkSmartTrain", "Double Train Army"), $x, $y, -1, 15)
+			GUICtrlSetOnEvent(-1, "chkSmartTrain")
+			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "chkSmartTrain_Info_01", "Train 2 sets of army to make full camp & full queue") & @CRLF & _
+							   GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "chkSmartTrain_Info_02", "Only delete queued troops or spells if the queue is not full") & @CRLF & _
+							   GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "chkSmartTrain_Info_03", "Not delete training troops up to full camp capacity"))
+	$x += 130
+		$g_hChkPreciseArmyCamp = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "chkPreciseArmyCamp", "Precise troops"), $x, $y, -1, 15)
+			GUICtrlSetOnEvent(-1, "chkPreciseTroops")
+			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "chkPreciseArmyCamp_Info_01", "Check precision of troops & spells before training.") & @CRLF & _
+							   GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "chkPreciseArmyCamp_Info_02", "Will remove wrong troops or spells if any"))
+	$x += 103
+		$g_hChkFillArcher = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "chkFillArcher", "Fill Archer:"), $x, $y, -1, 15)
+			GUICtrlSetState(-1, $GUI_DISABLE)
+			GUICtrlSetOnEvent(-1, "chkFillArcher")
+			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "chkFillArcher_Info_01", "Train some archers to top-up the camp or queue if it is nearly full"))
+		$g_hTxtFillArcher = GUICtrlCreateInput("5", $x + 70, $y-1, 20, 16, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			GUICtrlSetState(-1, $GUI_DISABLE)
+			GUICtrlSetLimit(-1, 2)
+	$x += 110
+		$g_hChkFillEQ = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "chkFillEQ", "Fill 1 EQ"), $x, $y, -1, 15)
+			GUICtrlSetState(-1, $GUI_DISABLE)
+			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "chkFillEQ_Info_01", "Brew 1 EarthQuake Spell to top-up the spell camp or queue"))
+	GUICtrlCreateGroup("", -99, -99, 1, 1)
+
 EndFunc   ;==>CreateTroopsSpellsSubTab
 
 Func CreateBoostSubTab()
@@ -1044,10 +1074,22 @@ Func CreateOptionsSubTab()
 			_GUICtrlSetTip(-1, $sTxtTip)
 		$g_hLblWaitingInMinutes = GUICtrlCreateLabel(GetTranslatedFileIni("MBR Global GUI Design", "min.", "min."), $x + 84, $y + 3, -1, -1)
 			_GUICtrlSetTip(-1, $sTxtTip)
+
+	; Max logout time - Team AiO MOD++
+	$y += 28
+		$g_hChkTrainLogoutMaxTime = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops_Options", "TrainLogoutMaxTime", "Max Logout Time") & ": ", $x - 14, $y, -1, -1)
+			$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Troops_Options", "TrainLogoutMaxTime_Info_01", "Only allow logout for a maximum amount of time")
+			_GUICtrlSetTip(-1, $sTxtTip)
+			GUICtrlSetState(-1, $GUI_UNCHECKED)
+			GUICtrlSetOnEvent(-1, "chkTrainLogoutMaxTime")
+		$g_hTxtTrainLogoutMaxTime = GUICtrlCreateInput("4", $x + 95, $y + 2, 25, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			_GUICtrlSetTip(-1, $sTxtTip)
+			GUICtrlSetLimit(-1, 2)
+		$g_hLblTrainLogoutMaxTime = GUICtrlCreateLabel("min.", $x + 127, $y + 4, -1, -1)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
-	$y += 53
-	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops_Options", "Group_02", "Train Click Timing"), $x - 20, $y - 20, 151, 60)
+	$y += 50
+	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops_Options", "Group_02", "Train Click Timing"), $x - 20, $y - 20, 171, 60)
 		$g_hLblTrainITDelay = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops_Options", "LblTrainITDelay", "delay"), $x - 10, $y, 37, 30)
 			$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Troops_Options", "LblTrainITDelay_Info_01", "Increase the delay if your PC is slow or to create human like training click speed")
 			_GUICtrlSetTip(-1, $sTxtTip)
@@ -1063,7 +1105,7 @@ Func CreateOptionsSubTab()
 			GUICtrlSetOnEvent(-1, "sldTrainITDelay")
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
-	$x = 25 + 151 + 5
+	$x = 55 + 151 + 5
 	$y = 45
 	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops_Options", "Group_03", "Training Add Random Delay"), $x - 20, $y - 20, 173, 81)
 	$y += 15
@@ -1087,19 +1129,4 @@ Func CreateOptionsSubTab()
 		$g_hLblAddDelayIdlePhaseSec = GUICtrlCreateLabel(GetTranslatedFileIni("MBR Global GUI Design", "sec.", "sec."), $x + 110, $y, 20, 30)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
-	; === Max Logout Time ~ Light Version
-	$x += 30 - 47
-	$y += 40
-		Local $Group = GUICtrlCreateGroup("", $x - 21, $y - 15, 173, 45)
-		$g_hChkTrainLogoutMaxTime = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops_Options", "TrainLogoutMaxTime", "Max Logout Time") & ": ", $x - 12, $y, -1, -1)
-			$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Troops_Options", "TrainLogoutMaxTime_Info_01", "Only allow logout for a maximum amount of time")
-			_GUICtrlSetTip(-1, $sTxtTip)
-			GUICtrlSetState(-1, $GUI_UNCHECKED)
-			GUICtrlSetOnEvent(-1, "chkTrainLogoutMaxTime")
-		$g_hTxtTrainLogoutMaxTime = GUICtrlCreateInput("4", $x + 97, $y + 2, 25, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
-			_GUICtrlSetTip(-1, $sTxtTip)
-			GUICtrlSetLimit(-1, 2)
-			GUICtrlSetBkColor(-1, $COLOR_MONEYGREEN)
-		$g_hLblTrainLogoutMaxTime = GUICtrlCreateLabel("min.", $x + 127, $y + 4, -1, -1)
-			GUICtrlCreateGroup("", -99, -99, 1, 1)
 EndFunc   ;==>CreateOptionsSubTab

@@ -39,6 +39,9 @@ Func ApplyConfig_MOD($TypeReadSave)
 			chkTrainLogoutMaxTime()
 			GUICtrlSetData($g_hTxtTrainLogoutMaxTime, $g_iTrainLogoutMaxTime)
 
+			; Classic Four Finger - Team AiO MOD++
+			Bridge()
+
 		Case "Save"
 
 			; Check Collector Outside - Team AiO MOD++

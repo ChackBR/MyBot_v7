@@ -209,7 +209,7 @@ Global $g_bAndroidEmbedEnabled = True
 Global $g_bAndroidEmbedded = False
 Global $g_bAndroidEmbeddedWindowZeroPosition = True ; If true, the parent Android Window is not positioned in bot at the bottom but at offset 0,0 (fixes Nox 6.2.0.0 clicks not working)
 Global $g_aiAndroidEmbeddedCtrlTarget[10] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Global $g_avAndroidShieldStatus[5] = [Default, 0, 0, Default, Default] ; Current Android Shield status (0: True = Shield Up, False = Shield Down, Default only for init; 1: Color; 2: Transparency = 0-255; 3: Invisible Shield; 4: Detached Shield)
+Global $g_avAndroidShieldStatus[5] = [Default, 0, 0, Default, Default] ; Current Android Shield status (0: True = Shield Up, False = Shield Down, Default only for init; 1: Color; 2: Transparency = 0-255; 3: Invisible Shield; 4: Detached Shield
 
 Global $g_bPoliteCloseCoC = False ; True: PoliteCloseCoC() function will try to perform a polite close by going back and press exit button, False am force-stop to kill game
 Global Const $g_bAndroidBackgroundLaunchEnabled = False ; Headless mode not finished yet (2016-07-13, cosote)
@@ -1103,7 +1103,7 @@ Global $g_bSearchReductionEnable = False, $g_iSearchReductionCount = 20, $g_iSea
 		$g_iSearchReductionDark = 100, $g_iSearchReductionTrophy = 2
 Global $g_iSearchDelayMin = 0, $g_iSearchDelayMax = 0
 Global $g_bSearchAttackNowEnable = False, $g_iSearchAttackNowDelay = 0, $g_bSearchRestartEnable = False, $g_iSearchRestartLimit = 25, $g_bSearchAlertMe = True, $g_bSearchRestartPickupHero = False
-Global $g_asHeroHealTime[3] = ["", "", ""] 
+Global $g_asHeroHealTime[3] = ["", "", ""]
 
 ; <><><><> Attack Plan / Search & Attack / Options / Attack <><><><>
 Global $g_iActivateQueen = 0, $g_iActivateKing = 0, $g_iActivateWarden = 0

@@ -14,12 +14,6 @@
 ; ===============================================================================================================================
 
 ; --------------------------------------------
-; === TimerHandle New Used in Donate/Train only Mode - Light__Version (by Ezeck 06.14.17)
-; --------------------------------------------
-Global $g_hTrainTimeLeft = 0
-Global $g_hCurrentDonateButtonBitMap = 0
-
-; --------------------------------------------
 ; Auto Dock, Hide Emulator & Bot - AiO++
 ; --------------------------------------------
 Global $g_bEnableAuto = False, $g_iChkAutoDock = False, $g_iChkAutoHideEmulator = True, $g_iChkAutoMinimizeBot = False
@@ -40,44 +34,21 @@ Global $g_iTxtSkipCollectorGold = 400000, $g_iTxtSkipCollectorElixir = 400000, $
 #endregion
 
 ; --------------------------------------------
+; === TimerHandle New Used in Donate/Train only Mode - Light__Version (by Ezeck 06.14.17)
+; --------------------------------------------
+Global $g_hTrainTimeLeft = 0
+Global $g_hCurrentDonateButtonBitMap = 0
+
+; --------------------------------------------
 ; Max logout time - AiO++
 ; --------------------------------------------
 Global $g_bTrainLogoutMaxTime = False, $g_iTrainLogoutMaxTime = 4
-
-; --------------------------------------------
-; Smart Train - AiO++
-; --------------------------------------------
-
-Global $g_bChkSmartTrain = False, $g_bChkPreciseArmyCamp = False, $g_bChkFillArcher = False, $g_bChkFillEQ = False, $g_iTxtFillArcher = 5
-Global Enum $g_eFull, $g_eRemained, $g_eNoTrain
-Global $g_bWrongTroop, $g_bWrongSpell, $g_sSmartTrainError = ""
-Global $g_bChkMultiClick, $g_iMultiClick = 1
-Global $g_aiQueueTroops[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Global $g_aiQueueSpells[$eSpellCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 ; --------------------------------------------
 ; Request CC Troops at first - AiO++
 ; --------------------------------------------
 Global $g_bReqCCFirst = True
 Global $chkReqCCFirst = 1
-
-; --------------------------------------------
-; CheckCC Troops - AiO++
-; --------------------------------------------
-Global $g_aiCCTroops[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Global $g_aiCCSpells[$eSpellCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Global $g_aiCCTroopsExpected[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Global $g_aiCCSpellsExpected[$eSpellCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Global $g_bChkCC = True
-Global $g_bChkCCTroops = False
-Global $g_bChkCCSpells = False
-Global $g_aiCmbCCSlot[5], $g_aiTxtCCSlot[5]
-Global $g_iCmbCastleCapacityT = 5, $g_iCmbCastleCapacityS = 1
-
-; --------------------------------------------
-; Check Grand Warden Mode - AiO++
-; --------------------------------------------
-Global $g_bCheckWardenMode = False, $g_iCheckWardenMode = 0
 
 ; --------------------------------------------
 ; Unit/Wave Factor
@@ -90,8 +61,3 @@ Global $g_iSlotsGiants = 1, $g_aiSlotsGiants = 1
 ; Restart Search Legend league - AiO++
 ; --------------------------------------------
 Global $g_bIsSearchTimeout = False, $g_iSearchTimeout = 10, $g_iTotalSearchTime = 0
-
-; --------------------------------------------
-; Request troops for defense - AiO++
-; --------------------------------------------
-Global $g_bRequestTroopsEnableDefense = False, $g_sRequestTroopsTextDefense = "", $g_iRequestDefenseEarly = 0

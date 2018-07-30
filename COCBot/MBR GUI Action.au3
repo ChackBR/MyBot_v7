@@ -168,10 +168,6 @@ Func BotStop()
 	GUICtrlSetState($g_hBtnSearchMode, $GUI_SHOW)
 	;GUICtrlSetState($g_hBtnMakeScreenshot, $GUI_ENABLE)
 
-	; Enable/Disable GUI while botting - Team AiO MOD++
-	GUICtrlSetState($g_hBtnEnableGUI, $GUI_HIDE)
-	GUICtrlSetState($g_hBtnDisableGUI, $GUI_HIDE)
-
 	; hide attack buttons if show
 	GUICtrlSetState($g_hBtnAttackNowDB, $GUI_HIDE)
 	GUICtrlSetState($g_hBtnAttackNowLB, $GUI_HIDE)

@@ -221,6 +221,7 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 					Return checkObstacles_StopBot($msg) ; stop bot
 				EndIf
 				SetLog("Warning: Can not find type of Reload error message", $COLOR_ERROR)
+				PureClickP($aAway, 1, 0, "#0319") ;Click Away
 		EndSelect
 		If TestCapture() Then Return "Village is out of sync or inactivity or connection lost or maintenance"
 		Return checkObstacles_ReloadCoC($aReloadButton, "#0131", $bRecursive) ; Click for out of sync or inactivity or connection lost or maintenance
