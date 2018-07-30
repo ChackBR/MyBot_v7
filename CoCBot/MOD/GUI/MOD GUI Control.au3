@@ -25,7 +25,7 @@ Func Bridge()
 		For $i = $g_hChkRandomSpeedAtkDB To $g_hPicAttackNearDarkElixirDrillDB
 			GUICtrlSetState($i, $GUI_ENABLE + $GUI_SHOW)
 		Next
-      chkSmartAttackRedAreaDB()
+      	chkSmartAttackRedAreaDB()
 	EndIf
 
 EndFunc   ;==>Bridge

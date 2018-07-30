@@ -31,7 +31,8 @@ Func TrainRevamp()
 		Return
 	EndIf
 
-	If Not $g_bQuickTrainEnable Then
+	; Smart Train - Team AiO MOD++
+	If Not $g_bQuickTrainEnable And Not $g_bChkSmartTrain Then
 		TrainRevampOldStyle()
 		Return
 	EndIf
@@ -50,6 +51,16 @@ Func TrainRevamp()
 	If ( $g_bQuickTrainEnable ) Then
 		Qt_SimpleQuickTrain( False, 2 )
 		ResetVariables("donated")
+		Return
+	EndIf
+
+	; --------------------------------------------
+	; Smart Train - Team AiO MOD++
+	; --------------------------------------------
+	If $g_bChkSmartTrain Then
+		SmartTrain()
+		ResetVariables("donated")
+		EndGainCost("Train")
 		Return
 	EndIf
 
@@ -1827,7 +1838,7 @@ Func MakingDonatedTroops()
 			$Plural = 0
 			If $avDefaultTroopGroup[$i][4] > 0 Then
 				$RemainTrainSpace = GetOCRCurrent(48, 160)
-				If $RemainTrainSpace[0] = $RemainTrainSpace[1] Then ; army camps full
+				If $RemainTrainSpace[0] = $RemainTrainSpace[1] And Not $g_bChkSmartTrain Then ; army camps full
 					;Camps Full All Donate Counters should be zero!!!!
 					For $j = 0 To UBound($avDefaultTroopGroup, 1) - 1
 						$avDefaultTroopGroup[$j][4] = 0
@@ -1837,7 +1848,7 @@ Func MakingDonatedTroops()
 
 				Local $iTroopIndex = TroopIndexLookup($avDefaultTroopGroup[$i][0], "MakingDonatedTroops")
 
-				If $avDefaultTroopGroup[$i][2] * $avDefaultTroopGroup[$i][4] <= $RemainTrainSpace[2] Then ; Troopheight x donate troop qty <= avaible train space
+				If $avDefaultTroopGroup[$i][2] * $avDefaultTroopGroup[$i][4] <= $RemainTrainSpace[2] Or $g_bChkSmartTrain Then ; Troopheight x donate troop qty <= avaible train space
 					;Local $pos = GetTrainPos(TroopIndexLookup($avDefaultTroopGroup[$i][0]))
 					Local $howMuch = $avDefaultTroopGroup[$i][4]
 					If $avDefaultTroopGroup[$i][5] = "e" Then

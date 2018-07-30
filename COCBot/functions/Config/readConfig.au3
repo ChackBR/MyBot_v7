@@ -1294,6 +1294,12 @@ Func ReadConfig_600_52_2()
 	$g_bForceBrewSpells = (IniRead($g_sProfileConfigPath, "other", "ChkForceBrewBeforeAttack", "0") = "1")
 	IniReadS($g_iTotalSpellValue, $g_sProfileConfigPath, "Spells", "SpellFactory", 0, "int")
 	$g_iTotalSpellValue = Int($g_iTotalSpellValue)
+	; smart train
+	IniReadS($g_bChkSmartTrain, $g_sProfileConfigPath, "SmartTrain", "Enable", False, "Bool")
+	IniReadS($g_bChkPreciseArmyCamp, $g_sProfileConfigPath, "SmartTrain", "ChkPreciseTroops", False, "Bool")
+	IniReadS($g_bChkFillArcher, $g_sProfileConfigPath, "SmartTrain", "ChkFillArcher", False, "Bool")
+	IniReadS($g_iTxtFillArcher, $g_sProfileConfigPath, "SmartTrain", "TxtFillArcher", 5, "int")
+	IniReadS($g_bChkFillEQ, $g_sProfileConfigPath, "SmartTrain", "ChkFillEQ", False, "Bool")
 EndFunc   ;==>ReadConfig_600_52_2
 
 Func ReadConfig_600_54()

@@ -14,11 +14,6 @@
 ; ===============================================================================================================================
 
 ; --------------------------------------------
-; Auto Dock, Hide Emulator & Bot - AiO++
-; --------------------------------------------
-Global $g_bEnableAuto = False, $g_iChkAutoDock = False, $g_iChkAutoHideEmulator = True, $g_iChkAutoMinimizeBot = False
-
-; --------------------------------------------
 ; Check Collector Outside - AiO++
 ; --------------------------------------------
 Global $g_bScanMineAndElixir = False
@@ -34,12 +29,6 @@ Global $g_iTxtSkipCollectorGold = 400000, $g_iTxtSkipCollectorElixir = 400000, $
 #endregion
 
 ; --------------------------------------------
-; === TimerHandle New Used in Donate/Train only Mode - Light__Version (by Ezeck 06.14.17)
-; --------------------------------------------
-Global $g_hTrainTimeLeft = 0
-Global $g_hCurrentDonateButtonBitMap = 0
-
-; --------------------------------------------
 ; Max logout time - AiO++
 ; --------------------------------------------
 Global $g_bTrainLogoutMaxTime = False, $g_iTrainLogoutMaxTime = 4
@@ -51,13 +40,18 @@ Global $g_bReqCCFirst = True
 Global $chkReqCCFirst = 1
 
 ; --------------------------------------------
-; Unit/Wave Factor
+; Unit/Wave Factor - AiO++
 ; --------------------------------------------
 Global $g_iChkGiantSlot = 0, $g_iChkUnitFactor = 0, $g_iChkWaveFactor = 0
 Global $g_iCmbGiantSlot = 0, $g_iTxtUnitFactor = 10, $g_iTxtWaveFactor = 100
 Global $g_iSlotsGiants = 1, $g_aiSlotsGiants = 1
 
 ; --------------------------------------------
-; Restart Search Legend league - AiO++
+; Smart Train
 ; --------------------------------------------
-Global $g_bIsSearchTimeout = False, $g_iSearchTimeout = 10, $g_iTotalSearchTime = 0
+Global $g_bChkSmartTrain = False, $g_bChkPreciseArmyCamp = False, $g_bChkFillArcher = False, $g_bChkFillEQ = False, $g_iTxtFillArcher = 5
+Global Enum $g_eFull, $g_eRemained, $g_eNoTrain
+Global $g_bWrongTroop, $g_bWrongSpell, $g_sSmartTrainError = ""
+Global $g_bChkMultiClick, $g_iMultiClick = 1
+Global $g_aiQueueTroops[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_aiQueueSpells[$eSpellCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]

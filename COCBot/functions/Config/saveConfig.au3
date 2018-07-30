@@ -1153,6 +1153,12 @@ Func SaveConfig_600_52_2()
 	; spell capacity and forced flag
 	_Ini_Add("Spells", "SpellFactory", $g_iTotalSpellValue)
 	_Ini_Add("other", "ChkForceBrewBeforeAttack", $g_bForceBrewSpells ? 1 : 0)
+	; smart train
+	_Ini_Add("SmartTrain", "Enable", $g_bChkSmartTrain ? 1 : 0)
+	_Ini_Add("SmartTrain", "ChkPreciseTroops", $g_bChkPreciseArmyCamp ? 1 : 0)
+	_Ini_Add("SmartTrain", "ChkFillArcher", $g_bChkFillArcher ? 1 : 0)
+	_Ini_Add("SmartTrain", "TxtFillArcher", $g_iTxtFillArcher)
+	_Ini_Add("SmartTrain", "ChkFillEQ", $g_bChkFillEQ ? 1 : 0)
 EndFunc   ;==>SaveConfig_600_52_2
 
 Func SaveConfig_600_54()

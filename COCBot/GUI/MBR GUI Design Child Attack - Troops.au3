@@ -101,7 +101,7 @@ Global $g_hChkCloseWhileTraining = 0, $g_hChkCloseWithoutShield = 0, $g_hChkClos
 Global $g_hLblCloseWaitRdmPercent = 0, $g_hLblCloseWaitingTroops = 0, $g_hLblSymbolWaiting = 0, $g_hLblWaitingInMinutes = 0, $g_hLblTrainITDelay = 0, $g_hLblTrainITDelayTime = 0, _
 		$g_hLblAddDelayIdlePhaseBetween = 0, $g_hLblAddDelayIdlePhaseSec = 0, $g_hPicCloseWaitTrain = 0, $g_hPicCloseWaitStop = 0, $g_hPicCloseWaitExact = 0
 
-; === Max Logout Time ~ Light Version
+; Max logout time - Team AiO MOD++
 Global $g_hChkTrainLogoutMaxTime = 0, $g_hTxtTrainLogoutMaxTime = 0, $g_hLblTrainLogoutMaxTime = 0
 
 Func CreateAttackTroops()
@@ -685,6 +685,7 @@ Func CreateTroopsSpellsSubTab()
 		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnDark, $x + 146, $y + 14, 16, 16)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
+	; Smart Train - AiO++
 	$x = 10
 	$y = 363
 	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "Group_03", "Smart Train"), $x - 5, $y, $g_iSizeWGrpTab3, 38)

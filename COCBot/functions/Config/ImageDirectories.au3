@@ -109,9 +109,17 @@ Global $g_sImgEasyBuildings = @ScriptDir & "\imgxml\easybuildings"
 #EndRegion
 
 #Region SwitchAcc
-Global Const $g_sImgLoginWithSupercellID = @ScriptDir & "\imgxml\other\LoginWithSupercellID*"
-Global Const $g_sImgGoogleSelectAccount = @ScriptDir & "\imgxml\other\GoogleSelectAccount*"
-Global Const $g_sImgGoogleSelectEmail = @ScriptDir & "\imgxml\other\GoogleSelectEmail*"
+Global Const $g_sImgLoginWithSupercellID = @ScriptDir & "\imgxml\other\SwitchAccounts\LoginWithSupercellID*"
+Global Const $g_sImgGoogleSelectAccount = @ScriptDir & "\imgxml\other\SwitchAccounts\GoogleSelectAccount*"
+Global Const $g_sImgGoogleSelectEmail = @ScriptDir & "\imgxml\other\SwitchAccounts\GoogleSelectEmail*"
+Global Const $g_sImgLogOutButton = @ScriptDir & "\imgxml\other\SwitchAccounts\LogOutButton"
+Global Const $g_sImgConfirmButton = @ScriptDir & "\imgxml\other\SwitchAccounts\ConfirmButton"
+Global Const $g_sImgListAccounts = @ScriptDir & "\imgxml\other\SwitchAccounts\ListAccounts"
+#EndRegion
+
+#Region Grand Warden Mode
+Global $g_sImgGrandWardenHeal = @ScriptDir & "\imgxml\other\GrandWardenMode\GrandWardenHeal"
+Global $g_sImgGrandWardenMode = @ScriptDir & "\imgxml\other\GrandWardenMode\GrandWardenAir"
 #EndRegion
 
 #Region ClanGames
