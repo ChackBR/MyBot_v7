@@ -224,6 +224,7 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 				SetLog("Warning: Can not find type of Reload error message", $COLOR_ERROR)
 				SetLog("MyBot will wait for 2 minutes then continue", $COLOR_ERROR)
 				If _SleepStatus($DELAYCHECKOBSTACLES4) Then Return ; 2 Minutes
+				PureClickP($aAway, 1, 0, "#0133") ;Click away If things are open
 		EndSelect
 		If TestCapture() Then Return "Village is out of sync or inactivity or connection lost or maintenance"
 		Return checkObstacles_ReloadCoC($aReloadButton, "#0131", $bRecursive) ; Click for out of sync or inactivity or connection lost or maintenance
