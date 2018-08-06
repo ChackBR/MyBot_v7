@@ -21,11 +21,6 @@
 #include "Config\applyConfig.au3"
 
 ; --------------------------------------------
-; Check Collector Outside - AiO++
-; --------------------------------------------
-#include "functions\AreCollectorsOutside.au3"
-
-; --------------------------------------------
 ; Simple Quick Train ( with DEB )
 ; --------------------------------------------
 #include "functions\SimpleQuickTrain.au3"

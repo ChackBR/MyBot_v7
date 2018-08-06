@@ -14,21 +14,6 @@
 ; ===============================================================================================================================
 
 ; --------------------------------------------
-; Check Collector Outside - AiO++
-; --------------------------------------------
-Global $g_bScanMineAndElixir = False
-#region Check Collectors Outside
-; Collectors Outside Filter
-Global $g_bDBMeetCollOutside = False, $g_iTxtDBMinCollOutsidePercent = 80
-; constants
-Global Const $THEllipseWidth = 200, $THEllipseHeigth = 150, $CollectorsEllipseWidth = 130, $CollectorsEllipseHeigth = 97.5
-Global $hBitmapFirst
-Global $g_bDBCollectorsNearRedline = 1, $g_bSkipCollectorCheck = 1, $g_bSkipCollectorCheckTH = 1
-Global $g_iCmbRedlineTiles = 1, $g_iCmbSkipCollectorCheckTH = 1
-Global $g_iTxtSkipCollectorGold = 400000, $g_iTxtSkipCollectorElixir = 400000, $g_iTxtSkipCollectorDark = 0
-#endregion
-
-; --------------------------------------------
 ; Request CC Troops at first - AiO++
 ; --------------------------------------------
 Global $g_bReqCCFirst = True
