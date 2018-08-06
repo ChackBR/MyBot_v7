@@ -51,10 +51,10 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 		If checkObstacles_Network() Then Return True
 		If checkObstacles_GfxError() Then Return True
 	EndIf
-	Local $bIsOnBuilderIsland = _CheckPixel($aIsOnBuilderBase, $g_bNoCapturePixel)
+	Local $bIsOnBuilderIsland = isOnBuilderBase()
 	If $bBuilderBase = False And $bIsOnBuilderIsland = True Then
 		SetLog("Detected Builder Base, trying to switch back to Main Village")
-		If SwitchBetweenBases(False) Then
+		If SwitchBetweenBases() Then
 			$g_bMinorObstacle = True
 			If _Sleep($DELAYCHECKOBSTACLES1) Then Return
 			Return False
@@ -108,7 +108,6 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 			If TestCapture() Then Return "Village must take a break"
 			PushMsg("TakeBreak")
 			If _SleepStatus($DELAYCHECKOBSTACLES4) Then Return ; 2 Minutes
-			PureClickP($aAway, 1, 0, "#0133") ;Click away If things are open
 			checkObstacles_ReloadCoC($aReloadButton, "#0128", $bRecursive) ;Click on reload button
 			If $g_bForceSinglePBLogoff Then $g_bGForcePBTUpdate = True
 			checkObstacles_ResetSearch()
@@ -166,7 +165,7 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 						SetLog("Error reading Maintenance Break time?", $COLOR_ERROR)
 				EndSelect
 				SetLog("Maintenance Break, waiting: " & $iMaintenanceWaitTime / 60000 & " minutes....", $COLOR_ERROR)
-				If ($g_bNotifyPBEnable = True Or $g_bNotifyTGEnable = True) And $g_bNotifyAlertMaintenance = True Then NotifyPushToBoth("Maintenance Break, waiting: " & $iMaintenanceWaitTime / 60000 & " minutes....")
+				If $g_bNotifyTGEnable And $g_bNotifyAlertMaintenance = True Then NotifyPushToTelegram("Maintenance Break, waiting: " & $iMaintenanceWaitTime / 60000 & " minutes....")
 				If $g_bForceSinglePBLogoff Then $g_bGForcePBTUpdate = True
 				If _SleepStatus($iMaintenanceWaitTime) Then Return
 				checkObstacles_ResetSearch()
@@ -222,9 +221,6 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 					Return checkObstacles_StopBot($msg) ; stop bot
 				EndIf
 				SetLog("Warning: Can not find type of Reload error message", $COLOR_ERROR)
-				SetLog("MyBot will wait for 2 minutes then continue", $COLOR_ERROR)
-				If _SleepStatus($DELAYCHECKOBSTACLES4) Then Return ; 2 Minutes
-				PureClickP($aAway, 1, 0, "#0133") ;Click away If things are open
 		EndSelect
 		If TestCapture() Then Return "Village is out of sync or inactivity or connection lost or maintenance"
 		Return checkObstacles_ReloadCoC($aReloadButton, "#0131", $bRecursive) ; Click for out of sync or inactivity or connection lost or maintenance
@@ -366,7 +362,7 @@ EndFunc   ;==>checkObstacles_RebootAndroid
 Func checkObstacles_StopBot($msg)
 	SetLog($msg, $COLOR_ERROR)
 	If TestCapture() Then Return $msg
-	If ($g_bNotifyPBEnable = True Or $g_bNotifyTGEnable = True) And $g_bNotifyAlertMaintenance = True Then NotifyPushToBoth($msg)
+	If $g_bNotifyTGEnable And $g_bNotifyAlertMaintenance Then NotifyPushToTelegram($msg)
 	OcrForceCaptureRegion(True)
 	Btnstop() ; stop bot
 	Return True

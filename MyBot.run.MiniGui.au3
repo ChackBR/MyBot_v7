@@ -887,14 +887,6 @@ Func btnResume()
 	TogglePause()
 EndFunc   ;==>btnResume
 
-; Enable/Disable GUI while botting - Team AiO MOD++
-Func btnEnableGUI()
-EndFunc   ;==>btnEnableGUI
-
-Func btnDisableGUI()
-EndFunc   ;==>btnDisableGUI
-; Enable/Disable GUI while botting - Team AiO MOD++
-
 Func btnVillageStat($source = "")
 
 	If $g_iFirstRun = 0 And $g_bRunState And Not $g_bBotPaused Then SetTime(True)

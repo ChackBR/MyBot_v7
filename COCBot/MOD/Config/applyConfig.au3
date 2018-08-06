@@ -34,11 +34,6 @@ Func ApplyConfig_MOD($TypeReadSave)
 			_GUICtrlComboBox_SetCurSel($g_hCmbSkipCollectorCheckTH, $g_iCmbSkipCollectorCheckTH)
 			chkDBMeetCollOutside()
 
-			; Max logout time - Light__Version
-			GUICtrlSetState($g_hChkTrainLogoutMaxTime, $g_bTrainLogoutMaxTime = True ? $GUI_CHECKED : $GUI_UNCHECKED)
-			chkTrainLogoutMaxTime()
-			GUICtrlSetData($g_hTxtTrainLogoutMaxTime, $g_iTrainLogoutMaxTime)
-
 			; Classic Four Finger - Team AiO MOD++
 			Bridge()
 
@@ -55,10 +50,6 @@ Func ApplyConfig_MOD($TypeReadSave)
 			$g_iTxtSkipCollectorDark = GUICtrlRead($g_hTxtSkipCollectorDark)
 			$g_bSkipCollectorCheckTH = GUICtrlRead($g_hChkSkipCollectorCheckTH) = $GUI_CHECKED ? 1 : 0
 			$g_iCmbSkipCollectorCheckTH = _GUICtrlComboBox_GetCurSel($g_hCmbSkipCollectorCheckTH)
-
-			; Max logout time - Light__Version
-			$g_bTrainLogoutMaxTime = (GUICtrlRead($g_hChkTrainLogoutMaxTime) = $GUI_CHECKED)
-			$g_iTrainLogoutMaxTime = GUICtrlRead($g_hTxtTrainLogoutMaxTime)
 
 	EndSwitch
 EndFunc   ;==>ApplyConfig_MOD

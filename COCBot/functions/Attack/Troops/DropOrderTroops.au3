@@ -60,6 +60,7 @@ Func MatchTroopDropName($Num)
 EndFunc   ;==>MatchTroopDropName
 
 Func MatchSlotsPerEdge($Num)
+	; 0 = spread in all deploy points each side , 1 = one deploy point , 2 = 2 deploy points
 	Switch _GUICtrlComboBox_GetCurSel($g_ahCmbDropOrder[$Num])
 		Case 0 ;$eBarb
 			Return 0
@@ -123,7 +124,7 @@ Func MatchSlotsPerEdge($Num)
 			Return 0
 		Case 14 ;$eHogs
 			If $g_iMatchMode = $LB And $g_aiAttackStdDropSides[$LB] = 5 Then
-				Return 1
+				Return 0
 			Else
 				Return 2
 			EndIf

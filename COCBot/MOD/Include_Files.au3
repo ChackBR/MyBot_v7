@@ -29,11 +29,3 @@
 ; Simple Quick Train ( with DEB )
 ; --------------------------------------------
 #include "functions\SimpleQuickTrain.au3"
-
-; --------------------------------------------
-; Smart Train ( Demen )
-; --------------------------------------------
-#include "Smart Train\SmartTrain.au3"
-#include "Smart Train\CheckQueue.au3"
-#include "Smart Train\CheckTrainingTab.au3"
-#include "Smart Train\CheckPreciseArmyCamp.au3"

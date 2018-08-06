@@ -19,6 +19,7 @@ Func BotStart($bAutostartDelay = 0)
 	CleanSecureFiles()
 	CalCostCamp()
 	CalCostSpell()
+	CalCostSiege()
 
 	$g_bRunState = True
 	$g_bTogglePauseAllowed = True
@@ -46,13 +47,10 @@ Func BotStart($bAutostartDelay = 0)
 	SaveConfig()
 	readConfig()
 	applyConfig(False) ; bot window redraw stays disabled!
+	CreaTableDB()
 
 	; Initial ObjEvents for the Autoit objects errors
 	__ObjEventIni()
-
-	;Reset Telegram message
-	NotifyGetLastMessageFromTelegram()
-	$g_iTGLastRemote = $g_sTGLast_UID
 
 	If BitAND($g_iAndroidSupportFeature, 1 + 2) = 0 And $g_bChkBackgroundMode = True Then
 		GUICtrlSetState($g_hChkBackgroundMode, $GUI_UNCHECKED)
@@ -169,12 +167,12 @@ Func BotStop()
 	;GUICtrlSetState($g_hBtnMakeScreenshot, $GUI_ENABLE)
 
 	; hide attack buttons if show
-	GUICtrlSetState($g_hBtnAttackNowDB, $GUI_HIDE)
-	GUICtrlSetState($g_hBtnAttackNowLB, $GUI_HIDE)
-	GUICtrlSetState($g_hBtnAttackNowTS, $GUI_HIDE)
-	HideShields(False)
-	;GUICtrlSetState($g_hLblVersion, $GUI_SHOW)
-	$g_bBtnAttackNowPressed = False
+		GUICtrlSetState($g_hBtnAttackNowDB, $GUI_HIDE)
+		GUICtrlSetState($g_hBtnAttackNowLB, $GUI_HIDE)
+		GUICtrlSetState($g_hBtnAttackNowTS, $GUI_HIDE)
+		HideShields(False)
+		;GUICtrlSetState($g_hLblVersion, $GUI_SHOW)
+		$g_bBtnAttackNowPressed = False
 
 	; update try items
 	TrayItemSetText($g_hTiStartStop, GetTranslatedFileIni("MBR GUI Design - Loading", "StatusBar_Item_Start", "Start bot"))
