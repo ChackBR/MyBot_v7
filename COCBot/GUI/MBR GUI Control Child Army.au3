@@ -202,7 +202,7 @@ Func lblTotalCountSiege()
 		GUICtrlSetData($g_hLblCountTotalSiege, $g_iTotalTrainSpaceSiege)
 		GUICtrlSetData($g_hLblTotalTimeSiege, " 0s")
 	EndIf
-EndFunc
+EndFunc   ;==>lblTotalCountSiege()
 
 Func TotalSpellCountClick()
 	Local $bWasRedraw = SetRedrawBotWindow(False, Default, Default, Default, "TotalSpellCountClick")

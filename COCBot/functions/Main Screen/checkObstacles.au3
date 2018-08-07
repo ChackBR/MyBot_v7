@@ -107,6 +107,7 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 			SetLog("Village must take a break, wait ...", $COLOR_ERROR)
 			If TestCapture() Then Return "Village must take a break"
 			PushMsg("TakeBreak")
+			PureClickP($aAway, 1, 0, "#0133") ;Click away If things are open
 			If _SleepStatus($DELAYCHECKOBSTACLES4) Then Return ; 2 Minutes
 			checkObstacles_ReloadCoC($aReloadButton, "#0128", $bRecursive) ;Click on reload button
 			If $g_bForceSinglePBLogoff Then $g_bGForcePBTUpdate = True
@@ -221,6 +222,8 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 					Return checkObstacles_StopBot($msg) ; stop bot
 				EndIf
 				SetLog("Warning: Can not find type of Reload error message", $COLOR_ERROR)
+				PureClickP($aAway, 1, 0, "#0133") ;Click away If things are open
+				If _SleepStatus($DELAYCHECKOBSTACLES4) Then Return ; 2 Minutes
 		EndSelect
 		If TestCapture() Then Return "Village is out of sync or inactivity or connection lost or maintenance"
 		Return checkObstacles_ReloadCoC($aReloadButton, "#0131", $bRecursive) ; Click for out of sync or inactivity or connection lost or maintenance

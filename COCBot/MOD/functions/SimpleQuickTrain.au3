@@ -28,7 +28,7 @@ Func Qt_SimpleQuickTrain( $bOpenArmyWindow = False, $nLoop = 2 )
 		TrainArmyNumber($g_bQuickTrainArmy)
 		If _Sleep(700) Then Return
 	Next
-	
+
 	If $bCloseArmyWindow Then
 		If _Sleep(250) Then Return
 		If Not $g_bRunState Then Return

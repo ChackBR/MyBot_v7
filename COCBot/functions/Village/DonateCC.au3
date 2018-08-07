@@ -554,9 +554,10 @@ Func DonateCC($bCheckForNewMsg = False)
 	; --------------------------------------------
 	; Simple Quick Train ( with DEB )
 	; --------------------------------------------
-	If ( $g_bQuickTrainEnable ) Then
-		Qt_SimpleQuickTrain( True, 2 )
-	EndIf
+	;If ( $g_bQuickTrainEnable ) Then
+	;	Qt_SimpleQuickTrain( True, 2 )
+	;EndIf
+
 EndFunc   ;==>DonateCC
 
 Func CheckDonateTroop(Const $iTroopIndex, Const $sDonateTroopString, Const $sBlacklistTroopString, Const $sClanString)

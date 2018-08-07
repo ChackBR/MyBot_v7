@@ -48,7 +48,7 @@ Func TrainSiege()
 			SetDebugLog(@TAB & "To Use at " & $g_asModeText[$iSiegeIndex] & " " & $TextToUse[$g_aiAttackUseSiege[$iSiegeIndex]])
 		Next
 	EndIf
-	
+
 	If $g_bIsFullArmywithHeroesAndSpells And ($g_iCommandStop = 3 Or $g_iCommandStop = 0) Then Return
 
 	; Refill
