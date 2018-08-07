@@ -48,7 +48,7 @@ Func TrainSiege()
 			SetDebugLog(@TAB & "To Use at " & $g_asModeText[$iSiegeIndex] & " " & $TextToUse[$g_aiAttackUseSiege[$iSiegeIndex]])
 		Next
 	EndIf
-
+	
 	If $g_bIsFullArmywithHeroesAndSpells And ($g_iCommandStop = 3 Or $g_iCommandStop = 0) Then Return
 
 	; Refill
@@ -95,7 +95,7 @@ Func TrainSiege()
 		For $iSiegeIndex = $eSiegeWallWrecker To $eSiegeMachineCount - 1
 			If $g_aiArmyCompSiegeMachine[$iSiegeIndex] = 0 Then ContinueLoop
 			If $g_aiCurrentSiegeMachines[$iSiegeIndex] < $g_aiArmyCompSiegeMachine[$iSiegeIndex] Then
-				Local $HowMany = $g_aiArmyCompSiegeMachine[$iSiegeIndex] - $g_aiCurrentSiegeMachines[$iSiegeIndex]
+				Local $HowMany = ( $g_aiArmyCompSiegeMachine[$iSiegeIndex] * 2 ) - $g_aiCurrentSiegeMachines[$iSiegeIndex]
 				Local $checkPixel = $iSiegeIndex = $eSiegeWallWrecker ? $aCheckIsAvailableSiege : $aCheckIsAvailableSiege1
 				If _CheckPixel($checkPixel, True, Default, $g_asSiegeMachineNames[$iSiegeIndex]) Then
 					PureClick($checkPixel[0], $checkPixel[1], $HowMany, $g_iTrainClickDelay)

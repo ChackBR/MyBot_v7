@@ -177,20 +177,24 @@ EndFunc   ;==>lblTotalCountSpell2
 
 Func lblTotalCountSiege()
 	; calculate total space and time for Siege composition
-	Local $iTotalTotalTimeSiege = 0
-	$g_iTotalTrainSpaceSiege = 0
+	Local $iTotalTimeSiege = 0
+	Local $iTotalSpaceSiege = 0
 
 	For $i = 0 To $eSiegeMachineCount - 1
-		$g_iTotalTrainSpaceSiege += $g_aiArmyCompSiegeMachine[$i] * $g_aiSiegeMachineSpace[$i]
-		$iTotalTotalTimeSiege += $g_aiArmyCompSiegeMachine[$i] * $g_aiSiegeMachineTrainTimePerLevel[$i][$g_aiTrainArmySiegeMachineLevel[$i]]
+		$iTotalSpaceSiege += $g_aiArmyCompSiegeMachine[$i] * $g_aiSiegeMachineSpace[$i]
+		$iTotalTimeSiege += $g_aiArmyCompSiegeMachine[$i] * $g_aiSiegeMachineTrainTimePerLevel[$i][$g_aiTrainArmySiegeMachineLevel[$i]]
 	Next
+	
+	If $g_iTotalTrainSpaceSiege < $iTotalSpaceSiege Then
+		$g_iTotalTrainSpaceSiege = $iTotalSpaceSiege
+	Endif
 
-	GUICtrlSetData($g_hLblTotalTimeSiege, CalculTimeTo($iTotalTotalTimeSiege))
-	GUICtrlSetData($g_hLblCountTotalSiege, $g_iTotalTrainSpaceSiege)
-	GUICtrlSetBkColor($g_hLblCountTotalSiege, $g_iTotalTrainSpaceSiege <= 2 ? $COLOR_MONEYGREEN : $COLOR_RED)
+	GUICtrlSetData($g_hLblTotalTimeSiege, CalculTimeTo($iTotalTimeSiege))
+	GUICtrlSetData($g_hLblCountTotalSiege, $iTotalSpaceSiege)
+	GUICtrlSetBkColor($g_hLblCountTotalSiege, $iTotalSpaceSiege <= 2 ? $COLOR_MONEYGREEN : $COLOR_RED)
 
 	CalCostSiege()
-	If $g_iTownHallLevel <> 12 and $g_iTownHallLevel > 0 then
+	If $g_iTownHallLevel < 12 and $g_iTownHallLevel > 0 then
 		$g_iTotalTrainSpaceSiege = 0
 		GUICtrlSetBkColor($g_hLblCountTotalSiege,$COLOR_RED)
 		_GUICtrlSetTip($g_hLblCountTotalSiege, GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "LblCountTotal_Info_03", "Workshop Level 1 Required!"))

@@ -52,6 +52,7 @@ Func TrainSystem()
 	; Simple Quick Train ( with DEB )
 	; --------------------------------------------
 	If ( $g_bQuickTrainEnable ) Then
+		TrainSiege()
 		Qt_SimpleQuickTrain( False, 2 )
 		ResetVariables("donated")
 		Return
