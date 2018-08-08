@@ -34,17 +34,8 @@ Func TrainSystem()
 
 	If ProfileSwitchAccountEnabled() Then $g_bDoubleTrainDone = $g_abDoubleTrainDone[$g_iCurAccount]
 	If $g_bIsFullArmywithHeroesAndSpells And $g_bDoubleTrainDone Then $g_bDoubleTrainDone = False
-	; --------------------------------------------
-	; Simple Quick Train ( with DEB )
-	; --------------------------------------------
-	If $g_bQuickTrainEnable Then
-		Qt_SimpleQuickTrain( False, 2 )
-		TrainSiege()
-		ResetVariables("donated")
-		CheckIfArmyIsReady()
-		If Not $g_bRunState Then Return
-		Return
-	Else
+
+	If Not $g_bQuickTrainEnable Then
 		TrainCustomArmy()
 		DoubleTrain()
 		Return
@@ -58,7 +49,18 @@ Func TrainSystem()
 
 	If Not $g_bRunState Then Return
 
+	; --------------------------------------------
+	; Simple Quick Train ( with DEB )
+	; --------------------------------------------
+	If $g_bQuickTrainEnable Then
+		Qt_SimpleQuickTrain( False, 2 )
+		TrainSiege()
+		ResetVariables("donated")
+		Return
+	EndIf
+
 	If $g_bDoubleTrain And ($g_bDoubleTrainDone Or $g_bIsFullArmywithHeroesAndSpells) Then
+		; Do nothing DoubleQuickTrain()
 
 	ElseIf $g_bIsFullArmywithHeroesAndSpells Or ($g_CurrentCampUtilization = 0 And $g_bFirstStart) Then
 
