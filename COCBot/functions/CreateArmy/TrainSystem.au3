@@ -48,18 +48,18 @@ Func TrainSystem()
 
 	If Not $g_bRunState Then Return
 
+	If $g_bDoubleTrain And ($g_bDoubleTrainDone Or $g_bIsFullArmywithHeroesAndSpells) Then
+		; Do nothing DoubleQuickTrain()
+
 	; --------------------------------------------
 	; Simple Quick Train ( with DEB )
 	; --------------------------------------------
 	If ( $g_bQuickTrainEnable ) Then
-		TrainSiege()
 		Qt_SimpleQuickTrain( False, 2 )
+		TrainSiege()
 		ResetVariables("donated")
 		Return
 	EndIf
-
-	If $g_bDoubleTrain And ($g_bDoubleTrainDone Or $g_bIsFullArmywithHeroesAndSpells) Then
-		; Do nothing DoubleQuickTrain()
 
 	ElseIf $g_bIsFullArmywithHeroesAndSpells Or ($g_CurrentCampUtilization = 0 And $g_bFirstStart) Then
 
