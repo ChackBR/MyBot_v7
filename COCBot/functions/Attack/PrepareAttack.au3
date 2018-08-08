@@ -50,6 +50,7 @@ Func PrepareAttack($pMatchMode, $Remaining = False, $DebugSiege = False) ;Assign
 	Local $aPaths = [$g_sImgSwitchSiegeCastle, $g_sImgSwitchSiegeWallWrecker, $g_sImgSwitchSiegeBattleBlimp]
 	Local $ToUse = $eCastle, $iDa = 0
 	Local $hStarttime = _Timer_Init()
+	Local $lContinue = True
 
 	If ($pMatchMode = $DB Or $pMatchMode = $LB Or $pMatchMode = $TS) And Not $Remaining Then
 		; Default is CC ,let's check Siege Machines , if is to be used and exist.
@@ -84,6 +85,7 @@ Func PrepareAttack($pMatchMode, $Remaining = False, $DebugSiege = False) ;Assign
 						If _sleep(250) then return
 						Click(35, 595 + $g_iBottomOffsetY, 1, 0, "#0111") ;860x780
 					EndIf
+					$lContinue = False
 					If _Sleep(1500) then return
 				EndIf
 			EndIf
@@ -92,7 +94,7 @@ Func PrepareAttack($pMatchMode, $Remaining = False, $DebugSiege = False) ;Assign
 		EndIf
 
 		; Only procceds if necessary Drop the CC troops
-		If Not $Remaining And $g_abAttackDropCC[$pMatchMode] Then
+		If Not $Remaining And $g_abAttackDropCC[$pMatchMode] And $lContinue Then
 			Setlog("Let's use " & NameOfTroop($ToUse))
 			If QuickMIS("BC1", $g_sImgSwitchSiegeMachine, 50, 700, 820, 720, True, False) Then
 				If $g_bDebugSetlog Then SetDebugLog("Benchmark Switch Siege Bar: " & StringFormat("%.2f", _Timer_Diff($hStarttime)) & "'ms")

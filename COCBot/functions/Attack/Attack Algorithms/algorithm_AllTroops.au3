@@ -75,7 +75,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 		Case 4 ;Classic Four Finger ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			SetLog("Attacking Four Fingers fight style", $COLOR_INFO)
 			$nbSides = 5
-		Case 5 ;DE Side - Live Base only ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		Case 5 ;DE Side - Live Base only ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			SetLog("Attacking on Dark Elixir Side.", $COLOR_INFO)
 			$nbSides = 1
 			If Not ($g_abAttackStdSmartAttack[$g_iMatchMode]) Then GetBuildingEdge($eSideBuildingDES) ; Get DE Storage side when Redline is not used.
@@ -143,7 +143,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 							, [$eHeal, $nbSides, 1, 1, 1] _
 							, [$ePekk, $nbSides, 1, 1, 1] _
 							, ["CC", 1, 1, 1, 1] _
-							, ["HEROES", 1, 2, 1, 1] _
+							, ["HEROES", 1, 1, 1, 1] _
 							]
 				EndIf
 			Case 1
@@ -152,7 +152,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 						, [$eGobl, $nbSides, 1, 1, 0] _
 						, [$eMini, $nbSides, 1, 1, 0] _
 						, ["CC", 1, 1, 1, 1] _
-						, ["HEROES", 1, 2, 1, 1] _
+						, ["HEROES", 1, 1, 1, 1] _
 						]
 			Case 2
 				Local $listInfoDeploy[13][5] = [[$eGiant, $nbSides, 1, 1, $g_iSlotsGiants] _
@@ -161,13 +161,13 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 						, [$eArch, $nbSides, 1, 3, 3] _
 						, [$eBarb, $nbSides, 2, 2, 2] _
 						, [$eArch, $nbSides, 2, 3, 3] _
-						, ["CC", 1, 1, 1, 1] _
-						, ["HEROES", 1, 2, 1, 0] _
 						, [$eHogs, $nbSides, 1, 1, 2] _
 						, [$eWiza, $nbSides, 1, 1, 2] _
 						, [$eMini, $nbSides, 1, 1, 0] _
 						, [$eArch, $nbSides, 3, 3, 2] _
 						, [$eGobl, $nbSides, 1, 1, 1] _
+						, ["CC", 1, 1, 1, 1] _
+						, ["HEROES", 1, 1, 1, 0] _
 						]
 		EndSwitch
 
@@ -219,7 +219,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 							, [$eHeal, $nbSides, 1, 1, 1] _
 							, [$ePekk, $nbSides, 1, 1, 1] _
 							, ["CC", 1, 1, 1, 1] _
-							, ["HEROES", 1, 2, 1, 1] _
+							, ["HEROES", 1, 1, 1, 1] _
 							]
 				EndIf
 	Else
@@ -271,7 +271,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 							, [$eHeal, $nbSides, 1, 1, 1] _
 							, [$ePekk, $nbSides, 1, 1, 1] _
 							, ["CC", 1, 1, 1, 1] _
-							, ["HEROES", 1, 2, 1, 1] _
+							, ["HEROES", 1, 1, 1, 1] _
 							]
 				EndIf
 			Case 1
@@ -280,7 +280,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 						, [$eGobl, $nbSides, 1, 1, 0] _
 						, [$eMini, $nbSides, 1, 1, 0] _
 						, ["CC", 1, 1, 1, 1] _
-						, ["HEROES", 1, 2, 1, 1] _
+						, ["HEROES", 1, 1, 1, 1] _
 						]
 			Case 2
 				Local $listInfoDeploy[13][5] = [[$eGiant, $nbSides, 1, 1, $g_iSlotsGiants] _
@@ -295,7 +295,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 						, [$eArch, $nbSides, 2, 2, 0] _
 						, [$eGobl, $nbSides, 2, 2, 0] _
 						, ["CC", 1, 1, 1, 1] _
-						, ["HEROES", 1, 2, 1, 1] _
+						, ["HEROES", 1, 1, 1, 1] _
 						]
 			Case Else
 				SetLog("Algorithm type unavailable, defaulting to regular", $COLOR_ERROR)
@@ -311,7 +311,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 						, [$eArch, $nbSides, 2, 2, 0] _
 						, [$eGobl, $nbSides, 2, 2, 0] _
 						, ["CC", 1, 1, 1, 1] _
-						, ["HEROES", 1, 2, 1, 1] _
+						, ["HEROES", 1, 1, 1, 1] _
 						]
 		EndSwitch
 	EndIf
