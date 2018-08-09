@@ -41,6 +41,8 @@ Func TrainSystem()
 		Return
 	EndIf
 
+	If $g_bDebugSetlogTrain Then SetLog(" - Initial Quick train Function")
+
 	If $g_bDebugSetlogTrain Then SetLog(" - Line Open Army Window")
 
 	CheckIfArmyIsReady()
@@ -52,6 +54,7 @@ Func TrainSystem()
 	; --------------------------------------------
 	If $g_bQuickTrainEnable Then
 		Qt_SimpleQuickTrain( False, 2 )
+		If OpenArmyTab(True, "CheckIfArmyIsReady()") Then TrainSiege()
 		ResetVariables("donated")
 		Return
 	EndIf

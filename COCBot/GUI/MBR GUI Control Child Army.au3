@@ -185,9 +185,7 @@ Func lblTotalCountSiege()
 		$iTotalTimeSiege  += $g_aiArmyCompSiegeMachine[$i] * $g_aiSiegeMachineTrainTimePerLevel[$i][$g_aiTrainArmySiegeMachineLevel[$i]]
 	Next
 	
-	If $g_iTotalTrainSpaceSiege > 0 Then
-		$g_iTotalTrainSpaceSiege := $iTotalSpaceSiege
-	Endif
+	$g_iTotalTrainSpaceSiege = $iTotalSpaceSiege
 
 	GUICtrlSetData($g_hLblTotalTimeSiege, CalculTimeTo($iTotalTimeSiege))
 	GUICtrlSetData($g_hLblCountTotalSiege, $iTotalSpaceSiege)
@@ -201,10 +199,6 @@ Func lblTotalCountSiege()
 		GUICtrlSetData($g_hLblGoldCostSiege, "0")
 		GUICtrlSetData($g_hLblCountTotalSiege, $g_iTotalTrainSpaceSiege)
 		GUICtrlSetData($g_hLblTotalTimeSiege, " 0s")
-	Else
-		If $g_iTotalTrainSpaceSiege > 2 Then
-			$g_iTotalTrainSpaceSiege = 2
-		Endif
 	EndIf
 EndFunc   ;==>lblTotalCountSiege()
 
