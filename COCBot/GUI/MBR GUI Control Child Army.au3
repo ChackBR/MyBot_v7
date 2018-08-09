@@ -32,8 +32,8 @@ Func chkUseQTrain()
 		_GUI_Value_STATE("ENABLE", $grpCookSpell)
 		lblTotalCountTroop1()
 		TotalSpellCountClick()
-		lblTotalCountSiege()
 	EndIf
+	lblTotalCountSiege()
 EndFunc   ;==>chkUseQTrain
 
 Func chkQuickTrainCombo()
@@ -182,11 +182,11 @@ Func lblTotalCountSiege()
 
 	For $i = 0 To $eSiegeMachineCount - 1
 		$iTotalSpaceSiege += $g_aiArmyCompSiegeMachine[$i] * $g_aiSiegeMachineSpace[$i]
-		$iTotalTimeSiege += $g_aiArmyCompSiegeMachine[$i] * $g_aiSiegeMachineTrainTimePerLevel[$i][$g_aiTrainArmySiegeMachineLevel[$i]]
+		$iTotalTimeSiege  += $g_aiArmyCompSiegeMachine[$i] * $g_aiSiegeMachineTrainTimePerLevel[$i][$g_aiTrainArmySiegeMachineLevel[$i]]
 	Next
 	
-	If $g_iTotalTrainSpaceSiege < $iTotalSpaceSiege Then
-		$g_iTotalTrainSpaceSiege = $iTotalSpaceSiege
+	If $g_iTotalTrainSpaceSiege > 0 Then
+		$g_iTotalTrainSpaceSiege := $iTotalSpaceSiege
 	Endif
 
 	GUICtrlSetData($g_hLblTotalTimeSiege, CalculTimeTo($iTotalTimeSiege))
@@ -201,6 +201,10 @@ Func lblTotalCountSiege()
 		GUICtrlSetData($g_hLblGoldCostSiege, "0")
 		GUICtrlSetData($g_hLblCountTotalSiege, $g_iTotalTrainSpaceSiege)
 		GUICtrlSetData($g_hLblTotalTimeSiege, " 0s")
+	Else
+		If $g_iTotalTrainSpaceSiege > 2 Then
+			$g_iTotalTrainSpaceSiege = 2
+		Endif
 	EndIf
 EndFunc   ;==>lblTotalCountSiege()
 

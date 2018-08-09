@@ -13,23 +13,25 @@
 Func Qt_SimpleQuickTrain( $bOpenArmyWindow = False, $nLoop = 2 )
 
 	Local $i
-	Local $bCloseArmyWindow = False
 
-	Setlog("Simple Quick Train", $COLOR_INFO)
+	Setlog("Start: Simple Quick Train", $COLOR_INFO)
 
 	If $bOpenArmyWindow Then
-		OpenArmyOverview(True, "CheckCamp()")
-		If _Sleep(500) Then Return
+		CheckIfArmyIsReady()
+		If Not $g_bRunState Then Return
+		If _Sleep(250) Then Return
 	EndIf
 
 	If Not OpenQuickTrainTab(True, "CheckCamp()") Then Return
 	For $i = 1 TO $nLoop
-		If _Sleep(1000) Then Return
+		If _Sleep(500) Then Return
 		TrainArmyNumber($g_bQuickTrainArmy)
-		If _Sleep(700) Then Return
+		If _Sleep(500) Then Return
 	Next
 
-	If $bCloseArmyWindow Then
+	TrainSiege()
+
+	If $bOpenArmyWindow Then
 		If _Sleep(250) Then Return
 		If Not $g_bRunState Then Return
 		ClickP($aAway, 2, 0, "#0346") ;Click Away
