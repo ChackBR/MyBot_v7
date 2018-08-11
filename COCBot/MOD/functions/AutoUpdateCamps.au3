@@ -40,10 +40,10 @@ Func _getArmyCapacityOnTrainTroops($x_start, $y_start) ;  -> Gets quantity of tr
 			EndIf
 
 			If $dbg = 1 Then 
-       			Setlog("AutoCamp() - Max Troops: " & String($aResult[0]), $COLOR_ERROR)
-       			Setlog("AutoCamp() - Max Speels: " & String($g_iTotalSpellValue), $COLOR_ERROR)
-       			Setlog("AutoCamp() - Max InCamp: " & String($g_iTotalCampForcedValue), $COLOR_ERROR)
-		    EndIf
+				Setlog("AutoCamp() - Max Troops: " & String($aResult[0]), $COLOR_ERROR)
+				Setlog("AutoCamp() - Max Speels: " & String($g_iTotalSpellValue), $COLOR_ERROR)
+				Setlog("AutoCamp() - Max InCamp: " & String($g_iTotalCampForcedValue), $COLOR_ERROR)
+			EndIf
 				
 			lblTotalCountTroop1()
 		EndIf	
@@ -54,22 +54,19 @@ Func _getArmyCapacityOnTrainTroops($x_start, $y_start) ;  -> Gets quantity of tr
 	Return $aResult[0]
 EndFunc   ;==>_getArmyCapacityOnTrainTroops
 
-Func CheckAutoCamp() ; Only first Run and th5 + (Then every time he does the troops he will do it alone.)
+Func CheckAutoCamp() ; Only first Run
 	Local $dbg = 1
 	If $dbg = 1 Then Setlog("AutoCamp - CurrSpeels: " & String($g_iTotalSpellValue), $COLOR_ERROR)
-	Local $iCmpSpell = StringCompare(String($g_iTotalSpellValue), "0")
-        If $iCmpSpell = 0 Then
-            Click(30, 584)
-            If _Sleep(1000) Then Return
-            Click(407, 132)
-            If _Sleep(1000) Then return
-			Local $NewSpellOCR = getArmyCapacityOnTrainTroops(48, 160) ; Check spell camps
-            Click(280, 132)
-            If _Sleep(1000) Then Return
-			Local $NewCampOCR = getArmyCapacityOnTrainTroops(48, 160) ; Check army camps
-			Click(825, 122)
-			If _Sleep(1000) Then Return
-		Endif
+	Click(30, 584)
+	If _Sleep(1000) Then Return
+	Click(407, 132)
+	If _Sleep(1000) Then return
+	Local $NewSpellOCR = getArmyCapacityOnTrainTroops(48, 160) ; Check spell camps
+	Click(280, 132)
+	If _Sleep(1000) Then Return
+	Local $NewCampOCR = getArmyCapacityOnTrainTroops(48, 160) ; Check army camps
+	Click(825, 122)
+	If _Sleep(1000) Then Return
 EndFunc   ;==>CheckAutoCamp
 
 ; INFO ! ======================

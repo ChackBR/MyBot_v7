@@ -113,6 +113,7 @@ Func lblTotalCountTroop1()
 	Else
 		GUICtrlSetState($g_hLblTotalProgress, $GUI_HIDE)
 	EndIf
+
 	lblTotalCountTroop2()
 EndFunc   ;==>lblTotalCountTroop1
 

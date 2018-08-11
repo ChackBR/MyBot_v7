@@ -1235,9 +1235,12 @@ Func _RunFunction($action)
 			If $g_iActiveDonate And $g_bChkDonate Then
 				If $g_bFirstStart Then
 					; AutoCamp - RK MOD
-				    If $g_iChkAutoCamp Then CheckAutoCamp()
-					getArmyTroopCapacity(True, False)
-					getArmySpellCapacity(False, True)
+				    If $g_iChkAutoCamp Then 
+						CheckAutoCamp()
+					Else
+						getArmyTroopCapacity(True, False)
+						getArmySpellCapacity(False, True)
+					Endif
 				EndIf
 				If SkipDonateNearFullTroops(True) = False And BalanceDonRec(True) Then DonateCC()
 			EndIf

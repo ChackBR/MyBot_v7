@@ -205,7 +205,7 @@ Func TrainFullQueue($bSpellOnly = False, $bSetlog = True)
 	$g_bIsFullArmywithHeroesAndSpells = True
 
 	TrainUsingWhatToTrain($ToReturn, $bSpellOnly)
-	If _Sleep($bSpellOnly ? 1000 : 500) Then Return
+	If _Sleep(1000) Then Return
 
 	$g_bIsFullArmywithHeroesAndSpells = $bIsFullArmywithHeroesAndSpells
 

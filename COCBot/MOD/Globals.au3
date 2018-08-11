@@ -22,7 +22,7 @@ Global $chkReqCCFirst = 1
 ; --------------------------------------------
 ; AutoCamp - RK MOD
 ; --------------------------------------------
-Global $g_iChkAutoCamp = False
+Global $g_iChkAutoCamp = True
 
 ; --------------------------------------------
 ; Unit/Wave Factor - AiO++
