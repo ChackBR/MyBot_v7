@@ -275,7 +275,14 @@ Func getBarracksNewTroopQuantity($x_start, $y_start, $bNeedCapture = True) ;  ->
 EndFunc   ;==>getBarracksNewTroopQuantity
 
 Func getArmyCapacityOnTrainTroops($x_start, $y_start) ;  -> Gets quantity of troops in army Window
-	Return getOcrAndCapture("coc-NewCapacity", $x_start, $y_start, 67, 14, True)
+	; --------------------------------------------
+	; AutoCamp - RK MOD
+	; --------------------------------------------
+	if $g_iChkAutoCamp Then
+		Return _getArmyCapacityOnTrainTroops($x_start, $y_start)
+	Else
+		Return getOcrAndCapture("coc-NewCapacity", $x_start, $y_start, 67, 14, True)
+	Endif
 EndFunc   ;==>getArmyCapacityOnTrainTroops
 
 Func getQueueTroopsQuantity($x_start, $y_start) ;  -> Gets quantity of troops in Queue in Train Tab

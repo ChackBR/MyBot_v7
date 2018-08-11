@@ -20,6 +20,11 @@ Global $g_bReqCCFirst = True
 Global $chkReqCCFirst = 1
 
 ; --------------------------------------------
+; AutoCamp - RK MOD
+; --------------------------------------------
+Global $g_iChkAutoCamp = False
+
+; --------------------------------------------
 ; Unit/Wave Factor - AiO++
 ; --------------------------------------------
 Global $g_iChkGiantSlot = 0, $g_iChkUnitFactor = 0, $g_iChkWaveFactor = 0

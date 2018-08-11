@@ -74,7 +74,8 @@ Global $g_hFrmBot = 0 ; The main GUI window
 ; "r01" ; MyBot v7.5.3 + S&E: FFC + DEB + SamrtTrain + Fast Click Donate ( while using QuickTrain ) + CCO
 ; "r01" ; MyBot v7.5.4 + S&E: FFC + DEB + SamrtTrain + Fast Click Donate ( while using QuickTrain ) + CCO + ...
 ; "r01" ; MyBot v7.6.0 Light: FFC + DEB + Fast Click Donate ( while using QuickTrain ) + CCO + ...
-$g_sModversion = "r02" ; MyBot v7.6.0 Light: FFC + DEB + Fast Click Donate ( while using QuickTrain ) + Bot Fixes
+; "r02" ; MyBot v7.6.0 Light: FFC + DEB + Fast Click Donate ( while using QuickTrain ) + Bot Fixes
+$g_sModversion = "r03" ; MyBot v7.6.0 Light: FFC + DEB + Fast Click Donate ( while using QuickTrain ) + Fixes for Siege/CC build/deploy
 
 ; MBR includes
 #include "COCBot\MBR Global Variables.au3"
@@ -1233,6 +1234,8 @@ Func _RunFunction($action)
 		Case "DonateCC,Train"
 			If $g_iActiveDonate And $g_bChkDonate Then
 				If $g_bFirstStart Then
+					; AutoCamp - RK MOD
+				    If $g_iChkAutoCamp Then CheckAutoCamp()
 					getArmyTroopCapacity(True, False)
 					getArmySpellCapacity(False, True)
 				EndIf

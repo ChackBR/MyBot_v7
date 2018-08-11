@@ -95,7 +95,15 @@ Func TrainSiege()
 		For $iSiegeIndex = $eSiegeWallWrecker To $eSiegeMachineCount - 1
 			If $g_aiArmyCompSiegeMachine[$iSiegeIndex] = 0 Then ContinueLoop
 			If $g_aiCurrentSiegeMachines[$iSiegeIndex] < $g_aiArmyCompSiegeMachine[$iSiegeIndex] Then
-				Local $HowMany = ( $g_aiArmyCompSiegeMachine[$iSiegeIndex] * 2 ) - $g_aiCurrentSiegeMachines[$iSiegeIndex]
+				Local $HowMany
+				; --------------------------------------------
+				; Simple Quick Train ( with DEB )
+				; --------------------------------------------
+				If $g_bQuickTrainEnable Or $g_bDoubleTrain Then
+					$HowMany = ( $g_aiArmyCompSiegeMachine[$iSiegeIndex] * 2 ) - $g_aiCurrentSiegeMachines[$iSiegeIndex]
+				Else
+					$HowMany = $g_aiArmyCompSiegeMachine[$iSiegeIndex] - $g_aiCurrentSiegeMachines[$iSiegeIndex]
+				EndIf
 				Local $checkPixel = $iSiegeIndex = $eSiegeWallWrecker ? $aCheckIsAvailableSiege : $aCheckIsAvailableSiege1
 				If _CheckPixel($checkPixel, True, Default, $g_asSiegeMachineNames[$iSiegeIndex]) Then
 					PureClick($checkPixel[0], $checkPixel[1], $HowMany, $g_iTrainClickDelay)

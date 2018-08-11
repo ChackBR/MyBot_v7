@@ -24,3 +24,8 @@
 ; Simple Quick Train ( with DEB )
 ; --------------------------------------------
 #include "functions\SimpleQuickTrain.au3"
+
+; --------------------------------------------
+; AutoCamp - RK MOD
+; --------------------------------------------
+#include "functions\AutoUpdateCamps.au3"

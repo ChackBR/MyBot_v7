@@ -116,7 +116,7 @@ Func DropTrophy()
 					If $g_bRestart Then Return ; exit func
 
 					SetLog("Identification of your troops:", $COLOR_INFO)
-					PrepareAttack($DT) ; ==== Troops :checks for type, slot, and quantity ===
+					PrepareAttack($DB) ; ==== Troops :checks for type, slot, and quantity ===
 					If $g_bRestart Then Return
 
 					Local $G = (Number($g_iSearchGold) >= Number($g_iAimGold[$DB]))
