@@ -66,16 +66,14 @@ Global $g_hFrmBot = 0 ; The main GUI window
 ; "r01" - MyBot v7.4.1 + S&E MOD 
 ; "r01" - MyBot v7.4.2 + S&E MOD 
 ; "r01" ; MyBot v7.4.3 + S&E: FFC + DEB + SartTrain + Fast Click Donate ( while using QuickTrain )
-; "r01" ; MyBot v7.4.4 + S&E: FFC + DEB + SartTrain + Fast Click Donate ( while using QuickTrain )
 ; "r01" ; MyBot v7.4.4 + S&E: FFC + DEB + SartTrain + Fast Click Donate ( while using QuickTrain ) + CCO
 ; "r01" ; MyBot v7.5.0 + S&E: FFC + DEB + SartTrain + Fast Click Donate ( while using QuickTrain ) + CCO
 ; "r01" ; MyBot v7.5.1 + S&E: FFC + DEB + SartTrain + Fast Click Donate ( while using QuickTrain ) + CCO
 ; "r01" ; MyBot v7.5.2 + S&E: FFC + DEB + SamrtTrain + Fast Click Donate ( while using QuickTrain ) + CCO
 ; "r01" ; MyBot v7.5.3 + S&E: FFC + DEB + SamrtTrain + Fast Click Donate ( while using QuickTrain ) + CCO
 ; "r01" ; MyBot v7.5.4 + S&E: FFC + DEB + SamrtTrain + Fast Click Donate ( while using QuickTrain ) + CCO + ...
-; "r01" ; MyBot v7.6.0 Light: FFC + DEB + Fast Click Donate ( while using QuickTrain ) + CCO + ...
-; "r02" ; MyBot v7.6.0 Light: FFC + DEB + Fast Click Donate ( while using QuickTrain ) + Bot Fixes
-$g_sModversion = "r03" ; MyBot v7.6.0 Light: FFC + DEB + Fast Click Donate ( while using QuickTrain ) + Fixes for Siege/CC build/deploy
+; "r01" ; MyBot v7.6.0 Light: FFC + DEB + Fast Click Donate ( while using QuickTrain ) + Bot Fixes
+$g_sModversion = "r01" ; MyBot v7.6.1 Light: FFC + DEB + Fast Click Donate ( while using QuickTrain ) + Fixes for Siege/CC build/deploy
 
 ; MBR includes
 #include "COCBot\MBR Global Variables.au3"
@@ -652,9 +650,6 @@ Func FinalInitialization(Const $sAI)
 
 	UpdateMainGUI()
 
-	; temporary solution for the most recent MEmu versions
-	CheckClickAdbNewVersions()
-
 EndFunc   ;==>FinalInitialization
 
 ; #FUNCTION# ====================================================================================================================
@@ -683,6 +678,9 @@ Func MainLoop($bCheckPrerequisitesOK = True)
 	EndIf
 
 	Local $hStarttime = _Timer_Init()
+
+	; Check the Supported Emulator versions
+	CheckEmuNewVersions()
 
 	;Reset Telegram message
 	NotifyGetLastMessageFromTelegram()

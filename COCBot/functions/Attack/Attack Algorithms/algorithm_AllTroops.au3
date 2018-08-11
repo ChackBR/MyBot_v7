@@ -136,9 +136,9 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 							, [$eBarb, $nbSides, 1, 1, 0] _
 							, [$eWall, $nbSides, 1, 1, 1] _
 							, [$eArch, $nbSides, 1, 1, 0] _
-							, [$eWiza, $nbSides, 1, 1, 2] _
+							, [$eWiza, $nbSides, 1, 1, 0] _
 							, [$eMini, $nbSides, 1, 1, 0] _
-							, [$eWitc, $nbSides, 1, 1, 1] _
+							, [$eWitc, $nbSides, 1, 1, 2] _
 							, [$eGobl, $nbSides, 1, 1, 0] _
 							, [$eHeal, $nbSides, 1, 1, 1] _
 							, [$ePekk, $nbSides, 1, 1, 1] _
@@ -162,7 +162,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 						, [$eBarb, $nbSides, 2, 2, 2] _
 						, [$eArch, $nbSides, 2, 3, 3] _
 						, [$eHogs, $nbSides, 1, 1, 2] _
-						, [$eWiza, $nbSides, 1, 1, 2] _
+						, [$eWiza, $nbSides, 1, 1, 0] _
 						, [$eMini, $nbSides, 1, 1, 0] _
 						, [$eArch, $nbSides, 3, 3, 2] _
 						, [$eGobl, $nbSides, 1, 1, 1] _
@@ -212,9 +212,9 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 							, [$eBarb, $nbSides, 1, 1, 0] _
 							, [$eWall, $nbSides, 1, 1, 1] _
 							, [$eArch, $nbSides, 1, 1, 0] _
-							, [$eWiza, $nbSides, 1, 1, 2] _
+							, [$eWiza, $nbSides, 1, 1, 0] _
 							, [$eMini, $nbSides, 1, 1, 0] _
-							, [$eWitc, $nbSides, 1, 1, 1] _
+							, [$eWitc, $nbSides, 1, 1, 2] _
 							, [$eGobl, $nbSides, 1, 1, 0] _
 							, [$eHeal, $nbSides, 1, 1, 1] _
 							, [$ePekk, $nbSides, 1, 1, 1] _
@@ -264,9 +264,9 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 							, [$eBarb, $nbSides, 1, 1, 0] _
 							, [$eWall, $nbSides, 1, 1, 1] _
 							, [$eArch, $nbSides, 1, 1, 0] _
-							, [$eWiza, $nbSides, 1, 1, 2] _
+							, [$eWiza, $nbSides, 1, 1, 0] _
 							, [$eMini, $nbSides, 1, 1, 0] _
-							, [$eWitc, $nbSides, 1, 1, 1] _
+							, [$eWitc, $nbSides, 1, 1, 2] _
 							, [$eGobl, $nbSides, 1, 1, 0] _
 							, [$eHeal, $nbSides, 1, 1, 1] _
 							, [$ePekk, $nbSides, 1, 1, 1] _
@@ -290,7 +290,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 						, [$eBarb, $nbSides, 2, 2, 0] _
 						, [$eGobl, $nbSides, 1, 2, 0] _
 						, [$eHogs, $nbSides, 1, 1, 2] _
-						, [$eWiza, $nbSides, 1, 1, 2] _
+						, [$eWiza, $nbSides, 1, 1, 0] _
 						, [$eMini, $nbSides, 1, 1, 0] _
 						, [$eArch, $nbSides, 2, 2, 0] _
 						, [$eGobl, $nbSides, 2, 2, 0] _
@@ -306,7 +306,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 						, [$eBarb, $nbSides, 2, 2, 0] _
 						, [$eGobl, $nbSides, 1, 2, 0] _
 						, [$eHogs, $nbSides, 1, 1, 2] _
-						, [$eWiza, $nbSides, 1, 1, 2] _
+						, [$eWiza, $nbSides, 1, 1, 0] _
 						, [$eMini, $nbSides, 1, 1, 0] _
 						, [$eArch, $nbSides, 2, 2, 0] _
 						, [$eGobl, $nbSides, 2, 2, 0] _

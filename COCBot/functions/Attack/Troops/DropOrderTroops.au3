@@ -75,11 +75,7 @@ Func MatchSlotsPerEdge($Num)
 		Case 3 ;$eGobl
 			Return 0
 		Case 4 ;$eWall
-			If $g_iMatchMode = $LB And $g_aiAttackStdDropSides[$LB] = 5 Then
-				Return 1
-			Else
-				Return 2
-			EndIf
+			Return 1
 		Case 5 ;$eBall
 			If $g_iMatchMode = $LB And $g_aiAttackStdDropSides[$LB] = 5 Then
 				Return 0
@@ -87,11 +83,7 @@ Func MatchSlotsPerEdge($Num)
 				Return 2
 			EndIf
 		Case 6 ;$eWiza
-			If $g_iMatchMode = $LB And $g_aiAttackStdDropSides[$LB] = 5 Then
-				Return 0
-			Else
-				Return 2
-			EndIf
+			Return 0
 		Case 7 ;$eHeal
 			Return 1
 		Case 8 ;$eDrag

@@ -15,8 +15,6 @@ Func _getArmyCapacityOnTrainTroops($x_start, $y_start) ;  -> Gets quantity of tr
 	Local $aResult[3] = [0, 0, 0]
 	$aResult[0] = getOcrAndCapture("coc-NewCapacity", $x_start, $y_start, 67, 14, True)
 
-	Local $dbg = 1
-	
 	If StringInStr($aResult[0], "#") Then
 		Local $aTempResult = StringSplit($aResult[0], "#", $STR_NOCOUNT)
 		$aResult[1] = Number($aTempResult[0])
@@ -39,7 +37,8 @@ Func _getArmyCapacityOnTrainTroops($x_start, $y_start) ;  -> Gets quantity of tr
 				$g_iTotalCampForcedValue = $aResult[2]
 			EndIf
 
-			If $dbg = 1 Then 
+			Local $dbg = False
+			If $dbg Then 
 				Setlog("AutoCamp() - Max Troops: " & String($aResult[0]), $COLOR_ERROR)
 				Setlog("AutoCamp() - Max Speels: " & String($g_iTotalSpellValue), $COLOR_ERROR)
 				Setlog("AutoCamp() - Max InCamp: " & String($g_iTotalCampForcedValue), $COLOR_ERROR)
@@ -54,9 +53,17 @@ Func _getArmyCapacityOnTrainTroops($x_start, $y_start) ;  -> Gets quantity of tr
 	Return $aResult[0]
 EndFunc   ;==>_getArmyCapacityOnTrainTroops
 
+; INFO ! ======================
+	;		; full & forced Total Camp values
+	;		$g_iTrainArmyFullTroopPct = Int(GUICtrlRead($g_hTxtFullTroop))
+	;		$g_bTotalCampForced = (GUICtrlRead($g_hChkTotalCampForced) = $GUI_CHECKED)
+	;		$g_iTotalCampForcedValue = Int(GUICtrlRead($g_hTxtTotalCampForced))
+	;		; spell capacity and forced flag
+	;		$g_iTotalSpellValue = GUICtrlRead($g_hTxtTotalCountSpell)
+	;		$g_bForceBrewSpells = (GUICtrlRead($g_hChkForceBrewBeforeAttack) = $GUI_CHECKED)
+; ============
+
 Func CheckAutoCamp() ; Only first Run
-	Local $dbg = 1
-	If $dbg = 1 Then Setlog("AutoCamp - CurrSpeels: " & String($g_iTotalSpellValue), $COLOR_ERROR)
 	Click(30, 584)
 	If _Sleep(1000) Then Return
 	Click(407, 132)
@@ -69,20 +76,6 @@ Func CheckAutoCamp() ; Only first Run
 	If _Sleep(1000) Then Return
 EndFunc   ;==>CheckAutoCamp
 
-; INFO ! ======================
-	;		; full & forced Total Camp values
-	;		$g_iTrainArmyFullTroopPct = Int(GUICtrlRead($g_hTxtFullTroop))
-	;		$g_bTotalCampForced = (GUICtrlRead($g_hChkTotalCampForced) = $GUI_CHECKED)
-	;		$g_iTotalCampForcedValue = Int(GUICtrlRead($g_hTxtTotalCampForced))
-	;		; spell capacity and forced flag
-	;		$g_iTotalSpellValue = GUICtrlRead($g_hTxtTotalCountSpell)
-	;		$g_bForceBrewSpells = (GUICtrlRead($g_hChkForceBrewBeforeAttack) = $GUI_CHECKED)
-; ============
-
 Func chkAutoCamp()
-    If GUICtrlRead($g_hChkAutoCamp) = $GUI_CHECKED Then
-    $g_iChkAutoCamp = True
-    Else
-    $g_iChkAutoCamp = False
-    EndIf
+	$g_iChkAutoCamp = ( GUICtrlRead($g_hChkAutoCamp) = $GUI_CHECKED )
 EndFunc ;==>chkAutoCamp

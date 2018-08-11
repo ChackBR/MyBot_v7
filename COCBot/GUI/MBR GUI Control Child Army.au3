@@ -192,7 +192,7 @@ Func lblTotalCountSiege()
 	GUICtrlSetBkColor($g_hLblCountTotalSiege, $iTotalSpaceSiege <= 2 ? $COLOR_MONEYGREEN : $COLOR_RED)
 
 	CalCostSiege()
-	If $g_iTownHallLevel < 12 and $g_iTownHallLevel > 0 then
+	If $g_iTownHallLevel > 0 And $g_iTownHallLevel < 12 then
 		$g_iTotalTrainSpaceSiege = 0
 		GUICtrlSetBkColor($g_hLblCountTotalSiege,$COLOR_RED)
 		_GUICtrlSetTip($g_hLblCountTotalSiege, GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "LblCountTotal_Info_03", "Workshop Level 1 Required!"))

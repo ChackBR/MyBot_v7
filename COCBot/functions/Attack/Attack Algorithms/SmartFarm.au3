@@ -578,7 +578,7 @@ Func AttackSmartFarm($Nside, $SIDESNAMES)
 				, [$eArch, $nbSides, 1, 1, 0] _
 				, [$eWiza, $nbSides, 1, 1, 0] _
 				, [$eMini, $nbSides, 1, 1, 0] _
-				, [$eWitc, $nbSides, 1, 1, 0] _
+				, [$eWitc, $nbSides, 1, 1, 2] _
 				, [$eGobl, $nbSides, 1, 1, 0] _
 				, [$eHeal, $nbSides, 1, 1, 1] _
 				, [$ePekk, $nbSides, 1, 1, 1] _

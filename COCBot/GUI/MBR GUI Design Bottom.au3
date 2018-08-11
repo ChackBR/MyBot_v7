@@ -109,7 +109,6 @@ Func CreateBottomPanel()
 	  _GUICtrlSetTip(-1, $sTxtTip)
 	  GUICtrlSetState(-1, $GUI_SHOW)
 
-
 ;New section for royal and lab status
 	Local $x = 202, $y = $y_bottom + 5
 		$sTxtTip = GetTranslatedFileIni("MBR GUI Design Bottom","GrpStatus_Info_01", "Gray - Not Read, Green - Ready to Use, Blue - Healing, Red - Upgrading")
