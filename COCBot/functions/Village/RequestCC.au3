@@ -122,13 +122,25 @@ Func _makerequest()
 	Else
 		If $g_sRequestTroopsText <> "" Then
 			If $g_bChkBackgroundMode = False And $g_bNoFocusTampering = False Then ControlFocus($g_hAndroidWindow, "", "")
-			; fix for Android send text bug sending symbols like ``"
-			AndroidSendText($g_sRequestTroopsText, True)
-			Click($atxtRequestCCBtn[0], $atxtRequestCCBtn[1], 1, 0, "#0254") ;Select text for request $atxtRequestCCBtn[2] = [430, 140]
-			_Sleep($DELAYMAKEREQUEST2)
-			If SendText($g_sRequestTroopsText) = 0 Then
-				SetLog(" Request text entry failed, try again", $COLOR_ERROR)
-				Return
+			If $g_iRequestTroopTypeOnce = 0 Then
+				; fix for Android send text bug sending symbols like ``"
+				AndroidSendText($g_sRequestTroopsText, True)
+				Click($atxtRequestCCBtn[0], $atxtRequestCCBtn[1], 1, 0, "#0254") ;Select text for request $atxtRequestCCBtn[2] = [430, 140]
+				_Sleep($DELAYMAKEREQUEST2)
+				If SendText($g_sRequestTroopsText) = 0 Then
+					SetLog(" Request text entry failed, try again", $COLOR_ERROR)
+					Return
+				EndIf
+			Else
+				SetLog("Ignore retype text when Request troops", $COLOR_INFO)
+			EndIf
+			; --------------------------------------------
+			; Don't retype when request troops ( just once )
+			; --------------------------------------------
+			If $g_bRequestTypeOnceEnable Then
+				$g_iRequestTroopTypeOnce += 1
+			Else
+				$g_iRequestTroopTypeOnce = 0
 			EndIf
 		EndIf
 		If _Sleep($DELAYMAKEREQUEST2) Then Return ; wait time for text request to complete
