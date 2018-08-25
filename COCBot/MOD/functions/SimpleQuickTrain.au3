@@ -1,7 +1,7 @@
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: Qt_SimpleQuickTrain
-; Description ...: This file contains the Sequence that runs all MBR Bot
-; Author ........: Chack++
+; Description ...: 
+; Author ........: Chackall++
 ; Modified ......:
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2016
 ;                  MyBot is distributed under the terms of the GNU GPL
@@ -14,7 +14,7 @@ Func Qt_SimpleQuickTrain( $bOpenArmyWindow = False, $nLoop = 2 )
 
 	Local $i
 
-	Setlog("Start: Simple Quick Train [ " & String( $g_iTotalTrainSpaceSiege ) & " ]", $COLOR_INFO)
+	Setlog("Start: Simple Quick Train...", $COLOR_INFO)
 
 	If $bOpenArmyWindow Then
 		CheckIfArmyIsReady()

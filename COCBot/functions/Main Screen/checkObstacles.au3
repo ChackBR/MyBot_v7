@@ -103,7 +103,7 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 		EndIf
 		;;;;;;;##### 2- Take a break #####;;;;;;;
 
-		If UBound(decodeSingleCoord(FindImageInPlace("Break", $g_sImgPersonalBreak, "165,287,335,325", False))) > 1 Then ; used for all 3 different break messages
+		If UBound(decodeSingleCoord(FindImageInPlace("Break", $g_sImgPersonalBreak, "165,287,335,335", False))) > 1 Then ; used for all 3 different break messages
 			SetLog("Village must take a break, wait ...", $COLOR_ERROR)
 			If TestCapture() Then Return "Village must take a break"
 			PushMsg("TakeBreak")
@@ -222,7 +222,7 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 					Return checkObstacles_StopBot($msg) ; stop bot
 				EndIf
 				SetLog("Warning: Can not find type of Reload error message", $COLOR_ERROR)
-				PureClickP($aAway, 1, 0, "#0133") ;Click away If things are open
+				PureClickP($aAway, 1, 0, "#0000") ;Click away If things are open
 				SetLog("Will wait for 1 min... then continue", $COLOR_ERROR)
 				If _SleepStatus($DELAYCHECKOBSTACLES4 / 2 ) Then Return ; 2 Minutes
 		EndSelect

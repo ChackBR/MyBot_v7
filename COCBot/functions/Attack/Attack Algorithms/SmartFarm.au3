@@ -491,7 +491,7 @@ Func AttackSmartFarm($Nside, $SIDESNAMES)
 
 	SetSlotSpecialTroops()
 
-	Local $nbSides = Null
+	Global $nbSides = 0
 
 	_CaptureRegion2() ; ensure full screen is captured (not ideal for debugging as clean image was already saved, but...)
 	_GetRedArea()
@@ -568,7 +568,7 @@ Func AttackSmartFarm($Nside, $SIDESNAMES)
 				, [$eDrag, $nbSides, 1, 1, 0] _
 				, [$eBall, $nbSides, 1, 1, 0] _
 				, [$eBabyD, $nbSides, 1, 1, 0] _
-				, [$eHogs, $nbSides, 1, 1, 2] _
+				, [$eHogs, $nbSides, 1, 1, 0] _
 				, [$eValk, $nbSides, 1, 1, 0] _
 				, [$eBowl, $nbSides, 1, 1, 0] _
 				, [$eMine, $nbSides, 1, 1, 0] _
@@ -608,9 +608,10 @@ Func AttackSmartFarm($Nside, $SIDESNAMES)
 			ExitLoop ;Check remaining quantities
 		EndIf
 		For $i = $eBarb To $eBowl ; launch all remaining troops
-			LaunchTroop($i, $nbSides, 1, 1, 1)
-			CheckHeroesHealth()
-			If _Sleep($DELAYALGORITHM_ALLTROOPS5) Then Return
+			If LaunchTroop($i, $nbSides, 1, 1, 1) Then
+				CheckHeroesHealth()
+				If _Sleep($DELAYALGORITHM_ALLTROOPS5) Then Return
+			EndIf
 		Next
 	Next
 
@@ -767,7 +768,7 @@ Func LaunchTroopSmartFarm($listInfoDeploy, $iCC, $iKing, $iQueen, $iWarden, $SID
 					If _Sleep($DELAYLAUNCHTROOP23) Then Return
 					SetLog("Dropping last " & $numberLeft & "  of " & $infoPixelDropTroop[5], $COLOR_SUCCESS)
 					;                     $troop,             $listArrPixel,       $number,      $slotsPerEdge = 0
-					DropOnPixel($infoPixelDropTroop[0], $infoPixelDropTroop[1], Ceiling($numberLeft * $numberSidesDropTroop), $infoPixelDropTroop[3])
+					DropOnPixel($infoPixelDropTroop[0], $infoPixelDropTroop[1], Ceiling($numberLeft), $infoPixelDropTroop[3])
 				EndIf
 			EndIf
 			If _Sleep(SetSleep(0)) Then Return

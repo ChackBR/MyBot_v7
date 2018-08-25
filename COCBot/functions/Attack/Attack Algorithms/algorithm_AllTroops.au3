@@ -128,7 +128,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 							, [$eDrag, $nbSides, 1, 1, 0] _
 							, [$eBall, $nbSides, 1, 1, 0] _
 							, [$eBabyD, $nbSides, 1, 1, 1] _
-							, [$eHogs, $nbSides, 1, 1, 2] _
+							, [$eHogs, $nbSides, 1, 1, 0] _
 							, [$eValk, $nbSides, 1, 1, 0] _
 							, [$eBowl, $nbSides, 1, 1, 0] _
 							, [$eMine, $nbSides, 1, 1, 0] _
@@ -161,7 +161,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 						, [$eArch, $nbSides, 1, 3, 3] _
 						, [$eBarb, $nbSides, 2, 2, 2] _
 						, [$eArch, $nbSides, 2, 3, 3] _
-						, [$eHogs, $nbSides, 1, 1, 2] _
+						, [$eHogs, $nbSides, 1, 1, 0] _
 						, [$eWiza, $nbSides, 1, 1, 0] _
 						, [$eMini, $nbSides, 1, 1, 0] _
 						, [$eArch, $nbSides, 3, 3, 2] _
@@ -204,7 +204,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 							, [$eDrag, $nbSides, 1, 1, 0] _
 							, [$eBall, $nbSides, 1, 1, 0] _
 							, [$eBabyD, $nbSides, 1, 1, 1] _
-							, [$eHogs, $nbSides, 1, 1, 2] _
+							, [$eHogs, $nbSides, 1, 1, 0] _
 							, [$eValk, $nbSides, 1, 1, 2] _
 							, [$eBowl, $nbSides, 1, 1, 0] _
 							, [$eMine, $nbSides, 1, 1, 0] _
@@ -256,7 +256,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 							, [$eDrag, $nbSides, 1, 1, 0] _
 							, [$eBall, $nbSides, 1, 1, 0] _
 							, [$eBabyD, $nbSides, 1, 1, 0] _
-							, [$eHogs, $nbSides, 1, 1, 2] _
+							, [$eHogs, $nbSides, 1, 1, 0] _
 							, [$eValk, $nbSides, 1, 1, 0] _
 							, [$eBowl, $nbSides, 1, 1, 0] _
 							, [$eMine, $nbSides, 1, 1, 0] _
@@ -289,7 +289,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 						, [$eArch, $nbSides, 1, 2, 0] _
 						, [$eBarb, $nbSides, 2, 2, 0] _
 						, [$eGobl, $nbSides, 1, 2, 0] _
-						, [$eHogs, $nbSides, 1, 1, 2] _
+						, [$eHogs, $nbSides, 1, 1, 0] _
 						, [$eWiza, $nbSides, 1, 1, 0] _
 						, [$eMini, $nbSides, 1, 1, 0] _
 						, [$eArch, $nbSides, 2, 2, 0] _
@@ -305,7 +305,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 						, [$eArch, $nbSides, 1, 2, 0] _
 						, [$eBarb, $nbSides, 2, 2, 0] _
 						, [$eGobl, $nbSides, 1, 2, 0] _
-						, [$eHogs, $nbSides, 1, 1, 2] _
+						, [$eHogs, $nbSides, 1, 1, 0] _
 						, [$eWiza, $nbSides, 1, 1, 0] _
 						, [$eMini, $nbSides, 1, 1, 0] _
 						, [$eArch, $nbSides, 2, 2, 0] _
@@ -335,9 +335,10 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 			ExitLoop ;Check remaining quantities
 		EndIf
 		For $i = $eBarb To $eBowl ; launch all remaining troops
-			LaunchTroop($i, $nbSides, 1, 1, 1)
-			CheckHeroesHealth()
-			If _Sleep($DELAYALGORITHM_ALLTROOPS5) Then Return
+			If LaunchTroop($i, $nbSides, 1, 1, 1) Then
+				CheckHeroesHealth()
+				If _Sleep($DELAYALGORITHM_ALLTROOPS5) Then Return
+			EndIf
 		Next
 	Next
 

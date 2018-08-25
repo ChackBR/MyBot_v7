@@ -30,6 +30,12 @@ Global $aReloadButton[4] = [443, 408 + $g_iMidOffsetY, 0x282828, 10] ; Reload Co
 Global $aAttackButton[2] = [60, 614 + $g_iBottomOffsetY] ; Attack Button, Main Screen
 Global $aFindMatchButton[4] = [195, 480 + $g_iBottomOffsetY, 0xFFBF43, 10] ; Find Multiplayer Match Button, Attack Screen 860x780 without shield
 Global $aFindMatchButton2[4] = [195, 480 + $g_iBottomOffsetY, 0xE75D0D, 10] ; Find Multiplayer Match Button, Attack Screen 860x780 with shield
+; --------------------------------------------
+; Builder Base Drop Trophies
+; --------------------------------------------
+Global $aBB_FindMatchButton[4] = [540, 250 + $g_iBottomOffsetY, 0xFC9E2F, 10] ; Find Builder Base Match Button, Attack Screen 860x732 without shield
+Global $aBB_FindMatchButtonRND[4] = [530, 240 + $g_iMidOffsetY, 550, 260 + $g_iMidOffsetY] ; Find Builder Base Match Button, Both Shield or without shield Screen 860x732
+; Builder Base Drop Trophies - end
 Global $aIsAttackShield[4] = [250, 415 + $g_iMidOffsetY, 0xE8E8E0, 10] ; Attack window, white shield verification window
 Global $aAway[2] = [175, 10] ; Away click, moved from 1,1 to prevent scroll window from top, moved from 0,10 to 175,32 to prevent structure click or 175,10 to just fix MEmu 2.x opening and closing toolbar
 ;Global $aRemoveShldButton[4] = [470, 18, 0xA80408, 10] ; Legacy - Main Screen, Red pixel lower part of Minus sign to remove shield, used to validate latest COC installed

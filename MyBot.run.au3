@@ -73,8 +73,8 @@ Global $g_hFrmBot = 0 ; The main GUI window
 ; "r01" ; MyBot v7.5.3 + S&E: FFC + DEB + SamrtTrain + Fast Click Donate ( while using QuickTrain ) + CCO
 ; "r01" ; MyBot v7.5.4 + S&E: FFC + DEB + SamrtTrain + Fast Click Donate ( while using QuickTrain ) + CCO + ...
 ; "r01" ; MyBot v7.6.0 Light: FFC + DEB + Fast Click Donate ( while using QuickTrain ) + Bot Fixes
-; "r01" ; MyBot v7.6.1 Light: FFC + DEB + Fast Click Donate ( while using QuickTrain ) + Fixes for Siege/CC build/deploy
-$g_sModversion = "r02" ; MyBot v7.6.1 Light: FFC + DEB + Fast Click Donate ( while using QuickTrain ) + Fixes for Siege/CC build/use + Don't retype request troops
+; "r03" ; MyBot v7.6.1 Light: FFC + DEB + Fast Click Donate ( while using QuickTrain ) + Siege Fix + Don't retype txt + BH Drop Trophy
+$g_sModversion = "r01" ; MyBot v7.6.2 Light: FFC + DEB + Fast Click Donate ( while using QuickTrain ) + Siege Fix + Don't retype txt + BH Drop Trophy
 
 ; MBR includes
 #include "COCBot\MBR Global Variables.au3"
@@ -622,7 +622,7 @@ Func FinalInitialization(Const $sAI)
 
 	; Message - AiO++ Team
 	SetLog(" ", $COLOR_SUCCESS)
-	SetLog("____________" & " [  S&E MOD  ]" & "____________", $COLOR_MONEYGREEN, "Impact", 14)
+	SetLog("_________" & " [  MyBot Light MOD  ]" & "_________", $COLOR_MONEYGREEN, "Impact", 14)
 	SetLog("                                  » " & "Warning" & " «", $COLOR_TEAL, "Segoe UI Semibold", 12)
 	SetLog("           » " & "Please set the BOT Language to ENGLISH" & " «", $COLOR_TEAL, "Segoe UI Semibold", 10)
 	SetLog("                                   » " & "Make a Fresh Config" & " «", $COLOR_TEAL, "Segoe UI Semibold", 9)
@@ -1297,6 +1297,10 @@ Func _RunFunction($action)
 				BuilderBaseReport()
 				StartClockTowerBoost()
 				MainSuggestedUpgradeCode()
+				; --------------------------------------------
+				; Builder Base Drop Trophies
+				; --------------------------------------------
+				BB_DropTrophies()
 				; switch back to normal village
 				SwitchBetweenBases()
 			EndIf
@@ -1313,7 +1317,14 @@ EndFunc   ;==>_RunFunction
 
 Func FirstCheck()
 
+	SetDebugLog("-- FirstCheck Loop --")
+	If Not $g_bRunState Then Return
+
 	If ProfileSwitchAccountEnabled() And $g_abDonateOnly[$g_iCurAccount] Then Return
+
+	$g_bRestart = False
+	$g_bFullArmy = False
+	$g_iCommandStop = -1
 
 	VillageReport()
 	If Not $g_bRunState Then Return
@@ -1343,6 +1354,11 @@ Func FirstCheck()
 		If Not $g_bRunState Then Return
 		SetDebugLog("Are you ready? " & String($g_bIsFullArmywithHeroesAndSpells))
 		If $g_bIsFullArmywithHeroesAndSpells Then
+			; Just in case of new profile! or BotDetectFirstTime() failed on Initiate()
+			If (isInsideDiamond($g_aiTownHallPos) = False) Then
+				BotDetectFirstTime()
+			EndIf
+			; Now the bot can attack
 			If $g_iCommandStop <> 0 And $g_iCommandStop <> 3 Then
 				Setlog("Before any other routine let's attack!!", $COLOR_INFO)
 				If Not $g_bRunState Then Return

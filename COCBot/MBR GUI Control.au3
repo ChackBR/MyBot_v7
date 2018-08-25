@@ -561,8 +561,6 @@ Func GUIControl_WM_COMMAND($hWind, $iMsg, $wParam, $lParam)
 			btnTestDeadBaseFolder()
 		Case $g_hBtnTestTHimgloc
 			imglocTHSearch()
-		Case $g_hBtnTestimglocTroopBar
-			TestImglocTroopBar()
 		Case $g_hBtnTestAttackCSV
 			Local $RuntimeA = $g_bRunState
 			$g_bRunState = True
@@ -1630,6 +1628,9 @@ Func SetTime($bForceUpdate = False)
 		_TicksToTime(Int(__TimerDiff($g_hTimerSinceStarted) + $g_iTimePassed), $hour, $min, $sec)
 		GUICtrlSetData($g_hLblResultRuntimeNow, StringFormat("%02i:%02i:%02i", $hour, $min, $sec))
 	EndIf
+
+	; Return
+
 	Local Static $DisplayLoop = 0
 	If $DisplayLoop >= 30 Then ; Conserve Clock Cycles on Updating times
 		$DisplayLoop = 0
