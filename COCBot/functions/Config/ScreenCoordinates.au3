@@ -33,8 +33,12 @@ Global $aFindMatchButton2[4] = [195, 480 + $g_iBottomOffsetY, 0xE75D0D, 10] ; Fi
 ; --------------------------------------------
 ; Builder Base Drop Trophies
 ; --------------------------------------------
-Global $aBB_FindMatchButton[4] = [540, 250 + $g_iBottomOffsetY, 0xFC9E2F, 10] ; Find Builder Base Match Button, Attack Screen 860x732 without shield
-Global $aBB_FindMatchButtonRND[4] = [530, 240 + $g_iMidOffsetY, 550, 260 + $g_iMidOffsetY] ; Find Builder Base Match Button, Both Shield or without shield Screen 860x732
+Global $aBB_FindMatchButton[4] = [555, 240 + $g_iBottomOffsetY, 0xFFC346, 10] ; Find Builder Base Match Button, Attack Screen 860x732 without shield
+Global $aBB_FindMatchButtonRND[4] = [545, 230 + $g_iMidOffsetY, 565, 250 + $g_iMidOffsetY] ; Find Builder Base Match Button, Both Shield or without shield Screen 860x732
+;>>>> Mouse <<<<
+;Position:	555, 340
+;Cursor ID:	0
+;Color:	0xFFC346
 ; Builder Base Drop Trophies - end
 Global $aIsAttackShield[4] = [250, 415 + $g_iMidOffsetY, 0xE8E8E0, 10] ; Attack window, white shield verification window
 Global $aAway[2] = [175, 10] ; Away click, moved from 1,1 to prevent scroll window from top, moved from 0,10 to 175,32 to prevent structure click or 175,10 to just fix MEmu 2.x opening and closing toolbar
