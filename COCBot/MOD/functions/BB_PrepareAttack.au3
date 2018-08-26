@@ -93,7 +93,7 @@ EndFunc   ;==>BB_PrepareSearch
 ; Example .......: No
 ; ===============================================================================================================================
 
-Func BB_Attack($Nside = 1, $SIDESNAMES = "TR|TL" )
+Func BB_Attack($Nside = 1, $SIDESNAMES = "TR|TL", $iTroopToDeploy = 4 )
 
 	Local $aBB_DiamondTop[4]    = [440,  30 + $g_iBottomOffsetY, 0x294949, 10]
 	Local $aBB_DiamondBottom[4] = [440, 730 + $g_iBottomOffsetY, 0x2B4847, 10]
@@ -101,7 +101,6 @@ Func BB_Attack($Nside = 1, $SIDESNAMES = "TR|TL" )
 	Local $aBB_DiamondRight[4]  = [830, 330 + $g_iBottomOffsetY, 0x2F5351, 10]
 	Local $aBB_LineCenter[2]    = [  0,   0]
 	Local $i                    = 0
-	Local $iTroopToDeploy       = 8
 	Local $aDropCoord[2]        = [  0,   0]
 	Local $aDropPointX[4]       = [  0,   0, 0x294949, 10]
 	Local $aDropPointY[4]       = [  0,   0, 0x294949, 10]
@@ -116,7 +115,7 @@ Func BB_Attack($Nside = 1, $SIDESNAMES = "TR|TL" )
 
 	KeepClicks()
 
-	For $i = $iTroopToDeploy To 1 Step -1
+	For $i = ( $iTroopToDeploy / 2 ) To 1 Step -1
 		$aDropPointX[0] = $aBB_LineCenter[0] + ( $i * $aDropCoord[0] )
 		$aDropPointX[1] = $aBB_LineCenter[1] + ( $i * $aDropCoord[1] )
 		$aDropPointY[0] = $aBB_LineCenter[0] - ( $i * $aDropCoord[0] )
@@ -129,6 +128,6 @@ Func BB_Attack($Nside = 1, $SIDESNAMES = "TR|TL" )
 
 	ReleaseClicks()
 
-	If _Sleep($DELAYALGORITHM_ALLTROOPS4) Then Return
+	If _Sleep($DELAYALGORITHM_ALLTROOPS3) Then Return
 
 EndFunc   ;==>BB_Attack
