@@ -128,6 +128,6 @@ Func BB_Attack($Nside = 1, $SIDESNAMES = "TR|TL", $iTroopToDeploy = 4 )
 
 	ReleaseClicks()
 
-	If _Sleep($DELAYALGORITHM_ALLTROOPS3) Then Return
+	If _Sleep($DELAYDROPTROOP2) Then Return
 
 EndFunc   ;==>BB_Attack
