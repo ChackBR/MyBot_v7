@@ -14,20 +14,22 @@ Func BB_DropTrophies()
 
 	Local $i = 0
 	Local $j = 0
-	Local $Nside = 1
-	Local $SIDESNAMES = "TR|TL"
-	Local $OkButtom[4] = [ 400, 495 + $g_iBottomOffsetY, 0xE2F98B, 10 ]
-	Local $OkBatleEnd[4] = [ 630, 400 + $g_iBottomOffsetY, 0xDDF685, 10 ]
-	Local $OkWaitBattle[4] = [ 400, 500 + $g_iBottomOffsetY, 0xF0F0F0, 10 ]
-	Local $TroopSlot[4] = [  40, 580 + $g_iBottomOffsetY, 0x404040, 10 ]
-	Local $NextSlotActive[6] = [0x4C92D3, 0x5298E0, 0x4C92D3, 0x5598E0, 0x5498E0, 0x5198E0]
-	Local $NextSlotOff[6] = [0x464646, 0x454545, 0x454545, 0x464646, 0x454545, 0x454545]
-	Local $NextSlotAdd = 72
-	Local $TroopsTo  = 8
-	Local $bContinue = True
 
-	Local $bDegug = True
-	Local $cPixColor = ''
+	Local $cPixColor  = ''
+	Local $Nside      = 1
+	Local $SIDESNAMES = "TR|TL"
+
+	Local $bDegug     = False
+	Local $bContinue  = True
+
+	Local $OkButtom[4]     = [ 400, 495 + $g_iBottomOffsetY, 0xE2F98B, 10 ]
+	Local $OkBatleEnd[4]   = [ 630, 400 + $g_iBottomOffsetY, 0xDDF685, 10 ]
+	Local $OkWaitBattle[4] = [ 400, 500 + $g_iBottomOffsetY, 0xF0F0F0, 10 ]
+	Local $TroopSlot[4]    = [  40, 580 + $g_iBottomOffsetY, 0x404040, 10 ]
+	Local $NextSlotActive[6] = [0x4C92D3, 0x5298E0, 0x4C92D3, 0x5598E0, 0x5498E0, 0x5198E0]
+	Local $NextSlotOff[6]  = [0x464646, 0x454545, 0x454545, 0x464646, 0x454545, 0x454545]
+	Local $NextSlotAdd     = 72
+	Local $TroopsToDrop    = 0
 
 	If $g_bChkBB_DropTrophies Then
 		; Click attack button and find a match
@@ -51,13 +53,14 @@ Func BB_DropTrophies()
 					EndIf
 					$j = 0
 					$cPixColor = _GetPixelColor($TroopSlot[0], $TroopSlot[1], True)
+					$TroopsToDrop = getTroopCountBig( $TroopSlot[0]+20, $TroopSlot[1]-10 )
 					If ($i > 0) Then 
 						If _Sleep($DELAYCHECKOBSTACLES2) Then Return 
 						IF _ColorCheck( $cPixColor, Hex($NextSlotActive[$i], 6), $TroopSlot[3]) Then
 							If $bDegug Then SetLog("BB: Click Next Slot, code: 0x" & $cPixColor & " [ " & String( $i + 1 ) & " ]", $COLOR_DEBUG)
 							ClickP($TroopSlot, 1, 0, "#0000")
 						Else
-							If $bDegug Then SetLog("BB: Can't Click Next Slot, code: 0x" & $cPixColor & " [ " & String( $i + 1 ) & " ]", $COLOR_DEBUG)
+							SetLog("BB: Can't Click Next Slot, code: 0x" & $cPixColor & " [ " & String( $i + 1 ) & " ]", $COLOR_DEBUG)
 							If Not _ColorCheck( $cPixColor, Hex($TroopSlot[2], 6), $TroopSlot[3]) Then
 								$bContinue = False
 							EndIf
@@ -65,8 +68,8 @@ Func BB_DropTrophies()
 					EndIf
 					If $bContinue Then
 						While Not _ColorCheck( $cPixColor, Hex($TroopSlot[2], 6), $TroopSlot[3])
-							BB_Attack($Nside, $SIDESNAMES, $TroopsTo)
-							If $bDegug Then SetLog("BB: Deploing Troops From Slot [ " & String( $i + 1 ) & " ], code: 0x" & $cPixColor & " [ " & String( $j ) & " ]", $COLOR_DEBUG)
+							BB_Attack($Nside, $SIDESNAMES, 8)
+							If $bDegug Then SetLog("BB: Drop Troops - Slot[ " & String( $i + 1 ) & " ], code: 0x" & $cPixColor & " [ " & String( $j ) & " ] Num:[ " & $TroopsToDrop & " ]", $COLOR_DEBUG)
 							If _Sleep($DELAYCHECKOBSTACLES2) Then Return 
 							$j += 1
 							If $j > 5 Then ExitLoop
@@ -112,13 +115,13 @@ Func BB_DropTrophies()
 					$j = 0
 					$cPixColor = _GetPixelColor($OkBatleEnd[0], $OkBatleEnd[1], True)
 					While Not _ColorCheck( $cPixColor, Hex($OkBatleEnd[2], 6), $OkBatleEnd[3])
-						If $bDegug Then SetLog("BB: Click Okay Buttom [end], code: 0x" & $cPixColor & " [ " & String( $j ) & " ]", $COLOR_DEBUG)
-						If _Sleep($DELAYCHECKOBSTACLES2) Then Return
+						If $bDegug Then SetLog("BB: Try Click Okay Buttom [end], code: 0x" & $cPixColor & " [ " & String( $j ) & " ]", $COLOR_DEBUG)
+						If _Sleep($DELAYCHECKOBSTACLES3) Then Return
 						$j += 1
-						If $j > 10 Then ExitLoop
+						If $j > 30 Then ExitLoop
 						$cPixColor = _GetPixelColor($OkBatleEnd[0], $OkBatleEnd[1], True)
 					WEnd
-					If $j < 10 Then
+					If $j < 30 Then
 						SetLog("BB: Click Okay Buttom [end], code: 0x" & $cPixColor & " [ " & String( $j ) & " ]", $COLOR_DEBUG)
 						ClickP($OkBatleEnd, 1, 0, "#0000")
 					Else

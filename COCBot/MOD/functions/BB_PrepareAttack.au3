@@ -20,7 +20,7 @@ Func BB_PrepareAttack() ; Click attack button and find a match
 	Local $bCanAttack = False
 	Local $TroopsOk[4] = [ 310, 355 + $g_iBottomOffsetY, 0xDAF482 , 10 ]
 
-	Local $bDegug = True
+	Local $bDegug = False
 
 	SetLog("BH: Going to Attack... [ " & String( $g_iTxtBB_DropTrophies ) & " ]", $COLOR_INFO)
 
@@ -57,7 +57,7 @@ Func BB_PrepareAttack() ; Click attack button and find a match
 				ClickR($aBB_FindMatchButtonRND, $aFindMatchButton[0], $aFindMatchButton[1], 1, 0)
 			EndIf
 		Else
-			If $bDegug Then SetLog("BB: Can't Find Match Buttom", $COLOR_ERROR)
+			SetLog("BB: Can't Find Match Buttom. Color Was: 0x" & $cPixColor, $COLOR_ERROR)
 			$bCanAttack = False
 		EndIf
 
@@ -101,21 +101,30 @@ Func BB_Attack($Nside = 1, $SIDESNAMES = "TR|TL", $iTroopToDeploy = 4 )
 	Local $aBB_DiamondRight[4]  = [830, 330 + $g_iBottomOffsetY, 0x2F5351, 10]
 	Local $aBB_LineCenter[2]    = [  0,   0]
 	Local $i                    = 0
+	Local $iHalf                = 0
+	Local $iRest                = 0
 	Local $aDropCoord[2]        = [  0,   0]
 	Local $aDropPointX[4]       = [  0,   0, 0x294949, 10]
 	Local $aDropPointY[4]       = [  0,   0, 0x294949, 10]
 	Local $iBB_MaxDrop          = 20
 
+	If $iTroopToDeploy < 4 Then $iTroopToDeploy = 4
+	If $iTroopToDeploy > 8 Then $iTroopToDeploy = 8
+
+	$iHalf = INT( $iTroopToDeploy / 2 )
+	$iRest = $iTroopToDeploy - ( $iHalf * 2 )
+	$iHalf += $iRest
+
 	SetLog("BB: Attacking on a single side", $COLOR_INFO)
 
 	$aBB_LineCenter[0] = INT( ( $aBB_DiamondTop[0] + $aBB_DiamondRight[0] ) / 2 )
 	$aBB_LineCenter[1] = INT( ( $aBB_DiamondTop[1] + $aBB_DiamondRight[1] ) / 2 )
-	$aDropCoord[0]     = INT( ( ( $aBB_LineCenter[0] - $aBB_DiamondTop[0] ) * 0.9 ) / ( $iTroopToDeploy / 2 ) )
-	$aDropCoord[1]     = INT( ( ( $aBB_LineCenter[1] - $aBB_DiamondTop[1] ) * 0.9 ) / ( $iTroopToDeploy / 2 ) )
+	$aDropCoord[0]     = INT( ( ( $aBB_LineCenter[0] - $aBB_DiamondTop[0] ) * 0.9 ) / $iHalf )
+	$aDropCoord[1]     = INT( ( ( $aBB_LineCenter[1] - $aBB_DiamondTop[1] ) * 0.9 ) / $iHalf )
 
 	KeepClicks()
 
-	For $i = ( $iTroopToDeploy / 2 ) To 1 Step -1
+	For $i = $iHalf To 1 Step -1
 		$aDropPointX[0] = $aBB_LineCenter[0] + ( $i * $aDropCoord[0] )
 		$aDropPointX[1] = $aBB_LineCenter[1] + ( $i * $aDropCoord[1] )
 		$aDropPointY[0] = $aBB_LineCenter[0] - ( $i * $aDropCoord[0] )
