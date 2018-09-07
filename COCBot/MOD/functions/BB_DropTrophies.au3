@@ -1,7 +1,7 @@
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: BB_DropTrophies
 ; Description ...: 
-; Author ........: Chackall++
+; Author ........: Chackal++
 ; Modified ......:
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2016
 ;                  MyBot is distributed under the terms of the GNU GPL
@@ -9,27 +9,27 @@
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
 ; Example .......: No
 ; ===============================================================================================================================
-
 Func BB_DropTrophies()
 
 	Local $i = 0
 	Local $j = 0
 
 	Local $cPixColor  = ''
-	Local $Nside      = 1
-	Local $SIDESNAMES = "TR|TL"
+	Local $iSide      = 1
+	Local $cSideNames = "TR|TL"
 
-	Local $bDegug     = False
+	Local $bDegug     = True
 	Local $bContinue  = True
 
-	Local $OkButtom[4]     = [ 400, 495 + $g_iBottomOffsetY, 0xE2F98B, 10 ]
-	Local $OkBatleEnd[4]   = [ 630, 400 + $g_iBottomOffsetY, 0xDDF685, 10 ]
-	Local $OkWaitBattle[4] = [ 400, 500 + $g_iBottomOffsetY, 0xF0F0F0, 10 ]
-	Local $TroopSlot[4]    = [  40, 580 + $g_iBottomOffsetY, 0x404040, 10 ]
-	Local $NextSlotActive[6] = [0x4C92D3, 0x5298E0, 0x4C92D3, 0x5598E0, 0x5498E0, 0x5198E0]
-	Local $NextSlotOff[6]  = [0x464646, 0x454545, 0x454545, 0x464646, 0x454545, 0x454545]
-	Local $NextSlotAdd     = 72
-	Local $TroopsToDrop    = 0
+	Local $aOkButtom[4]      = [ 400, 495 + $g_iBottomOffsetY, 0xE2F98B, 20 ]
+	Local $aOkButtomColor[2] = [ 0xE2F98B, 0xE2FA8C ]
+	Local $aOkBatleEnd[4]    = [ 630, 400 + $g_iBottomOffsetY, 0xDDF685, 20 ]
+	Local $aOkBatleEndColor[2] = [ 0xDDF685, 0xE2FA8C ]
+	Local $aOkWaitBattle[4]  = [ 400, 500 + $g_iBottomOffsetY, 0xF0F0F0, 20 ]
+	Local $aTroopSlot[4]     = [  40, 580 + $g_iBottomOffsetY, 0x404040, 20 ]
+	Local $aSlotActive[6]    = [0x4C92D3, 0x5298E0, 0x4C92D3, 0x5598E0, 0x5498E0, 0x5198E0]
+	Local $aSlotOff[2]       = [0x464646, 0x454545]
+	Local $iTroopsTo         = 0
 
 	If $g_bChkBB_DropTrophies Then
 		; Click attack button and find a match
@@ -47,83 +47,90 @@ Func BB_DropTrophies()
 				; Deploy All Troops From Slot's
 				Setlog(" ====== BB Attack ====== ", $COLOR_INFO)
 				For $i = 0 to 5
+					; Pos Next Slot
 					If ($i > 0) Then 
-						$TroopSlot[0] += $NextSlotAdd
-						$TroopSlot[2] = $NextSlotOff[$i]
+						$aTroopSlot[0] += 72
 					EndIf
 					$j = 0
-					$cPixColor = _GetPixelColor($TroopSlot[0], $TroopSlot[1], True)
-					$TroopsToDrop = getTroopCountBig( $TroopSlot[0]+20, $TroopSlot[1]-10 )
+					$iTroopsTo = getTroopCountBig( $aTroopSlot[0]+24, $aTroopSlot[1]-7)
 					If ($i > 0) Then 
-						If _Sleep($DELAYCHECKOBSTACLES2) Then Return 
-						IF _ColorCheck( $cPixColor, Hex($NextSlotActive[$i], 6), $TroopSlot[3]) Then
+						$cPixColor = _GetPixelColor($aTroopSlot[0], $aTroopSlot[1], True)
+						If _Sleep($DELAYCHECKOBSTACLES1) Then Return
+						IF BB_ColorCheck( $aTroopSlot, $aSlotActive ) Then
 							If $bDegug Then SetLog("BB: Click Next Slot, code: 0x" & $cPixColor & " [ " & String( $i + 1 ) & " ]", $COLOR_DEBUG)
-							ClickP($TroopSlot, 1, 0, "#0000")
+							ClickP($aTroopSlot, 1, 0, "#0000")
 						Else
 							SetLog("BB: Can't Click Next Slot, code: 0x" & $cPixColor & " [ " & String( $i + 1 ) & " ]", $COLOR_DEBUG)
-							If Not _ColorCheck( $cPixColor, Hex($TroopSlot[2], 6), $TroopSlot[3]) Then
+							IF Not BB_ColorCheck( $aTroopSlot, $aSlotOff ) Then
 								$bContinue = False
 							EndIf
 						EndIF
 					EndIf
 					If $bContinue Then
-						While Not _ColorCheck( $cPixColor, Hex($TroopSlot[2], 6), $TroopSlot[3])
-							BB_Attack($Nside, $SIDESNAMES, 8)
-							If $bDegug Then SetLog("BB: Drop Troops - Slot[ " & String( $i + 1 ) & " ], code: 0x" & $cPixColor & " [ " & String( $j ) & " ] Num:[ " & $TroopsToDrop & " ]", $COLOR_DEBUG)
-							If _Sleep($DELAYCHECKOBSTACLES2) Then Return 
+						While Not BB_ColorCheck( $aTroopSlot, $aSlotOff )
+							If $bDegug Then SetLog("BB: Drop Troops - Slot[ " & String( $i + 1 ) & " ], code: 0x" & $cPixColor & " [ " & String( $j ) & " ] Num:[ " & $iTroopsTo & " ]", $COLOR_DEBUG)
+							If $iTroopsTo < 4 Then $iTroopsTo = 4
+							BB_Attack($iSide, $cSideNames, $iTroopsTo)
+
+							If _Sleep($DELAYCHECKOBSTACLES1) Then Return
 							$j += 1
 							If $j > 5 Then ExitLoop
-							$cPixColor = _GetPixelColor($TroopSlot[0], $TroopSlot[1], True)
+							$cPixColor = _GetPixelColor($aTroopSlot[0], $aTroopSlot[1], True)
 						WEnd
 						If $bDegug Then SetLog("BB: Last Slot Color [ " & String( $i + 1 ) & " ], code: 0x" & $cPixColor & " [ " & String( $i + 1 ) & " ]", $COLOR_DEBUG)
 					EndIf
 				Next
 
-				Setlog("Will Wait End Battle for " & String( $DELAYCHECKOBSTACLES4 / 60000 / 2 ) & " minutes then continue", $COLOR_INFO)
+				; *-------------------------------------------------*
+				; Battle Machine Deploy
+				; *-------------------------------------------------*
+				BB_Mach_Deploy()
+
+				Setlog("Will Wait for Battle End: " & String( $DELAYCHECKOBSTACLES4 / 60000 / 2 ) & " minutes then continue", $COLOR_INFO)
 				If _Sleep($DELAYCHECKOBSTACLES4 / 2 ) Then Return
 
-				; If $OkWaitBattle Exists
-				$cPixColor = _GetPixelColor($OkWaitBattle[0], $OkWaitBattle[1], True)
-				If _ColorCheck( $cPixColor, Hex($OkWaitBattle[2], 6), $OkWaitBattle[3]) Then
+				; If $aOkWaitBattle Exists
+				$cPixColor = _GetPixelColor($aOkWaitBattle[0], $aOkWaitBattle[1], True)
+				If _ColorCheck( $cPixColor, Hex($aOkWaitBattle[2], 6), 20) Then
 					If $bDegug Then SetLog("BB: Click Okay Buttom for no wait battle end, code: 0x" & $cPixColor & " [ " & String( $j ) & " ]", $COLOR_DEBUG)
-					ClickP($OkWaitBattle, 1, 0, "#0000")
+					ClickP($aOkWaitBattle, 1, 0, "#0000")
 				EndIf
 
-				If _Sleep($DELAYCHECKOBSTACLES2) Then Return 
+				If _Sleep($DELAYCHECKOBSTACLES1) Then Return
 
-				; wait $OkButtom to appear
+				; wait $aOkButtom to appear
 				$j = 0
-				$cPixColor = _GetPixelColor($OkButtom[0], $OkButtom[1], True)
-				While Not _ColorCheck( $cPixColor, Hex($OkButtom[2], 6), $OkButtom[3])
+				$cPixColor = _GetPixelColor($aOkButtom[0], $aOkButtom[1], True)
+				While Not BB_ColorCheck( $aOkButtom, $aOkButtomColor )
 					If $bDegug Then SetLog("BB: Click Okay Buttom. [Ok]. code: 0x" & $cPixColor & " [ " & String( $j ) & " ]", $COLOR_DEBUG)
-					If _Sleep($DELAYCHECKOBSTACLES2) Then Return 
+					If _Sleep($DELAYCHECKOBSTACLES1) Then Return
 					$j += 1
 					If $j > 10 Then ExitLoop
-					$cPixColor = _GetPixelColor($OkButtom[0], $OkButtom[1], True)
+					$cPixColor = _GetPixelColor($aOkButtom[0], $aOkButtom[1], True)
 				WEnd
 				If $j < 10 Then
 					SetLog("BB: Click Okay Buttom. [Ok]. code: 0x" & $cPixColor & " [ " & String( $j ) & " ]", $COLOR_DEBUG)
-					ClickP($OkButtom, 1, 0, "#0000")
+					ClickP($aOkButtom, 1, 0, "#0000")
 				Else
 					SetLog("BB: Can't Find Okay Buttom [Ok]. code: 0x" & $cPixColor, $COLOR_ERROR)
 				EndIf
 
-				If _Sleep($DELAYCHECKOBSTACLES2) Then Return 
+				If _Sleep($DELAYCHECKOBSTACLES1) Then Return
 
-				; wait $OkBatleEnd to appear
+				; wait $aOkBatleEnd to appear
 				If $j < 10 Then
 					$j = 0
-					$cPixColor = _GetPixelColor($OkBatleEnd[0], $OkBatleEnd[1], True)
-					While Not _ColorCheck( $cPixColor, Hex($OkBatleEnd[2], 6), $OkBatleEnd[3])
+					$cPixColor = _GetPixelColor($aOkBatleEnd[0], $aOkBatleEnd[1], True)
+					While Not BB_ColorCheck( $aOkBatleEnd, $aOkBatleEndColor )
 						If $bDegug Then SetLog("BB: Try Click Okay Buttom [end], code: 0x" & $cPixColor & " [ " & String( $j ) & " ]", $COLOR_DEBUG)
 						If _Sleep($DELAYCHECKOBSTACLES3) Then Return
 						$j += 1
 						If $j > 30 Then ExitLoop
-						$cPixColor = _GetPixelColor($OkBatleEnd[0], $OkBatleEnd[1], True)
+						$cPixColor = _GetPixelColor($aOkBatleEnd[0], $aOkBatleEnd[1], True)
 					WEnd
 					If $j < 30 Then
 						SetLog("BB: Click Okay Buttom [end], code: 0x" & $cPixColor & " [ " & String( $j ) & " ]", $COLOR_DEBUG)
-						ClickP($OkBatleEnd, 1, 0, "#0000")
+						ClickP($aOkBatleEnd, 1, 0, "#0000")
 					Else
 						SetLog("BB: Can't Find Okay Buttom [End]. code: 0x" & $cPixColor, $COLOR_ERROR)
 					EndIf
@@ -146,7 +153,34 @@ Func BB_DropTrophies()
 		Setlog("Ignore BB Drop Trophies [ Disabled ]", $COLOR_INFO)
 	Endif
 
-EndFunc	;==> BB_DropTrophies
+EndFunc	;==>BB_DropTrophies
+
+
+; #FUNCTION# ====================================================================================================================
+; Name ..........: BB_ColorCheck( aInfo )
+; Description ...: Check an Array of Colors ( instead just one )
+; Author ........: Chackal++
+; Modified ......:
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2016
+;                  MyBot is distributed under the terms of the GNU GPL
+; Related .......:
+; Link ..........: https://github.com/MyBotRun/MyBot/wiki
+; Example .......: No
+; ===============================================================================================================================
+Func BB_ColorCheck( $aInfo, $aColors )
+	Local $i
+	Local $cPixel
+	Local $bResult = False
+	Local $iLoop = UBound( $aColors ) - 1
+	$cPixel = _GetPixelColor($aInfo[0], $aInfo[1], True)
+	For $i = 0 to $iLoop
+		If _ColorCheck( $cPixel, Hex($aColors[$i], 6), 20) Then
+			$bResult = True
+			ExitLoop
+		EndIf
+	Next
+	Return $bResult
+EndFunc	;==>BB_ColorCheck
 
 Func ChkBB_DropTrophies()
 	$g_bChkBB_DropTrophies = (GUICtrlRead($g_hChkBB_DropTrophies) = $GUI_CHECKED) ? 1 : 0

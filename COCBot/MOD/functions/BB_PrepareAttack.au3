@@ -2,7 +2,7 @@
 ; Name ..........: BB_PrepareAttack
 ; Description ...: 
 ; Syntax ........: BB_PrepareAttack()
-; Author ........: Chackall++
+; Author ........: Chackal++
 ; Modified ......:
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2016
 ;                  MyBot is distributed under the terms of the GNU GPL
@@ -13,14 +13,14 @@
 
 Func BB_PrepareAttack() ; Click attack button and find a match
 
-	Local $Result = getAttackDisable(346, 182) ; Grab Ocr for TakeABreak check
-	Local $cPixColor = ""
 	Local $i = 0
 	Local $j = 0
+	Local $cPixColor = ""
 	Local $bCanAttack = False
-	Local $TroopsOk[4] = [ 310, 355 + $g_iBottomOffsetY, 0xDAF482 , 10 ]
+	Local $aTroopsOk[4] = [ 310, 355 + $g_iBottomOffsetY, 0xDAF482 , 10 ]
+	Local $Result = getAttackDisable(346, 182) ; Grab Ocr for TakeABreak check
 
-	Local $bDegug = False
+	Local $bDegug = True
 
 	SetLog("BH: Going to Attack... [ " & String( $g_iTxtBB_DropTrophies ) & " ]", $COLOR_INFO)
 
@@ -33,9 +33,9 @@ Func BB_PrepareAttack() ; Click attack button and find a match
 	EndIf
 	If _Sleep($DELAYPREPARESEARCH1) Then Return
 
-	; If $TroopsOk is ready
-	$cPixColor = _GetPixelColor($TroopsOk[0], $TroopsOk[1], True)
-	If _ColorCheck( $cPixColor, Hex($TroopsOk[2], 6), $TroopsOk[3]) Then
+	; If $aTroopsOk is ready
+	$cPixColor = _GetPixelColor($aTroopsOk[0], $aTroopsOk[1], True)
+	If _ColorCheck( $cPixColor, Hex($aTroopsOk[2], 6), 20) Then
 		SetLog("BB: Troops Not Ready [Stop Attack], code: " & $cPixColor & " [ " & String( $j ) & " ]", $COLOR_DEBUG)
 	Else
 		SetLog("BB: Troops Ready, code: " & $cPixColor & " [ " & String( $j ) & " ]", $COLOR_DEBUG)
@@ -48,7 +48,7 @@ Func BB_PrepareAttack() ; Click attack button and find a match
 
 		; If $aBB_FindMatchButton appear
 		$cPixColor = _GetPixelColor($aBB_FindMatchButton[0], $aBB_FindMatchButton[1], True)
-		If _ColorCheck( $cPixColor, Hex($aBB_FindMatchButton[2], 6), $aBB_FindMatchButton[3]) Then
+		If _ColorCheck( $cPixColor, Hex($aBB_FindMatchButton[2], 6), 20) Then
 			If $bDegug Then SetLog("BB: aBB_FindMatchButton, code: [ " & $cPixColor & " ][ " & String( $j ) & " ]", $COLOR_DEBUG)
 			If _Sleep($DELAYCHECKFULLARMY1) Then Return 
 			If $g_bUseRandomClick = False Then
@@ -84,7 +84,7 @@ EndFunc   ;==>BB_PrepareSearch
 ; Syntax ........: 
 ; Parameters ....: 
 ; Return values .: 
-; Author ........: 
+; Author ........: Chackal++
 ; Modified ......: 
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2016
 ;                  MyBot is distributed under the terms of the GNU GPL
@@ -129,14 +129,51 @@ Func BB_Attack($Nside = 1, $SIDESNAMES = "TR|TL", $iTroopToDeploy = 4 )
 		$aDropPointX[1] = $aBB_LineCenter[1] + ( $i * $aDropCoord[1] )
 		$aDropPointY[0] = $aBB_LineCenter[0] - ( $i * $aDropCoord[0] )
 		$aDropPointY[1] = $aBB_LineCenter[1] - ( $i * $aDropCoord[1] )
-		ClickP($aDropPointX, 1, 0, "#0000") ; Drop Troop
+		AttackClick($aDropPointX[0], $aDropPointX[1], 1, SetSleep(0), 0, "#0000")
 		If _Sleep($DELAYDROPTROOP1) Then Return
 		AttackClick($aDropPointY[0], $aDropPointY[1], 1, SetSleep(0), 0, "#0000")
-		If _Sleep($DELAYDROPTROOP2) Then Return
+		If _Sleep($DELAYDROPTROOP1) Then Return
 	Next
 
 	ReleaseClicks()
 
-	If _Sleep($DELAYDROPTROOP2) Then Return
+	If _Sleep($DELAYDROPTROOP1) Then Return
 
 EndFunc   ;==>BB_Attack
+
+; #FUNCTION# ====================================================================================================================
+; Name ..........: BB_Mach_Deploy
+; Description ...: Battle Machine Deploy
+; Syntax ........:
+; Parameters ....:
+; Return values .:
+; Author ........:
+; Modified ......:
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2016
+;                  MyBot is distributed under the terms of the GNU GPL
+; Related .......:
+; Link ..........: https://github.com/MyBotRun/MyBot/wiki
+; Example .......: No
+; ===============================================================================================================================
+
+Func BB_Mach_Deploy()
+	Local $aBMachine[2]
+	Local $g_sImgMachine = @ScriptDir & "\images\BMachine\"
+
+	If _Sleep($DELAYDROPTROOP2) Then Return
+
+	If QuickMIS("BC1", $g_sImgMachine, 160, 560, 600, 680, True, False) Then
+		KeepClicks()
+		$aBMachine[0] = $g_iQuickMISX
+		$aBMachine[1] = (652 + $g_iQuickMISY)
+		Setlog("BB: Drop Battle Machine", $COLOR_GREEN)
+		ClickP($aBMachine, 1, 0, "#0000") ; Drop Battle Machine
+		If _Sleep($DELAYDROPTROOP1) Then Return
+		AttackClick(557, 251, 1, SetSleep(0), 0, "#0000")
+		If _Sleep($DELAYDROPTROOP2) Then Return
+		ReleaseClicks()
+	Else
+		Setlog("BB: Can't find Battle Machine", $COLOR_GREEN)
+	EndIf
+
+EndFunc   ;==>BB_Mach_Deploy

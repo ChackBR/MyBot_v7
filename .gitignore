@@ -121,7 +121,7 @@ CSV/THsnipe/[Tt]est*.csv
 # Debug
 [Ll]ib/[Dd]ebug/
 [Ll]ib/[Tt]est.txt
-EnableMBRDebug.txt
+!EnableMBRDebug.txt
 ImgLocDebug.txt
 
 # SQL (not in use)
