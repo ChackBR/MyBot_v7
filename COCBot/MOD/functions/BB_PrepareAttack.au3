@@ -157,15 +157,16 @@ EndFunc   ;==>BB_Attack
 ; ===============================================================================================================================
 
 Func BB_Mach_Deploy()
-	Local $aBMachine[2]
-	Local $g_sImgMachine = @ScriptDir & "\images\BMachine\"
+
+	Local $aBMachine[4] = [ 320, 580, 600, 680 ]
+	Local $g_sImgMachine = @ScriptDir & "\images\BMachine"
 
 	If _Sleep($DELAYDROPTROOP2) Then Return
 
-	If QuickMIS("BC1", $g_sImgMachine, 160, 560, 600, 680, True, False) Then
+	If QuickMIS("BC1", $g_sImgMachine, $aBMachine[0], $aBMachine[1], $aBMachine[2], $aBMachine[3], True, False) Then
 		KeepClicks()
-		$aBMachine[0] = $g_iQuickMISX
-		$aBMachine[1] = (652 + $g_iQuickMISY)
+		$aBMachine[0] += $g_iQuickMISX
+		$aBMachine[1] += $g_iQuickMISY
 		Setlog("BB: Drop Battle Machine", $COLOR_GREEN)
 		ClickP($aBMachine, 1, 0, "#0000") ; Drop Battle Machine
 		If _Sleep($DELAYDROPTROOP1) Then Return
@@ -173,7 +174,7 @@ Func BB_Mach_Deploy()
 		If _Sleep($DELAYDROPTROOP2) Then Return
 		ReleaseClicks()
 	Else
-		Setlog("BB: Can't find Battle Machine", $COLOR_GREEN)
+		Setlog("BB: Can't find Battle Machine [*]", $COLOR_GREEN)
 	EndIf
 
 EndFunc   ;==>BB_Mach_Deploy

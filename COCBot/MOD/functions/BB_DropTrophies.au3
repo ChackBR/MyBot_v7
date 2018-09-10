@@ -96,19 +96,19 @@ Func BB_DropTrophies()
 					ClickP($aOkWaitBattle, 1, 0, "#0000")
 				EndIf
 
-				If _Sleep($DELAYCHECKOBSTACLES1) Then Return
+				If _Sleep($DELAYCHECKOBSTACLES3) Then Return
 
 				; wait $aOkButtom to appear
 				$j = 0
 				$cPixColor = _GetPixelColor($aOkButtom[0], $aOkButtom[1], True)
 				While Not BB_ColorCheck( $aOkButtom, $aOkButtomColor )
 					If $bDegug Then SetLog("BB: Click Okay Buttom. [Ok]. code: 0x" & $cPixColor & " [ " & String( $j ) & " ]", $COLOR_DEBUG)
-					If _Sleep($DELAYCHECKOBSTACLES1) Then Return
+					If _Sleep($DELAYCHECKOBSTACLES3) Then Return
 					$j += 1
-					If $j > 10 Then ExitLoop
+					If $j > 30 Then ExitLoop
 					$cPixColor = _GetPixelColor($aOkButtom[0], $aOkButtom[1], True)
 				WEnd
-				If $j < 10 Then
+				If $j < 30 Then
 					SetLog("BB: Click Okay Buttom. [Ok]. code: 0x" & $cPixColor & " [ " & String( $j ) & " ]", $COLOR_DEBUG)
 					ClickP($aOkButtom, 1, 0, "#0000")
 				Else
