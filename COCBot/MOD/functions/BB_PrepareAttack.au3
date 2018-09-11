@@ -115,8 +115,6 @@ Func BB_Attack($Nside = 1, $SIDESNAMES = "TR|TL", $iTroopToDeploy = 4 )
 	$iRest = $iTroopToDeploy - ( $iHalf * 2 )
 	$iHalf += $iRest
 
-	SetLog("BB: Attacking on a single side", $COLOR_INFO)
-
 	$aBB_LineCenter[0] = INT( ( $aBB_DiamondTop[0] + $aBB_DiamondRight[0] ) / 2 )
 	$aBB_LineCenter[1] = INT( ( $aBB_DiamondTop[1] + $aBB_DiamondRight[1] ) / 2 )
 	$aDropCoord[0]     = INT( ( ( $aBB_LineCenter[0] - $aBB_DiamondTop[0] ) * 0.9 ) / $iHalf )
@@ -129,15 +127,15 @@ Func BB_Attack($Nside = 1, $SIDESNAMES = "TR|TL", $iTroopToDeploy = 4 )
 		$aDropPointX[1] = $aBB_LineCenter[1] + ( $i * $aDropCoord[1] )
 		$aDropPointY[0] = $aBB_LineCenter[0] - ( $i * $aDropCoord[0] )
 		$aDropPointY[1] = $aBB_LineCenter[1] - ( $i * $aDropCoord[1] )
+		If _Sleep($DELAYDROPTROOP1) Then Return
 		AttackClick($aDropPointX[0], $aDropPointX[1], 1, SetSleep(0), 0, "#0000")
 		If _Sleep($DELAYDROPTROOP1) Then Return
 		AttackClick($aDropPointY[0], $aDropPointY[1], 1, SetSleep(0), 0, "#0000")
-		If _Sleep($DELAYDROPTROOP1) Then Return
 	Next
 
 	ReleaseClicks()
 
-	If _Sleep($DELAYDROPTROOP1) Then Return
+	If _Sleep($DELAYDROPTROOP2) Then Return
 
 EndFunc   ;==>BB_Attack
 
@@ -158,23 +156,76 @@ EndFunc   ;==>BB_Attack
 
 Func BB_Mach_Deploy()
 
-	Local $aBMachine[4] = [ 320, 580, 600, 680 ]
-	Local $g_sImgMachine = @ScriptDir & "\images\BMachine"
+	Local $i = 0
+	Local $j = 0
+
+	Local $cPixColor  = ''
+
+	Local $bBMFound
+	Local $bDegug     = True
+
+	Local $aBMachine[4]      = [ 356, 580 + $g_iBottomOffsetY, 0x486E83, 20 ]
+	Local $aBMachineColor[5] = [ 0x487188, 0x486E83, 0x486B7E, 0x486F81, 0x466F84 ]
+
+	Local $aDropBM[4]        = [ 200, 200 + $g_iBottomOffsetY, 0x335255, 20 ]
 
 	If _Sleep($DELAYDROPTROOP2) Then Return
 
-	If QuickMIS("BC1", $g_sImgMachine, $aBMachine[0], $aBMachine[1], $aBMachine[2], $aBMachine[3], True, False) Then
-		KeepClicks()
-		$aBMachine[0] += $g_iQuickMISX
-		$aBMachine[1] += $g_iQuickMISY
-		Setlog("BB: Drop Battle Machine", $COLOR_GREEN)
-		ClickP($aBMachine, 1, 0, "#0000") ; Drop Battle Machine
-		If _Sleep($DELAYDROPTROOP1) Then Return
-		AttackClick(557, 251, 1, SetSleep(0), 0, "#0000")
-		If _Sleep($DELAYDROPTROOP2) Then Return
-		ReleaseClicks()
-	Else
-		Setlog("BB: Can't find Battle Machine [*]", $COLOR_GREEN)
-	EndIf
+	Setlog("BB: Drop Battle Machine", $COLOR_GREEN)
+
+	; Deploy Battle Machine
+	For $i = 0 to 2
+		; Pos Next Slot
+		If ($i > 0) Then 
+			$aBMachine[0] += 72
+		EndIf
+		$j = 0
+		$cPixColor = _GetPixelColor($aBMachine[0], $aBMachine[1], True)
+		If _Sleep($DELAYCHECKOBSTACLES1) Then Return
+		IF BB_ColorCheck( $aBMachine, $aBMachineColor ) Then
+			If $bDegug Then SetLog("BB: Click BM, code: 0x" & $cPixColor & " Slot:[ " & String( $i + 5 ) & " ]", $COLOR_DEBUG)
+			$bBMFound = True
+		Else
+			SetLog("BB: Can't Click BM, code: 0x" & $cPixColor & " Slot:[ " & String( $i + 5 ) & " ]", $COLOR_DEBUG)
+			$bBMFound = False
+		EndIF
+		If $bBMFound Then
+			KeepClicks()
+			If _Sleep($DELAYDROPTROOP1) Then Return
+			ClickP($aBMachine, 1, 0, "#0000")
+			If _Sleep($DELAYDROPTROOP1) Then Return
+			AttackClick($aDropBM[0], $aDropBM[1], 1, SetSleep(0), 0, "#0000")
+			If _Sleep($DELAYDROPTROOP1) Then Return
+			ReleaseClicks()
+			If _Sleep($DELAYCHECKOBSTACLES2) Then Return
+			$j = 0
+			$cPixColor = _GetPixelColor($aBMachine[0], $aBMachine[1], True)
+			While ( _GetPixelColor($aBMachine[0], $aBMachine[1], True) = $cPixColor )
+				If _Sleep($DELAYCHECKOBSTACLES2) Then Return
+				ClickP($aBMachine, 1, 0, "#0000")
+				$j += 1
+				If $j > 8 Then ExitLoop
+			WEnd
+			If _Sleep($DELAYCHECKOBSTACLES2) Then Return
+			$j = 0
+			$cPixColor = _GetPixelColor($aBMachine[0], $aBMachine[1], True)
+			While ( _GetPixelColor($aBMachine[0], $aBMachine[1], True) = $cPixColor )
+				If _Sleep($DELAYCHECKOBSTACLES2) Then Return
+				ClickP($aBMachine, 1, 0, "#0000")
+				$j += 1
+				If $j > 8 Then ExitLoop
+			WEnd
+			If _Sleep($DELAYCHECKOBSTACLES2) Then Return
+			$j = 0
+			$cPixColor = _GetPixelColor($aBMachine[0], $aBMachine[1], True)
+			While ( _GetPixelColor($aBMachine[0], $aBMachine[1], True) = $cPixColor )
+				If _Sleep($DELAYCHECKOBSTACLES2) Then Return
+				ClickP($aBMachine, 1, 0, "#0000")
+				$j += 1
+				If $j > 8 Then ExitLoop
+			WEnd
+			ExitLoop
+		EndIf
+	Next
 
 EndFunc   ;==>BB_Mach_Deploy

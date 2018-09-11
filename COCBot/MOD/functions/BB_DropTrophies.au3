@@ -46,6 +46,7 @@ Func BB_DropTrophies()
 
 				; Deploy All Troops From Slot's
 				Setlog(" ====== BB Attack ====== ", $COLOR_INFO)
+				SetLog("BB: Attacking on a single side", $COLOR_INFO)
 				For $i = 0 to 5
 					; Pos Next Slot
 					If ($i > 0) Then 
@@ -118,7 +119,7 @@ Func BB_DropTrophies()
 				If _Sleep($DELAYCHECKOBSTACLES1) Then Return
 
 				; wait $aOkBatleEnd to appear
-				If $j < 10 Then
+				If $j < 30 Then
 					$j = 0
 					$cPixColor = _GetPixelColor($aOkBatleEnd[0], $aOkBatleEnd[1], True)
 					While Not BB_ColorCheck( $aOkBatleEnd, $aOkBatleEndColor )
