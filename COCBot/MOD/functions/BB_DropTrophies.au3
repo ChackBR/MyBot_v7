@@ -53,7 +53,6 @@ Func BB_DropTrophies()
 						$aTroopSlot[0] += 72
 					EndIf
 					$j = 0
-					$iTroopsTo = getTroopCountBig( $aTroopSlot[0]+24, $aTroopSlot[1]-7)
 					If ($i > 0) Then 
 						$cPixColor = _GetPixelColor($aTroopSlot[0], $aTroopSlot[1], True)
 						If _Sleep($DELAYCHECKOBSTACLES1) Then Return
@@ -68,11 +67,11 @@ Func BB_DropTrophies()
 						EndIF
 					EndIf
 					If $bContinue Then
+						$iTroopsTo = getTroopCountBig( $aTroopSlot[0]+24, $aTroopSlot[1]-7)
+						If $bDegug Then SetLog("BB: Drop Troops - Slot[ " & String( $i + 1 ) & " ], code: 0x" & $cPixColor & " [ " & String( $j ) & " ] Num:[ " & $iTroopsTo & " ]", $COLOR_DEBUG)
+						If $iTroopsTo < 4 Then $iTroopsTo = 4
 						While Not BB_ColorCheck( $aTroopSlot, $aSlotOff )
-							If $bDegug Then SetLog("BB: Drop Troops - Slot[ " & String( $i + 1 ) & " ], code: 0x" & $cPixColor & " [ " & String( $j ) & " ] Num:[ " & $iTroopsTo & " ]", $COLOR_DEBUG)
-							If $iTroopsTo < 4 Then $iTroopsTo = 4
 							BB_Attack($iSide, $cSideNames, $iTroopsTo)
-
 							If _Sleep($DELAYCHECKOBSTACLES1) Then Return
 							$j += 1
 							If $j > 5 Then ExitLoop
@@ -96,8 +95,11 @@ Func BB_DropTrophies()
 					If _ColorCheck( $cPixColor, Hex($aOkWaitBattle[2], 6), 20) Then $j = 32
 					If _Sleep($DELAYCHECKOBSTACLES1) Then Return
 					$cPixColor = _GetPixelColor($aOkButtom[0], $aOkButtom[1], True)
-					If _ColorCheck( $cPixColor, Hex($aOkButtom[2], 6), 20) Then $j = 32
-					$j += 1
+					If _ColorCheck( $cPixColor, Hex($aOkButtom[2], 6), 20) Then
+						$j = 32
+					Else
+						$j += 1
+					Endif
 					_GUICtrlStatusBar_SetTextEx($g_hStatusBar, "BB: Wait for Battle End" & " [ " & String( $j ) & " ]")
 				WEnd
 

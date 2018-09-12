@@ -19,7 +19,7 @@ Func BB_PrepareAttack() ; Click attack button and find a match
 	Local $cPixColor = ""
 	Local $aTroopsOk[4]     = [ 310, 355 + $g_iBottomOffsetY, 0xDAF482 , 10 ]
 	Local $aLootAvail[4]    = [ 515, 620 + $g_iBottomOffsetY, 0x707371, 20 ]
-	Local $aBMachineWait[4] = [ 157, 338 + $g_iBottomOffsetY, 0xFFFFFF, 20 ]
+	Local $aBMachineWait[4] = [ 157, 337 + $g_iBottomOffsetY, 0xFFFFFF, 20 ]
 	Local $Result = getAttackDisable(346, 182) ; Grab Ocr for TakeABreak check
 
 	Local $bDegug = True
