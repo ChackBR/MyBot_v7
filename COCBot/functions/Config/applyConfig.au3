@@ -321,6 +321,7 @@ Func ApplyConfig_600_6($TypeReadSave)
 			; --------------------------------------------
 			GUICtrlSetState($g_hChkBB_DropTrophies, $g_bChkBB_DropTrophies = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetData($g_hTxtBB_DropTrophies, $g_iTxtBB_DropTrophies)
+			GUICtrlSetState($g_hChkBB_OnlyWithLoot, $g_bChkBB_OnlyWithLoot = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
 
 			chkActivateBBSuggestedUpgrades()
 			chkActivateBBSuggestedUpgradesGold()
@@ -332,6 +333,7 @@ Func ApplyConfig_600_6($TypeReadSave)
 			; --------------------------------------------
 			ChkBB_DropTrophies()
 			TxtBB_DropTrophies()
+			ChkBB_OnlyWithLoot()
 
 			GUICtrlSetState($g_hChkClanGamesAir, $g_bChkClanGamesAir ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkClanGamesGround, $g_bChkClanGamesGround ? $GUI_CHECKED : $GUI_UNCHECKED)
@@ -390,6 +392,7 @@ Func ApplyConfig_600_6($TypeReadSave)
 			; --------------------------------------------
 			$g_bChkBB_DropTrophies = (GUICtrlRead($g_hChkBB_DropTrophies) = $GUI_CHECKED) ? 1 : 0
 			$g_iTxtBB_DropTrophies = GUICtrlRead($g_hTxtBB_DropTrophies)
+			$g_bChkBB_OnlyWithLoot = (GUICtrlRead($g_hChkBB_OnlyWithLoot) = $GUI_CHECKED) ? 1 : 0
 
 			$g_bChkClanGamesAir = (GUICtrlRead($g_hChkClanGamesAir) = $GUI_CHECKED) ? 1 : 0
 			$g_bChkClanGamesGround = (GUICtrlRead($g_hChkClanGamesGround) = $GUI_CHECKED) ? 1 : 0

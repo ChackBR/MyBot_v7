@@ -363,6 +363,7 @@ Func SaveConfig_600_6()
 	; --------------------------------------------
 	_Ini_Add("other", "ChkBB_DropTrophies", $g_bChkBB_DropTrophies)
 	_Ini_Add("other", "TxtBB_DropTrophies", $g_iTxtBB_DropTrophies)
+	_Ini_Add("other", "ChkBB_OnlyWithLoot", $g_bChkBB_OnlyWithLoot)
 
 	_Ini_Add("other", "ChkClanGamesAir", $g_bChkClanGamesAir ? 1 : 0)
 	_Ini_Add("other", "ChkClanGamesGround", $g_bChkClanGamesGround ? 1 : 0)

@@ -22,8 +22,9 @@ Global $g_bRequestTypeOnceEnable = False
 ; --------------------------------------------
 ; Builder Base Drop Trophies
 ; --------------------------------------------
-Global $g_iTxtBB_DropTrophies = 0
 Global $g_bChkBB_DropTrophies = False
+Global $g_bChkBB_OnlyWithLoot = False
+Global $g_iTxtBB_DropTrophies = 0
 
 ; --------------------------------------------
 ; Request CC Troops at first - AiO++
