@@ -225,6 +225,7 @@ Func CheckSwitchAcc()
 
 		If $g_iNextAccount <> $g_iCurAccount Then
 			If $g_bRequestTroopsEnable And $g_bCanRequestCC Then
+				If _Sleep(1000) Then Return
 				SetLog("Try Request troops before switching account", $COLOR_INFO)
 				RequestCC(True)
 			EndIf

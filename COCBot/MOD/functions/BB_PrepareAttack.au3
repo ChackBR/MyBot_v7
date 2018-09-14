@@ -27,11 +27,7 @@ Func BB_PrepareAttack() ; Click attack button and find a match
 	SetLog("BH: Going to Attack... [ " & String( $g_iTxtBB_DropTrophies ) & " ]", $COLOR_INFO)
 
 	If IsMainPageBuilderBase() Then
-		If $g_bUseRandomClick = False Then
-			ClickP($aAttackButton, 1, 0, "#0149") ; Click Attack Button
-		Else
-			ClickR($aAttackButtonRND, $aAttackButton[0], $aAttackButton[1], 1, 0)
-		EndIf
+		ClickP($aAttackButton, 1, 0, "#0149") ; Click Attack Button
 	EndIf
 	If _Sleep($DELAYPREPARESEARCH1) Then Return
 
