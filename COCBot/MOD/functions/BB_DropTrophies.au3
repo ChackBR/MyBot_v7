@@ -38,11 +38,11 @@ Func BB_DropTrophies()
 		Endif
 		If $i > 0 Then 
 
-			If _Sleep($DELAYCHECKOBSTACLES1) Then Return
+			If _Sleep($DELAYRUNBOT1) Then Return
 
 			If BB_PrepareAttack() Then
 
-				If _Sleep($DELAYCHECKOBSTACLES3 * 2) Then Return
+				If _Sleep($DELAYRUNBOT1*10) Then Return
 
 				; Deploy All Troops From Slot's
 				Setlog(" ====== BB Attack ====== ", $COLOR_INFO)
@@ -55,7 +55,7 @@ Func BB_DropTrophies()
 					$j = 0
 					If ($i > 0) Then 
 						$cPixColor = _GetPixelColor($aTroopSlot[0], $aTroopSlot[1], True)
-						If _Sleep($DELAYCHECKOBSTACLES1) Then Return
+						If _Sleep($DELAYRUNBOT1) Then Return
 						IF BB_ColorCheck( $aTroopSlot, $aSlotActive ) Then
 							If $bDegug Then SetLog("BB: Click Next Slot, code: 0x" & $cPixColor & " [ " & String( $i + 1 ) & " ]", $COLOR_DEBUG)
 							ClickP($aTroopSlot, 1, 0, "#0000")
@@ -72,7 +72,7 @@ Func BB_DropTrophies()
 						If $iTroopsTo < 4 Then $iTroopsTo = 4
 						While Not BB_ColorCheck( $aTroopSlot, $aSlotOff )
 							BB_Attack($iSide, $cSideNames, $iTroopsTo)
-							If _Sleep($DELAYCHECKOBSTACLES1) Then Return
+							If _Sleep($DELAYRUNBOT1) Then Return
 							$j += 1
 							If $j > 5 Then ExitLoop
 							$cPixColor = _GetPixelColor($aTroopSlot[0], $aTroopSlot[1], True)
@@ -90,10 +90,10 @@ Func BB_DropTrophies()
 				Setlog("BB: Checking Battle End", $COLOR_INFO)
 				$j = 0
 				While $j < 32
-					If _Sleep($DELAYCHECKOBSTACLES1) Then Return
+					If _Sleep($DELAYRUNBOT1) Then Return
 					$cPixColor = _GetPixelColor($aOkWaitBattle[0], $aOkWaitBattle[1], True)
 					If _ColorCheck( $cPixColor, Hex($aOkWaitBattle[2], 6), 20) Then $j = 32
-					If _Sleep($DELAYCHECKOBSTACLES1) Then Return
+					If _Sleep($DELAYRUNBOT1) Then Return
 					$cPixColor = _GetPixelColor($aOkButtom[0], $aOkButtom[1], True)
 					If _ColorCheck( $cPixColor, Hex($aOkButtom[2], 6), 20) Then
 						$j = 32
@@ -103,7 +103,7 @@ Func BB_DropTrophies()
 					_GUICtrlStatusBar_SetTextEx($g_hStatusBar, "BB: Wait for Battle End" & " [ " & String( $j ) & " ]")
 				WEnd
 
-				If _Sleep($DELAYCHECKOBSTACLES2) Then Return
+				If _Sleep($DELAYRUNBOT1*2) Then Return
 
 				; If $aOkWaitBattle Exists
 				$cPixColor = _GetPixelColor($aOkWaitBattle[0], $aOkWaitBattle[1], True)
@@ -112,14 +112,14 @@ Func BB_DropTrophies()
 					ClickP($aOkWaitBattle, 1, 0, "#0000")
 				EndIf
 
-				If _Sleep($DELAYCHECKOBSTACLES3) Then Return
+				If _Sleep($DELAYRUNBOT1*2) Then Return
 
 				; wait $aOkButtom to appear
 				$j = 0
 				$cPixColor = _GetPixelColor($aOkButtom[0], $aOkButtom[1], True)
 				While Not BB_ColorCheck( $aOkButtom, $aOkButtomColor )
 					If $bDegug Then SetLog("BB: Wait Okay Buttom. [Ok]. code: 0x" & $cPixColor & " [ " & String( $j ) & " ]", $COLOR_DEBUG)
-					If _Sleep($DELAYCHECKOBSTACLES3) Then Return
+					If _Sleep($DELAYRUNBOT1*2) Then Return
 					$j += 1
 					If $j > 30 Then ExitLoop
 					$cPixColor = _GetPixelColor($aOkButtom[0], $aOkButtom[1], True)
@@ -131,7 +131,7 @@ Func BB_DropTrophies()
 					SetLog("BB: Can't Find Okay Buttom [Ok]. code: 0x" & $cPixColor, $COLOR_ERROR)
 				EndIf
 
-				If _Sleep($DELAYCHECKOBSTACLES1) Then Return
+				If _Sleep($DELAYRUNBOT1) Then Return
 
 				; wait $aOkBatleEnd to appear
 				If $j < 30 Then
@@ -139,7 +139,7 @@ Func BB_DropTrophies()
 					$cPixColor = _GetPixelColor($aOkBatleEnd[0], $aOkBatleEnd[1], True)
 					While Not BB_ColorCheck( $aOkBatleEnd, $aOkBatleEndColor )
 						If $bDegug Then SetLog("BB: Wait Okay Buttom [end], code: 0x" & $cPixColor & " [ " & String( $j ) & " ]", $COLOR_DEBUG)
-						If _Sleep($DELAYCHECKOBSTACLES3) Then Return
+						If _Sleep($DELAYRUNBOT1*5) Then Return
 						$j += 1
 						If $j > 30 Then ExitLoop
 						$cPixColor = _GetPixelColor($aOkBatleEnd[0], $aOkBatleEnd[1], True)
@@ -152,14 +152,14 @@ Func BB_DropTrophies()
 					EndIf
 				Else
 
-					If _Sleep($DELAYCHECKOBSTACLES2) Then Return
+					If _Sleep($DELAYRUNBOT1*2) Then Return
 					ClickP($aAway, 1, 0, "#0000")
 
 				EndIf
 
 			EndIf
 
-			If _Sleep($DELAYCHECKOBSTACLES2) Then Return
+			If _Sleep($DELAYRUNBOT1*2) Then Return
 			ClickP($aAway, 1, 0, "#0000")
 
 		Else
@@ -167,7 +167,9 @@ Func BB_DropTrophies()
 		EndIf
 	Else
 		Setlog("Ignore BB Drop Trophies [ Disabled ]", $COLOR_INFO)
-	Endif
+	EndIf
+	
+	_Sleep($DELAYRUNBOT3)
 
 EndFunc	;==>BB_DropTrophies
 

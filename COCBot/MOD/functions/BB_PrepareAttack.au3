@@ -19,6 +19,7 @@ Func BB_PrepareAttack() ; Click attack button and find a match
 	Local $cPixColor = ""
 	Local $aTroopsOk[4]     = [ 310, 355 + $g_iBottomOffsetY, 0xDAF482 , 10 ]
 	Local $aLootAvail[4]    = [ 515, 620 + $g_iBottomOffsetY, 0x707371, 20 ]
+	Local $aLootColor[2]    = [ 0x707371, 0x585B5A ]
 	Local $aBMachineWait[4] = [ 157, 337 + $g_iBottomOffsetY, 0xFFFFFF, 20 ]
 	Local $Result = getAttackDisable(346, 182) ; Grab Ocr for TakeABreak check
 
@@ -29,7 +30,7 @@ Func BB_PrepareAttack() ; Click attack button and find a match
 	If IsMainPageBuilderBase() Then
 		ClickP($aAttackButton, 1, 0, "#0149") ; Click Attack Button
 	EndIf
-	If _Sleep($DELAYPREPARESEARCH1) Then Return
+	If _Sleep($DELAYRUNBOT1) Then Return
 
 	; If $aTroopsOk is ready
 	$cPixColor = _GetPixelColor($aTroopsOk[0], $aTroopsOk[1], True)
@@ -41,7 +42,7 @@ Func BB_PrepareAttack() ; Click attack button and find a match
 		$bCanAttack = True
 	EndIf
 
-	If _Sleep($DELAYCHECKFULLARMY1) Then Return 
+	If _Sleep($DELAYRUNBOT3) Then Return 
 
 	If $bCanAttack Then 
 		; If Loot Available
@@ -60,7 +61,7 @@ Func BB_PrepareAttack() ; Click attack button and find a match
 		; If BMachine Available
 		If $g_bChkBB_OnlyWithLoot Then
 			$cPixColor = _GetPixelColor($aBMachineWait[0], $aBMachineWait[1], True)
-			If _ColorCheck( $cPixColor, Hex($aBMachineWait[2], 6), 20) Then
+			If BB_ColorCheck( $cPixColor, $aLootColor) Then
 				If $bDegug Then SetLog("BB: BM not available, wait, code: 0x" & $cPixColor, $COLOR_DEBUG)
 				$bCanAttack = False
 			Else
@@ -69,7 +70,7 @@ Func BB_PrepareAttack() ; Click attack button and find a match
 		Endif
 	EndIf
 
-	If _Sleep($DELAYCHECKFULLARMY1) Then Return 
+	If _Sleep($DELAYRUNBOT1) Then Return 
 
 	If $bCanAttack Then 
 
@@ -77,7 +78,7 @@ Func BB_PrepareAttack() ; Click attack button and find a match
 		$cPixColor = _GetPixelColor($aBB_FindMatchButton[0], $aBB_FindMatchButton[1], True)
 		If _ColorCheck( $cPixColor, Hex($aBB_FindMatchButton[2], 6), 20) Then
 			If $bDegug Then SetLog("BB: Click Find Match Button, code: [ " & $cPixColor & " ][ " & String( $j ) & " ]", $COLOR_DEBUG)
-			If _Sleep($DELAYCHECKFULLARMY1) Then Return 
+			If _Sleep($DELAYRUNBOT1) Then Return 
 			If $g_bUseRandomClick = False Then
 				ClickP($aBB_FindMatchButton, 1, 0, "#0000") ;Click Find a Match Button
 			Else
@@ -88,7 +89,7 @@ Func BB_PrepareAttack() ; Click attack button and find a match
 			$bCanAttack = False
 		EndIf
 
-		If _Sleep($DELAYPREPARESEARCH2) Then Return
+		If _Sleep($DELAYRUNBOT1) Then Return
 
 		checkAttackDisable($g_iTaBChkAttack, $Result) ;See If TakeABreak msg on screen
 
@@ -162,7 +163,7 @@ Func BB_Attack($Nside = 1, $SIDESNAMES = "TR|TL", $iTroopToDeploy = 4 )
 
 	ReleaseClicks()
 
-	If _Sleep($DELAYDROPTROOP2) Then Return
+	If _Sleep($DELAYRUNBOT3) Then Return
 
 EndFunc   ;==>BB_Attack
 
@@ -198,7 +199,7 @@ Func BB_Mach_Deploy()
 
 	Local $aDropBM[4]        = [ 200, 200 + $g_iBottomOffsetY, 0x335255, 20 ]
 
-	If _Sleep($DELAYDROPTROOP2) Then Return
+	If _Sleep($DELAYRUNBOT3) Then Return
 
 	Setlog("BB: Drop Battle Machine", $COLOR_GREEN)
 
@@ -210,7 +211,7 @@ Func BB_Mach_Deploy()
 		EndIf
 		$j = 0
 		$cPixColor = _GetPixelColor($aBMachine[0], $aBMachine[1], True)
-		If _Sleep($DELAYCHECKOBSTACLES1) Then Return
+		If _Sleep($DELAYRUNBOT1) Then Return
 		IF BB_ColorCheck( $aBMachine, $aBMachineColor ) Then
 			If $bDegug Then SetLog("BB: Click BM, code: 0x" & $cPixColor & " Slot:[ " & String( $i + 5 ) & " ]", $COLOR_DEBUG)
 			$bBMFound = True
@@ -226,10 +227,10 @@ Func BB_Mach_Deploy()
 			AttackClick($aDropBM[0], $aDropBM[1], 1, SetSleep(0), 0, "#0000")
 			If _Sleep($DELAYDROPTROOP1) Then Return
 			ReleaseClicks()
-			If _Sleep($DELAYCHECKOBSTACLES1) Then Return
+			If _Sleep($DELAYRUNBOT3) Then Return
 			$j = 0
 			$cPixColor = _GetPixelColor($aBMachine[0], $aBMachine[1], True)
-			If _Sleep($DELAYDROPTROOP1) Then Return
+			If _Sleep($DELAYRUNBOT3) Then Return
 			While $j < 64
 				$cPixCheck = _GetPixelColor($aBMachine[0], $aBMachine[1], True)
 				If (  $cPixCheck = $cPixColor ) Then
@@ -242,7 +243,7 @@ Func BB_Mach_Deploy()
 				Else
 					$j += 1
 				Endif
-				If _Sleep($DELAYCHECKOBSTACLES2) Then Return
+				If _Sleep($DELAYRUNBOT3) Then Return
 			WEnd
 			ExitLoop
 		EndIf
