@@ -1294,11 +1294,11 @@ Func _RunFunction($action)
 		Case "BuilderBase"
 			If isOnBuilderBase() Or (($g_bChkCollectBuilderBase Or $g_bChkStartClockTowerBoost Or $g_iChkBBSuggestedUpgrades) And SwitchBetweenBases()) Then
 				CollectBuilderBase()
+				BuilderBaseReport()
 				; --------------------------------------------
 				; Builder Base Drop Trophies
 				; --------------------------------------------
 				BB_DropTrophies()
-				BuilderBaseReport()
 				StartClockTowerBoost()
 				MainSuggestedUpgradeCode()
 				; switch back to normal village
