@@ -48,7 +48,7 @@ Func BB_PrepareAttack() ; Click attack button and find a match
 		; If Loot Available
 		If $g_bChkBB_OnlyWithLoot Then
 			$cPixColor = _GetPixelColor($aLootAvail[0], $aLootAvail[1], True)
-			If _ColorCheck( $cPixColor, Hex($aLootAvail[2], 6), 20) Then
+			If BB_ColorCheck( $aLootAvail, $aLootColor) Then
 				If $bDegug Then SetLog("BB: Loot available. Will continue, code: 0x" & $cPixColor, $COLOR_DEBUG)
 			Else
 				If $bDegug Then SetLog("BB: No Loot available for now, code: 0x" & $cPixColor, $COLOR_DEBUG)
@@ -61,7 +61,7 @@ Func BB_PrepareAttack() ; Click attack button and find a match
 		; If BMachine Available
 		If $g_bChkBB_OnlyWithLoot Then
 			$cPixColor = _GetPixelColor($aBMachineWait[0], $aBMachineWait[1], True)
-			If BB_ColorCheck( $cPixColor, $aLootColor) Then
+			If _ColorCheck( $cPixColor, Hex($aBMachineWait[2], 6), 20) Then
 				If $bDegug Then SetLog("BB: BM not available, wait, code: 0x" & $cPixColor, $COLOR_DEBUG)
 				$bCanAttack = False
 			Else
