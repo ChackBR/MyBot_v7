@@ -106,7 +106,7 @@ Func BB_PrepareAttack() ; Click attack button and find a match
 				Else
 					$j = $iWait256
 				Endif
-			EndW
+			WEnd
 			If _Sleep($DELAYRUNBOT1) Then Return
 			If $bDegug Then SetLog("BB: Screen Search, Cancel Pos Code: 0x" & $cPixCheck, $COLOR_DEBUG)
 		EndIf
