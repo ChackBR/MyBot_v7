@@ -15,12 +15,15 @@ Func BB_PrepareAttack() ; Click attack button and find a match
 
 	Local $i = 0
 	Local $j = 0
-	Local $bCanAttack
+	Local $iWait256  = 256
 	Local $cPixColor = ""
-	Local $aTroopsOk[4]     = [ 310, 355 + $g_iBottomOffsetY, 0xDAF482 , 10 ]
+	Local $aTroopsOk[4]     = [ 310, 355 + $g_iBottomOffsetY, 0xDAF482, 20 ]
 	Local $aLootAvail[4]    = [ 515, 620 + $g_iBottomOffsetY, 0x707371, 20 ]
 	Local $aLootColor[2]    = [ 0x707371, 0x585B5A ]
 	Local $aBMachineWait[4] = [ 157, 337 + $g_iBottomOffsetY, 0xFFFFFF, 20 ]
+	Local $aScrSearchEnd[4] = [ 390, 500 + $g_iBottomOffsetY, 0xFD797D, 20 ]
+
+	Local $bCanAttack
 	Local $Result = getAttackDisable(346, 182) ; Grab Ocr for TakeABreak check
 
 	Local $bDegug = True
@@ -35,10 +38,10 @@ Func BB_PrepareAttack() ; Click attack button and find a match
 	; If $aTroopsOk is ready
 	$cPixColor = _GetPixelColor($aTroopsOk[0], $aTroopsOk[1], True)
 	If _ColorCheck( $cPixColor, Hex($aTroopsOk[2], 6), 20) Then
-		SetLog("BB: Troops Not Ready [Stop Attack], code: " & $cPixColor & " [ " & String( $j ) & " ]", $COLOR_DEBUG)
+		SetLog("BB: Troops Not Ready [Stop Attack], code: " & $cPixColor, $COLOR_DEBUG)
 		$bCanAttack = False
 	Else
-		SetLog("BB: Troops Ready, code: " & $cPixColor & " [ " & String( $j ) & " ]", $COLOR_DEBUG)
+		SetLog("BB: Troops Ready, code: " & $cPixColor, $COLOR_DEBUG)
 		$bCanAttack = True
 	EndIf
 
@@ -77,7 +80,7 @@ Func BB_PrepareAttack() ; Click attack button and find a match
 		; If $aBB_FindMatchButton appear
 		$cPixColor = _GetPixelColor($aBB_FindMatchButton[0], $aBB_FindMatchButton[1], True)
 		If _ColorCheck( $cPixColor, Hex($aBB_FindMatchButton[2], 6), 20) Then
-			If $bDegug Then SetLog("BB: Click Find Match Button, code: [ " & $cPixColor & " ][ " & String( $j ) & " ]", $COLOR_DEBUG)
+			If $bDegug Then SetLog("BB: Click Find Match Button, code: 0x" & $cPixColor, $COLOR_DEBUG)
 			If _Sleep($DELAYRUNBOT1) Then Return 
 			If $g_bUseRandomClick = False Then
 				ClickP($aBB_FindMatchButton, 1, 0, "#0000") ;Click Find a Match Button
@@ -91,13 +94,30 @@ Func BB_PrepareAttack() ; Click attack button and find a match
 
 		If _Sleep($DELAYRUNBOT1) Then Return
 
+		; Wait for search finish
+		If $bCanAttack Then
+			While $j < $iWait256
+				$cPixCheck = _GetPixelColor($aScrSearchEnd[0], $aScrSearchEnd[1], True)
+				If _ColorCheck( $cPixCheck, Hex($aScrSearchEnd[2], 6), 20) Then
+					$j += 1
+					If $j = 1 Then
+						If $bDegug Then SetLog("BB: Screen Search, Cancel Code[1]: 0x" & $cPixCheck, $COLOR_DEBUG)
+					Endif
+				Else
+					$j = $iWait256
+				Endif
+			EndW
+			If _Sleep($DELAYRUNBOT1) Then Return
+			If $bDegug Then SetLog("BB: Screen Search, Cancel Pos Code: 0x" & $cPixCheck, $COLOR_DEBUG)
+		EndIf
+
 		checkAttackDisable($g_iTaBChkAttack, $Result) ;See If TakeABreak msg on screen
 
 		If $g_bDebugSetlog Then SetDebugLog("BB: PrepareAttack exit check $g_bRestart= " & $g_bRestart, $COLOR_DEBUG)
 
-		If $g_bRestart Then ; If we errors, then return
+		If $g_bRestart Then ; If errors exist, then return
 			$g_bIsClientSyncError = False ; reset fast restart flag to stop OOS mode, and rearm, collecting resources etc.
-			Return
+			Return False
 		EndIf
 
 	Endif
@@ -237,6 +257,11 @@ Func BB_Mach_Deploy()
 				If _ColorCheck( $cPixColor, $cPixCheck, 20) Then
 					ClickP($aBMachine, 1, 0, "#0000")
 					SetLog("BB: Activate BM Power, code: 0x" & $cPixCheck & " [ " & String( $j +1 ) & " ]" )
+				Else
+					If Mod($j, 8) = 0 Then
+						ClickP($aBMachine, 1, 0, "#0000")
+						SetLog("BB: Activate BM Power, code: 0x" & $cPixCheck & " [ " & String( $j +1 ) & " ]" )
+					Endif
 				Endif
 				If _Sleep($DELAYRUNBOT1) Then Return
 				$cPixCheck = _GetPixelColor($aBMachine[0], $aBMachine[1], True)
