@@ -192,7 +192,7 @@ Func BB_Mach_Deploy()
 
 	Local $bBMFound
 	Local $bDegug     = True
-	Local $iWait64    = 64
+	Local $iWait128   = 128
 
 	Local $aBMachine[4]      = [ 356, 580 + $g_iBottomOffsetY, 0x486E83, 20 ]
 	Local $aBMachineColor[5] = [ 0x487188, 0x486E83, 0x486B7E, 0x486F81, 0x466F84 ]
@@ -231,20 +231,21 @@ Func BB_Mach_Deploy()
 			If _Sleep($DELAYRUNBOT3) Then Return
 			$j = 0
 			$cPixColor = _GetPixelColor($aBMachine[0], $aBMachine[1], True)
+			$cPixCheck = $cPixColor
 			If _Sleep($DELAYRUNBOT3) Then Return
-			While $j < $iWait64
-				$cPixCheck = _GetPixelColor($aBMachine[0], $aBMachine[1], True)
-				If (  $cPixCheck = $cPixColor ) Then
+			While $j < $iWait128
+				If _ColorCheck( $cPixColor, $cPixCheck, 20) Then
 					ClickP($aBMachine, 1, 0, "#0000")
-					BB_StatusMsg( "Activate BM Power, code: 0x" & $cPixColor & " [ " & String( $j +1 ) & " ]" )
+					SetLog("BB: Activate BM Power, code: 0x" & $cPixCheck & " [ " & String( $j +1 ) & " ]" )
 				Endif
+				If _Sleep($DELAYRUNBOT1) Then Return
+				$cPixCheck = _GetPixelColor($aBMachine[0], $aBMachine[1], True)
 				If _ColorCheck( $cPixCheck, Hex($aBatleEndColor[0], 6), 20) Then
 					If $bDegug Then SetLog("BB: Battle end detected, code: 0x" & $cPixCheck & " Slot:[ " & String( $i + 5 ) & " ]", $COLOR_DEBUG)
-					$j = $iWait64
+					$j = $iWait128
 				Else
 					$j += 1
 				Endif
-				If _Sleep($DELAYRUNBOT1) Then Return
 			WEnd
 			ExitLoop
 		EndIf

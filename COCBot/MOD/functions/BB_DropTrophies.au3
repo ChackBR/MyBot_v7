@@ -177,7 +177,7 @@ EndFunc	;==>BB_DropTrophies
 
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: BB_ColorCheck( aInfo )
+; Name ..........: BB_ColorCheck( $aInfo, $aColors )
 ; Description ...: Check an Array of Colors ( instead just one )
 ; Author ........: Chackal++
 ; Modified ......:
