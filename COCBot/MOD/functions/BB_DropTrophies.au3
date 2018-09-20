@@ -30,6 +30,8 @@ Func BB_DropTrophies()
 	Local $aSlotActive[6]    = [0x4C92D3, 0x5298E0, 0x4C92D3, 0x5598E0, 0x5498E0, 0x5198E0]
 	Local $aSlotOff[2]       = [0x464646, 0x454545]
 	Local $iTroopsTo         = 0
+	Local $iWait64           = 64
+	Local $iWait32           = 32
 
 	If $g_bChkBB_DropTrophies Then
 		; Click attack button and find a match
@@ -42,7 +44,7 @@ Func BB_DropTrophies()
 
 			If BB_PrepareAttack() Then
 
-				If _Sleep($DELAYRUNBOT1*10) Then Return
+				If _Sleep($DELAYRUNBOT1*15) Then Return
 
 				; Deploy All Troops From Slot's
 				Setlog(" ====== BB Attack ====== ", $COLOR_INFO)
@@ -87,23 +89,23 @@ Func BB_DropTrophies()
 				BB_Mach_Deploy()
 
 				; BB: Wait for Battle End
-				Setlog("BB: Checking Battle End", $COLOR_INFO)
+				Setlog("BB: Confirm Battle End", $COLOR_INFO)
 				$j = 0
-				While $j < 32
+				While $j < $iWait32
 					If _Sleep($DELAYRUNBOT1) Then Return
 					$cPixColor = _GetPixelColor($aOkWaitBattle[0], $aOkWaitBattle[1], True)
 					If _ColorCheck( $cPixColor, Hex($aOkWaitBattle[2], 6), 20) Then $j = 32
 					If _Sleep($DELAYRUNBOT1) Then Return
 					$cPixColor = _GetPixelColor($aOkButtom[0], $aOkButtom[1], True)
 					If _ColorCheck( $cPixColor, Hex($aOkButtom[2], 6), 20) Then
-						$j = 32
+						$j = $iWait32
 					Else
 						$j += 1
 					Endif
-					_GUICtrlStatusBar_SetTextEx($g_hStatusBar, "BB: Wait for Battle End" & " [ " & String( $j ) & " ]")
+					BB_StatusMsg( "Wait for Battle End" & " [ " & String( $j ) & " ]" )
 				WEnd
 
-				If _Sleep($DELAYRUNBOT1*2) Then Return
+				If _Sleep($DELAYRUNBOT1) Then Return
 
 				; If $aOkWaitBattle Exists
 				$cPixColor = _GetPixelColor($aOkWaitBattle[0], $aOkWaitBattle[1], True)
@@ -112,19 +114,19 @@ Func BB_DropTrophies()
 					ClickP($aOkWaitBattle, 1, 0, "#0000")
 				EndIf
 
-				If _Sleep($DELAYRUNBOT1*2) Then Return
+				If _Sleep($DELAYRUNBOT1) Then Return
 
 				; wait $aOkButtom to appear
 				$j = 0
 				$cPixColor = _GetPixelColor($aOkButtom[0], $aOkButtom[1], True)
 				While Not BB_ColorCheck( $aOkButtom, $aOkButtomColor )
-					If $bDegug Then SetLog("BB: Wait Okay Buttom. [Ok]. code: 0x" & $cPixColor & " [ " & String( $j ) & " ]", $COLOR_DEBUG)
-					If _Sleep($DELAYRUNBOT1*2) Then Return
+					If $bDegug Then BB_StatusMsg("Wait Okay Buttom. [Ok]. code: 0x" & $cPixColor & " [ " & String( $j ) & " ]")
+					If _Sleep($DELAYRUNBOT1) Then Return
 					$j += 1
-					If $j > 30 Then ExitLoop
+					If $j > $iWait64 Then ExitLoop
 					$cPixColor = _GetPixelColor($aOkButtom[0], $aOkButtom[1], True)
 				WEnd
-				If $j < 30 Then
+				If $j < $iWait64 Then
 					SetLog("BB: Okay Buttom. [Ok]. code: 0x" & $cPixColor & " [ " & String( $j ) & " ]", $COLOR_DEBUG)
 					ClickP($aOkButtom, 1, 0, "#0000")
 				Else
@@ -134,17 +136,17 @@ Func BB_DropTrophies()
 				If _Sleep($DELAYRUNBOT1) Then Return
 
 				; wait $aOkBatleEnd to appear
-				If $j < 30 Then
+				If $j < $iWait64 Then
 					$j = 0
 					$cPixColor = _GetPixelColor($aOkBatleEnd[0], $aOkBatleEnd[1], True)
 					While Not BB_ColorCheck( $aOkBatleEnd, $aOkBatleEndColor )
-						If $bDegug Then SetLog("BB: Wait Okay Buttom [end], code: 0x" & $cPixColor & " [ " & String( $j ) & " ]", $COLOR_DEBUG)
-						If _Sleep($DELAYRUNBOT1*5) Then Return
+						If $bDegug Then BB_StatusMsg("Wait Okay Buttom. [end]. code: 0x" & $cPixColor & " [ " & String( $j ) & " ]")
+						If _Sleep($DELAYRUNBOT1) Then Return
 						$j += 1
-						If $j > 30 Then ExitLoop
+						If $j > $iWait32 Then ExitLoop
 						$cPixColor = _GetPixelColor($aOkBatleEnd[0], $aOkBatleEnd[1], True)
 					WEnd
-					If $j < 30 Then
+					If $j < $iWait32 Then
 						SetLog("BB: Okay Buttom [end], code: 0x" & $cPixColor & " [ " & String( $j ) & " ]", $COLOR_DEBUG)
 						ClickP($aOkBatleEnd, 1, 0, "#0000")
 					Else
@@ -152,14 +154,14 @@ Func BB_DropTrophies()
 					EndIf
 				Else
 
-					If _Sleep($DELAYRUNBOT1*2) Then Return
+					If _Sleep($DELAYRUNBOT1) Then Return
 					ClickP($aAway, 1, 0, "#0000")
 
 				EndIf
 
 			EndIf
 
-			If _Sleep($DELAYRUNBOT1*2) Then Return
+			If _Sleep($DELAYRUNBOT1) Then Return
 			ClickP($aAway, 1, 0, "#0000")
 
 		Else
@@ -169,7 +171,7 @@ Func BB_DropTrophies()
 		Setlog("Ignore BB Drop Trophies [ Disabled ]", $COLOR_INFO)
 	EndIf
 	
-	_Sleep($DELAYRUNBOT3)
+	_Sleep($DELAYRUNBOT1)
 
 EndFunc	;==>BB_DropTrophies
 
@@ -199,6 +201,10 @@ Func BB_ColorCheck( $aInfo, $aColors )
 	Next
 	Return $bResult
 EndFunc	;==>BB_ColorCheck
+
+Func BB_StatusMsg( $cTxt )
+	_GUICtrlStatusBar_SetTextEx($g_hStatusBar, "BB Status: " & $cTxt )
+EndFunc	;==>BB_StatusMsg
 
 Func ChkBB_DropTrophies()
 	$g_bChkBB_DropTrophies = (GUICtrlRead($g_hChkBB_DropTrophies) = $GUI_CHECKED) ? 1 : 0

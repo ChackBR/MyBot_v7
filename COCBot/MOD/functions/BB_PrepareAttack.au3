@@ -42,7 +42,7 @@ Func BB_PrepareAttack() ; Click attack button and find a match
 		$bCanAttack = True
 	EndIf
 
-	If _Sleep($DELAYRUNBOT3) Then Return 
+	If _Sleep($DELAYRUNBOT1) Then Return 
 
 	If $bCanAttack Then 
 		; If Loot Available
@@ -163,7 +163,7 @@ Func BB_Attack($Nside = 1, $SIDESNAMES = "TR|TL", $iTroopToDeploy = 4 )
 
 	ReleaseClicks()
 
-	If _Sleep($DELAYRUNBOT3) Then Return
+	If _Sleep($DELAYRUNBOT1) Then Return
 
 EndFunc   ;==>BB_Attack
 
@@ -192,6 +192,7 @@ Func BB_Mach_Deploy()
 
 	Local $bBMFound
 	Local $bDegug     = True
+	Local $iWait64    = 64
 
 	Local $aBMachine[4]      = [ 356, 580 + $g_iBottomOffsetY, 0x486E83, 20 ]
 	Local $aBMachineColor[5] = [ 0x487188, 0x486E83, 0x486B7E, 0x486F81, 0x466F84 ]
@@ -211,7 +212,7 @@ Func BB_Mach_Deploy()
 		EndIf
 		$j = 0
 		$cPixColor = _GetPixelColor($aBMachine[0], $aBMachine[1], True)
-		If _Sleep($DELAYRUNBOT1) Then Return
+		If _Sleep($DELAYRUNBOT3) Then Return
 		IF BB_ColorCheck( $aBMachine, $aBMachineColor ) Then
 			If $bDegug Then SetLog("BB: Click BM, code: 0x" & $cPixColor & " Slot:[ " & String( $i + 5 ) & " ]", $COLOR_DEBUG)
 			$bBMFound = True
@@ -231,19 +232,19 @@ Func BB_Mach_Deploy()
 			$j = 0
 			$cPixColor = _GetPixelColor($aBMachine[0], $aBMachine[1], True)
 			If _Sleep($DELAYRUNBOT3) Then Return
-			While $j < 64
+			While $j < $iWait64
 				$cPixCheck = _GetPixelColor($aBMachine[0], $aBMachine[1], True)
 				If (  $cPixCheck = $cPixColor ) Then
 					ClickP($aBMachine, 1, 0, "#0000")
-					_GUICtrlStatusBar_SetTextEx($g_hStatusBar, "BB: Activate BM Power, code: 0x" & $cPixColor & " [ " & String( $j +1 ) & " ]")
+					BB_StatusMsg( "Activate BM Power, code: 0x" & $cPixColor & " [ " & String( $j +1 ) & " ]" )
 				Endif
 				If _ColorCheck( $cPixCheck, Hex($aBatleEndColor[0], 6), 20) Then
 					If $bDegug Then SetLog("BB: Battle end detected, code: 0x" & $cPixCheck & " Slot:[ " & String( $i + 5 ) & " ]", $COLOR_DEBUG)
-					$j = 64
+					$j = $iWait64
 				Else
 					$j += 1
 				Endif
-				If _Sleep($DELAYRUNBOT3) Then Return
+				If _Sleep($DELAYRUNBOT1) Then Return
 			WEnd
 			ExitLoop
 		EndIf
