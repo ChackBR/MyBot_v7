@@ -22,7 +22,7 @@ Func BB_PrepareAttack() ; Click attack button and find a match
 	Local $aLootColor[2]    = [ 0x707371, 0x585B5A ]
 	Local $aBMachineWait[4] = [ 157, 337 + $g_iBottomOffsetY, 0xFFFFFF, 20 ]
 	Local $aScrSearchEnd[4] = [ 390, 500 + $g_iBottomOffsetY, 0xCA8C94, 20 ]
-	Local $aScrSearchClr[4] = [ 0xCA8C94, 0xC38B93, 0xC58A93, 0xFD797D ]
+	Local $aScrSearchClr[5] = [ 0xD98F95, 0xFD797D, 0xC38B93, 0xC58A93, 0xCA8C94 ]
 	Local $bCanAttack
 	Local $Result = getAttackDisable(346, 182) ; Grab Ocr for TakeABreak check
 
@@ -104,10 +104,12 @@ Func BB_PrepareAttack() ; Click attack button and find a match
 				Else
 					$j = $iWait256
 				Endif
+				If _Sleep($DELAYRUNBOT1) Then Return
 			WEnd
-			If _Sleep($DELAYRUNBOT1) Then Return
 			If $bDegug Then SetLog("BB: Screen Search, Code: 0x" & $cPixColor, $COLOR_DEBUG)
 		EndIf
+
+		If _Sleep($DELAYRUNBOT3) Then Return
 
 		checkAttackDisable($g_iTaBChkAttack, $Result) ;See If TakeABreak msg on screen
 
