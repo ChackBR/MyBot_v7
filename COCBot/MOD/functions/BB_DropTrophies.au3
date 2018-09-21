@@ -143,10 +143,10 @@ Func BB_DropTrophies()
 						If $bDegug Then BB_StatusMsg("Wait Okay Buttom. [end]. code: 0x" & $cPixColor & " [ " & String( $j ) & " ]")
 						If _Sleep($DELAYRUNBOT1) Then Return
 						$j += 1
-						If $j > $iWait32 Then ExitLoop
+						If $j > $iWait64 Then ExitLoop
 						$cPixColor = _GetPixelColor($aOkBatleEnd[0], $aOkBatleEnd[1], True)
 					WEnd
-					If $j < $iWait32 Then
+					If $j < $iWait64 Then
 						SetLog("BB: Okay Buttom [end], code: 0x" & $cPixColor & " [ " & String( $j ) & " ]", $COLOR_DEBUG)
 						ClickP($aOkBatleEnd, 1, 0, "#0000")
 					Else
