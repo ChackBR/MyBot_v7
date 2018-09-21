@@ -97,18 +97,18 @@ Func BB_PrepareAttack() ; Click attack button and find a match
 		; Wait for search finish
 		If $bCanAttack Then
 			While $j < $iWait256
-				$cPixCheck = _GetPixelColor($aScrSearchEnd[0], $aScrSearchEnd[1], True)
-				If _ColorCheck( $cPixCheck, Hex($aScrSearchEnd[2], 6), 20) Then
+				$cPixColor = _GetPixelColor($aScrSearchEnd[0], $aScrSearchEnd[1], True)
+				If _ColorCheck( $cPixColor, Hex($aScrSearchEnd[2], 6), 20) Then
 					$j += 1
 					If $j = 1 Then
-						If $bDegug Then SetLog("BB: Screen Search, Cancel Code[1]: 0x" & $cPixCheck, $COLOR_DEBUG)
+						If $bDegug Then SetLog("BB: Screen Search, Cancel Code[1]: 0x" & $cPixColor, $COLOR_DEBUG)
 					Endif
 				Else
 					$j = $iWait256
 				Endif
 			WEnd
 			If _Sleep($DELAYRUNBOT1) Then Return
-			If $bDegug Then SetLog("BB: Screen Search, Cancel Pos Code: 0x" & $cPixCheck, $COLOR_DEBUG)
+			If $bDegug Then SetLog("BB: Screen Search, Cancel Pos Code: 0x" & $cPixColor, $COLOR_DEBUG)
 		EndIf
 
 		checkAttackDisable($g_iTaBChkAttack, $Result) ;See If TakeABreak msg on screen
