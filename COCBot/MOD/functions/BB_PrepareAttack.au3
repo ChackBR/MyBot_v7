@@ -82,31 +82,27 @@ Func BB_PrepareAttack() ; Click attack button and find a match
 		If _ColorCheck( $cPixColor, Hex($aBB_FindMatchButton[2], 6), 20) Then
 			If $bDegug Then SetLog("BB: Click Find Match Button, code: 0x" & $cPixColor, $COLOR_DEBUG)
 			If _Sleep($DELAYRUNBOT1) Then Return 
-			If $g_bUseRandomClick = False Then
-				ClickP($aBB_FindMatchButton, 1, 0, "#0000") ;Click Find a Match Button
-			Else
-				ClickR($aBB_FindMatchButtonRND, $aFindMatchButton[0], $aFindMatchButton[1], 1, 0)
-			EndIf
+			ClickP($aBB_FindMatchButton, 1, 0, "#0000") ;Click Find a Match Button
 		Else
-			SetLog("BB: Can't Find Match Buttom. Color Was: 0x" & $cPixColor, $COLOR_ERROR)
+			SetLog("BB: Can't Find Match Buttom. Code: 0x" & $cPixColor, $COLOR_ERROR)
 			$bCanAttack = False
 		EndIf
 
 		If _Sleep($DELAYRUNBOT1) Then Return
 
 		; Wait for search finish
+		SetLog("BB: Screen Search for Match", $COLOR_DEBUG)
 		If $bCanAttack Then
 			While $j < $iWait256
 				$cPixColor = _GetPixelColor($aScrSearchEnd[0], $aScrSearchEnd[1], True)
 				If BB_ColorCheck( $aScrSearchEnd, $aScrSearchClr) Then
 					$j += 1
-					If $bDegug Then SetLog("BB: Screen Search, Cancel Buttom[" & String( $j ) & "]: 0x" & $cPixColor, $COLOR_DEBUG)
 				Else
 					$j = $iWait256
 				Endif
-				If _Sleep($DELAYRUNBOT1) Then Return
+				If _Sleep($DELAYRUNBOT2) Then Return
+				BB_StatusMsg("Screen Search for Match [" & String( $j ) & "] Color: 0x" & $cPixColor, $COLOR_DEBUG)
 			WEnd
-			If $bDegug Then SetLog("BB: Screen Search, Code: 0x" & $cPixColor, $COLOR_DEBUG)
 		EndIf
 
 		If _Sleep($DELAYRUNBOT3) Then Return
@@ -257,7 +253,7 @@ Func BB_Mach_Deploy()
 				$j += 1
 				If _ColorCheck( $cPixColor, $cPixCheck, 20) Then
 					ClickP($aBMachine, 1, 0, "#0000")
-					SetLog("BB: Activate BM Power, code: 0x" & $cPixCheck & " [ " & String( $j+1 ) & " ]" )
+					BB_StatusMsg("Activate BM Power, code: 0x" & $cPixCheck & " [ " & String( $j+1 ) & " ]")
 				Else
 					If _ColorCheck( $cPixCheck, Hex($aBatleEndColor[0], 6), 20) Then
 						If $bDegug Then SetLog("BB: Battle end detected, code: 0x" & $cPixCheck & " Slot:[ " & String( $i + 5 ) & " ]", $COLOR_DEBUG)
@@ -265,7 +261,6 @@ Func BB_Mach_Deploy()
 					Else
 						If Mod($j, 8) = 0 Then
 							ClickP($aBMachine, 1, 0, "#0000")
-							SetLog("BB: Activate BM Power, code: 0x" & $cPixCheck & " [ " & String( $j+1 ) & " ]" )
 						Endif
 					Endif
 				Endif
