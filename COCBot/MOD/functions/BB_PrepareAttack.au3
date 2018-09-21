@@ -21,8 +21,8 @@ Func BB_PrepareAttack() ; Click attack button and find a match
 	Local $aLootAvail[4]    = [ 515, 620 + $g_iBottomOffsetY, 0x707371, 20 ]
 	Local $aLootColor[2]    = [ 0x707371, 0x585B5A ]
 	Local $aBMachineWait[4] = [ 157, 337 + $g_iBottomOffsetY, 0xFFFFFF, 20 ]
-	Local $aScrSearchEnd[4] = [ 390, 500 + $g_iBottomOffsetY, 0xFD797D, 20 ]
-
+	Local $aScrSearchEnd[4] = [ 390, 500 + $g_iBottomOffsetY, 0xCA8C94, 20 ]
+	Local $aScrSearchClr[2] = [ 0xCA8C94, 0xFD797D ]
 	Local $bCanAttack
 	Local $Result = getAttackDisable(346, 182) ; Grab Ocr for TakeABreak check
 
@@ -98,7 +98,7 @@ Func BB_PrepareAttack() ; Click attack button and find a match
 		If $bCanAttack Then
 			While $j < $iWait256
 				$cPixColor = _GetPixelColor($aScrSearchEnd[0], $aScrSearchEnd[1], True)
-				If _ColorCheck( $cPixColor, Hex($aScrSearchEnd[2], 6), 20) Then
+				If BB_ColorCheck( $aScrSearchEnd, $aScrSearchClr) Then
 					$j += 1
 					If $j = 1 Then
 						If $bDegug Then SetLog("BB: Screen Search, Cancel Code[1]: 0x" & $cPixColor, $COLOR_DEBUG)
@@ -222,7 +222,7 @@ Func BB_Mach_Deploy()
 
 	If _Sleep($DELAYRUNBOT3) Then Return
 
-	Setlog("BB: Drop Battle Machine", $COLOR_GREEN)
+	Setlog("BB: Look for Battle Machine", $COLOR_GREEN)
 
 	; Deploy Battle Machine
 	For $i = 0 to 2
