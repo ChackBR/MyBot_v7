@@ -27,11 +27,13 @@ Func BB_DropTrophies()
 	Local $aOkBatleEndColor[2] = [ 0xDDF685, 0xE2FA8C ]
 	Local $aOkWaitBattle[4]  = [ 400, 500 + $g_iBottomOffsetY, 0xF0F0F0, 20 ]
 	Local $aTroopSlot[4]     = [  40, 580 + $g_iBottomOffsetY, 0x404040, 20 ]
-	Local $aSlotActive[6]    = [0x4C92D3, 0x5298E0, 0x4C92D3, 0x5598E0, 0x5498E0, 0x5198E0]
+	Local $aSlotActive[6]    = [0x4C92D3, 0x5198E0, 0x5298E0, 0x5498E0, 0x5598E0, 0x66ADEC]
 	Local $aSlotOff[2]       = [0x464646, 0x454545]
 	Local $iTroopsTo         = 0
-	Local $iWait64           = 64
 	Local $iWait32           = 32
+	Local $iWait64           = 64
+	Local $iWait128          = 128
+	Local $iWait256          = 256
 
 	If $g_bChkBB_DropTrophies Then
 		; Click attack button and find a match
@@ -123,10 +125,10 @@ Func BB_DropTrophies()
 					If $bDegug Then BB_StatusMsg("Wait Okay Buttom. [Ok]. code: 0x" & $cPixColor & " [ " & String( $j ) & " ]")
 					If _Sleep($DELAYRUNBOT1) Then Return
 					$j += 1
-					If $j > $iWait64 Then ExitLoop
+					If $j > $iWait128 Then ExitLoop
 					$cPixColor = _GetPixelColor($aOkButtom[0], $aOkButtom[1], True)
 				WEnd
-				If $j < $iWait64 Then
+				If $j < $iWait128 Then
 					SetLog("BB: Okay Buttom. [Ok]. code: 0x" & $cPixColor & " [ " & String( $j ) & " ]", $COLOR_DEBUG)
 					ClickP($aOkButtom, 1, 0, "#0000")
 				Else
