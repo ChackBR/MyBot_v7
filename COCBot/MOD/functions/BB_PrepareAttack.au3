@@ -22,7 +22,7 @@ Func BB_PrepareAttack() ; Click attack button and find a match
 	Local $aLootColor[2]    = [ 0x707371, 0x585B5A ]
 	Local $aBMachineWait[4] = [ 157, 337 + $g_iBottomOffsetY, 0xFFFFFF, 20 ]
 	Local $aScrSearchEnd[4] = [ 390, 500 + $g_iBottomOffsetY, 0xCA8C94, 20 ]
-	Local $aScrSearchClr[2] = [ 0xCA8C94, 0xC38B93, 0xC58A93, 0xFD797D ]
+	Local $aScrSearchClr[4] = [ 0xCA8C94, 0xC38B93, 0xC58A93, 0xFD797D ]
 	Local $bCanAttack
 	Local $Result = getAttackDisable(346, 182) ; Grab Ocr for TakeABreak check
 
