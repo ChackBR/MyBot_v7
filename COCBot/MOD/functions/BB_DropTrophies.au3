@@ -30,7 +30,6 @@ Func BB_DropTrophies()
 	Local $aSlotActive[6]    = [0x4C92D3, 0x5198E0, 0x5298E0, 0x5498E0, 0x5598E0, 0x66ADEC]
 	Local $aSlotOff[2]       = [0x464646, 0x454545]
 	Local $iTroopsTo         = 0
-	Local $iWait32           = 32
 	Local $iWait64           = 64
 	Local $iWait128          = 128
 	Local $iWait256          = 256
@@ -93,18 +92,18 @@ Func BB_DropTrophies()
 				; BB: Wait for Battle End
 				Setlog("BB: Confirm Battle End", $COLOR_INFO)
 				$j = 0
-				While $j < $iWait32
+				While $j < $iWait64
 					If _Sleep($DELAYRUNBOT1) Then Return
 					$cPixColor = _GetPixelColor($aOkWaitBattle[0], $aOkWaitBattle[1], True)
 					If _ColorCheck( $cPixColor, Hex($aOkWaitBattle[2], 6), 20) Then $j = 32
 					If _Sleep($DELAYRUNBOT1) Then Return
 					$cPixColor = _GetPixelColor($aOkButtom[0], $aOkButtom[1], True)
 					If _ColorCheck( $cPixColor, Hex($aOkButtom[2], 6), 20) Then
-						$j = $iWait32
+						$j = $iWait64
 					Else
 						$j += 1
 					Endif
-					BB_StatusMsg( "Wait for Battle End" & " [ " & String( $j ) & " ]" )
+					BB_StatusMsg("Wait for Battle End" & " [ " & String( $j ) & " ]")
 				WEnd
 
 				If _Sleep($DELAYRUNBOT1) Then Return

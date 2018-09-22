@@ -101,7 +101,7 @@ Func BB_PrepareAttack() ; Click attack button and find a match
 					$j = $iWait256
 				Endif
 				If _Sleep($DELAYRUNBOT2) Then Return
-				BB_StatusMsg("Screen Search for Match [" & String( $j ) & "] Color: 0x" & $cPixColor, $COLOR_DEBUG)
+				BB_StatusMsg("Screen Search for Match [" & String( $j ) & "] Color: 0x" & $cPixColor)
 			WEnd
 		EndIf
 
