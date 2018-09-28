@@ -38,7 +38,7 @@ Func BB_PrepareAttack() ; Click attack button and find a match
 	; If $aTroopsOk is ready
 	$cPixColor = _GetPixelColor($aTroopsOk[0], $aTroopsOk[1], True)
 	If _ColorCheck( $cPixColor, Hex($aTroopsOk[2], 6), 20) Then
-		SetLog("BB: Troops Not Ready [Stop Attack], code: " & $cPixColor, $COLOR_DEBUG)
+		SetLog("BB: Troops Not Ready [Stop], code: " & $cPixColor, $COLOR_DEBUG)
 		$bCanAttack = False
 	Else
 		SetLog("BB: Troops Ready, code: " & $cPixColor, $COLOR_DEBUG)
@@ -52,9 +52,9 @@ Func BB_PrepareAttack() ; Click attack button and find a match
 		If $g_bChkBB_OnlyWithLoot Then
 			$cPixColor = _GetPixelColor($aLootAvail[0], $aLootAvail[1], True)
 			If BB_ColorCheck( $aLootAvail, $aLootColor) Then
-				If $bDegug Then SetLog("BB: Loot available. Will continue, code: 0x" & $cPixColor, $COLOR_DEBUG)
+				If $bDegug Then SetLog("BB: Loot available [Continue], code: 0x" & $cPixColor, $COLOR_DEBUG)
 			Else
-				If $bDegug Then SetLog("BB: No Loot available for now, code: 0x" & $cPixColor, $COLOR_DEBUG)
+				If $bDegug Then SetLog("BB: No Loot available [Stop], code: 0x" & $cPixColor, $COLOR_DEBUG)
 				$bCanAttack = False
 			EndIf
 		Endif
@@ -65,10 +65,10 @@ Func BB_PrepareAttack() ; Click attack button and find a match
 		If $g_bChkBB_OnlyWithLoot Then
 			$cPixColor = _GetPixelColor($aBMachineWait[0], $aBMachineWait[1], True)
 			If _ColorCheck( $cPixColor, Hex($aBMachineWait[2], 6), 20) Then
-				If $bDegug Then SetLog("BB: BM not available, wait, code: 0x" & $cPixColor, $COLOR_DEBUG)
+				If $bDegug Then SetLog("BB: BM not available [Wait] code: 0x" & $cPixColor, $COLOR_DEBUG)
 				$bCanAttack = False
 			Else
-				If $bDegug Then SetLog("BB: BMachine ok [or not exists], code: 0x" & $cPixColor, $COLOR_DEBUG)
+				If $bDegug Then SetLog("BB: BMachine ok [or not exists] code: 0x" & $cPixColor, $COLOR_DEBUG)
 			EndIf
 		Endif
 	EndIf
@@ -84,14 +84,14 @@ Func BB_PrepareAttack() ; Click attack button and find a match
 			If _Sleep($DELAYRUNBOT1) Then Return 
 			ClickP($aBB_FindMatchButton, 1, 0, "#0000") ;Click Find a Match Button
 		Else
-			SetLog("BB: Can't Find Match Buttom. Code: 0x" & $cPixColor, $COLOR_ERROR)
+			SetLog("BB: Can't Find Match Buttom [Stop] Code: 0x" & $cPixColor, $COLOR_ERROR)
 			$bCanAttack = False
 		EndIf
 
 		If _Sleep($DELAYRUNBOT1) Then Return
 
 		; Wait for search finish
-		SetLog("BB: Screen Search for Match", $COLOR_DEBUG)
+		SetLog("BB: Screen Search for Match [Check for it]", $COLOR_DEBUG)
 		If $bCanAttack Then
 			While $j < $iWait256
 				$cPixColor = _GetPixelColor($aScrSearchEnd[0], $aScrSearchEnd[1], True)
