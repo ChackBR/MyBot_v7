@@ -464,15 +464,6 @@ Func SwitchCOCAcc_DisconnectConnect(ByRef $bResult, $bDisconnectOnly = $g_bChkSh
 			Return "OK"
 		ElseIf _ColorCheck(_GetPixelColor($aButtonConnectedSCID[0], $aButtonConnectedSCID[1], True), Hex($aButtonConnectedSCID[2], 6), $aButtonConnectedSCID[3]) Then ; Green
 			SetLog("Account connected to SuperCell ID")
-;			If $bDisconnectOnly = False Then
-;				SetLog("   1. Click Connect & Disconnect")
-;				Click($aButtonConnected[0], $aButtonConnected[1], 2, 1000) ; Click Connect & Disconnect
-;				If _Sleep(200) Then Return "Exit"
-;			Else
-;				SetLog("   1. Click Connected")
-;				Click($aButtonConnected[0], $aButtonConnected[1], 1, 1000) ; Click Disconnect
-;				If _Sleep(200) Then Return "Exit"
-;			EndIf
 			;ExitLoop
 			Return "OK"
 		EndIf
@@ -488,7 +479,7 @@ EndFunc   ;==>SwitchCOCAcc_DisconnectConnect
 
 Func SwitchCOCAcc_ClickAccount(ByRef $bResult, $NextAccount, $bStayDisconnected = $g_bChkSharedPrefs, $bLateDisconnectButtonCheck = True)
 	FuncEnter(SwitchCOCAcc_ClickAccount)
-	Local $YCoord = Int(373.5 - $g_iTotalAcc * 36.5 + 73 * $NextAccount)
+	Local $YCoord
 	For $i = 0 To 20 ; Checking Account List continuously in 20sec
 		If _ColorCheck(_GetPixelColor($aListAccount[0], $aListAccount[1], True), Hex($aListAccount[2], 6), $aListAccount[3]) Then ;	Grey
 			If $bStayDisconnected Then
@@ -497,7 +488,12 @@ Func SwitchCOCAcc_ClickAccount(ByRef $bResult, $NextAccount, $bStayDisconnected 
 			EndIf
 			If _Sleep(600) Then Return FuncReturn("Exit")
 			SetLog("   2. Click Account [" & $NextAccount + 1 & "]")
-			Click(383, $YCoord) ; Click Account
+			If _ColorCheck(_GetPixelColor(420, Int(276 - $g_iTotalAcc * 27.2), True), Hex(0x00E26B, 6), 10) Then ; new Google Play
+				$YCoord = Int(433 - $g_iTotalAcc * 27.2 + 61 * $NextAccount)
+			Else
+				$YCoord = Int(373.5 - $g_iTotalAcc * 36.5 + 73 * $NextAccount)
+			EndIf
+			Click(300, $YCoord) ; Click Account
 			If _Sleep(600) Then Return FuncReturn("Exit")
 			;ExitLoop
 			Return FuncReturn("OK")
