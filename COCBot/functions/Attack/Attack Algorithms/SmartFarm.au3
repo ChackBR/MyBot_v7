@@ -491,7 +491,7 @@ Func AttackSmartFarm($Nside, $SIDESNAMES)
 
 	SetSlotSpecialTroops()
 
-	Global $nbSides = 0
+	Local $nbSides = Null
 
 	_CaptureRegion2() ; ensure full screen is captured (not ideal for debugging as clean image was already saved, but...)
 	_GetRedArea()

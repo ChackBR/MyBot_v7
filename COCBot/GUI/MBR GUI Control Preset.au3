@@ -221,7 +221,7 @@ Func MakeSavePresetMessage()
 			If $i = $TS Then $message &= $g_sAtkTSType & @CRLF
 
 			If ($i = $DB Or $i = $LB) And $g_aiAttackAlgorithm[$i] = 0 Then
-				Local $tmp = StringSplit("one side|two sides|three sides|four sides|Four Finger Classic|DE side|TH side", "|", 2)
+				Local $tmp = StringSplit("one side|two sides|three sides|four sides|DE side|TH side", "|", 2)
 				$message &= $tmp[$g_aiAttackStdDropSides[$i]] & @CRLF
 			EndIf
 		EndIf

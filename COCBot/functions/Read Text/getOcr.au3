@@ -233,7 +233,7 @@ EndFunc   ;==>getBarracksNewTroopQuantity
 
 Func getArmyCapacityOnTrainTroops($x_start, $y_start) ;  -> Gets quantity of troops in army Window
 	; --------------------------------------------
-	; AutoCamp - RK MOD
+	; MOD++
 	; --------------------------------------------
 	if $g_iChkAutoCamp Then
 		Return _getArmyCapacityOnTrainTroops($x_start, $y_start)

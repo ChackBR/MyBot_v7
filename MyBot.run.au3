@@ -1,4 +1,4 @@
-; #FUNCTION# ====================================================================================================================
+ï»¿; #FUNCTION# ====================================================================================================================
 ; Name ..........: MBR Bot
 ; Description ...: This file contains the initialization and main loop sequences f0r the MBR Bot
 ; Author ........:  (2014)
@@ -73,8 +73,8 @@ Global $g_hFrmBot = 0 ; The main GUI window
 ; "r01" ; MyBot v7.5.3 + S&E: FFC + DEB + SamrtTrain + Fast Click Donate ( while using QuickTrain ) + CCO
 ; "r01" ; MyBot v7.5.4 + S&E: FFC + DEB + SamrtTrain + Fast Click Donate ( while using QuickTrain ) + CCO + ...
 ; "r01" ; MyBot v7.6.0 Light: FFC + DEB + Fast Click Donate ( while using QuickTrain ) + Bot Fixes
-; "r03" ; MyBot v7.6.1 Light: FFC + DEB + Fast Click Donate ( while using QuickTrain ) + Siege Fix + Don't retype txt + BH Drop Trophy
-$g_sModversion = "r02" ; MyBot v7.6.2 Light: FFC + DEB + Fast Click Donate ( while using QuickTrain ) + Siege Fix + Don't retype requests + BB Drop Trophy
+; "r01" ; MyBot v7.6.1 Light: FFC + DEB + Fast Click Donate ( while using QuickTrain ) + Siege Fix + Don't retype txt + BH Drop Trophy
+$g_sModversion = "r01" ; MyBot v7.6.3 Light: FFC + DEB + Fast Click Donate ( while using QuickTrain ) + Siege Fix + Don't retype requests + BB Drop Trophy
 
 ; MBR includes
 #include "COCBot\MBR Global Variables.au3"
@@ -623,13 +623,13 @@ Func FinalInitialization(Const $sAI)
 	; Message - AiO++ Team
 	SetLog(" ", $COLOR_SUCCESS)
 	SetLog("_________" & " [  MyBot Light MOD  ]" & "_________", $COLOR_MONEYGREEN, "Impact", 14)
-	SetLog("                                  » " & "Warning" & " «", $COLOR_TEAL, "Segoe UI Semibold", 12)
-	SetLog("           » " & "Please set the BOT Language to ENGLISH" & " «", $COLOR_TEAL, "Segoe UI Semibold", 10)
-	SetLog("                                   » " & "Make a Fresh Config" & " «", $COLOR_TEAL, "Segoe UI Semibold", 9)
-	SetLog("                                   » " & "Don't Use Old Profile" & " «", $COLOR_TEAL, "Segoe UI Semibold", 9)
+	SetLog("                                  Â» " & "Warning" & " Â«", $COLOR_TEAL, "Segoe UI Semibold", 12)
+	SetLog("           Â» " & "Please set the BOT Language to ENGLISH" & " Â«", $COLOR_TEAL, "Segoe UI Semibold", 10)
+	SetLog("                                   Â» " & "Make a Fresh Config" & " Â«", $COLOR_TEAL, "Segoe UI Semibold", 9)
+	SetLog("                                   Â» " & "Don't Use Old Profile" & " Â«", $COLOR_TEAL, "Segoe UI Semibold", 9)
 	SetLog("-----------------------------------------------------------------------", $COLOR_MONEYGREEN)
-	SetLog("            » " & "Thanks To ALL MyBot Developer's" & " «", $COLOR_TEAL, "Segoe Print", 9)
-	SetLog("                        » " & "Based On: MyBot" & " " & $g_sBotVersion & " «", $COLOR_TEAL, "Segoe UI Semibold", 10)
+	SetLog("            Â» " & "Thanks To ALL MyBot Developer's" & " Â«", $COLOR_TEAL, "Segoe Print", 9)
+	SetLog("                        Â» " & "Based On: MyBot" & " " & $g_sBotVersion & " Â«", $COLOR_TEAL, "Segoe UI Semibold", 10)
 	SetLog("-----------------------------------------------------------------------", $COLOR_MONEYGREEN)
 	SetLog(" ", $COLOR_MEDGRAY)
 	; Message - end
@@ -803,8 +803,7 @@ Func runBot() ;Bot that runs everything in order
 				If $g_bRunState = False Then Return
 				If $g_bRestart = True Then ContinueLoop 2 ; must be level 2 due to loop-in-loop
 				If UBound($aRndFuncList) > 1 Then
-					Local $Index = Random(0, UBound($aRndFuncList), 1)
-					If $Index > UBound($aRndFuncList) - 1 Then $Index = UBound($aRndFuncList) - 1
+					Local $Index = Random(0, UBound($aRndFuncList) - 1, 1)
 					_RunFunction($aRndFuncList[$Index])
 					_ArrayDelete($aRndFuncList, $Index)
 				Else
@@ -825,8 +824,7 @@ Func runBot() ;Bot that runs everything in order
 					If $g_bRunState = False Then Return
 					If $g_bRestart = True Then ContinueLoop 2 ; must be level 2 due to loop-in-loop
 					If UBound($aRndFuncList) > 1 Then
-						Local $Index = Random(0, UBound($aRndFuncList), 1)
-						If $Index > UBound($aRndFuncList) - 1 Then $Index = UBound($aRndFuncList) - 1
+						Local $Index = Random(0, UBound($aRndFuncList) - 1, 1)
 						_RunFunction($aRndFuncList[$Index])
 						_ArrayDelete($aRndFuncList, $Index)
 					Else
@@ -841,8 +839,7 @@ Func runBot() ;Bot that runs everything in order
 					If $g_bRunState = False Then Return
 					If $g_bRestart = True Then ContinueLoop 2 ; must be level 2 due to loop-in-loop
 					If UBound($aRndFuncList) > 1 Then
-						Local $Index = Random(0, UBound($aRndFuncList), 1)
-						If $Index > UBound($aRndFuncList) - 1 Then $Index = UBound($aRndFuncList) - 1
+						Local $Index = Random(0, UBound($aRndFuncList) - 1, 1)
 						_RunFunction($aRndFuncList[$Index])
 						_ArrayDelete($aRndFuncList, $Index)
 					Else
@@ -866,8 +863,7 @@ Func runBot() ;Bot that runs everything in order
 				If $g_bRunState = False Then Return
 				If $g_bRestart = True Then ContinueLoop 2 ; must be level 2 due to loop-in-loop
 				If UBound($aRndFuncList) > 1 Then
-					$Index = Random(0, UBound($aRndFuncList), 1)
-					If $Index > UBound($aRndFuncList) - 1 Then $Index = UBound($aRndFuncList) - 1
+					$Index = Random(0, UBound($aRndFuncList) - 1, 1)
 					_RunFunction($aRndFuncList[$Index])
 					_ArrayDelete($aRndFuncList, $Index)
 				Else
@@ -997,8 +993,7 @@ Func _Idle() ;Sequence that runs until Full Army
 				If $g_bRestart = True Then ExitLoop
 				If CheckAndroidReboot() Then ContinueLoop 2
 				If UBound($aRndFuncList) > 1 Then
-					Local $Index = Random(0, UBound($aRndFuncList), 1)
-					If $Index > UBound($aRndFuncList) - 1 Then $Index = UBound($aRndFuncList) - 1
+					Local $Index = Random(0, UBound($aRndFuncList) - 1, 1)
 					_RunFunction($aRndFuncList[$Index])
 					_ArrayDelete($aRndFuncList, $Index)
 				Else
@@ -1089,7 +1084,7 @@ Func AttackMain() ;Main control for attack functions
 	ClickP($aAway, 1, 0, "#0000") ;Click Away to prevent any pages on top
 	If IsSearchAttackEnabled() Then
 		If (IsSearchModeActive($DB) And checkCollectors(True, False)) Or IsSearchModeActive($LB) Or IsSearchModeActive($TS) Then
-			If ProfileSwitchAccountEnabled() And ($g_aiAttackedCountSwitch[$g_iCurAccount] <= $g_aiAttackedCountAcc[$g_iCurAccount] - 2) Then checkSwitchAcc()
+            If ProfileSwitchAccountEnabled() And ($g_aiAttackedCountSwitch[$g_iCurAccount] <= $g_aiAttackedCount - 2) Then checkSwitchAcc()
 			If $g_bUseCCBalanced = True Then ;launch profilereport() only if option balance D/R it's activated
 				ProfileReport()
 				If Not $g_bRunState Then Return
@@ -1233,7 +1228,7 @@ Func _RunFunction($action)
 		Case "DonateCC,Train"
 			If $g_iActiveDonate And $g_bChkDonate Then
 				If $g_bFirstStart Then
-					; AutoCamp - RK MOD
+					; MOD++ Team
 				    If $g_iChkAutoCamp Then 
 						CheckAutoCamp()
 					Else

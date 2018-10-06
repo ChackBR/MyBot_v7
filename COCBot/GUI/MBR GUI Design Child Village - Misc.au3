@@ -153,7 +153,7 @@ Func CreateMiscNormalVillageSubTab()
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkTrap_Info_01", "Check this to automatically Rearm Traps, Reload Xbows and Infernos (if any) in your Village."))
 			GUICtrlSetState(-1, $GUI_CHECKED)
 
-	$y += 32
+	$y += 35
 		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnMine, $x - 5, $y, 24, 24)
 		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnCollector, $x + 20, $y, 24, 24)
 		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnDrill, $x + 45, $y, 24, 24)

@@ -97,7 +97,7 @@ Func DetectLanguage()
 	If $g_sLanguage = "" Then
 		$g_sLanguage = IniRead($g_sProfileConfigPath, "other", "language", "")
 		If Not FileExists(@ScriptDir & "\Languages\" & $g_sLanguage & ".ini") Then $g_sLanguage = ""
-	EndIF
+	EndIf
 	If $g_sLanguage = "" Then
 		Local $OSLang = @OSLang
 		If $g_bDebugSetlog Then SetDebugLog("Detected language code: " & $OSLang)

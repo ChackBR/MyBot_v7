@@ -17,6 +17,7 @@ Func BB_PrepareAttack() ; Click attack button and find a match
 	Local $j = 0
 	Local $iWait256  = 256
 	Local $cPixColor = ""
+	Local $Result    = getAttackDisable(346, 182) ; Grab Ocr for TakeABreak check
 	Local $aTroopsOk[4]     = [ 310, 355 + $g_iBottomOffsetY, 0xDAF482, 20 ]
 	Local $aLootAvail[4]    = [ 515, 620 + $g_iBottomOffsetY, 0x707371, 20 ]
 	Local $aLootColor[2]    = [ 0x707371, 0x585B5A ]
@@ -24,7 +25,7 @@ Func BB_PrepareAttack() ; Click attack button and find a match
 	Local $aScrSearchEnd[4] = [ 390, 500 + $g_iBottomOffsetY, 0xCA8C94, 20 ]
 	Local $aScrSearchClr[5] = [ 0xD98F95, 0xFD797D, 0xC38B93, 0xC58A93, 0xCA8C94 ]
 	Local $bCanAttack
-	Local $Result = getAttackDisable(346, 182) ; Grab Ocr for TakeABreak check
+	Local $aBB_FindMatchButton[4] = [555, 240 + $g_iBottomOffsetY, 0xFFC346, 10]
 
 	Local $bDegug = True
 

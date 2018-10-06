@@ -192,6 +192,7 @@ Func lblTotalCountSiege()
 	GUICtrlSetBkColor($g_hLblCountTotalSiege, $iTotalSpaceSiege <= 2 ? $COLOR_MONEYGREEN : $COLOR_RED)
 
 	CalCostSiege()
+	; prepared for some new TH level !!
 	If $g_iTownHallLevel > 0 And $g_iTownHallLevel < 12 then
 		$g_iTotalTrainSpaceSiege = 0
 		GUICtrlSetBkColor($g_hLblCountTotalSiege,$COLOR_RED)
