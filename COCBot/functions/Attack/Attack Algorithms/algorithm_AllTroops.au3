@@ -55,7 +55,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 		EndIf
 	EndIf
 
-	Global $nbSides = 0
+	Local $nbSides = 0
 	Switch $g_aiAttackStdDropSides[$g_iMatchMode]
 		Case 0 ;Single sides ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			SetLog("Attacking on a single side", $COLOR_INFO)
@@ -69,14 +69,11 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 		Case 3 ;All sides ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			SetLog("Attacking on all sides", $COLOR_INFO)
 			$nbSides = 4
-		Case 4 ;Classic Four Finger ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			SetLog("Attacking Four Fingers fight style", $COLOR_INFO)
-			$nbSides = 5
-		Case 5 ;DE Side - Live Base only ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		Case 4 ;DE Side - Live Base only ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			SetLog("Attacking on Dark Elixir Side.", $COLOR_INFO)
 			$nbSides = 1
 			If Not ($g_abAttackStdSmartAttack[$g_iMatchMode]) Then GetBuildingEdge($eSideBuildingDES) ; Get DE Storage side when Redline is not used.
-		Case 6 ;TH Side - Live Base only ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		Case 5 ;TH Side - Live Base only ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			SetLog("Attacking on Town Hall Side.", $COLOR_INFO)
 			$nbSides = 1
 			If Not ($g_abAttackStdSmartAttack[$g_iMatchMode]) Then GetBuildingEdge($eSideBuildingTH) ; Get Townhall side when Redline is not used.
@@ -88,11 +85,11 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 	$g_iSlotsGiants = 1
 
 	Local $GiantComp = $g_aiArmyCompTroops[$eTroopGiant]
-	If Number($GiantComp) > 16 Or (Number($GiantComp) >= 8 And $nbSides = 5) Then $g_iSlotsGiants = 2
-	If Number($GiantComp) > 20 Or (Number($GiantComp) >= 12 And $nbSides = 5) Then $g_iSlotsGiants = 0
+	If Number($GiantComp) > 16 Or (Number($GiantComp) >= 8 And $nbSides = 4) Then $g_iSlotsGiants = 2
+	If Number($GiantComp) > 20 Or (Number($GiantComp) >= 12 And $nbSides = 4) Then $g_iSlotsGiants = 0
 
 	; $ListInfoDeploy = [Troop, No. of Sides, $WaveNb, $MaxWaveNb, $slotsPerEdge]
-	If $g_iMatchMode = $LB And $g_aiAttackStdDropSides[$LB] = 5 Then ; Customise DE side wave deployment here
+	If $g_iMatchMode = $LB And $g_aiAttackStdDropSides[$LB] = 4 Then ; Customise DE side wave deployment here
 		Switch $g_aiAttackStdDropOrder[$g_iMatchMode]
 			Case 0
 				If $g_bCustomDropOrderEnable Then

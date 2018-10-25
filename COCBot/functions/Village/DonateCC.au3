@@ -356,7 +356,7 @@ Func DonateCC($bCheckForNewMsg = False)
 				SetLog("Clan Castle troops are full, skip troop donation...", $COLOR_ACTION)
 				$g_bSkipDonTroops = True
 			EndIf
-			If $g_iCurrentSpells = 0 Then
+			If $g_iCurrentSpells = 0 And $g_iCurrentSpells <> "" Then
 				SetLog("No spells available, skip spell donation...", $COLOR_ORANGE)
 				$g_bSkipDonSpells = True
 			ElseIf $g_iTotalDonateSpellCapacity = 0 Then

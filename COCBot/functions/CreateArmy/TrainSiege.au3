@@ -94,7 +94,7 @@ Func TrainSiege()
 		If _sleep(500) Then Return
 		For $iSiegeIndex = $eSiegeWallWrecker To $eSiegeMachineCount - 1
 			If $g_aiArmyCompSiegeMachine[$iSiegeIndex] = 0 Then ContinueLoop
-			If $g_aiCurrentSiegeMachines[$iSiegeIndex] < $g_aiArmyCompSiegeMachine[$iSiegeIndex] Then
+			If $g_aiCurrentSiegeMachines[$iSiegeIndex] < ( $g_aiArmyCompSiegeMachine[$iSiegeIndex] * 2 ) Then
 				Local $HowMany
 				; --------------------------------------------
 				; Simple Quick Train ( with DEB )

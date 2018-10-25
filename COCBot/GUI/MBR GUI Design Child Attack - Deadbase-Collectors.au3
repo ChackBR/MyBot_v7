@@ -151,7 +151,7 @@ Func CreateAttackSearchDeadBaseCollectors()
 			_GUICtrlSetTip(-1, $sTxtTip)
 		$g_hCmbMinCollectorMatches = GUICtrlCreateCombo("", $x + 125, $y, 75, 20, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			_GUICtrlSetTip(-1, $sTxtTip)
-			GUICtrlSetData(-1, "1|2|3|4|5|6", "4")
+			GUICtrlSetData(-1, "1|2|3|4|5|6", "3")
 			GUICtrlSetOnEvent(-1, "cmbMinCollectorMatches")
 
 	$y += 25

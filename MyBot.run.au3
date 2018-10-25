@@ -74,7 +74,9 @@ Global $g_hFrmBot = 0 ; The main GUI window
 ; "r01" ; MyBot v7.5.4 + S&E: FFC + DEB + SamrtTrain + Fast Click Donate ( while using QuickTrain ) + CCO + ...
 ; "r01" ; MyBot v7.6.0 Light: FFC + DEB + Fast Click Donate ( while using QuickTrain ) + Bot Fixes
 ; "r01" ; MyBot v7.6.1 Light: FFC + DEB + Fast Click Donate ( while using QuickTrain ) + Siege Fix + Don't retype txt + BH Drop Trophy
-$g_sModversion = "r01" ; MyBot v7.6.3 Light: FFC + DEB + Fast Click Donate ( while using QuickTrain ) + Siege Fix + Don't retype requests + BB Drop Trophy
+; "r01" ; MyBot v7.6.2 Light: FFC + DEB + Fast Click Donate ( while using QuickTrain ) + Siege Fix + Don't retype txt + BH Drop Trophy
+; "r01" ; MyBot v7.6.3 Light: FFC + DEB + Fast Click Donate ( while using QuickTrain ) + Siege Fix + Don't retype txt + BH Drop Trophy
+$g_sModversion = "r01" ; MyBot v7.6.4 Light: FFC + DEB + Fast Click Donate ( while using QuickTrain ) + Siege Fix + Don't retype requests + BB Drop Trophy
 
 ; MBR includes
 #include "COCBot\MBR Global Variables.au3"
