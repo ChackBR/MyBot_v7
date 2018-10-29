@@ -407,54 +407,26 @@ Func LabUpgrade()
 				Return False
 			Else
 				; get upgrade time from window
-				$Result = getLabUpgradeTime(481, 557) ; Try to read white text showing time for upgrade
-				SetLog($g_avLabTroops[$g_iCmbLaboratory][3] & " Upgrade OCR Time = " & $Result, $COLOR_INFO)
+				$Result = getLabUpgradeTime(581, 497) ; Try to read white text showing time for upgrade
+				Local $iLabFinishTime = ConvertOCRTime("Lab Time", $Result, False)
+				SetLog($g_avLabTroops[$g_iCmbLaboratory][3] & " Upgrade OCR Time = " & $Result & ", $iLabFinishTime = " & $iLabFinishTime & " m", $COLOR_INFO)
 				$StartTime = _NowCalc() ; what is date:time now
-				If $g_bDebugSetlog Then SetDebugLog($g_avLabTroops[$g_iCmbLaboratory][3] & "Upgrade Started @ " & $StartTime, $COLOR_SUCCESS)
-				; Compute upgrade end time
-				$EndTime = ""
-				$EndPeriod = ""
-				$TimeAdd = 0
-				$g_sLabUpgradeTime = StringStripWS($Result, $STR_STRIPALL)
-				Local $aArray = StringRegExp($g_sLabUpgradeTime, '\d+', $STR_REGEXPARRAYMATCH)
-				If IsArray($aArray) Then
-					If $g_bDebugSetlog Then ; debug - display array value
-						For $i = 0 To UBound($aArray) - 1
-							SetLog("UpgradeTime $aArray[" & $i & "] = " & $aArray[$i])
-						Next
-					EndIf
-					$EndTime = $aArray[0]
-					$EndPeriod = StringReplace($g_sLabUpgradeTime, $EndTime, "")
-					Switch $EndPeriod
-						Case "d"
-							$TimeAdd = (Int($EndTime) * 24 * 60) - 10 ; change days to minutes, minus 10 minute
-							$g_sLabUpgradeTime = _DateAdd('n', Int($TimeAdd), $StartTime) ; add the time required to finish the  upgrade
-						Case "h"
-							$TimeAdd = (Int($EndTime) * 60) - 3 ; change hours to minutes, minus 3 minutes
-							$g_sLabUpgradeTime = _DateAdd('n', Int($TimeAdd), $StartTime) ; add the time required to finish the  upgrade
-						Case "m"
-							$TimeAdd = Int($EndTime) ; change to minutes
-							$g_sLabUpgradeTime = _DateAdd('n', Int($TimeAdd), $StartTime) ; add the time required to finish the  upgrade
-						Case Else
-							SetLog("Upgrade time period invalid, try again!", $COLOR_WARNING)
-					EndSwitch
-					If $g_bDebugSetlog Then SetDebugLog("$EndTime = " & $EndTime & " , $EndPeriod = " & $EndPeriod & ", $timeadd = " & $TimeAdd, $COLOR_DEBUG)
-					SetLog($g_avLabTroops[$g_iCmbLaboratory][3] & "Upgrade Finishes @ " & $g_sLabUpgradeTime, $COLOR_SUCCESS)
+				If $g_bDebugSetlog Then SetDebugLog($g_avLabTroops[$g_iCmbLaboratory][3] & " Upgrade Started @ " & $StartTime, $COLOR_SUCCESS)
+				If $iLabFinishTime > 0 Then
+					$g_sLabUpgradeTime = _DateAdd('n', Ceiling($iLabFinishTime), $StartTime)
+					SetLog($g_avLabTroops[$g_iCmbLaboratory][3] & " Upgrade Finishes @ " & $Result & " (" & $g_sLabUpgradeTime & ")", $COLOR_SUCCESS)
+
+					Local $txtTip = GetTranslatedFileIni("MBR Func_Village_Upgrade", "BtnResetLabUpgradeTime_Info_01", "Visible Red button means that laboratory upgrade in process") & @CRLF & _
+					GetTranslatedFileIni("MBR Func_Village_Upgrade", "BtnResetLabUpgradeTime_Info_02", "This will automatically disappear when near time for upgrade to be completed.") & @CRLF & _
+					GetTranslatedFileIni("MBR Func_Village_Upgrade", "BtnResetLabUpgradeTime_Info_03", "If upgrade has been manually finished with gems before normal end time,") & @CRLF & _
+					GetTranslatedFileIni("MBR Func_Village_Upgrade", "BtnResetLabUpgradeTime_Info_04", "Click red button to reset internal upgrade timer BEFORE STARTING NEW UPGRADE") & @CRLF & _
+					GetTranslatedFileIni("MBR Func_Village_Upgrade", "BtnResetLabUpgradeTime_Info_05", "Caution - Unnecessary timer reset will force constant checks for lab status") & @CRLF & @CRLF & _
+					GetTranslatedFileIni("MBR Func_Village_Upgrade", "BtnResetLabUpgradeTime_Info_06", "Troop Upgrade started") & ": " & $StartTime & ", " & _
+					GetTranslatedFileIni("MBR Func_Village_Upgrade", "BtnResetLabUpgradeTime_Info_07", "Will begin to check completion at:") & " " & $g_sLabUpgradeTime & @CRLF & " "
+					_GUICtrlSetTip($g_hBtnResetLabUpgradeTime, $txtTip)
 				Else
-					SetLog("Error reading the upgrade time required, try again!", $COLOR_WARNING)
-				EndIf
-				If _DateIsValid($g_sLabUpgradeTime) = 0 Then ; verify success of StringRegExp to process upgrade date/time
 					SetLog("Error processing upgrade time required, try again!", $COLOR_WARNING)
 					Return False
-				Else
-					Local $txtTip = GetTranslatedFileIni("MBR Func_Village_Upgrade", "BtnResetLabUpgradeTime_Info_01", "Visible Red button means that laboratory upgrade in process") & @CRLF & _
-							GetTranslatedFileIni("MBR Func_Village_Upgrade", "BtnResetLabUpgradeTime_Info_02", "This will automatically disappear when near time for upgrade to be completed.") & @CRLF & _
-							GetTranslatedFileIni("MBR Func_Village_Upgrade", "BtnResetLabUpgradeTime_Info_03", "If upgrade has been manually finished with gems before normal end time,") & @CRLF & _
-							GetTranslatedFileIni("MBR Func_Village_Upgrade", "BtnResetLabUpgradeTime_Info_04", "Click red button to reset internal upgrade timer BEFORE STARTING NEW UPGRADE") & @CRLF & _
-							GetTranslatedFileIni("MBR Func_Village_Upgrade", "BtnResetLabUpgradeTime_Info_05", "Caution - Unnecessary timer reset will force constant checks for lab status") & @CRLF & @CRLF & _
-							GetTranslatedFileIni("MBR Func_Village_Upgrade", "BtnResetLabUpgradeTime_Info_06", "Troop Upgrade started") & ": " & $StartTime & ", " & _
-							GetTranslatedFileIni("MBR Func_Village_Upgrade", "BtnResetLabUpgradeTime_Info_07", "Will begin to check completion at:") & " " & $g_sLabUpgradeTime & @CRLF & " "
-					_GUICtrlSetTip($g_hBtnResetLabUpgradeTime, $txtTip)
 				EndIf
 
 				Click(660, 520 + $g_iMidOffsetY, 1, 0, "#0202") ; Everything is good - Click the upgrade button

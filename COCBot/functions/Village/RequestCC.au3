@@ -28,7 +28,7 @@ Func RequestCC($ClickPAtEnd = True, $specifyText = "")
 	EndIf
 
 	;open army overview
-	If Not OpenArmyOverview(True, "RequestCC()") Then Return
+	If $specifyText <> "IsFullClanCastle" And Not OpenArmyOverview(True, "RequestCC()") Then Return
 
 	If _Sleep($DELAYREQUESTCC1) Then Return
 
