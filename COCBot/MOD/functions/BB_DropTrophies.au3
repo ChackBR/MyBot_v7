@@ -1,6 +1,6 @@
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: BB_DropTrophies
-; Description ...: 
+; Description ...:
 ; Author ........: Chackal++
 ; Modified ......:
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2016
@@ -23,23 +23,26 @@ Func BB_DropTrophies()
 
 	Local $aOkButtom[4]      = [ 400, 495 + $g_iBottomOffsetY, 0xE2F98B, 20 ]
 	Local $aOkButtomColor[2] = [ 0xE2F98B, 0xE2FA8C ]
-	Local $aOkBatleEnd[4]    = [ 630, 400 + $g_iBottomOffsetY, 0xDDF685, 20 ]
+
+	Local $aOkBatleEnd[4]      = [ 630, 400 + $g_iBottomOffsetY, 0xDDF685, 20 ]
 	Local $aOkBatleEndColor[2] = [ 0xDDF685, 0xE2FA8C ]
-	Local $aOkWaitBattle[4]  = [ 400, 500 + $g_iBottomOffsetY, 0xF0F0F0, 20 ]
-	Local $aTroopSlot[4]     = [  40, 580 + $g_iBottomOffsetY, 0x404040, 20 ]
-	Local $aSlotActive[8]    = [0x4C92D3, 0x5198E0, 0x5298E0, 0x5498E0, 0x5598E0, 0x65ADEC, 0x66ADEC, 0x6AB4F1]
-	Local $aSlotOff[2]       = [0x464646, 0x454545]
-	Local $iTroopsTo         = 0
-	Local $iWait64           = 64
-	Local $iWait128          = 128
-	Local $iWait256          = 256
+
+	Local $aOkWaitBattle[4] = [ 400, 500 + $g_iBottomOffsetY, 0xF0F0F0, 20 ]
+	Local $aTroopSlot[4]    = [  40, 580 + $g_iBottomOffsetY, 0x404040, 20 ]
+	Local $aSlotActive[8]   = [0x4C92D3, 0x5198E0, 0x5298E0, 0x5498E0, 0x5598E0, 0x65ADEC, 0x66ADEC, 0x6AB4F1]
+	Local $aSlotOff[2]      = [0x464646, 0x454545]
+
+	Local $iTroopsTo = 0
+	Local $iWait64   = 64
+	Local $iWait128  = 128
+	Local $iWait256  = 256
 
 	If $g_bChkBB_DropTrophies Then
 		; Click attack button and find a match
 		If $g_iTxtBB_DropTrophies > 0 Then
 			$i = $g_aiCurrentLootBB[$eLootTrophyBB] - $g_iTxtBB_DropTrophies
-		Endif
-		If $i > 0 Then 
+		EndIf
+		If $i > 0 Then
 
 			If _Sleep($DELAYRUNBOT1) Then Return
 
@@ -50,37 +53,38 @@ Func BB_DropTrophies()
 				; Deploy All Troops From Slot's
 				Setlog(" ====== BB Attack ====== ", $COLOR_INFO)
 				SetLog("BB: Attacking on a single side", $COLOR_INFO)
-				For $i = 0 to 5
+				For $i = 0 To 5
 					; Pos Next Slot
-					If ($i > 0) Then 
+					If ($i > 0) Then
 						$aTroopSlot[0] += 72
 					EndIf
-					$j = 0
-					If ($i >= 0) Then
-						$cPixColor = _GetPixelColor($aTroopSlot[0], $aTroopSlot[1], True)
-						If _Sleep($DELAYRUNBOT1) Then Return
-						IF BB_ColorCheck( $aTroopSlot, $aSlotActive ) Then
-							If $bDegug Then SetLog("BB: Click Next Slot, color: " & $cPixColor & " [ " & String( $i + 1 ) & " ]", $COLOR_DEBUG)
-							ClickP($aTroopSlot, 1, 0, "#0000")
-						Else
+					$cPixColor = _GetPixelColor($aTroopSlot[0], $aTroopSlot[1], True)
+					If _Sleep($DELAYRUNBOT1) Then Return
+					IF BB_ColorCheck( $aTroopSlot, $aSlotActive ) Then
+						If $bDegug Then SetLog("BB: Click Next Slot, color: " & $cPixColor & " [ " & String( $i + 1 ) & " ]", $COLOR_DEBUG)
+						ClickP($aTroopSlot, 1, 0, "#0000")
+					Else
+						If ($i > 0) Then
 							SetLog("BB: Can't Find Next Slot, color: " & $cPixColor & " [ " & String( $i + 1 ) & " ]", $COLOR_DEBUG)
 							IF Not BB_ColorCheck( $aTroopSlot, $aSlotOff ) Then
+
 								$bContinue = False
 							EndIf
-						EndIF
+						EndIf
 					EndIf
+					If _Sleep($DELAYRUNBOT1) Then Return
 					If $bContinue Then
-						$iTroopsTo = getTroopCountBig( $aTroopSlot[0]+24, $aTroopSlot[1]-7)
-						If $bDegug Then SetLog("BB: Drop Troops - Slot[ " & String( $i + 1 ) & " ], color: " & $cPixColor & " [ " & String( $j ) & " ] Num:[ " & $iTroopsTo & " ]", $COLOR_DEBUG)
+						$j = 0
+						$iTroopsTo = Number(getTroopCountBig( $aTroopSlot[0]+24, $aTroopSlot[1]-7))
 						If $iTroopsTo < 4 Then $iTroopsTo = 4
-						If _Sleep($DELAYRUNBOT1) Then Return
+						If $bDegug Then SetLog("BB: Drop Troops - Slot[ " & String( $i + 1 ) & " ], color: " & $cPixColor & " [ " & String( $j ) & " ] Num:[ " & $iTroopsTo & " ]", $COLOR_DEBUG)
 						While Not BB_ColorCheck( $aTroopSlot, $aSlotOff )
+							If _Sleep($DELAYRUNBOT1) Then Return
 							ClickP($aTroopSlot, 1, 0, "#0000")
 							BB_Attack($iSide, $cSideNames, $iTroopsTo)
 							$j += 1
 							If $j > 5 Then ExitLoop
 							$cPixColor = _GetPixelColor($aTroopSlot[0], $aTroopSlot[1], True)
-							If _Sleep($DELAYRUNBOT1) Then Return
 						WEnd
 						If $bDegug Then SetLog("BB: Last Slot, color: " & $cPixColor & " [ " & String( $i + 1 ) & " ]", $COLOR_DEBUG)
 					EndIf
@@ -173,7 +177,7 @@ Func BB_DropTrophies()
 	Else
 		Setlog("Ignore BB Drop Trophies [ Disabled ]", $COLOR_INFO)
 	EndIf
-	
+
 	_Sleep($DELAYRUNBOT1)
 
 EndFunc	;==>BB_DropTrophies

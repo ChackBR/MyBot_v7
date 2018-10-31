@@ -1,0 +1,90 @@
+NOTE  |Author: Z E C K v3.2 with Attirant
+NOTE  |[16.09.2018] Heroes on Sides
+NOTE  |TH 11 ★★★
+NOTE  |Train: 7 Electro Dragons, 10 Balloons 4 Rage, 3 Freeze in CC 1 Rage and Balloons
+NOTE  |TH 12 ★★★
+NOTE  |Train: 7 Electro Dragons, 14 Balloons 4 Rage, 3 Freeze in CC 1 Rage and Balloons
+NOTE  |
+NOTE  |       Script work on "EXTERNAL EDGES"
+      |                                                                                                           |
+      |-------------------------------------------ElectroLoon Start-----------------------------------------------|
+      |                                               Z E C K                                                     |
+      |                                                                                                           |
+      |_TROOPNAME_|__FLEXIBLE_|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|
+TRAIN |EDrag      |0          |0          |0          |0          |0          |0          |7          |7          |
+TRAIN |Ball       |0          |0          |0          |0          |0          |0          |10         |14         |
+      |                                                                                                           |
+TRAIN |RSpell     |0          |0          |0          |0          |0          |0          |4          |4          |
+TRAIN |FSpell     |0          |0          |0          |0          |0          |0          |3          |3          |
+      |                                                                                                           |
+      |_TROOPNAME_|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|
+TRAIN |King       |0          |0          |0          |0          |0          |0          |1          |1          |
+TRAIN |Queen      |0          |0          |0          |0          |0          |0          |1          |1          |
+TRAIN |Warden     |0          |0          |0          |0          |0          |0          |1          |1          |
+      |                                                                                                           |
+      |___________|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|
+REDLN |0          |0          |0          |0          |0          |0          |0          |4          |4          |
+DRPLN |0          |0          |0          |0          |0          |0          |0          |0          |0          |
+      |                                                                                                           |
+      |___________|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|
+CCREQ |           |           |           |           |           |           |           |Ball   Rage|Ball   Rage|
+      |                                                                                                           |
+      |EXTR. GOLD |EXTR.ELIXIR|EXTR. DARK |DEPO. GOLD |DEPO.ELIXIR|DEPO. DARK |TOWNHALL   |FORCED SIDE|___________|
+SIDE  |0          |0          |0          |0          |0          |0          |10         |           |           |
+      |EAGLE      |INFERNO    |XBOW       |WIZTOWER   |MORTAR     |AIRDEFENSE |GEMBOX     |GEMBOX     |           |
+SIDEB |9          |5          |0          |0          |0          |0          |0          |           |           |
+      |                                                                                                           |
+      |VECTOR_____|SIDE_______|DROP_POINTS|ADDTILES___|VERSUS_____|RANDOMX_PX_|RANDOMY_PX_|BUILDING___|___________|
+MAKE  |A          |FRONT-LEFT |10         |0          |EXT-INT    |0          |0          |           |           |
+MAKE  |B          |FRONT-RIGHT|10         |0          |INT-EXT    |0          |0          |           |           |
+MAKE  |V          |FRONT-RIGHT|10         |0          |EXT-INT    |0          |0          |           |           |
+MAKE  |K          |FRONT-LEFT |10         |0          |INT-EXT    |0          |0          |           |           |
+MAKE  |C          |FRONT-LEFT |10         |-7         |INT-EXT    |0          |0          |           |           |
+MAKE  |D          |FRONT-RIGHT|10         |-8         |INT-EXT    |0          |0          |           |           |
+MAKE  |E          |FRONT-LEFT |10         |-16        |INT-EXT    |0          |0          |           |           |
+MAKE  |F          |FRONT-RIGHT|10         |-16        |INT-EXT    |0          |0          |           |           |
+MAKE  |H          |FRONT-RIGHT|10         |-23        |INT-EXT    |0          |0          |           |           |
+MAKE  |M          |LEFT-FRONT |10         |0          |EXT-INT    |0          |0          |           |           |
+MAKE  |N          |RIGHT-FRONT|10         |0          |EXT-INT    |0          |0          |           |           |
+MAKE  |G          |LEFT-FRONT |1          |1          |IGNORE     |0          |0          |INFERNO    |           |
+MAKE  |L          |RIGHT-FRONT|1          |1          |IGNORE     |0          |0          |INFERNO    |           |
+MAKE  |U          |FRONT-RIGHT|1          |1          |IGNORE     |0          |0          |INFERNO    |           |
+MAKE  |Z          |FRONT-LEFT |1          |1          |IGNORE     |0          |0          |EAGLE      |           |
+      |                                                                                                           |
+      |VECTOR_____|INDEX______|QTY_X_VECT_|TROOPNAME__|DELAY_DROP_|DELAYCHANGE|SLEEPAFTER_|___________|___________|
+DROP  |M          |3          |1          |King       |50-70      |0          |150-200    |           |           |
+DROP  |N          |3          |1          |Queen      |50-70      |0          |150-200    |           |           |
+WAIT  |33000-35000|           |           |           |           |           |           |           |           |		  
+DROP  |A          |4,6,8,10   |4          |EDrag      |50-70      |37-50      |15-20      |           |           |
+DROP  |B          |2,4,6      |3          |EDrag      |50-70      |37-50      |500-700    |           |           |
+DROP  |A          |10         |1          |Castle     |50-70      |0          |150-170    |           |           |
+DROP  |A          |10         |1          |WallW      |50-70      |0          |150-170    |           |           |
+DROP  |A          |4,5,7,9,10 |5          |Ball       |50-70      |27-50      |15-20      |           |           |
+DROP  |B          |1,2,3,4,6  |5          |Ball       |50-70      |27-50      |90-110     |           |           |
+DROP  |V          |8,10       |2          |Ball       |55-70      |27-50      |15-20      |           |           |
+DROP  |K          |1,2        |2          |Ball       |55-70      |27-50      |150-200    |           |           |
+DROP  |A          |10         |1          |Warden     |50-70      |0          |350-370    |           |           |
+DROP  |A          |10         |1          |BattleB    |50-70      |0          |200-250    |           |           |
+DROP  |C          |5          |1          |RSpell     |50-70      |0          |150-200    |           | 		  |
+DROP  |C          |1          |1          |RSpell     |50-70      |0          |150-200    |           | 		  |
+DROP  |D          |4          |1          |RSpell     |50-70      |0          |530-550    |           | 		  |
+DROP  |E          |3          |1          |RSpell     |50-70      |0          |200-250    |           | 		  |
+DROP  |F          |2          |1          |RSpell     |50-70      |0          |250-300    |           | 		  |
+DROP  |F          |2          |1          |HaSpell    |50-70      |0          |150-170    |           |           |
+DROP  |H          |2          |1          |HaSpell    |50-70      |0          |500-550    |           |           |
+WAIT  |2000-2200  |           |           |           |           |           |           |           |           |
+DROP  |U          |1          |1          |FSpell     |50-70      |0          |190-230    |           |           |
+DROP  |Z          |1          |1          |FSpell     |50-70      |0          |200-250    |           |           |
+WAIT  |4000-4200  |           |           |           |           |           |           |           |           |
+DROP  |G          |1          |1          |FSpell     |50-70      |0          |100-150    |           |           |
+DROP  |L          |1          |1          |FSpell     |50-70      |0          |100-150    |           |           |
+WAIT  |5300-5500  |           |           |           |           |           |           |           |           |
+DROP  |A          |10         |1          |BattleB    |50-70      |0          |150-170    |           |           |
+DROP  |A          |10         |1          |WallW      |50-70      |0          |150-170    |           |           |
+DROP  |A          |10         |1          |Warden     |50-100     |           |150-200    |           |           |
+DROP  |M-N        |7-10       |1          |REMAIN     |50-70      |100        |50-100     |           |           |
+WAIT  |2000-2200  |           |           |           |           |           |           |           |           |
+DROP  |A-B        |2,4,6,8,10 |5          |REMAIN     |50-70      |100        |50-100     |           |           |
+      |                                                                                                           |
+      |                                              i m one of them                                              |
+      |----------------------------------------------ElectroLoon End----------------------------------------------|

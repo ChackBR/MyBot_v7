@@ -1,5 +1,5 @@
-﻿NOTE  |Author: Z E C K v2.5.2 with Chack++
-NOTE  |[10.31.2018] Heroes Inside Attack
+﻿NOTE  |Author: Z E C K v2.5.2 with Attirant
+NOTE  |[02.08.2018] Heroes on Sides
 NOTE  |TH 11 ★★★
 NOTE  |Train: 7 Electro Dragons, 10 Balloons 4 Rage, 3 Freeze in CC 1 Rage and Balloons
 NOTE  |TH 12 ★★★
@@ -54,8 +54,8 @@ MAKE  |Z          |FRONT-LEFT |1          |1          |IGNORE     |0          |0
       |VECTOR_____|INDEX______|QTY_X_VECT_|TROOPNAME__|DELAY_DROP_|DELAYCHANGE|SLEEPAFTER_|___________|___________|
 DROP  |A          |4,6,8,10   |4          |EDrag      |50-70      |37-50      |15-20      |           |           |
 DROP  |B          |2,4,6      |3          |EDrag      |50-70      |37-50      |500-700    |           |           |
-DROP  |A          |10         |1          |Castle     |0          |0          |150-170    |           |           |
-DROP  |A          |10         |1          |WallW      |0          |0          |150-170    |           |           |
+DROP  |A          |10         |1          |Castle     |0          |50-70      |150-170    |           |           |
+DROP  |A          |10         |1          |WallW      |0          |50-70      |150-170    |           |           |
 DROP  |A          |10         |1          |BattleB    |0          |0          |150-170    |           |           |
 DROP  |A          |4,5,7,9,10 |5          |Ball       |50-70      |27-50      |15-20      |           |           |
 DROP  |B          |1,2,3,4,6  |5          |Ball       |50-70      |27-50      |90-110     |           |           |
@@ -67,11 +67,9 @@ DROP  |C          |1          |1          |RSpell     |0          |0          |1
 DROP  |D          |4          |1          |RSpell     |0          |0          |530-550    |           |           |
 DROP  |E          |3          |1          |RSpell     |0          |0          |150-170    |           |           |
 DROP  |F          |2          |1          |RSpell     |0          |0          |250-300    |           |           |
-DROP  |A          |10         |1          |Queen      |0          |0          |150-200    |           |           |
 DROP  |N          |4          |1          |Queen      |0          |0          |150-200    |           |           |
 DROP  |F          |2          |1          |HaSpell    |0          |0          |150-170    |           |           |
 DROP  |H          |2          |1          |HaSpell    |0          |0          |500-550    |           |           |
-DROP  |A          |10         |1          |King       |0          |0          |250-300    |           |           |
 DROP  |M          |4          |1          |King       |0          |0          |250-300    |           |           |
 WAIT  |2000-2200  |           |           |           |           |           |           |           |           |
 DROP  |U          |1          |1          |FSpell     |0          |0          |190-230    |           |           |
@@ -86,6 +84,5 @@ DROP  |A          |10         |1          |Warden     |50-100     |           |1
 DROP  |M-N        |7-10       |1          |REMAIN     |50-70      |100        |50-100     |           |           |
 WAIT  |2000-2200  |           |           |           |           |           |           |           |           |
 DROP  |A-B        |2,4,6,8,10 |5          |REMAIN     |50-70      |100        |50-100     |           |           |
-      |                                                                                                           |
       |                                                                                                           |
       |----------------------------------------------ElectroLoon End----------------------------------------------|

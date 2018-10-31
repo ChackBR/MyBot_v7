@@ -1,6 +1,6 @@
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: BB_PrepareAttack
-; Description ...: 
+; Description ...:
 ; Syntax ........: BB_PrepareAttack()
 ; Author ........: Chackal++
 ; Modified ......:
@@ -46,9 +46,9 @@ Func BB_PrepareAttack() ; Click attack button and find a match
 		$bCanAttack = True
 	EndIf
 
-	If _Sleep($DELAYRUNBOT1) Then Return 
+	If _Sleep($DELAYRUNBOT1) Then Return
 
-	If $bCanAttack Then 
+	If $bCanAttack Then
 		; If Loot Available
 		If $g_bChkBB_OnlyWithLoot Then
 			$cPixColor = _GetPixelColor($aLootAvail[0], $aLootAvail[1], True)
@@ -58,10 +58,10 @@ Func BB_PrepareAttack() ; Click attack button and find a match
 				If $bDegug Then SetLog("BB: No Loot available [Stop], color: " & $cPixColor, $COLOR_DEBUG)
 				$bCanAttack = False
 			EndIf
-		Endif
+		EndIf
 	EndIf
 
-	If $bCanAttack Then 
+	If $bCanAttack Then
 		; If BMachine Available
 		If $g_bChkBB_OnlyWithLoot Then
 			$cPixColor = _GetPixelColor($aBMachineWait[0], $aBMachineWait[1], True)
@@ -71,12 +71,12 @@ Func BB_PrepareAttack() ; Click attack button and find a match
 			Else
 				If $bDegug Then SetLog("BB: BMachine ok [or not exists] color: " & $cPixColor, $COLOR_DEBUG)
 			EndIf
-		Endif
+		EndIf
 	EndIf
 
 	If _Sleep($DELAYRUNBOT1) Then Return 
 
-	If $bCanAttack Then 
+	If $bCanAttack Then
 
 		; If $aBB_FindMatchButton appear
 		$cPixColor = _GetPixelColor($aBB_FindMatchButton[0], $aBB_FindMatchButton[1], True)
@@ -100,7 +100,7 @@ Func BB_PrepareAttack() ; Click attack button and find a match
 					$j += 1
 				Else
 					$j = $iWait256
-				Endif
+				EndIf
 				If _Sleep($DELAYRUNBOT2) Then Return
 				BB_StatusMsg("Screen Search for Match [" & String( $j ) & "] Color: " & $cPixColor)
 			WEnd
@@ -117,7 +117,7 @@ Func BB_PrepareAttack() ; Click attack button and find a match
 			Return False
 		EndIf
 
-	Endif
+	EndIf
 
 	Return $bCanAttack
 
@@ -125,12 +125,12 @@ EndFunc   ;==>BB_PrepareSearch
 
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: BB_Attack
-; Description ...: 
-; Syntax ........: 
-; Parameters ....: 
-; Return values .: 
+; Description ...:
+; Syntax ........:
+; Parameters ....:
+; Return values .:
 ; Author ........: Chackal++
-; Modified ......: 
+; Modified ......:
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2016
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
@@ -222,9 +222,9 @@ Func BB_Mach_Deploy()
 	Setlog("BB: Look for Battle Machine", $COLOR_GREEN)
 
 	; Deploy Battle Machine
-	For $i = 0 to 2
+	For $i = 0 To 2
 		; Pos Next Slot
-		If ($i > 0) Then 
+		If ($i > 0) Then
 			$aBMachine[0] += 72
 		EndIf
 		$j = 0
@@ -236,7 +236,7 @@ Func BB_Mach_Deploy()
 		Else
 			SetLog("BB: Can't Click BM, color: " & $cPixColor & " Slot:[ " & String( $i + 5 ) & " ]", $COLOR_DEBUG)
 			$bBMFound = False
-		EndIF
+		EndIf
 		If $bBMFound Then
 			KeepClicks()
 			If _Sleep($DELAYDROPTROOP1) Then Return
@@ -262,9 +262,9 @@ Func BB_Mach_Deploy()
 					Else
 						If Mod($j, 8) = 0 Then
 							ClickP($aBMachine, 1, 0, "#0000")
-						Endif
-					Endif
-				Endif
+						EndIf
+					EndIf
+				EndIf
 				If _Sleep($DELAYRUNBOT1) Then Return
 				$cPixCheck = _GetPixelColor($aBMachine[0], $aBMachine[1], True)
 			WEnd
