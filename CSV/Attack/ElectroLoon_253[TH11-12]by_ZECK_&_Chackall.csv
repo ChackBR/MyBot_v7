@@ -1,4 +1,5 @@
-NOTE  |Author: Z E C K v2.5.2 With attirant [02.08.2018]
+﻿NOTE  |Author: Z E C K v2.5.2 with Chack++
+NOTE  |[10.31.2018] Heroes Inside Attack
 NOTE  |TH 11 ★★★
 NOTE  |Train: 7 Electro Dragons, 10 Balloons 4 Rage, 3 Freeze in CC 1 Rage and Balloons
 NOTE  |TH 12 ★★★
@@ -66,9 +67,11 @@ DROP  |C          |1          |1          |RSpell     |0          |0          |1
 DROP  |D          |4          |1          |RSpell     |0          |0          |530-550    |           |           |
 DROP  |E          |3          |1          |RSpell     |0          |0          |150-170    |           |           |
 DROP  |F          |2          |1          |RSpell     |0          |0          |250-300    |           |           |
+DROP  |A          |10         |1          |Queen      |0          |0          |150-200    |           |           |
 DROP  |N          |4          |1          |Queen      |0          |0          |150-200    |           |           |
 DROP  |F          |2          |1          |HaSpell    |0          |0          |150-170    |           |           |
 DROP  |H          |2          |1          |HaSpell    |0          |0          |500-550    |           |           |
+DROP  |A          |10         |1          |King       |0          |0          |250-300    |           |           |
 DROP  |M          |4          |1          |King       |0          |0          |250-300    |           |           |
 WAIT  |2000-2200  |           |           |           |           |           |           |           |           |
 DROP  |U          |1          |1          |FSpell     |0          |0          |190-230    |           |           |

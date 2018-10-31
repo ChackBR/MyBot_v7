@@ -74,14 +74,14 @@ Func BB_DropTrophies()
 						If $bDegug Then SetLog("BB: Drop Troops - Slot[ " & String( $i + 1 ) & " ], color: " & $cPixColor & " [ " & String( $j ) & " ] Num:[ " & $iTroopsTo & " ]", $COLOR_DEBUG)
 						If $iTroopsTo < 4 Then $iTroopsTo = 4
 						If _Sleep($DELAYRUNBOT1) Then Return
-						ClickP($aTroopSlot, 1, 0, "#0000")
 						While Not BB_ColorCheck( $aTroopSlot, $aSlotOff )
+							ClickP($aTroopSlot, 1, 0, "#0000")
 							BB_Attack($iSide, $cSideNames, $iTroopsTo)
 							$j += 1
 							If $j > 5 Then ExitLoop
 							$cPixColor = _GetPixelColor($aTroopSlot[0], $aTroopSlot[1], True)
+							If _Sleep($DELAYRUNBOT1) Then Return
 						WEnd
-						If _Sleep($DELAYRUNBOT1) Then Return
 						If $bDegug Then SetLog("BB: Last Slot, color: " & $cPixColor & " [ " & String( $i + 1 ) & " ]", $COLOR_DEBUG)
 					EndIf
 				Next

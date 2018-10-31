@@ -1,10 +1,10 @@
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: MBR GUI Control MOD
+; Name ..........: MBR GUI Control.au3
 ; Description ...: This file controls the "MOD" tab
 ; Syntax ........:
 ; Parameters ....: None
 ; Return values .: None
-; Author ........: Team AiO MOD++ (2017)
+; Author ........: MOD++
 ; Modified ......:
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
 ;                  MyBot is distributed under the terms of the GNU GPL
@@ -30,7 +30,7 @@ Func Bridge()
 
 EndFunc   ;==>Bridge
 
-; Unit/Wave Factor - Team AiO MOD++
+; Unit/Wave Factor - MOD++
 Func cmbGiantSlot()
 	If $g_iChkGiantSlot = 1 Then
 		Switch _GUICtrlComboBox_GetCurSel($g_hCmbGiantSlot)

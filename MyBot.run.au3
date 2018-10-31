@@ -622,16 +622,16 @@ Func FinalInitialization(Const $sAI)
 		EndIf
 	EndIf
 
-	; Message - AiO++ Team
+	; MOD++
 	SetLog(" ", $COLOR_SUCCESS)
-	SetLog("_________" & " [  MyBot Light MOD  ]" & "_________", $COLOR_MONEYGREEN, "Impact", 14)
-	SetLog("                                  Â» " & "Warning" & " Â«", $COLOR_TEAL, "Segoe UI Semibold", 12)
-	SetLog("           Â» " & "Please set the BOT Language to ENGLISH" & " Â«", $COLOR_TEAL, "Segoe UI Semibold", 10)
-	SetLog("                                   Â» " & "Make a Fresh Config" & " Â«", $COLOR_TEAL, "Segoe UI Semibold", 9)
-	SetLog("                                   Â» " & "Don't Use Old Profile" & " Â«", $COLOR_TEAL, "Segoe UI Semibold", 9)
+	SetLog("________" & " [  MyBot Light MOD++  ]" & "________", $COLOR_MONEYGREEN, "Impact", 14)
+	SetLog("                                  » " & "Warning" & " «", $COLOR_TEAL, "Segoe UI Semibold", 12)
+	SetLog("                                   » " & "Make a Fresh Config" & " «", $COLOR_TEAL, "Segoe UI Semibold", 9)
+	SetLog("                                   » " & "Don't Use Old Profile" & " «", $COLOR_TEAL, "Segoe UI Semibold", 9)
+	SetLog("                   » " & "Set BOT Language to ENGLISH" & " «", $COLOR_TEAL, "Segoe UI Semibold", 10)
 	SetLog("-----------------------------------------------------------------------", $COLOR_MONEYGREEN)
-	SetLog("            Â» " & "Thanks To ALL MyBot Developer's" & " Â«", $COLOR_TEAL, "Segoe Print", 9)
-	SetLog("                        Â» " & "Based On: MyBot" & " " & $g_sBotVersion & " Â«", $COLOR_TEAL, "Segoe UI Semibold", 10)
+	SetLog("            » " & "Thanks To ALL MyBot Developer's" & " «", $COLOR_TEAL, "Segoe Print", 9)
+	SetLog("                        » " & "Based On: MyBot" & " " & $g_sBotVersion & " «", $COLOR_TEAL, "Segoe UI Semibold", 10)
 	SetLog("-----------------------------------------------------------------------", $COLOR_MONEYGREEN)
 	SetLog(" ", $COLOR_MEDGRAY)
 	; Message - end
@@ -793,7 +793,7 @@ Func runBot() ;Bot that runs everything in order
 			checkMainScreen(False)
 			If $g_bRestart = True Then ContinueLoop
 
-			; Request CC Troops at first - Team AiO++
+			; Request CC Troops at first - MOD++
 			$g_bcanRequestCC = True
 			If $g_bReqCCFirst Then
 				RequestCC()
@@ -1230,7 +1230,7 @@ Func _RunFunction($action)
 		Case "DonateCC,Train"
 			If $g_iActiveDonate And $g_bChkDonate Then
 				If $g_bFirstStart Then
-					; MOD++ Team
+					; MOD++
 				    If $g_iChkAutoCamp Then 
 						CheckAutoCamp()
 					Else
@@ -1293,7 +1293,7 @@ Func _RunFunction($action)
 				CollectBuilderBase()
 				BuilderBaseReport()
 				; --------------------------------------------
-				; Builder Base Drop Trophies
+				; MOD++
 				; --------------------------------------------
 				BB_DropTrophies()
 				StartClockTowerBoost()

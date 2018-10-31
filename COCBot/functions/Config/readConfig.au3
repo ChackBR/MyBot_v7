@@ -271,7 +271,7 @@ Func ReadRegularConfig()
 	; <<< nothing here >>>
 
 	; <><><><> Bot / Stats <><><><>
-	; AiO++ Team
+	; MOD++
 	ReadConfig_MOD()
 
 EndFunc   ;==>ReadRegularConfig

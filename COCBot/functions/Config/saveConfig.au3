@@ -246,7 +246,7 @@ Func SaveRegularConfig()
 	; <<< nothing here >>>
 
 	; <><><><> Bot / MOD <><><><>
-	; AiO++ Team
+	; MOD++
 	SaveConfig_MOD()
 
 	;SetDebugLog("saveConfig: Wrote " & $g_iIniLineCount & " ini lines.")

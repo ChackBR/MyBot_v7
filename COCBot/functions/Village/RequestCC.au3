@@ -102,6 +102,7 @@ Func _makerequest()
 	Else
 		If $g_sRequestTroopsText <> "" Then
 			If $g_bChkBackgroundMode = False And $g_bNoFocusTampering = False Then ControlFocus($g_hAndroidWindow, "", "")
+			; MOD++
 			If $g_iRequestTroopTypeOnce = 0 Then
 				; fix for Android send text bug sending symbols like ``"
 				AndroidSendText($g_sRequestTroopsText, True)
@@ -114,9 +115,9 @@ Func _makerequest()
 			Else
 				SetLog("Ignore retype text when Request troops", $COLOR_INFO)
 			EndIf
-			; --------------------------------------------
-			; Don't retype when request troops ( just once )
-			; --------------------------------------------
+			; ------------------------------------------------------
+			; Don't retype when request troops ( just once ) - MOD++
+			; ------------------------------------------------------
 			If $g_bRequestTypeOnceEnable Then
 				$g_iRequestTroopTypeOnce += 1
 			Else

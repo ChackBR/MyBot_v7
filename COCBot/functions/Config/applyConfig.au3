@@ -153,7 +153,7 @@ Func applyConfig($bRedrawAtExit = True, $TypeReadSave = "Read") ;Applies the dat
 	; <<< nothing here >>>
 
 	; <><><><> Bot / MOD <><><><>
-	; AiO++ Team
+	; MOD++
 	ApplyConfig_MOD($TypeReadSave)
 
 	; <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>

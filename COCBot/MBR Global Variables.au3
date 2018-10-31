@@ -1728,7 +1728,7 @@ Global $g_sBonusElixir = Null
 Global $g_sBonusDE = Null
 Global $g_sPercentagesResources = Null
 
-; MOD++ Team
+; MOD++
 #include "MOD\Globals.au3"
 
 ; EOF

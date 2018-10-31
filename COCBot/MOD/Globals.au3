@@ -1,10 +1,10 @@
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: Globals - AiO++ Team
+; Name ..........: Globals.au3
 ; Description ...: This file Includes several files in the current script and all Declared variables, constant, or create an array.
 ; Syntax ........: #include , Global
 ; Parameters ....: None
 ; Return values .: None
-; Author ........: AiO++ Team
+; Author ........: MOD++
 ; Modified ......:
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2016
 ;                  MyBot is distributed under the terms of the GNU GPL
@@ -27,18 +27,18 @@ Global $g_bChkBB_OnlyWithLoot = False
 Global $g_iTxtBB_DropTrophies = 0
 
 ; --------------------------------------------
-; Request CC Troops at first - AiO++
+; Request CC Troops at first - MOD++
 ; --------------------------------------------
 Global $g_bReqCCFirst = True
 Global $chkReqCCFirst = 1
 
 ; --------------------------------------------
-; AutoCamp - RK MOD
+; AutoCamp - MOD++
 ; --------------------------------------------
 Global $g_iChkAutoCamp = True
 
 ; --------------------------------------------
-; Unit/Wave Factor - AiO++
+; Unit/Wave Factor - MOD++
 ; --------------------------------------------
 Global $g_iChkGiantSlot = 0, $g_iChkUnitFactor = 0, $g_iChkWaveFactor = 0
 Global $g_iCmbGiantSlot = 0, $g_iTxtUnitFactor = 10, $g_iTxtWaveFactor = 100
