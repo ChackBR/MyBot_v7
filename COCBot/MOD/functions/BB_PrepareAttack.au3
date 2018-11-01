@@ -74,7 +74,7 @@ Func BB_PrepareAttack() ; Click attack button and find a match
 		EndIf
 	EndIf
 
-	If _Sleep($DELAYRUNBOT1) Then Return 
+	If _Sleep($DELAYRUNBOT1) Then Return
 
 	If $bCanAttack Then
 
@@ -82,7 +82,7 @@ Func BB_PrepareAttack() ; Click attack button and find a match
 		$cPixColor = _GetPixelColor($aBB_FindMatchButton[0], $aBB_FindMatchButton[1], True)
 		If _ColorCheck( $cPixColor, Hex($aBB_FindMatchButton[2], 6), 20) Then
 			If $bDegug Then SetLog("BB: Click Find Match Button, color: " & $cPixColor, $COLOR_DEBUG)
-			If _Sleep($DELAYRUNBOT1) Then Return 
+			If _Sleep($DELAYRUNBOT1) Then Return
 			ClickP($aBB_FindMatchButton, 1, 0, "#0000") ;Click Find a Match Button
 		Else
 			SetLog("BB: Can't Find Match Buttom [Stop] color: " & $cPixColor, $COLOR_ERROR)
@@ -185,8 +185,8 @@ Func BB_Attack($Nside = 1, $SIDESNAMES = "TR|TL", $iTroopToDeploy = 4 )
 EndFunc   ;==>BB_Attack
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: BB_Mach_Deploy
-; Description ...: Battle Machine Deploy
+; Name ..........: BB_Mach_Slot
+; Description ...: Battle Machine Slot Position
 ; Syntax ........:
 ; Parameters ....:
 ; Return values .:
@@ -198,16 +198,58 @@ EndFunc   ;==>BB_Attack
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
 ; Example .......: No
 ; ===============================================================================================================================
-
-Func BB_Mach_Deploy()
+Func BB_Mach_Slot()
 
 	Local $i = 0
+	Local $iSlot = -1
+
+	Local $cPixColor = ''
+	Local $cPixCheck = ''
+	Local $bDegug    = True
+
+	Local $aBMachine[4]      = [ 356, 580 + $g_iBottomOffsetY, 0x486E83, 20 ]
+	Local $aBMachineColor[5] = [ 0x487188, 0x486E83, 0x486B7E, 0x486F81, 0x466F84 ]
+
+	If _Sleep($DELAYRUNBOT3) Then Return
+
+	; Find Battle Machine
+	For $i = 0 To 2
+		; Pos Next Slot
+		If ($i > 0) Then
+			$aBMachine[0] += 72
+		EndIf
+		$cPixColor = _GetPixelColor($aBMachine[0], $aBMachine[1], True)
+		If _Sleep($DELAYRUNBOT3) Then Return
+		IF BB_ColorCheck( $aBMachine, $aBMachineColor ) Then
+			If $bDegug Then SetLog("BB: BM Found, color: " & $cPixColor & " Slot:[ " & String( $i + 5 ) & " ]", $COLOR_DEBUG)
+			$iSlot = $i
+			$i = 2
+		EndIf
+	Next
+	Return $iSlot
+EndFunc   ;==>BB_Mach_Slot
+
+; #FUNCTION# ====================================================================================================================
+; Name ..........: BB_Mach_Deploy
+; Description ...: Battle Machine Deploy
+; Syntax ........:
+; Parameters ....: $iSlot = Slot Positon
+; Return values .:
+; Author ........:
+; Modified ......:
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2016
+;                  MyBot is distributed under the terms of the GNU GPL
+; Related .......:
+; Link ..........: https://github.com/MyBotRun/MyBot/wiki
+; Example .......: No
+; ===============================================================================================================================
+Func BB_Mach_Deploy( $iSlot = -1 )
+
 	Local $j = 0
 
 	Local $cPixColor  = ''
 	Local $cPixCheck  = ''
 
-	Local $bBMFound
 	Local $bDegug     = True
 	Local $iWait128   = 128
 
@@ -215,61 +257,45 @@ Func BB_Mach_Deploy()
 	Local $aBMachineColor[5] = [ 0x487188, 0x486E83, 0x486B7E, 0x486F81, 0x466F84 ]
 	Local $aBatleEndColor[2] = [ 0x020202, 0x020202 ]
 
-	Local $aDropBM[4]        = [ 200, 200 + $g_iBottomOffsetY, 0x335255, 20 ]
+	Local $aDropBM[4]        = [ 270, 150 + $g_iBottomOffsetY, 0x335255, 20 ]
 
 	If _Sleep($DELAYRUNBOT3) Then Return
 
-	Setlog("BB: Look for Battle Machine", $COLOR_GREEN)
-
-	; Deploy Battle Machine
-	For $i = 0 To 2
-		; Pos Next Slot
-		If ($i > 0) Then
-			$aBMachine[0] += 72
-		EndIf
-		$j = 0
-		$cPixColor = _GetPixelColor($aBMachine[0], $aBMachine[1], True)
+	; If BM Present
+	If ( $iSlot + 1 ) > 0 Then
+		; Slot Pos
+		$aBMachine[0] += ( $iSlot * 72 )
+		; Deploy Battle Machine
+		If $bDegug Then SetLog("BB: Click BM, color: " & $cPixColor & " Slot:[ " & String( $iSlot + 5 ) & " ]", $COLOR_DEBUG)
+		KeepClicks()
+		If _Sleep($DELAYDROPTROOP1) Then Return
+		ClickP($aBMachine, 1, 0, "#0000")
+		If _Sleep($DELAYDROPTROOP1) Then Return
+		AttackClick($aDropBM[0], $aDropBM[1], 1, SetSleep(0), 0, "#0000")
+		If _Sleep($DELAYDROPTROOP1) Then Return
+		ReleaseClicks()
 		If _Sleep($DELAYRUNBOT3) Then Return
-		IF BB_ColorCheck( $aBMachine, $aBMachineColor ) Then
-			If $bDegug Then SetLog("BB: Click BM, color: " & $cPixColor & " Slot:[ " & String( $i + 5 ) & " ]", $COLOR_DEBUG)
-			$bBMFound = True
-		Else
-			SetLog("BB: Can't Click BM, color: " & $cPixColor & " Slot:[ " & String( $i + 5 ) & " ]", $COLOR_DEBUG)
-			$bBMFound = False
-		EndIf
-		If $bBMFound Then
-			KeepClicks()
-			If _Sleep($DELAYDROPTROOP1) Then Return
-			ClickP($aBMachine, 1, 0, "#0000")
-			If _Sleep($DELAYDROPTROOP1) Then Return
-			AttackClick($aDropBM[0], $aDropBM[1], 1, SetSleep(0), 0, "#0000")
-			If _Sleep($DELAYDROPTROOP1) Then Return
-			ReleaseClicks()
-			If _Sleep($DELAYRUNBOT3) Then Return
-			$j = 0
-			$cPixColor = _GetPixelColor($aBMachine[0], $aBMachine[1], True)
-			$cPixCheck = $cPixColor
-			If _Sleep($DELAYRUNBOT3) Then Return
-			While $j < $iWait128
-				$j += 1
-				If _ColorCheck( $cPixColor, $cPixCheck, 20) Then
-					ClickP($aBMachine, 1, 0, "#0000")
-					BB_StatusMsg("Activate BM Power, color: " & $cPixCheck & " [ " & String( $j+1 ) & " ]")
+		$cPixColor = _GetPixelColor($aBMachine[0], $aBMachine[1], True)
+		$cPixCheck = $cPixColor
+		If _Sleep($DELAYRUNBOT3) Then Return
+		While $j < $iWait128
+			$j += 1
+			If _ColorCheck( $cPixColor, $cPixCheck, 20) Then
+				ClickP($aBMachine, 1, 0, "#0000")
+				BB_StatusMsg("Activate BM Power, color: " & $cPixCheck & " [ " & String( $j+1 ) & " ]")
+			Else
+				If _ColorCheck( $cPixCheck, Hex($aBatleEndColor[0], 6), 20) Then
+					If $bDegug Then SetLog("BB: Battle end detected, color: " & $cPixCheck & " Slot:[ " & String( $iSlot + 5 ) & " ]", $COLOR_DEBUG)
+					$j = $iWait128
 				Else
-					If _ColorCheck( $cPixCheck, Hex($aBatleEndColor[0], 6), 20) Then
-						If $bDegug Then SetLog("BB: Battle end detected, color: " & $cPixCheck & " Slot:[ " & String( $i + 5 ) & " ]", $COLOR_DEBUG)
-						$j = $iWait128
-					Else
-						If Mod($j, 8) = 0 Then
-							ClickP($aBMachine, 1, 0, "#0000")
-						EndIf
+					If Mod($j, 8) = 0 Then
+						ClickP($aBMachine, 1, 0, "#0000")
 					EndIf
 				EndIf
-				If _Sleep($DELAYRUNBOT1) Then Return
-				$cPixCheck = _GetPixelColor($aBMachine[0], $aBMachine[1], True)
-			WEnd
-			ExitLoop
-		EndIf
-	Next
+			EndIf
+			If _Sleep($DELAYRUNBOT1) Then Return
+			$cPixCheck = _GetPixelColor($aBMachine[0], $aBMachine[1], True)
+		WEnd
+	EndIf
 
 EndFunc   ;==>BB_Mach_Deploy

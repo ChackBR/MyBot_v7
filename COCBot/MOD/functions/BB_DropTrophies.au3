@@ -14,8 +14,9 @@ Func BB_DropTrophies()
 	Local $i = 0
 	Local $j = 0
 
-	Local $cPixColor  = ''
 	Local $iSide      = 1
+	Local $iBM_Pos    = -1
+	Local $cPixColor  = ''
 	Local $cSideNames = "TR|TL"
 
 	Local $bDegug     = True
@@ -49,15 +50,22 @@ Func BB_DropTrophies()
 
 			If BB_PrepareAttack() Then
 
-				If _Sleep($DELAYRUNBOT1*15) Then Return
+				If _Sleep($DELAYRUNBOT1*12) Then Return
 
 				; Deploy All Troops From Slot's
 				Setlog(" ====== BB Attack ====== ", $COLOR_INFO)
 				SetLog("BB: Attacking on a single side", $COLOR_INFO)
+
+				; Check if BM is available
+				Setlog("BB: Look for Battle Machine [If Exists]", $COLOR_GREEN)
+				$iBM_Pos = BB_Mach_Slot()
+
 				For $i = 0 To 5
 					; Pos Next Slot
 					If ($i > 0) Then
 						$aTroopSlot[0] += 72
+					Else
+						If $iBM_Pos < 0 Then $aTroopSlot[0] += 9
 					EndIf
 					$cPixColor = _GetPixelColor($aTroopSlot[0], $aTroopSlot[1], True)
 					If _Sleep($DELAYRUNBOT1) Then Return
@@ -73,7 +81,7 @@ Func BB_DropTrophies()
 					If _Sleep($DELAYRUNBOT1) Then Return
 					If $bContinue Then
 						$j = 0
-						$iTroopsTo = Number(getTroopCountBig( $aTroopSlot[0]+24, $aTroopSlot[1]-7))
+						$iTroopsTo = Number(getTroopCountBig($aTroopSlot[0], $aTroopSlot[1]-7))
 						If $iTroopsTo < 4 Then $iTroopsTo = 4
 						If $bDegug Then SetLog("BB: Drop Troops - Slot[ " & String( $i + 1 ) & " ], color: " & $cPixColor & " [ " & String( $j ) & " ] Num:[ " & $iTroopsTo & " ]", $COLOR_DEBUG)
 						While Not BB_ColorCheck( $aTroopSlot, $aSlotOff )
@@ -97,7 +105,7 @@ Func BB_DropTrophies()
 				; *-------------------------------------------------*
 				; Battle Machine Deploy
 				; *-------------------------------------------------*
-				BB_Mach_Deploy()
+				BB_Mach_Deploy( $iBM_Pos )
 
 				; BB: Wait for Battle End
 				Setlog("BB: Confirm Battle End [ok]", $COLOR_INFO)
