@@ -36,6 +36,7 @@ Func BB_DropTrophies()
 	Local $iWait64   = 64
 	Local $iWait128  = 128
 	Local $iWait256  = 256
+	Local $aAux[2]   = [ 0, 0]
 
 	If $g_bChkBB_DropTrophies Then
 		; Click attack button and find a match
@@ -64,12 +65,9 @@ Func BB_DropTrophies()
 						If $bDegug Then SetLog("BB: Click Next Slot, color: " & $cPixColor & " [ " & String( $i + 1 ) & " ]", $COLOR_DEBUG)
 						ClickP($aTroopSlot, 1, 0, "#0000")
 					Else
-						If ($i > 0) Then
-							SetLog("BB: Can't Find Next Slot, color: " & $cPixColor & " [ " & String( $i + 1 ) & " ]", $COLOR_DEBUG)
-							IF Not BB_ColorCheck( $aTroopSlot, $aSlotOff ) Then
-
-								$bContinue = False
-							EndIf
+						SetLog("BB: Can't verify slot, color: " & $cPixColor & " [ " & String( $i + 1 ) & " ]", $COLOR_DEBUG)
+						IF Not BB_ColorCheck( $aTroopSlot, $aSlotOff ) Then
+							If ($i > 0) Then $bContinue = False
 						EndIf
 					EndIf
 					If _Sleep($DELAYRUNBOT1) Then Return
@@ -80,10 +78,16 @@ Func BB_DropTrophies()
 						If $bDegug Then SetLog("BB: Drop Troops - Slot[ " & String( $i + 1 ) & " ], color: " & $cPixColor & " [ " & String( $j ) & " ] Num:[ " & $iTroopsTo & " ]", $COLOR_DEBUG)
 						While Not BB_ColorCheck( $aTroopSlot, $aSlotOff )
 							If _Sleep($DELAYRUNBOT1) Then Return
-							ClickP($aTroopSlot, 1, 0, "#0000")
+							If $j < 5 Then
+								PureClickP($aTroopSlot, 1, 0, "#0000")
+							Else
+								$aAux[0] = $aTroopSlot[0] + 16
+								$aAux[1] = $aTroopSlot[1] + 16
+								ClickP($aAux, 1, 0, "#0000")
+							EndIf
 							BB_Attack($iSide, $cSideNames, $iTroopsTo)
 							$j += 1
-							If $j > 5 Then ExitLoop
+							If $j > 8 Then ExitLoop
 							$cPixColor = _GetPixelColor($aTroopSlot[0], $aTroopSlot[1], True)
 						WEnd
 						If $bDegug Then SetLog("BB: Last Slot, color: " & $cPixColor & " [ " & String( $i + 1 ) & " ]", $COLOR_DEBUG)
