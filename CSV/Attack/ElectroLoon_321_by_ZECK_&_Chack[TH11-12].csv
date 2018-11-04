@@ -68,11 +68,9 @@ DROP  |D          |4          |1          |RSpell     |0          |0          |5
 DROP  |E          |3          |1          |RSpell     |0          |0          |150-170    |           |           |
 DROP  |F          |2          |1          |RSpell     |0          |0          |250-300    |           |           |
 DROP  |A          |10         |1          |Queen      |0          |0          |150-200    |           |           |
-DROP  |N          |4          |1          |Queen      |0          |0          |150-200    |           |           |
 DROP  |F          |2          |1          |HaSpell    |0          |0          |150-170    |           |           |
 DROP  |H          |2          |1          |HaSpell    |0          |0          |500-550    |           |           |
 DROP  |A          |10         |1          |King       |0          |0          |250-300    |           |           |
-DROP  |M          |4          |1          |King       |0          |0          |250-300    |           |           |
 WAIT  |2000-2200  |           |           |           |           |           |           |           |           |
 DROP  |U          |1          |1          |FSpell     |0          |0          |190-230    |           |           |
 DROP  |Z          |1          |1          |FSpell     |0          |0          |200-250    |           |           |
