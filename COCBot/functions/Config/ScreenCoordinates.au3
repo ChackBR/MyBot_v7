@@ -176,8 +176,8 @@ Global $aButtonSetting[4] = [820, 540 + $g_iMidOffsetY, 0xFFFFFF, 10] ; Setting 
 Global $aIsSettingPage[4] = [753, 75 + $g_iMidOffsetY, 0xFF8F95, 10] ; Main Screen, Setting page open - left upper corner of x button
 
 ;Google Play
-Global $aButtonConnected[4] = [650, 375 + $g_iMidOffsetY, 0xD7F37F, 20] ; Setting screen, Connected button
-Global $aButtonDisconnected[4] = [650, 375 + $g_iMidOffsetY, 0xFF7B80, 20] ; Setting screen, Disconnected button
+Global $aButtonConnected[4] = [650, 370 + $g_iMidOffsetY, 0xDDF685, 20] ; Setting screen, Connected button
+Global $aButtonDisconnected[4] = [650, 370 + $g_iMidOffsetY, 0xFF8287, 20] ; Setting screen, Disconnected button
 Global $aListAccount[4] = [635, 210 + $g_iMidOffsetY, 0xFFFFFF, 10] ; Accounts list google, White
 Global $aButtonVillageLoad[4] = [515, 411 + $g_iMidOffsetY, 0x6EBD1F, 20] ; Load button, Green
 Global $aTextBox[4] = [320, 160 + $g_iMidOffsetY, 0xFFFFFF, 10] ; Text box, White
