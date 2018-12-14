@@ -140,10 +140,10 @@ EndFunc   ;==>BB_PrepareSearch
 
 Func BB_Attack($Nside = 1, $SIDESNAMES = "TR|TL", $iTroopToDeploy = 4 )
 
-	Local $aBB_DiamondTop[4]    = [440,  30 + $g_iBottomOffsetY, 0x294949, 10]
-	Local $aBB_DiamondBottom[4] = [440, 730 + $g_iBottomOffsetY, 0x2B4847, 10]
-	Local $aBB_DiamondLeft[4]   = [ 30, 330 + $g_iBottomOffsetY, 0x213E3E, 10]
-	Local $aBB_DiamondRight[4]  = [830, 330 + $g_iBottomOffsetY, 0x2F5351, 10]
+	Local $aBB_DiamondTop[4]    = [430,  40 + $g_iBottomOffsetY, 0x294949, 10]
+	Local $aBB_DiamondBottom[4] = [430, 570 + $g_iBottomOffsetY, 0x2B4847, 10]
+	Local $aBB_DiamondLeft[4]   = [ 30, 340 + $g_iBottomOffsetY, 0x213E3E, 10]
+	Local $aBB_DiamondRight[4]  = [820, 340 + $g_iBottomOffsetY, 0x2F5351, 10]
 	Local $aBB_LineCenter[2]    = [  0,   0]
 	Local $i                    = 0
 	Local $iHalf                = 0
@@ -207,7 +207,7 @@ Func BB_Mach_Slot()
 	Local $cPixCheck = ''
 	Local $bDegug    = True
 
-	Local $aBMachine[4]      = [ 356, 580 + $g_iBottomOffsetY, 0x486E83, 20 ]
+	Local $aBMachine[4]      = [ 392, 580 + $g_iBottomOffsetY, 0x486E83, 20 ]
 	Local $aBMachineColor[5] = [ 0x487188, 0x486E83, 0x486B7E, 0x486F81, 0x466F84 ]
 
 	If _Sleep($DELAYRUNBOT3) Then Return
@@ -253,7 +253,7 @@ Func BB_Mach_Deploy( $iSlot = -1 )
 	Local $bDegug     = True
 	Local $iWait128   = 128
 
-	Local $aBMachine[4]      = [ 356, 580 + $g_iBottomOffsetY, 0x486E83, 20 ]
+	Local $aBMachine[4]      = [ 395, 580 + $g_iBottomOffsetY, 0x486E83, 20 ]
 	Local $aBMachineColor[5] = [ 0x487188, 0x486E83, 0x486B7E, 0x486F81, 0x466F84 ]
 	Local $aBatleEndColor[2] = [ 0x020202, 0x020202 ]
 

@@ -29,7 +29,7 @@ Func BB_DropTrophies()
 	Local $aOkBatleEndColor[2] = [ 0xDDF685, 0xE2FA8C ]
 
 	Local $aOkWaitBattle[4] = [ 400, 500 + $g_iBottomOffsetY, 0xF0F0F0, 20 ]
-	Local $aTroopSlot[4]    = [  40, 580 + $g_iBottomOffsetY, 0x404040, 20 ]
+	Local $aTroopSlot[4]    = [  78, 580 + $g_iBottomOffsetY, 0x404040, 20 ]
 	Local $aSlotActive[8]   = [0x4C92D3, 0x5198E0, 0x5298E0, 0x5498E0, 0x5598E0, 0x65ADEC, 0x66ADEC, 0x6AB4F1]
 	Local $aSlotOff[2]      = [0x464646, 0x454545]
 
@@ -193,7 +193,6 @@ Func BB_DropTrophies()
 	_Sleep($DELAYRUNBOT1)
 
 EndFunc	;==>BB_DropTrophies
-
 
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: BB_ColorCheck( $aInfo, $aColors )

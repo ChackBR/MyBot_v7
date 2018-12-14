@@ -129,7 +129,7 @@ Global $NextBtn[4] = [780, 546 + $g_iBottomOffsetY, 0xD34300, 20] ;  Next Button
 ; Someone asking troops : Color 0xD0E978 in x = 121
 
 ; 1 - Dark Gray : Castle filled/No Castle | 2 - Dark Green : Available or Already made | 3 - White : Available or Castle filled/No Castle
-Global $aRequestTroopsAO[6] = [761, 580, 0x919191, 0x6DB630, 0xFFFFFE, 15] ; Button Request Troops in Army Overview  (x,y, Gray - Full/No Castle, Green - Available or Already, White - Available or Full)
+Global $aRequestTroopsAO[6] = [761, 596, 0x919191, 0x6DB630, 0xFFFFFE, 15] ; Button Request Troops in Army Overview  (x,y, Gray - Full/No Castle, Green - Available or Already, White - Available or Full)
 
 Global Const $aOpenChatTab[4] = [19, 335 + $g_iMidOffsetY, 0xE88D27, 20]
 Global Const $aCloseChat[4] = [331, 330 + $g_iMidOffsetY, 0xF0951D, 20] ; duplicate with $aChatTab above, need to rename and fix all code to use one?
@@ -172,18 +172,19 @@ Global $NextBtnRND[4] = [710, 530 + $g_iMidOffsetY, 830, 570 + $g_iMidOffsetY] ;
 ;Switch Account
 Global $aLoginWithSupercellID[4] = [280, 640 + $g_iMidOffsetY, 0xDCF684, 20] ; Upper green button section "Log in with Supercell ID" 0xB1E25A
 Global $aLoginWithSupercellID2[4] = [266, 653 + $g_iMidOffsetY, 0xFFFFFF , 10] ; White Font "Log in with Supercell ID"
-Global $aButtonSetting[4] = [820, 550 + $g_iMidOffsetY, 0xFFFFFF, 10] ; Setting button, Main Screen
+Global $aButtonSetting[4] = [820, 540 + $g_iMidOffsetY, 0xFFFFFF, 10] ; Setting button, Main Screen
 Global $aIsSettingPage[4] = [753, 75 + $g_iMidOffsetY, 0xFF8F95, 10] ; Main Screen, Setting page open - left upper corner of x button
 
 ;Google Play
-Global $aButtonConnected[4] = [430, 380 + $g_iMidOffsetY, 0xD8F480, 20] ; Setting screen, Connected button
-Global $aButtonDisconnected[4] = [430, 380 + $g_iMidOffsetY, 0xFF7C81, 20] ; Setting screen, Disconnected button
+Global $aButtonConnected[4] = [650, 375 + $g_iMidOffsetY, 0xD7F37F, 20] ; Setting screen, Connected button
+Global $aButtonDisconnected[4] = [650, 375 + $g_iMidOffsetY, 0xFF7B80, 20] ; Setting screen, Disconnected button
 Global $aListAccount[4] = [635, 210 + $g_iMidOffsetY, 0xFFFFFF, 10] ; Accounts list google, White
 Global $aButtonVillageLoad[4] = [515, 411 + $g_iMidOffsetY, 0x6EBD1F, 20] ; Load button, Green
 Global $aTextBox[4] = [320, 160 + $g_iMidOffsetY, 0xFFFFFF, 10] ; Text box, White
 Global $aButtonVillageOkay[4] = [500, 170 + $g_iMidOffsetY, 0x81CA2D, 20] ; Okay button, Green
+
 ;SuperCell ID
-Global $aButtonConnectedSCID[4] = [430, 205 + $g_iMidOffsetY, 0x6EB730, 20] ; Setting creen, Supercell ID Connected button
+Global $aButtonConnectedSCID[4] = [460, 514 + $g_iMidOffsetY, 0x77c42a, 20] ; Setting creen, Supercell ID Connected button
 Global $aButtonLogOutSCID[4] = [700,  285 + $g_iMidOffsetY, 0x308AFB, 20] ; Supercell ID, Log Out button
 Global $aButtonConfirmSCID[4] = [460, 410 + $g_iMidOffsetY, 0x328AFB, 20] ; Supercell ID, Confirm button
 Global $aListAccountSCID[4] = [490, 185 + $g_iMidOffsetY, 0x000000, 10] ; Supercell ID, Black check in word "ID"

@@ -38,7 +38,7 @@ Func RequestCC($ClickPAtEnd = True, $specifyText = "")
 
 	If $ClickPAtEnd Then CheckCCArmy()
 
-	Local $color1 = _GetPixelColor($aRequestTroopsAO[0], $aRequestTroopsAO[1] + 20, True) ; Gray/Green color at 20px below Letter "R"
+	Local $color1 = _GetPixelColor($aRequestTroopsAO[0], $aRequestTroopsAO[1] + 10, True) ; Gray/Green color at 10px below Letter "R"
 	Local $color2 = _GetPixelColor($aRequestTroopsAO[0], $aRequestTroopsAO[1], True) ; White/Green color at Letter "R"
 
 	If _ColorCheck($color1, Hex($aRequestTroopsAO[2], 6), $aRequestTroopsAO[5]) Then

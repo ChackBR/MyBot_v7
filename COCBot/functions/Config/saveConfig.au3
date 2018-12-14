@@ -341,6 +341,7 @@ Func SaveConfig_600_6()
 	_Ini_Add("other", "minCollectdark", $g_iTxtCollectDark)
 	_Ini_Add("other", "chkTombstones", $g_bChkTombstones ? 1 : 0)
 	_Ini_Add("other", "chkCleanYard", $g_bChkCleanYard ? 1 : 0)
+	_Ini_Add("other", "chkCleanYardBB", $g_bChkCleanYardBB ? 1 : 0);Builder Base Clean Yard - ADDED by SM MOD
 	_Ini_Add("other", "ChkCollectFreeMagicItems", $g_bChkCollectFreeMagicItems ? 1 : 0)
 	_Ini_Add("other", "chkGemsBox", $g_bChkGemsBox ? 1 : 0)
 	_Ini_Add("other", "ChkTreasuryCollect", $g_bChkTreasuryCollect ? 1 : 0)

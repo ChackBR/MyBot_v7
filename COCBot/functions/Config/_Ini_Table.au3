@@ -18,7 +18,7 @@
 ; ===============================================================================================================================
 #include-once
 
-Global Const $g_iIniLinesMax = 1000 ; As of 2017-02-24, the number of active config.ini lines is 685
+Global Const $g_iIniLinesMax = 1024 ; As of 2017-02-24, the number of active config.ini lines is 685
 Global $g_asIniTable[$g_iIniLinesMax][2] ; section|key, value
 Global $g_iIniLineCount = 0
 
