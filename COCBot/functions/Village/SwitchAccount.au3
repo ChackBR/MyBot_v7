@@ -395,7 +395,7 @@ EndFunc   ;==>SwitchCOCAcc
 
 Func SwitchCOCAcc_DisconnectConnect(ByRef $bResult, $bDisconnectOnly = $g_bChkSharedPrefs)
 	For $i = 0 To 20 ; Checking Green Connect Button continuously in 20sec
-		If _ColorCheck(_GetPixelColor($aButtonConnected[0], $aButtonConnected[1], True), Hex($aButtonConnected[2], 20), $aButtonConnected[3]) Then ;	Green
+		If _ColorCheck(_GetPixelColor($aButtonConnected[0], $aButtonConnected[1], True), Hex($aButtonConnected[2], 6), $aButtonConnected[3]) Then ;	Green
 			If $bDisconnectOnly = False Then
 				SetLog("   1. Click Connect & Disconnect")
 				Click($aButtonConnected[0], $aButtonConnected[1], 2, 1000) ; Click Connect & Disconnect
