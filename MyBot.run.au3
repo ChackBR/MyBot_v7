@@ -1,4 +1,4 @@
-; #FUNCTION# ====================================================================================================================
+ï»¿; #FUNCTION# ====================================================================================================================
 ; Name ..........: MBR Bot
 ; Description ...: This file contains the initialization and main loop sequences f0r the MBR Bot
 ; Author ........:  (2014)
@@ -77,7 +77,7 @@ Global $g_hFrmBot = 0 ; The main GUI window
 ; "r01" ; MyBot v7.6.2 Light: FFC + DEB + Fast Click Donate ( while using QuickTrain ) + Siege Fix + Don't retype txt + BH Drop Trophy
 ; "r01" ; MyBot v7.6.3 Light: DEB + DRRTxt + BB Play + Fixes
 ; "r01" ; MyBot v7.6.4 Light: DEB + DRRTxt + BB Play + Fixes
-$g_sModversion = "r06" ; MyBot v7.6.4 Light: DEB + DRRTxt + BB Play + Temp Fixes for December Update
+$g_sModversion = "r01" ; MyBot v7.6.5 Light: DEB + DRRTxt + BB Play + Fixes for December Update
 
 ; MBR includes
 #include "COCBot\MBR Global Variables.au3"
@@ -626,13 +626,13 @@ Func FinalInitialization(Const $sAI)
 	; MOD++
 	SetLog(" ", $COLOR_SUCCESS)
 	SetLog("________" & " [  MyBot Light MOD++  ]" & "________", $COLOR_MONEYGREEN, "Impact", 14)
-	SetLog("                                  » " & "Warning" & " «", $COLOR_TEAL, "Segoe UI Semibold", 12)
-	SetLog("                                   » " & "Make a Fresh Config" & " «", $COLOR_TEAL, "Segoe UI Semibold", 9)
-	SetLog("                                   » " & "Don't Use Old Profile" & " «", $COLOR_TEAL, "Segoe UI Semibold", 9)
-	SetLog("                   » " & "Set BOT Language to ENGLISH" & " «", $COLOR_TEAL, "Segoe UI Semibold", 10)
+	SetLog("                                  Â» " & "Warning" & " Â«", $COLOR_TEAL, "Segoe UI Semibold", 12)
+	SetLog("                                   Â» " & "Make a Fresh Config" & " Â«", $COLOR_TEAL, "Segoe UI Semibold", 9)
+	SetLog("                                   Â» " & "Don't Use Old Profile" & " Â«", $COLOR_TEAL, "Segoe UI Semibold", 9)
+	SetLog("                   Â» " & "Set BOT Language to ENGLISH" & " Â«", $COLOR_TEAL, "Segoe UI Semibold", 10)
 	SetLog("-----------------------------------------------------------------------", $COLOR_MONEYGREEN)
-	SetLog("            » " & "Thanks To ALL MyBot Developer's" & " «", $COLOR_TEAL, "Segoe Print", 9)
-	SetLog("                        » " & "Based On: MyBot" & " " & $g_sBotVersion & " «", $COLOR_TEAL, "Segoe UI Semibold", 10)
+	SetLog("            Â» " & "Thanks To ALL MyBot Developer's" & " Â«", $COLOR_TEAL, "Segoe Print", 9)
+	SetLog("                        Â» " & "Based On: MyBot" & " " & $g_sBotVersion & " Â«", $COLOR_TEAL, "Segoe UI Semibold", 10)
 	SetLog("-----------------------------------------------------------------------", $COLOR_MONEYGREEN)
 	SetLog(" ", $COLOR_MEDGRAY)
 	; Message - end
@@ -957,24 +957,6 @@ Func _Idle() ;Sequence that runs until Full Army
 		If _Sleep($DELAYIDLE1) Then Return
 		If $g_iCommandStop = -1 Then SetLog("====== Waiting for full army ======", $COLOR_SUCCESS)
 		Local $hTimer = __TimerInit()
-		Local $iReHere = 0, $bNoCheckRedChatIcon = True
-
-		If $g_iActiveDonate And $g_bChkDonate Then
-			Local $aHeroResult = CheckArmyCamp(True, True, True, False)
-			While $iReHere < 7
-				If Not $g_bRunState Then Return
-				$iReHere += 1
-				If ($g_iCommandStop = 3 Or $g_iCommandStop = 0) Then $bNoCheckRedChatIcon = ($iReHere = 1) ? False : True ; Just to force once to open and check Donations when is Halt mode
-				If $iReHere = 1 And SkipDonateNearFullTroops(True, $aHeroResult) = False And BalanceDonRec(True) Then
-					DonateCC($bNoCheckRedChatIcon)
-				ElseIf SkipDonateNearFullTroops(False, $aHeroResult) = False And BalanceDonRec(False) Then
-					DonateCC($bNoCheckRedChatIcon)
-				EndIf
-				If _Sleep($DELAYIDLE2) Then ExitLoop
-				If $g_bRestart = True Then ExitLoop
-				If CheckAndroidReboot() Then ContinueLoop 2
-			WEnd
-		EndIf
 		If _Sleep($DELAYIDLE1) Then ExitLoop
 		checkObstacles() ; trap common error messages also check for reconnecting animation
 		checkMainScreen(False) ; required here due to many possible exits
@@ -1031,7 +1013,7 @@ Func _Idle() ;Sequence that runs until Full Army
 		If $g_iCommandStop = 0 And $g_bTrainEnabled = True Then
 			If Not ($g_bIsFullArmywithHeroesAndSpells) Then
 				If $g_iActualTrainSkip < $g_iMaxTrainSkip Then
-					If CheckNeedOpenTrain($g_sTimeBeforeTrain) Then TrainSystem()
+					If CheckNeedOpenTrain($g_sTimeBeforeTrain) Or (ProfileSwitchAccountEnabled() And $g_iActiveDonate And $g_bChkDonate) Then TrainSystem() ; force check trainsystem after donate and before switch account
 					If $g_bRestart = True Then ExitLoop
 					If _Sleep($DELAYIDLE1) Then ExitLoop
 					checkMainScreen(False)
@@ -1293,15 +1275,12 @@ Func _RunFunction($action)
 			If isOnBuilderBase() Or (($g_bChkCollectBuilderBase Or $g_bChkStartClockTowerBoost Or $g_iChkBBSuggestedUpgrades) And SwitchBetweenBases()) Then
 				CollectBuilderBase()
 				BuilderBaseReport()
+				CleanBBYard()
 				; --------------------------------------------
 				; MOD++ 
 				; --------------------------------------------
 				BB_DropTrophies()
 				StartClockTowerBoost()
-				; --------------------------------------------
-				; MOD++ Fahid.Mahmood
-				; --------------------------------------------
-				CleanYardBB()
 				MainSuggestedUpgradeCode()
 				; switch back to normal village
 				SwitchBetweenBases()

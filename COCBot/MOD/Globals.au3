@@ -25,7 +25,6 @@ Global $g_bRequestTypeOnceEnable = False
 Global $g_bChkBB_DropTrophies = False
 Global $g_bChkBB_OnlyWithLoot = False
 Global $g_iTxtBB_DropTrophies = 0
-Global $g_bChkCleanYardBB = False
 
 ; --------------------------------------------
 ; Request CC Troops at first - MOD++

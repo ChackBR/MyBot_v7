@@ -122,7 +122,7 @@ Func lblTotalCountTroop2()
 	Local $TotalTotalTimeTroop = 0
 	Local $NbrOfBarrack = 4 ;For the moment fix to 4 until fine detect level of each Barrack
 	Local $NbrOfDarkBarrack = 2 ;For the moment fix to 2 until fine detect level of each Barrack
-	For $i = $eTroopBarbarian To $eTroopElectroDragon
+	For $i = $eTroopBarbarian To $eTroopIceGolem
 		Local $NbrOfTroop = GUICtrlRead($g_ahTxtTrainArmyTroopCount[$i])
 		Local $LevOfTroop = $g_aiTrainArmyTroopLevel[$i]
 
@@ -136,7 +136,7 @@ Func lblTotalCountTroop2()
 		EndIf
 	Next
 
-	For $i = $eTroopMinion To $eTroopBowler
+	For $i = $eTroopMinion To $eTroopIceGolem
 		Local $NbrOfTroop = GUICtrlRead($g_ahTxtTrainArmyTroopCount[$i])
 		Local $LevOfTroop = $g_aiTrainArmyTroopLevel[$i]
 
@@ -189,7 +189,7 @@ Func lblTotalCountSiege()
 
 	GUICtrlSetData($g_hLblTotalTimeSiege, CalculTimeTo($iTotalTimeSiege))
 	GUICtrlSetData($g_hLblCountTotalSiege, $iTotalSpaceSiege)
-	GUICtrlSetBkColor($g_hLblCountTotalSiege, $iTotalSpaceSiege <= 2 ? $COLOR_MONEYGREEN : $COLOR_RED)
+	GUICtrlSetBkColor($g_hLblCountTotalSiege, $iTotalSpaceSiege <= 3 ? $COLOR_MONEYGREEN : $COLOR_RED)
 
 	CalCostSiege()
 	; prepared for some new TH level !!
@@ -221,7 +221,7 @@ Func TotalSpellCountClick()
 	If $g_iTownHallLevel > 5 Or $g_iTownHallLevel = 0 Then
 		_GUI_Value_STATE("SHOW", $g_aiTrainArmySpellLevel[$eSpellHeal] > 0 ? $groupHeal : $groupIcnHeal)
 	Else
-		For $i = $eSpellRage To $eSpellSkeleton
+		For $i = $eSpellRage To $eSpellBat
 			GUICtrlSetData($g_ahTxtTrainArmySpellCount[$i], 0)
 			GUICtrlSetData($g_ahLblTrainArmySpellLevel[$i], 0)
 		Next
@@ -230,7 +230,7 @@ Func TotalSpellCountClick()
 	If $g_iTownHallLevel > 6 Or $g_iTownHallLevel = 0 Then
 		_GUI_Value_STATE("SHOW", $g_aiTrainArmySpellLevel[$eSpellRage] > 0 ? $groupRage : $groupIcnRage)
 	Else
-		For $i = $eSpellJump To $eSpellSkeleton
+		For $i = $eSpellJump To $eSpellBat
 			GUICtrlSetData($g_ahTxtTrainArmySpellCount[$i], 0)
 			GUICtrlSetData($g_ahLblTrainArmySpellLevel[$i], 0)
 		Next
@@ -245,11 +245,13 @@ Func TotalSpellCountClick()
 		GUICtrlSetData($g_ahTxtTrainArmySpellCount[$eSpellClone], 0)
 		GUICtrlSetData($g_ahTxtTrainArmySpellCount[$eSpellHaste], 0)
 		GUICtrlSetData($g_ahTxtTrainArmySpellCount[$eSpellSkeleton], 0)
+		GUICtrlSetData($g_ahTxtTrainArmySpellCount[$eSpellBat], 0)
 		GUICtrlSetData($g_ahLblTrainArmySpellLevel[$eSpellJump], 0)
 		GUICtrlSetData($g_ahLblTrainArmySpellLevel[$eSpellFreeze], 0)
 		GUICtrlSetData($g_ahLblTrainArmySpellLevel[$eSpellClone], 0)
 		GUICtrlSetData($g_ahLblTrainArmySpellLevel[$eSpellHaste], 0)
 		GUICtrlSetData($g_ahLblTrainArmySpellLevel[$eSpellSkeleton], 0)
+		GUICtrlSetData($g_ahLblTrainArmySpellLevel[$eSpellBat], 0)
 	EndIf
 
 	If $g_iTownHallLevel > 8 Or $g_iTownHallLevel = 0 Then
@@ -257,6 +259,7 @@ Func TotalSpellCountClick()
 		_GUI_Value_STATE("SHOW", $g_aiTrainArmySpellLevel[$eSpellFreeze] > 0 ? $groupFreeze : $groupIcnFreeze)
 		_GUI_Value_STATE("SHOW", $g_aiTrainArmySpellLevel[$eSpellHaste] > 0 ? $groupHaste : $groupIcnHaste)
 		_GUI_Value_STATE("SHOW", $g_aiTrainArmySpellLevel[$eSpellSkeleton] > 0 ? $groupSkeleton : $groupIcnSkeleton)
+		_GUI_Value_STATE("SHOW", $g_aiTrainArmySpellLevel[$eSpellBat] > 0 ? $groupSkeleton : $groupIcnBat)
 	Else
 		GUICtrlSetData($g_ahTxtTrainArmySpellCount[$eSpellClone], 0)
 		GUICtrlSetData($g_ahLblTrainArmySpellLevel[$eSpellClone], 0)
@@ -518,7 +521,7 @@ Func BtnSpellsOrderSet()
 	Local $bMissingTroop = False ; flag for when troops are not assigned by user
 	Local $aiBrewOrder[$eSpellCount] = [ _
 			$eSpellLightning, $eSpellHeal, $eSpellRage, $eSpellJump, $eSpellFreeze, $eSpellClone, _
-			$eSpellPoison, $eSpellEarthquake, $eSpellHaste, $eSpellSkeleton]
+			$eSpellPoison, $eSpellEarthquake, $eSpellHaste, $eSpellSkeleton, $eSpellBat]
 
 	; check for duplicate combobox index and take action
 	For $i = 0 To UBound($g_ahCmbSpellsOrder) - 1
@@ -605,7 +608,7 @@ Func BtnTroopOrderSet()
 	Local $aiUsedTroop[$eTroopCount] = [ _
 		$eTroopBarbarian, $eTroopArcher, $eTroopGiant, $eTroopGoblin, $eTroopWallBreaker, $eTroopBalloon, $eTroopWizard, _
 		$eTroopHealer, $eTroopDragon, $eTroopPekka, $eTroopBabyDragon, $eTroopMiner, $eTroopElectroDragon, $eTroopMinion, $eTroopHogRider, _
-		$eTroopValkyrie, $eTroopGolem, $eTroopWitch, $eTroopLavaHound, $eTroopBowler]
+		$eTroopValkyrie, $eTroopGolem, $eTroopWitch, $eTroopLavaHound, $eTroopBowler, $eTroopIceGolem]
 
 	; check for duplicate combobox index and take action
 	For $i = 0 To UBound($g_ahCmbTroopOrder) - 1
@@ -976,7 +979,7 @@ Func CalCostCamp()
 		$iElixirCostCamp += $g_aiArmyCompTroops[$i] * $g_aiTroopCostPerLevel[$i][$g_aiTrainArmyTroopLevel[$i]]
 	Next
 
-	For $i = $eTroopMinion To $eTroopBowler
+	For $i = $eTroopMinion To $eTroopIceGolem
 		$iDarkCostCamp += $g_aiArmyCompTroops[$i] * $g_aiTroopCostPerLevel[$i][$g_aiTrainArmyTroopLevel[$i]]
 	Next
 
@@ -991,7 +994,7 @@ Func CalCostSpell()
 		$iElixirCostSpell += $g_aiArmyCompSpells[$i] * $g_aiSpellCostPerLevel[$i][$g_aiTrainArmySpellLevel[$i]]
 	Next
 
-	For $i = $eSpellPoison To $eSpellSkeleton
+	For $i = $eSpellPoison To $eSpellBat
 		$iDarkCostSpell += $g_aiArmyCompSpells[$i] * $g_aiSpellCostPerLevel[$i][$g_aiTrainArmySpellLevel[$i]]
 	Next
 

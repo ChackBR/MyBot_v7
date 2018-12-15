@@ -503,6 +503,7 @@ Func ReferenceGlobals()
 
 	$a1 = $eTroopLavaHound
 	$a1 = $eTroopBowler
+	$a1 = $eTroopIceGolem
 	$a1 = $eTroopCount
 	$a1 = $eSpellLightning
 	$a1 = $eSpellHeal
@@ -515,6 +516,7 @@ Func ReferenceGlobals()
 	$a1 = $eSpellEarthquake
 	$a1 = $eSpellHaste
 	$a1 = $eSpellSkeleton
+	$a1 = $eSpellBat
 	$a1 = $eSpellCount
 	$a1 = $eBarb
 	$a1 = $eArch
@@ -537,6 +539,7 @@ Func ReferenceGlobals()
 	$a1 = $eWitc
 	$a1 = $eLava
 	$a1 = $eBowl
+	$a1 = $eIceG
 	$a1 = $eKing
 	$a1 = $eQueen
 	$a1 = $eWarden
@@ -552,6 +555,7 @@ Func ReferenceGlobals()
 	$a1 = $eESpell
 	$a1 = $eHaSpell
 	$a1 = $eSkSpell
+	$a1 = $eBtSpell
 
 	$a1 = $aTrainBarb
 	$a1 = $aTrainArch
@@ -572,6 +576,7 @@ Func ReferenceGlobals()
 	$a1 = $aTrainWitc
 	$a1 = $aTrainLava
 	$a1 = $aTrainBowl
+	$a1 = $aTrainIceG
 	$a1 = $aTrainLSpell
 	$a1 = $aTrainHSpell
 	$a1 = $aTrainRSpell
@@ -582,6 +587,7 @@ Func ReferenceGlobals()
 	$a1 = $aTrainESpell
 	$a1 = $aTrainHaSpell
 	$a1 = $aTrainSkSpell
+	$a1 = $aTrainBtSpell
 	$a1 = $aTrainArmy
 
 	$a1 = $aLoginWithSupercellID
