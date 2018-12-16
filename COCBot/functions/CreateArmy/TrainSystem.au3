@@ -367,7 +367,7 @@ Func CheckSiegeMachine()
 
 	Local $bToReturn = True
 
-	If IsWaitforSiegeMachine() Or $g_iCommandStop = 0 Then
+	If IsWaitforSiegeMachine() Then
 		For $i = $eSiegeWallWrecker To $eSiegeMachineCount - 1
 			If $g_aiCurrentSiegeMachines[$i] < $g_aiArmyCompSiegeMachine[$i] Then $bToReturn = False
 			If $g_bDebugSetlogTrain Then
