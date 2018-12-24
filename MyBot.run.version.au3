@@ -67,4 +67,6 @@ Global $g_sModversion
 ; "r01" ; MyBot v7.6.2 Light: FFC + DEB + Fast Click Donate ( while using QuickTrain ) + Siege Fix + Don't retype txt + BH Drop Trophy
 ; "r01" ; MyBot v7.6.3 Light: DEB + DRRTxt + BB Play + Fixes
 ; "r01" ; MyBot v7.6.4 Light: DEB + DRRTxt + BB Play + Fixes
-$g_sModversion = "r02" ; MyBot v7.6.5 Light: DEB + DRRTxt + BB Play + Fixes Request and Donate Siege
+; "r02" ; MyBot v7.6.5 Light: DEB + DRRTxt + BB Play + Fixes Request and Donate Siege
+
+$g_sModversion = "r03" ; MyBot v7.6.5 Light: DEB + DRRTxt + BB Play + Fix Request/Donate Siege + Fix Rage Speel Detection

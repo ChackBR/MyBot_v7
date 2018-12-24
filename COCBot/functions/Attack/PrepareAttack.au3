@@ -53,15 +53,18 @@ Func PrepareAttack($pMatchMode, $Remaining = False, $DebugSiege = False) ;Assign
 
 	If ($pMatchMode = $DB Or $pMatchMode = $LB Or $pMatchMode = $TS) And Not $Remaining Then
 		; Default is CC ,let's check Siege Machines , if is to be used and exist.
-		If $g_abAttackDropCC[$pMatchMode] And $g_aiAttackUseSiege[$pMatchMode] = 3 And ($g_aiCurrentSiegeMachines[$eSiegeStoneSlammer] > 0 Or $g_aiCurrentCCSiegeMachines[$eSiegeStoneSlammer] > 0) Then
+		If $g_abAttackDropCC[$pMatchMode] And $g_aiCurrentCCSiegeMachines[$eSiegeStoneSlammer] > 0 Then
 			$ToUse = $eStoneS
 			$iDa = 3
-		ElseIf $g_abAttackDropCC[$pMatchMode] And $g_aiAttackUseSiege[$pMatchMode] = 2 And ($g_aiCurrentSiegeMachines[$eSiegeBattleBlimp] > 0 Or $g_aiCurrentCCSiegeMachines[$eSiegeBattleBlimp] > 0) Then
+			Setlog("Siege: Force use " & NameOfTroop($ToUse))
+		ElseIf $g_abAttackDropCC[$pMatchMode] And $g_aiCurrentCCSiegeMachines[$eSiegeBattleBlimp] > 0 Then
 			$ToUse = $eBattleB
 			$iDa = 2
-		ElseIf $g_abAttackDropCC[$pMatchMode] And $g_aiAttackUseSiege[$pMatchMode] = 1 And ($g_aiCurrentSiegeMachines[$eSiegeWallWrecker] > 0 Or $g_aiCurrentCCSiegeMachines[$eSiegeWallWrecker] > 0) Then
+			Setlog("Siege: Force use " & NameOfTroop($ToUse))
+		ElseIf $g_abAttackDropCC[$pMatchMode] And $g_aiCurrentCCSiegeMachines[$eSiegeWallWrecker] > 0 Then
 			$ToUse = $eWallW
 			$iDa = 1
+			Setlog("Siege: Force use " & NameOfTroop($ToUse))
 		Else
 			$ToUse = $eCastle
 			$iDa = 0
