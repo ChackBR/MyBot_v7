@@ -68,5 +68,6 @@ Global $g_sModversion
 ; "r01" ; MyBot v7.6.3 Light: DEB + DRRTxt + BB Play + Fixes
 ; "r01" ; MyBot v7.6.4 Light: DEB + DRRTxt + BB Play + Fixes
 ; "r01" ; MyBot v7.6.5 Light: DEB + DRRTxt + BB Play +Fix Request/Donate Siege + Fix Rage Speel Detection + Use any siege available
+; "r01" ; MyBot v7.6.6 Light: DEB + DRRTxt + BB Play + Use any siege received available
+$g_sModversion = "r02" ; MyBot v7.6.6 Light: DEB + DRRTxt + BB Play + Use any siege received available + Fix for remaining CSV Troops
 
-$g_sModversion = "r01" ; MyBot v7.6.6 Light: DEB + DRRTxt + BB Play + Use any siege received available

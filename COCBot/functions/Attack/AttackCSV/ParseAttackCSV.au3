@@ -295,15 +295,13 @@ Func ParseAttackCSV($debug = False)
                                 ; Let's get the troops again and quantities
                                 If PrepareAttack($g_iMatchMode, True) > 0 Then
                                     ; a Loop from all troops
-                                    For $ii = $eBarb To $eBowl ; lauch all remaining troops
+                                    For $ii = $eBarb To $eIceG ; lauch all remaining troops
                                         ; Loop on all detected troops
                                         For $x = 0 To UBound($g_avAttackTroops) - 1
                                             ; If the Name exist and haves more than zero is deploy it
                                             If $g_avAttackTroops[$x][0] = $ii and $g_avAttackTroops[$x][1] > 0 Then
                                                 Local $plural = 0
                                                 If $g_avAttackTroops[$x][1] > 1 Then $plural = 1
-                                                Local $name = NameOfTroop($g_avAttackTroops[$x][0], $plural)
-                                                Setlog("Name: " & $name, $COLOR_DEBUG)
                                                 Setlog("Qty: " & $g_avAttackTroops[$x][1], $COLOR_DEBUG)
 												DropTroopFromINI($value1, $index1, $index2, $indexArray, $g_avAttackTroops[$x][1], $g_avAttackTroops[$x][1], $g_asTroopShortNames[$ii], $delaypoints1, $delaypoints2, $delaydrop1, $delaydrop2, $sleepdrop1, $sleepdrop2, $debug)
                                                 CheckHeroesHealth()
