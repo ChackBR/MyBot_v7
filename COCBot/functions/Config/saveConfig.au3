@@ -1244,6 +1244,13 @@ Func SaveConfig_641_1()
 	_Ini_Add("other", "btnCloseWaitRandom", $g_bCloseRandomTime ? 1 : 0)
 	_Ini_Add("other", "CloseWaitRdmPercent", $g_iCloseRandomTimePercent)
 	_Ini_Add("other", "MinimumTimeToClose", $g_iCloseMinimumTime)
+
+	; --------------------------------------------
+	; Max logout time - MOD++
+	; --------------------------------------------
+	_Ini_Add("TrainLogout", "TrainLogoutMaxTime", $g_bTrainLogoutMaxTime)
+	_Ini_Add("TrainLogout", "TrainLogoutMaxTimeTXT", $g_iTrainLogoutMaxTime)
+
 	; Train click timing
 	_Ini_Add("other", "TrainITDelay", $g_iTrainClickDelay)
 	; Training add random delay

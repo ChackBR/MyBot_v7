@@ -38,6 +38,12 @@ Global $chkReqCCFirst = 1
 Global $g_iChkAutoCamp = True
 
 ; --------------------------------------------
+; Max logout time - MOD++
+; --------------------------------------------
+Global $g_bTrainLogoutMaxTime = False
+Global $g_iTrainLogoutMaxTime = 12
+
+; --------------------------------------------
 ; Unit/Wave Factor - MOD++
 ; --------------------------------------------
 Global $g_iChkGiantSlot = 0, $g_iChkUnitFactor = 0, $g_iChkWaveFactor = 0
