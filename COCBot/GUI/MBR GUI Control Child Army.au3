@@ -177,19 +177,17 @@ EndFunc   ;==>lblTotalCountSpell2
 
 Func lblTotalCountSiege()
 	; calculate total space and time for Siege composition
-	Local $iTotalTimeSiege = 0
-	Local $iTotalSpaceSiege = 0
+	Local $iTotalTotalTimeSiege = 0
+	$g_iTotalTrainSpaceSiege = 0
 
 	For $i = 0 To $eSiegeMachineCount - 1
-		$iTotalSpaceSiege += $g_aiArmyCompSiegeMachine[$i] * $g_aiSiegeMachineSpace[$i]
-		$iTotalTimeSiege  += $g_aiArmyCompSiegeMachine[$i] * $g_aiSiegeMachineTrainTimePerLevel[$i][$g_aiTrainArmySiegeMachineLevel[$i]]
+		$g_iTotalTrainSpaceSiege += $g_aiArmyCompSiegeMachine[$i] * $g_aiSiegeMachineSpace[$i]
+		$iTotalTotalTimeSiege += $g_aiArmyCompSiegeMachine[$i] * $g_aiSiegeMachineTrainTimePerLevel[$i][$g_aiTrainArmySiegeMachineLevel[$i]]
 	Next
-	
-	$g_iTotalTrainSpaceSiege = $iTotalSpaceSiege
 
-	GUICtrlSetData($g_hLblTotalTimeSiege, CalculTimeTo($iTotalTimeSiege))
-	GUICtrlSetData($g_hLblCountTotalSiege, $iTotalSpaceSiege)
-	GUICtrlSetBkColor($g_hLblCountTotalSiege, $iTotalSpaceSiege <= 3 ? $COLOR_MONEYGREEN : $COLOR_RED)
+	GUICtrlSetData($g_hLblTotalTimeSiege, CalculTimeTo($iTotalTotalTimeSiege))
+	GUICtrlSetData($g_hLblCountTotalSiege, $g_iTotalTrainSpaceSiege)
+	GUICtrlSetBkColor($g_hLblCountTotalSiege, $g_iTotalTrainSpaceSiege <= 3 ? $COLOR_MONEYGREEN : $COLOR_RED)
 
 	CalCostSiege()
 	; prepared for some new TH level !!

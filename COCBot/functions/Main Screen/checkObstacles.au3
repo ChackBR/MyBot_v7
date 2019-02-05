@@ -14,8 +14,9 @@
 ; Example .......: No
 ; ===============================================================================================================================
 ;
-Func checkObstacles($bBuilderBase = False) ;Checks if something is in the way for mainscreen
+Func checkObstacles($bBuilderBase = Default) ;Checks if something is in the way for mainscreen
 	FuncEnter(checkObstacles)
+	If $bBuilderBase = Default Then $bBuilderBase = False
 	Static $checkObstaclesActive = False
 
 	If TestCapture() = False And WinGetAndroidHandle() = 0 Then
@@ -136,7 +137,7 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 				If $g_bChkSharedPrefs And HaveSharedPrefs() Then
 					SetLog("Please wait for loading CoC...!")
 					PushSharedPrefs()
-					OpenCoC()
+					If Not $bRecursive Then OpenCoC()
 					Return True
 				EndIf
 			Case _CheckPixel($aIsCheckOOS, $g_bNoCapturePixel) Or (UBound(decodeSingleCoord(FindImageInPlace("OOS", $g_sImgOutOfSync, "355,335,435,395", False, $g_iAndroidLollipop))) > 1) ; Check OoS
@@ -222,9 +223,6 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 					Return checkObstacles_StopBot($msg) ; stop bot
 				EndIf
 				SetLog("Warning: Can not find type of Reload error message", $COLOR_ERROR)
-				PureClickP($aAway, 1, 0, "#0000") ;Click away If things are open
-				SetLog("Will wait for 1 min... then continue", $COLOR_ERROR)
-				If _SleepStatus($DELAYCHECKOBSTACLES4 / 2 ) Then Return ; 2 Minutes
 		EndSelect
 		If TestCapture() Then Return "Village is out of sync or inactivity or connection lost or maintenance"
 		Return checkObstacles_ReloadCoC($aReloadButton, "#0131", $bRecursive) ; Click for out of sync or inactivity or connection lost or maintenance

@@ -1,8 +1,8 @@
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: AttackBarCheck
+; Name ..........: GetAttackBar
 ; Description ...: Detects Army in the Attackbar and Returns Name, Slot, Amount and X Coordinate
-; Syntax ........: AttackBarCheck($bRemaining = False, $pMatchMode = $DB, $bDebug = False)
-; Parameters ....: $bRemaining (First Check or for Remaining Troops), $pMatchMode (Attackmode that needs the Attackbar: $DB, $AB), $bDebug (Debug AttackbarCheck)
+; Syntax ........: GetAttackBar($bRemaining = False, $pMatchMode = $DB, $bDebug = False)
+; Parameters ....: $bRemaining (First Check or for Remaining Troops), $pMatchMode (Attackmode that needs the Attackbar: $DB, $AB), $bDebug (Debug GetAttackbar)
 ; Return values .:
 ; Author ........: Trlopes (06-2016)
 ; Modified ......: ProMac (12-2016), Fliegerfaust(12-2018)
@@ -12,7 +12,7 @@
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
 ; Example .......: No
 ; ===============================================================================================================================
-Func AttackBarCheck($bRemaining = False, $pMatchMode = $DB, $bDebug = False)
+Func GetAttackBar($bRemaining = False, $pMatchMode = $DB, $bDebug = False)
 	Local Static $aAttackBar[0][8]
 	Local Static $bDoubleRow = False, $bCheckSlot12 = False
 	Local $sSearchDiamond = GetDiamondFromRect("0,635,835,698")
@@ -28,6 +28,7 @@ Func AttackBarCheck($bRemaining = False, $pMatchMode = $DB, $bDebug = False)
 		$aAttackBar = $aDummyArray
 		$g_iLSpellLevel = 1
 		$g_iESpellLevel = 1
+		$g_iSiegeLevel = 1
 
 		;Check if Double Row is enabled aswell as has 12+ Slots
 		If _CheckPixel($aDoubRowAttackBar, True) Then
@@ -59,6 +60,7 @@ Func AttackBarCheck($bRemaining = False, $pMatchMode = $DB, $bDebug = False)
 			$aTempMultiCoords = decodeMultipleCoords($aTempArray[1], 40, 40, -1)
 			For $j = 0 To UBound($aTempMultiCoords, 1) - 1
 				$aTempCoords = $aTempMultiCoords[$j]
+				If UBound($aTempCoords) < 2 Then ContinueLoop
 				If $bDoubleRow And $aTempCoords[1] >= $iYBelowRowOne Then $iRow = 2
 				If StringRegExp($aTempArray[0], "(AmountX)", 0) Then
 					_ArrayAdd($aSlotAmountX, $aTempCoords[0] & "|" & $aTempCoords[1] & "|" & $iRow, 0, "|", @CRLF, $ARRAYFILL_FORCE_NUMBER)
@@ -94,9 +96,9 @@ Func AttackBarCheck($bRemaining = False, $pMatchMode = $DB, $bDebug = False)
 		[n][2] = The Y Coordinate of the Troop/Spell/Hero/Siege
 		[n][3] = The Slot Number (Starts with 0)
 		[n][4] = The Amount
-		[n][5] = The X Coordinate of the Y beside the Amount
-		[n][6] = The Y Coordinate of the X beside the Amount
-		[n][7] = The Row where it is in (If Single Row all Should be 2)
+		[n][5] = The X Coordinate of the x beside the Amount
+		[n][6] = The Y Coordinate of the x beside the Amount
+		[n][7] = The Row where it is in
 	#comments-end
 
 	Local $aFinalAttackBar[0][7]
@@ -134,6 +136,11 @@ Func AttackBarCheck($bRemaining = False, $pMatchMode = $DB, $bDebug = False)
 
 			If StringRegExp($aAttackBar[$i][0], "(King)|(Queen)|(Warden)|(Castle)|(WallW)|(BattleB)|(StoneS)", 0) Then
 				If Not $bRemoved Then $aAttackBar[$i][4] = 1
+				If ($pMatchMode = $DB Or $pMatchMode = $LB) And StringRegExp($aAttackBar[$i][0], "(WallW)|(BattleB)|(StoneS)", 0) And $g_abAttackDropCC[$pMatchMode] And $g_aiAttackUseSiege[$pMatchMode] > 0 And $g_aiAttackUseSiege[$pMatchMode] <= 4 Then
+					$g_iSiegeLevel = Number(getTroopsSpellsLevel(Number($aAttackBar[$i][5]) - 30, 704))
+					If $g_iSiegeLevel = "" Then $g_iSiegeLevel = 1
+					SetDebugLog($aAttackBar[$i][0] & " level: " & $g_iSiegeLevel)
+				EndIf
 			Else
 				If Not $bRemoved Then
 					$aAttackBar[$i][4] = Number(getTroopCountSmall(Number($aAttackBar[$i][5]), Number($aAttackBar[$i][6])))
@@ -199,6 +206,7 @@ Func ExtendedAttackBarCheck($aAttackBarFirstSearch, $bRemaining, $sSearchDiamond
 			$aTempMultiCoords = decodeMultipleCoords($aTempArray[1], 60, 60, -1)
 			For $j = 0 To UBound($aTempMultiCoords, 1) - 1
 				$aTempCoords = $aTempMultiCoords[$j]
+				If UBound($aTempCoords) < 2 Then ContinueLoop
 				If StringRegExp($aTempArray[0], "(AmountX)", 0) Then
 					_ArrayAdd($aSlotAmountX, $aTempCoords[0] & "|" & $aTempCoords[1] & "|" & $iRow, 0, "|", @CRLF, $ARRAYFILL_FORCE_NUMBER)
 					$aiOCRLocation[$iRow - 1] = $aTempCoords[1]
@@ -230,9 +238,9 @@ Func ExtendedAttackBarCheck($aAttackBarFirstSearch, $bRemaining, $sSearchDiamond
 		[n][2] = The Y Coordinate of the Troop/Spell/Hero/Siege
 		[n][3] = The Slot Number (Starts with 0)
 		[n][4] = The Amount
-		[n][5] = The X Coordinate of the Y beside the Amount
-		[n][6] = The Y Coordinate of the X beside the Amount
-		[n][7] = The Row where it is in (If Single Row all Should be 2)
+		[n][5] = The X Coordinate of the x beside the Amount
+		[n][6] = The Y Coordinate of the x beside the Amount
+		[n][7] = The Row where it is in
 	#comments-end
 
 	Local $aFinalAttackBar[0][7]
@@ -241,8 +249,11 @@ Func ExtendedAttackBarCheck($aAttackBarFirstSearch, $bRemaining, $sSearchDiamond
 
 	If Not $bRemaining Then
 		$aiOCRY = GetOCRYLocation($aSlotAmountX)
-		$aAttackBar = _ArrayExtract($aAttackBar, _ArraySearch($aAttackBar, $sLastTroopName, 0, 0, 0, 0, 1, 0) + 1)
+		Local $iLastTroopIndex = _ArraySearch($aAttackBar, $sLastTroopName, 0, 0, 0, 0, 1, 0) + 1
+		$aAttackBar = _ArrayExtract($aAttackBar, $iLastTroopIndex)
+		$aSlotAmountX = _ArrayExtract($aSlotAmountX, $iLastTroopIndex)
 	EndIf
+
 	For $i = 0 To UBound($aAttackBar, 1) - 1
 		If $aAttackBar[$i][1] > 0 Then
 			Local $bRemoved = False
@@ -267,7 +278,7 @@ Func ExtendedAttackBarCheck($aAttackBarFirstSearch, $bRemaining, $sSearchDiamond
 				Local $aTempSlot = AttackSlot(Number($aAttackBar[$i][1]), Number($aAttackBar[$i][7]), $aSlotAmountX)
 				$aAttackBar[$i][5] = Number($aTempSlot[0])
 				$aAttackBar[$i][6] = Number($aTempSlot[1])
-				$aAttackBar[$i][3] = Number($aTempSlot[2] + $iLastSlotNumber - 1)
+				$aAttackBar[$i][3] = Number($aTempSlot[2] + $iLastSlotNumber + 1)
 				If StringRegExp($aAttackBar[$i][0], "(King)|(Queen)|(Warden)", 0) And $aiOCRY[$aAttackBar[$i][7] - 1] <> -1 Then $aAttackBar[$i][6] = ($aiOCRY[$aAttackBar[$i][7] - 1] - 7)
 			EndIf
 

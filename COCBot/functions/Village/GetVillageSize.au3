@@ -34,7 +34,8 @@ Func GetVillageSize($DebugLog = False, $sStonePrefix = Default, $sTreePrefix = D
 	Local $stone[6] = [0, 0, 0, 0, 0, ""], $tree[6] = [0, 0, 0, 0, 0, ""]
 	Local $x0, $y0, $d0, $x, $y, $x1, $y1, $right, $bottom, $a
 
-	Local $iAdditional = 75
+	Local $iAdditionalY = 75
+	Local $iAdditionalX = 100
 
 	If isOnBuilderBase(True) Then
 		$sDirectory = $g_sImgZoomOutDirBB
@@ -73,10 +74,10 @@ Func GetVillageSize($DebugLog = False, $sStonePrefix = Default, $sTreePrefix = D
 			$y0 = $a[1]
 			$d0 = StringReplace($a[2], ",", ".")
 
-			$x1 = $x0 - $iAdditional
-			$y1 = $y0 - $iAdditional
-			$right = $x0 + $iAdditional
-			$bottom = $y0 + $iAdditional
+			$x1 = $x0 - $iAdditionalX
+			$y1 = $y0 - $iAdditionalY
+			$right = $x0 + $iAdditionalX
+			$bottom = $y0 + $iAdditionalY
 			$sArea = Int($x1) & "," & Int($y1) & "|" & Int($right) & "," & Int($y1) & "|" & Int($right) & "," & Int($bottom) & "|" & Int($x1) & "," & Int($bottom)
 			;SetDebugLog("GetVillageSize check for image " & $findImage)
 			$a = decodeSingleCoord(findImage($findImage, $sDirectory & $findImage, $sArea, 1, True))
@@ -112,10 +113,10 @@ Func GetVillageSize($DebugLog = False, $sStonePrefix = Default, $sTreePrefix = D
 			$y0 = $a[1]
 			$d0 = StringReplace($a[2], ",", ".")
 
-			$x1 = $x0 - $iAdditional
-			$y1 = $y0 - $iAdditional
-			$right = $x0 + $iAdditional
-			$bottom = $y0 + $iAdditional
+			$x1 = $x0 - $iAdditionalX
+			$y1 = $y0 - $iAdditionalY
+			$right = $x0 + $iAdditionalX
+			$bottom = $y0 + $iAdditionalY
 			$sArea = Int($x1) & "," & Int($y1) & "|" & Int($right) & "," & Int($y1) & "|" & Int($right) & "," & Int($bottom) & "|" & Int($x1) & "," & Int($bottom)
 			;SetDebugLog("GetVillageSize check for image " & $findImage)
 			$a = decodeSingleCoord(findImage($findImage, $sDirectory & "\" & $findImage, $sArea, 1, False))
@@ -149,6 +150,7 @@ Func GetVillageSize($DebugLog = False, $sStonePrefix = Default, $sTreePrefix = D
 
 
 	; initial reference village had a width of 473.60282919315 (and not 440) and stone located at 226, 567, so center on that reference and used zoom factor on that size
+	;Local $z = $c / 473.60282919315 ; don't use size of 440, as beta already using reference village
 	Local $z = $c / 458 ; 2019-01-02 Update village measuring as outer edges didn't align anymore
 
 	Local $stone_x_exp = $stone[2]

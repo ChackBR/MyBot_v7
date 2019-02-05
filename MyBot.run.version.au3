@@ -14,12 +14,12 @@
 #Au3Stripper_Off
 #pragma compile(Icon, "Images\MyBot.ico")
 #pragma compile(FileDescription, Clash of Clans Bot - A Free Clash of Clans bot - https://mybot.run)
-#pragma compile(ProductVersion, 7.6)
-#pragma compile(FileVersion, 7.6.6)
+#pragma compile(ProductVersion, 7.7)
+#pragma compile(FileVersion, 7.7.0)
 #pragma compile(LegalCopyright, © https://mybot.run)
 #Au3Stripper_On
 
-Global $g_sBotVersion = "v7.6.6" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it is also use on Checkversion()
+Global $g_sBotVersion = "v7.7" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it is also use on Checkversion()
 
 Global $g_sModversion
 
@@ -70,5 +70,6 @@ Global $g_sModversion
 ; "r01" ; MyBot v7.6.5 Light: DEB + DRRTxt + BB Play +Fix Request/Donate Siege + Fix Rage Speel Detection + Use any siege available
 ; "r01" ; MyBot v7.6.6 Light: DEB + DRRTxt + BB Play + Use any siege received available
 ; "r02" ; MyBot v7.6.6 Light: DEB + DRRTxt + BB Play + Use any siege received available + Fix for remaining CSV Troops
+; "r03" ; MyBot v7.6.6 Light: DEB + DRRTxt + BB Play + Use any siege received available + Max LogOut Time
 
-$g_sModversion = "r03" ; MyBot v7.6.6 Light: DEB + DRRTxt + BB Play + Use any siege received available + Max LogOut Time
+$g_sModversion = "r01" ; MyBot v7.7.0 Light: DEB + DRRTxt + BB Play + Use any siege received + Max Logout Time
