@@ -71,5 +71,6 @@ Global $g_sModversion
 ; "r01" ; MyBot v7.6.6 Light: DEB + DRRTxt + BB Play + Use any siege received available
 ; "r02" ; MyBot v7.6.6 Light: DEB + DRRTxt + BB Play + Use any siege received available + Fix for remaining CSV Troops
 ; "r03" ; MyBot v7.6.6 Light: DEB + DRRTxt + BB Play + Use any siege received available + Max LogOut Time
+; "r01" ; MyBot v7.7.0 Light: DEB + DRRTxt + BB Play + Use any siege received + Max Logout Time
 
-$g_sModversion = "r01" ; MyBot v7.7.0 Light: DEB + DRRTxt + BB Play + Use any siege received + Max Logout Time
+$g_sModversion = "r02" ; MyBot v7.7.0 Light: DEB + DRRTxt + BB Play + Use any siege received + Max Logout Time + Fix Bugs
