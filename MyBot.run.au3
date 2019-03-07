@@ -610,8 +610,6 @@ Func FinalInitialization(Const $sAI)
 	DisableProcessWindowsGhosting()
 
 	UpdateMainGUI()
-	
-	; ForumAuthentication()
 
 EndFunc   ;==>FinalInitialization
 
