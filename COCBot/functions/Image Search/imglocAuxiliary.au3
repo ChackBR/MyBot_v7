@@ -242,7 +242,7 @@ Func GetButtonDiamond($sButtonName)
 		Case "Next" ; attackpage attackwindow
 			$btnDiamond = "697,542|850,542|850,610|697,610"
 		Case "ObjectButtons", "BoostOne", "BoostCT", "Upgrade", "Research" ; Full size of object buttons at the bottom
-			$btnDiamond = GetDiamondFromRect("140,620,720,700")
+			$btnDiamond = GetDiamondFromRect("140,590,720,670")
 		Case "GEM", "BOOSTBtn" ; Boost window button (full button size)
 			$btnDiamond = GetDiamondFromRect("359,412(148,66)")
 		Case "EnterShop"
@@ -875,30 +875,32 @@ Func Slot($iX, $iY) ; Return Slots for Quantity Reading on Army Window
 				If $iY < 315 Then Return 184 ; Troops
 				If $iY > 315 Then Return 195 ; Spell
 
-			Case 244 To 307 ; Slot 4
+			Case 244 To 314 ; Slot 4
 				If $iY < 315 Then Return 255 ; Troops
 				If $iY > 315 Then Return 272 ; Spell
 
-			Case 308 To 392 ; Slot 5
+			Case 315 To 387 ; Slot 5
 				If $iY < 315 Then Return 330 ; Troops
 				If $iY > 315 Then Return 341 ; Spell
 
-			Case 393 To 464 ; Slot 6
+			Case 388 To 460 ; Slot 6
 				If $iY < 315 Then Return 403 ; Troops
 				If $iY > 315 Then Return 415 ; Spell
 
-			Case 465 To 540 ; Slot 7
+			Case 461 To 533 ; Slot 7
 				If $iY < 315 Then Return 477 ; Troops
 				If $iY > 315 Then Return 485 ; Spell
-			Case 538 To 610 ; Slot 8
-				Return 551 ; Troops
+;~ 			Case 534 To 600 ; Slot 7.5 (8)
+;~ 				Return 551 ; Troops
 
-			Case 611 To 682 ; Slot 9
-				Return 620 ; Siege Machines & Heroes
+			Case 605 To 677 ; Slot 8
+				Return 620 ; Siege Machines slot 1
 
-			Case 683 To 752 ; Slot 10
-				If $iY > 315 Then Return 691 ; Heroes & Siege Machine slot 0
-				Return 700 ; Siege Machines slot 1
+			Case 678 To 752 ; Slot 9
+				Return 693 ; Siege Machines slot 2
+
+			Case 754 To 826 ; Slot 10
+				Return 769 ; Siege Machines slot 2
 		EndSwitch
 	Else ;CC Troops & Spells
 		Switch $iX

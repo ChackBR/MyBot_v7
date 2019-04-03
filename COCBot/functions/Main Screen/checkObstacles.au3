@@ -17,7 +17,7 @@
 Func checkObstacles($bBuilderBase = Default) ;Checks if something is in the way for mainscreen
 	FuncEnter(checkObstacles)
 	If $bBuilderBase = Default Then $bBuilderBase = False
-	Static $checkObstaclesActive = False
+	Static $iRecursive = 0
 
 	If TestCapture() = False And WinGetAndroidHandle() = 0 Then
 		; Android not available
@@ -34,11 +34,10 @@ Func checkObstacles($bBuilderBase = Default) ;Checks if something is in the way 
 	;	Return FuncReturn(True)
 	;EndIf
 	Local $wasForce = OcrForceCaptureRegion(False)
-	Local $checkObstaclesWasActive = $checkObstaclesActive
-	$checkObstaclesActive = True
-	Local $Result = _checkObstacles($bBuilderBase, $checkObstaclesWasActive)
+	$iRecursive += 1
+	Local $Result = _checkObstacles($bBuilderBase, $iRecursive > 5)
 	OcrForceCaptureRegion($wasForce)
-	$checkObstaclesActive = $checkObstaclesWasActive
+	$iRecursive -= 1
 	Return FuncReturn($Result)
 EndFunc   ;==>checkObstacles
 
@@ -222,7 +221,7 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 					BanMsgBox()
 					Return checkObstacles_StopBot($msg) ; stop bot
 				EndIf
-				SetLog("Warning: Can not find type of Reload error message", $COLOR_ERROR)
+				SetLog("Warning: Cannot find type of Reload error message", $COLOR_ERROR)
 		EndSelect
 		If TestCapture() Then Return "Village is out of sync or inactivity or connection lost or maintenance"
 		Return checkObstacles_ReloadCoC($aReloadButton, "#0131", $bRecursive) ; Click for out of sync or inactivity or connection lost or maintenance

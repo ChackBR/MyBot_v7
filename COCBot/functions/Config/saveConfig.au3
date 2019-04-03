@@ -290,6 +290,7 @@ Func SaveConfig_Android()
 	_Ini_Add("android", "instance", $g_sAndroidInstance)
 	_Ini_Add("android", "reboot.hours", $g_iAndroidRebootHours)
 	_Ini_Add("android", "close", ($g_bAndroidCloseWithBot ? "1" : "0"))
+	_Ini_Add("android", "shared_prefs.update", ($g_bUpdateSharedPrefs ? "1" : "0"))
 	_Ini_Add("android", "process.affinity.mask", $g_iAndroidProcessAffinityMask)
 
 EndFunc   ;==>SaveConfig_Android
@@ -338,7 +339,6 @@ Func SaveConfig_600_6()
 	_Ini_Add("other", "minrestartgold", $g_iTxtRestartGold)
 	_Ini_Add("other", "minrestartelixir", $g_iTxtRestartElixir)
 	_Ini_Add("other", "minrestartdark", $g_iTxtRestartDark)
-	_Ini_Add("other", "chkTrap", $g_bChkTrap ? 1 : 0)
 	_Ini_Add("other", "chkCollect", $g_bChkCollect ? 1 : 0)
 	_Ini_Add("other", "chkCollectCartFirst", $g_bChkCollectCartFirst ? 1 : 0)
 	_Ini_Add("other", "minCollectgold", $g_iTxtCollectGold)
@@ -584,6 +584,7 @@ Func SaveConfig_600_18()
 	_Ini_Add("notify", "AlertPBBAN", $g_bNotifyAlertBAN ? 1 : 0)
 	_Ini_Add("notify", "AlertPBUpdate", $g_bNotifyAlertBOTUpdate ? 1 : 0)
 	_Ini_Add("notify", "AlertSmartWaitTime", $g_bNotifyAlertSmartWaitTime ? 1 : 0)
+	_Ini_Add("notify", "AlertLaboratoryIdle", $g_bNotifyAlertLaboratoryIdle ? 1 : 0)
 EndFunc   ;==>SaveConfig_600_18
 
 Func SaveConfig_600_19()

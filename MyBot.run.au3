@@ -55,8 +55,8 @@ Opt("GUIEventOptions", 1) ; Handle minimize and restore for dock android support
 Opt("GUICloseOnESC", 0) ; Don't send the $GUI_EVENT_CLOSE message when ESC is pressed.
 Opt("WinTitleMatchMode", 3) ; Window Title exact match mode
 Opt("GUIOnEventMode", 1)
-Opt("MouseClickDelay", 10)
-Opt("MouseClickDownDelay", 10)
+Opt("MouseClickDelay", $g_iAndroidControlClickDelay) ;Default: 10 milliseconds
+Opt("MouseClickDownDelay", $g_iAndroidControlClickDownDelay) ;Default: 2 milliseconds
 Opt("TrayMenuMode", 3)
 Opt("TrayOnEventMode", 1)
 
@@ -519,6 +519,7 @@ Func SetupFilesAndFolders()
 	SetDebugLog("$g_sProfilePath = " & $g_sProfilePath)
 	SetDebugLog("$g_sProfileCurrentName = " & $g_sProfileCurrentName)
 	SetDebugLog("$g_sProfileLogsPath = " & $g_sProfileLogsPath)
+
 EndFunc   ;==>SetupFilesAndFolders
 
 ; #FUNCTION# ====================================================================================================================
@@ -537,7 +538,8 @@ EndFunc   ;==>SetupFilesAndFolders
 ; ===============================================================================================================================
 Func FinalInitialization(Const $sAI)
 	; check for VC2010, .NET software and MyBot Files and Folders
-	If CheckPrerequisites(True) Then
+	Local $bCheckPrerequisitesOK = CheckPrerequisites(True)
+	If $bCheckPrerequisitesOK Then
 		MBRFunc(True) ; start MyBot.run.dll, after this point .net is initialized and threads popup all the time
 		setAndroidPID() ; set Android PID
 		SetBotGuiPID() ; set GUI PID
@@ -575,6 +577,7 @@ Func FinalInitialization(Const $sAI)
 		If $g_iGuiPID = @AutoItPID Then
 			SetDebugLog("GUI Process not received, close bot")
 			BotClose()
+			$bCheckPrerequisitesOK = False
 		Else
 			SetDebugLog("Linked to GUI Process " & $g_iGuiPID)
 		EndIf
@@ -760,7 +763,7 @@ Func runBot() ;Bot that runs everything in order
 				If _Sleep($DELAYRUNBOT1) = False Then checkMainScreen(False)
 			EndIf
 
-			Local $aRndFuncList = ['LabCheck', 'Collect', 'CheckTombs', 'ReArm', 'CleanYard']
+			Local $aRndFuncList = ['LabCheck', 'Collect', 'CheckTombs', 'CleanYard']
 			While 1
 				If $g_bRunState = False Then Return
 				If $g_bRestart = True Then ContinueLoop 2 ; must be level 2 due to loop-in-loop
@@ -1155,9 +1158,6 @@ Func _RunFunction($action)
 			_Sleep($DELAYRUNBOT3)
 		Case "CleanYard"
 			CleanYard()
-		Case "ReArm"
-			ReArm()
-			_Sleep($DELAYRUNBOT3)
 		Case "ReplayShare"
 			ReplayShare($g_bShareAttackEnableNow)
 			_Sleep($DELAYRUNBOT3)

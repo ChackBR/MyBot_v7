@@ -1083,7 +1083,9 @@ Func CreateOptionsSubTab()
 
 	Local $sTxtTip = ""
 	Local $x = 25, $y = 45
-	; MOD++
+	; --------------------------------------------
+	; Mod++ 151+12, 294+24
+	; --------------------------------------------
 	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops_Options", "Group_01", "Training Idle Time"), $x - 20, $y - 20, 151+12, 294+24)
 	$g_hChkCloseWhileTraining = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops_Options", "ChkCloseWhileTraining", "Close While Training"), $x - 12, $y, 140, -1)
 	GUICtrlSetState(-1, $GUI_CHECKED)
@@ -1204,6 +1206,9 @@ Func CreateOptionsSubTab()
 	GUICtrlSetOnEvent(-1, "sldTrainITDelay")
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
+	; --------------------------------------------
+	; Max logout time - MOD++
+	; --------------------------------------------
 	$x = 25 + 151 + 5 + 24
 	$y = 45
 	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops_Options", "Group_03", "Training Add Random Delay"), $x - 20, $y - 20, 173, 81)

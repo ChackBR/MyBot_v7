@@ -81,7 +81,7 @@ Func _AutoUpgrade()
 		EndIf
 
 		; get the name and actual level of upgrade selected, if strings are empty, will exit Auto Upgrade, an error happens
-		$g_aUpgradeNameLevel = BuildingInfo(242, 520 + $g_iBottomOffsetY)
+		$g_aUpgradeNameLevel = BuildingInfo(242, 492 + $g_iBottomOffsetY)
 		If $g_aUpgradeNameLevel[0] = "" Then
 			SetLog("Error when trying to get upgrade name and level, looking next...", $COLOR_ERROR)
 			$g_iNextLineOffset = $g_iCurrentLineOffset

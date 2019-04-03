@@ -16,7 +16,9 @@
 
 Func CheckVersion()
 
+	; --------------------------------------------
 	; MOD++
+	; --------------------------------------------
 	$g_bCheckVersion = False
 	If not $g_bCheckVersion Then Return
 
