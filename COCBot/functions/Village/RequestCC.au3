@@ -76,10 +76,10 @@ Func RequestCC($bClickPAtEnd = True, $sText = "")
 		ElseIf StringInStr($sButtonState, "Full", 0) > 0 Then
 			SetLog("Clan Castle is full or not available", $COLOR_INFO)
 		Else
-			SetLog("Error in RequestCC(): Couldn't detect Request Button State", $COLOR_ERROR)
+			SetDebugLog("Error in RequestCC(): Couldn't detect Request Button State", $COLOR_ERROR)
 		EndIf
 	Else
-		SetLog("Error in RequestCC(): $aRequestButton did not return a Button State", $COLOR_ERROR)
+		SetDebugLog("Error in RequestCC(): $aRequestButton did not return a Button State", $COLOR_ERROR)
 	EndIf
 
 	;exit from army overview

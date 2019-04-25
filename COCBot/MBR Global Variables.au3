@@ -116,7 +116,8 @@ Global $g_bDebugOCRdonate = False ; Creates OCR/image data and simulate, but do 
 Global $g_bDebugDisableZoomout = False
 Global $g_bVillageSearchAlwaysMeasure = False ; If enabled, every village is measured, even if not attacked
 Global $g_bDebugDisableVillageCentering = False
-Global $g_iAndroidZoomoutMode = 0 ; 0 = Default, 1 = ADB minitouch script, 2 = ADB dd script, 3 = WinAPI
+Global $g_iAndroidZoomoutMode = 0 ; 0 = Default, 1 = ADB minitouch script, 2 = ADB dd script, 3 = WinAPI, 4 = Update shared_prefs
+Global $g_bZoomoutFailureNotRestartingAnything = False
 ; <><><><> Only used to debug GDI memory leaks! <><><><>
 Global $g_iDebugGDICount = 0 ; monitor bot GDI Handle count, 0 = Disabled, <> 0 = Enabled
 ; <><><><> Only used to debug language translations! <><><><>
@@ -233,7 +234,8 @@ Global $g_iAndroidSuspendModeFlags = 1 ; Android Suspend & Resume mode bit flags
 Global $g_bNoFocusTampering = False ; If enabled, no ControlFocus or WinActivate is called, except when really required (like Zoom-Out for Droid4X, might break restart stability when Android Window not responding)
 Global $g_iAndroidRecoverStrategyDefault = 1 ; 0 = Stop ADB Daemon first then restart Android; 1 = Restart Android first then restart ADB Daemon
 Global $g_iAndroidRecoverStrategy = $g_iAndroidRecoverStrategyDefault ; 0 = Stop ADB Daemon first then restart Android; 1 = Restart Android first then restart ADB Daemon
-Global $g_bTerminateAdbShellOnStop = False
+Global $g_bTerminateAdbShellOnStop = False ; If enabled ADB shell is terminated when bot stops
+Global $g_bAndroidAdbPortPerInstance = False ; New default behavior to use a dedicated ADB daemon per bot and android instance using port between 5038-5137, it initializes $g_sAndroidAdbGlobalOptions
 
 ; "BlueStacks2" $g_avAndroidAppConfig is also updated based on Registry settings in Func InitBlueStacks2() with these special variables
 Global $__BlueStacks_SystemBar = 48
@@ -319,6 +321,7 @@ Global $g_iAndroidWindowWidth ; Expected Width of android window
 Global $g_iAndroidWindowHeight ; Expected height of android window
 Global $g_bAndroidAdbUseMyBot = True ; Use MyBot provided adb.exe and not the one from emulator
 Global $g_bAndroidAdbReplaceEmulatorVersion = True ; If True and MyBot.run adb.exe is available, Android provided adb.exe will be replaced to ensure MyBot.run adb.exe version is used
+Global $g_bAndroidAdbReplaceEmulatorVersionWithDummy = False ; If try (only used by never Nox) emulator adb is replaced with a dummy exe that does nothing
 Global $g_sAndroidAdbPath ; Path to executable HD-Adb.exe or adb.exe
 Global $g_sAndroidAdbGlobalOptions ; Additional adb global options like -P 5037 for port
 Global $g_sAndroidAdbDevice ; full device name ADB connects to
@@ -338,13 +341,14 @@ Global $g_bAndroidBackgroundLaunch ; Enabled Android Background launch using Win
 Global $g_bAndroidBackgroundLaunched ; True when Android was launched in headless mode without a window
 Global $g_iAndroidControlClickDownDelay = 5 ; 5 is Default for down (Milliseconds)
 Global $g_iAndroidControlClickDelay = 10 ; 10 is Default for up (Milliseconds)
+Global $g_iAndroidControlClickAdditionalDelay = 10 ; 10 is Default for additional delay in steps of 2, 0 - 100, half is applied to both delays (Milliseconds)
 Global $g_iAndroidAdbClickGroup = 50 ; 1 Disables grouping clicks; > 1 number of clicks fired at once (e.g. when Click with $times > 1 used) (Experimental as some clicks might get lost!); can be overridden via the ini file
 Global $g_iAndroidAdbClickGroupDelay = 25 ; Additional delay in Milliseconds after group of ADB clicks sent (sleep in Android is executed!)
 Global $g_iAndroidControlClickWindow = 0 ; 0 = Click the Android Control, 1 = Click the Android Window
 Global $g_iAndroidControlClickMode = 0 ; 0 = Use AutoIt ControlClick, 1 = Use _SendMessage
 Global $g_bAndroidCloseWithBot = False ; Close Android when bot closes
 Global $g_bAndroidInitialized = False
-Global $g_bUpdateSharedPrefs = False ; Update shared_prefs/storage_new.xml before pushing
+Global $g_bUpdateSharedPrefs = True ; Update shared_prefs/storage_new.xml before pushing
 
 Global $g_iAndroidProcessAffinityMask = 0
 
@@ -443,8 +447,8 @@ Global $g_iThreads = 0 ; Used by ImgLoc for parallism (for this bot instance), 0
 
 ; Profile file/folder paths
 Global $g_sProfilePath = @ScriptDir & "\Profiles"
-Global Const $g_sPrivateProfilePath = @MyDocumentsDir & "\MyBot.run-Profiles" ; Used to save private & very sensitive profile information like shared_prefs (notification tokens will be saved in future here also)
-Global Const $g_sPrivateAuthenticationFile = @MyDocumentsDir & "\MyBot.run-Profiles\.mybot.run.authentication"
+Global Const $g_sPrivateProfilePath = @AppDataDir & "\MyBot.run-Profiles" ; Used to save private & very sensitive profile information like shared_prefs (notification tokens will be saved in future here also)
+Global Const $g_sPrivateAuthenticationFile = @AppDataDir & "\.mybot.run.authentication"
 Global Const $g_sProfilePresetPath = @ScriptDir & "\Strategies"
 Global $g_sProfileCurrentName = "" ; Name of profile currently being used
 Global $g_sProfileConfigPath = "" ; Path to the current config.ini being used in this profile
@@ -567,7 +571,7 @@ Global $g_iBotAction = $eBotNoAction
 Global $g_bBotMoveRequested = False ; should the bot be moved
 Global $g_bBotShrinkExpandToggleRequested = False ; should the bot be slided
 Global $g_bBotGuiModeToggleRequested = False ; GUI is changing
-Global $g_bRestart = False
+Global $g_bRestart = False ; CoC or Android got restarted
 Global $g_bRunState = False
 Global $g_bIdleState = False ; bot is in Idle() routine waiting for things to finish
 Global $g_bBtnAttackNowPressed = False ; Set to true if any of the 3 attack now buttons are pressed
@@ -646,23 +650,23 @@ Global Const $g_aiTroopCostPerLevel[$eTroopCount][10] = [ _
 		[8, 50, 80, 120, 200, 300, 400, 500, 600], _ 			        ; Archer
 		[9, 250, 750, 1250, 1750, 2250, 3000, 3500, 4000, 4500], _ 	    ; Giant
 		[7, 25, 40, 60, 80, 100, 150, 200], _ 				 	        ; Goblin
-		[8, 1000, 1250, 1500, 1750, 2000, 2250, 2500, 2750], _          ; WallBreaker
-		[8, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500], _ 	        ; Balloon
-		[9, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500], _    ; Wizard
-		[5, 5000, 6000, 8000, 10000, 15000], _					        ; Healer
-		[7, 18000, 20000, 22000, 24000, 26000, 28000, 30000], _         ; Dragon
-		[8, 21000, 24000, 27000, 30000, 33000, 35000, 37000, 39000], _  ; Pekka
-		[6, 10000, 11000, 12000, 13000, 14000, 15000], _ 			    ; BabyDragon
+		[8, 600, 800, 1000, 1200, 1400, 1600, 1800, 2000], _          ; WallBreaker
+		[8, 1750, 2250, 2750, 3500, 4000, 4500, 5000, 5500], _ 	        ; Balloon
+		[9, 1000, 1400, 1800, 2200, 2600, 3000, 3400, 3800, 4200], _    ; Wizard
+		[5, 5000, 6000, 8000, 10000, 14000], _					        ; Healer
+		[7, 10000, 12000, 14000, 16000, 18000, 20000, 22000], _         ; Dragon
+		[8, 14000, 16000, 18000, 20000, 22500, 25000, 27500, 30000], _  ; Pekka
+		[6, 5000, 6000, 7000, 8000, 9000, 10000], _ 			    ; BabyDragon
 		[6, 4200, 4800, 5200, 5600, 6000, 6400], _  			        ; Miner
-		[3, 36000, 40000, 44000], _  		                 	        ; ElectroDragon
-		[8, 6, 7, 8, 9, 10, 11, 12, 13], _ 							    ; Minion
-		[8, 40, 45, 52, 58, 65, 90, 115, 140], _					    ; HogRider
-		[7, 70, 100, 130, 160, 190, 220, 250], _ 				 	    ; Valkyrie
-		[8, 300, 375, 450, 525, 600, 675, 750, 825], _ 				    ; Golem
-		[4, 175, 225, 275, 325], _ 								 	    ; Witch
+		[3, 28000, 32000, 36000], _  		                 	        ; ElectroDragon
+		[8, 4, 5, 6, 7, 8, 9, 10, 11], _ 							    ; Minion
+		[9, 30, 34, 38, 42, 48, 60, 80, 100, 120], _					    ; HogRider
+		[7, 50, 65, 80, 100, 130, 160, 190], _ 				 	    ; Valkyrie
+		[8, 200, 250, 300, 350, 425, 500, 600, 700], _ 				    ; Golem
+		[5, 125, 150, 175, 225, 275], _ 								 	    ; Witch
 		[5, 390, 450, 510, 570, 630], _  							    ; Lavahound
-		[4, 110, 130, 150, 170], _ 									    ; Bowler
-		[4, 220, 240, 260, 280]] 									    ; IceGolem
+		[4, 70, 95, 115, 140], _ 									    ; Bowler
+		[5, 220, 240, 260, 280, 300]] 									    ; IceGolem
 Global Const $g_aiTroopDonateXP[$eTroopCount] = [1, 1, 5, 1, 2, 5, 4, 14, 20, 25, 10, 6, 30, 2, 5, 8, 30, 12, 30, 6, 15]
 
 ; Spells
@@ -676,9 +680,9 @@ Global Const $g_aiSpellTrainTime[$eSpellCount] = [360, 360, 360, 360, 360, 720, 
 Global Const $g_aiSpellCostPerLevel[$eSpellCount][8] = [ _
 		[7, 15000, 16500, 18000, 20000, 22000, 24000, 26000], _  ;LightningSpell
 		[7, 15000, 16500, 18000, 19000, 21000, 23000, 25000], _  ;HealSpell
-		[5, 23000, 25000, 27000, 30000, 33000], _     			 ;RageSpell
+		[5, 20000, 22000, 24000, 26000, 28000], _     			 ;RageSpell
 		[3, 23000, 27000, 31000], _        						 ;JumpSpell
-		[7, 12000, 13000, 14000, 15000, 16000, 17000, 18000], _  ;FreezeSpell
+		[7, 6000, 7000, 8000, 9000, 10000, 11000, 12000], _  ;FreezeSpell
 		[5, 38000, 39000, 41000, 43000, 45000], _				 ;CloneSpell
 		[5, 95, 110, 125, 140, 155], _         					 ;PoisonSpell
 		[4, 125, 140, 160, 180], _    							 ;EarthquakeSpell
@@ -822,7 +826,7 @@ Global $g_bChkBotStop = False, $g_iCmbBotCommand = 0, $g_iCmbBotCond = 0, $g_iCm
 Global $g_iTxtRestartGold = 10000
 Global $g_iTxtRestartElixir = 25000
 Global $g_iTxtRestartDark = 500
-Global $g_bChkTrap = True, $g_bChkCollect = True, $g_bChkTombstones = True, $g_bChkCleanYard = False, $g_bChkGemsBox = False
+Global $g_bChkCollect = True, $g_bChkTombstones = True, $g_bChkCleanYard = False, $g_bChkGemsBox = False
 Global $g_bChkCollectCartFirst = False, $g_iTxtCollectGold = 0, $g_iTxtCollectElixir = 0, $g_iTxtCollectDark = 0
 Global $g_bChkTreasuryCollect = False
 Global $g_iTxtTreasuryGold = 0
@@ -915,7 +919,7 @@ Global $g_iChkIgnoreTH = 0, $g_iChkIgnoreKing = 0, $g_iChkIgnoreQueen = 0, $g_iC
 Global $g_iChkIgnoreBarrack = 0, $g_iChkIgnoreDBarrack = 0, $g_iChkIgnoreFactory = 0, $g_iChkIgnoreDFactory = 0
 Global $g_iChkIgnoreGColl = 0, $g_iChkIgnoreEColl = 0, $g_iChkIgnoreDColl = 0
 Global $g_iTxtSmartMinGold = 150000, $g_iTxtSmartMinElixir = 150000, $g_iTxtSmartMinDark = 1500
-Global $g_iChkUpgradesToIgnore[13] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_iChkUpgradesToIgnore[14] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_iChkResourcesToIgnore[3] = [0, 0, 0]
 Global $g_iCurrentLineOffset = 0, $g_iNextLineOffset = 0
 Global $g_aUpgradeNameLevel ; [Nb of elements in Array, Name, Level]
@@ -930,6 +934,7 @@ Global $g_sUpgradeDuration
 ; Builder Base
 Global $g_iChkBBSuggestedUpgrades = 0, $g_iChkBBSuggestedUpgradesIgnoreGold = 0, $g_iChkBBSuggestedUpgradesIgnoreElixir = 0, $g_iChkBBSuggestedUpgradesIgnoreHall = 0
 Global $g_iChkPlacingNewBuildings = 0
+Global $g_bOnBuilderBase = False ; set to True in MyBot.run.au3 _RunFunction when on builder base
 
 Global $g_iQuickMISX = 0, $g_iQuickMISY = 0
 
@@ -981,7 +986,7 @@ Global $g_iTotalSpellValue = 0
 Global $g_bDoubleTrain
 
 ; <><><><> Attack Plan / Train Army / Boost <><><><>
-Global $g_iCmbBoostBarracks = 0, $g_iCmbBoostSpellFactory = 0, $g_iCmbBoostBarbarianKing = 0, $g_iCmbBoostArcherQueen = 0, $g_iCmbBoostWarden = 0, $g_iCmbBoostEverything = 0
+Global $g_iCmbBoostBarracks = 0, $g_iCmbBoostSpellFactory = 0, $g_iCmbBoostWorkshop = 0, $g_iCmbBoostBarbarianKing = 0, $g_iCmbBoostArcherQueen = 0, $g_iCmbBoostWarden = 0, $g_iCmbBoostEverything = 0
 Global $g_abBoostBarracksHours[24] = [True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True]
 
 ; <><><><> Attack Plan / Train Army / Train Order <><><><>
@@ -1173,7 +1178,7 @@ Global $g_bAttackPlannerEnable = False, $g_bAttackPlannerCloseCoC = False, $g_bA
 		$g_iAttackPlannerRandomTime = 0, $g_iAttackPlannerRandomTime = 0, $g_bAttackPlannerDayLimit = False, $g_iAttackPlannerDayMin = 12, $g_iAttackPlannerDayMax = 15
 Global $g_abPlannedAttackWeekDays[7] = [True, True, True, True, True, True, True]
 Global $g_abPlannedattackHours[24] = [True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True]
-Global $g_bPlannedDropCCHoursEnable = False, $g_bUseCCBalanced = False, $g_iCCDonated = 0, $g_iCCReceived = 0
+Global $g_bPlannedDropCCHoursEnable = False, $g_bUseCCBalanced = False, $g_iCCDonated = 0, $g_iCCReceived = 0, $g_bCheckDonateOften = False
 Global $g_abPlannedDropCCHours[24] = [True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True]
 
 ; <><><><> Attack Plan / Search & Attack / Options / SmartZap <><><><>

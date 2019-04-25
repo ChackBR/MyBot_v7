@@ -15,17 +15,28 @@
 
 Func BotStart($bAutostartDelay = 0)
 	FuncEnter(BotStart)
+
+	If Not $g_bSearchMode Then
+		If $g_hLogFile = 0 Then CreateLogFile() ; only create new log file when doesn't exist yet
+		CreateAttackLogFile()
+		If $g_iFirstRun = -1 Then $g_iFirstRun = 1
+	EndIf
+	SetLogCentered(" BOT LOG ", Default, Default, True)
+
 	ResumeAndroid()
 	CleanSecureFiles()
 	CalCostCamp()
 	CalCostSpell()
 	CalCostSiege()
+	sldAdditionalClickDelay(True)
 
 	$g_bRunState = True
 	$g_bTogglePauseAllowed = True
 	$g_bSkipFirstZoomout = False
 	$g_bIsSearchLimit = False
 	$g_bIsClientSyncError = False
+	$g_bZoomoutFailureNotRestartingAnything = False
+	$g_bRestart = False
 
 	EnableControls($g_hFrmBotBottom, False, $g_aFrmBotBottomCtrlState)
 	;$g_iFirstAttack = 0
@@ -35,13 +46,6 @@ Func BotStart($bAutostartDelay = 0)
 	$g_bMeetCondStop = False
 	$g_bIsClientSyncError = False
 	$g_bDisableBreakCheck = False ; reset flag to check for early warning message when bot start/restart in case user stopped in middle
-
-	If Not $g_bSearchMode Then
-		If $g_hLogFile = 0 Then CreateLogFile() ; only create new log file when doesn't exist yet
-		CreateAttackLogFile()
-		If $g_iFirstRun = -1 Then $g_iFirstRun = 1
-	EndIf
-	SetLogCentered(" BOT LOG ", Default, Default, True)
 
 	SaveConfig()
 	readConfig()
@@ -140,6 +144,7 @@ Func BotStop()
 	$g_bRunState = False
 	$g_bBotPaused = False
 	$g_bTogglePauseAllowed = True
+	$g_bRestart = False
 
 	;WinSetState($g_hFrmBotBottom, "", @SW_DISABLE)
 	Local $aCtrlState
@@ -160,6 +165,7 @@ Func BotStop()
 	; update bottom buttons
 	GUICtrlSetState($g_hChkBackgroundMode, $GUI_ENABLE)
 	GUICtrlSetState($g_hBtnStart, $GUI_SHOW)
+	GUICtrlSetState($g_hBtnStart, $GUI_ENABLE)
 	GUICtrlSetState($g_hBtnStop, $GUI_HIDE)
 	GUICtrlSetState($g_hBtnPause, $GUI_HIDE)
 	GUICtrlSetState($g_hBtnResume, $GUI_HIDE)
@@ -168,12 +174,12 @@ Func BotStop()
 	;GUICtrlSetState($g_hBtnMakeScreenshot, $GUI_ENABLE)
 
 	; hide attack buttons if show
-		GUICtrlSetState($g_hBtnAttackNowDB, $GUI_HIDE)
-		GUICtrlSetState($g_hBtnAttackNowLB, $GUI_HIDE)
-		GUICtrlSetState($g_hBtnAttackNowTS, $GUI_HIDE)
-		HideShields(False)
-		;GUICtrlSetState($g_hLblVersion, $GUI_SHOW)
-		$g_bBtnAttackNowPressed = False
+	GUICtrlSetState($g_hBtnAttackNowDB, $GUI_HIDE)
+	GUICtrlSetState($g_hBtnAttackNowLB, $GUI_HIDE)
+	GUICtrlSetState($g_hBtnAttackNowTS, $GUI_HIDE)
+	HideShields(False)
+	;GUICtrlSetState($g_hLblVersion, $GUI_SHOW)
+	$g_bBtnAttackNowPressed = False
 
 	; update try items
 	TrayItemSetText($g_hTiStartStop, GetTranslatedFileIni("MBR GUI Design - Loading", "StatusBar_Item_Start", "Start bot"))
@@ -184,7 +190,7 @@ Func BotStop()
 		If Not $g_bBotPaused Then $g_iTimePassed += Int(__TimerDiff($g_hTimerSinceStarted))
 		If ProfileSwitchAccountEnabled() And Not $g_bBotPaused Then $g_aiRunTime[$g_iCurAccount] += Int(__TimerDiff($g_ahTimerSinceSwitched[$g_iCurAccount]))
 		;AdlibUnRegister("SetTime")
-		$g_bRestart = True
+		;$g_bRestart = True
 
 	   If $g_hLogFile <> 0 Then
 		  FileClose($g_hLogFile)

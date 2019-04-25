@@ -30,7 +30,6 @@ Func OpenLeapDroid($bRestart = False)
 		EndIf
 	EndIf
 
-	SetLog("Please wait while " & $g_sAndroidEmulator & " and CoC start...", $COLOR_SUCCESS)
 	$hTimer = __TimerInit()
 
 	; Test ADB is connected
@@ -190,8 +189,6 @@ Func InitLeapDroid($bCheckOnly = False)
 		InitAndroidConfig(True) ; Restore default config
 
 		If Not GetAndroidVMinfo($__VBoxVMinfo, $LeapDroid_Manage_Path) Then Return False
-		; to avoid LeapDroid "device offline" problems, force to use default port
-		$g_bAndroidAdbPortPerInstance = False
 		$__VBoxGuestProperties = LaunchConsole($LeapDroid_Manage_Path, "guestproperty enumerate " & $g_sAndroidInstance, $process_killed)
 
 		; update global variables

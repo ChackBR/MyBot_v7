@@ -104,7 +104,7 @@ Func LocateUpgrades()
 						SetDebugLog("Updgrade #" & $icount & " added at " & $g_avBuildingUpgrades[$icount][0] & "/" & $g_avBuildingUpgrades[$icount][1] & ", marker drawn: " & $bMarkerDrawn)
 						_GUICtrlSetImage($g_hPicUpgradeStatus[$icount], $g_sLibIconPath, $eIcnYellowLight) ; Set GUI Status to Yellow showing ready for upgrade
 						$g_aiPicUpgradeStatus[$icount] = $eIcnYellowLight
-						_Sleep(750)
+						If _Sleep(750) Then Return
 					Else
 						SetLog("Bad location recorded, location skipped?", $COLOR_ERROR)
 						$g_avBuildingUpgrades[$icount][0] = -1
@@ -237,7 +237,7 @@ Func UpgradeValue($inum, $bRepeat = False) ;function to find the value and type 
 
 	If $bOopsFlag And $g_bDebugImageSave Then DebugImageSave("ButtonView")
 
-	$aResult = BuildingInfo(242, 492 + $g_iBottomOffsetY)
+	$aResult = BuildingInfo(242, 490 + $g_iBottomOffsetY)
 	If $aResult[0] > 0 Then
 		$g_avBuildingUpgrades[$inum][4] = $aResult[1] ; Store bldg name
 		GUICtrlSetData($g_hTxtUpgradeName[$inum], $g_avBuildingUpgrades[$inum][4]) ; Set GUI name to match $g_avBuildingUpgrades variable

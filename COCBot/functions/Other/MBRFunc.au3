@@ -156,34 +156,41 @@ EndFunc   ;==>SetBotGuiPID
 
 Func CheckForumAuthentication()
 	If $g_hLibMyBot = -1 Then Return False ; Bot didn't finish launch yet
-	Local $result = DllCall($g_hLibMyBot, "boolean", "CheckForumAuthentication")
+	Local $result = DllCall($g_hLibMyBot, "str", "CheckForumAuthentication")
 	If @error Then
 		_logErrorDLLCall($g_sLibMyBotPath & ", CheckForumAuthentication:", @error)
 		Return SetError(@error)
 	EndIf
-	;dll return 0 on success, -1 on error
-	Local $bAuthenticated = False
+	;dll return string including access_token
+	Local $iAuthenticated = 0 ; 0 = not authenticated (username or password incorrect), 1 = authenticated, -1 = not authenticated (unknown error)
 	If IsArray($result) Then
-		If $result[0] Then
+		If StringInStr($result[0], '"access_token"') > 0 Then
 			SetLog(GetTranslatedFileIni("MBR Authentication", "BotIsAuthenticated", "MyBot.run is authenticated"), $COLOR_SUCCESS)
-			$bAuthenticated = True
+			$iAuthenticated = 1
 		Else
 			SetLog(GetTranslatedFileIni("MBR Authentication", "BotIsNotAuthenticated", "Error authenticating Mybot.run"), $COLOR_ERROR)
+			If StringInStr($result[0], '"login_err_') > 0 Then
+				; username or password incorrect
+				$iAuthenticated = 0
+			Else
+				; unknown error
+				$iAuthenticated = -1
+			EndIf
 		EndIf
 	Else
 		SetDebugLog($g_sMBRLib & " not found.", $COLOR_ERROR)
 	EndIf
-	Return $bAuthenticated
+	Return $iAuthenticated
 EndFunc   ;==>CheckForumAuthentication
 
 Func ForumLogin($sUsername, $sPassword)
 	If $g_hLibMyBot = -1 Then Return False ; Bot didn't finish launch yet
-	Local $result = DllCall($g_hLibMyBot, "str", "ForumLogin", "str", _Base64Encode(StringToBinary($sUsername, 4), 1024), "str", _Base64Encode(StringToBinary($sPassword, 4), 1024), "str", _Base64Encode(StringToBinary($g_sBotTitle, 4), 1024))
+	Local $result = DllCall($g_hLibMyBot, "str", "ForumLogin", "str", _Base64Encode(StringToBinary($sUsername, 4), 1024), "str", _Base64Encode(StringToBinary($sPassword, 4), 1024))
 	If @error Then
 		_logErrorDLLCall($g_sLibMyBotPath & ", ForumLogin:", @error)
 		Return SetError(@error)
 	EndIf
-	;dll return 0 on success, -1 on error
+	;dll return string including access_token
 	If IsArray($result) Then
 		If StringInStr($result[0], '"access_token"') > 0 Then
 			SetDebugLog("Forum login successful, message length: " & StringLen($result[0]))

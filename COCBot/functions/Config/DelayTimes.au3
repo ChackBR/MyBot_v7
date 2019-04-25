@@ -182,6 +182,9 @@ Global Const $DELAYBOOSTBARRACKS3 = 200
 ;BoostSpellFactory
 Global Const $DELAYBOOSTSPELLFACTORY3 = 500
 
+;BoostWorkshop
+Global Const $DELAYBOOSTWORKSHOP3 = 500
+
 ;BoostHeroes
 Global Const $DELAYBOOSTHEROES1 = 1000
 Global Const $DELAYBOOSTHEROES2 = 2000
@@ -268,12 +271,6 @@ Global Const $DELAYPROFILEREPORT3 = 200
 Global Const $DELAYNOTIFY1 = 500
 Global Const $DELAYPUSHMSG1 = 500
 Global Const $DELAYPUSHMSG2 = 1000
-
-;ReArm
-Global Const $DELAYREARM1 = 500
-Global Const $DELAYREARM2 = 1500
-Global Const $DELAYREARM3 = 700
-Global Const $DELAYREARM4 = 200
 
 ;Treasury
 Global Const $DELAYTREASURY1 = 500

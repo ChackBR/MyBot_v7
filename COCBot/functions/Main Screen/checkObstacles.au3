@@ -16,7 +16,7 @@
 ;
 Func checkObstacles($bBuilderBase = Default) ;Checks if something is in the way for mainscreen
 	FuncEnter(checkObstacles)
-	If $bBuilderBase = Default Then $bBuilderBase = False
+	If $bBuilderBase = Default Then $bBuilderBase = $g_bOnBuilderBase
 	Static $iRecursive = 0
 
 	If TestCapture() = False And WinGetAndroidHandle() = 0 Then
@@ -133,7 +133,7 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 					Return checkObstacles_StopBot($msg) ; stop bot
 				EndIf
 				SetLog("Connection lost, Reloading CoC...", $COLOR_ERROR)
-				If $g_bChkSharedPrefs And HaveSharedPrefs() Then
+				If ($g_bChkSharedPrefs Or $g_bUpdateSharedPrefs) And HaveSharedPrefs() Then
 					SetLog("Please wait for loading CoC...!")
 					PushSharedPrefs()
 					If Not $bRecursive Then OpenCoC()

@@ -14,6 +14,11 @@
 ; ===============================================================================================================================
 Func LocateLab($bCollect = True)
 	Local $stext, $MsgBox, $iStupid = 0, $iSilly = 0, $sErrorText = ""
+	
+	If $g_iTownHallLevel < 3 Then
+		SetLog("Townhall Lvl " & $g_iTownHallLevel & " has no Lab, so skip locating.", $COLOR_ACTION)
+		Return
+	EndIf
 
 	SetLog("Locating Laboratory", $COLOR_INFO)
 
@@ -59,7 +64,7 @@ Func LocateLab($bCollect = True)
 			ClickP($aAway, 1, 0, "#0382")
 			Return
 		EndIf
-		Local $sLabInfo = BuildingInfo(242, 492 + $g_iBottomOffsetY); 860x780
+		Local $sLabInfo = BuildingInfo(242, 490 + $g_iBottomOffsetY); 860x780
 		If $sLabInfo[0] > 1 Or $sLabInfo[0] = "" Then
 			If StringInStr($sLabInfo[1], "Lab") = 0 Then
 				Local $sLocMsg = ($sLabInfo[0] = "" ? "Nothing" : $sLabInfo[1])
