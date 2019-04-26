@@ -1262,6 +1262,9 @@ Func _RunFunction($action)
 				BB_DropTrophies()
 				If _Sleep($DELAYRUNBOT3) Then Return
 				If $g_bRestart = True Then Return
+				BuilderBaseReport()
+				If _Sleep($DELAYRUNBOT3) Then Return
+				If $g_bRestart = True Then Return
 				StartClockTowerBoost()
 				If _Sleep($DELAYRUNBOT3) Then Return
 				If $g_bRestart = True Then Return
