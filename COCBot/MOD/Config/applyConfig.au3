@@ -21,7 +21,7 @@ Func ApplyConfig_MOD($TypeReadSave)
 	Switch $TypeReadSave
 		Case "Read"
 
-			; Classic Four Finger - MOD++
+			; NULL
 			Bridge()
 
 		Case "Save"

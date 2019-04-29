@@ -42,10 +42,3 @@ Global $g_iChkAutoCamp = True
 ; --------------------------------------------
 Global $g_bTrainLogoutMaxTime = False
 Global $g_iTrainLogoutMaxTime = 12
-
-; --------------------------------------------
-; Unit/Wave Factor - MOD++
-; --------------------------------------------
-Global $g_iChkGiantSlot = 0, $g_iChkUnitFactor = 0, $g_iChkWaveFactor = 0
-Global $g_iCmbGiantSlot = 0, $g_iTxtUnitFactor = 10, $g_iTxtWaveFactor = 100
-Global $g_iSlotsGiants = 1, $g_aiSlotsGiants = 1
