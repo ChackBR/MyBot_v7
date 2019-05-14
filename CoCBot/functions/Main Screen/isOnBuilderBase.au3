@@ -23,4 +23,4 @@ Func isOnBuilderBase($bNeedCaptureRegion = False)
 	Else
 		Return False
 	EndIf
-EndFunc
+EndFunc ;==>isOnBuilderBase

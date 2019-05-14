@@ -299,7 +299,7 @@
 
 #include "functions\Other\Api.au3"
 #include "functions\Other\ApiClient.au3"
-; #include "functions\Other\ForumAuthentication.au3"
+#include "functions\Other\ForumAuthentication.au3"
 
 ; moved to the end to avoid any global declare issues
 #include "functions\Config\profileFunctions.au3"
