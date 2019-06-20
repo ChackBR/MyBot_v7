@@ -153,23 +153,8 @@ EndFunc   ;==>IsClanInfoPage
 
 Func IsLaunchAttackPage()
 
-	Local $resultnoshield = IsPageLoop($aFindMatchButton, 1)
-	Local $resultwithshield = IsPageLoop($aFindMatchButton2, 1)
-
-	If $resultnoshield Or $resultwithshield Then
-		If $g_bDebugSetlog Or $g_bDebugClick Then SetLog("**Launch Attack Window OK**", $COLOR_ACTION)
-		Return True
-	EndIf
-
-	If $g_bDebugSetlog Or $g_bDebugClick Then
-		Local $colorReadnoshield = _GetPixelColor($aFindMatchButton[0], $aFindMatchButton[1], True)
-		Local $colorReadwithshield = _GetPixelColor($aFindMatchButton2[0], $aFindMatchButton2[1], True)
-		SetLog("**Launch Attack Window FAIL**", $COLOR_ACTION)
-		SetLog("expected in (" & $aFindMatchButton[0] & "," & $aFindMatchButton[1] & ")  = " & Hex($aFindMatchButton[2], 6) & " or " & Hex($aFindMatchButton2[2], 6) & " - Found " & $colorReadnoshield & " or " & $colorReadwithshield, $COLOR_ACTION)
-	EndIf
-
-	If $g_bDebugImageSave Then DebugImageSave("IsLaunchAttackPage")
-	Return False
+	If $g_bDebugSetlog Or $g_bDebugClick Then SetLog("**Launch Attack Window OK**", $COLOR_ACTION)
+	Return True
 
 EndFunc   ;==>IsLaunchAttackPage
 
