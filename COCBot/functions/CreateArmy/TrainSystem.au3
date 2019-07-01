@@ -38,11 +38,12 @@ Func TrainSystem()
 	Endif
 
 	If $g_bQuickTrainEnable Then
+		;QuickTrain()
 		; --------------------------------------------
 		; Simple Quick Train ( with DEB )
 		; --------------------------------------------
-		;Qt_SimpleQuickTrain( False, 2 )
-		QuickTrain()
+		Qt_SimpleQuickTrain( 2 )
+
 		If $g_bFirstStart Then $g_bFirstStart = False
 	Else
 		TrainCustomArmy()

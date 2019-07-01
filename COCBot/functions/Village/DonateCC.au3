@@ -682,9 +682,9 @@ Func DonateCC($bCheckForNewMsg = False)
 	; --------------------------------------------
 	; Simple Quick Train ( with DEB )
 	; --------------------------------------------
-	;If ( $g_bQuickTrainEnable ) Then
-	;	Qt_SimpleQuickTrain( True, 1 )
-	;EndIf
+	If $g_bQuickTrainEnable Then
+		Qt_SimpleQuickTrain( 1 )
+	EndIf
 
 EndFunc   ;==>DonateCC
 
