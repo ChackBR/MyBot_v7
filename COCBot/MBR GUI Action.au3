@@ -47,6 +47,7 @@ Func BotStart($bAutostartDelay = 0)
 	$g_bMeetCondStop = False
 	$g_bIsClientSyncError = False
 	$g_bDisableBreakCheck = False ; reset flag to check for early warning message when bot start/restart in case user stopped in middle
+	$g_sQuickTrainCheckTime = ""
 
 	SaveConfig()
 	readConfig()
@@ -86,6 +87,11 @@ Func BotStart($bAutostartDelay = 0)
 	DisableGuiControls()
 
 	SetRedrawBotWindow(True, Default, Default, Default, "BotStart")
+
+	;If Not ForumAuthentication() Then
+	;	btnStop()
+	;	Return FuncReturn()
+	;EndIf
 
 	If $bAutostartDelay Then
 		SetLog("Bot Auto Starting in " & Round($bAutostartDelay / 1000, 0) & " seconds", $COLOR_ERROR)
