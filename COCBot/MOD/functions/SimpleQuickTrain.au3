@@ -28,4 +28,11 @@ Func Qt_SimpleQuickTrain( $nLoop = 2 )
 		If _Sleep(500) Then Return
 	Next
 
+	If Not $g_bRunState Then Return
+
+	If $nLoop = 1 Then
+		ClickP($aAway, 2, 0, "#0346") ;Click Away
+		If _Sleep(500) Then Return ; Delay AFTER the click Away Prevents lots of coc restarts
+	EndIf
+
 EndFunc	;==> Qt_SimpleQuickTrain

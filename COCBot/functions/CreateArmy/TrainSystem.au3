@@ -49,7 +49,7 @@ Func TrainSystem()
 		TrainCustomArmy()
 	EndIf
 
-    TrainSiege()
+	TrainSiege()
 
 	If $g_bDonationEnabled And $g_bChkDonate Then ResetVariables("donated")
 
@@ -424,6 +424,10 @@ Func IsSpellToBrew($sName)
 EndFunc   ;==>IsSpellToBrew
 
 Func RemoveExtraTroops($toRemove)
+
+	If $g_bQuickTrainEnable Then Return
+	If Not $g_bQuickTrainEnable Then Return
+
 	Local $CounterToRemove = 0, $iResult = 0
 	; Army Window should be open and should be in Tab 'Army tab'
 
