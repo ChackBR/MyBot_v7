@@ -122,9 +122,11 @@ Func CheckIfArmyIsReady()
 		SetLog(" - $g_iTotalCampSpace : " & $g_iTotalCampSpace)
 	EndIf
 
-	If Not $g_bFullArmy Then
-		Local $avWrongTroops = WhatToTrain(True)
-		RemoveExtraTroops($avWrongTroops)
+	If Not $g_bQuickTrainEnable Then
+		If Not $g_bFullArmy Then
+			Local $avWrongTroops = WhatToTrain(True)
+			RemoveExtraTroops($avWrongTroops)
+		EndIf
 	EndIf
 
 	$g_bFullArmySpells = False
@@ -424,9 +426,6 @@ Func IsSpellToBrew($sName)
 EndFunc   ;==>IsSpellToBrew
 
 Func RemoveExtraTroops($toRemove)
-
-	If $g_bQuickTrainEnable Then Return
-	If Not $g_bQuickTrainEnable Then Return
 
 	Local $CounterToRemove = 0, $iResult = 0
 	; Army Window should be open and should be in Tab 'Army tab'
