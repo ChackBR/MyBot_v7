@@ -137,7 +137,7 @@ Func isEveryFileInstalled($bSilent = False)
 	If @Compiled Then ;if .exe
 		If Not StringInStr(@ScriptFullPath, "MyBot.run.exe", 1) Then ; if filename isn't MyBot.run.exe
 			If Not $bSilent Then
-			
+
 				SetLog($sText1, $COLOR_ERROR)
 				SetLog($sText5, $COLOR_ERROR)
 				SetLog($sText3, $COLOR_ERROR)

@@ -16,7 +16,7 @@
 Func MBRFunc($Start = True)
 	Switch $Start
 		Case True
-;			RemoveZoneIdentifiers()
+			RemoveZoneIdentifiers()
 			$g_hLibMyBot = DllOpen($g_sLibMyBotPath)
 			If $g_hLibMyBot = -1 Then
 				SetLog($g_sMBRLib & " not found.", $COLOR_ERROR)
@@ -115,7 +115,7 @@ EndFunc   ;==>debugMBRFunctions
 Func setAndroidPID($pid = GetAndroidPid())
 	If $g_hLibMyBot = -1 Then Return ; Bot didn't finish launch yet
 	SetDebugLog("setAndroidPID: $pid=" & $pid)
-	Local $result = DllCall($g_hLibMyBot, "str", "setAndroidPID", "int", $pid)
+	Local $result = DllCall($g_hLibMyBot, "str", "setAndroidPID", "int", $pid, "str", $g_sBotVersion, "str", $g_sAndroidEmulator, "str", $g_sAndroidVersion, "str", $g_sAndroidInstance)
 	If @error Then
 		_logErrorDLLCall($g_sLibMyBotPath & ", setAndroidPID:", @error)
 		Return SetError(@error)
@@ -155,7 +155,11 @@ Func SetBotGuiPID($pid = $g_iGuiPID)
 EndFunc   ;==>SetBotGuiPID
 
 Func CheckForumAuthentication()
-	If $g_hLibMyBot = -1 Then Return False ; Bot didn't finish launch yet
+	;
+	; MOD++ Disable ForumAuthentication()
+	;
+	Local $iAuthenticated = 1 ; 0 = not authenticated (username or password incorrect), 1 = authenticated, -1 = not authenticated (unknown error)
+#cs	If $g_hLibMyBot = -1 Then Return False ; Bot didn't finish launch yet
 	Local $result = DllCall($g_hLibMyBot, "str", "CheckForumAuthentication")
 	If @error Then
 		_logErrorDLLCall($g_sLibMyBotPath & ", CheckForumAuthentication:", @error)
@@ -179,7 +183,7 @@ Func CheckForumAuthentication()
 		EndIf
 	Else
 		SetDebugLog($g_sMBRLib & " not found.", $COLOR_ERROR)
-	EndIf
+#ce	EndIf
 	Return $iAuthenticated
 EndFunc   ;==>CheckForumAuthentication
 

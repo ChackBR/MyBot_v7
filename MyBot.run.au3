@@ -1275,6 +1275,9 @@ Func __RunFunction($action)
 				; --------------------------------------------
 				BB_DropTrophies()
 				If _Sleep($DELAYRUNBOT3) Then Return
+				If isOnBuilderBase() Then Return
+				If _Sleep($DELAYRUNBOT3) Then Return
+				; MOD++ _End
 				If checkObstacles() Then Return
 				StartClockTowerBoost()
 				If _Sleep($DELAYRUNBOT3) Then Return

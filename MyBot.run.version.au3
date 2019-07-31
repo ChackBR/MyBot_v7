@@ -55,4 +55,4 @@ Global $g_sModversion
 ; "r07" ; MyBot v7.7.6 Light: DEB + DRRTxt + BB Play + Use any siege received + Max Logout Time + Fix Bugs
 ; "r08" ; MyBot v7.7.6 Light: DEB + DRRTxt + BB Play + Use any siege received + Max Logout Time + Fix Bugs + June Temp Fix
 
-$g_sModversion = "r10" ; MyBot v7.7.7 Light: DEB + DRRTxt + BB Play + Use any siege received + Max Logout Time + Fix Bugs + June Temp Fix
+$g_sModversion = "r11" ; MyBot v7.7.7 Light: DEB + DRRTxt + BB Play + Use any siege received + Max Logout Time + Fix Bugs + June Temp Fix
