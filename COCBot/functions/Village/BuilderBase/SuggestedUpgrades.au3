@@ -278,7 +278,7 @@ Func GetUpgradeButton($sUpgButtom = "", $Debug = False)
 			;
 			; MOD++ Skip wall upgrade
 			;
-			If StringInStr($aBuildingName[1], "Wall")
+			If StringInStr($aBuildingName[1], "Wall") then
 				SetLog("Ups! Ignoring wall upgrade!", $COLOR_ERROR)
 				Return False
 			EndIf
