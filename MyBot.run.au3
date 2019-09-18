@@ -760,7 +760,8 @@ Func runBot() ;Bot that runs everything in order
 			checkMainScreen(False)
 			If $g_bRestart Then ContinueLoop
 
-			; Request CC Troops at first - MOD++
+			; MOD++
+			; Request CC Troops at first
 			$g_bcanRequestCC = True
 			If $g_bReqCCFirst Then
 				RequestCC()
