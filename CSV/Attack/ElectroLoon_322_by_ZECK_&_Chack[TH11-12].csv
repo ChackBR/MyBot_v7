@@ -67,6 +67,7 @@ DROP  |A          |10         |1          |Warden     |50-70      |0          |5
 DROP  |C          |5          |1          |RSpell     |0          |0          |178-200    |           |           |
 DROP  |C          |1          |1          |RSpell     |0          |0          |180-200    |           |           |
 DROP  |D          |4          |1          |RSpell     |0          |0          |530-550    |           |           |
+WAIT  |3000-5000  |           |           |           |           |           |           |           |           |
 DROP  |E          |3          |1          |RSpell     |0          |0          |150-170    |           |           |
 DROP  |F          |2          |1          |RSpell     |0          |0          |250-300    |           |           |
 DROP  |A          |10         |1          |Queen      |0          |0          |150-200    |           |           |

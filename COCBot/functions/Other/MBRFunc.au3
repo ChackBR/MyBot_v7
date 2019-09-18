@@ -159,7 +159,8 @@ Func CheckForumAuthentication()
 	; MOD++ Disable ForumAuthentication()
 	;
 	Local $iAuthenticated = 1 ; 0 = not authenticated (username or password incorrect), 1 = authenticated, -1 = not authenticated (unknown error)
-#cs	If $g_hLibMyBot = -1 Then Return False ; Bot didn't finish launch yet
+#cs
+	If $g_hLibMyBot = -1 Then Return False ; Bot didn't finish launch yet
 	Local $result = DllCall($g_hLibMyBot, "str", "CheckForumAuthentication")
 	If @error Then
 		_logErrorDLLCall($g_sLibMyBotPath & ", CheckForumAuthentication:", @error)
@@ -183,7 +184,8 @@ Func CheckForumAuthentication()
 		EndIf
 	Else
 		SetDebugLog($g_sMBRLib & " not found.", $COLOR_ERROR)
-#ce	EndIf
+	EndIf
+#ce
 	Return $iAuthenticated
 EndFunc   ;==>CheckForumAuthentication
 

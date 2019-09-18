@@ -301,7 +301,6 @@ Func GetUpgradeButton($sUpgButtom = "", $Debug = False)
 				ClickP($aAway, 1, 0, "#0121")
 				SetLog("Not enough Resources to Upgrade " & $aBuildingName[1] & " !", $COLOR_ERROR)
 			EndIf
-
 		EndIf
 	EndIf
 
