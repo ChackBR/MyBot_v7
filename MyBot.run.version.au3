@@ -56,4 +56,4 @@ Global $g_sModversion
 ; "r08" ; MyBot v7.7.6 Light: DEB + DRRTxt + BB Play + Use any siege received + Max Logout Time + Fix Bugs + June Temp Fix
 ; "r11" ; MyBot v7.7.7 Light: DEB + DRRTxt + BB Play + Use any siege received + Max Logout Time + Fix Bugs + June Temp Fix
 
-$g_sModversion = "r01" ; MyBot v7.7.8 Light: DEB + DRRTxt + BB Play + Use any siege received + Max Logout Time + Fix Bugs + June Temp Fix
+$g_sModversion = "r02" ; MyBot v7.7.8 Light: DEB + DRRTxt + BB Play + Use any siege received + Max Logout Time ( Works for Legend Leagle )

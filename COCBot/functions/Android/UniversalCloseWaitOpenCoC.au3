@@ -21,10 +21,20 @@ Func UniversalCloseWaitOpenCoC($iWaitTime = 0, $sSource = "Unknown", $StopEmulat
 
 	If $g_bDebugSetlog Then SetDebugLog("Begin UniversalCloseWaitOpenCoC:", $COLOR_DEBUG1)
 
+	Local $iAux
 	Local $sWaitTime = ""
 	Local $iMin, $iSec, $iHour, $iWaitSec, $StopAndroidFlag
 
 	If $iWaitTime > 0 Then
+		; --------------------------------------------
+		; Max logout time - MOD++
+		; --------------------------------------------
+		If $g_bTrainLogoutMaxTime Then
+			$iAux = ( ( $iWaitTime / 1000 ) / 60 )
+			SetLog("Train time = " & StringFormat("%.2f", $iAux) & " minutes, Max Logout Time Enabled = "& Number($g_iTrainLogoutMaxTime) &" mins", $COLOR_SUCCESS)
+			$iAux = _Min( $iAux, Number( $g_iTrainLogoutMaxTime ) - 0.4 )
+			$iWaitTime = ( $iAux * 60 * 1000 )
+		EndIf
 		; create readable wait time message for user/log
 		$iWaitSec = Round($iWaitTime / 1000)
 		$iHour = Floor(Floor($iWaitSec / 60) / 60)
