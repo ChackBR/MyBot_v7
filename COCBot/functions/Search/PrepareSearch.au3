@@ -90,24 +90,32 @@ Func PrepareSearch($Mode = $DB) ;Click attack button and find match button, will
 				; MOD++
 				SetLog("Attack Buttom = " & $sButtonState, $COLOR_INFO)
 				If StringInStr($sButtonState, "Ended", 0) > 0 Then
-					SetLog("League Day ended already! Trying again later", $COLOR_INFO)
 					$g_bRestart = True
+					SetLog("League Day ended already! Trying again later", $COLOR_INFO)
 					;$g_bIsClientSyncError = False
 					ClickP($aAway, 1, 0, "#0000") ;Click Away to prevent any pages on top
 					If $bWait30Minutes Then
 						$bWait30Minutes = False
-						UniversalCloseWaitOpenCoC(30 * 60 * 1000, "PrepareSearch")
+						If $g_bChkSwitchAcc then
+							$g_abDonateOnly[$g_iCurAccount] = True
+						Else
+							UniversalCloseWaitOpenCoC(30 * 60 * 1000, "PrepareSearch")
+						EndIf
 					Else
 						$bWait30Minutes = True
 					EndIf
 					Return
 				ElseIf StringInStr($sButtonState, "Made", 0) > 0 Then
-					SetLog("All Attacks already made! Returning home", $COLOR_INFO)
 					$g_bRestart = True
+					SetLog("All Attacks already made! Returning home", $COLOR_INFO)
 					ClickP($aAway, 1, 0, "#0000") ;Click Away to prevent any pages on top
 					If $bWait30Minutes Then
 						$bWait30Minutes = False
-						UniversalCloseWaitOpenCoC(30 * 60 * 1000, "PrepareSearch")
+						If ProfileSwitchAccountEnabled() Then
+							$g_abDonateOnly[$g_iCurAccount] = True
+						Else
+							UniversalCloseWaitOpenCoC(30 * 60 * 1000, "PrepareSearch")
+						EndIf
 					Else
 						$bWait30Minutes = True
 					EndIf
