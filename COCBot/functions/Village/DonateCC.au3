@@ -621,7 +621,7 @@ Func DonateCC($bCheckForNewMsg = False)
 
 		;;; Check for more donate buttons
 		ForceCaptureRegion()
-		$g_aiDonatePixel = _MultiPixelSearch(202 + $g_iBottomOffsetY, -2, 1, Hex(0x6da725, 6), $aChatDonateBtnColors, 20)
+		$g_aiDonatePixel = _MultiPixelSearch(202, $y, 230, 660 + $g_iBottomOffsetY, -2, 1, Hex(0x6da725, 6), $aChatDonateBtnColors, 20)
 
 		$iBenchmark = TimerDiff($itime)
 		If $g_bDebugSetlog Then SetDebugLog("Get more donate buttons in " & StringFormat("%.2f", $iBenchmark) & "'ms", $COLOR_DEBUG)
