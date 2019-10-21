@@ -160,7 +160,7 @@ Func DonateCC($bCheckForNewMsg = False)
 		Return ; exit func if no planned donate checkmarks
 	EndIf
 
-	Local $y = 90
+	Local $y = 50
 
 	;check for new chats first
 	If $bCheckForNewMsg Then
@@ -192,14 +192,7 @@ Func DonateCC($bCheckForNewMsg = False)
 
 	Local $iLoopCount = 0
 	While 1
-		;If Clan tab is selected.
-		If _ColorCheck(_GetPixelColor(189, 24, True), Hex(0x706C50, 6), 20) Then ; color med gray
-			ExitLoop
-		EndIf
-		;If Global tab is selected.
-		If _ColorCheck(_GetPixelColor(189, 24, True), Hex(0x383828, 6), 20) Then ; Darker gray
-			If _Sleep($DELAYDONATECC1) Then Return ;small delay to allow tab to completely open
-			ClickP($aClanTab, 1, 0, "#0169") ; clicking clan tab
+		If _ColorCheck(_GetPixelColor(300, 40, True), Hex(0x706C50, 6), 20) Then ; color med gray
 			ExitLoop
 		EndIf
 		;counter for time approx 3 sec max allowed for tab to open
@@ -224,12 +217,12 @@ Func DonateCC($bCheckForNewMsg = False)
 	; add scroll here
 	While 1
 		ForceCaptureRegion()
-		$y = 90
+		$y = 50
 		$Scroll = _PixelSearch(293, 8 + $y, 295, 23 + $y, Hex(0xFFFFFF, 6), 20)
 		If IsArray($Scroll) And _ColorCheck(_GetPixelColor(300, 110, True), Hex(0x509808, 6), 20) Then ; a second pixel for the green
 			$bDonate = True
 			Click($Scroll[0], $Scroll[1], 1, 0, "#0172")
-			$y = 90
+			$y = 50
 			If _Sleep($DELAYDONATECC2 + 100) Then ExitLoop
 			ContinueLoop
 		EndIf
@@ -250,7 +243,7 @@ Func DonateCC($bCheckForNewMsg = False)
 		ForceCaptureRegion()
 
 		;;; get the Request Buttons
-		$g_aiDonatePixel = _MultiPixelSearch(200, $y, 230, 660 + $g_iBottomOffsetY, -2, 1, Hex(0x6da725, 6), $aChatDonateBtnColors, 20)
+		$g_aiDonatePixel = _MultiPixelSearch(202, $y, 230, 660 + $g_iBottomOffsetY, -2, 1, Hex(0x6da725, 6), $aChatDonateBtnColors, 20)
 
 		$iBenchmark = TimerDiff($itime)
 		If $g_bDebugSetlog Then SetDebugLog("Get all Buttons in " & StringFormat("%.2f", $iBenchmark) & "'ms", $COLOR_DEBUG)
@@ -628,7 +621,7 @@ Func DonateCC($bCheckForNewMsg = False)
 
 		;;; Check for more donate buttons
 		ForceCaptureRegion()
-		$g_aiDonatePixel = _MultiPixelSearch(200, $y, 230, 660 + $g_iBottomOffsetY, -2, 1, Hex(0x6da725, 6), $aChatDonateBtnColors, 20)
+		$g_aiDonatePixel = _MultiPixelSearch(202 + $g_iBottomOffsetY, -2, 1, Hex(0x6da725, 6), $aChatDonateBtnColors, 20)
 
 		$iBenchmark = TimerDiff($itime)
 		If $g_bDebugSetlog Then SetDebugLog("Get more donate buttons in " & StringFormat("%.2f", $iBenchmark) & "'ms", $COLOR_DEBUG)

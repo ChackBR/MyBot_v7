@@ -96,7 +96,7 @@ Func PrepareSearch($Mode = $DB) ;Click attack button and find match button, will
 					ClickP($aAway, 1, 0, "#0000") ;Click Away to prevent any pages on top
 					If $bWait30Minutes Then
 						$bWait30Minutes = False
-						If $g_bChkSwitchAcc then
+						If ProfileSwitchAccountEnabled() Then
 							$g_abDonateOnly[$g_iCurAccount] = True
 						Else
 							UniversalCloseWaitOpenCoC(30 * 60 * 1000, "PrepareSearch")

@@ -760,12 +760,13 @@ Func runBot() ;Bot that runs everything in order
 			checkMainScreen(False)
 			If $g_bRestart Then ContinueLoop
 
-			; MOD++
-			; Request CC Troops at first
+			; *-------------------------------*
+			; Request CC Troops at first MOD++
+			; *-------------------------------*
 			$g_bcanRequestCC = True
 			If $g_bReqCCFirst Then
 				RequestCC()
-				If _Sleep($DELAYRUNBOT1) = False Then checkMainScreen(False)
+				If Not _Sleep($DELAYRUNBOT1) Then checkMainScreen(False)
 			EndIf
 
 			Local $aRndFuncList = ['LabCheck', 'Collect', 'CheckTombs', 'CleanYard', 'CollectFreeMagicItems', 'DailyChallenge']
