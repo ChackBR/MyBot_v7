@@ -467,6 +467,9 @@ Func ApplyConfig_600_11($TypeReadSave)
 	Switch $TypeReadSave
 		Case "Read"
 			GUICtrlSetState($g_hChkRequestTroopsEnable, $g_bRequestTroopsEnable ? $GUI_CHECKED : $GUI_UNCHECKED)
+			; --------------------------------------------
+			; MOD++ Request Type Once
+			; --------------------------------------------
 			GUICtrlSetState($g_hChkRequestTypeOnceEnable, $g_bRequestTypeOnceEnable ? $GUI_CHECKED : $GUI_UNCHECKED)
 			; Request Type - Demen
 			GUICtrlSetState($g_hChkRequestType_Troops, $g_abRequestType[0] ? $GUI_CHECKED : $GUI_UNCHECKED)
@@ -491,6 +494,9 @@ Func ApplyConfig_600_11($TypeReadSave)
 			Next
 		Case "Save"
 			$g_bRequestTroopsEnable = (GUICtrlRead($g_hChkRequestTroopsEnable) = $GUI_CHECKED)
+			; --------------------------------------------
+			; MOD++ Request Type Once
+			; --------------------------------------------
 			$g_bRequestTypeOnceEnable = (GUICtrlRead($g_hChkRequestTypeOnceEnable) = $GUI_CHECKED)
 			$g_sRequestTroopsText = GUICtrlRead($g_hTxtRequestCC)
 			; Request Type - Demen

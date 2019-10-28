@@ -303,7 +303,6 @@ Func GetUpgradeButton($sUpgButtom = "", $Debug = False)
 			EndIf
 		EndIf
 	EndIf
-
 	Return False
 EndFunc   ;==>GetUpgradeButton
 

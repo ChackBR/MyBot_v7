@@ -481,7 +481,7 @@ Func SetupFilesAndFolders()
 	;Migrate old shared_prefs locations
 	Local $sOldProfiles = @MyDocumentsDir & "\MyBot.run-Profiles"
 	If FileExists($sOldProfiles) = 1 And FileExists($g_sPrivateProfilePath) = 0 Then
-		SetLog("Moving shared_prefs profiles folder...")
+		SetLog("Moving shared_prefs profiles folder")
 		If DirMove($sOldProfiles, $g_sPrivateProfilePath) = 0 Then
 			SetLog("Error moving folder " & $sOldProfiles, $COLOR_ERROR)
 			SetLog("to new location " & $g_sPrivateProfilePath, $COLOR_ERROR)

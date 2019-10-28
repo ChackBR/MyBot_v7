@@ -15,11 +15,11 @@
 #pragma compile(Icon, "Images\MyBot.ico")
 #pragma compile(FileDescription, Clash of Clans Bot - A Free Clash of Clans bot - https://mybot.run)
 #pragma compile(ProductVersion, 7.7)
-#pragma compile(FileVersion, 7.7.8)
+#pragma compile(FileVersion, 7.7.9)
 #pragma compile(LegalCopyright, © https://mybot.run)
 #Au3Stripper_On
 
-Global $g_sBotVersion = "v7.7.8" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it is also used in Checkversion()
+Global $g_sBotVersion = "v7.7.9" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it is also used in Checkversion()
 
 Global $g_sModversion
 
@@ -55,6 +55,6 @@ Global $g_sModversion
 ; "r07" ; MyBot v7.7.6 Light: DEB + DRRTxt + BB Play + Use any siege received + Max Logout Time + Fix Bugs
 ; "r08" ; MyBot v7.7.6 Light: DEB + DRRTxt + BB Play + Use any siege received + Max Logout Time + Fix Bugs + June Temp Fix
 ; "r11" ; MyBot v7.7.7 Light: DEB + DRRTxt + BB Play + Use any siege received + Max Logout Time + Fix Bugs + June Temp Fix
-; "r03" ; MyBot v7.7.8 Light: DEB + DRRTxt + BB Play + Use any siege received + Max Logout Time + Fix SwitchAcc for Legends (at end leagle day)
+; "r05" ; MyBot v7.7.8 Light: DEB + DRRTxt + BB Play + Use any siege received + Max Logout Time + Fix SwitchAcc for Legends (at end leagle day)
 
-$g_sModversion = "r05" ; MyBot v7.7.8 Light: DEB + DRRTxt + BB Play + Use any siege received + Max Logout Time + Oct/2019 Update Temp Fix + Clan Games Fix
+$g_sModversion = "r01" ; MyBot v7.7.9 Light: DEB + DRRTxt + BB Play + Max Logout Time

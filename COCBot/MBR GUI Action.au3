@@ -88,10 +88,10 @@ Func BotStart($bAutostartDelay = 0)
 
 	SetRedrawBotWindow(True, Default, Default, Default, "BotStart")
 
-	;If Not ForumAuthentication() Then
-	;	btnStop()
-	;	Return FuncReturn()
-	;EndIf
+	If Not ForumAuthentication() Then
+		btnStop()
+		Return FuncReturn()
+	EndIf
 
 	If $bAutostartDelay Then
 		SetLog("Bot Auto Starting in " & Round($bAutostartDelay / 1000, 0) & " seconds", $COLOR_ERROR)

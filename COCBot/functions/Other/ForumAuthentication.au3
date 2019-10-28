@@ -18,7 +18,8 @@ Global $g_iForumRetryOnErrorCount = 20 ; retry on unknown error 5 times
 Global $g_iForumRetryOnErrorDelay = 3000 ; retry delay in Milliseconds
 
 Func ForumAuthentication()
-
+	Local $bOk = True
+#cs
 	Local $bWasRunState = $g_bRunState
 
 	; load text so translation is upadted
@@ -172,7 +173,7 @@ Func ForumAuthentication()
 
 		EndIf
 	EndIf
-
+#ce
 	Return $bOk
 EndFunc   ;==>ForumAuthentication
 
