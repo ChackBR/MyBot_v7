@@ -405,7 +405,10 @@ Func SwitchCOCAcc($NextAccount)
 EndFunc   ;==>SwitchCOCAcc
 
 Func SwitchCOCAcc_DisconnectConnect(ByRef $bResult, $bDisconnectOnly = $g_bChkSharedPrefs)
+	Local $iColor
 	For $i = 0 To 20 ; Checking Green Connect Button continuously in 20sec
+		$iColor = _GetPixelColor($aButtonConnected[0], $aButtonConnected[1], True)
+		SetLog("*Func SwitchCOCAcc: " & $iColor)
 		If _ColorCheck(_GetPixelColor($aButtonConnected[0], $aButtonConnected[1], True), Hex($aButtonConnected[2], 6), $aButtonConnected[3]) Then ;	Green
 			If $bDisconnectOnly = False Then
 				SetLog("   1. Click Connect & Disconnect")
