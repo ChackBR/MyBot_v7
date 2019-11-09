@@ -1088,7 +1088,7 @@ EndFunc   ;==>ResetVariables
 
 Func TrainArmyNumber($Army)
 
-	Local $a_TrainArmy[3][4] = [[784, 368, 0x6fb830, 10], [784, 485, 0x72bb2f, 10], [784, 602, 0x71ba2f, 10]]
+	Local $a_TrainArmy[3][4] = [[784, 336, 0xD5F27D, 10], [784, 443, 0xD5F27D, 10], [784, 549, 0xD5F27D, 10]]
 	SetLog("Using Quick Train Tab", $COLOR_INFO)
 	If Not $g_bRunState Then Return
 
