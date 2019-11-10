@@ -26,7 +26,7 @@ Global $aAttackButton[2] = [60, 614 + $g_iBottomOffsetY] ; Attack Button, Main S
 Global $aFindMatchButton[4] = [470, 20 + $g_iBottomOffsetY, 0xD8A420, 10] ; Find Multiplayer Match Button, Attack Screen 860x780 without shield
 Global $aIsAttackShield[4] = [250, 415 + $g_iMidOffsetY, 0xE8E8E0, 10] ; Attack window, white shield verification window
 Global $aAway[2] = [175, 10] ; Away click, moved from 1,1 to prevent scroll window from top, moved from 0,10 to 175,32 to prevent structure click or 175,10 to just fix MEmu 2.x opening and closing toolbar
-Global $aAway2[2] = [400, 10] ; Second Away Position for Windows like Donate Window where at $aAway is a button
+Global $aAway2[2] = [235, 10] ; Second Away Position for Windows like Donate Window where at $aAway is a button
 Global $aNoShield[4] = [448, 20, 0x43484B, 15] ; Main Screen, charcoal pixel center of shield when no shield is present
 Global $aHaveShield[4] = [455, 19, 0xF0F8FB, 15] ; Main Screen, Silver pixel top center of shield
 Global $aHavePerGuard[4] = [455, 19, 0x10100D, 15] ; Main Screen, black pixel in sword outline top center of shield
@@ -142,19 +142,16 @@ Global $aButtonSetting[4] = [820, 550 + $g_iMidOffsetY, 0xFFFFFF, 10] ; Setting 
 Global $aIsSettingPage[4] = [753, 81 + $g_iMidOffsetY, 0xFF8F95, 10] ; Main Screen, Setting page open - left upper corner of x button
 
 ;Google Play
-Global $aButtonConnected[4] = [480, 356 + $g_iMidOffsetY, 0xABD555, 20] ; Setting screen, Connected button
-Global $aButtonDisconnected[4] = [480, 356 + $g_iMidOffsetY, 0xEB131A, 20] ; Setting screen, Disconnected button
+Global $aButtonConnected[4] = [480, 356 + $g_iMidOffsetY, 0xABD555, 40] ; Setting screen, Connected button
+Global $aButtonDisconnected[4] = [480, 356 + $g_iMidOffsetY, 0xEB131A, 40] ; Setting screen, Disconnected button
 Global $aListAccount[4] = [635, 210 + $g_iMidOffsetY, 0xFFFFFF, 10] ; Accounts list google, White
 Global $aButtonVillageLoad[4] = [515, 411 + $g_iMidOffsetY, 0x6EBD1F, 20] ; Load button, Green
 Global $aTextBox[4] = [320, 160 + $g_iMidOffsetY, 0xFFFFFF, 10] ; Text box, White
 Global $aButtonVillageOkay[4] = [500, 170 + $g_iMidOffsetY, 0x81CA2D, 20] ; Okay button, Green
 
 ;SuperCell ID
-Global $aButtonConnectedSCID[4] = [640, 160 + $g_iMidOffsetY, 0x2D89FD, 20] ; Setting screen, Supercell ID Connected button
-Global $aButtonLogOutSCID[4] = [615,  270 + $g_iMidOffsetY, 0x308AFB, 20] ; Supercell ID, Log Out button
-Global $aButtonConfirmSCID[4] = [475, 420 + $g_iMidOffsetY, 0x2C88FA, 20] ; Supercell ID, Confirm button
-Global $aListAccountSCID[4] = [501, 353 + $g_iMidOffsetY, 0x000000, 10] ; Supercell ID, Black check in word "ID"
-Global $aCloseTabSCID[4] = [732, 145] ; Button Close Supercell ID tab
+Global $aButtonConnectedSCID[4] = [640, 160 + $g_iMidOffsetY, 0x2D89FD, 20] ; Setting screen, Supercell ID Connected button (Blue Part)
+Global $aCloseTabSCID[4] = [831, 57] ; Button Close Supercell ID tab
 
 ;Train
 Global $aButtonEditArmy[4] = [800, 542, 0xDDF685, 25]

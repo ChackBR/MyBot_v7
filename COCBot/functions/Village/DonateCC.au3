@@ -255,7 +255,7 @@ Func DonateCC($bCheckForNewMsg = False)
 			If $bDonateTroop Or $bDonateSpell Or $bDonateSiege Then
 
 				Local $Alphabets[4] = [$g_bChkExtraAlphabets, $g_bChkExtraChinese, $g_bChkExtraKorean, $g_bChkExtraPersian]
-				Local $Yaxis[4] = [50, 26, 26, 31]
+				Local $Yaxis[4] = [50, 36, 36, 41]
 				Local $TextAlphabetsNames[4] = ["Cyrillic and Latin", "Chinese", "Korean", "Persian"]
 				Local $AlphabetFunctions[4] = ["getChatString", "getChatStringChinese", "getChatStringKorean", "getChatStringPersian"]
 				Local $BlankSpaces = ""
@@ -287,7 +287,7 @@ Func DonateCC($bCheckForNewMsg = False)
 								$ClanString &= $BlankSpaces & Call($AlphabetFunctions[$i], 30, $aiDonateButton[1] - $Yaxis[$i])
 								#Au3Stripper_On
 								If @error = 0xDEAD And @extended = 0xBEEF Then SetLog("[DonatCC] Function " & $AlphabetFunctions[$i] & "() had a problem.")
-								If $g_bDebugSetlog Then SetDebugLog("$OcrName: " & $OcrName)
+								If $g_bDebugSetlog Then SetDebugLog("$OcrName: " & $TextAlphabetsNames[$i])
 								If $g_bDebugSetlog Then SetDebugLog("$Yaxis: " & $Yaxis[$i])
 								If $g_bDebugSetlog Then SetDebugLog("$ClanString: " & $ClanString)
 								If $ClanString <> "" And $ClanString <> " " Then ExitLoop

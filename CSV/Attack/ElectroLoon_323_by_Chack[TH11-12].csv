@@ -1,5 +1,5 @@
-﻿NOTE  |Author: v3.2.1 by ZECK and Chack++
-NOTE  |[10.31.2018] Heroes Inside, External Edges
+﻿NOTE  |Author: v3.2.2 by ZECK and Chack++
+NOTE  |[01.05.2019] Heroes Inside, External Edges
 NOTE  |TH 11 ★★★
 NOTE  |Train: 7 Electro Dragons, 10 Balloons 4 Rage, 3 Freeze in CC 1 Rage and Balloons
 NOTE  |TH 12 ★★★
@@ -63,10 +63,11 @@ DROP  |A          |4,5,7,9,10 |5          |Ball       |50-70      |27-50      |1
 DROP  |B          |1,2,3,4,6  |5          |Ball       |50-70      |27-50      |90-110     |           |           |
 DROP  |V          |8,10       |2          |Ball       |55-70      |27-50      |15-20      |           |           |
 DROP  |K          |1,2        |2          |Ball       |55-70      |27-50      |150-200    |           |           |
-DROP  |A          |10         |1          |Warden     |50-70      |0          |400-450    |           |           |
+DROP  |A          |10         |1          |Warden     |50-70      |0          |500-650    |           |           |
 DROP  |C          |5          |1          |RSpell     |0          |0          |178-200    |           |           |
 DROP  |C          |1          |1          |RSpell     |0          |0          |180-200    |           |           |
 DROP  |D          |4          |1          |RSpell     |0          |0          |530-550    |           |           |
+WAIT  |3000-5000  |           |           |           |           |           |           |           |           |
 DROP  |E          |3          |1          |RSpell     |0          |0          |150-170    |           |           |
 DROP  |F          |2          |1          |RSpell     |0          |0          |250-300    |           |           |
 DROP  |A          |10         |1          |Queen      |0          |0          |150-200    |           |           |
@@ -74,13 +75,13 @@ DROP  |F          |2          |1          |HaSpell    |0          |0          |1
 DROP  |H          |2          |1          |HaSpell    |0          |0          |500-550    |           |           |
 DROP  |A          |10         |1          |King       |0          |0          |250-300    |           |           |
 WAIT  |2000-4200  |           |           |           |           |           |           |           |           |
-DROP  |P          |1          |1          |FSpell     |0          |0          |190-230    |           |           |
-DROP  |U          |1          |1          |FSpell     |0          |0          |190-230    |           |           |
+DROP  |G          |1          |1          |FSpell     |0          |0          |190-230    |           |           |
+DROP  |L          |1          |1          |FSpell     |0          |0          |190-230    |           |           |
 DROP  |Z          |1          |1          |FSpell     |0          |0          |200-250    |           |           |
-WAIT  |3000-4200  |           |           |           |           |           |           |           |           |
-DROP  |G          |1          |1          |FSpell     |0          |0          |100-150    |           |           |
-DROP  |L          |1          |1          |FSpell     |0          |0          |100-150    |           |           |
-DROP  |P          |1          |1          |FSpell     |0          |0          |190-230    |           |           |
+WAIT  |4000-6200  |           |           |           |           |           |           |           |           |
+DROP  |Z          |1          |1          |FSpell     |0          |0          |100-150    |           |           |
+DROP  |P          |1          |1          |FSpell     |0          |0          |100-150    |           |           |
+DROP  |U          |1          |1          |FSpell     |0          |0          |190-230    |           |           |
 WAIT  |3300-5500  |           |           |           |           |           |           |           |           |
 DROP  |A          |10         |1          |WallW      |0          |50-70      |150-170    |           |           |
 DROP  |A          |10         |1          |BattleB    |0          |50-70      |150-170    |           |           |

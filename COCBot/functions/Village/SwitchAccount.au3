@@ -141,13 +141,13 @@ Func CheckSwitchAcc()
 
 	Local $sLogSkip = ""
 	If Not $g_abDonateOnly[$g_iCurAccount] And $iWaitTime <= $g_iTrainTimeToSkip And Not $bForceSwitch Then
-	
+
 		If $iWaitTime > 0 Then $sLogSkip = " in " & Round($iWaitTime, 1) & " mins"
 		SetLog("Army is ready" & $sLogSkip & ", skip switching account", $COLOR_INFO)
 		SetSwitchAccLog(" - Army is ready" & $sLogSkip)
 		SetSwitchAccLog("Stay at [" & $g_iCurAccount + 1 & "]", $COLOR_SUCCESS)
 		If _Sleep(500) Then Return
-		
+
 	Else
 
 		If $g_bChkSmartSwitch = True Then ; Smart switch
@@ -216,7 +216,7 @@ Func CheckSwitchAcc()
 			SetSwitchAccLog("Stay at [" & $g_iCurAccount + 1 & "]", $COLOR_SUCCESS)
 		EndIf
 	EndIf
-	
+
 EndFunc   ;==>CheckSwitchAcc
 
 Func SwitchCOCAcc($NextAccount)
@@ -291,17 +291,7 @@ Func SwitchCOCAcc($NextAccount)
 						; no $g_bRunState
 						Return
 				EndSwitch
-				Switch SwitchCOCAcc_ConfirmSCID($bResult)
-					Case "OK"
-						; all good
-					Case "Error"
-						; some problem
-						ExitLoop
-					Case "Exit"
-						; no $g_bRunState
-						Return
-				EndSwitch
-				Switch SwitchCOCAcc_ClickAccountSCID($bResult, $NextAccount)
+				Switch SwitchCOCAcc_ClickAccountSCID($bResult, $NextAccount, 2)
 					Case "OK"
 						; all good
 					Case "Error"
@@ -431,10 +421,13 @@ Func SwitchCOCAcc_DisconnectConnect(ByRef $bResult, $bDisconnectOnly = $g_bChkSh
 			EndIf
 			;ExitLoop
 			Return "OK"
-		ElseIf _ColorCheck(_GetPixelColor($aButtonConnectedSCID[0], $aButtonConnectedSCID[1], True), Hex($aButtonConnectedSCID[2], 6), $aButtonConnectedSCID[3]) Then ; Green
-			SetLog("Account connected to SuperCell ID")
-			;ExitLoop
-			Return "OK"
+		Else ; SupercellID
+			Local $aSuperCellIDConnected = decodeSingleCoord(findImage("SupercellID Connected", $g_sImgSupercellIDConnected, GetDiamondFromRect("612,161,691,216"), 1, True, Default))
+			If IsArray($aSuperCellIDConnected) And UBound($aSuperCellIDConnected, 1) > 0 Then
+				SetLog("Account connected to SuperCell ID")
+				;ExitLoop
+				Return "OK"
+			EndIf
 		EndIf
 		If $i = 20 Then
 			$bResult = False
@@ -507,11 +500,14 @@ Func SwitchCOCAcc_ClickAccount(ByRef $bResult, $iNextAccount, $bStayDisconnected
 			SetLog("   1.1. Click Disconnect again")
 			Click($aButtonDisconnected[0], $aButtonDisconnected[1]) ; Click Disconnect
 			If _Sleep(600) Then Return FuncReturn("Exit")
-		ElseIf _ColorCheck(_GetPixelColor($aButtonConnectedSCID[0], $aButtonConnectedSCID[1], True), Hex($aButtonConnectedSCID[2], 6), $aButtonConnectedSCID[3]) Then ; Green
-			;SetLog("Account connected to SuperCell ID, cannot disconnect")
-			If $bStayDisconnected Then
-				ClickP($aAway, 1, 0, "#0000") ;Click Away
-				Return FuncReturn("OK")
+		Else ; SupercellID
+			Local $aSuperCellIDConnected = decodeSingleCoord(findImage("SupercellID Connected", $g_sImgSupercellIDConnected, GetDiamondFromRect("612,161,691,216"), 1, True, Default))
+			If IsArray($aSuperCellIDConnected) And UBound($aSuperCellIDConnected, 1) > 0 Then
+				SetLog("Account connected to SuperCell ID, cannot disconnect")
+				If $bStayDisconnected Then
+					ClickP($aAway, 1, 0, "#0000") ;Click Away
+					Return FuncReturn("OK")
+				EndIf
 			EndIf
 		EndIf
 		If $i = 20 Then
@@ -625,16 +621,17 @@ Func SwitchCOCAcc_ConfirmAccount(ByRef $bResult, $iStep = 3, $bDisconnectAfterSw
 EndFunc   ;==>SwitchCOCAcc_ConfirmAccount
 
 Func SwitchCOCAcc_ConnectedSCID(ByRef $bResult)
-	For $i = 0 To 20 ; Checking Green Connected button continuously in 20sec
-		If _ColorCheck(_GetPixelColor($aButtonConnectedSCID[0], $aButtonConnectedSCID[1], True), Hex($aButtonConnectedSCID[2], 6), $aButtonConnectedSCID[3]) Then
-			Click($aButtonConnectedSCID[0], $aButtonConnectedSCID[1], 1, 0, "Click Connected SC_ID")
-			Setlog("   1. Click Connected Supercell ID")
+	For $i = 0 To 20 ; Checking Blue Reload button continuously in 20sec
+		Local $aSuperCellIDReload = decodeSingleCoord(findImage("SupercellID Reload", $g_sImgSupercellIDReload, GetDiamondFromRect("563,163,612,217"), 1, True, Default))
+		If IsArray($aSuperCellIDReload) And UBound($aSuperCellIDReload, 1) > 0 Then
+			Click($aSuperCellIDReload[0], $aSuperCellIDReload[1], 1, 0, "Click Reload SC_ID")
+			Setlog("   1. Click Reload Supercell ID")
 			If _Sleep(2500) Then Return "Exit"
 			;ExitLoop
 			Return "OK"
 		EndIf
 
-		SetDebugLog("Checking Green Connected button x:" & $aButtonConnectedSCID[0] & " y:" & $aButtonConnectedSCID[1] & " : " & _GetPixelColor($aButtonConnectedSCID[0], $aButtonConnectedSCID[1], True))
+		SetDebugLog("Find " & UBound($aSuperCellIDReload) & " Reload Button at x:" & $aSuperCellIDReload[0] & " y:" & $aSuperCellIDReload[1])
 
 		If $i = 20 Then
 			$bResult = False
@@ -646,141 +643,46 @@ Func SwitchCOCAcc_ConnectedSCID(ByRef $bResult)
 	Return "" ; should never get here
 EndFunc   ;==>SwitchCOCAcc_ConnectedSCID
 
-Func SwitchCOCAcc_ConfirmSCID(ByRef $bResult)
-	For $x = 0 To 20 ; Checking LogOut & Confirm button continuously in 20sec
+Func SwitchCOCAcc_ClickAccountSCID(ByRef $bResult, $NextAccount, $iStep = 4)
+    Local $aSearchForAccount, $aCoordinates[0][2], $aTempArray
+	For $i = 0 To 30 ; Checking "New SuperCellID UI" continuously in 30sec
+		Local $aSuperCellIDWindowsUI = decodeSingleCoord(findImage("SupercellID Windows", $g_sImgSupercellIDWindows, GetDiamondFromRect("440,1,859,243"), 1, True, Default))
+		If IsArray($aSuperCellIDWindowsUI) And UBound($aSuperCellIDWindowsUI, 1) > 0 Then
+			$aSearchForAccount = decodeMultipleCoords(findImage("Account Locations", $g_sImgSupercellIDSlots, GetDiamondFromRect("440,334,859,732"), 0, True, Default))
+			If IsArray($aSearchForAccount) And UBound($aSearchForAccount) > 0 Then
+				SetDebugLog("[SCID Accounts]: " & UBound($aSearchForAccount), $COLOR_DEBUG)
 
-		; MEmu 2.5.0 and 2.8.6 haves some buttons smaller and diff position.
-		Local $AlternativeToMemuLogOut = [$aButtonLogOutSCID[0], 265, $aButtonLogOutSCID[2], $aButtonLogOutSCID[3]]
-		Local $AlternativeToMemuConfirm = [410, $aButtonConfirmSCID[1], $aButtonConfirmSCID[2], $aButtonConfirmSCID[3]]
-		Local $aToCheckLogOut[2] = [$AlternativeToMemuLogOut, $aButtonLogOutSCID]
-		Local $aToCheckConfirm = [$AlternativeToMemuConfirm, $aButtonConfirmSCID]
-
-		For $i = 0 To UBound($aToCheckLogOut) - 1
-			Local $Pixel = $aToCheckLogOut[$i]
-			If _ColorCheck(_GetPixelColor($Pixel[0], $Pixel[1], True), Hex($Pixel[2], 6), $Pixel[3]) Then
-				SetLog("   2. Click Log Out Supercell ID")
-				Click($Pixel[0], $Pixel[1], 2, 500, "Click Log Out SC_ID") ; Click LogOut button
-				If _Sleep(500) Then Return "Exit"
-
-				Local $TempConfirm = $aToCheckConfirm[$i]
-				For $j = 0 To 10 ; Click Confirm button
-					; Global $aButtonConfirmSCID[4] = [460, 410 + $g_iMidOffsetY, 0x328AFB, 20] ; Supercell ID, Confirm button
-					If _ColorCheck(_GetPixelColor($TempConfirm[0], $TempConfirm[1], True), Hex($TempConfirm[2], 6), $TempConfirm[3]) Then
-						SetLog("   3. Click Confirm Supercell ID")
-						Click($TempConfirm[0], $TempConfirm[1], 1, 0, "Click Confirm SC_ID")
-						If _Sleep(500) Then Return "Exit"
-						;ExitLoop
-						Return "OK"
-					EndIf
-					If $j = 10 Then
-						$bResult = False
-						;ExitLoop 3
-						If $i = 1 Then Return "Error"
-					EndIf
-					If _Sleep(900) Then Return "Exit"
+				For $j = 0 To UBound($aSearchForAccount) - 1
+					$aTempArray = $aSearchForAccount[$j]
+					_ArrayAdd($aCoordinates, $aTempArray[0] & "|" & $aTempArray[1], 0, "|", @CRLF, $ARRAYFILL_FORCE_NUMBER)
 				Next
-			EndIf
-			SetDebugLog("[" & $i & "] Checking LogOut & Confirm button x:" & $Pixel[0] & " y:" & $Pixel[1] & " : " & _GetPixelColor($Pixel[0], $Pixel[1], True))
-		Next
 
-		If $x = 20 Then
+				_ArraySort($aCoordinates, 0, 0, 0, 1) ; short by column 1 [Y]
+				For $j = 0 To UBound($aCoordinates) - 1
+					SetDebugLog("[" & $j & "] Account coordinates: " & $aCoordinates[$j][0] & "," & $aCoordinates[$j][1] & " named: " & $g_asProfileName[$j])
+				Next
+				Setlog("   " & $iStep & ". SC_ID account number " & $NextAccount + 1 & " named: " & $g_asProfileName[$NextAccount])
+				If $NextAccount + 1 > UBound($aSearchForAccount) Then
+					setlog("You selected a SCID undetected account!", $COLOR_ERROR)
+					Click($aCloseTabSCID[0], $aCloseTabSCID[1], 1)
+					$bResult = False
+					Return "Error"
+				EndIf
+				Click($aCoordinates[$NextAccount][0], $aCoordinates[$NextAccount][1], 1)
+				SetLog("   " & $iStep + 1 & ". Please wait for loading CoC!")
+				$bResult = True
+				Return "OK"
+			Else
+				SetLog("Cannot Find Any Supercell ID Account!")
+				$bResult = False
+				Return "Error"
+			EndIf
+		Else
+			SetLog("Cannot Find Supercell ID Windows!")
 			$bResult = False
-			;ExitLoop 2
 			Return "Error"
 		EndIf
-		If _Sleep(900) Then Return "Exit"
-	Next
-	Return "" ; should never get here
-EndFunc   ;==>SwitchCOCAcc_ConfirmSCID
 
-Func SwitchCOCAcc_ClickAccountSCID(ByRef $bResult, $NextAccount, $iStep = 4)
-	Local $YCoord = Int(336 + 73.5 * $NextAccount)
-	Local $iRetryCloseSCIDTab = 0
-
-	Local $aSearchForAccount, $aCoordinates[0][2], $aTempArray
-
-	Local $AccountsCoord[0][2]
-	For $i = 0 To 30 ; Checking "Log in with SuperCell ID" button continuously in 30sec
-		If _ColorCheck(_GetPixelColor($aLoginWithSupercellID[0], $aLoginWithSupercellID[1], True), Hex($aLoginWithSupercellID[2], 6), $aLoginWithSupercellID[3]) And _
-				_ColorCheck(_GetPixelColor($aLoginWithSupercellID2[0], $aLoginWithSupercellID2[1], True), Hex($aLoginWithSupercellID2[2], 6), $aLoginWithSupercellID2[3]) Then
-			SetLog("   " & $iStep & ". Click Log in with Supercell ID")
-			Click($aLoginWithSupercellID[0], $aLoginWithSupercellID[1], 1, 0, "Click Log in with SC_ID")
-			If _Sleep(3000) Then Return "Exit"
-
-			; Global $aListAccountSCID[4] = [490, 275, 0x000000, 10] ; Supercell ID, Black check in word "ID"
-			For $j = 0 To 20 ; Checking Account List continuously in 20sec
-				If _ColorCheck(_GetPixelColor($aListAccountSCID[0], $aListAccountSCID[1], True), Hex($aListAccountSCID[2], 6), $aListAccountSCID[3]) Then
-					If $NextAccount >= 4 Then
-						$YCoord = Int(408 - 73.5 * ($g_iTotalAcc - $NextAccount))
-						ClickDrag(700, 590, 700, 172, 2000)
-						If _Sleep(500) Then Return "Exit"
-					EndIf
-					Click(270, $YCoord) ; Click Account
-					SetLog("   " & ($iStep + 1) & ". Click Account [" & $NextAccount + 1 & "] Supercell ID")
-					If _Sleep(500) Then Return "Exit"
-					SetLog("Please wait for loading CoC...!")
-					$bResult = True
-					Return "OK"
-				ElseIf $j = 10 Then
-					$iRetryCloseSCIDTab += 1
-					If $iRetryCloseSCIDTab <= 3 Then
-						SetLog("   " & $iStep & ".5 Click Close Tab Supercell ID")
-						Click($aCloseTabSCID[0], $aCloseTabSCID[1], 1, 0, "Click Close Tab SC_ID")
-						If _Sleep(500) Then Return "Exit"
-						$i = 0 ; restart loop to check & click "Login With SuperCell ID" button
-						ExitLoop
-					Else
-						$iRetryCloseSCIDTab = 0
-						$bResult = False
-						Return "Error"
-					EndIf
-				EndIf
-				; Alternative to MEmu 2.5.0 or 2.8.6
-				If _ColorCheck(_GetPixelColor(490, 275, True), Hex($aListAccountSCID[2], 6), $aListAccountSCID[3]) Then
-					For $i = 0 To 10
-						$aSearchForAccount = decodeMultipleCoords(findImage("AccountLocations", $g_sImgSupercellID, GetDiamondFromRect("550,165,690,605"), 0, True, Default))
-						If UBound($aSearchForAccount) > 0 Then
-							SetDebugLog("[SCID Accounts]: " & UBound($aSearchForAccount), $COLOR_DEBUG)
-
-							For $j = 0 To UBound($aSearchForAccount) - 1
-								$aTempArray = $aSearchForAccount[$j]
-								_ArrayAdd($aCoordinates, $aTempArray[0] & "|" & $aTempArray[1], 0, "|", @CRLF, $ARRAYFILL_FORCE_NUMBER)
-							Next
-
-							_ArraySort($aCoordinates, 0, 0, 0, 1) ; short by column 1 [Y]
-							For $j = 0 To UBound($aCoordinates) - 1
-								SetDebugLog("[" & $j & "] Account coordinates: " & $aCoordinates[$j][0] & "," & $aCoordinates[$j][1] & " named: " & $g_asProfileName[$j])
-							Next
-							Setlog("SC_ID account number " & $NextAccount + 1 & " named: " & $g_asProfileName[$NextAccount])
-							If $NextAccount + 1 > UBound($aSearchForAccount) Then
-								setlog("You selected a SCID undetected account!", $COLOR_ERROR)
-								ExitLoop
-							EndIf
-							Click($aCoordinates[$NextAccount][0] - 150, $aCoordinates[$NextAccount][1], 1)
-							SetLog("Please wait for loading CoC!")
-							$bResult = True
-							Return "OK"
-						EndIf
-
-						If Not $g_bRunState Then Return
-						If _sleep(1000) Then Return
-					Next
-					Return "Error"
-				EndIf
-
-				SetDebugLog("Checking Account List x:" & $aListAccountSCID[0] & " y:" & $aListAccountSCID[1] & " : " & _GetPixelColor($aListAccountSCID[0], $aListAccountSCID[1], True))
-				If $j = 20 Then
-					$bResult = False
-					;ExitLoop 2
-					Return "Error"
-				EndIf
-				If _Sleep(900) Then Return "Exit"
-			Next
-
-		EndIf
-
-		SetDebugLog("Checking 'Log in with SuperCell ID' buttonn' x:" & $aLoginWithSupercellID[0] & " y:" & $aLoginWithSupercellID[1] & " : " & _GetPixelColor($aLoginWithSupercellID[0], $aLoginWithSupercellID[1], True))
-		SetDebugLog("Checking 'Log in with SuperCell ID' White Font' x:" & $aLoginWithSupercellID2[0] & " y:" & $aLoginWithSupercellID2[1] & " : " & _GetPixelColor($aLoginWithSupercellID2[0], $aLoginWithSupercellID2[1], True))
 		If $i = 30 Then
 			$bResult = False
 			;ExitLoop 2
@@ -987,6 +889,9 @@ Func CheckLoginWithSupercellID()
 					If $g_abAccountNo[$i] = True And SwitchAccountEnabled($i) And $g_asProfileName[$i] = $g_sProfileCurrentName Then $NextAccount = $i
 				Next
 
+				Click($aLoginWithSupercellID[0], $aLoginWithSupercellID[1], 1, 0, "Click Log in with SC_ID")
+				If _Sleep(2000) Then Return
+
 				Switch SwitchCOCAcc_ClickAccountSCID($bResult, $NextAccount, 1)
 					Case "OK"
 						; all good
@@ -1013,6 +918,7 @@ EndFunc   ;==>CheckLoginWithSupercellID
 
 Func CheckLoginWithSupercellIDScreen()
 
+	Local $bResult = False
 	Local $aSearchForAccount, $aCoordinates[0][2], $aTempArray
 	Local $acount = $g_iWhatSCIDAccount2Use
 
@@ -1027,33 +933,18 @@ Func CheckLoginWithSupercellIDScreen()
 
 		Click($aLoginWithSupercellID[0], $aLoginWithSupercellID[1], 1, 0, "Click Log in with SC_ID")
 		If _Sleep(2000) Then Return
-		For $i = 0 To 10
-			$aSearchForAccount = decodeMultipleCoords(findImage("AccountLocations", $g_sImgSupercellID, GetDiamondFromRect("550,165,690,605"), 0, True, Default))
-			If UBound($aSearchForAccount) > 0 Then
-				SetDebugLog("[SCID Accounts]: " & UBound($aSearchForAccount), $COLOR_DEBUG)
 
-				For $j = 0 To UBound($aSearchForAccount) - 1
-					$aTempArray = $aSearchForAccount[$j]
-					_ArrayAdd($aCoordinates, $aTempArray[0] & "|" & $aTempArray[1], 0, "|", @CRLF, $ARRAYFILL_FORCE_NUMBER)
-				Next
-				_ArraySort($aCoordinates, 0, 0, 0, 1) ; short by column 1 [Y]
-
-				For $j = 0 To UBound($aCoordinates) - 1
-					SetDebugLog("[" & $j & "] Account coordinates: " & $aCoordinates[$j][0] & "," & $aCoordinates[$j][1] & " named: " & $g_asProfileName[$j])
-				Next
-				Setlog("SC_ID account number " & $acount + 1 & " named: " & $g_asProfileName[$acount])
-				If $acount + 1 > UBound($aSearchForAccount) Then
-					setlog("You selected a SCID undetected account", $COLOR_ERROR)
-					ExitLoop
-				EndIf
-				Click($aCoordinates[$acount][0] - 150, $aCoordinates[$acount][1], 1)
-				SetLog("Please wait for loading CoC!")
-				ExitLoop
-			EndIf
-
-			If Not $g_bRunState Then Return
-			If _sleep(1000) Then Return
-		Next
+		$bResult = True
+		Switch SwitchCOCAcc_ClickAccountSCID($bResult, $acount, 1)
+			Case "OK"
+				; all good
+			Case "Error"
+				; some problem
+				Return
+			Case "Exit"
+				; no $g_bRunState
+				Return
+		EndSwitch
 	Else
 		SetDebugLog("Log in with Supercell ID boot screen not verified for login")
 	EndIf
