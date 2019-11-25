@@ -10,6 +10,14 @@
 *.bmp
 *.zip
 
+# don't exclude exe in lib folder
+!lib/*.exe
+!lib/*/*.exe
+
+#don't exclude builder exe
+![Bb]uildMBR.exe
+
+
 # Global Folders
 [Pp]rofiles/
 [Tt]emplates/

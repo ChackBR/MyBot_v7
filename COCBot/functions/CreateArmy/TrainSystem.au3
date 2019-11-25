@@ -1087,15 +1087,13 @@ Func ResetVariables($sArmyType = "")
 EndFunc   ;==>ResetVariables
 
 Func TrainArmyNumber($Army)
-
-	Local $a_TrainArmy[3][4] = [[784, 336, 0xD5F27D, 10], [784, 443, 0xD5F27D, 10], [784, 549, 0xD5F27D, 10]]
-	SetLog("Using Quick Train Tab", $COLOR_INFO)
-	If Not $g_bRunState Then Return
+	local $iDistanceBetweenArmies = 108 ; pixels
+	local $aArmy1Location = [718, 272] ; first area of quick train army buttons
 
 	For $Num = 0 To 2
 		If $Army[$Num] Then
-			If _ColorCheck(_GetPixelColor($a_TrainArmy[$Num][0], $a_TrainArmy[$Num][1], True), Hex($a_TrainArmy[$Num][2], 6), $a_TrainArmy[$Num][3]) Then
-				Click($a_TrainArmy[$Num][0], $a_TrainArmy[$Num][1], 1)
+			If QuickMIS("BC1", $g_sImgQuickTrain, $aArmy1Location[0], $aArmy1Location[1] + $iDistanceBetweenArmies*$Num, 775, $aArmy1Location[1] + $iDistanceBetweenArmies*($Num+1) ) Then ; search for each armies button
+				Click($g_iQuickMISX + $aArmy1Location[0], $g_iQuickMISY + $aArmy1Location[1] + $iDistanceBetweenArmies*$Num, 1)
 				SetLog(" - Making the Army " & $Num + 1, $COLOR_INFO)
 				If _Sleep(500) Then Return
 			Else
@@ -1433,11 +1431,24 @@ Func CheckValuesCost($Troop = "Arch", $troopQuantity = 1, $DebugLogs = 0)
 	Local $troopCost = 0
 	Local $iTroopIndex = TroopIndexLookup($Troop, "CheckValuesCost")
 
-	; Return the Cost of Troops or Spells
+	Local $aTrainPos = GetTrainPos($iTroopIndex)
+	Local $iTempTroopCost, $iTempSpellCost
+	If IsArray($aTrainPos) And $aTrainPos[0] <> -1 Then
 	If $iTroopIndex >= $eBarb And $iTroopIndex <= $eIceG Then
+			$iTempTroopCost = getArmyResourcesFromButtons($aTrainPos[0] - $g_aiTroopOcrOffSet[$iTroopIndex][0], $aTrainPos[1] + $g_aiTroopOcrOffSet[$iTroopIndex][1])
+			If $iTempTroopCost <> "" Then
+				$troopCost = $iTempTroopCost
+			Else
 		$troopCost = $g_aiTroopCostPerLevel[$iTroopIndex][$g_aiTrainArmyTroopLevel[$iTroopIndex]]
+			EndIf
 	ElseIf $iTroopIndex >= $eLSpell And $iTroopIndex <= $eBtSpell Then
+			$iTempSpellCost = getArmyResourcesFromButtons($aTrainPos[0] - $g_aiSpellOcrOffSet[$iTroopIndex - $eLSpell][0], $aTrainPos[1] + $g_aiSpellOcrOffSet[$iTroopIndex - $eLSpell][1])
+			IF $iTempSpellCost <> "" Then
+				$troopCost = $iTempSpellCost
+			Else
 		$troopCost = $g_aiSpellCostPerLevel[$iTroopIndex - $eLSpell][$g_aiTrainArmySpellLevel[$iTroopIndex - $eLSpell]]
+			EndIf
+		EndIf
 	EndIf
 
 	;	DEBUG

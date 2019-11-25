@@ -606,11 +606,11 @@ Func FinalInitialization(Const $sAI)
 	; Message - end
 
 	; destroy splash screen here (so we witness the 100% ;)
-	; DestroySplashScreen(False)
-	; If $bCheckPrerequisitesOK Then
-	; 	; only when bot can run, register with forum
-	; 	ForumAuthentication()
-	; EndIf
+	DestroySplashScreen(False)
+	If $bCheckPrerequisitesOK Then
+		; only when bot can run, register with forum
+		ForumAuthentication()
+	EndIf
 
 	; allow now other bots to launch
 	DestroySplashScreen()
@@ -1194,7 +1194,7 @@ Func __RunFunction($action)
 			UpgradeWall()
 			_Sleep($DELAYRUNBOT3)
 		Case "BuilderBase"
-			If isOnBuilderBase() Or (($g_bChkCollectBuilderBase Or $g_bChkStartClockTowerBoost Or $g_iChkBBSuggestedUpgrades) And SwitchBetweenBases()) Then
+			If isOnBuilderBase() Or (($g_bChkCollectBuilderBase Or $g_bChkStartClockTowerBoost Or $g_iChkBBSuggestedUpgrades or $g_bChkEnableBBAttack) And SwitchBetweenBases()) Then
 				$g_bStayOnBuilderBase = True
 				If _Sleep($DELAYRUNBOT3) Then Return
 				If checkObstacles() Then Return
@@ -1203,12 +1203,11 @@ Func __RunFunction($action)
 				If checkObstacles() Then Return
 				CollectBuilderBase()
 				If _Sleep($DELAYRUNBOT3) Then Return
-				If checkObstacles() Then Return
-				; --------------------------------------------
-				; MOD++ 
-				; --------------------------------------------
-				BB_DropTrophies()
+				AttackBB()
 				If _Sleep($DELAYRUNBOT3) Then Return
+				If $g_bRestart = True Then Return
+				If _Sleep($DELAYRUNBOT3) Then Return
+				If checkObstacles() Then Return
 				StartClockTowerBoost()
 				If _Sleep($DELAYRUNBOT3) Then Return
 				If checkObstacles() Then Return

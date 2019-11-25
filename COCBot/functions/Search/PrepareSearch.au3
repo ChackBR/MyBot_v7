@@ -69,22 +69,17 @@ Func PrepareSearch($Mode = $DB) ;Click attack button and find match button, will
 	EndIf
 
 	Static $bWait30Minutes = False
+	Local $iWait30Time = Random(7,25,1) ;Random minutes, 7 to 25.
 	$g_bLeagueAttack = False
 	Do
 		Local $bSignedUpLegendLeague = False
 		If Number($g_aiCurrentLoot[$eLootTrophy] + 150) >= Number($g_asLeagueDetails[21][4]) Then
 			Local $sSearchDiamond = GetDiamondFromRect("271,185,834,659")
-			; MOD++
-			If _Sleep(500) Then Return
 			Local $avAttackButton = findMultiple($g_sImgPrepareLegendLeagueSearch, $sSearchDiamond, $sSearchDiamond, 0, 1000, 1, "objectname,objectpoints", True)
-			; MOD++
-			If _Sleep(500) Then Return
 			If IsArray($avAttackButton) And UBound($avAttackButton, 1) > 0 Then
 				$g_bLeagueAttack = True
 				Local $avAttackButtonSubResult = $avAttackButton[0]
 				Local $sButtonState = $avAttackButtonSubResult[0]
-				; MOD++
-				SetLog("Attack Buttom = " & $sButtonState, $COLOR_INFO)
 				If StringInStr($sButtonState, "Ended", 0) > 0 Then
 					SetLog("League Day ended already! Trying again later", $COLOR_INFO)
 					$g_bRestart = True
@@ -95,7 +90,7 @@ Func PrepareSearch($Mode = $DB) ;Click attack button and find match button, will
 						If ProfileSwitchAccountEnabled() Then
 							$g_abDonateOnly[$g_iCurAccount] = True
 						Else
-							UniversalCloseWaitOpenCoC(30 * 60 * 1000, "PrepareSearch")
+							UniversalCloseWaitOpenCoC($iWait30Time * 60 * 1000, "PrepareSearch")
 						EndIf
 					Else
 						$bWait30Minutes = True
@@ -110,7 +105,7 @@ Func PrepareSearch($Mode = $DB) ;Click attack button and find match button, will
 						If ProfileSwitchAccountEnabled() Then
 							$g_abDonateOnly[$g_iCurAccount] = True
 						Else
-							UniversalCloseWaitOpenCoC(30 * 60 * 1000, "PrepareSearch")
+							UniversalCloseWaitOpenCoC($iWait30Time * 60 * 1000, "PrepareSearch")
 						EndIf
 					Else
 						$bWait30Minutes = True

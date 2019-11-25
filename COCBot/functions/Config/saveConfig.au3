@@ -369,13 +369,6 @@ Func SaveConfig_600_6()
 
 	_Ini_Add("other", "ChkPlacingNewBuildings", $g_iChkPlacingNewBuildings)
 
-	; --------------------------------------------
-	; BB_DropTrophies
-	; --------------------------------------------
-	_Ini_Add("other", "ChkBB_DropTrophies", $g_bChkBB_DropTrophies)
-	_Ini_Add("other", "TxtBB_DropTrophies", $g_iTxtBB_DropTrophies)
-	_Ini_Add("other", "ChkBB_OnlyWithLoot", $g_bChkBB_OnlyWithLoot)
-
 	_Ini_Add("other", "ChkClanGamesAir", $g_bChkClanGamesAir ? 1 : 0)
 	_Ini_Add("other", "ChkClanGamesGround", $g_bChkClanGamesGround ? 1 : 0)
 	_Ini_Add("other", "ChkClanGamesMisc", $g_bChkClanGamesMisc ? 1 : 0)
@@ -394,6 +387,19 @@ Func SaveConfig_600_6()
 	_Ini_Add("other", "ChkClanGamesMiscellaneous", $g_bChkClanGamesMiscellaneous ? 1 : 0)
 	_Ini_Add("other", "PurgeMax", $g_iPurgeMax)
 
+	; Builder Base Attack
+	_Ini_Add("other", "ChkEnableBBAttack", $g_bChkEnableBBAttack)
+	_Ini_Add("other", "ChkBBTrophyRange", $g_bChkBBTrophyRange)
+	_Ini_Add("other", "TxtBBTrophyLowerLimit", $g_iTxtBBTrophyLowerLimit)
+	_Ini_Add("other", "TxtBBTrophyUpperLimit", $g_iTxtBBTrophyUpperLimit)
+	_Ini_Add("other", "ChkBBAttIfLootAvail", $g_bChkBBAttIfLootAvail)
+	_Ini_Add("other", "ChkBBWaitForMachine", $g_bChkBBWaitForMachine)
+	_Ini_Add("other", "iBBNextTroopDelay", $g_iBBNextTroopDelay)
+	_Ini_Add("other", "iBBSameTroopDelay", $g_iBBSameTroopDelay)
+
+	; Builder Base Drop Order
+	_Ini_Add("other", "bBBDropOrderSet", $g_bBBDropOrderSet)
+	_Ini_Add("other", "sBBDropOrder", $g_sBBDropOrder)
 
 EndFunc   ;==>SaveConfig_600_6
 
