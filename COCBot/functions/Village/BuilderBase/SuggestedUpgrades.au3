@@ -58,12 +58,20 @@ Func chkActivateBBSuggestedUpgrades()
 		GUICtrlSetState($g_hChkBBSuggestedUpgradesIgnoreElixir, $GUI_ENABLE)
 		GUICtrlSetState($g_hChkBBSuggestedUpgradesIgnoreHall, $GUI_ENABLE)
 		GUICtrlSetState($g_hChkPlacingNewBuildings, $GUI_ENABLE)
+		; --------------------------------------------
+		; Mod++
+		; --------------------------------------------
+		GUICtrlSetState($g_hChkBBIgnoreWalls, $GUI_ENABLE) ; Chill MOD
 	Else
 		$g_iChkBBSuggestedUpgrades = 0
 		GUICtrlSetState($g_hChkBBSuggestedUpgradesIgnoreGold, BitOR($GUI_UNCHECKED, $GUI_DISABLE))
 		GUICtrlSetState($g_hChkBBSuggestedUpgradesIgnoreElixir, BitOR($GUI_UNCHECKED, $GUI_DISABLE))
 		GUICtrlSetState($g_hChkBBSuggestedUpgradesIgnoreHall, BitOR($GUI_UNCHECKED, $GUI_DISABLE))
 		GUICtrlSetState($g_hChkPlacingNewBuildings, BitOR($GUI_UNCHECKED, $GUI_DISABLE))
+		; --------------------------------------------
+		; Mod++
+		; --------------------------------------------
+		GUICtrlSetState($g_hChkBBIgnoreWalls, BitOR($GUI_UNCHECKED, $GUI_DISABLE)) ; Chill MOD
 	EndIf
 EndFunc   ;==>chkActivateBBSuggestedUpgrades
 
@@ -278,7 +286,7 @@ Func GetUpgradeButton($sUpgButtom = "", $Debug = False)
 			;
 			; MOD++ Skip wall upgrade
 			;
-			If StringInStr($aBuildingName[1], "Wall") then
+			If StringInStr($aBuildingName[1], "Wall") And $g_bChkBBIgnoreWalls Then
 				SetLog("Ups! Ignoring wall upgrade!", $COLOR_ERROR)
 				Return False
 			EndIf

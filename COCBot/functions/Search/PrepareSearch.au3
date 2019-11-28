@@ -1,4 +1,4 @@
-; #FUNCTION# ====================================================================================================================
+ ; #FUNCTION# ====================================================================================================================
 ; Name ..........: PrepareSearch
 ; Description ...: Goes into searching for a match, breaks shield if it has to
 ; Syntax ........: PrepareSearch()
@@ -87,6 +87,9 @@ Func PrepareSearch($Mode = $DB) ;Click attack button and find match button, will
 					ClickP($aAway, 1, 0, "#0000") ;Click Away to prevent any pages on top
 					If $bWait30Minutes Then
 						$bWait30Minutes = False
+						;
+						; MOD++ Fix for Legends
+						;
 						If ProfileSwitchAccountEnabled() Then
 							$g_abDonateOnly[$g_iCurAccount] = True
 						Else
@@ -102,6 +105,9 @@ Func PrepareSearch($Mode = $DB) ;Click attack button and find match button, will
 					ClickP($aAway, 1, 0, "#0000") ;Click Away to prevent any pages on top
 					If $bWait30Minutes Then
 						$bWait30Minutes = False
+						;
+						; MOD++ Fix for Legends
+						;
 						If ProfileSwitchAccountEnabled() Then
 							$g_abDonateOnly[$g_iCurAccount] = True
 						Else

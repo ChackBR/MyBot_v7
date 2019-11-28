@@ -1,7 +1,7 @@
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: saveConfig.au3
 ; Description ...: Saves all of the GUI values to the config.ini and building.ini files
-; Syntax ........: saveConfig()
+; Syntax ........: SaveConfig_MOD()
 ; Parameters ....: NA
 ; Return values .: NA
 ; Author ........: MOD++
@@ -19,5 +19,10 @@
 Func SaveConfig_MOD()
 
 	ApplyConfig_MOD(GetApplyConfigSaveAction())
+
+	; --------------------------------------------
+	; MOD++
+	; --------------------------------------------
+	; _Ini_Add("other", "ChkBBIgnoreWalls", $g_bChkBBIgnoreWalls)
 
 EndFunc   ;==>SaveConfig_MOD

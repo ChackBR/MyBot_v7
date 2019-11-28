@@ -1,7 +1,7 @@
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: readConfig.au3
 ; Description ...: Reads config file and sets variables
-; Syntax ........: readConfig()
+; Syntax ........: ReadConfig_MOD()
 ; Parameters ....: NA
 ; Return values .: NA
 ; Author ........: MOD++
@@ -18,5 +18,10 @@
 ;  «»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»«»
 
 Func ReadConfig_MOD()
+
+	; --------------------------------------------
+	; MOD++
+	; --------------------------------------------
+	; IniReadS($g_bChkBBIgnoreWalls, $g_sProfileConfigPath, "other", "ChkBBIgnoreWalls", False, "Bool")
 
 EndFunc   ;==>ReadConfig_MOD

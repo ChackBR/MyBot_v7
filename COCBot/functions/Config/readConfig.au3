@@ -253,6 +253,11 @@ Func ReadRegularConfig()
 	; <><><> Attack Plan / Train Army / Options <><><>
 	ReadConfig_641_1()
 
+
+	; <><><><> Bot / Stats <><><><>
+	; MOD++
+	ReadConfig_MOD()
+
 	; <><><><> Attack Plan / Strategies <><><><>
 	; <<< nothing here >>>
 
@@ -267,10 +272,6 @@ Func ReadRegularConfig()
 
 	; <><><><> Bot / Stats <><><><>
 	; <<< nothing here >>>
-
-	; <><><><> Bot / Stats <><><><>
-	; MOD++
-	ReadConfig_MOD()
 
 EndFunc   ;==>ReadRegularConfig
 
@@ -419,6 +420,10 @@ Func ReadConfig_600_6()
 	IniReadS($g_iChkBBSuggestedUpgradesIgnoreGold, $g_sProfileConfigPath, "other", "ChkBBSuggestedUpgradesIgnoreGold", $g_iChkBBSuggestedUpgradesIgnoreGold, "Int")
 	IniReadS($g_iChkBBSuggestedUpgradesIgnoreElixir, $g_sProfileConfigPath, "other", "ChkBBSuggestedUpgradesIgnoreElixir", $g_iChkBBSuggestedUpgradesIgnoreElixir, "Int")
 	IniReadS($g_iChkBBSuggestedUpgradesIgnoreHall, $g_sProfileConfigPath, "other", "ChkBBSuggestedUpgradesIgnoreHall", $g_iChkBBSuggestedUpgradesIgnoreHall, "Int")
+	; --------------------------------------------
+	; MOD++
+	; --------------------------------------------
+	IniReadS($g_bChkBBIgnoreWalls, $g_sProfileConfigPath, "other", "ChkBBIgnoreWalls", False, "Bool")
 
 	IniReadS($g_iChkPlacingNewBuildings, $g_sProfileConfigPath, "other", "ChkPlacingNewBuildings", $g_iChkPlacingNewBuildings, "Int")
 
@@ -470,6 +475,9 @@ EndFunc   ;==>ReadConfig_600_9
 Func ReadConfig_600_11()
 	; <><><><> Village / Donate - Request <><><><>
 	$g_bRequestTroopsEnable = (IniRead($g_sProfileConfigPath, "planned", "RequestHoursEnable", "0") = "1")
+	; ----------------------------------
+	; MOD++
+	; ----------------------------------
 	$g_bRequestTypeOnceEnable = (IniRead($g_sProfileConfigPath, "request", "RequestTypeOnce", "0") = "1")
 	$g_sRequestTroopsText = IniRead($g_sProfileConfigPath, "donate", "txtRequest", "")
 	; Request Type - Demen

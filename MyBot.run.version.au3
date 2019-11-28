@@ -57,5 +57,6 @@ Global $g_sModversion
 ; "r11" ; MyBot v7.7.7 Light: DEB + DRRTxt + BB Play + Use any siege received + Max Logout Time + Fix Bugs + June Temp Fix
 ; "r05" ; MyBot v7.7.8 Light: DEB + DRRTxt + BB Play + Use any siege received + Max Logout Time + Fix SwitchAcc for Legends (at end leagle day)
 ; "r03" ; MyBot v7.7.9 Light: DEB + DRRTxt + BB Play + Max Logout Time + Temp Fix QT and SwitchAccount
+; "r01" ; MyBot v7.8 Light: DEB + DRRTxt + BB Play + Max Logout Time + Temp Fix QT and SwitchAccount
 
-$g_sModversion = "r01" ; MyBot v7.8 Light: DEB + DRRTxt + BB Play + Max Logout Time + Temp Fix QT and SwitchAccount
+$g_sModversion = "r02" ; MyBot v7.8 Light: DEB + DRRTxt + Max Logout Time + BB Skip Walls + Legends SwitchAccount

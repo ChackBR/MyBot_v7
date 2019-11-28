@@ -1,7 +1,7 @@
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: applyConfig.au3
 ; Description ...: Applies all of the  variable to the GUI
-; Syntax ........: applyConfig()
+; Syntax ........: ApplyConfig_MOD()
 ; Parameters ....: $bRedrawAtExit = True, redraws bot window after config was applied
 ; Return values .: NA
 ; Author ........: MOD++
@@ -21,10 +21,18 @@ Func ApplyConfig_MOD($TypeReadSave)
 	Switch $TypeReadSave
 		Case "Read"
 
-			; NULL
-			Bridge()
+			; --------------------------------------------
+			; MOD++
+			; --------------------------------------------
+			; GUICtrlSetState($g_hChkBBIgnoreWalls, $g_bChkBBIgnoreWalls ? $GUI_CHECKED : $GUI_UNCHECKED)
+
 
 		Case "Save"
+
+			; --------------------------------------------
+			; MOD++
+			; --------------------------------------------
+			; $g_bChkBBIgnoreWalls = (GUICtrlRead($g_hChkBBIgnoreWalls) = $GUI_CHECKED)
 
 	EndSwitch
 EndFunc   ;==>ApplyConfig_MOD

@@ -42,3 +42,9 @@ Global $g_iChkAutoCamp = True
 ; --------------------------------------------
 Global $g_bTrainLogoutMaxTime = False
 Global $g_iTrainLogoutMaxTime = 12
+
+; --------------------------------------------
+; BB Suggested Upgrades, Ignore Walls
+; --------------------------------------------
+Global $g_hChkBBIgnoreWalls = 0
+Global $g_bChkBBIgnoreWalls = 0

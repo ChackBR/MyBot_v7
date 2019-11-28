@@ -133,6 +133,10 @@ Func applyConfig($bRedrawAtExit = True, $TypeReadSave = "Read") ;Applies the dat
 	; <><><> Attack Plan / Train Army / Options <><><>
 	ApplyConfig_641_1($TypeReadSave)
 
+	; <><><><> Bot / MOD <><><><>
+	; MOD++
+	ApplyConfig_MOD($TypeReadSave)
+
 	; <><><><> Attack Plan / Strategies <><><><>
 	; <<< nothing here >>>
 
@@ -148,10 +152,6 @@ Func applyConfig($bRedrawAtExit = True, $TypeReadSave = "Read") ;Applies the dat
 
 	; <><><><> Bot / Stats <><><><>
 	; <<< nothing here >>>
-
-	; <><><><> Bot / MOD <><><><>
-	; MOD++
-	ApplyConfig_MOD($TypeReadSave)
 
 	; <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 
@@ -330,6 +330,10 @@ Func ApplyConfig_600_6($TypeReadSave)
 			GUICtrlSetState($g_hChkBBSuggestedUpgradesIgnoreGold, $g_iChkBBSuggestedUpgradesIgnoreGold = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkBBSuggestedUpgradesIgnoreElixir, $g_iChkBBSuggestedUpgradesIgnoreElixir = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkBBSuggestedUpgradesIgnoreHall, $g_iChkBBSuggestedUpgradesIgnoreHall = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
+			; --------------------------------------------
+			; MOD++
+			; --------------------------------------------
+			GUICtrlSetState($g_hChkBBIgnoreWalls, $g_bChkBBIgnoreWalls ? $GUI_CHECKED : $GUI_UNCHECKED)
 
 			GUICtrlSetState($g_hChkPlacingNewBuildings, $g_iChkPlacingNewBuildings = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
 
@@ -419,6 +423,10 @@ Func ApplyConfig_600_6($TypeReadSave)
 			$g_iChkBBSuggestedUpgradesIgnoreGold = (GUICtrlRead($g_hChkBBSuggestedUpgradesIgnoreGold) = $GUI_CHECKED) ? 1 : 0
 			$g_iChkBBSuggestedUpgradesIgnoreElixir = (GUICtrlRead($g_hChkBBSuggestedUpgradesIgnoreElixir) = $GUI_CHECKED) ? 1 : 0
 			$g_iChkBBSuggestedUpgradesIgnoreHall = (GUICtrlRead($g_hChkBBSuggestedUpgradesIgnoreHall) = $GUI_CHECKED) ? 1 : 0
+			; --------------------------------------------
+			; MOD++
+			; --------------------------------------------
+			$g_bChkBBIgnoreWalls = (GUICtrlRead($g_hChkBBIgnoreWalls) = $GUI_CHECKED)
 
 			$g_iChkPlacingNewBuildings = (GUICtrlRead($g_hChkPlacingNewBuildings) = $GUI_CHECKED) ? 1 : 0
 

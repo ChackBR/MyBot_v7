@@ -235,6 +235,11 @@ Func SaveRegularConfig()
 	SaveConfig_600_56()
 	; <><><> Attack Plan / Train Army / Options <><><>
 	SaveConfig_641_1()
+
+	; <><><><> Bot / MOD <><><><>
+	; MOD++
+	SaveConfig_MOD()
+
 	; <><><><> Bot / Debug <><><><>
 	SaveConfig_Debug()
 	; <><><><> Attack Plan / Strategies <><><><>
@@ -245,10 +250,6 @@ Func SaveRegularConfig()
 
 	; <><><><> Bot / Stats <><><><>
 	; <<< nothing here >>>
-
-	; <><><><> Bot / MOD <><><><>
-	; MOD++
-	SaveConfig_MOD()
 
 	;SetDebugLog("saveConfig: Wrote " & $g_iIniLineCount & " ini lines.")
 	_Ini_Save($g_sProfileConfigPath)
@@ -366,6 +367,10 @@ Func SaveConfig_600_6()
 	_Ini_Add("other", "ChkBBSuggestedUpgradesIgnoreGold", $g_iChkBBSuggestedUpgradesIgnoreGold)
 	_Ini_Add("other", "ChkBBSuggestedUpgradesIgnoreElixir", $g_iChkBBSuggestedUpgradesIgnoreElixir)
 	_Ini_Add("other", "ChkBBSuggestedUpgradesIgnoreHall", $g_iChkBBSuggestedUpgradesIgnoreHall)
+	; --------------------------------------------
+	; MOD++
+	; --------------------------------------------
+	_Ini_Add("other", "ChkBBIgnoreWalls", $g_bChkBBIgnoreWalls)
 
 	_Ini_Add("other", "ChkPlacingNewBuildings", $g_iChkPlacingNewBuildings)
 
@@ -420,6 +425,9 @@ Func SaveConfig_600_11()
 	ApplyConfig_600_11(GetApplyConfigSaveAction())
 	; <><><><> Village / Donate - Request <><><><>
 	_Ini_Add("planned", "RequestHoursEnable", $g_bRequestTroopsEnable ? 1 : 0)
+	; ----------------------------------
+	; MOD++
+	; ----------------------------------
 	_Ini_Add("request", "RequestTypeOnce", $g_bRequestTypeOnceEnable ? 1 : 0)
 	_Ini_Add("donate", "txtRequest", $g_sRequestTroopsText)
 	; Request Type - Demen

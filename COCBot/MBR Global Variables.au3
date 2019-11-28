@@ -862,7 +862,7 @@ Global $g_hChkBBCustomDropOrderEnable = 0
 Global $g_hBtnBBDropOrderSet = 0, $g_hBtnBBRemoveDropOrder = 0, $g_hBtnBBClose = 0
 Global $g_bBBDropOrderSet = False
 Global Const $g_iBBTroopCount = 11
-Global Const $g_sBBDropOrderDefault = "BoxerGiant|HogGlider|SuperPekka|DropShip|Witch|BabyDrag|WallBreaker|Barbarian|CannonCart|Archer|Minion"
+Global Const $g_sBBDropOrderDefault = "Minion|DropShip|BabyDrag|BoxerGiant|SuperPekka|WallBreaker|Barbarian|Archer|CannonCart|Witch|HogGlider"
 Global $g_sBBDropOrder = $g_sBBDropOrderDefault
 Global $g_ahCmbBBDropOrder[$g_iBBTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
