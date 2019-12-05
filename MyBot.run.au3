@@ -1202,8 +1202,13 @@ Func __RunFunction($action)
 				If _Sleep($DELAYRUNBOT3) Then Return
 				If checkObstacles() Then Return
 				CollectBuilderBase()
-				If _Sleep($DELAYRUNBOT3) Then Return
-				AttackBB()
+				If $g_bChkEnableBBAttack Then
+					$g_bAtkBB_Loop________ = True
+					While $g_bAtkBB_Loop________
+						If _Sleep($DELAYRUNBOT3) Then Return
+						AttackBB()
+					WEnd
+				EndIf
 				If _Sleep($DELAYRUNBOT3) Then Return
 				If $g_bRestart = True Then Return
 				If _Sleep($DELAYRUNBOT3) Then Return
