@@ -158,7 +158,7 @@ EndFunc   ;==>getArmyHeroCount
 
 Func ArmyHeroStatus($i)
 	Local $sResult = ""
-	Local Const $aHeroesRect[3][4] = [[630, 340, 680, 380], [730, 340, 755, 370], [805, 340, 830, 370]]
+	Local Const $aHeroesRect[3][4] = [[558, 340, 608, 380], [658, 340, 683, 370], [733, 340, 758, 370]]
 
 	; Perform the search
 	_CaptureRegion2($aHeroesRect[$i][0], $aHeroesRect[$i][1], $aHeroesRect[$i][2], $aHeroesRect[$i][3])
