@@ -20,6 +20,11 @@ Global $g_iRequestTroopTypeOnce = 0
 Global $g_bRequestTypeOnceEnable = False
 
 ; --------------------------------------------
+; Builder Base Attack Loop
+; --------------------------------------------
+Global $g_bAtkBB_Loop________ = True
+
+; --------------------------------------------
 ; Request CC Troops at first - MOD++
 ; --------------------------------------------
 Global $g_bReqCCFirst = True
