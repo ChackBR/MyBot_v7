@@ -21,7 +21,10 @@ Func AttackBB()
 	ClickP($aAway)
 	SetLog("Going to attack.", $COLOR_BLUE)
 
+	;-------------------------------------------------
+	; MOD++
 	; check for troops, loot and Batlle Machine
+	;-------------------------------------------------
 	$g_bAtkBB_Loop________ = PrepareAttackBB()
 	If Not $g_bAtkBB_Loop________ Then Return
 	SetDebugLog("PrepareAttackBB(): Success.")

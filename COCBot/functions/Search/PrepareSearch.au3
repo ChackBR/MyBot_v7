@@ -1,4 +1,4 @@
- ; #FUNCTION# ====================================================================================================================
+; #FUNCTION# ====================================================================================================================
 ; Name ..........: PrepareSearch
 ; Description ...: Goes into searching for a match, breaks shield if it has to
 ; Syntax ........: PrepareSearch()
@@ -93,7 +93,7 @@ Func PrepareSearch($Mode = $DB) ;Click attack button and find match button, will
 						If ProfileSwitchAccountEnabled() Then
 							$g_abDonateOnly[$g_iCurAccount] = True
 						Else
-							UniversalCloseWaitOpenCoC($iWait30Time * 60 * 1000, "PrepareSearch")
+						UniversalCloseWaitOpenCoC($iWait30Time * 60 * 1000, "PrepareSearch")
 						EndIf
 					Else
 						$bWait30Minutes = True
@@ -111,7 +111,7 @@ Func PrepareSearch($Mode = $DB) ;Click attack button and find match button, will
 						If ProfileSwitchAccountEnabled() Then
 							$g_abDonateOnly[$g_iCurAccount] = True
 						Else
-							UniversalCloseWaitOpenCoC($iWait30Time * 60 * 1000, "PrepareSearch")
+						UniversalCloseWaitOpenCoC($iWait30Time * 60 * 1000, "PrepareSearch")
 						EndIf
 					Else
 						$bWait30Minutes = True

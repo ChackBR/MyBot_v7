@@ -30,12 +30,12 @@ Func TrainSystem()
 		; --------------------------------------------
 		Qt_SimpleQuickTrain( 2 )
 	Else
-		If $g_bQuickTrainEnable Then CheckQuickTrainTroop() ; update values of $g_aiArmyComTroops, $g_aiArmyComSpells
-		CheckIfArmyIsReady()
+	If $g_bQuickTrainEnable Then CheckQuickTrainTroop() ; update values of $g_aiArmyComTroops, $g_aiArmyComSpells
+	CheckIfArmyIsReady()
 		TrainCustomArmy()
 	EndIf
 
-	TrainSiege()
+    TrainSiege()
 
 	If $g_bDonationEnabled And $g_bChkDonate Then ResetVariables("donated")
 
@@ -131,7 +131,7 @@ Func CheckIfArmyIsReady()
 
 	If $g_bDebugSetlogTrain Then
 		Setlog("Heroes are Ready: " & String($bFullArmyHero))
-		Setlog("Heroes Available Num: " & $g_iHeroAvailable) ;  	$eHeroNone = 0, $eHeroKing = 1, $eHeroQueen = 2, $eHeroWarden = 4
+		Setlog("Heroes Available Num: " & $g_iHeroAvailable) ;  	$eHeroNone = 0, $eHeroKing = 1, $eHeroQueen = 2, $eHeroWarden = 4, $eHeroChampion = 5
 		Setlog("Search Hero Wait Enable [$DB] Num: " & $g_aiSearchHeroWaitEnable[$DB]) ; 	what you are waiting for : 1 is King , 3 is King + Queen , etc etc
 		Setlog("Search Hero Wait Enable [$LB] Num: " & $g_aiSearchHeroWaitEnable[$LB])
 		Setlog("Dead Base BitAND: " & BitAND($g_aiSearchHeroWaitEnable[$DB], $g_iHeroAvailable))
@@ -370,7 +370,7 @@ EndFunc   ;==>DoWhatToTrainContainSpell
 
 Func IsElixirTroop($Troop)
 	Local $iIndex = TroopIndexLookup($Troop, "IsElixirTroop")
-	If $iIndex >= $eBarb And $iIndex <= $eEDrag Then Return True
+	If $iIndex >= $eBarb And $iIndex <= $eYeti Then Return True
 	Return False
 EndFunc   ;==>IsElixirTroop
 
@@ -639,7 +639,7 @@ EndFunc   ;==>GetSlotRemoveBtnPosition
 Func GetSlotNumber($bSpells = False)
 	Select
 		Case $bSpells = False
-			Local Const $Orders = [$eBarb, $eArch, $eGiant, $eGobl, $eWall, $eBall, $eWiza, $eHeal, $eDrag, $ePekk, $eBabyD, $eMine, $eEDrag, _
+			Local Const $Orders = [$eBarb, $eArch, $eGiant, $eGobl, $eWall, $eBall, $eWiza, $eHeal, $eDrag, $eYeti, $ePekk, $eBabyD, $eMine, $eEDrag, _
 					$eMini, $eHogs, $eValk, $eGole, $eWitc, $eLava, $eBowl, $eIceG] ; Set Order of troop display in Army Tab
 
 			Local $allCurTroops[UBound($Orders)]
@@ -1007,7 +1007,7 @@ Func SearchArmy($sImageDir = "", $x = 0, $y = 0, $x1 = 0, $y1 = 0, $sArmyType = 
 			$aResult[$i][3] = Number(getBarracksNewTroopQuantity(Slot($aResult[$i][1], "troop"), 498)) ; coc-newarmy
 		Next
 	EndIf
-	If $sArmyType = "Heroes" Then
+	If $sArmyType = "Heroes" Then ; CheckThis
 		For $i = 0 To UBound($aResult) - 1
 			If StringInStr($aResult[$i][0], "Kingqueued") Then
 				$aResult[$i][3] = getRemainTHero(620, 414)
@@ -1015,6 +1015,8 @@ Func SearchArmy($sImageDir = "", $x = 0, $y = 0, $x1 = 0, $y1 = 0, $sArmyType = 
 				$aResult[$i][3] = getRemainTHero(695, 414)
 			ElseIf StringInStr($aResult[$i][0], "Wardenqueued") Then
 				$aResult[$i][3] = getRemainTHero(775, 414)
+			ElseIf StringInStr($aResult[$i][0], "Championqueued") Then
+				$aResult[$i][3] = getRemainTHero(0, 0)
 			Else
 				$aResult[$i][3] = 0
 			EndIf
@@ -1289,10 +1291,12 @@ Func MakingDonatedTroops($sType = "All")
 				Local $aCheckIsAvailableSiege[4] = [58, 556, 0x47717E, 10]
 				Local $aCheckIsAvailableSiege1[4] = [229, 556, 0x47717E, 10]
 				Local $aCheckIsAvailableSiege2[4] = [400, 556, 0x47717E, 10]
+				Local $aCheckIsAvailableSiege3[4] = [576, 556, 0x47717E, 10]
 				Local $checkPixel
                 If $iSiegeIndex = $eSiegeWallWrecker Then $checkPixel = $aCheckIsAvailableSiege
                 If $iSiegeIndex = $eSiegeBattleBlimp Then $checkPixel = $aCheckIsAvailableSiege1
                 If $iSiegeIndex = $eSiegeStoneSlammer Then $checkPixel = $aCheckIsAvailableSiege2
+                If $iSiegeIndex = $eSiegeBarracks Then $checkPixel = $aCheckIsAvailableSiege3
 				Local $HowMany = $g_aiDonateSiegeMachines[$iSiegeIndex]
 				If _CheckPixel($checkPixel, True, Default, $g_asSiegeMachineNames[$iSiegeIndex]) Then
 					;PureClick($pos[0], $pos[1], $howMuch, 500)
@@ -1434,19 +1438,19 @@ Func CheckValuesCost($Troop = "Arch", $troopQuantity = 1, $DebugLogs = 0)
 	Local $aTrainPos = GetTrainPos($iTroopIndex)
 	Local $iTempTroopCost, $iTempSpellCost
 	If IsArray($aTrainPos) And $aTrainPos[0] <> -1 Then
-	If $iTroopIndex >= $eBarb And $iTroopIndex <= $eIceG Then
+		If $iTroopIndex >= $eBarb And $iTroopIndex <= $eIceG Then
 			$iTempTroopCost = getArmyResourcesFromButtons($aTrainPos[0] - $g_aiTroopOcrOffSet[$iTroopIndex][0], $aTrainPos[1] + $g_aiTroopOcrOffSet[$iTroopIndex][1])
 			If $iTempTroopCost <> "" Then
 				$troopCost = $iTempTroopCost
 			Else
-		$troopCost = $g_aiTroopCostPerLevel[$iTroopIndex][$g_aiTrainArmyTroopLevel[$iTroopIndex]]
+				$troopCost = $g_aiTroopCostPerLevel[$iTroopIndex][$g_aiTrainArmyTroopLevel[$iTroopIndex]]
 			EndIf
-	ElseIf $iTroopIndex >= $eLSpell And $iTroopIndex <= $eBtSpell Then
+		ElseIf $iTroopIndex >= $eLSpell And $iTroopIndex <= $eBtSpell Then
 			$iTempSpellCost = getArmyResourcesFromButtons($aTrainPos[0] - $g_aiSpellOcrOffSet[$iTroopIndex - $eLSpell][0], $aTrainPos[1] + $g_aiSpellOcrOffSet[$iTroopIndex - $eLSpell][1])
 			IF $iTempSpellCost <> "" Then
 				$troopCost = $iTempSpellCost
 			Else
-		$troopCost = $g_aiSpellCostPerLevel[$iTroopIndex - $eLSpell][$g_aiTrainArmySpellLevel[$iTroopIndex - $eLSpell]]
+				$troopCost = $g_aiSpellCostPerLevel[$iTroopIndex - $eLSpell][$g_aiTrainArmySpellLevel[$iTroopIndex - $eLSpell]]
 			EndIf
 		EndIf
 	EndIf

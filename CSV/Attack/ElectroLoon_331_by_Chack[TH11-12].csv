@@ -3,7 +3,7 @@ NOTE  |[01.11.2019] Heroes Inside, External Edges
 NOTE  |TH 11 ***
 NOTE  |Train: 7 Electro Dragons, 10 Balloons 4 Rage, 3 Freeze in CC 1 Rage and Balloons
 NOTE  |TH 12 ***
-NOTE  |Train: 8 Electro Dragons, 8 Balloons 4 Rage, 3 Freeze in CC 1 Rage and Balloons
+NOTE  |Train: 7 Electro Dragons, 14 Balloons 4 Rage, 3 Freeze in CC 1 Rage and Balloons
 NOTE  |
 NOTE  |Script work on "EXTERNAL EDGES"
       |                                                                                                           |
@@ -73,10 +73,11 @@ DROP  |D          |4          |1          |RSpell     |0          |0          |5
 WAIT  |3000-5000  |           |           |           |           |           |           |           |           |
 DROP  |E          |3          |1          |RSpell     |0          |0          |150-170    |           |           |
 DROP  |F          |2          |1          |RSpell     |0          |0          |250-300    |           |           |
-DROP  |A          |10         |1          |Queen      |0          |0          |150-200    |           |           |
+DROP  |A          |10         |1          |QUEEN      |0          |0          |150-200    |           |           |
 DROP  |F          |2          |1          |HaSpell    |0          |0          |150-170    |           |           |
 DROP  |H          |2          |1          |HaSpell    |0          |0          |500-550    |           |           |
-DROP  |A          |10         |1          |King       |0          |0          |250-300    |           |           |
+DROP  |A          |10         |1          |KING       |0          |0          |450-600    |           |           |
+DROP  |A          |10         |1          |CHAMPION   |0          |0          |100-200    |           |           |
 WAIT  |2000-4200  |           |           |           |           |           |           |           |           |
 DROP  |G          |1          |1          |FSpell     |0          |0          |190-230    |           |           |
 DROP  |L          |1          |1          |FSpell     |0          |0          |190-230    |           |           |

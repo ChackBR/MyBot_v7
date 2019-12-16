@@ -20,14 +20,6 @@ Global $g_iRequestTroopTypeOnce = 0
 Global $g_bRequestTypeOnceEnable = False
 
 ; --------------------------------------------
-; Builder Base Drop Trophies
-; --------------------------------------------
-Global $g_bChkBB_DropTrophies = False
-Global $g_bChkBB_OnlyWithLoot = False
-Global $g_bAtkBB_Loop________ = True
-Global $g_iTxtBB_DropTrophies = 0
-
-; --------------------------------------------
 ; Request CC Troops at first - MOD++
 ; --------------------------------------------
 Global $g_bReqCCFirst = True
@@ -43,9 +35,3 @@ Global $g_iChkAutoCamp = True
 ; --------------------------------------------
 Global $g_bTrainLogoutMaxTime = False
 Global $g_iTrainLogoutMaxTime = 12
-
-; --------------------------------------------
-; BB Suggested Upgrades, Ignore Walls
-; --------------------------------------------
-Global $g_hChkBBIgnoreWalls = 0
-Global $g_bChkBBIgnoreWalls = 0

@@ -26,12 +26,6 @@
 #include "functions\SimpleQuickTrain.au3"
 
 ; --------------------------------------------
-; Builder Base Drop Trophies
-; --------------------------------------------
-#include "functions\BB_DropTrophies.au3"
-#include "functions\BB_PrepareAttack.au3"
-
-; --------------------------------------------
 ; AutoCamp - MOD++
 ; --------------------------------------------
 #include "functions\AutoUpdateCamps.au3"
