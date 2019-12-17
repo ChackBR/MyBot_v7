@@ -1,8 +1,8 @@
-NOTE  |Author: v3.2.4 by Chack++
-NOTE  |[01.12.2019] Heroes Inside, External Edges
+NOTE  |Author: v4.0.1 by Chack++
+NOTE  |[16.12.2019] Heroes Inside, External Edges
 NOTE  |TH 11 ***
 NOTE  |Train: 7 Electro Dragons, 10 Balloons 4 Rage, 3 Freeze in CC 1 Rage and Balloons
-NOTE  |TH 12 ***
+NOTE  |TH 12~13
 NOTE  |Train: 7 Electro Dragons, 14 Balloons 4 Rage, 3 Freeze in CC 1 Rage and Balloons
 NOTE  |
 NOTE  |Script work on "EXTERNAL EDGES"
@@ -79,7 +79,8 @@ DROP  |A          |10         |1          |CHAMPION   |0          |0          |1
 DROP  |Z          |1          |1          |FSpell     |0          |0          |190-230    |           |           |
 DROP  |U          |1          |1          |FSpell     |0          |0          |190-230    |           |           |
 DROP  |G          |1          |1          |FSpell     |0          |0          |200-250    |           |           |
-WAIT  |4500-6500  |           |           |           |           |           |           |           |           |
+WAIT  |2500-4500  |           |           |           |           |           |           |           |           |
+RECALC|                                                                                                           |
 DROP  |Z          |1          |1          |FSpell     |0          |0          |100-150    |           |           |
 DROP  |L          |1          |1          |FSpell     |0          |0          |100-150    |           |           |
 DROP  |P          |1          |1          |FSpell     |0          |0          |190-230    |           |           |

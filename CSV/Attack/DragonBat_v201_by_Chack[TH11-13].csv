@@ -1,9 +1,9 @@
-NOTE  |Author: v1.0.1 by Chack++
-NOTE  |[09.11.2019] External Edges, Heroes on Sides
+NOTE  |Author: v2.0.1 by Chack++
+NOTE  |[16.12.2019] External Edges, Heroes on Sides
 NOTE  |TH 11 ***
-NOTE  |Train: 9 Dragons, 1 Electro Dragon, 10 Balloons, 7 BatSpell, 1 Rage, 2 Freeze in CC 1 Rage and Balloons
-NOTE  |TH 12 ***
-NOTE  |Train: 9 Dragons, 1 Electro Dragon, 14 Balloons, 7 BatSpell, 1 Rage, 2 Freeze in CC 1 Rage and Balloons
+NOTE  |Train: 9 Dragons, 1 Electro Dragon, 10 Balloons, 5 BatSpell, 2 Rage, 2 Freeze in CC 1 Rage and Balloons
+NOTE  |TH 12~13
+NOTE  |Train: 9 Dragons, 1 Electro Dragon, 14 Balloons, 5 BatSpell, 2 Rage, 2 Freeze in CC 1 Rage and Balloons
 NOTE  |
 NOTE  |Script work on "EXTERNAL EDGES"
       |                                                                                                           |
@@ -23,6 +23,7 @@ TRAIN |FSpell     |0          |0          |0          |0          |0          |0
 TRAIN |King       |0          |0          |0          |0          |0          |0          |1          |1          |
 TRAIN |Queen      |0          |0          |0          |0          |0          |0          |1          |1          |
 TRAIN |Warden     |0          |0          |0          |0          |0          |0          |1          |1          |
+TRAIN |Champion   |0          |0          |0          |0          |0          |0          |0          |1          |
       |                                                                                                           |
       |___________|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|
 REDLN |0          |0          |0          |0          |0          |0          |0          |4          |4          |
@@ -56,10 +57,10 @@ MAKE  |P          |FRONT-LEFT |1          |1          |IGNORE     |0          |0
       |                                                                                                           |
       |VECTOR_____|INDEX______|QTY_X_VECT_|TROOPNAME__|DELAY_DROP_|DELAYCHANGE|SLEEPAFTER_|___________|___________|
 DROP  |B          |10         |1          |EDrag      |50-70      |37-50      |500-700    |           |           |
-DROP  |A          |10         |1          |KING       |0          |0          |450-600    |           |           |
-DROP  |A          |2          |1          |Queen      |0          |0          |150-200    |           |           |
+DROP  |A          |2          |1          |KING       |0          |0          |450-600    |           |           |
+DROP  |A          |2          |1          |QUEEN      |0          |0          |150-200    |           |           |
 WAIT  |4000-6000  |           |           |           |           |           |           |           |           |
-DROP  |A          |10         |1          |CHAMPION   |0          |0          |100-200    |           |           |
+DROP  |B          |10         |1          |CHAMPION   |0          |0          |150-300    |           |           |
 DROP  |A          |2,4,6,8,10 |5          |Drag       |50-70      |37-50      |15-20      |           |           |
 DROP  |B          |2,4,6,8    |4          |Drag       |50-70      |37-50      |500-700    |           |           |
 DROP  |A          |10         |1          |WallW      |0          |50-70      |150-170    |           |           |
@@ -88,7 +89,8 @@ WAIT  |2000-4200  |           |           |           |           |           | 
 DROP  |Z          |1          |1          |FSpell     |0          |0          |190-230    |           |           |
 DROP  |U          |1          |1          |FSpell     |0          |0          |190-230    |           |           |
 DROP  |G          |1          |1          |FSpell     |0          |0          |200-250    |           |           |
-WAIT  |4500-6500  |           |           |           |           |           |           |           |           |
+WAIT  |3500-5000  |           |           |           |           |           |           |           |           |
+RECALC|           |           |           |           |           |           |           |           |           |
 DROP  |Z          |1          |1          |FSpell     |0          |0          |100-150    |           |           |
 DROP  |L          |1          |1          |FSpell     |0          |0          |100-150    |           |           |
 DROP  |P          |1          |1          |FSpell     |0          |0          |190-230    |           |           |

@@ -119,13 +119,13 @@ Func _makerequest($aButtonPosition)
 			; MOD++
 			; ------------------------------------------------------
 			If $g_iRequestTroopTypeOnce = 0 Then
-			; fix for Android send text bug sending symbols like ``"
-			AndroidSendText($g_sRequestTroopsText, True)
-			Click($atxtRequestCCBtn[0], $atxtRequestCCBtn[1], 1, 0, "#0254") ;Select text for request $atxtRequestCCBtn[2] = [430, 140]
-			If _Sleep($DELAYMAKEREQUEST2) Then Return
-			If SendText($g_sRequestTroopsText) = 0 Then
-				SetLog(" Request text entry failed, try again", $COLOR_ERROR)
-				Return
+				; fix for Android send text bug sending symbols like ``"
+				AndroidSendText($g_sRequestTroopsText, True)
+				Click($atxtRequestCCBtn[0], $atxtRequestCCBtn[1], 1, 0, "#0254") ;Select text for request $atxtRequestCCBtn[2] = [430, 140]
+				If _Sleep($DELAYMAKEREQUEST2) Then Return
+				If SendText($g_sRequestTroopsText) = 0 Then
+					SetLog(" Request text entry failed, try again", $COLOR_ERROR)
+					Return
 				EndIf
 			Else
 				SetLog("Ignore retype text when Request troops", $COLOR_INFO)
