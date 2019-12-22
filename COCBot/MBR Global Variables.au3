@@ -484,10 +484,7 @@ Global $g_bBotLaunchOption_HideAndroid = False ; When starting bot hide Android 
 Global $g_bBotLaunchOption_MinimizeBot = False ; When starting bot minimize Bot immediately
 Global $g_bBotLaunchOption_Restart = False ; If true previous instance is closed when found by window title, see bot launch options below
 Global $g_bBotLaunchOption_Autostart = False ; If true bot will automatically start
-;
-; MOD++ No NoWatchdog
-;
-Global $g_bBotLaunchOption_NoWatchdog = True ; If true bot will not launch the watchdog process (that automatically restarts crashed bots)
+Global $g_bBotLaunchOption_NoWatchdog = False ; If true bot will not launch the watchdog process (that automatically restarts crashed bots)
 Global $g_bBotLaunchOption_ForceDpiAware = False ; If true bot will run in DPI Aware 100% scaling when possible
 Global $g_iBotLaunchOption_Dock = 0 ; If 1 bot will dock Android, 2 dock and slide/hide bot
 Global $g_bBotLaunchOption_NoBotSlot = False ; If True, bot slot Mutex are not used in function LockBotSlot
