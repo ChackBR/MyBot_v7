@@ -460,7 +460,6 @@ Func CreateMiscBuilderBaseSubTab()
 			GUICtrlSetOnEvent(-1, "chkActivateBBSuggestedUpgradesElixir")
 		$g_hChkBBSuggestedUpgradesIgnoreHall = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkBBSuggestedUpgradesIgnore_03", "Ignore Builder Hall"), $x + 315, $y + 15, -1, -1)
 			GUICtrlSetOnEvent(-1, "chkActivateBBSuggestedUpgradesGold")
-
 		$g_hChkBBSuggestedUpgradesIgnoreWall = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkBBSuggestedUpgradesIgnore_04", "Ignore Wall"), $x + 315, $y + 40, -1, -1)
 			GUICtrlSetOnEvent(-1, "chkActivateBBSuggestedUpgradesGold")
 
