@@ -1,9 +1,9 @@
 NOTE  |Author: v1.0.1 by Chack++
 NOTE  |[16.12.2019] External Edges, Heroes on Sides
 NOTE  |TH 11 ***
-NOTE  |Train: 13 Bowlers, 9 Witches, 1 Wizard, 1 Wizard, 6 Ice Golem, 4 Rage, 3 Freeze in CC 1 Rage IceG GG Pekka
+NOTE  |Train: 10 Bowlers, 9 Witches, 6 Ice Golem, 2 Arch, 3 Rage, 1 Jump, 1 Freeze in CC 1 Rage IceG GG Pekka
 NOTE  |TH 12~13
-NOTE  |Train: 13 Bowlers, 9 Witches, 1 Wizard, 1 Wizard, 6 Ice Golem, 4 Rage, 3 Freeze in CC 1 Rage IceG GG Pekka
+NOTE  |Train: 13 Bowlers, 9 Witches, 6 Ice Golem, 1 Wizard, 3 Rage, 1 Jump, 3 Freeze in CC 1 Rage IceG GG Pekka
 NOTE  |
 NOTE  |Script work on "EXTERNAL EDGES"
       |                                                                                                           |
@@ -11,15 +11,15 @@ NOTE  |Script work on "EXTERNAL EDGES"
       |                                           Chack++                                                         |
       |                                                                                                           |
       |_TROOPNAME_|__FLEXIBLE_|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|
-TRAIN |Bowl       |0          |0          |0          |0          |0          |0          |13         |13         |
+TRAIN |Bowl       |0          |0          |0          |0          |0          |0          |10         |13         |
 TRAIN |Witc       |0          |0          |0          |0          |0          |0          |9          |9          |
-TRAIN |Ball       |0          |0          |0          |0          |0          |0          |10         |14         |
 TRAIN |IceG       |0          |0          |0          |0          |0          |0          |6          |6          |
-
+TRAIN |Wiza       |0          |0          |0          |0          |0          |0          |0          |1          |
+TRAIN |Arch       |0          |0          |0          |0          |0          |0          |2          |0          |
       |                                                                                                           |
-TRAIN |BtSpell    |0          |0          |0          |0          |0          |0          |0          |0          |
-TRAIN |RSpell     |0          |0          |0          |0          |0          |0          |4          |4          |
-TRAIN |FSpell     |0          |0          |0          |0          |0          |0          |3          |3          | 
+TRAIN |RSpell     |0          |0          |0          |0          |0          |0          |3          |3          |
+TRAIN |JSpell     |0          |0          |0          |0          |0          |0          |1          |1          |
+TRAIN |FSpell     |0          |0          |0          |0          |0          |0          |1          |3          | 
       |                                                                                                           |
       |_TROOPNAME_|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|
 TRAIN |King       |0          |0          |0          |0          |0          |0          |1          |1          |
@@ -32,7 +32,7 @@ REDLN |0          |0          |0          |0          |0          |0          |0
 DRPLN |0          |0          |0          |0          |0          |0          |0          |0          |0          |
       |                                                                                                           |
       |___________|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|
-CCREQ |           |           |           |           |           |           |           |Any     Any|Any     Any|
+CCREQ |           |           |           |           |           |           |           |Any    Rage|Any    Rage|
       |                                                                                                           |
       |EXTR. GOLD |EXTR.ELIXIR|EXTR. DARK |DEPO. GOLD |DEPO.ELIXIR|DEPO. DARK |TOWNHALL   |FORCED SIDE|___________|
 SIDE  |0          |0          |0          |0          |0          |0          |10         |           |           |
@@ -58,24 +58,24 @@ MAKE  |Z          |FRONT-LEFT |1          |1          |IGNORE     |0          |0
 MAKE  |P          |FRONT-LEFT |1          |1          |IGNORE     |0          |0          |TOWNHALL   |           |
       |                                                                                                           |
       |VECTOR_____|INDEX______|QTY_X_VECT_|TROOPNAME__|DELAY_DROP_|DELAYCHANGE|SLEEPAFTER_|___________|___________|
-DROP  |B          |2-10       |3          |IceG       |50-70      |10-30      |100-300    |           |           |
-DROP  |A          |2-10       |3          |IceG       |50-70      |10-30      |100-300    |           |           |
-DROP  |B          |8-10       |3          |Witc       |50-70      |10-30      |100-300    |           |           |
-DROP  |A          |2-4        |3          |Witc       |50-70      |10-30      |100-300    |           |           |
-DROP  |B          |2-8        |7          |Bowl       |30-40      |10-20      |100-300    |           |           |
-DROP  |A          |2-8        |7          |Bowl       |30-50      |10-20      |100-300    |           |           |
-DROP  |A          |8-10       |6          |Witc       |50-70      |10-30      |100-300    |           |           |
-WAIT  |1000-2000  |           |           |           |           |           |           |           |           |
-DROP  |A          |3          |1          |KING       |0          |37-50      |450-600    |           |           |
-DROP  |A          |3          |1          |QUEEN      |0          |37-50      |150-200    |           |           |
-WAIT  |2000-4000  |           |           |           |           |           |           |           |           |
-DROP  |B          |9          |1          |CHAMPION   |0          |300-600    |100-200    |           |           |
+DROP  |A          |4,6,8,10   |3          |IceG       |50-70      |37-50      |15-20      |           |           |
+DROP  |B          |2,4,6      |3          |IceG       |50-70      |37-50      |500-700    |           |           |
+DROP  |B          |8-10       |4          |Witc       |50-70      |10-30      |100-300    |           |           |
+DROP  |A          |2-4        |4          |Witc       |50-70      |10-30      |100-300    |           |           |
+DROP  |A          |4,5,7      |3          |Witc       |50-70      |27-50      |15-20      |           |           |
+DROP  |B          |3,4,6      |3          |Witc       |50-70      |27-50      |90-110     |           |           |
+DROP  |V          |8,10       |2          |Witc       |55-70      |27-50      |15-20      |           |           |
+DROP  |K          |1,2        |2          |Witc       |55-70      |27-50      |150-200    |           |           |
+DROP  |A          |4,5,7,9,10 |5          |Bowl       |50-70      |27-50      |15-20      |           |           |
+DROP  |B          |1,2,3,4,6  |5          |Bowl       |50-70      |27-50      |90-110     |           |           |
+DROP  |V          |8,10       |2          |Bowl       |55-70      |27-50      |15-20      |           |           |
+DROP  |K          |1,2        |2          |Bowl       |55-70      |27-50      |150-200    |           |           |
+DROP  |A          |8          |1          |WARDEN     |50-70      |0          |500-650    |           |           |
 DROP  |A          |8          |1          |WallW      |0          |50-70      |150-170    |           |           |
 DROP  |A          |8          |1          |BattleB    |0          |50-70      |150-170    |           |           |
 DROP  |A          |8          |1          |StoneS     |0          |50-70      |150-170    |           |           |
 DROP  |A          |8          |1          |Castle     |0          |50-70      |150-170    |           |           |
 WAIT  |300-900    |           |           |           |           |           |           |           |           |
-DROP  |A          |8          |1          |WARDEN     |50-70      |0          |500-650    |           |           |
 DROP  |C          |3          |1          |RSpell     |0          |0          |178-200    |           |           |
 DROP  |D          |2          |1          |RSpell     |0          |0          |530-550    |           |           |
 WAIT  |2000-4200  |           |           |           |           |           |           |           |           |
@@ -84,6 +84,11 @@ WAIT  |2000-4200  |           |           |           |           |           | 
 DROP  |Z          |1          |1          |FSpell     |0          |0          |190-230    |           |           |
 DROP  |U          |1          |1          |FSpell     |0          |0          |190-230    |           |           |
 DROP  |G          |1          |1          |FSpell     |0          |0          |200-250    |           |           |
+WAIT  |1000-2000  |           |           |           |           |           |           |           |           |
+DROP  |A          |3          |1          |KING       |0          |37-50      |450-600    |           |           |
+DROP  |A          |3          |1          |QUEEN      |0          |37-50      |150-200    |           |           |
+WAIT  |2000-4000  |           |           |           |           |           |           |           |           |
+DROP  |B          |9          |1          |CHAMPION   |0          |300-600    |100-200    |           |           |
 WAIT  |2500-4000  |           |           |           |           |           |           |           |           |
 RECALC|           |           |           |           |           |           |           |           |           |
 DROP  |Z          |1          |1          |FSpell     |0          |0          |100-150    |           |           |

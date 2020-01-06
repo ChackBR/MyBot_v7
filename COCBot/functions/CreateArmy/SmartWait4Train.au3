@@ -227,6 +227,12 @@ Func SmartWait4Train($iTestSeconds = Default)
 			Return ; stop trying to close while training this time
 	EndSwitch
 
+	; MOD++
+	If $g_bTrainLogoutMaxTime Then
+		SetLog("Train time = " & StringFormat("%.2f", $iTrainWaitTime) & " minutes, Max Logout Time enabled = " & Number($g_iTrainLogoutMaxTime) & " mins", $COLOR_SUCCESS)
+		$iTrainWaitTime = _Min($iTrainWaitTime, Number($g_iTrainLogoutMaxTime) - 0.4)
+	EndIf
+
 	If $g_bDebugSetlogTrain Or $g_bDebugSetlog Or $bTest Then
 		SetLog("Training time values: " & StringFormat("%.2f", $g_aiTimeTrain[0]) & " : " & StringFormat("%.2f", $g_aiTimeTrain[1]) & " : " & StringFormat("%.2f", $g_aiTimeTrain[2]), $COLOR_DEBUG)
 		SetLog("$iTrainWaitTime = " & StringFormat("%.2f", $iTrainWaitTime) & " minutes", $COLOR_DEBUG)
