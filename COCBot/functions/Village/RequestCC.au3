@@ -105,7 +105,7 @@ Func _makerequest($aButtonPosition)
 	While Not ( _ColorCheck(_GetPixelColor($aCancRequestCCBtn[0], $aCancRequestCCBtn[1], True), Hex($aCancRequestCCBtn[2], 6), $aCancRequestCCBtn[3]))
 		If _Sleep($DELAYMAKEREQUEST1) Then ExitLoop
 		$iCount += 1
-		If $g_bDebugSetlog Then SetDebugLog("$icount2 = " & $iCount & ", " & _GetPixelColor($aCancRequestCCBtn[0], $aCancRequestCCBtn[1], True), $COLOR_DEBUG)
+		SetDebugLog("$icount2 = " & $iCount & ", " & _GetPixelColor($aCancRequestCCBtn[0], $aCancRequestCCBtn[1], True), $COLOR_DEBUG)
 		If $iCount > 20 Then ExitLoop ; wait 21*500ms = 10.5 seconds max
 	WEnd
 	If $iCount > 20 Then
@@ -115,28 +115,13 @@ Func _makerequest($aButtonPosition)
 	Else
 		If $g_sRequestTroopsText <> "" Then
 			If Not $g_bChkBackgroundMode And Not $g_bNoFocusTampering Then ControlFocus($g_hAndroidWindow, "", "")
-			; ------------------------------------------------------
-			; MOD++
-			; ------------------------------------------------------
-			If $g_iRequestTroopTypeOnce = 0 Then
-				; fix for Android send text bug sending symbols like ``"
-				AndroidSendText($g_sRequestTroopsText, True)
-				Click($atxtRequestCCBtn[0], $atxtRequestCCBtn[1], 1, 0, "#0254") ;Select text for request $atxtRequestCCBtn[2] = [430, 140]
-				If _Sleep($DELAYMAKEREQUEST2) Then Return
-				If SendText($g_sRequestTroopsText) = 0 Then
-					SetLog(" Request text entry failed, try again", $COLOR_ERROR)
-					Return
-				EndIf
-			Else
-				SetLog("Ignore retype text when Request troops", $COLOR_INFO)
-			EndIf
-			; ------------------------------------------------------
-			; Don't retype when request troops ( just once ) - MOD++
-			; ------------------------------------------------------
-			If $g_bRequestTypeOnceEnable Then
-				$g_iRequestTroopTypeOnce += 1
-			Else
-				$g_iRequestTroopTypeOnce = 0
+			; fix for Android send text bug sending symbols like ``"
+			AndroidSendText($g_sRequestTroopsText, True)
+			Click($atxtRequestCCBtn[0], $atxtRequestCCBtn[1], 1, 0, "#0254") ;Select text for request $atxtRequestCCBtn[2] = [430, 140]
+			If _Sleep($DELAYMAKEREQUEST2) Then Return
+			If SendText($g_sRequestTroopsText) = 0 Then
+				SetLog(" Request text entry failed, try again", $COLOR_ERROR)
+				Return
 			EndIf
 		EndIf
 		If _Sleep($DELAYMAKEREQUEST2) Then Return ; wait time for text request to complete

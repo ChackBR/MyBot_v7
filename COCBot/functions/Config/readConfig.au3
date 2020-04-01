@@ -474,10 +474,6 @@ EndFunc   ;==>ReadConfig_600_9
 Func ReadConfig_600_11()
 	; <><><><> Village / Donate - Request <><><><>
 	$g_bRequestTroopsEnable = (IniRead($g_sProfileConfigPath, "planned", "RequestHoursEnable", "0") = "1")
-	; ----------------------------------
-	; MOD++
-	; ----------------------------------
-	$g_bRequestTypeOnceEnable = (IniRead($g_sProfileConfigPath, "request", "RequestTypeOnce", "0") = "1")
 	$g_sRequestTroopsText = IniRead($g_sProfileConfigPath, "donate", "txtRequest", "")
 	; Request Type - Demen
 	$g_abRequestType[0] = (IniRead($g_sProfileConfigPath, "donate", "RequestType_Troop", "0") = "1")

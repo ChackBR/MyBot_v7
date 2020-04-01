@@ -163,10 +163,6 @@ Func btnStart()
 		$g_iBotAction = $eBotStart
 	EndIf
 	$g_iActualTrainSkip = 0
-	; --------------------------------------------
-	; Don't retype text when request troops ( reset it )
-	; --------------------------------------------
-	$g_iRequestTroopTypeOnce = 0
 EndFunc   ;==>btnStart
 
 Func btnStop()

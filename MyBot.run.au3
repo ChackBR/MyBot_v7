@@ -591,6 +591,16 @@ Func FinalInitialization(Const $sAI)
 		EndIf
 	EndIf
 
+	; destroy splash screen here (so we witness the 100% ;)
+	DestroySplashScreen(False)
+	If $bCheckPrerequisitesOK Then
+		; only when bot can run, register with forum
+		ForumAuthentication()
+	EndIf
+
+	; allow now other bots to launch
+	DestroySplashScreen()
+
 	; MOD++
 	SetLog(" ", $COLOR_SUCCESS)
 	SetLog("________" & " [  MyBot Light MOD++  ]" & "________", $COLOR_MONEYGREEN, "Impact", 14)
@@ -604,16 +614,6 @@ Func FinalInitialization(Const $sAI)
 	SetLog("-----------------------------------------------------------------------", $COLOR_MONEYGREEN)
 	SetLog(" ", $COLOR_MEDGRAY)
 	; Message - end
-
-	; destroy splash screen here (so we witness the 100% ;)
-	DestroySplashScreen(False)
-	If $bCheckPrerequisitesOK Then
-		; only when bot can run, register with forum
-		ForumAuthentication()
-	EndIf
-
-	; allow now other bots to launch
-	DestroySplashScreen()
 
 	; InitializeVariables();initialize variables used in extrawindows
 	CheckVersion() ; check latest version on mybot.run site

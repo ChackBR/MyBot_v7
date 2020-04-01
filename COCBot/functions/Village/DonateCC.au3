@@ -256,14 +256,14 @@ Func DonateCC($bCheckForNewMsg = False)
 
 				Local $Alphabets[4] = [$g_bChkExtraAlphabets, $g_bChkExtraChinese, $g_bChkExtraKorean, $g_bChkExtraPersian]
 				;Fix by TFKNazGul for Chinese fonts
-				Local $Yaxis[4] = [50, 36, 36, 41]
+				Local $Yaxis[8] = [50, 125, 36, 101, 36, 101, 41, 106]
 				Local $TextAlphabetsNames[4] = ["Cyrillic and Latin", "Chinese", "Korean", "Persian"]
 				Local $AlphabetFunctions[4] = ["getChatString", "getChatStringChinese", "getChatStringKorean", "getChatStringPersian"]
 				Local $BlankSpaces = ""
 
 				For $i = 0 To UBound($Alphabets) - 1
 					If $i = 0 Then
-						Local $coordinates[3] = [50, 36, 23] ; Extra coordinates for Latin
+						Local $coordinates[6] = [50, 125, 36, 101, 23, 88]
 						Local $OcrName = ($Alphabets[$i] = True) ? ("coc-latin-cyr") : ("coc-latinA")
 						Local $log = "Latin"
 						If $Alphabets[$i] Then $log = $TextAlphabetsNames[$i]

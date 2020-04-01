@@ -60,4 +60,4 @@ Global $g_sModversion
 ; "r03" ; MyBot v7.8 Light: DEB + DRRTxt + BB Play + Max Logout Time + Temp Fix QT and SwitchAccount
 ; "r02" ; MyBot v7.8.1 Light: DEB + DRRTxt + Max Logout Time + BB Loop + Legends SwitchAccount
 
-$g_sModversion = "r01" ; MyBot v7.8.2 Light: DEB + DRRTxt + Max Logout Time + BB Loop + Legends SwitchAccount
+$g_sModversion = "r02" ; MyBot v7.8.2 Light: DEB + DRRTxt + Max Logout Time + BB Loop + Legends SwitchAccount + April 2020

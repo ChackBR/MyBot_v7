@@ -1,5 +1,5 @@
-NOTE  |Author: v1.0.1 by Chack++
-NOTE  |[16.12.2019] External Edges, Heroes on Sides
+NOTE  |Author: v1.1.1 by Chack++
+NOTE  |[01.01.2020] External Edges, Heroes on Sides
 NOTE  |TH 11 ***
 NOTE  |Train: 10 Bowlers, 9 Witches, 6 Ice Golem, 2 Arch, 2 Rage, 7 Bat in CC 1 Rage IceG GG Pekka
 NOTE  |TH 12~13
@@ -35,7 +35,7 @@ DRPLN |0          |0          |0          |0          |0          |0          |0
 CCREQ |           |           |           |           |           |           |           |Any    Rage|Any    Rage|Any    Rage|
       |                                                                                                                       |
       |EXTR. GOLD |EXTR.ELIXIR|EXTR. DARK |DEPO. GOLD |DEPO.ELIXIR|DEPO. DARK |TOWNHALL   |FORCED SIDE|___________|___________|
-SIDE  |0          |0          |0          |0          |0          |0          |20         |           |           |           |
+SIDE  |0          |0          |0          |0          |0          |0          |20         |TOP-LEFT   |           |           |
       |EAGLE      |INFERNO    |XBOW       |WIZTOWER   |MORTAR     |AIRDEFENSE |GEMBOX     |GEMBOX     |           |           |
 SIDEB |9          |5          |0          |0          |0          |0          |0          |           |           |           |
       |                                                                                                                       |
@@ -83,31 +83,5 @@ DROP  |A          |8          |1          |KING       |0          |37-50      |1
 DROP  |A          |9          |1          |QUEEN      |0          |37-50      |150-200    |           |           |           |
 WAIT  |2000-4000  |           |           |           |           |           |           |           |           |           |
 DROP  |A          |9          |1          |CHAMPION   |0          |37-50      |100-200    |           |           |           |
-WAIT  |2000-4200  |           |           |           |           |           |           |           |           |           |
-DROP  |C          |5          |1          |BtSpell    |50-70      |37-50      |15-20      |           |           |           |
-DROP  |C          |4          |1          |BtSpell    |50-70      |37-50      |15-20      |           |           |           |
-DROP  |C          |3          |1          |BtSpell    |50-70      |37-50      |15-20      |           |           |           |
-DROP  |D          |2          |1          |BtSpell    |50-70      |37-50      |15-20      |           |           |           |
-DROP  |D          |3          |1          |BtSpell    |50-70      |37-50      |15-20      |           |           |           |
-DROP  |D          |4          |1          |BtSpell    |50-70      |37-50      |15-20      |           |           |           |
-DROP  |D          |5          |1          |BtSpell    |50-70      |37-50      |15-20      |           |           |           |
-DROP  |E          |3          |1          |RSpell     |0          |0          |150-170    |           |           |           |
-WAIT  |2000-5000  |           |           |           |           |           |           |           |           |           |
-DROP  |A          |2          |1          |Wiza       |50-70      |37-50      |500-700    |           |           |           |
-DROP  |A          |2          |1          |Arch       |50-70      |37-50      |500-700    |           |           |           |
-DROP  |B          |10         |1          |Arch       |50-70      |37-50      |500-700    |           |           |           |
-RECALC|           |           |           |           |           |           |           |           |           |           |
-DROP  |Z          |1          |1          |FSpell     |0          |0          |100-150    |           |           |           |
-DROP  |L          |1          |1          |FSpell     |0          |0          |100-150    |           |           |           |
-DROP  |P          |1          |1          |FSpell     |0          |0          |190-230    |           |           |           |
-WAIT  |2000-5000  |           |           |           |           |           |           |           |           |           |
-DROP  |A          |10         |1          |WallW      |0          |50-70      |150-170    |           |           |           |
-DROP  |A          |10         |1          |BattleB    |0          |50-70      |150-170    |           |           |           |
-DROP  |A          |10         |1          |StoneS     |0          |50-70      |150-170    |           |           |           |
-DROP  |A          |10         |1          |Castle     |0          |50-70      |150-170    |           |           |           |
-DROP  |A          |10         |1          |Warden     |50-100     |           |150-200    |           |           |           |
-DROP  |M-N        |7-10       |1          |REMAIN     |50-70      |100        |50-100     |           |           |           |
-WAIT  |1000-2200  |           |           |           |           |           |           |           |           |           |
-DROP  |A-B        |2,4,6,8,10 |5          |REMAIN     |50-70      |100        |50-100     |           |           |           |
       |                                                                                                                       |
       |--------------------------------------------------- IceBoWitch End ----------------------------------------------------|

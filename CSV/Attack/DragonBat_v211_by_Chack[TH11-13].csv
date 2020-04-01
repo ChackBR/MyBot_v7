@@ -1,21 +1,23 @@
-NOTE  |Author: v4.0.1 by Chack++
-NOTE  |[16.12.2019] Heroes Inside, External Edges
+NOTE  |Author: v2.1.1 by Chack++
+NOTE  |[01.07.2020] External Edges, Heroes on Sides
 NOTE  |TH 11 ***
-NOTE  |Train: 7 E-Drag, 10 Balloon, 4 Rage, 3 Freeze, in CC Wall Wrecker, 1 Rage and Balloons
+NOTE  |Train: 9 Dragons, 1 E-Drag, 10 Balloon, 7 BatSpell, 2 Rage, in CC 1 Rage and Balloons
 NOTE  |TH 12~13
-NOTE  |Train: 7 E-Drag, 14 Balloon, 4 Rage, 3 Freeze, in CC Wall Wrecker, 1 Rage and Balloons
+NOTE  |Train: 9 Dragons, 1 E-Drag, 14 Balloon, 7 BatSpell, 2 Rage, in CC 1 Rage and Balloons
 NOTE  |
 NOTE  |Script work on "EXTERNAL EDGES"
       |                                                                                                                       |
-      |---------------------------------------------------ElectroLoon Start---------------------------------------------------|
-      |                                                   Chack++                                                             |
+      |------------------------------------------------DragonBat Start--------------------------------------------------------|
+      |                                                Chack++                                                                |
       |                                                                                                                       |
       |_TROOPNAME_|__FLEXIBLE_|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|
-TRAIN |EDrag      |0          |0          |0          |0          |0          |0          |7          |7          |7          |
+TRAIN |Drag       |0          |0          |0          |0          |0          |0          |9          |9          |9          |
+TRAIN |EDrag      |0          |0          |0          |0          |0          |0          |1          |1          |1          |
 TRAIN |Ball       |0          |0          |0          |0          |0          |0          |10         |14         |14         |
       |                                                                                                                       |
-TRAIN |RSpell     |0          |0          |0          |0          |0          |0          |4          |4          |4          |
-TRAIN |FSpell     |0          |0          |0          |0          |0          |0          |3          |3          |3          |
+TRAIN |BtSpell    |0          |0          |0          |0          |0          |0          |7          |7          |7          |
+TRAIN |RSpell     |0          |0          |0          |0          |0          |0          |1          |1          |1          |
+TRAIN |FSpell     |0          |0          |0          |0          |0          |0          |2          |2          |2          | 
       |                                                                                                                       |
       |_TROOPNAME_|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|
 TRAIN |King       |0          |0          |0          |0          |0          |0          |1          |1          |1          |
@@ -54,8 +56,12 @@ MAKE  |Z          |FRONT-LEFT |1          |1          |IGNORE     |0          |0
 MAKE  |P          |FRONT-LEFT |1          |1          |IGNORE     |0          |0          |TOWNHALL   |           |           |
       |                                                                                                                       |
       |VECTOR_____|INDEX______|QTY_X_VECT_|TROOPNAME__|DELAY_DROP_|DELAYCHANGE|SLEEPAFTER_|___________|___________|___________|
-DROP  |A          |4,6,8,10   |4          |EDrag      |50-70      |37-50      |15-20      |           |           |           |
-DROP  |B          |2,4,6      |3          |EDrag      |50-70      |37-50      |500-700    |           |           |           |
+DROP  |B          |10         |1          |EDrag      |50-70      |37-50      |500-700    |           |           |           |
+DROP  |A          |2          |1          |KING       |0          |0          |450-600    |           |           |           |
+DROP  |A          |2          |1          |QUEEN      |0          |0          |150-200    |           |           |           |
+WAIT  |4000-6000  |           |           |           |           |           |           |           |           |           |
+DROP  |A          |2,4,6,8,10 |5          |Drag       |50-70      |37-50      |15-20      |           |           |           |
+DROP  |B          |2,4,6,8    |4          |Drag       |50-70      |37-50      |500-700    |           |           |           |
 DROP  |A          |10         |1          |WallW      |0          |50-70      |150-170    |           |           |           |
 DROP  |A          |10         |1          |BattleB    |0          |50-70      |150-170    |           |           |           |
 DROP  |A          |10         |1          |StoneS     |0          |50-70      |150-170    |           |           |           |
@@ -65,23 +71,26 @@ DROP  |B          |1,2,3,4,6  |5          |Ball       |50-70      |27-50      |9
 DROP  |V          |8,10       |2          |Ball       |55-70      |27-50      |15-20      |           |           |           |
 DROP  |K          |1,2        |2          |Ball       |55-70      |27-50      |150-200    |           |           |           |
 DROP  |A          |10         |1          |Warden     |50-70      |0          |500-650    |           |           |           |
-DROP  |C          |5          |1          |RSpell     |0          |0          |178-200    |           |           |           |
-DROP  |C          |1          |1          |RSpell     |0          |0          |180-200    |           |           |           |
-DROP  |D          |4          |1          |RSpell     |0          |0          |530-550    |           |           |           |
-WAIT  |3000-5000  |           |           |           |           |           |           |           |           |           |
+DROP  |C          |3          |1          |RSpell     |0          |0          |178-200    |           |           |           |
+DROP  |D          |2          |1          |RSpell     |0          |0          |530-550    |           |           |           |
+DROP  |B          |10         |1          |CHAMPION   |0          |0          |150-300    |           |           |           |
+WAIT  |2000-4200  |           |           |           |           |           |           |           |           |           |
+DROP  |C          |5          |1          |BtSpell    |50-70      |37-50      |15-20      |           |           |           |
+DROP  |C          |4          |1          |BtSpell    |50-70      |37-50      |15-20      |           |           |           |
+DROP  |C          |3          |1          |BtSpell    |50-70      |37-50      |15-20      |           |           |           |
+DROP  |D          |2          |1          |BtSpell    |50-70      |37-50      |15-20      |           |           |           |
+DROP  |D          |3          |1          |BtSpell    |50-70      |37-50      |15-20      |           |           |           |
+DROP  |D          |4          |1          |BtSpell    |50-70      |37-50      |15-20      |           |           |           |
+DROP  |D          |5          |1          |BtSpell    |50-70      |37-50      |15-20      |           |           |           |
 DROP  |E          |3          |1          |RSpell     |0          |0          |150-170    |           |           |           |
-DROP  |F          |2          |1          |RSpell     |0          |0          |250-300    |           |           |           |
-DROP  |A          |10         |1          |QUEEN      |0          |0          |150-200    |           |           |           |
 DROP  |F          |2          |1          |HaSpell    |0          |0          |150-170    |           |           |           |
 DROP  |H          |2          |1          |HaSpell    |0          |0          |500-550    |           |           |           |
-DROP  |A          |10         |1          |KING       |0          |0          |450-600    |           |           |           |
-WAIT  |1000-1500  |           |           |           |           |           |           |           |           |           |
-DROP  |A          |10         |1          |CHAMPION   |0          |0          |100-200    |           |           |           |
+WAIT  |2000-4200  |           |           |           |           |           |           |           |           |           |
 DROP  |Z          |1          |1          |FSpell     |0          |0          |190-230    |           |           |           |
 DROP  |U          |1          |1          |FSpell     |0          |0          |190-230    |           |           |           |
 DROP  |G          |1          |1          |FSpell     |0          |0          |200-250    |           |           |           |
-WAIT  |2500-4500  |           |           |           |           |           |           |           |           |           |
-RECALC|                                                                                                                       |
+WAIT  |3500-5000  |           |           |           |           |           |           |           |           |           |
+RECALC|           |           |           |           |           |           |           |           |           |           |
 DROP  |Z          |1          |1          |FSpell     |0          |0          |100-150    |           |           |           |
 DROP  |L          |1          |1          |FSpell     |0          |0          |100-150    |           |           |           |
 DROP  |P          |1          |1          |FSpell     |0          |0          |190-230    |           |           |           |
@@ -95,4 +104,4 @@ DROP  |M-N        |7-10       |1          |REMAIN     |50-70      |100        |5
 WAIT  |1000-2200  |           |           |           |           |           |           |           |           |           |
 DROP  |A-B        |2,4,6,8,10 |5          |REMAIN     |50-70      |100        |50-100     |           |           |           |
       |                                                                                                                       |
-      |--------------------------------------------------- ElectroLoon End ---------------------------------------------------|
+      |-------------------------------------------------- DragonBat End ------------------------------------------------------|

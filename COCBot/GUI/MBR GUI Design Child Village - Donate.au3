@@ -27,11 +27,6 @@ Global $g_hTxtRequestCountCCTroop, $g_hTxtRequestCountCCSpell, $g_hChkClanCastle
 Global $g_ahCmbClanCastleTroop[3], $g_ahTxtClanCastleTroop[3]
 Global $g_ahCmbClanCastleSpell[3], $g_ahCmbClanCastleSiege[2]
 
-; --------------------------------------------
-; Don't retype when request troops ( just once )
-; --------------------------------------------
-Global $g_hChkRequestTypeOnceEnable = 0
-
 ; Donate
 Global $g_hChkExtraAlphabets = 0, $g_hChkExtraChinese = 0, $g_hChkExtraKorean = 0, $g_hChkExtraPersian = 0
 Global $g_ahChkDonateTroop[$eTroopCount + $g_iCustomDonateConfigs + $eSiegeMachineCount] = 		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
@@ -120,10 +115,6 @@ Func CreateRequestSubTab()
 		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnCCRequest, $x - 5, $y, 64, 64, $BS_ICON)
 		$g_hChkRequestTroopsEnable = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Donate-CC", "ChkRequestTroopsEnable", "Request Troops / Spells"), $x + 40 + 30, $y - 6)
 			GUICtrlSetOnEvent(-1, "chkRequestCCHours")
-		; --------------------------------------------
-		; Don't retype when request troops ( just once )
-		; --------------------------------------------
-		$g_hChkRequestTypeOnceEnable = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Donate-CC", "ChkRequestTypeOnceEnable", "Type Once"), $x + 250, $y - 6)
 		$g_hTxtRequestCC = GUICtrlCreateInput(GetTranslatedFileIni("MBR GUI Design Child Village - Donate-CC", "TxtRequestCC", "Anything please"), $x + 40 + 30, $y + 15, 214, 20, BitOR($SS_CENTER, $ES_AUTOHSCROLL))
 			GUICtrlSetState(-1, $GUI_DISABLE)
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Donate-CC", "TxtRequestCC_Info_01", "This text is used on your request for troops in the Clan chat."))

@@ -80,7 +80,23 @@ Func PrepareSearch($Mode = $DB) ;Click attack button and find match button, will
 				$g_bLeagueAttack = True
 				Local $avAttackButtonSubResult = $avAttackButton[0]
 				Local $sButtonState = $avAttackButtonSubResult[0]
-				If StringInStr($sButtonState, "Ended", 0) > 0 Then
+				If StringInStr($sButtonState, "Find", 0) > 0 Then
+					Local $aCoordinates = StringSplit($avAttackButtonSubResult[1], ",", $STR_NOCOUNT)
+					ClickP($aCoordinates, 1, 0, "#0149")
+					Local $aConfirmAttackButton
+					For $i = 0 To 10
+						If _Sleep(200) Then Return
+						$aConfirmAttackButton = findButton("ConfirmAttack", Default, 1, True)
+						If IsArray($aConfirmAttackButton) And UBound($aConfirmAttackButton, 1) = 2 Then
+							ClickP($aConfirmAttackButton, 1, 0)
+							ExitLoop
+						EndIf
+					Next
+					If Not IsArray($aConfirmAttackButton) And UBound($aConfirmAttackButton, 1) < 2 Then
+						SetLog("Couldn't find the confirm attack button!", $COLOR_ERROR)
+						Return
+					EndIf
+				ElseIf StringInStr($sButtonState, "Ended", 0) > 0 Then
 					SetLog("League Day ended already! Trying again later", $COLOR_INFO)
 					$g_bRestart = True
 					;$g_bIsClientSyncError = False

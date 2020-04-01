@@ -52,7 +52,7 @@ MAKE  |L          |RIGHT-FRONT|1          |1          |IGNORE     |0          |0
 MAKE  |U          |FRONT-RIGHT|1          |1          |IGNORE     |0          |0          |INFERNO    |           |           |
 MAKE  |Z          |FRONT-LEFT |1          |1          |IGNORE     |0          |0          |EAGLE      |           |           |
 MAKE  |P          |FRONT-LEFT |1          |1          |IGNORE     |0          |0          |TOWNHALL   |           |           |
-      |                                                                                                                       |
+      |                                                                                                           |           |
       |VECTOR_____|INDEX______|QTY_X_VECT_|TROOPNAME__|DELAY_DROP_|DELAYCHANGE|SLEEPAFTER_|___________|___________|___________|
 DROP  |A          |4,6,8,10   |4          |EDrag      |50-70      |37-50      |15-20      |           |           |           |
 DROP  |B          |2,4,6      |3          |EDrag      |50-70      |37-50      |500-700    |           |           |           |
