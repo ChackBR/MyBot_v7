@@ -97,6 +97,7 @@ Func RequestCC($bClickPAtEnd = True, $sText = "")
 EndFunc   ;==>RequestCC
 
 Func _makerequest($aButtonPosition)
+	Local $cColor
 	;click button request troops
 	ClickP($aButtonPosition, 1, 0, "0336") ;Select text for request
 
@@ -126,15 +127,26 @@ Func _makerequest($aButtonPosition)
 		EndIf
 		If _Sleep($DELAYMAKEREQUEST2) Then Return ; wait time for text request to complete
 		$iCount = 0
-		While Not _ColorCheck(_GetPixelColor($aSendRequestCCBtn[0], $aSendRequestCCBtn[1], True), Hex(0x5fac10, 6), 20)
+		While Not _ColorCheck(_GetPixelColor($aSendRequestCCBtn[0], $aSendRequestCCBtn[1], True), Hex(0xE0F989, 6), 20)
 			If _Sleep($DELAYMAKEREQUEST1) Then ExitLoop
 			$iCount += 1
 			If $g_bDebugSetlog Then SetDebugLog("$icount3 = " & $iCount & ", " & _GetPixelColor($aSendRequestCCBtn[0], $aSendRequestCCBtn[1], True), $COLOR_DEBUG)
 			If $iCount > 25 Then ExitLoop ; wait 26*500ms = 13 seconds max
 		WEnd
 		If $iCount > 25 Then
-			If $g_bDebugSetlog Then SetDebugLog("Send request button not found", $COLOR_DEBUG)
-			CheckMainScreen(False) ;emergency exit
+			$cColor = _ColorCheck(_GetPixelColor($aSendRequestCCBtn[0], $aSendRequestCCBtn[1], True)
+			SetLog( $aSendRequestCCBtn[0] & ", " & $aSendRequestCCBtn[1] )
+			While Not _ColorCheck(_GetPixelColor($aSendRequestCCBtn[0], $aSendRequestCCBtn[1], True), Hex(0x5fac10, 6), 20)
+				If _Sleep($DELAYMAKEREQUEST1) Then ExitLoop
+				$iCount += 1
+				If $iCount > 10 Then ExitLoop ; wait 26*500ms = 13 seconds max
+			WEnd
+			If $iCount > 10 Then
+				$cColor = _ColorCheck(_GetPixelColor($aSendRequestCCBtn[0], $aSendRequestCCBtn[1], True)
+				SetLog( $aSendRequestCCBtn[0] & ", " & $aSendRequestCCBtn[1] )
+				If $g_bDebugSetlog Then SetDebugLog("Send request button not found", $COLOR_DEBUG)
+				CheckMainScreen(False) ;emergency exit
+			EndIf
 		EndIf
 		If $g_bChkBackgroundMode = False And $g_bNoFocusTampering = False Then ControlFocus($g_hAndroidWindow, "", "") ; make sure Android has window focus
 		Click($aSendRequestCCBtn[0], $aSendRequestCCBtn[1], 1, 100, "#0256") ; click send button
