@@ -110,6 +110,8 @@ Func _makerequest($aButtonPosition)
 		If $iCount > 20 Then ExitLoop ; wait 21*500ms = 10.5 seconds max
 	WEnd
 	If $iCount > 20 Then
+		$cColor = _ColorCheck(_GetPixelColor($aSendRequestCCBtn[0], $aSendRequestCCBtn[1], True)
+		SetLog( $aSendRequestCCBtn[0] & ", " & $aSendRequestCCBtn[1] )
 		SetLog("Request has already been made, or request window not available", $COLOR_ERROR)
 		ClickP($aAway, 2, 0, "#0257")
 		If _Sleep($DELAYMAKEREQUEST2) Then Return
