@@ -120,7 +120,7 @@ Func _makerequest($aButtonPosition)
 			If Not $g_bChkBackgroundMode And Not $g_bNoFocusTampering Then ControlFocus($g_hAndroidWindow, "", "")
 			; fix for Android send text bug sending symbols like ``"
 			AndroidSendText($g_sRequestTroopsText, True)
-			Click($atxtRequestCCBtn[0], $atxtRequestCCBtn[1], 1, 0, "#0254") ;Select text for request $atxtRequestCCBtn[2] = [430, 140]
+			Click($atxtRequestCCBtn[0], $atxtRequestCCBtn[1], 1, 0, "#0254") ;Select text for request $atxtRequestCCBtn[2] = [335, 235]
 			If _Sleep($DELAYMAKEREQUEST2) Then Return
 			If SendText($g_sRequestTroopsText) = 0 Then
 				SetLog(" Request text entry failed, try again", $COLOR_ERROR)
