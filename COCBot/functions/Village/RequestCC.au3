@@ -110,8 +110,8 @@ Func _makerequest($aButtonPosition)
 		If $iCount > 20 Then ExitLoop ; wait 21*500ms = 10.5 seconds max
 	WEnd
 	If $iCount > 20 Then
-		$cColor = _GetPixelColor($aSendRequestCCBtn[0], $aSendRequestCCBtn[1], True)
-		SetLog( $aSendRequestCCBtn[0] & ", " & $aSendRequestCCBtn[1] )
+		$cColor = _GetPixelColor($aCancRequestCCBtn[0], $aCancRequestCCBtn[1], True)
+		SetLog( $aCancRequestCCBtn[0] & ", " & $aCancRequestCCBtn[1] & ", Line 114, Color: " & $cColor )
 		SetLog("Request has already been made, or request window not available", $COLOR_ERROR)
 		ClickP($aAway, 2, 0, "#0257")
 		If _Sleep($DELAYMAKEREQUEST2) Then Return
@@ -129,23 +129,32 @@ Func _makerequest($aButtonPosition)
 		EndIf
 		If _Sleep($DELAYMAKEREQUEST2) Then Return ; wait time for text request to complete
 		$iCount = 0
-		While Not _ColorCheck(_GetPixelColor($aSendRequestCCBtn[0], $aSendRequestCCBtn[1], True), Hex(0xE0F989, 6), 20)
+		While Not _ColorCheck(_GetPixelColor($aSendRequestCCBtn[0], $aSendRequestCCBtn[1], True), Hex(0xDFF885, 6), 20)
 			If _Sleep($DELAYMAKEREQUEST1) Then ExitLoop
 			$iCount += 1
 			If $g_bDebugSetlog Then SetDebugLog("$icount3 = " & $iCount & ", " & _GetPixelColor($aSendRequestCCBtn[0], $aSendRequestCCBtn[1], True), $COLOR_DEBUG)
-			If $iCount > 25 Then ExitLoop ; wait 26*500ms = 13 seconds max
+			If $iCount > 10 Then ExitLoop ; wait 26*500ms = 13 seconds max
 		WEnd
+		If $iCount > 15 Then
+			$iCount = 0
+			While Not _ColorCheck(_GetPixelColor($aSendRequestCCBtn[0], $aSendRequestCCBtn[1], True), Hex(0x767F61, 6), 20)
+				If _Sleep($DELAYMAKEREQUEST1) Then ExitLoop
+				$iCount += 1
+				If $g_bDebugSetlog Then SetDebugLog("$icount3 = " & $iCount & ", " & _GetPixelColor($aSendRequestCCBtn[0], $aSendRequestCCBtn[1], True), $COLOR_DEBUG)
+				If $iCount > 25 Then ExitLoop ; wait 26*500ms = 13 seconds max
+			WEnd
+		EndIf
 		If $iCount > 25 Then
 			$cColor = _GetPixelColor($aSendRequestCCBtn[0], $aSendRequestCCBtn[1], True)
-			SetLog( $aSendRequestCCBtn[0] & ", " & $aSendRequestCCBtn[1] )
-			While Not _ColorCheck(_GetPixelColor($aSendRequestCCBtn[0], $aSendRequestCCBtn[1], True), Hex(0x5fac10, 6), 20)
+			SetLog( $aSendRequestCCBtn[0] & ", " & $aSendRequestCCBtn[1] & ", Line 140, Color: " & $cColor )
+			While Not _ColorCheck(_GetPixelColor($aSendRequestCCBtn[0], $aSendRequestCCBtn[1], True), Hex(0x717C5E, 6), 20)
 				If _Sleep($DELAYMAKEREQUEST1) Then ExitLoop
 				$iCount += 1
 				If $iCount > 10 Then ExitLoop ; wait 26*500ms = 13 seconds max
 			WEnd
 			If $iCount > 10 Then
 				$cColor = _GetPixelColor($aSendRequestCCBtn[0], $aSendRequestCCBtn[1], True)
-				SetLog( $aSendRequestCCBtn[0] & ", " & $aSendRequestCCBtn[1] )
+				SetLog( $aSendRequestCCBtn[0] & ", " & $aSendRequestCCBtn[1] & ", Color Line 157, Color: " & $cColor )
 				If $g_bDebugSetlog Then SetDebugLog("Send request button not found", $COLOR_DEBUG)
 				CheckMainScreen(False) ;emergency exit
 			EndIf
