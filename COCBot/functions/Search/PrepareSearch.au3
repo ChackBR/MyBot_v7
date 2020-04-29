@@ -51,7 +51,6 @@ Func PrepareSearch($Mode = $DB) ;Click attack button and find match button, will
 	EndIf
 
 	If _Sleep($DELAYPREPARESEARCH1) Then Return
-
 	If Not IsWindowOpen($g_sImgGeneralCloseButton, 10, 200, GetDiamondFromRect("716,1,860,179")) Then
 		SetLog("Attack Window did not open!", $COLOR_ERROR)
 		AndroidPageError("PrepareSearch")
@@ -68,8 +67,6 @@ Func PrepareSearch($Mode = $DB) ;Click attack button and find match button, will
 		Return
 	EndIf
 
-	Static $bWait30Minutes = False
-	Local $iWait30Time = Random(7,25,1) ;Random minutes, 7 to 25.
 	$g_bLeagueAttack = False
 	Do
 		Local $bSignedUpLegendLeague = False
@@ -101,54 +98,14 @@ Func PrepareSearch($Mode = $DB) ;Click attack button and find match button, will
 					$g_bRestart = True
 					;$g_bIsClientSyncError = False
 					ClickP($aAway, 1, 0, "#0000") ;Click Away to prevent any pages on top
-					If $bWait30Minutes Then
-						$bWait30Minutes = False
-						;
-						; MOD++ Fix for Legends
-						;
-						If ProfileSwitchAccountEnabled() Then
-							$g_abDonateOnly[$g_iCurAccount] = True
-						Else
-						UniversalCloseWaitOpenCoC($iWait30Time * 60 * 1000, "PrepareSearch")
-						EndIf
-					Else
-						$bWait30Minutes = True
-					EndIf
+					$g_bForceSwitch = True ; set this switch accounts next check
 					Return
 				ElseIf StringInStr($sButtonState, "Made", 0) > 0 Then
 					SetLog("All Attacks already made! Returning home", $COLOR_INFO)
 					$g_bRestart = True
 					ClickP($aAway, 1, 0, "#0000") ;Click Away to prevent any pages on top
-					If $bWait30Minutes Then
-						$bWait30Minutes = False
-						;
-						; MOD++ Fix for Legends
-						;
-						If ProfileSwitchAccountEnabled() Then
-							$g_abDonateOnly[$g_iCurAccount] = True
-						Else
-						UniversalCloseWaitOpenCoC($iWait30Time * 60 * 1000, "PrepareSearch")
-						EndIf
-					Else
-						$bWait30Minutes = True
-					EndIf
+					$g_bForceSwitch = True ; set this switch accounts next check
 					Return
-				ElseIf StringInStr($sButtonState, "Find", 0) > 0 Then
-					Local $aCoordinates = StringSplit($avAttackButtonSubResult[1], ",", $STR_NOCOUNT)
-					ClickP($aCoordinates, 1, 0, "#0149")
-					Local $aConfirmAttackButton
-					For $i = 0 To 10
-						If _Sleep(200) Then Return
-						$aConfirmAttackButton = findButton("ConfirmAttack", Default, 1, True)
-						If IsArray($aConfirmAttackButton) And UBound($aConfirmAttackButton, 1) = 2 Then
-							ClickP($aConfirmAttackButton, 1, 0)
-							ExitLoop
-						EndIf
-					Next
-					If Not IsArray($aConfirmAttackButton) And UBound($aConfirmAttackButton, 1) < 2 Then
-						SetLog("Couldn't find the confirm attack button!", $COLOR_ERROR)
-						Return
-					EndIf
 				ElseIf StringInStr($sButtonState, "Sign", 0) > 0 Then
 					SetLog("Sign-up to Legend League", $COLOR_INFO)
 					Local $aCoordinates = StringSplit($avAttackButtonSubResult[1], ",", $STR_NOCOUNT)

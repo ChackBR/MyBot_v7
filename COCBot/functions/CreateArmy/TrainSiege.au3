@@ -14,11 +14,10 @@
 ; ===============================================================================================================================
 #include-once
 
-
 Func TrainSiege()
 
 	; Check if is necessary run the routine
-	If $g_iTotalTrainSpaceSiege < 1 Then Return
+
 	If Not $g_bRunState Then Return
 
 	If $g_bDebugSetlogTrain Then SetLog("-- TrainSiege --", $COLOR_DEBUG)
@@ -76,8 +75,8 @@ Func TrainSiege()
 		If Not $g_bRunState Then Return
 	Next
 
-	; Mod++
 	; build 2nd army
+	; Mod++
 	If BitOr($g_bQuickTrainEnable, $g_bDoubleTrain) And $g_iTotalTrainSpaceSiege <= 3 Then
 		For $iSiegeIndex = $eSiegeWallWrecker To $eSiegeMachineCount - 1
 			Local $HowMany = $g_aiArmyCompSiegeMachine[$iSiegeIndex] * 2 - $aiTotalSiegeMachine[$iSiegeIndex]
