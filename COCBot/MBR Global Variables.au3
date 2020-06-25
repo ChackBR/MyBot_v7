@@ -737,22 +737,22 @@ Global Enum $eSpellLightning, $eSpellHeal, $eSpellRage, $eSpellJump, $eSpellFree
 		$eSpellPoison, $eSpellEarthquake, $eSpellHaste, $eSpellSkeleton, $eSpellBat, $eSpellCount
 Global Const $g_asSpellNames[$eSpellCount] = ["Lightning", "Heal", "Rage", "Jump", "Freeze", "Clone", "Poison", "Earthquake", "Haste", "Skeleton", "Bat"]
 Global Const $g_asSpellShortNames[$eSpellCount] = ["LSpell", "HSpell", "RSpell", "JSpell", "FSpell", "CSpell", "PSpell", "ESpell", "HaSpell", "SkSpell", "BtSpell"]
-Global Const $g_aiSpellSpace[$eSpellCount] = [2, 2, 2, 2, 1, 3, 1, 1, 1, 1, 1]
-Global Const $g_aiSpellTrainTime[$eSpellCount] = [360, 360, 360, 360, 360, 720, 180, 180, 180, 180, 180]
+Global Const $g_aiSpellSpace[$eSpellCount] = [1, 2, 2, 2, 1, 3, 1, 1, 1, 1, 1]
+Global Const $g_aiSpellTrainTime[$eSpellCount] = [180, 360, 360, 360, 360, 720, 180, 180, 180, 180, 180]
 ; Zero element contains number of levels, elements 1 thru n contain cost of that level spell
-Global Const $g_aiSpellCostPerLevel[$eSpellCount][9] = [ _
-		[7, 15000, 16500, 18000, 20000, 22000, 24000, 26000], _			;LightningSpell
-		[8, 15000, 16500, 18000, 19000, 21000, 23000, 25000, 27000], _	;HealSpell
-		[6, 20000, 22000, 24000, 26000, 28000, 30000], _				;RageSpell
-		[4, 23000, 27000, 31000, 32000], _								;JumpSpell
-		[7, 6000, 7000, 8000, 9000, 10000, 11000, 12000], _				;FreezeSpell
-		[5, 38000, 39000, 41000, 43000, 45000], _						;CloneSpell
-		[6, 95, 110, 125, 140, 155, 170], _								;PoisonSpell
-		[5, 125, 140, 160, 180, 200], _									;EarthquakeSpell
-		[5, 80, 85, 90, 95, 100], _										;HasteSpell
-		[7, 110, 120, 130, 140, 150, 160, 170], _						;SkeletonSpell
-		[5, 110, 120, 130, 140, 150]]									;BatSpell
-Global Const $g_aiSpellDonateXP[$eSpellCount] = [10, 10, 10, 10, 10, 0, 5, 5, 5, 5, 5]
+Global Const $g_aiSpellCostPerLevel[$eSpellCount][10] = [ _
+		[9, 7000, 8000, 9000, 10000, 11000, 12000, 13000, 14000, 15000], _	;LightningSpell
+		[8, 15000, 16500, 18000, 19000, 21000, 23000, 25000, 27000], _		;HealSpell
+		[6, 20000, 22000, 24000, 26000, 28000, 30000], _					;RageSpell
+		[4, 23000, 27000, 31000, 32000], _									;JumpSpell
+		[7, 6000, 7000, 8000, 9000, 10000, 11000, 12000], _					;FreezeSpell
+		[5, 38000, 39000, 41000, 43000, 45000], _							;CloneSpell
+		[6, 95, 110, 125, 140, 155, 170], _									;PoisonSpell
+		[5, 125, 140, 160, 180, 200], _										;EarthquakeSpell
+		[5, 80, 85, 90, 95, 100], _											;HasteSpell
+		[7, 110, 120, 130, 140, 150, 160, 170], _							;SkeletonSpell
+		[5, 110, 120, 130, 140, 150]]										;BatSpell
+Global Const $g_aiSpellDonateXP[$eSpellCount] = [5, 10, 10, 10, 10, 0, 5, 5, 5, 5, 5]
 
 Global Const $g_aiSpellOcrOffSet[$eSpellCount][2] = [[44, 29], [41, 27], [41, 27], [50, 19], [34, 50], [43, 25], [47, 19], [39, 45], [45, 22], [46, 18], [30, 46]]
 
@@ -1707,7 +1707,7 @@ Global Const $g_aDrillLevelHP[7] = [800, 860, 920, 980, 1060, 1160, 1280]
 ; Array to hold Total Amount of DE available from Drill at each level (1-7)
 Global Const $g_aDrillLevelTotal[7] = [160, 300, 540, 840, 1280, 1800, 2400]
 ; Array to hold Total Damage of Lightning Spell at each level (1-7)
-Global Const $g_aLSpellDmg[7] = [300, 360, 420, 480, 540, 600, 660]
+Global Const $g_aLSpellDmg[9] = [150, 180, 210, 240, 270, 320, 400, 480, 560]
 ; Array to hold Total Damage of Earthquake Spell at each level (1-5)
 Global Const $g_aEQSpellDmg[5] = [0.14, 0.17, 0.21, 0.25, 0.29]
 

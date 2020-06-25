@@ -409,11 +409,11 @@ Func SwitchCOCAcc_DisconnectConnect(ByRef $bResult, $bDisconnectOnly = $g_bChkSh
 				If Not $bDisconnectOnly Then
 					SetLog("   1. Click Connect & Disconnect")
 					ClickP($aiButtonPos, 2, 1000)
-					If _Sleep(200) Then Return -1
+					If _Sleep(200 * 10) Then Return -1
 				Else
 					SetLog("   1. Click Connected")
 					ClickP($aiButtonPos, 1, 1000)
-					If _Sleep(200) Then Return -1
+					If _Sleep(200 * 10) Then Return -1
 				EndIf
 
 				Return 1
