@@ -129,6 +129,7 @@
 ![Ii]mgxml/AttackBar/LSpell_100_90.png
 ![Ii]mgxml/DonateCC/Spells/Lightning_100_89.png
 ![Ii]mgxml/Train/Spell_Train/LSpell_100_91.png
+![Ii]mgxml/ArmyOverview/SpellsQueued/*.png
 
 # ignore test strategies
 [Ss]trategies/[Tt]est*.ini
