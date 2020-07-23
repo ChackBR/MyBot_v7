@@ -831,7 +831,7 @@ Func runBot() ;Bot that runs everything in order
 			If $g_bFirstStart Then SetDebugLog("First loop completed!")
 			$g_bFirstStart = False ; already finished first loop since bot started.
 
-			If ProfileSwitchAccountEnabled() And ($g_iCommandStop = 0 Or $g_iCommandStop = 3 Or $g_abDonateOnly[$g_iCurAccount] or $g_bForceSwitch) Then checkSwitchAcc()
+			If ProfileSwitchAccountEnabled() And ($g_iCommandStop = 0 Or $g_iCommandStop = 3 Or $g_abDonateOnly[$g_iCurAccount] Or $g_bForceSwitch) Then checkSwitchAcc()
 			If IsSearchAttackEnabled() Then ; If attack scheduled has attack disabled now, stop wall upgrades, and attack.
 				Idle()
 				;$g_bFullArmy1 = $g_bFullArmy
@@ -1002,8 +1002,7 @@ EndFunc   ;==>_Idle
 
 Func AttackMain() ;Main control for attack functions
 	If ProfileSwitchAccountEnabled() And $g_abDonateOnly[$g_iCurAccount] Then Return
-	; getArmyTroopCapacity(True, True)
-	ClickP($aAway, 1, 0, "#0000") ;Click Away to prevent any pages on top
+	ClickAway()
 	If IsSearchAttackEnabled() Then
 		If (IsSearchModeActive($DB) And checkCollectors(True, False)) Or IsSearchModeActive($LB) Then
 			If ProfileSwitchAccountEnabled() And ($g_aiAttackedCountSwitch[$g_iCurAccount] <= $g_aiAttackedCount - 2) Then checkSwitchAcc()
@@ -1027,7 +1026,7 @@ Func AttackMain() ;Main control for attack functions
 				;SetLog("BullyMode: " & $g_abAttackTypeEnable[$TB] & ", Bully Hero: " & BitAND($g_aiAttackUseHeroes[$g_iAtkTBMode], $g_aiSearchHeroWaitEnable[$g_iAtkTBMode], $g_iHeroAvailable) & "|" & $g_aiSearchHeroWaitEnable[$g_iAtkTBMode] & "|" & $g_iHeroAvailable, $COLOR_DEBUG)
 			EndIf
 			_ClanGames()
-			ClickP($aAway, 1, 0, "#0000") ;Click Away to prevent any pages on top
+			ClickAway()
 			If $g_bUpdateSharedPrefs Then PullSharedPrefs()
 			PrepareSearch()
 			If Not $g_bRunState Then Return
@@ -1211,6 +1210,8 @@ Func __RunFunction($action)
 						If _Sleep($DELAYRUNBOT3) Then Return
 						AttackBB()
 					WEnd
+				Else
+					AttackBB()
 				EndIf
 				If _Sleep($DELAYRUNBOT3) Then Return
 				If $g_bRestart = True Then Return
