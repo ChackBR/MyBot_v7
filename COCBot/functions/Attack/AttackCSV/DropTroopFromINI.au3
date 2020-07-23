@@ -130,7 +130,7 @@ Func DropTroopFromINI($sDropVectors, $iStartIndex, $iEndIndex, $aiIndexArray, $i
 		Endif
 	EndIf
 
-	_ArrayDisplay($g_avAttackTroops, "Index: " & $iTroopIndex)
+	;_ArrayDisplay($g_avAttackTroops, "Index: " & $iTroopIndex)
 
 	;search slot where is the troop...
 	Local $troopPosition = -1

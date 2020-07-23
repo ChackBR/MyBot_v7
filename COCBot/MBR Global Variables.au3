@@ -633,21 +633,15 @@ Global Enum $eTroopBarbarian, $eTroopArcher, $eTroopGiant, $eTroopGoblin, $eTroo
 		$eTroopWizard, $eTroopHealer, $eTroopDragon, $eTroopPekka, $eTroopBabyDragon, $eTroopMiner, $eTroopElectroDragon, $eTroopYeti, _
 		$eTroopMinion, $eTroopHogRider, $eTroopValkyrie, $eTroopGolem, $eTroopWitch, _
 		$eTroopLavaHound, $eTroopBowler, $eTroopIceGolem, $eTroopHeadhunter, $eTroopCount
-Global Const $g_asTroopNames[$eArmyCount] = [ _
-		"Barbarian", "Archer", "Giant", "Goblin", "Wall Breaker", "Balloon", "Wizard", "Healer", "Dragon", "Pekka", "Baby Dragon", _
-		"Miner", "Electro Dragon", "Yeti", "Minion", "Hog Rider", "Valkyrie", "Golem", "Witch", "Lava Hound", "Bowler", "Ice Golem", "Headhunter", _
-		"BK", "AQ", "GW", "RC", "Castle", "LSpell", "HSpell", "RSpell", "JSpell", "FSpell", "CSpell", "PSpell", "ESpell", "HaSpell", "SkSpell", _
-		"BtSpell", "WW", "BB", "SS", "SB", "SuperBarb", "SuperArcher", "SuperGiant", "SneakyGoblin", "SuperWall"]
-Global Const $g_asTroopNamesPlural[$eArmyCount] = [ _
-		"Barbarians", "Archers", "Giants", "Goblins", "Wall Breakers", "Balloons", "Wizards", "Healers", "Dragons", "Pekkas", "Baby Dragons", "Miners", _
-		"Electro Dragons", "Yeti", "Minions", "Hog Riders", "Valkyries", "Golems", "Witches", "Lava Hounds", "Bowlers", "Ice Golems", "Headhunters", _
-		"BK", "AQ", "GW", "RC", "Castle", "LSpell", "HSpell", "RSpell", "JSpell", "FSpell", "CSpell", "PSpell", "ESpell", "HaSpell", "SkSpell", _
-		"BtSpell", "WW", "BB", "SS", "SB", "SuperBarb", "SuperArcher", "SuperGiant", "SneakyGoblin", "SuperWall"]
-Global Const $g_asTroopShortNames[$eArmyCount] = [ _
+Global Const $g_asTroopNames[$eTroopCount] = [ _
+		"Barbarian", "Archer", "Giant", "Goblin", "Wall Breaker", "Balloon", "Wizard", "Healer", "Dragon", "Pekka", "Baby Dragon", "Miner", "Electro Dragon", "Yeti", _
+		"Minion", "Hog Rider", "Valkyrie", "Golem", "Witch", "Lava Hound", "Bowler", "Ice Golem", "Headhunter"]
+Global Const $g_asTroopNamesPlural[$eTroopCount] = [ _
+		"Barbarians", "Archers", "Giants", "Goblins", "Wall Breakers", "Balloons", "Wizards", "Healers", "Dragons", "Pekkas", "Baby Dragons", "Miners", "Electro Dragons", "Yeti", _
+		"Minions", "Hog Riders", "Valkyries", "Golems", "Witches", "Lava Hounds", "Bowlers", "Ice Golems", "Headhunters"]
+Global Const $g_asTroopShortNames[$eTroopCount] = [ _
 		"Barb", "Arch", "Giant", "Gobl", "Wall", "Ball", "Wiza", "Heal", "Drag", "Pekk", "BabyD", "Mine", "EDrag", "Yeti", _
-		"Mini", "Hogs", "Valk", "Gole", "Witc", "Lava", "Bowl", "IceG", "Hunt", "BK", "AQ", "GW", "RC", "Castle", "LSpell", _
-		"HSpell", "RSpell", "JSpell", "FSpell", "CSpell", "PSpell", "ESpell", "HaSpell", "SkSpell", _
-		"BtSpell", "WW", "BB", "SS", "SB", "SBarb", "SArch", "SGiant", "SGobl", "SWall"]
+		"Mini", "Hogs", "Valk", "Gole", "Witc", "Lava", "Bowl", "IceG", "Hunt"]
 
 Global Const $g_aiTroopSpace[$eTroopCount] = [ _
 		1, 1, 5, 1, 2, 5, 4, 14, 20, 25, 10, 6, 30, 18, _
@@ -697,24 +691,24 @@ Global Const $g_asSuperTroopNames[$eSuperTroopCount] = [ _
 		"Super Barbarian", "Archer", "Super Giant", "Sneaky Goblin", "Super Wall Breaker", "Balloon", "Wizard", "Healer", "Dragon", "Pekka", "Inferno Dragon", "Miner", "Electro Dragon", "Yeti", _
 		"Minion", "Hog Rider", "Valkyrie", "Golem", "Super Witch", "Lava Hound", "Bowler", "Ice Golem", "Headhunter"]
 
-Global Const $g_asSuperTroopNamesPlural[$eTroopCount] = [ _
+Global Const $g_asSuperTroopNamesPlural[$eSuperTroopCount] = [ _
 		"Super Barbarians", "Archers", "Super Giants", "Sneaky Goblins", "Super Wall Breakers", "Balloosn", "Wizards", "Healers", "Dragons", "Pekkas", "Inferno Dragons", "Miners", "Electro Dragons", "Yetis", _
 		"Minions", "Hog Riders", "Valkyries", "Golems", "Super Witches", "Lava Hounds", "Bowlers", "Ice Golems", "Headhunters"]
 
-Global Const $g_asSuperTroopShortNames[$eTroopCount] = [ _
+Global Const $g_asSuperTroopShortNames[$eSuperTroopCount] = [ _
 		"SuperBarb", "Archer", "SuperGiant", "SneakyGobl", "SuperWall", "Balloon", "Wizard", "Healer", "Dragon", "Pekka", "InfernoDrag", "Miner", "Electro Dragon", "Yeti", _
 		"Minion", "Hog Rider", "Valkyrie", "Golem", "SuperWitc", "Lava Hound", "Bowler", "Ice Golem", "Headhunter"]
 
-Global Const $g_aiSuperTroopSpace[$eTroopCount] = [ _
+Global Const $g_aiSuperTroopSpace[$eSuperTroopCount] = [ _
 		5, 1, 10, 3, 8, 5, 4, 14, 20, 25, 15, 6, 30, 18, _
 		2, 5, 8, 30, 40, 30, 6, 15, 6]
 
-Global Const $g_aiSuperTroopTrainTime[$eTroopCount] = [ _
+Global Const $g_aiSuperTroopTrainTime[$eSuperTroopCount] = [ _
         25, 24, 60, 21, 60, 120, 120, 480, 720, 720, 135, 120, 1440, 720, _
 		36, 90, 180, 600, 360, 600, 120, 180, 480]
 
 
-Global Const $g_aiSuperTroopCostPerLevel[$eTroopCount][11] = [ _
+Global Const $g_aiSuperTroopCostPerLevel[$eSuperTroopCount][11] = [ _
 		[9, -1, -1, -1, -1, -1, -1, -1, 1500, 1700], _ 			        ; Super Barbarian
 		[8, 50, 80, 120, 200, 300, 400, 500, 600], _ 			        ; Archer
 		[9, -1, -1, -1, -1, -1, -1, -1, -1, 9000], _ 	    		    ; Super Giant
