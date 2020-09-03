@@ -100,6 +100,10 @@ Func DropTroopFromINI($sDropVectors, $iStartIndex, $iEndIndex, $aiIndexArray, $i
 				SetDebugLog("Switching to $eSuperBarb: " & $eSuperBarb)
 				$iTroopIndex =  $eSuperBarb
 				$bSwitched = True
+			Case $eArch
+				SetDebugLog("Switching to $eSuperArch: " & $eSuperArch)
+				$iTroopIndex =  $eSuperArch
+				$bSwitched = True
 			Case $eGiant
 				SetDebugLog("Switching to $eSuperGiant: " & $eSuperGiant)
 				$iTroopIndex = $eSuperGiant

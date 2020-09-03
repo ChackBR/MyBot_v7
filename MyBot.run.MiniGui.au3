@@ -106,8 +106,8 @@ Global $g_hFrmBotEmbeddedMouse = 0
 #include "COCBot\functions\Other\UpdateStats.Mini.au3"
 #include "COCBot\functions\Other\_NumberFormat.au3"
 
-; MOD
-#include "COCBot\MOD\functions\Config\readConfig.au3"
+; MOD++
+;#include "COCBot\MOD\functions\Config\readConfig.au3"
 
 Global Enum $eBotUpdateStats = $eBotClose + 1
 

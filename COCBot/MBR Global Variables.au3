@@ -528,7 +528,6 @@ Global Const $g_sIcnMBisland = @ScriptDir & "\Images\bbico.png"
 Global Const $g_sIcnBldGold = @ScriptDir & "\Images\gold.png"
 Global Const $g_sIcnBldElixir = @ScriptDir & "\Images\elixir.png"
 Global Const $g_sIcnBldTrophy = @ScriptDir & "\Images\trophy.png"
-
 ; Improve GUI interactions by disabling bot window redraw
 Global $g_iRedrawBotWindowMode = 2 ; 0 = disabled, 1 = Redraw always entire bot window, 2 = Redraw only required bot window area (or entire bot if control not specified)
 
@@ -558,7 +557,7 @@ Global Enum $eIcnArcher = 1, $eIcnDonArcher, $eIcnBalloon, $eIcnDonBalloon, $eIc
 		$eIcnBattleB, $eIcnWallW, $eIcnSiegeCost, $eIcnBoostPotion, $eIcnBatSpell, $eIcnStoneS, $eIcnIceGolem, $eIcnStarLaboratory, $eIcnRagedBarbarian, $eIcnSneakyArcher, $eIcnBoxerGiant, $eIcnBetaMinion, _
 		$eIcnBomber, $eIcnBBBabyDragon, $eIcnCannonCart, $eIcnNightWitch, $eIcnDropShip, $eIcnSuperPekka, $eIcnBBWall01, $eIcnBBWall02, $eIcnBBWall03, $eIcnBBWall04, $eIcnBBWall05, $eIcnBBWall06, $eIcnBBWall07, $eIcnBBWall08, _
 		$eIcnWorkshopBoost, $eIcnStrongMan, $eIcnPowerPotion, $eIcnHogGlider, $eIcnYeti, $eIcnSiegeB, $eIcnChampion, $eIcnChampionUpgr, $eIcnChampionBoost, $eHdV13, $eIcnScattershot, $eIcnChampionBoostLocate, $eIcnTH13, $eWall14, _
-		$eIcnHeadhunter
+		$eIcnHeadhunter, $eIcnCollectAchievements
 Global $eIcnDonBlank = $eIcnDonBlacklist
 Global $eIcnOptions = $eIcnDonBlacklist
 Global $eIcnAchievements = $eIcnMain
@@ -618,7 +617,7 @@ Global Enum $eBarb, $eArch, $eGiant, $eGobl, $eWall, $eBall, $eWiza, $eHeal, $eD
 		$eKing, $eQueen, $eWarden, $eChampion, $eCastle, _ ; 23 to 27
 		$eLSpell, $eHSpell, $eRSpell, $eJSpell, $eFSpell, $eCSpell, $ePSpell, $eESpell, $eHaSpell, $eSkSpell, $eBtSpell, _ ; 28 to 38
 		$eWallW, $eBattleB, $eStoneS, $eSiegeB, _ ; 39 to 42
-		$eSuperBarb, $eSuperArcher, $eSuperGiant, $eSneakyGobl, $eSuperWall, $eSuperBall, $eSuperWiza, $eSuperHeal, $eSuperDrag, $eSuperPekk, $eInfernoDrag, $eSuperMine, $eSuperEDrag, $eSuperYeti, _ ;43 to 56
+		$eSuperBarb, $eSuperArch, $eSuperGiant, $eSneakyGobl, $eSuperWall, $eSuperBall, $eSuperWiza, $eSuperHeal, $eSuperDrag, $eSuperPekk, $eInfernoDrag, $eSuperMine, $eSuperEDrag, $eSuperYeti, _ ;43 to 56
 		$eSuperMini, $eSuperHogs, $eSuperValk, $eSuperGole, $eSuperWitc, $eSuperLava, $eSuperBowl, $eSuperIceG, $eSuperHunt, $eArmyCount ; 57 to 64, 65
 
 ;MsgBox(1,"", "SuperBarb: " & $eSuperBarb & @CRLF & "SneakyGoblin: " & $eSneakyGobl & @CRLF & "SuperHunt: " & $eSuperHunt)
@@ -688,29 +687,29 @@ Global Enum $eTroopSuperBarbarian, $eTroopSuperArcher, $eTroopSuperGiant, $eTroo
 		$eTroopSuperLavaHound, $eTroopSuperBowler, $eTroopSuperIceGolem, $eTroopSuperHeadhunter, $eSuperTroopCount
 
 Global Const $g_asSuperTroopNames[$eSuperTroopCount] = [ _
-		"Super Barbarian", "Archer", "Super Giant", "Sneaky Goblin", "Super Wall Breaker", "Balloon", "Wizard", "Healer", "Dragon", "Pekka", "Inferno Dragon", "Miner", "Electro Dragon", "Yeti", _
+		"Super Barbarian", "Super Archer", "Super Giant", "Sneaky Goblin", "Super Wall Breaker", "Balloon", "Wizard", "Healer", "Dragon", "Pekka", "Inferno Dragon", "Miner", "Electro Dragon", "Yeti", _
 		"Minion", "Hog Rider", "Valkyrie", "Golem", "Super Witch", "Lava Hound", "Bowler", "Ice Golem", "Headhunter"]
 
 Global Const $g_asSuperTroopNamesPlural[$eSuperTroopCount] = [ _
-		"Super Barbarians", "Archers", "Super Giants", "Sneaky Goblins", "Super Wall Breakers", "Balloosn", "Wizards", "Healers", "Dragons", "Pekkas", "Inferno Dragons", "Miners", "Electro Dragons", "Yetis", _
+		"Super Barbarians", "Super Archers", "Super Giants", "Sneaky Goblins", "Super Wall Breakers", "Balloosn", "Wizards", "Healers", "Dragons", "Pekkas", "Inferno Dragons", "Miners", "Electro Dragons", "Yetis", _
 		"Minions", "Hog Riders", "Valkyries", "Golems", "Super Witches", "Lava Hounds", "Bowlers", "Ice Golems", "Headhunters"]
 
 Global Const $g_asSuperTroopShortNames[$eSuperTroopCount] = [ _
-		"SuperBarb", "Archer", "SuperGiant", "SneakyGobl", "SuperWall", "Balloon", "Wizard", "Healer", "Dragon", "Pekka", "InfernoDrag", "Miner", "Electro Dragon", "Yeti", _
+		"SuperBarb", "SuperArch", "SuperGiant", "SneakyGobl", "SuperWall", "Balloon", "Wizard", "Healer", "Dragon", "Pekka", "InfernoDrag", "Miner", "Electro Dragon", "Yeti", _
 		"Minion", "Hog Rider", "Valkyrie", "Golem", "SuperWitc", "Lava Hound", "Bowler", "Ice Golem", "Headhunter"]
 
 Global Const $g_aiSuperTroopSpace[$eSuperTroopCount] = [ _
-		5, 1, 10, 3, 8, 5, 4, 14, 20, 25, 15, 6, 30, 18, _
+		5, 12, 10, 3, 8, 5, 4, 14, 20, 25, 15, 6, 30, 18, _
 		2, 5, 8, 30, 40, 30, 6, 15, 6]
 
 Global Const $g_aiSuperTroopTrainTime[$eSuperTroopCount] = [ _
-        25, 24, 60, 21, 60, 120, 120, 480, 720, 720, 135, 120, 1440, 720, _
+        25, 72, 60, 21, 60, 120, 120, 480, 720, 720, 135, 120, 1440, 720, _
 		36, 90, 180, 600, 360, 600, 120, 180, 480]
 
 
 Global Const $g_aiSuperTroopCostPerLevel[$eSuperTroopCount][11] = [ _
 		[9, -1, -1, -1, -1, -1, -1, -1, 1500, 1700], _ 			        ; Super Barbarian
-		[8, 50, 80, 120, 200, 300, 400, 500, 600], _ 			        ; Archer
+		[9, -1, -1, -1, -1, -1, -1, -1, 7200, 8400], _ 			        ; Super Archer
 		[9, -1, -1, -1, -1, -1, -1, -1, -1, 9000], _ 	    		    ; Super Giant
 		[8, -1, -1, -1, -1, -1, -1, 600, 750], _ 				 	    ; Sneaky Goblin
 		[9, -1, -1, -1, -1, -1, -1, 7200, 8000, 8800], _                ; Super WallBreaker
@@ -1242,8 +1241,8 @@ Global $g_iPercentageDamage = 0
 ; <<< nothing here - all in common Search & Attack grouping >>>
 
 ; <><><><> Attack Plan / Search & Attack / Deadbase / Collectors <><><><>
-Global $g_abCollectorLevelEnabled[14] = [-1, -1, -1, -1, -1, -1, True, True, True, True, True, True, True, True] ; elements 0 thru 5 are never referenced
-Global $g_aiCollectorLevelFill[14] = [-1, -1, -1, -1, -1, -1, 1, 1, 1, 1, 1, 1, 1, 1] ; elements 0 thru 5 are never referenced
+Global $g_abCollectorLevelEnabled[15] = [-1, -1, -1, -1, -1, -1, True, True, True, True, True, True, True, True, True] ; elements 0 thru 5 are never referenced
+Global $g_aiCollectorLevelFill[15] = [-1, -1, -1, -1, -1, -1, 1, 1, 1, 1, 1, 1, 1, 1, 1] ; elements 0 thru 5 are never referenced
 Global $g_bCollectorFilterDisable = False
 Global $g_iCollectorMatchesMin = 3
 Global $g_iCollectorToleranceOffset = 0
@@ -1546,12 +1545,12 @@ Global Const $g_aaiEdgeDropPoints[4] = [$g_aaiBottomRightDropPoints, $g_aaiTopLe
 Global Const $g_aiUseAllTroops[$eArmyCount - 1] = [$eBarb, $eArch, $eGiant, $eGobl, $eWall, $eBall, $eWiza, $eHeal, $eDrag, $ePekk, $eBabyD, $eMine, $eEDrag, $eYeti, $eMini, $eHogs, $eValk, $eGole, $eWitc, $eLava, $eBowl, $eIceG, $eHunt, _
 									  $eKing, $eQueen, $eWarden, $eChampion, $eCastle, _
                                       $eLSpell, $eHSpell, $eRSpell, $eJSpell, $eFSpell, $eCSpell, $ePSpell, $eESpell, $eHaSpell, $eBtSpell, $eWallW, $eBattleB, $eStoneS, $eSiegeB, _
-									  $eSuperBarb, $eSuperGiant, $eSneakyGobl, $eSuperWall, $eSuperBall, $eSuperWiza, $eSuperHeal, $eSuperDrag, $eSuperPekk, $eInfernoDrag, _
+									  $eSuperBarb, $eSuperArch, $eSuperGiant, $eSneakyGobl, $eSuperWall, $eSuperBall, $eSuperWiza, $eSuperHeal, $eSuperDrag, $eSuperPekk, $eInfernoDrag, _
 									  $eSuperMine, $eSuperEDrag, $eSuperYeti, $eSuperMini, $eSuperHogs, $eSuperValk, $eSuperGole, $eSuperWitc, $eSuperLava, $eSuperBowl, _
 									  $eSuperIceG, $eSuperHunt]
-Global Const $g_aiUseBarracks[34] = [$eBarb, $eArch, $eGiant, $eGobl, $eWall, $eBall, $eWiza, $eHeal, $eDrag, $ePekk, $eBabyD, $eMine, $eEDrag, $eYeti, _
+Global Const $g_aiUseBarracks[35] = [$eBarb, $eArch, $eGiant, $eGobl, $eWall, $eBall, $eWiza, $eHeal, $eDrag, $ePekk, $eBabyD, $eMine, $eEDrag, $eYeti, _
 									 $eKing, $eQueen, $eWarden, $eChampion, $eCastle, $eLSpell, $eHSpell, $eRSpell, $eJSpell, $eFSpell, $eCSpell, $ePSpell, $eESpell, $eHaSpell, $eSkSpell, $eBtSpell, _
-									 $eSuperBarb, $eSuperGiant, $eSneakyGobl, $eSuperWall]
+									 $eSuperBarb, $eSuperArch, $eSuperGiant, $eSneakyGobl, $eSuperWall]
 Global Const $g_aiUseBarbs[18] = [$eBarb, $eKing, $eQueen, $eWarden, $eChampion, $eCastle, $eLSpell, $eHSpell, $eRSpell, $eJSpell, $eFSpell, $eCSpell, $ePSpell, $eESpell, $eHaSpell, $eSkSpell, $eBtSpell, $eSuperBarb]
 Global Const $g_aiUseArchs[17] = [$eArch, $eKing, $eQueen, $eWarden, $eChampion, $eCastle, $eLSpell, $eHSpell, $eRSpell, $eJSpell, $eFSpell, $eCSpell, $ePSpell, $eESpell, $eHaSpell, $eSkSpell, $eBtSpell]
 Global Const $g_aiUseBarcher[19] = [$eBarb, $eArch, $eKing, $eQueen, $eWarden, $eChampion, $eCastle, $eLSpell, $eHSpell, $eRSpell, $eJSpell, $eFSpell, $eCSpell, $ePSpell, $eESpell, $eHaSpell, $eSkSpell, $eBtSpell, $eSuperBarb]
@@ -1850,6 +1849,10 @@ Global $g_bChkClanGamesEnabled = 0
 Global $g_bChkClanGames60 = 0
 Global $g_bChkClanGamesLoot = 0
 Global $g_bChkClanGamesBattle = 0
+
+global $g_bChkClanGamesSpell = 0
+global $g_bChkClanGamesSuperTroop = 0
+
 Global $g_bChkClanGamesDestruction = 0
 Global $g_bChkClanGamesAirTroop = 0
 Global $g_bChkClanGamesGroundTroop = 0
@@ -1861,6 +1864,10 @@ Global $g_iPurgeJobCount[8] = [0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_iPurgeMax = 5 ; [0] is unlimited , 1-10
 
 Global $g_sClanGamesScore = "N/A", $g_sClanGamesTimeRemaining = "N/A"
+
+
+; Collect Achievement Rewards
+Global $g_bChkCollectAchievements = True
 
 ; Collect Free Magic Items
 Global $g_bChkCollectFreeMagicItems = True

@@ -706,7 +706,7 @@ EndFunc   ;==>MainLoop
 
 Func runBot() ;Bot that runs everything in order
 	Local $iWaitTime
-
+	
 	InitiateSwitchAcc()
 	If ProfileSwitchAccountEnabled() And $g_bReMatchAcc Then
 		SetLog("Rematching Account [" & $g_iNextAccount + 1 & "] with Profile [" & GUICtrlRead($g_ahCmbProfile[$g_iNextAccount]) & "]")
@@ -758,7 +758,6 @@ Func runBot() ;Bot that runs everything in order
 			EndIf
 			If _Sleep($DELAYRUNBOT5) Then Return
 			checkMainScreen(False)
-			If $g_bRestart Then ContinueLoop
 
 			; *-------------------------------*
 			; Request CC Troops at first MOD++
@@ -769,7 +768,8 @@ Func runBot() ;Bot that runs everything in order
 				If Not _Sleep($DELAYRUNBOT1) Then checkMainScreen(False)
 			EndIf
 
-			Local $aRndFuncList = ['LabCheck', 'Collect', 'CheckTombs', 'CleanYard', 'CollectFreeMagicItems', 'DailyChallenge', 'BoostSuperTroop']
+			If $g_bRestart Then ContinueLoop
+			Local $aRndFuncList = ['LabCheck', 'Collect', 'CheckTombs', 'CleanYard', 'CollectAchievements', 'CollectFreeMagicItems', 'DailyChallenge', 'BoostSuperTroop']
 			_ArrayShuffle($aRndFuncList)
 			For $Index In $aRndFuncList
 				If Not $g_bRunState Then Return
@@ -1237,6 +1237,8 @@ Func __RunFunction($action)
 				$g_bStayOnBuilderBase = False
 			EndIf
 			_Sleep($DELAYRUNBOT3)
+		Case "CollectAchievements"
+			CollectAchievements()
 		Case "CollectFreeMagicItems"
 			CollectFreeMagicItems()
 			_Sleep($DELAYRUNBOT3)
@@ -1261,6 +1263,22 @@ Func FirstCheck()
 	$g_bFullArmy = False
 	$g_iCommandStop = -1
 
+	;;;;;Check Town Hall level
+	Local $iTownHallLevel = $g_iTownHallLevel
+	SetDebugLog("Detecting Town Hall level", $COLOR_INFO)
+	SetDebugLog("Town Hall level is currently saved as " &  $g_iTownHallLevel, $COLOR_INFO)
+	imglocTHSearch(False, True, True)
+	SetDebugLog("Detected Town Hall level is " &  $g_iTownHallLevel, $COLOR_INFO)
+	If $g_iTownHallLevel = $iTownHallLevel Then
+		SetDebugLog("Town Hall level has not changed", $COLOR_INFO)
+	Else
+		SetDebugLog("Town Hall level has changed!", $COLOR_INFO)
+		SetDebugLog("New Town hall level detected as " &  $g_iTownHallLevel, $COLOR_INFO)
+		saveConfig()
+		applyConfig()
+	EndIf
+	;;;;;;;;;;;;;;;;;;;;;;;;;;
+	
 	VillageReport()
 	If Not $g_bRunState Then Return
 
