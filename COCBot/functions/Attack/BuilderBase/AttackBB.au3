@@ -21,8 +21,12 @@ Func AttackBB()
 	ClickAway()
 	SetLog("Going to attack.", $COLOR_BLUE)
 
+	;-------------------------------------------------
+	; MOD++
 	; check for troops, loot and Batlle Machine
-	If Not PrepareAttackBB() Then Return
+	;-------------------------------------------------
+	$g_bAtkBB_Loop________ = PrepareAttackBB()
+	If Not $g_bAtkBB_Loop________ Then Return
 	SetDebugLog("PrepareAttackBB(): Success.")
 
 	; search for a match
