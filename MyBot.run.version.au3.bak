@@ -64,4 +64,4 @@ Global $g_sModversion
 ; "r01" ; MyBot v7.8.4 Light: DEB + Max Logout Time + BB Loop + June/2020 LSpeel Fix + Dark Drill Costs
 ; "r01" ; MyBot v7.8.5 Light: DEB + Max Logout Time + BB Loop + June/2020 LSpeel Fix + Dark Drill Costs
 
-$g_sModversion = "r01" ; MyBot v7.8.6 Light: DEB + Max Logout Time + BB Loop
+$g_sModversion = "r01" ; MyBot v7.8.6 Light: DEB + Max Logout Time + BB Loop + June/2020 LSpeel Fix + Dark Drill Costs
