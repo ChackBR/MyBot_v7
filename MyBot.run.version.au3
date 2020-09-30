@@ -15,11 +15,11 @@
 #pragma compile(Icon, "Images\MyBot.ico")
 #pragma compile(FileDescription, Clash of Clans Bot - A Free Clash of Clans bot - https://mybot.run)
 #pragma compile(ProductVersion, 7.8)
-#pragma compile(FileVersion, 7.8.6)
+#pragma compile(FileVersion, 7.8.7)
 #pragma compile(LegalCopyright, © https://mybot.run)
 #Au3Stripper_On
 
-Global $g_sBotVersion = "v7.8.6" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it is also used in Checkversion()
+Global $g_sBotVersion = "v7.8.7" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it is also used in Checkversion()
 
 Global $g_sModversion
 
@@ -63,5 +63,6 @@ Global $g_sModversion
 ; "r01" ; MyBot v7.8.3 Light: DEB + Max Logout Time + BB Loop + Legends SwitchAccount
 ; "r01" ; MyBot v7.8.4 Light: DEB + Max Logout Time + BB Loop + June/2020 LSpeel Fix + Dark Drill Costs
 ; "r01" ; MyBot v7.8.5 Light: DEB + Max Logout Time + BB Loop + June/2020 LSpeel Fix + Dark Drill Costs
+; "r01" ; MyBot v7.8.6 Light: DEB + Max Logout Time + BB Loop + June/2020 LSpeel Fix + Dark Drill Costs
 
-$g_sModversion = "r01" ; MyBot v7.8.6 Light: DEB + Max Logout Time + BB Loop
+$g_sModversion = "r01" ; MyBot v7.8.7 Light: DEB + Max Logout Time + BB Loop

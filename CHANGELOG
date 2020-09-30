@@ -1,4 +1,28 @@
-﻿* **V7.8.4**
+* **V7.8.7**
+* Additional fixes to village measuring 
+
+* **V7.8.6**
+* Added additional error handling to the ZoomOut function
+* Add handling for End Boost pop-up when Auto Upgrading
+* Add scroll bar to switch profiles dropdown boxes
+* Fix Click $speed parameter ignored by bot if passed when calling the function (reported by  Boldina)
+* Update Lab upgrade Lightening Spell (reported by @Boldina)
+* Fix village measuring errors due to scenery changes
+
+* **V7.8.5**
+* Fix Clangames air troop challenge typo. Reported and found by @MyBotIvan 
+* Add scroll bar to profiles combobox
+* Fix Troops Array!
+* Add scroll bar to profiles combobox
+* Correct auto switch wall level
+* Add additional check for missing images
+* Update lightening image
+* Add function 'Collect Achievement Rewards'
+* Update mine level 14, collector level 14 and drill level 8
+* Siege machine hidden on train tab - reported by @ydoyoudothis
+* Add Automatic Town Hall level update to FirstCheck
+
+**V7.8.4**
 * Add New Donation System!
 * Fix lightning spell detection (Summer 2020 Update. Reported by @grumpyhog)
 * Fix lightning spell space (Summer 2020 Update)
@@ -22,6 +46,9 @@
 * Fix array error on spells queue read
 * Add GUI option to sell all extra magic items for gems in personal challenges
 * More work on SuperTroops use in CSV attacks.  (Needs more testing with more troop types)
+* Fixed Global vars for SuperTroops by @TFKNazgul
+* Fixed SuperTroops CSV support by @Grumpyhog
+* Smartfarm support for SuperTroops by @Grumpyhog
 
 * **V7.8.3**
 * Add Super Troops Training and Attacking (Spring 2020 Update) - Not Complete
