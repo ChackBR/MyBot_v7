@@ -513,10 +513,12 @@ Func CreateMiscClanGamesV3SubTab()
 		$g_hChkClanGamesLoot = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGamesLoot", "Loot Challenges"), $x, $y, -1, -1)
 		; Mod++
 		GUICtrlSetState(-1, $GUI_CHECKED)
+		$g_hChkClanGamesSuperTroop = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanSuperTroop", "SuperTroop Challenges"), $x + 130, $y, -1, -1)
 	$y += 25
 		$g_hChkClanGamesBattle = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGamesBattle", "Battle Challenges"), $x, $y, -1, -1)
 		; Mod++
 		GUICtrlSetState(-1, $GUI_CHECKED)
+		$g_hChkClanGamesSpell = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGamesSpell", "Spell Challenges"), $x + 130, $y, -1, -1)
 	$y += 25
 		$g_hChkClanGamesDestruction = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGamesDestruction", "Destruction Challenges"), $x, $y, -1, -1)
 		; Mod++
