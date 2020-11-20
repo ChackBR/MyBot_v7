@@ -2,18 +2,18 @@ NOTE  |Author: v2.1.1 by Chack++
 NOTE  |[01.07.2020] External Edges, Heroes on Sides
 NOTE  |TH 11 ***
 NOTE  |Train: 9 Dragons, 1 E-Drag, 10 Balloon, 7 BatSpell, 2 Rage, in CC 1 Rage and Balloons
-NOTE  |TH 12~13
+NOTE  |TH 12
 NOTE  |Train: 9 Dragons, 1 E-Drag, 14 Balloon, 7 BatSpell, 2 Rage, in CC 1 Rage and Balloons
-NOTE  |
-NOTE  |Script work on "EXTERNAL EDGES"
-      |                                                                                                                       |
+NOTE  |TH 13
+NOTE  |Train: 9 Dragons, 2 E-Drag, 12 Balloon, 7 BatSpell, 2 Rage, in CC 1 Rage and Balloons
+NOTE  |*Script work on "EXTERNAL EDGES"
       |------------------------------------------------DragonBat Start--------------------------------------------------------|
       |                                                Chack++                                                                |
       |                                                                                                                       |
       |_TROOPNAME_|__FLEXIBLE_|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|
 TRAIN |Drag       |0          |0          |0          |0          |0          |0          |9          |9          |9          |
-TRAIN |EDrag      |0          |0          |0          |0          |0          |0          |1          |1          |1          |
-TRAIN |Ball       |0          |0          |0          |0          |0          |0          |10         |14         |14         |
+TRAIN |EDrag      |0          |0          |0          |0          |0          |0          |1          |1          |2          |
+TRAIN |Ball       |0          |0          |0          |0          |0          |0          |10         |14         |12         |
       |                                                                                                                       |
 TRAIN |BtSpell    |0          |0          |0          |0          |0          |0          |7          |7          |7          |
 TRAIN |RSpell     |0          |0          |0          |0          |0          |0          |1          |1          |1          |

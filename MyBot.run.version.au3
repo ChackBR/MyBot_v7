@@ -29,7 +29,6 @@ Global $g_sModversion
 ; "2605" ; MyBot v6.5.2 + Sinc with Samkie MultiFinger
 ; "2614" ; MyBot v6.5.3 + Doc Octopus v3.5.5 + Collectors Outside
 ; "2702" ; MyBot v7.0.1 + Add CSV Test Button
-; "2811" ; MyBot v7.1.4 + Demen SwitchAcc
 ; "2812" ; MyBot v7.1.4 + Add: Multi-Finger
 ; "2901" ; MyBot v7.2.0 + Demen SwitchAcc + MF
 ; "2903" ; MyBot v7.2.0 + SwitchAcc + MF + Speed Mod + Fix Profile
@@ -38,32 +37,12 @@ Global $g_sModversion
 ; "r01" - MyBot v7.3.5 + S&E MOD
 ; "r01" ; MyBot v7.4.4 + S&E: FFC + DEB + SartTrain + Fast Click Donate ( while using QuickTrain ) + CCO
 ; "r01" ; MyBot v7.5.0 + S&E: FFC + DEB + SartTrain + Fast Click Donate ( while using QuickTrain ) + CCO
-; "r01" ; MyBot v7.5.1 + S&E: FFC + DEB + SartTrain + Fast Click Donate ( while using QuickTrain ) + CCO
 ; "r01" ; MyBot v7.5.4 + S&E: FFC + DEB + SamrtTrain + Fast Click Donate ( while using QuickTrain ) + CCO + ...
 ; "r01" ; MyBot v7.6.0 Light: FFC + DEB + Fast Click Donate ( while using QuickTrain ) + Bot Fixes
-; "r01" ; MyBot v7.6.1 Light: FFC + DEB + Fast Click Donate ( while using QuickTrain ) + Siege Fix + Don't retype txt + BH Drop Trophy
-; "r01" ; MyBot v7.6.2 Light: FFC + DEB + Fast Click Donate ( while using QuickTrain ) + Siege Fix + Don't retype txt + BH Drop Trophy
-; "r01" ; MyBot v7.6.3 Light: DEB + DRRTxt + BB Play + Fixes
-; "r01" ; MyBot v7.6.4 Light: DEB + DRRTxt + BB Play + Fixes
-; "r01" ; MyBot v7.6.5 Light: DEB + DRRTxt + BB Play +Fix Request/Donate Siege + Fix Rage Speel Detection + Use any siege available
-; "r01" ; MyBot v7.6.6 Light: DEB + DRRTxt + BB Play + Use any siege received available
-; "r02" ; MyBot v7.6.6 Light: DEB + DRRTxt + BB Play + Use any siege received available + Fix for remaining CSV Troops
 ; "r03" ; MyBot v7.6.6 Light: DEB + DRRTxt + BB Play + Use any siege received available + Max LogOut Time
 ; "r04" ; MyBot v7.7.0 Light: DEB + DRRTxt + BB Play + Use any siege received + Max Logout Time
-; "r05" ; MyBot v7.7.3 Light: DEB + DRRTxt + BB Play + Use any siege received + Max Logout Time + Fix Bugs
-; "r06" ; MyBot v7.7.5 Light: DEB + DRRTxt + BB Play + Use any siege received + Max Logout Time + Fix Bugs
-; "r07" ; MyBot v7.7.6 Light: DEB + DRRTxt + BB Play + Use any siege received + Max Logout Time + Fix Bugs
-; "r08" ; MyBot v7.7.6 Light: DEB + DRRTxt + BB Play + Use any siege received + Max Logout Time + Fix Bugs + June Temp Fix
-; "r11" ; MyBot v7.7.7 Light: DEB + DRRTxt + BB Play + Use any siege received + Max Logout Time + Fix Bugs + June Temp Fix
-; "r05" ; MyBot v7.7.8 Light: DEB + DRRTxt + BB Play + Use any siege received + Max Logout Time + Fix SwitchAcc for Legends (at end leagle day)
 ; "r03" ; MyBot v7.7.9 Light: DEB + DRRTxt + BB Play + Max Logout Time + Temp Fix QT and SwitchAccount
 ; "r03" ; MyBot v7.8   Light: DEB + DRRTxt + BB Play + Max Logout Time + Temp Fix QT and SwitchAccount
-; "r02" ; MyBot v7.8.1 Light: DEB + DRRTxt + Max Logout Time + BB Loop + Legends SwitchAccount
-; "r07" ; MyBot v7.8.2 Light: DEB + DRRTxt + Max Logout Time + BB Loop + Legends SwitchAccount + April 2020
-; "r01" ; MyBot v7.8.3 Light: DEB + Max Logout Time + BB Loop + Legends SwitchAccount
-; "r01" ; MyBot v7.8.4 Light: DEB + Max Logout Time + BB Loop + June/2020 LSpeel Fix + Dark Drill Costs
-; "r01" ; MyBot v7.8.5 Light: DEB + Max Logout Time + BB Loop + June/2020 LSpeel Fix + Dark Drill Costs
-; "r01" ; MyBot v7.8.6 Light: DEB + Max Logout Time + BB Loop + June/2020 LSpeel Fix + Dark Drill Costs
 ; "r01" ; MyBot v7.8.7 Light: DEB + Max Logout Time + BB Loop
 
-$g_sModversion = "r01" ; MyBot v7.8.8 Light: DEB + Max Logout Time + BB Loop
+$g_sModversion = "r02" ; MyBot v7.8.8 Light: DEB + Max Logout Time + BB Loop
