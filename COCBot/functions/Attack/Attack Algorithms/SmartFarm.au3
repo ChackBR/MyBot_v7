@@ -521,7 +521,7 @@ Func AttackSmartFarm($Nside, $SIDESNAMES)
 	$g_iSlotsGiants = 0
 	; Giants quantities
 	For $i = 0 To UBound($g_avAttackTroops) - 1
-		If $g_avAttackTroops[$i][0] = $eGiant Then
+		If $g_avAttackTroops[$i][0] = $eGiant Or $g_avAttackTroops[$i][0] = $eSuperGiant Then
 			$GiantComp = $g_avAttackTroops[$i][1]
 		EndIf
 	Next
@@ -574,7 +574,6 @@ Func AttackSmartFarm($Nside, $SIDESNAMES)
 				, [$eGiant, $nbSides, 1, 1, $g_iSlotsGiants] _
 				, [$eSuperGiant, $nbSides, 1, 1, $g_iSlotsGiants] _
 				, [$eDrag, $nbSides, 1, 1, 0] _
-				, ["CC", 1, 1, 1, 1] _
 				, [$eBall, $nbSides, 1, 1, 0] _
 				, [$eSuperBall, $nbSides, 1, 1, 0] _
 				, [$eBabyD, $nbSides, 1, 1, 0] _
@@ -603,6 +602,7 @@ Func AttackSmartFarm($Nside, $SIDESNAMES)
 				, [$ePekk, $nbSides, 1, 1, 1] _
 				, [$eYeti, $nbSides, 1, 1, 1] _
 				, [$eHunt, $nbSides, 1, 1, 0] _
+				, ["CC", 1, 1, 1, 1] _
 				, ["HEROES", 1, 2, 1, 1] _
 				]
 	EndIf
