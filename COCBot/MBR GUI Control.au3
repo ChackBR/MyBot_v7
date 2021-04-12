@@ -130,9 +130,12 @@ Func InitializeMainGUI($bGuiModeUpdate = False)
 
 	; Register Windows Procedure to support Mouse and Keyboard in docked mode
 	$g_hFrmBot_WNDPROC_ptr = DllCallbackGetPtr(DllCallbackRegister("frmBot_WNDPROC", "ptr", "hwnd;uint;long;ptr"))
+
+
 	cmbDBAlgorithm()
 	cmbABAlgorithm()
 	SetAccelerators()
+
 EndFunc   ;==>InitializeMainGUI
 
 Func SetCriticalMessageProcessing($bEnterCritical = Default)
