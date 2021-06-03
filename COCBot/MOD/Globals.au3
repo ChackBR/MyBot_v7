@@ -34,3 +34,8 @@ Global $g_iChkAutoCamp = True
 ; --------------------------------------------
 Global $g_bTrainLogoutMaxTime = False
 Global $g_iTrainLogoutMaxTime = 12
+
+; --------------------------------------------
+; Don't remove extra troops
+; --------------------------------------------
+Global $g_DEBDoubleCheck = 0

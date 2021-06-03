@@ -51,7 +51,7 @@ Func QuickTrain()
 			If $bDebug Then SetLog($iStep & ". RemoveExtraTroopsQueue()", $COLOR_DEBUG)
 			If _Sleep(250) Then Return
 			$iStep += 1
-			If $iStep = 6 Then ExitLoop
+			If $iStep > 1 Then ExitLoop
 			ContinueLoop
 
 		ElseIf $avTroopCamp[0] <= $avTroopCamp[1] * 2 Then ; 421-560/560
@@ -63,7 +63,7 @@ Func QuickTrain()
 				If $bDebug Then SetLog($iStep & ". RemoveExtraTroopsQueue()", $COLOR_DEBUG)
 				If _Sleep(250) Then Return
 				$iStep += 1
-				If $iStep = 6 Then ExitLoop
+				If $iStep > 1 Then ExitLoop
 				ContinueLoop
 			EndIf
 		EndIf
@@ -127,7 +127,7 @@ Func QuickTrain()
 					RemoveExtraTroopsQueue()
 					If _Sleep(500) Then Return
 					$Step += 1
-					If $Step = 6 Then ExitLoop
+					If $Step > 1 Then ExitLoop
 					ContinueLoop
 				EndIf
 
@@ -161,7 +161,7 @@ Func QuickTrain()
 				RemoveExtraTroopsQueue()
 				If _Sleep(500) Then Return
 				$iStep += 1
-				If $iStep = 6 Then ExitLoop
+				If $iStep > 1 Then ExitLoop
 				ContinueLoop
 
 			EndIf

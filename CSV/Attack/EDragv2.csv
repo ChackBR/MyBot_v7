@@ -3,8 +3,32 @@ NOTE  | TH12 / TH13: 7 ElectroDragon, 14 Balloon, wall wreckers,
 NOTE  | TH11: 7 ElectroDragon, 10 Balloon, wall wreckers in CC,
 NOTE  | Spells: 5 Rage, 1 Freeze,,
 NOTE  | CC: Balloon and rage,,,
-,,,
-,,,
+NOTE  |
+NOTE  |Script work on "EXTERNAL EDGES"
+      |                                                                                                                                   |
+      |------------------------------------------------ElectroLoon Start------------------------------------------------------------------|
+      |                                                                                                                                   |
+      |_TROOPNAME_|__FLEXIBLE_|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|
+TRAIN |EDrag      |0          |0          |0          |0          |0          |0          |7          |7          |7          |8          |
+TRAIN |BabyD      |0          |0          |0          |0          |0          |0          |1          |1          |1          |1          |
+TRAIN |Ball       |0          |0          |0          |0          |0          |0          |8          |8          |12         |10         |
+      |                                                                                                                                   |
+TRAIN |BtSpell    |0          |0          |0          |0          |0          |0          |5          |5          |7          |5          |
+TRAIN |RSpell     |0          |0          |0          |0          |0          |0          |2          |2          |2          |3          |
+      |                                                                                                                       |
+      |_TROOPNAME_|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|
+TRAIN |King       |0          |0          |0          |0          |0          |0          |1          |1          |1          |1          |
+TRAIN |Queen      |0          |0          |0          |0          |0          |0          |1          |1          |1          |1          |
+TRAIN |Warden     |0          |0          |0          |0          |0          |0          |1          |1          |1          |1          |
+TRAIN |Champion   |0          |0          |0          |0          |0          |0          |0          |0          |1          |1          |
+      |                                                                                                                                   |
+      |___________|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|
+REDLN |0          |0          |0          |0          |0          |0          |0          |4          |4          |4          |4          |
+DRPLN |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |
+      |                                                                                                                                   |
+      |___________|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|
+CCREQ |           |           |           |           |           |           |           |Ball   Rage|Ball   Rage|Ball   Rage|Ball   BatS|
+      |                                                                                                                                   |
       |EXTR. GOLD |EXTR.ELIXIR|EXTR. DARK |DEPO. GOLD |DEPO.ELIXIR|DEPO. DARK |TOWNHALL   |FORCED SIDE|,,,
 SIDE  |           |           |           |           |           |0          |0         |           |,,,
       |EAGLE      |INFERNO    |XBOW       |WIZTOWER   |MORTAR |AIRDEFENSE     |GEMBOX     |GEMBOX     |,,,
