@@ -562,21 +562,28 @@ Func RemoveExtraTroopsQueue() ; Will remove All Extra troops in queue If there's
 
 	Local Const $y = 186, $yRemoveBtn = 200, $xDecreaseRemoveBtn = 10
 	Local $bColorCheck = False, $bGotRemoved = False
-	For $x = 834 To 58 Step -70
-		If Not $g_bRunState Then Return
-		$bColorCheck = _ColorCheck(_GetPixelColor($x, $y, True), Hex(0xD7AFA9, 6), 20)
-		If $bColorCheck Then
-			$bGotRemoved = True
-			Do
-				Click($x - $xDecreaseRemoveBtn, $yRemoveBtn, 2, $g_iTrainClickDelay)
-				If _Sleep(20) Then Return
-				$bColorCheck = _ColorCheck(_GetPixelColor($x, $y, True), Hex(0xD7AFA9, 6), 20)
-			Until $bColorCheck = False
 
-		ElseIf Not $bColorCheck And $bGotRemoved Then
-			ExitLoop
-		EndIf
-	Next
+	; MOD++
+	If $g_DEBDoubleCheck < 9 Then 
+		$g_DEBDoubleCheck += 1
+	Else
+		$g_DEBDoubleCheck = 0
+		For $x = 834 To 58 Step -70
+			If Not $g_bRunState Then Return
+			$bColorCheck = _ColorCheck(_GetPixelColor($x, $y, True), Hex(0xD7AFA9, 6), 20)
+			If $bColorCheck Then
+				$bGotRemoved = True
+				Do
+					Click($x - $xDecreaseRemoveBtn, $yRemoveBtn, 2, $g_iTrainClickDelay)
+					If _Sleep(20) Then Return
+					$bColorCheck = _ColorCheck(_GetPixelColor($x, $y, True), Hex(0xD7AFA9, 6), 20)
+				Until $bColorCheck = False
+
+			ElseIf Not $bColorCheck And $bGotRemoved Then
+				ExitLoop
+			EndIf
+		Next
+	EndIf ; MOD++
 
 	Return True
 EndFunc   ;==>RemoveExtraTroopsQueue
