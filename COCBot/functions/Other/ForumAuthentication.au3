@@ -173,6 +173,7 @@ Func ForumAuthentication()
 
 		EndIf
 	EndIf
+
 	Return $bOk
 #ce
 EndFunc   ;==>ForumAuthentication
