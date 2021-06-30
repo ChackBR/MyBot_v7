@@ -1,4 +1,4 @@
-; #FUNCTION# ====================================================================================================================
+﻿; #FUNCTION# ====================================================================================================================
 ; Name ..........: MBR Bot
 ; Description ...: This file contains the initialization and main loop sequences f0r the MBR Bot
 ; Author ........:  (2014)
@@ -64,6 +64,7 @@ InitializeBot()
 MainLoop(CheckPrerequisites())
 
 Func UpdateBotTitle()
+	; MOD++
 	Local $sTitle = "My Bot " & $g_sBotVersion & "." & $g_sModversion & " -"
 	Local $sConsoleTitle ; Console title has also Android Emulator Name
 	If $g_sBotTitle = "" Then
@@ -707,7 +708,8 @@ EndFunc   ;==>MainLoop
 Func runBot() ;Bot that runs everything in order
 	Local $iWaitTime
 
-	$g_DEBDoubleCheck = 0 ; MOD++
+	; MOD++
+	$g_DEBDoubleCheck = 0
 
 	InitiateSwitchAcc()
 	If ProfileSwitchAccountEnabled() And $g_bReMatchAcc Then
@@ -1335,6 +1337,7 @@ Func BuilderBase()
 		If _Sleep($DELAYRUNBOT3) Then Return
 		If checkObstacles() Then Return
 
+		; MOD++
 		If $g_bChkEnableBBAttack Then
 			$g_bAtkBB_Loop________ = True
 			While $g_bAtkBB_Loop________

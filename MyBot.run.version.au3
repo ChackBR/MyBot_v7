@@ -15,11 +15,11 @@
 #pragma compile(Icon, "Images\MyBot.ico")
 #pragma compile(FileDescription, Clash of Clans Bot - A Free Clash of Clans bot - https://mybot.run)
 #pragma compile(ProductVersion, 7.9)
-#pragma compile(FileVersion, 7.9.4)
+#pragma compile(FileVersion, 7.9.5)
 #pragma compile(LegalCopyright, © https://mybot.run)
 #Au3Stripper_On
 
-Global $g_sBotVersion = "v7.9.4" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it is also used in Checkversion()
+Global $g_sBotVersion = "v7.9.5" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it is also used in Checkversion()
 
 Global $g_sModversion
 
@@ -50,5 +50,6 @@ Global $g_sModversion
 ; "r01" ; MyBot v7.9.1 Light: DEB + Max Logout Time + BB Loop
 ; "r01" ; MyBot v7.9.2 Light: DEB + Max Logout Time + BB Loop
 ; "r01" ; MyBot v7.9.3 Light: DEB + Max Logout Time + BB Loop
+; "r01" ; MyBot v7.9.4 Light: DEB + Max Logout Time + BB Loop
  
-$g_sModversion = "r01" ; MyBot v7.9.4 Light: DEB + Max Logout Time + BB Loop
+$g_sModversion = "r01" ; MyBot v7.9.5 Light: DEB + Max Logout Time + BB Loop
