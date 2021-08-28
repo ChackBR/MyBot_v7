@@ -15,19 +15,21 @@
 
 Func AttackBB()
 	If Not $g_bChkEnableBBAttack Then Return
+	If Not $g_bRunState Then Return ; Stop Button
 
 	local $iSide = Random(0, 1, 1) ; randomly choose top left or top right
 	local $aBMPos = 0
 	ClickAway()
 	SetLog("Going to attack.", $COLOR_BLUE)
 
-	;-------------------------------------------------
-	; MOD++
 	; check for troops, loot and Batlle Machine
-	;-------------------------------------------------
+
+	; MOD++
 	$g_bAtkBB_Loop________ = PrepareAttackBB()
 	If Not $g_bAtkBB_Loop________ Then Return
 	SetDebugLog("PrepareAttackBB(): Success.")
+	
+	If Not $g_bRunState Then Return ; Stop Button
 
 	; search for a match
 	If _Sleep(2000) Then Return
@@ -47,6 +49,8 @@ Func AttackBB()
 		Return
 	EndIf
 
+	If Not $g_bRunState Then Return ; Stop Button
+	
 	local $iAndroidSuspendModeFlagsLast = $g_iAndroidSuspendModeFlags
 	$g_iAndroidSuspendModeFlags = 0 ; disable suspend and resume
 	SetDebugLog("Android Suspend Mode Disabled")
@@ -66,6 +70,7 @@ Func AttackBB()
 			If $g_bDebugSetlog = True Then SetDebugLog("Android Suspend Mode Enabled")
 			Return
 		EndIf
+		If Not $g_bRunState Then Return ; Stop Button
 	WEnd
 
 	; Get troops on attack bar and their quantities
@@ -83,6 +88,8 @@ Func AttackBB()
 		SetDebugLog("Dropping BM First")
 		$bBMDeployed = DeployBM($bBMDeployed, $aBMPos, $iSide, $iAndroidSuspendModeFlagsLast)
 	EndIF
+	
+	If Not $g_bRunState Then Return ; Stop Button
 	
 	; Deploy all troops
 	;local $bTroopsDropped = False, $bBMDeployed = False
@@ -130,6 +137,7 @@ Func AttackBB()
 		If $aBBAttackBar = "" Then $bTroopsDropped = True
 	WEnd
 	SetLog("All Troops Deployed", $COLOR_SUCCESS)
+	If Not $g_bRunState Then Return ; Stop Button
 
 	;If not dropping Builder Machine first, drop it now
 	If $g_bChkBBDropBMFirst = False Then 
@@ -139,6 +147,8 @@ Func AttackBB()
 		If $bBMDeployed = True Then Sleep($g_iBBMachAbilityTime)
 	EndIf
 
+	If Not $g_bRunState Then Return ; Stop Button
+	
 	; Continue with abilities until death
 	local $bMachineAlive = True
 	while $bMachineAlive And $bBMDeployed
@@ -170,6 +180,7 @@ Func AttackBB()
 
 	; wait for end of battle
 	SetLog("Waiting for end of battle.", $COLOR_BLUE)
+	If Not $g_bRunState Then Return ; Stop Button
 	If Not Okay() Then
 		$g_iAndroidSuspendModeFlags = $iAndroidSuspendModeFlagsLast
 		If $g_bDebugSetlog Then SetDebugLog("Android Suspend Mode Enabled")
@@ -183,6 +194,7 @@ Func AttackBB()
 	EndIf
 
 	; wait for ok after both attacks are finished
+	If Not $g_bRunState Then Return ; Stop Button
 	SetLog("Waiting for opponent", $COLOR_BLUE)
 	Okay()
 	ClickAway()
