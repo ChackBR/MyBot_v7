@@ -23,4 +23,4 @@ Global $g_sBotVersion = "v7.9.6" ;~ Don't add more here, but below. Version can'
 
 Global $g_sModversion
 
-$g_sModversion = "r01" ; MyBot v7.9.6 Light: DEB + Max Logout Time + BB Loop
+$g_sModversion = "r02" ; MyBot v7.9.6 Light: DEB + Max Logout Time + BB Loop
