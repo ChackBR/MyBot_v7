@@ -34,6 +34,10 @@
 # Exclusion build
 ![Bb]uild/**
 
+build/MBR_Compiler/MBR_Compiler/bin/*
+build/MBR_Compiler/MBR_Compiler/obj/*
+build/MBR_Compiler/.vs/*
+
 # Exclusion language ini files
 ![Ll]anguages/*.ini
 
@@ -125,11 +129,7 @@
 ![Ii]mgxml/deadbase/elix/*.png
 ![Ii]mgxml/deadbase/elix/50/*.png
 ![Ii]mgxml/deadbase/elix/100/*.png
-![Ii]mgxml/ArmyOverview/Spells/LSpell_100_90.png
-![Ii]mgxml/AttackBar/LSpell_100_90.png
-![Ii]mgxml/DonateCC/Spells/Lightning_100_89.png
-![Ii]mgxml/Train/Spell_Train/LSpell_100_91.png
-![Ii]mgxml/ArmyOverview/SpellsQueued/*.png
+
 
 # ignore test strategies
 [Ss]trategies/[Tt]est*.ini
